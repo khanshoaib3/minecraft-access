@@ -6,6 +6,7 @@ import com.sun.jna.Native;
 import com.sun.jna.Structure;
 import net.fabricmc.loader.api.FabricLoader;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -18,6 +19,12 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
     @Override
     public void initializeScreenReader() {
         Path path = Paths.get(FabricLoader.getInstance().getGameDir().toString(), "mods", "libspeechdwrapper.so");
+        if(!Files.exists(path))
+        {
+            MainClass.DebugLog("libspeechdwrapper not installed!");
+            return;
+        }
+
         MainClass.DebugLog("Initializing libspeechdwrapper for linux at: " + path.toString());
         libSpeechdWrapperInterface instance = Native.load(path.toString(), libSpeechdWrapperInterface.class);
         int re = instance.Initialize();
