@@ -1,7 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.mixin;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderLinux;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -14,7 +13,7 @@ public class NarratorLinuxMixin {
 	@Inject(at = @At("HEAD"), method = "say", remap = false, cancellable = true)
 	public void say(String msg, boolean interrupt, CallbackInfo info)
 	{
-		if(MainClass.getScreenReader().isInitialized()) {
+		if(MainClass.getScreenReader() != null && MainClass.getScreenReader().isInitialized()) {
 			MainClass.getScreenReader().say(msg, interrupt);
 			info.cancel();
 		}

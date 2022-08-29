@@ -83,7 +83,7 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
         }
     }
 
-    public interface libSpeechdWrapperInterface extends Library {
+    private interface libSpeechdWrapperInterface extends Library {
         // https://github.com/vladimirvivien/go-cshared-examples
         class GoString extends Structure {
             public static class ByValue extends GoString implements Structure.ByValue {

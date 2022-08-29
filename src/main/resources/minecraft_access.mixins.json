@@ -6,7 +6,8 @@
   "mixins": [
   ],
   "client": [
-    "NarratorLinuxMixin"
+    "NarratorLinuxMixin",
+    "NarratorWindowsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

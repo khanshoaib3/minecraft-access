@@ -13,16 +13,26 @@ public class MainClass implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        LOGGER.info("Initializing Minecraft Access");
         String msg = "Initializing Minecraft Access";
+        infoLog(msg);
+
+        //TODO Remove this
+        //Operating system name
+        System.out.println("Your OS name -> " + System.getProperty("os.name"));
+
+        //Operating system version
+        System.out.println("Your OS version -> " + System.getProperty("os.version"));
+
+        //Operating system architecture
+        System.out.println("Your OS Architecture -> " + System.getProperty("os.arch"));
 
         setScreenReader(ScreenReaderController.getAvailable());
-        if (getScreenReader().isInitialized())
+        if (getScreenReader() != null && getScreenReader().isInitialized())
             getScreenReader().say(msg, true);
 
         // This executes when minecraft closes
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            if (getScreenReader().isInitialized())
+            if (getScreenReader() != null && getScreenReader().isInitialized())
                 getScreenReader().closeScreenReader();
         }, "Shutdown-thread"));
     }
