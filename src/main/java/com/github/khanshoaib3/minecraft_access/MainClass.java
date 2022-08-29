@@ -27,7 +27,7 @@ public class MainClass implements ModInitializer {
         }, "Shutdown-thread"));
     }
 
-    public static void DebugLog(String msg) {
+    public static void infoLog(String msg) {
         //TODO add debug enabling/disabling logic here
         LOGGER.info(msg);
     }

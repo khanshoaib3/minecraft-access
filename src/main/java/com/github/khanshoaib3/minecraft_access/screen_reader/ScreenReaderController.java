@@ -7,7 +7,7 @@ public class ScreenReaderController {
     {
         ScreenReaderLinux screenReaderLinux = new ScreenReaderLinux();
         screenReaderLinux.initializeScreenReader();
-        MainClass.DebugLog(screenReaderLinux.isInitialized()+"");
+        MainClass.infoLog(screenReaderLinux.isInitialized()+"");
         return screenReaderLinux;
     }
 }

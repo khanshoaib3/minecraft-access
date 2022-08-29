@@ -21,18 +21,18 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
         Path path = Paths.get(FabricLoader.getInstance().getGameDir().toString(), "mods", "libspeechdwrapper.so");
         if(!Files.exists(path))
         {
-            MainClass.DebugLog("libspeechdwrapper not installed!");
+            MainClass.infoLog("libspeechdwrapper not installed!");
             return;
         }
 
-        MainClass.DebugLog("Initializing libspeechdwrapper for linux at: " + path.toString());
+        MainClass.infoLog("Initializing libspeechdwrapper for linux at: " + path.toString());
         libSpeechdWrapperInterface instance = Native.load(path.toString(), libSpeechdWrapperInterface.class);
         int re = instance.Initialize();
 
         // Try initializing again after 3 seconds (when no screen reader is running, the library is unable to initialize the installed screen reader the first time
         if (re == -1) {
             try {
-                MainClass.DebugLog("Unable to initialize screen reader, trying again in 3 seconds.");
+                MainClass.infoLog("Unable to initialize screen reader, trying again in 3 seconds.");
                 TimeUnit.SECONDS.sleep(3);
                 re = instance.Initialize();
             } catch (InterruptedException e) {
@@ -42,9 +42,9 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
 
         if (re == 1) {
             mainInstance = instance;
-            MainClass.DebugLog("Successfully initialized screen reader");
+            MainClass.infoLog("Successfully initialized screen reader");
         } else {
-            MainClass.DebugLog("Unable to initialize screen reader");
+            MainClass.infoLog("Unable to initialize screen reader");
         }
     }
 
@@ -64,9 +64,9 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
 
         int re = mainInstance.Speak(str, interrupt);
         if (re == 1) {
-            MainClass.DebugLog("Speaking(interrupt:" + interrupt + ")= " + text);
+            MainClass.infoLog("Speaking(interrupt:" + interrupt + ")= " + text);
         } else {
-            MainClass.DebugLog("Unable to speak");
+            MainClass.infoLog("Unable to speak");
         }
     }
 
@@ -77,9 +77,9 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
 
         int re = mainInstance.Close();
         if (re == 1) {
-            MainClass.DebugLog("Successfully closed screen reader");
+            MainClass.infoLog("Successfully closed screen reader");
         } else {
-            MainClass.DebugLog("Unable to close screen reader");
+            MainClass.infoLog("Unable to close screen reader");
         }
     }
 
