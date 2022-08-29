@@ -18,7 +18,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.shoaib.minecraft_access.MainClass"
+      "com.github.khanshoaib3.minecraft_access.MainClass"
     ]
   },
   "mixins": [
