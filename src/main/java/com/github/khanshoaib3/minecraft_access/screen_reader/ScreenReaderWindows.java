@@ -50,7 +50,11 @@ public class ScreenReaderWindows implements ScreenReaderInterface {
                 if (re != 0)
                     MainClass.infoLog("Error while cancelling speech for NVDA");
             }
-            int re = mainNVDAInterface.nvdaController_speakText(text);
+            char[] ch = new char[text.length() + 1]; // Last character must be null so NVDA decodes the text correctly
+            for (int i = 0; i < text.length(); i++) {
+                ch[i] = text.charAt(i);
+            }
+            int re = mainNVDAInterface.nvdaController_speakText(ch);
             if (re == 0)
                 MainClass.infoLog("Speaking(interrupt:" + interrupt + ")= " + text);
             else
@@ -67,6 +71,6 @@ public class ScreenReaderWindows implements ScreenReaderInterface {
 
         int nvdaController_cancelSpeech();
 
-        int nvdaController_speakText(String text);
+        int nvdaController_speakText(char[] text);
     }
 }
