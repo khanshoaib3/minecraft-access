@@ -8,30 +8,35 @@ import org.slf4j.LoggerFactory;
 import net.fabricmc.api.ModInitializer;
 
 public class MainClass implements ModInitializer {
-	private static final Logger LOGGER = LoggerFactory.getLogger("minecraft_access");
-	private static ScreenReaderInterface screenReader = null;
+    private static final Logger LOGGER = LoggerFactory.getLogger("minecraft_access");
+    private static ScreenReaderInterface screenReader = null;
 
-	@Override
-	public void onInitialize() {
-		LOGGER.info("Initializing Minecraft Access");
-		String msg = "Initializing Minecraft Access";
+    @Override
+    public void onInitialize() {
+        LOGGER.info("Initializing Minecraft Access");
+        String msg = "Initializing Minecraft Access";
 
-		setScreenReader(ScreenReaderController.getAvailable());
-		if(getScreenReader().isInitialized())
-			getScreenReader().say(msg, true);
-	}
+        setScreenReader(ScreenReaderController.getAvailable());
+        if (getScreenReader().isInitialized())
+            getScreenReader().say(msg, true);
 
-	public static void DebugLog(String msg)
-	{
-		//TODO add debug enabling/disabling logic here
-		LOGGER.info(msg);
-	}
+        // This executes when minecraft closes
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            if (getScreenReader().isInitialized())
+                getScreenReader().closeScreenReader();
+        }, "Shutdown-thread"));
+    }
 
-	public static ScreenReaderInterface getScreenReader() {
-		return MainClass.screenReader;
-	}
+    public static void DebugLog(String msg) {
+        //TODO add debug enabling/disabling logic here
+        LOGGER.info(msg);
+    }
 
-	public static void setScreenReader(ScreenReaderInterface screenReader) {
-		MainClass.screenReader = screenReader;
-	}
+    public static ScreenReaderInterface getScreenReader() {
+        return MainClass.screenReader;
+    }
+
+    public static void setScreenReader(ScreenReaderInterface screenReader) {
+        MainClass.screenReader = screenReader;
+    }
 }
