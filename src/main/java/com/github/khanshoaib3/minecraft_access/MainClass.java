@@ -42,6 +42,11 @@ public class MainClass implements ModInitializer {
         LOGGER.info(msg);
     }
 
+    public static void errorLog(String msg) {
+        //TODO add debug enabling/disabling logic here
+        LOGGER.error(msg);
+    }
+
     public static ScreenReaderInterface getScreenReader() {
         return MainClass.screenReader;
     }

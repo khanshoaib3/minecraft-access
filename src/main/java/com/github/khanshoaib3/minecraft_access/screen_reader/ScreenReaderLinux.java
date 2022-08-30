@@ -21,7 +21,7 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
         Path path = Paths.get(FabricLoader.getInstance().getGameDir().toString(), "mods", "libspeechdwrapper.so");
         if(!Files.exists(path))
         {
-            MainClass.infoLog("libspeechdwrapper not installed!");
+            MainClass.errorLog("libspeechdwrapper not installed!");
             return;
         }
 
@@ -29,10 +29,10 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
         libSpeechdWrapperInterface instance = Native.load(path.toString(), libSpeechdWrapperInterface.class);
         int re = instance.Initialize();
 
-        // Try initializing again after 3 seconds (when no screen reader is running, the library is unable to initialize the installed screen reader the first time
+        // Try initializing again after 3 seconds (when no screen reader is running, the library is unable to connect with the speechd socket)
         if (re == -1) {
             try {
-                MainClass.infoLog("Unable to initialize screen reader, trying again in 3 seconds.");
+                MainClass.errorLog("Unable to initialize screen reader, trying again in 3 seconds.");
                 TimeUnit.SECONDS.sleep(3);
                 re = instance.Initialize();
             } catch (InterruptedException e) {
@@ -44,7 +44,7 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
             mainInstance = instance;
             MainClass.infoLog("Successfully initialized screen reader");
         } else {
-            MainClass.infoLog("Unable to initialize screen reader");
+            MainClass.errorLog("Unable to initialize screen reader");
         }
     }
 
@@ -66,7 +66,7 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
         if (re == 1) {
             MainClass.infoLog("Speaking(interrupt:" + interrupt + ")= " + text);
         } else {
-            MainClass.infoLog("Unable to speak");
+            MainClass.errorLog("Unable to speak");
         }
     }
 
@@ -79,12 +79,11 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
         if (re == 1) {
             MainClass.infoLog("Successfully closed screen reader");
         } else {
-            MainClass.infoLog("Unable to close screen reader");
+            MainClass.errorLog("Unable to close screen reader");
         }
     }
 
     private interface libSpeechdWrapperInterface extends Library {
-        // https://github.com/vladimirvivien/go-cshared-examples
         class GoString extends Structure {
             public static class ByValue extends GoString implements Structure.ByValue {
             }
@@ -98,10 +97,24 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
             }
         }
 
+        /**
+         * Connects with the speechd socket. If no screen reader is activated, it fails to connect on the first try although if we again try to initialize after 3-4 seconds, it connects successfully.
+         * @return 1 if successful and -1 if unsuccessful.
+         */
         int Initialize();
 
+        /**
+         * Speaks the given text.  Important!! string variable is accessed in other languages in a special way, refer to <a href="https://github.com/vladimirvivien/go-cshared-examples">go-cshared-examples</a> for examples
+         * @param text the text to speak.
+         * @param interrupt whether to cancel the previous speech or not.
+         * @return 1 if successful and -1 if unsuccessful.
+         */
         int Speak(GoString.ByValue text, boolean interrupt);
 
+        /**
+         * Disconnects with the speechd socket.
+         * @return 1 if successful and -1 if unsuccessful.
+         */
         int Close();
     }
 }

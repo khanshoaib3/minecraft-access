@@ -22,7 +22,7 @@ public interface ScreenReaderInterface {
     public void say(String text, boolean interrupt);
 
     /**
-     * Closes the screen reader(only for linux)
+     * Closes the screen reader
      */
     public void closeScreenReader();
 }

@@ -16,7 +16,7 @@ public class ScreenReaderWindows implements ScreenReaderInterface {
     public void initializeScreenReader() {
         Path path = Paths.get(FabricLoader.getInstance().getGameDir().toString(), "mods", "Tolk.dll");
         if (!Files.exists(path)) {
-            MainClass.infoLog("Tolk not installed!");
+            MainClass.errorLog("Tolk not installed!");
             return;
         }
 
@@ -28,7 +28,7 @@ public class ScreenReaderWindows implements ScreenReaderInterface {
             MainClass.infoLog("Successfully initialized screen reader");
             mainInstance = instance;
         } else {
-            MainClass.infoLog("Unable to initialize screen reader");
+            MainClass.errorLog("Unable to initialize screen reader");
         }
     }
 
@@ -46,11 +46,11 @@ public class ScreenReaderWindows implements ScreenReaderInterface {
         for (int i = 0; i < text.length(); i++) {
             ch[i] = text.charAt(i);
         }
-        boolean re = mainInstance.Tolk_Speak(ch, interrupt);
+        boolean re = mainInstance.Tolk_Output(ch, interrupt);
         if (re)
             MainClass.infoLog("Speaking(interrupt:" + interrupt + ")= " + text);
         else
-            MainClass.infoLog("Unable to speak");
+            MainClass.errorLog("Unable to speak");
     }
 
     @Override
@@ -61,15 +61,37 @@ public class ScreenReaderWindows implements ScreenReaderInterface {
         mainInstance.Tolk_Unload();
     }
 
+    // https://github.com/ndarilek/tolk
+    // Header file for reference = https://github.com/ndarilek/tolk/blob/master/src/Tolk.h
     private interface tolkInterface extends Library {
+        /**
+         * Initializes Tolk by loading and initializing the screen reader drivers and setting the current screen reader driver, provided at least one of the supported screen readers is active. Also initializes COM if it has not already been initialized on the calling thread. Calling this function more than once will only initialize COM. You should call this function before using the functions below. Use Tolk_IsLoaded to determine if Tolk has been initialized.
+         */
         void Tolk_Load();
 
+        /**
+         * Tests if Tolk has been initialized.
+         * @return true if Tolk has been initialized, false otherwise.
+         */
         boolean Tolk_IsLoaded();
 
+        /**
+         * Tests if the current screen reader driver supports speech output, if one is set. If none is set, tries to detect the currently active screen reader before testing for speech support. You should call Tolk_Load once before using this function.
+         * @return true if the current screen reader driver supports speech, false otherwise.
+         */
         boolean Tolk_HasSpeech();
 
+        /**
+         * Finalizes Tolk by finalizing and unloading the screen reader drivers and clearing the current screen reader driver, provided one was set. Also uninitializes COM on the calling thread. Calling this function more than once will only uninitialize COM. You should not use the functions below if this function has been called.
+         */
         void Tolk_Unload();
 
-        boolean Tolk_Speak(char[] text, boolean interrupt);
+        /**
+         * Outputs text through the current screen reader driver, if one is set. If none is set or if it encountered an error, tries to detect the currently active screen reader before outputting the text. This is the preferred function to use for sending text to a screen reader, because it uses all of the supported output methods (speech and/or braille depending on the current screen reader driver). You should call Tolk_Load once before using this function. This function is asynchronous.
+         * @param text text to output.
+         * @param interrupt whether to first cancel any previous speech.
+         * @return true on success, false otherwise.
+         */
+        boolean Tolk_Output(char[] text, boolean interrupt);
     }
 }
