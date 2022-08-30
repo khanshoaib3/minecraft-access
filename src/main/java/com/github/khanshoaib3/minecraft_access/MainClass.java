@@ -16,16 +16,6 @@ public class MainClass implements ModInitializer {
         String msg = "Initializing Minecraft Access";
         infoLog(msg);
 
-        //TODO Remove this
-        //Operating system name
-        System.out.println("Your OS name -> " + System.getProperty("os.name"));
-
-        //Operating system version
-        System.out.println("Your OS version -> " + System.getProperty("os.version"));
-
-        //Operating system architecture
-        System.out.println("Your OS Architecture -> " + System.getProperty("os.arch"));
-
         setScreenReader(ScreenReaderController.getAvailable());
         if (getScreenReader() != null && getScreenReader().isInitialized())
             getScreenReader().say(msg, true);
@@ -43,7 +33,6 @@ public class MainClass implements ModInitializer {
     }
 
     public static void errorLog(String msg) {
-        //TODO add debug enabling/disabling logic here
         LOGGER.error(msg);
     }
 
