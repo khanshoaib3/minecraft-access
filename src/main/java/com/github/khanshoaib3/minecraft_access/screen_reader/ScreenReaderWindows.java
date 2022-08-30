@@ -14,7 +14,7 @@ public class ScreenReaderWindows implements ScreenReaderInterface {
 
     @Override
     public void initializeScreenReader() {
-        Path path = Paths.get(FabricLoader.getInstance().getGameDir().toString(), "mods", "Tolk.dll");
+        Path path = Paths.get("Tolk.dll");
         if (!Files.exists(path)) {
             MainClass.errorLog("Tolk not installed!");
             return;

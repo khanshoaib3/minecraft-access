@@ -18,7 +18,7 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
 
     @Override
     public void initializeScreenReader() {
-        Path path = Paths.get(FabricLoader.getInstance().getGameDir().toString(), "mods", "libspeechdwrapper.so");
+        Path path = Paths.get("libspeechdwrapper.so");
         if(!Files.exists(path))
         {
             MainClass.errorLog("libspeechdwrapper not installed!");
