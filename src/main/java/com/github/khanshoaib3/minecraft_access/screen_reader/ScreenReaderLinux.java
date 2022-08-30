@@ -25,7 +25,7 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
             return;
         }
 
-        MainClass.infoLog("Initializing libspeechdwrapper for linux at: " + path.toString());
+        MainClass.infoLog("Initializing libspeechdwrapper for linux at: " + path);
         libSpeechdWrapperInterface instance = Native.load(path.toString(), libSpeechdWrapperInterface.class);
         int re = instance.Initialize();
 

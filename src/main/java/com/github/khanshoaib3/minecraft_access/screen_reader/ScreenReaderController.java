@@ -1,6 +1,5 @@
 package com.github.khanshoaib3.minecraft_access.screen_reader;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.OsUtils;
 
 public class ScreenReaderController {
@@ -12,7 +11,7 @@ public class ScreenReaderController {
         }
 
         if (OsUtils.isWindows()) {
-            ScreenReaderWindows screenReaderWindows = new ScreenReaderWindows();
+            ScreenReaderWindowsTolk screenReaderWindows = new ScreenReaderWindowsTolk();
             screenReaderWindows.initializeScreenReader();
             return screenReaderWindows;
         }
