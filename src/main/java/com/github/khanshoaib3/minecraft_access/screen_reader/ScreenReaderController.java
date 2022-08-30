@@ -11,7 +11,7 @@ public class ScreenReaderController {
         }
 
         if (OsUtils.isWindows()) {
-            ScreenReaderWindowsTolk screenReaderWindows = new ScreenReaderWindowsTolk();
+            ScreenReaderWindows screenReaderWindows = new ScreenReaderWindows();
             screenReaderWindows.initializeScreenReader();
             return screenReaderWindows;
         }
