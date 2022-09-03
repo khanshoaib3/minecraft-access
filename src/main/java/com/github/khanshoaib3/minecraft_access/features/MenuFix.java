@@ -8,9 +8,19 @@ import net.minecraft.client.util.InputUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Moves the mouse to the top left of the screen and then performs left click.
+ * This fixes the bug in which the mouse cursor interrupts when navigating through the screen elements
+ * which results in infinite speaking of `Screen element x out of x` by the narrator
+ */
 public class MenuFix {
-    private static String prevScreenTitle = "";
+    /**
+     * Prevents executing this fix for the title screen the first time
+     */
+    private static String prevScreenTitle = "title screen";
+    /**
+     * The list of screens for which this fix will execute when opened
+     */
     private static final List<String> menuList = new ArrayList<>() {{
         add("title screen");
         add("options");
@@ -25,8 +35,17 @@ public class MenuFix {
         add("accessibility settings...");
         add("mouse settings");
         add("key binds");
+        add("select world");
+        add("create new world");
+        add("play multiplayer");
+        add("direct connection");
+        add("edit server info");
     }};
 
+    /**
+     * This method gets called at the end of every tick.
+     * @param minecraftClient Current MinecraftClient instance
+     */
     public static void update(MinecraftClient minecraftClient) {
         if (minecraftClient.currentScreen == null)
             return;
@@ -34,7 +53,6 @@ public class MenuFix {
         try {
             String title = minecraftClient.currentScreen.getTitle().getString();
             if (menuList.contains(title.toLowerCase())) {
-
                 if (!prevScreenTitle.equalsIgnoreCase(title)) {
                     MainClass.infoLog(title + " opened, now moving the mouse cursor.");
                     moveMouseCursor(minecraftClient);
@@ -46,12 +64,18 @@ public class MenuFix {
                 if (isRPressed)
                     moveMouseCursor(minecraftClient);
             }
+            else
+                MainClass.infoLog(title);
         } catch (Exception e) {
             MainClass.errorLog("Error encountered while running the menu fix feature\n");
             e.printStackTrace();
         }
     }
 
+    /**
+     * Moves the mouse cursor to x=1 y=1 pixel location relative the Minecraft window location
+     * @param minecraftClient Current MinecraftClient instance
+     */
     private static void moveMouseCursor(MinecraftClient minecraftClient) {
         try {
             int movePosX = 1, movePosY = 1;

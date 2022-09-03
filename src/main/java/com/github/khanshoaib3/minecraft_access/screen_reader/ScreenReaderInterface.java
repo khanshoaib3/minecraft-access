@@ -19,10 +19,10 @@ public interface ScreenReaderInterface {
      * @param text The text to be spoken
      * @param interrupt Specifies whether to skip speaking the previous text or not
      */
-    public void say(String text, boolean interrupt);
+    void say(String text, boolean interrupt);
 
     /**
      * Closes the screen reader
      */
-    public void closeScreenReader();
+    void closeScreenReader();
 }
