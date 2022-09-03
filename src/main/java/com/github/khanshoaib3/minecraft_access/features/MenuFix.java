@@ -3,6 +3,14 @@ package com.github.khanshoaib3.minecraft_access.features;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.AddServerScreen;
+import net.minecraft.client.gui.screen.DirectConnectScreen;
+import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
+import net.minecraft.client.gui.screen.option.*;
+import net.minecraft.client.gui.screen.pack.PackScreen;
+import net.minecraft.client.gui.screen.world.CreateWorldScreen;
+import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 import net.minecraft.client.util.InputUtil;
 
 import java.util.ArrayList;
@@ -17,33 +25,36 @@ public class MenuFix {
     /**
      * Prevents executing this fix for the title screen the first time
      */
-    private static String prevScreenTitle = "title screen";
+    @SuppressWarnings("rawtypes")
+    static Class prevScreenClass = TitleScreen.class;
     /**
      * The list of screens for which this fix will execute when opened
      */
-    private static final List<String> menuList = new ArrayList<>() {{
-        add("title screen");
-        add("options");
-        add("controls");
-        add("online options");
-        add("skin customization");
-        add("music & sound options");
-        add("video settings");
-        add("language...");
-        add("chat settings...");
-        add("select resource packs");
-        add("accessibility settings...");
-        add("mouse settings");
-        add("key binds");
-        add("select world");
-        add("create new world");
-        add("play multiplayer");
-        add("direct connection");
-        add("edit server info");
+    @SuppressWarnings("rawtypes")
+    private static final List<Class> menuList = new ArrayList<>() {{
+        add(TitleScreen.class);
+        add(OptionsScreen.class);
+        add(ControlsOptionsScreen.class);
+        add(OnlineOptionsScreen.class);
+        add(SkinOptionsScreen.class);
+        add(SoundOptionsScreen.class);
+        add(VideoOptionsScreen.class);
+        add(LanguageOptionsScreen.class);
+        add(ChatOptionsScreen.class);
+        add(PackScreen.class);
+        add(AccessibilityOptionsScreen.class);
+        add(MouseOptionsScreen.class);
+        add(KeybindsScreen.class);
+        add(SelectWorldScreen.class);
+        add(CreateWorldScreen.class);
+        add(MultiplayerScreen.class);
+        add(DirectConnectScreen.class);
+        add(AddServerScreen.class);
     }};
 
     /**
      * This method gets called at the end of every tick.
+     *
      * @param minecraftClient Current MinecraftClient instance
      */
     public static void update(MinecraftClient minecraftClient) {
@@ -51,12 +62,11 @@ public class MenuFix {
             return;
 
         try {
-            String title = minecraftClient.currentScreen.getTitle().getString();
-            if (menuList.contains(title.toLowerCase())) {
-                if (!prevScreenTitle.equalsIgnoreCase(title)) {
-                    MainClass.infoLog(title + " opened, now moving the mouse cursor.");
+            if (menuList.contains(minecraftClient.currentScreen.getClass())) {
+                if (!(prevScreenClass == minecraftClient.currentScreen.getClass())) {
+                    MainClass.infoLog("%s opened, now moving the mouse cursor.".formatted(minecraftClient.currentScreen.getTitle()));
                     moveMouseCursor(minecraftClient);
-                    prevScreenTitle = title;
+                    prevScreenClass = minecraftClient.currentScreen.getClass();
                 }
 
                 boolean isRPressed = (InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(),
@@ -64,8 +74,6 @@ public class MenuFix {
                 if (isRPressed)
                     moveMouseCursor(minecraftClient);
             }
-            else
-                MainClass.infoLog(title);
         } catch (Exception e) {
             MainClass.errorLog("Error encountered while running the menu fix feature\n");
             e.printStackTrace();
@@ -74,6 +82,7 @@ public class MenuFix {
 
     /**
      * Moves the mouse cursor to x=1 y=1 pixel location relative the Minecraft window location
+     *
      * @param minecraftClient Current MinecraftClient instance
      */
     private static void moveMouseCursor(MinecraftClient minecraftClient) {
