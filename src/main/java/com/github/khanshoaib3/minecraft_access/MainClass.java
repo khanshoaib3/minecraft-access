@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access;
 
+import com.github.khanshoaib3.minecraft_access.features.CameraControls;
 import com.github.khanshoaib3.minecraft_access.features.MenuFix;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
@@ -13,6 +14,7 @@ import net.fabricmc.api.ModInitializer;
 public class MainClass implements ModInitializer {
     private static final Logger LOGGER = LoggerFactory.getLogger("minecraft_access");
     private static ScreenReaderInterface screenReader = null;
+    private static CameraControls cameraControls = null;
 
     public static boolean debugMode = true; // TODO add option to toggle this
 
@@ -25,7 +27,8 @@ public class MainClass implements ModInitializer {
         if (getScreenReader() != null && getScreenReader().isInitialized())
             getScreenReader().say(msg, true);
 
-        System.setProperty("java.awt.headless","false");
+        cameraControls = new CameraControls();
+
         ClientTickEvents.END_CLIENT_TICK.register(this::clientTickEventsMethod);
 
         // This executes when minecraft closes
@@ -42,6 +45,8 @@ public class MainClass implements ModInitializer {
      */
     private void clientTickEventsMethod(MinecraftClient minecraftClient) {
         MenuFix.update(minecraftClient);
+
+        if(cameraControls!=null) cameraControls.update(minecraftClient);
     }
 
     public static void infoLog(String msg) {
