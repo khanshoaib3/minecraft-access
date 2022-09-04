@@ -1,9 +1,19 @@
 package com.github.khanshoaib3.minecraft_access.utils;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Contains some functions related to the player entity
+ */
+@Environment(EnvType.CLIENT)
 public class ClientPlayerEntityUtils {
+    /**
+     * Get the vertical direction of the player.
+     * @return the vertical direction. -999 on error.
+     */
     public static int getVerticalFacingDirection() {
         if (MinecraftClient.getInstance() == null) return -999;
         if (MinecraftClient.getInstance().player == null) return -999;
@@ -11,6 +21,10 @@ public class ClientPlayerEntityUtils {
         return (int) MinecraftClient.getInstance().player.getRotationClient().x;
     }
 
+    /**
+     * Get the vertical direction in words.
+     * @return the vertical direction in words. null on error.
+     */
     public static @Nullable String getVerticalFacingDirectionInWords() {
         if (MinecraftClient.getInstance() == null) return null;
         if (MinecraftClient.getInstance().player == null) return null;
@@ -27,6 +41,10 @@ public class ClientPlayerEntityUtils {
         return angleInWords; //TODO use i18n instead
     }
 
+    /**
+     * Get the horizontal direction of the player.
+     * @return the horizontal direction. -999 on error.
+     */
     public static int getHorizontalFacingDirection() {
         if (MinecraftClient.getInstance() == null) return -999;
         if (MinecraftClient.getInstance().player == null) return -999;
@@ -39,6 +57,11 @@ public class ClientPlayerEntityUtils {
         return angle;
     }
 
+    /**
+     * Get the horizontal direction in words.
+     * @param precise whether to only say the direction when in range or not
+     * @return the horizontal direction in words. null on error.
+     */
     public static @Nullable String getHorizontalFacingDirectionInWords(boolean precise) {
         if (MinecraftClient.getInstance() == null) return null;
         if (MinecraftClient.getInstance().player == null) return null;

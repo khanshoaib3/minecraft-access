@@ -2,6 +2,8 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.AddServerScreen;
 import net.minecraft.client.gui.screen.DirectConnectScreen;
@@ -21,6 +23,7 @@ import java.util.List;
  * This fixes the bug in which the mouse cursor interrupts when navigating through the screen elements
  * which results in infinite speaking of `Screen element x out of x` by the narrator
  */
+@Environment(EnvType.CLIENT)
 public class MenuFix {
     /**
      * Prevents executing this fix for the title screen the first time

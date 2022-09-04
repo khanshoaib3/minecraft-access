@@ -3,6 +3,8 @@ package com.github.khanshoaib3.minecraft_access.features;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
 import com.mojang.text2speech.Narrator;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -11,8 +13,15 @@ import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 
+/**
+ * This feature adds key binds to control the camera.
+ */
+@Environment(EnvType.CLIENT)
 public class CameraControls {
-    private KeyBinding up, right, down, left;
+    private final KeyBinding up;
+    private final KeyBinding right;
+    private final KeyBinding down;
+    private final KeyBinding left;
     private MinecraftClient minecraftClient;
 
     private final float delta90Degrees = 600f; // 90 / 0.15
@@ -21,11 +30,10 @@ public class CameraControls {
     private final float modifiedRotatingAngle = 11.25f; //TODO add this to config
     private final float modifiedRotatingDeltaAngle = delta90Degrees / (90 / modifiedRotatingAngle);
 
+    /**
+     * Initializes the key binds.
+     */
     public CameraControls() {
-        init();
-    }
-
-    private void init() {
         String categoryTranslationKey = "Camera Controls"; //TODO add translation key instead
 
         up = KeyBindingHelper.registerKeyBinding(new KeyBinding(
@@ -57,6 +65,11 @@ public class CameraControls {
         ));
     }
 
+    /**
+     * This method gets called at the end of every tick.
+     *
+     * @param minecraftClient Current MinecraftClient instance
+     */
     public void update(MinecraftClient minecraftClient) {
         try {
             if (minecraftClient == null) return;
@@ -94,6 +107,9 @@ public class CameraControls {
         }
     }
 
+    /**
+     * Executes when up key is pressed.
+     */
     private void upKeyHandler(boolean isLeftAltPressed, boolean isRightAltPressed) {
         if (minecraftClient.player == null) return;
 
@@ -111,6 +127,9 @@ public class CameraControls {
         }
     }
 
+    /**
+     * Executes when right key is pressed.
+     */
     private void rightKeyHandler(boolean isLeftAltPressed, boolean isRightAltPressed) {
         if (minecraftClient.player == null) return;
 
@@ -128,6 +147,9 @@ public class CameraControls {
         }
     }
 
+    /**
+     * Executes when down key is pressed.
+     */
     private void downKeyHandler(boolean isLeftAltPressed, boolean isRightAltPressed) {
         if (minecraftClient.player == null) return;
 
@@ -145,6 +167,9 @@ public class CameraControls {
         }
     }
 
+    /**
+     * Executes when left key is pressed.
+     */
     private void leftKeyHandler(boolean isLeftAltPressed, boolean isRightAltPressed) {
         if (minecraftClient.player == null) return;
 
@@ -162,6 +187,9 @@ public class CameraControls {
         }
     }
 
+    /**
+     * Snaps the camera to the north block
+     */
     private void lookNorth() {
         if (minecraftClient.player == null) return;
 
@@ -173,6 +201,9 @@ public class CameraControls {
         Narrator.getNarrator().say("North", true); //TODO use i18n instead
     }
 
+    /**
+     * Snaps the camera to the east block
+     */
     private void lookEast() {
         if (minecraftClient.player == null) return;
 
@@ -184,6 +215,9 @@ public class CameraControls {
         Narrator.getNarrator().say("East", true); //TODO use i18n instead
     }
 
+    /**
+     * Snaps the camera to the west block
+     */
     private void lookWest() {
         if (minecraftClient.player == null) return;
 
@@ -195,6 +229,9 @@ public class CameraControls {
         Narrator.getNarrator().say("West", true); //TODO use i18n instead
     }
 
+    /**
+     * Snaps the camera to the south block
+     */
     private void lookSouth() {
         if (minecraftClient.player == null) return;
 
