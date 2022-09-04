@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
 import com.mojang.text2speech.Narrator;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
@@ -105,6 +106,8 @@ public class CameraControls {
                 minecraftClient.player.changeLookDirection(0, -normalRotatingDeltaAngle);
 
             MainClass.infoLog("Rotating %f degrees upwards.".formatted((isLeftAltPressed) ? modifiedRotatingAngle : normalRotatingAngle));
+            if(ClientPlayerEntityUtils.getVerticalFacingDirectionInWords()!=null)
+                Narrator.getNarrator().say(ClientPlayerEntityUtils.getVerticalFacingDirectionInWords(), true);
         }
     }
 
@@ -120,6 +123,8 @@ public class CameraControls {
                 minecraftClient.player.changeLookDirection(normalRotatingDeltaAngle, 0);
 
             MainClass.infoLog("Rotating %f degrees rightwards.".formatted((isLeftAltPressed) ? modifiedRotatingAngle : normalRotatingAngle));
+            if(ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true)!=null)
+                Narrator.getNarrator().say(ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true), true);
         }
     }
 
@@ -135,6 +140,8 @@ public class CameraControls {
                 minecraftClient.player.changeLookDirection(0, normalRotatingDeltaAngle);
 
             MainClass.infoLog("Rotating %f degrees downwards.".formatted((isLeftAltPressed) ? modifiedRotatingAngle : normalRotatingAngle));
+            if(ClientPlayerEntityUtils.getVerticalFacingDirectionInWords()!=null)
+                Narrator.getNarrator().say(ClientPlayerEntityUtils.getVerticalFacingDirectionInWords(), true);
         }
     }
 
@@ -150,6 +157,8 @@ public class CameraControls {
                 minecraftClient.player.changeLookDirection(-normalRotatingDeltaAngle, 0);
 
             MainClass.infoLog("Rotating %f degrees leftwards.".formatted((isLeftAltPressed) ? modifiedRotatingAngle : normalRotatingAngle));
+            if(ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true)!=null)
+                Narrator.getNarrator().say(ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true), true);
         }
     }
 
