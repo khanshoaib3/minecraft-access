@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.mojang.text2speech.Narrator;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -71,32 +72,19 @@ public class CameraControls {
                     InputUtil.fromTranslationKey("key.keyboard.right.alt").getCode()
             );
 
-            if (isLeftAltPressed) {
-                MainClass.infoLog("Left alt key pressed");
-            }
-
-            if (isRightAltPressed) {
-                MainClass.infoLog("Right alt key pressed");
-            }
-
             if (up.wasPressed()) {
-                MainClass.infoLog("up key pressed");
-
                 upKeyHandler(isLeftAltPressed, isRightAltPressed);
             }
 
             if (right.wasPressed()) {
-                MainClass.infoLog("right key pressed");
                 rightKeyHandler(isLeftAltPressed, isRightAltPressed);
             }
 
             if (down.wasPressed()) {
-                MainClass.infoLog("down key pressed");
                 downKeyHandler(isLeftAltPressed, isRightAltPressed);
             }
 
             if (left.wasPressed()) {
-                MainClass.infoLog("left key pressed");
                 leftKeyHandler(isLeftAltPressed, isRightAltPressed);
             }
         } catch (Exception e) {
@@ -108,45 +96,61 @@ public class CameraControls {
     private void upKeyHandler(boolean isLeftAltPressed, boolean isRightAltPressed) {
         if (minecraftClient.player == null) return;
 
-        if (isRightAltPressed && !isLeftAltPressed)
+        if (isRightAltPressed && !isLeftAltPressed) {
             lookNorth();
-        else if (isLeftAltPressed)
-            minecraftClient.player.changeLookDirection(0, -modifiedRotatingDeltaAngle);
-        else
-            minecraftClient.player.changeLookDirection(0, -normalRotatingDeltaAngle);
+        } else {
+            if (isLeftAltPressed)
+                minecraftClient.player.changeLookDirection(0, -modifiedRotatingDeltaAngle);
+            else
+                minecraftClient.player.changeLookDirection(0, -normalRotatingDeltaAngle);
+
+            MainClass.infoLog("Rotating %f degrees upwards.".formatted((isLeftAltPressed) ? modifiedRotatingAngle : normalRotatingAngle));
+        }
     }
 
     private void rightKeyHandler(boolean isLeftAltPressed, boolean isRightAltPressed) {
         if (minecraftClient.player == null) return;
 
-        if (isRightAltPressed && !isLeftAltPressed)
+        if (isRightAltPressed && !isLeftAltPressed) {
             lookEast();
-        else if (isLeftAltPressed)
-            minecraftClient.player.changeLookDirection(modifiedRotatingDeltaAngle, 0);
-        else
-            minecraftClient.player.changeLookDirection(normalRotatingDeltaAngle, 0);
+        } else {
+            if (isLeftAltPressed)
+                minecraftClient.player.changeLookDirection(modifiedRotatingDeltaAngle, 0);
+            else
+                minecraftClient.player.changeLookDirection(normalRotatingDeltaAngle, 0);
+
+            MainClass.infoLog("Rotating %f degrees rightwards.".formatted((isLeftAltPressed) ? modifiedRotatingAngle : normalRotatingAngle));
+        }
     }
 
     private void downKeyHandler(boolean isLeftAltPressed, boolean isRightAltPressed) {
         if (minecraftClient.player == null) return;
 
-        if (isRightAltPressed && !isLeftAltPressed)
+        if (isRightAltPressed && !isLeftAltPressed) {
             lookSouth();
-        else if (isLeftAltPressed)
-            minecraftClient.player.changeLookDirection(0, modifiedRotatingDeltaAngle);
-        else
-            minecraftClient.player.changeLookDirection(0, normalRotatingDeltaAngle);
+        } else {
+            if (isLeftAltPressed)
+                minecraftClient.player.changeLookDirection(0, modifiedRotatingDeltaAngle);
+            else
+                minecraftClient.player.changeLookDirection(0, normalRotatingDeltaAngle);
+
+            MainClass.infoLog("Rotating %f degrees downwards.".formatted((isLeftAltPressed) ? modifiedRotatingAngle : normalRotatingAngle));
+        }
     }
 
     private void leftKeyHandler(boolean isLeftAltPressed, boolean isRightAltPressed) {
         if (minecraftClient.player == null) return;
 
-        if (isRightAltPressed && !isLeftAltPressed)
+        if (isRightAltPressed && !isLeftAltPressed) {
             lookWest();
-        else if (isLeftAltPressed)
-            minecraftClient.player.changeLookDirection(-modifiedRotatingDeltaAngle, 0);
-        else
-            minecraftClient.player.changeLookDirection(-normalRotatingDeltaAngle, 0);
+        } else {
+            if (isLeftAltPressed)
+                minecraftClient.player.changeLookDirection(-modifiedRotatingDeltaAngle, 0);
+            else
+                minecraftClient.player.changeLookDirection(-normalRotatingDeltaAngle, 0);
+
+            MainClass.infoLog("Rotating %f degrees leftwards.".formatted((isLeftAltPressed) ? modifiedRotatingAngle : normalRotatingAngle));
+        }
     }
 
     private void lookNorth() {
@@ -156,6 +160,8 @@ public class CameraControls {
         Vec3d northBlockPosition = new Vec3d(playerBlockPosition.x + 0, playerBlockPosition.y + 0, playerBlockPosition.z - 1);
 
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, northBlockPosition);
+        MainClass.infoLog("Looking north");
+        Narrator.getNarrator().say("North", true); //TODO use i18n instead
     }
 
     private void lookEast() {
@@ -165,6 +171,8 @@ public class CameraControls {
         Vec3d eastBlockPosition = new Vec3d(playerBlockPosition.x + 1, playerBlockPosition.y + 0, playerBlockPosition.z + 0);
 
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, eastBlockPosition);
+        MainClass.infoLog("Looking east");
+        Narrator.getNarrator().say("East", true); //TODO use i18n instead
     }
 
     private void lookWest() {
@@ -174,6 +182,8 @@ public class CameraControls {
         Vec3d westBlockPosition = new Vec3d(playerBlockPosition.x - 1, playerBlockPosition.y + 0, playerBlockPosition.z + 0);
 
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, westBlockPosition);
+        MainClass.infoLog("Looking west");
+        Narrator.getNarrator().say("West", true); //TODO use i18n instead
     }
 
     private void lookSouth() {
@@ -183,5 +193,7 @@ public class CameraControls {
         Vec3d southBlockPosition = new Vec3d(playerBlockPosition.x + 0, playerBlockPosition.y + 0, playerBlockPosition.z + 1);
 
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, southBlockPosition);
+        MainClass.infoLog("Looking south");
+        Narrator.getNarrator().say("South", true); //TODO use i18n instead
     }
 }
