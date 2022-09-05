@@ -6,7 +6,9 @@ import com.github.khanshoaib3.minecraft_access.features.MenuFix;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.math.MatrixStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,12 +35,17 @@ public class MainClass implements ModInitializer {
         inventoryControls = new InventoryControls();
 
         ClientTickEvents.END_CLIENT_TICK.register(this::clientTickEventsMethod);
+        HudRenderCallback.EVENT.register(this::hudRenderCallbackMethod);
 
         // This executes when minecraft closes
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             if (getScreenReader() != null && getScreenReader().isInitialized())
                 getScreenReader().closeScreenReader();
         }, "Shutdown-thread"));
+    }
+
+    private void hudRenderCallbackMethod(MatrixStack matrixStack, float v) {
+        if (inventoryControls != null)inventoryControls.update();
     }
 
     /**

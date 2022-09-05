@@ -48,10 +48,10 @@ public class MouseUtils {
                 if (mainInterface == null) initializeUser32dll();
 
                 if (!mainInterface.SetCursorPos(x, y))
-                    MainClass.errorLog("Error encountered on moving mouse.");
+                    MainClass.errorLog("\nError encountered on moving mouse.");
             }
         } catch (Exception e) {
-            MainClass.errorLog("Error encountered on moving mouse.");
+            MainClass.errorLog("\nError encountered on moving mouse.");
             e.printStackTrace();
         }
     }
@@ -83,7 +83,7 @@ public class MouseUtils {
                 mainInterface.mouse_event(MouseEventFlags.LEFTUP.getValue(), 0, 0, 0, 0);
             }
         } catch (Exception e) {
-            MainClass.errorLog("Error encountered on performing left mouse click.");
+            MainClass.errorLog("\nError encountered on performing left mouse click.");
             e.printStackTrace();
         }
     }
@@ -116,7 +116,7 @@ public class MouseUtils {
                 mainInterface.mouse_event(MouseEventFlags.RIGHTUP.getValue(), 0, 0, 0, 0);
             }
         } catch (Exception e) {
-            MainClass.errorLog("Error encountered on performing right mouse click.");
+            MainClass.errorLog("\nError encountered on performing right mouse click.");
             e.printStackTrace();
         }
     }
@@ -131,7 +131,7 @@ public class MouseUtils {
         try {
             mainInterface = Native.load("User32.dll", user32dllInterface.class);
         } catch (Exception e) {
-            MainClass.errorLog("Error encountered while initializing User32.dll");
+            MainClass.errorLog("\nError encountered while initializing User32.dll");
             e.printStackTrace();
         }
     }

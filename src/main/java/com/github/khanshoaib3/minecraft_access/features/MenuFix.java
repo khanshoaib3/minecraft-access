@@ -80,7 +80,7 @@ public class MenuFix {
                     moveMouseCursor(minecraftClient);
             }
         } catch (Exception e) {
-            MainClass.errorLog("Error encountered while running the menu fix feature\n");
+            MainClass.errorLog("\nError encountered while running the menu fix feature");
             e.printStackTrace();
         }
     }
@@ -97,7 +97,7 @@ public class MenuFix {
 
             MouseUtils.moveAndLeftClick(movePosX, movePosY);
         } catch (Exception e) {
-            MainClass.errorLog("Error encountered while moving the mouse for the menu fix feature\n");
+            MainClass.errorLog("\nError encountered while moving the mouse for the menu fix feature");
             e.printStackTrace();
         }
     }

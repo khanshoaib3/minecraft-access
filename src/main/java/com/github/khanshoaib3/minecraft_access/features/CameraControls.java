@@ -103,7 +103,7 @@ public class CameraControls {
                 leftKeyHandler(isLeftAltPressed, isRightAltPressed);
             }
         } catch (Exception e) {
-            MainClass.errorLog("Error encountered in Camera Controls feature.\n");
+            MainClass.errorLog("\nError encountered in Camera Controls feature.");
             e.printStackTrace();
         }
     }

@@ -4,8 +4,6 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.mixin.HandledScreenAccessor;
 import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
 import com.mojang.text2speech.Narrator;
-import me.shedaniel.cloth.api.client.events.v0.ClothClientHooks;
-import me.shedaniel.cloth.api.client.events.v0.ScreenHooks;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -19,14 +17,17 @@ import net.minecraft.util.ActionResult;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @SuppressWarnings("rawtypes")
 public class InventoryControls {
+    public boolean shouldRun = true;
     private static HandledScreenAccessor screen;
     private MinecraftClient minecraftClient;
 
     private Slot currentSlot = null;
-    private SlotsGroup currentGroup;
+    private SlotsGroup currentGroup = null;
     private List<SlotsGroup> slotsGroups;
     private final KeyBinding LEFT_KEY;
     private final KeyBinding RIGHT_KEY;
@@ -45,22 +46,29 @@ public class InventoryControls {
     public InventoryControls() {
         String categoryTranslationKey = "Inventory Controls"; //TODO add translation key instead
 
+        GROUP_KEY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "GROUP_KEY", //TODO add translation key instead
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_TAB,
+                categoryTranslationKey
+        ));
+
         UP_KEY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "Up", //TODO add translation key instead
+                "UP_KEY", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_I,
                 categoryTranslationKey
         ));
 
         RIGHT_KEY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "Right", //TODO add translation key instead
+                "RIGHT_KEY", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_L,
                 categoryTranslationKey
         ));
 
         DOWN_KEY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "Down", //TODO add translation key instead
+                "DOWN_KEY", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_K,
                 categoryTranslationKey
@@ -72,28 +80,78 @@ public class InventoryControls {
                 GLFW.GLFW_KEY_J,
                 categoryTranslationKey
         ));
-
-        ClothClientHooks.SCREEN_INIT_POST.register(this::onScreenOpen);
-        ClothClientHooks.SCREEN_KEY_PRESSED.register(this::onKeyPress);
     }
 
-    private ActionResult onScreenOpen(MinecraftClient minecraftClient, Screen currentScreen, ScreenHooks screenHooks) {
+    private void init(MinecraftClient minecraftClient) {
         this.minecraftClient = minecraftClient;
         slotsGroups = null;
         screen = null;
-        currentGroup = null;
-        currentSlot = null;
 
-        if (currentScreen instanceof HandledScreen) {
-            screen = (HandledScreenAccessor) currentScreen;
+        if (minecraftClient.currentScreen instanceof HandledScreen) {
+            screen = (HandledScreenAccessor) minecraftClient.currentScreen;
             slotsGroups = SlotsGroup.generateGroupsFromSlots(screen.getHandler().slots);
-            moveMouseToHome();
+//            moveMouseToHome();
         }
-        return ActionResult.PASS;
+    }
+
+    public void update() {
+        if (!this.shouldRun) return;
+
+        try {
+            boolean wasAnyKeyPressed = false;
+            boolean isLeftShiftPressed = InputUtil.isKeyPressed(
+                    MinecraftClient.getInstance().getWindow().getHandle(),
+                    InputUtil.fromTranslationKey("key.keyboard.left.shift").getCode()
+            );
+            boolean isGroupKeyPressed = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), InputUtil.fromTranslationKey(GROUP_KEY.getBoundKeyTranslationKey()).getCode());
+            boolean isUpKeyPressed = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), InputUtil.fromTranslationKey(UP_KEY.getBoundKeyTranslationKey()).getCode());
+            boolean isRightKeyPressed = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), InputUtil.fromTranslationKey(RIGHT_KEY.getBoundKeyTranslationKey()).getCode());
+            boolean isDownKeyPressed = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), InputUtil.fromTranslationKey(DOWN_KEY.getBoundKeyTranslationKey()).getCode());
+            boolean isLeftKeyPressed = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), InputUtil.fromTranslationKey(LEFT_KEY.getBoundKeyTranslationKey()).getCode());
+
+            init(MinecraftClient.getInstance());
+
+            if (isGroupKeyPressed) {
+                MainClass.infoLog("Group key pressed");
+                wasAnyKeyPressed = true;
+                focusGroupVertically(!isLeftShiftPressed);
+            } else if (isUpKeyPressed) {
+                focusSlotAt(FocusDirection.UP);
+                MainClass.infoLog("Up key pressed");
+                wasAnyKeyPressed = true;
+            } else if (isRightKeyPressed) {
+                focusSlotAt(FocusDirection.RIGHT);
+                MainClass.infoLog("Right key pressed");
+                wasAnyKeyPressed = true;
+            } else if (isDownKeyPressed) {
+                MainClass.infoLog("Down key pressed");
+                wasAnyKeyPressed = true;
+                focusSlotAt(FocusDirection.DOWN);
+            } else if (isLeftKeyPressed) {
+                focusSlotAt(FocusDirection.LEFT);
+                MainClass.infoLog("Left key pressed");
+                wasAnyKeyPressed = true;
+            }
+
+            // Pause the execution of this feature for 500 milliseconds
+            if (wasAnyKeyPressed) {
+                shouldRun = false;
+                TimerTask timerTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        shouldRun = true;
+                    }
+                };
+                new Timer().schedule(timerTask, 500);
+            }
+        } catch (Exception e) {
+            MainClass.errorLog("\nError encountered in Inventory Controls feature.");
+            e.printStackTrace();
+        }
     }
 
     private ActionResult onKeyPress(MinecraftClient mc, Screen currentScreen, int keyCode, int scanCode,
-                                           int modifiers) {
+                                    int modifiers) {
         if (screen != null) {
             if (this.LEFT_KEY.matchesKey(keyCode, scanCode)) {
                 focusSlotAt(FocusDirection.LEFT);
@@ -104,11 +162,7 @@ public class InventoryControls {
             } else if (this.DOWN_KEY.matchesKey(keyCode, scanCode)) {
                 focusSlotAt(FocusDirection.DOWN);
             } else if (this.GROUP_KEY.matchesKey(keyCode, scanCode)) {
-                if (modifiers == GLFW.GLFW_MOD_SHIFT) {
-                    focusGroupVertically(false);
-                } else {
-                    focusGroupVertically(true);
-                }
+                focusGroupVertically(modifiers != GLFW.GLFW_MOD_SHIFT);
                 return ActionResult.SUCCESS;
             } else if (this.HOME_KEY.matchesKey(keyCode, scanCode)) {
                 if (modifiers == GLFW.GLFW_MOD_SHIFT) {
@@ -262,14 +316,12 @@ public class InventoryControls {
         if (slot == null) {
             return;
         }
-        moveMouseToScreenCoords(slot.x + 9,slot.y + 9);
+        moveMouseToScreenCoords(slot.x + 9, slot.y + 9);
     }
 
     private void moveMouseToScreenCoords(int x, int y) {
         int targetX = (int) (minecraftClient.getWindow().getX() + ((screen.getX() + x) * minecraftClient.getWindow().getScaleFactor()));
         int targetY = (int) (minecraftClient.getWindow().getY() + ((screen.getY() + y) * minecraftClient.getWindow().getScaleFactor()));
-
-        MainClass.infoLog("%s %s".formatted(minecraftClient.getWindow().getX(), minecraftClient.getWindow().getY()));
 
         MouseUtils.move(targetX, targetY);
     }
