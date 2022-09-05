@@ -18,10 +18,10 @@ import org.lwjgl.glfw.GLFW;
  */
 @Environment(EnvType.CLIENT)
 public class CameraControls {
-    private final KeyBinding up;
-    private final KeyBinding right;
-    private final KeyBinding down;
-    private final KeyBinding left;
+    public final KeyBinding up; //TODO create a separate class for initializing key binds
+    public final KeyBinding right;
+    public final KeyBinding down;
+    public final KeyBinding left;
     private MinecraftClient minecraftClient;
 
     private final float delta90Degrees = 600f; // 90 / 0.15
@@ -76,6 +76,7 @@ public class CameraControls {
             if (minecraftClient.currentScreen != null) return; //Prevent running if any screen is opened
             this.minecraftClient = minecraftClient;
 
+            // https://minecraft.fandom.com/wiki/Key_codes
             boolean isLeftAltPressed = InputUtil.isKeyPressed(
                     MinecraftClient.getInstance().getWindow().getHandle(),
                     InputUtil.fromTranslationKey("key.keyboard.left.alt").getCode()

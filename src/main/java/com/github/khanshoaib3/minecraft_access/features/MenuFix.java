@@ -12,6 +12,7 @@ import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.option.*;
 import net.minecraft.client.gui.screen.pack.PackScreen;
 import net.minecraft.client.gui.screen.world.CreateWorldScreen;
+import net.minecraft.client.gui.screen.world.EditWorldScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 import net.minecraft.client.util.InputUtil;
 
@@ -50,6 +51,7 @@ public class MenuFix {
         add(KeybindsScreen.class);
         add(SelectWorldScreen.class);
         add(CreateWorldScreen.class);
+        add(EditWorldScreen.class);
         add(MultiplayerScreen.class);
         add(DirectConnectScreen.class);
         add(AddServerScreen.class);
@@ -90,11 +92,8 @@ public class MenuFix {
      */
     private static void moveMouseCursor(MinecraftClient minecraftClient) {
         try {
-            int movePosX = 1, movePosY = 1;
-            if (!minecraftClient.options.getFullscreen().getValue()) {
-                movePosX += minecraftClient.getWindow().getX();
-                movePosY += minecraftClient.getWindow().getY();
-            }
+            int movePosX = minecraftClient.getWindow().getX() + 10;
+            int movePosY = minecraftClient.getWindow().getY() + 10;
 
             MouseUtils.moveAndLeftClick(movePosX, movePosY);
         } catch (Exception e) {
