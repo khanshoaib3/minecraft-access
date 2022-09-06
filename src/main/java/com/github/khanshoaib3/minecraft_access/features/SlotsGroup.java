@@ -96,7 +96,7 @@ public class SlotsGroup {
         if (screen instanceof CreativeInventoryScreen creativeInventoryScreen) {
             List<Slot> slots = new ArrayList<>(creativeInventoryScreen.getScreenHandler().slots);
 
-            MainClass.infoLog("Selected tab %d size %d".formatted(creativeInventoryScreen.getSelectedTab(), creativeInventoryScreen.getScreenHandler().slots.size()));
+//            MainClass.infoLog("Selected tab %d size %d".formatted(creativeInventoryScreen.getSelectedTab(), creativeInventoryScreen.getScreenHandler().slots.size()));
             if (creativeInventoryScreen.getSelectedTab() == 11) {
 //                MainClass.infoLog("\n\n");
                 SlotsGroup deleteItemGroup = new SlotsGroup("Delete Items", null);
@@ -119,6 +119,7 @@ public class SlotsGroup {
                         armourGroup.groupItems.add(new GroupItem(s));
                         continue;
                     }
+
                     if (index >= 9 && index <= 35) {
                         inventoryGroup.groupItems.add(new GroupItem(s));
                         continue;
@@ -142,6 +143,10 @@ public class SlotsGroup {
 //                int mouseY = (int) ((MinecraftClient.getInstance().mouse.getY() - MinecraftClient.getInstance().getWindow().getY()) / MinecraftClient.getInstance().getWindow().getScaleFactor()) - screen.getY();
 //                MainClass.infoLog("Mouse x:%d y:%d".formatted(mouseX, mouseY));
 //                MainClass.infoLog("\n\n");
+
+                armourGroup.mapTheGroupList(2, true);
+                inventoryGroup.mapTheGroupList(9, false);
+                hotbarGroup.mapTheGroupList(9, false);
 
                 foundGroups.add(armourGroup);
                 foundGroups.add(offHandGroup);
@@ -205,6 +210,41 @@ public class SlotsGroup {
             }
         }
         return foundGroups;
+    }
+
+    // Maps the list into 2d form like a matrix, the factor being the no. of columns and transpose is whether to transpose the matrix or not
+    private void mapTheGroupList(int factor, boolean transpose) {
+        int size = this.groupItems.size();
+        for (int i = 0; i < size; i++) {
+            int above = i - factor;
+            int right = i + 1;
+            int below = i + factor;
+            int left = i - 1;
+
+            if (above >= 0)
+                if (transpose)
+                    this.groupItems.get(i).leftGroupItem = this.groupItems.get(above);
+                else
+                    this.groupItems.get(i).upGroupItem = this.groupItems.get(above);
+
+            if (right < size && right % factor != 0)
+                if (transpose)
+                    this.groupItems.get(i).downGroupItem = this.groupItems.get(right);
+                else
+                    this.groupItems.get(i).rightGroupItem = this.groupItems.get(right);
+
+            if (below < size)
+                if (transpose)
+                    this.groupItems.get(i).rightGroupItem = this.groupItems.get(below);
+                else
+                    this.groupItems.get(i).downGroupItem = this.groupItems.get(below);
+
+            if (left >= 0 && (left + 1) % factor != 0)
+                if (transpose)
+                    this.groupItems.get(i).upGroupItem = this.groupItems.get(left);
+                else
+                    this.groupItems.get(i).leftGroupItem = this.groupItems.get(left);
+        }
     }
 
     private void nameSlots() {
