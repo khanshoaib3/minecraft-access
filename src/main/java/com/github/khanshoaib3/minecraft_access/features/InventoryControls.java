@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.mixin.HandledScreenAccessor;
+import com.github.khanshoaib3.minecraft_access.mixin.SlotAccessor;
 import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
 import com.mojang.text2speech.Narrator;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -14,6 +15,7 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
@@ -111,12 +113,10 @@ public class InventoryControls {
             return;
         }
         if (!(minecraftClient.currentScreen instanceof HandledScreen)) return;
-        if (minecraftClient.currentScreen instanceof CreativeInventoryScreen)
-            return; // FIXME Patch creative inventory separately
 
         try {
             currentScreen = (HandledScreenAccessor) minecraftClient.currentScreen;
-            currentSlotsGroupList = SlotsGroup.generateGroupsFromSlots(currentScreen.getHandler().slots);
+            currentSlotsGroupList = SlotsGroup.generateGroupsFromSlots(currentScreen);
 
             if (previousScreen != currentScreen || (previousSlotsGroupList != null && previousSlotsGroupList.size() != currentSlotsGroupList.size())) {
                 // Focus at the first slot of the first group if a new screen is opened or the total number of group changes
@@ -245,12 +245,12 @@ public class InventoryControls {
         }
     }
 
-    private void focusSlot(Slot slot, boolean afterChangingGroup) {
-        if (slot == null) return;
-
+    private void focusSlot(@NotNull Slot slot, boolean afterChangingGroup) {
         currentSlot = slot;
         moveToSlot(currentSlot);
         MainClass.infoLog("Slot %d/%d selected".formatted(slot.getIndex() + 1, currentGroup.slots.size()));
+
+        MainClass.infoLog("Index:%d Class:%s".formatted(((SlotAccessor)slot).getInventoryIndex(), slot.getClass().toString()));
 
         if (!currentSlot.hasStack()) {
             // I18n.translate("minecraft_access.inventory_controls.empty_slot");
