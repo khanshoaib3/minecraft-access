@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.features;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.mixin.HandledScreenAccessor;
 import com.github.khanshoaib3.minecraft_access.mixin.SlotAccessor;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
@@ -21,6 +22,7 @@ public class SlotsGroup {
     public String name;
     public List<GroupItem> groupItems;
     private final HashMap<Slot, String> namesMap;
+    public boolean isScrollable = false;
 
     public SlotsGroup(String name, List<GroupItem> groupItems) {
         this.namesMap = new HashMap<>();
@@ -96,9 +98,7 @@ public class SlotsGroup {
         if (screen instanceof CreativeInventoryScreen creativeInventoryScreen) {
             List<Slot> slots = new ArrayList<>(creativeInventoryScreen.getScreenHandler().slots);
 
-//            MainClass.infoLog("Selected tab %d size %d".formatted(creativeInventoryScreen.getSelectedTab(), creativeInventoryScreen.getScreenHandler().slots.size()));
             if (creativeInventoryScreen.getSelectedTab() == 11) {
-//                MainClass.infoLog("\n\n");
                 SlotsGroup deleteItemGroup = new SlotsGroup("Delete Items", null);
                 SlotsGroup offHandGroup = new SlotsGroup("Off Hand", null);
                 SlotsGroup hotbarGroup = new SlotsGroup("Hotbar", null);
@@ -133,16 +133,7 @@ public class SlotsGroup {
                     if (index == 45) {
                         offHandGroup.groupItems.add(new GroupItem(s));
                     }
-
-//                    int centreX = s.x + 9;
-//                    int centreY = s.y + 9;
-
-//                    MainClass.infoLog("Slot index:%d x:%d y:%d InvClass:%s SlotClass:%s".formatted(index, centreX, centreY, s.inventory.getClass().getName(), s.getClass().getName()));
                 }
-//                int mouseX = (int) ((MinecraftClient.getInstance().mouse.getX() - MinecraftClient.getInstance().getWindow().getX()) / MinecraftClient.getInstance().getWindow().getScaleFactor()) - screen.getX();
-//                int mouseY = (int) ((MinecraftClient.getInstance().mouse.getY() - MinecraftClient.getInstance().getWindow().getY()) / MinecraftClient.getInstance().getWindow().getScaleFactor()) - screen.getY();
-//                MainClass.infoLog("Mouse x:%d y:%d".formatted(mouseX, mouseY));
-//                MainClass.infoLog("\n\n");
 
                 armourGroup.mapTheGroupList(2, true);
                 inventoryGroup.mapTheGroupList(9, false);
@@ -153,6 +144,42 @@ public class SlotsGroup {
                 foundGroups.add(inventoryGroup);
                 foundGroups.add(hotbarGroup);
                 foundGroups.add(deleteItemGroup);
+            } else if (creativeInventoryScreen.getSelectedTab()==5) {
+                // Skip if in search item tab
+                return foundGroups;
+            } else {
+                SlotsGroup hotbarGroup = new SlotsGroup("Hotbar", null);
+                SlotsGroup tabInventoryGroup = new SlotsGroup("Tab Inventory", null);
+                tabInventoryGroup.isScrollable = true;
+
+                for (Slot s : slots) {
+                    if (s.x < 0 || s.y < 0) continue;
+
+                    int index = ((SlotAccessor) s).getInventoryIndex();
+
+                    if(index>=0&& index<=8 && s.inventory instanceof PlayerInventory){
+                        hotbarGroup.groupItems.add(new GroupItem(s));
+                        continue;
+                    }
+
+                    if(index>=0&&index<=44){
+                        tabInventoryGroup.groupItems.add(new GroupItem(s));
+                    }
+//                    int centreX = s.x + 9;
+//                    int centreY = s.y + 9;
+
+//                    MainClass.infoLog("Slot index:%d x:%d y:%d InvClass:%s SlotClass:%s".formatted(index, centreX, centreY, s.inventory.getClass().getName(), s.getClass().getName()));
+                }
+//                int mouseX = (int) ((MinecraftClient.getInstance().mouse.getX() - MinecraftClient.getInstance().getWindow().getX()) / MinecraftClient.getInstance().getWindow().getScaleFactor()) - screen.getX();
+//                int mouseY = (int) ((MinecraftClient.getInstance().mouse.getY() - MinecraftClient.getInstance().getWindow().getY()) / MinecraftClient.getInstance().getWindow().getScaleFactor()) - screen.getY();
+//                MainClass.infoLog("Mouse x:%d y:%d".formatted(mouseX, mouseY));
+//                MainClass.infoLog("\n\n");
+
+                tabInventoryGroup.mapTheGroupList(9, false);
+                hotbarGroup.mapTheGroupList(9, false);
+
+                foundGroups.add(tabInventoryGroup);
+                foundGroups.add(hotbarGroup);
             }
         } else /*if (screen instanceof InventoryScreen) */ {
             List<Slot> slots = new ArrayList<>(screen.getHandler().slots);

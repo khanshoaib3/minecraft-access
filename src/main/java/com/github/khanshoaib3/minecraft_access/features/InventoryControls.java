@@ -1,16 +1,19 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.mixin.CreativeInventoryScreenAccessor;
 import com.github.khanshoaib3.minecraft_access.mixin.HandledScreenAccessor;
 import com.github.khanshoaib3.minecraft_access.mixin.SlotAccessor;
 import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
 import com.mojang.text2speech.Narrator;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +30,6 @@ public class InventoryControls {
     private HandledScreenAccessor previousScreen = null;
     private HandledScreenAccessor currentScreen = null;
 
-    private List<SlotsGroup> previousSlotsGroupList = null;
     private List<SlotsGroup> currentSlotsGroupList = null;
     private SlotsGroup currentGroup = null;
     private int currentGroupIndex = 0;
@@ -40,6 +42,7 @@ public class InventoryControls {
     private final KeyBinding groupKey;
     private final KeyBinding leftMouseClickKey;
     private final KeyBinding rightMouseClickKey;
+    private final KeyBinding switchTabKey;
 
     private enum FocusDirection {
         UP("above"),
@@ -109,6 +112,13 @@ public class InventoryControls {
                 GLFW.GLFW_KEY_J,
                 categoryTranslationKey
         ));
+
+        switchTabKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "Switch Tab Key", //TODO add translation key instead
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_V,
+                categoryTranslationKey
+        ));
     }
 
     public void update() {
@@ -119,27 +129,23 @@ public class InventoryControls {
         if (minecraftClient.player == null) return;
         if (minecraftClient.currentScreen == null) {
             previousScreen = null;
-            previousSlotsGroupList = null;
             currentScreen = null;
             return;
         }
         if (!(minecraftClient.currentScreen instanceof HandledScreen)) return;
 
         try {
-            currentScreen = (HandledScreenAccessor) minecraftClient.currentScreen;
-            currentSlotsGroupList = SlotsGroup.generateGroupsFromSlots(currentScreen);
+            boolean wasAnyKeyPressed = keyListener();
 
-            if (previousScreen != currentScreen || (previousSlotsGroupList != null && previousSlotsGroupList.size() != currentSlotsGroupList.size())) {
+            currentScreen = (HandledScreenAccessor) minecraftClient.currentScreen;
+
+            if (previousScreen != currentScreen) {
                 // Focus at the first slot of the first group if a new screen is opened or the total number of group changes
                 previousScreen = currentScreen;
-                previousSlotsGroupList = currentSlotsGroupList;
-
-                currentGroup = currentSlotsGroupList.get(0);
-                Narrator.getNarrator().say("Group %s selected".formatted(currentGroup.name), true);
-                focusGroupItem(currentGroup.getFirstGroupItem(), true);
+                refreshGroupListAndSelectFirstGroup(true);
             }
 
-            boolean wasAnyKeyPressed = keyListener();
+            if (currentSlotsGroupList.size() == 0) return;
 
             // Pause the execution of this feature for 250 milliseconds
             if (wasAnyKeyPressed) {
@@ -158,6 +164,15 @@ public class InventoryControls {
         }
     }
 
+    private void refreshGroupListAndSelectFirstGroup(boolean interrupt) {
+        currentSlotsGroupList = SlotsGroup.generateGroupsFromSlots(currentScreen);
+        if(currentSlotsGroupList.size()==0) return;
+
+        currentGroup = currentSlotsGroupList.get(0);
+        Narrator.getNarrator().say("Group %s selected".formatted(currentGroup.name), interrupt);
+        focusGroupItem(currentGroup.getFirstGroupItem(), true);
+    }
+
     private boolean keyListener() {
         boolean isGroupKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(groupKey.getBoundKeyTranslationKey()).getCode());
         boolean isLeftClickKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(leftMouseClickKey.getBoundKeyTranslationKey()).getCode());
@@ -165,12 +180,17 @@ public class InventoryControls {
         boolean isUpKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(upKey.getBoundKeyTranslationKey()).getCode());
         boolean isRightKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(rightKey.getBoundKeyTranslationKey()).getCode());
         boolean isDownKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(downKey.getBoundKeyTranslationKey()).getCode());
+        boolean isSwitchTabKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(switchTabKey.getBoundKeyTranslationKey()).getCode());
         boolean isLeftKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(leftKey.getBoundKeyTranslationKey()).getCode());
         boolean isLeftShiftPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.left.shift").getCode());
 
         if (isGroupKeyPressed) {
             MainClass.infoLog("Group key pressed");
             changeGroup(!isLeftShiftPressed);
+            return true;
+        } else if (isSwitchTabKeyPressed) {
+            MainClass.infoLog("Switch Tab key pressed");
+            changeTab(!isLeftShiftPressed);
             return true;
         } else if (isLeftClickKeyPressed) {
             MouseUtils.leftClick();
@@ -198,6 +218,19 @@ public class InventoryControls {
             return true;
         }
         return false;
+    }
+
+    private void changeTab(boolean goForward) {
+        if (!(minecraftClient.currentScreen instanceof CreativeInventoryScreen creativeInventoryScreen)) return;
+
+        int nextTabIndex = creativeInventoryScreen.getSelectedTab() + (goForward ? 1 : -1);
+        nextTabIndex = MathHelper.clamp(nextTabIndex, 0, 11);
+
+        ((CreativeInventoryScreenAccessor) creativeInventoryScreen).invokeSetSelectedTab(ItemGroup.GROUPS[nextTabIndex]);
+        MainClass.infoLog("Tab(name:%s) %d/%d selected".formatted(ItemGroup.GROUPS[nextTabIndex].getName(), nextTabIndex + 1, 12));
+        Narrator.getNarrator().say("Tab %s selected".formatted(ItemGroup.GROUPS[nextTabIndex].getDisplayName().getString()), true);
+
+        refreshGroupListAndSelectFirstGroup(false);
     }
 
     private void focusSlotAt(FocusDirection direction) {
