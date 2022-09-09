@@ -121,6 +121,52 @@ public class MouseUtils {
         }
     }
 
+    public static void scrollUp(){
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient == null)
+            return;
+
+        try {
+            MainClass.infoLog("Performing scroll up");
+
+            if (OsUtils.isLinux()) {
+                Runtime.getRuntime().exec("xdotool click 4");
+            }
+
+            if (OsUtils.isWindows()) {
+                if (mainInterface == null) initializeUser32dll();
+
+                mainInterface.mouse_event(MouseEventFlags.WHEEL.getValue(), 0, 0, 0, 0);
+            }
+        } catch (Exception e) {
+            MainClass.errorLog("\nError encountered on performing scroll up.");
+            e.printStackTrace();
+        }
+    }
+
+    public static void scrollDown(){
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient == null)
+            return;
+
+        try {
+            MainClass.infoLog("Performing scroll down");
+
+            if (OsUtils.isLinux()) {
+                Runtime.getRuntime().exec("xdotool click 5");
+            }
+
+            if (OsUtils.isWindows()) {
+                if (mainInterface == null) initializeUser32dll();
+
+                mainInterface.mouse_event(MouseEventFlags.HWHEEL.getValue(), 0, 0, 0, 0);
+            }
+        } catch (Exception e) {
+            MainClass.errorLog("\nError encountered on performing scroll up.");
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Initializes the User32.dll for windows
      */
@@ -160,7 +206,10 @@ public class MouseUtils {
         MOVE(0x00000001),
         ABSOLUTE(0x00008000),
         RIGHTDOWN(0x00000008),
-        RIGHTUP(0x00000010);
+        RIGHTUP(0x00000010),
+        WHEEL(0x00000800),
+
+        HWHEEL(0x00001000);
 
         private final int value;
 

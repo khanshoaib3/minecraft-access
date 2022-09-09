@@ -34,6 +34,7 @@ public class InventoryControls {
     private SlotsGroup currentGroup = null;
     private int currentGroupIndex = 0;
     private SlotItem currentSlotItem = null;
+    private String previousSlotText = "";
 
     private final KeyBinding leftKey;
     private final KeyBinding rightKey;
@@ -147,6 +148,11 @@ public class InventoryControls {
 
             if (currentSlotsGroupList.size() == 0) return;
 
+            if (!previousSlotText.equals(getCurrentSlotNarrationText())) {
+                previousSlotText = getCurrentSlotNarrationText();
+                Narrator.getNarrator().say(previousSlotText, true);
+            }
+
             // Pause the execution of this feature for 250 milliseconds
             if (wasAnyKeyPressed) {
                 shouldRun = false;
@@ -166,7 +172,7 @@ public class InventoryControls {
 
     private void refreshGroupListAndSelectFirstGroup(boolean interrupt) {
         currentSlotsGroupList = GroupGenerator.generateGroupsFromSlots(currentScreen);
-        if(currentSlotsGroupList.size()==0) return;
+        if (currentSlotsGroupList.size() == 0) return;
 
         currentGroup = currentSlotsGroupList.get(0);
         Narrator.getNarrator().say("Group %s selected".formatted(currentGroup.groupName), interrupt);
@@ -202,7 +208,11 @@ public class InventoryControls {
             return true;
         } else if (isUpKeyPressed) {
             MainClass.infoLog("Up key pressed");
-            focusSlotAt(FocusDirection.UP);
+            if (isLeftShiftPressed && currentGroup.isScrollable) {
+                MouseUtils.scrollUp();
+            } else {
+                focusSlotAt(FocusDirection.UP);
+            }
             return true;
         } else if (isRightKeyPressed) {
             MainClass.infoLog("Right key pressed");
@@ -210,7 +220,11 @@ public class InventoryControls {
             return true;
         } else if (isDownKeyPressed) {
             MainClass.infoLog("Down key pressed");
-            focusSlotAt(FocusDirection.DOWN);
+            if (isLeftShiftPressed && currentGroup.isScrollable) {
+                MouseUtils.scrollDown();
+            } else {
+                focusSlotAt(FocusDirection.DOWN);
+            }
             return true;
         } else if (isLeftKeyPressed) {
             MainClass.infoLog("Left key pressed");
@@ -310,10 +324,16 @@ public class InventoryControls {
 
         MainClass.infoLog("Index:%d Class:%s".formatted(((SlotAccessor) slotItem.slot).getInventoryIndex(), slotItem.slot.getClass().toString()));
 
+        String toSpeak = getCurrentSlotNarrationText();
+        if (toSpeak.length() > 0) {
+            previousSlotText = toSpeak;
+            Narrator.getNarrator().say(toSpeak, !afterChangingGroup);
+        }
+    }
+
+    private String getCurrentSlotNarrationText() {
         if (!currentSlotItem.slot.hasStack()) {
-            // I18n.translate("minecraft_access.inventory_controls.empty_slot");
-            Narrator.getNarrator().say("%s Empty groupItem".formatted(currentGroup.getSlotPrefix(currentSlotItem.slot)), !afterChangingGroup);
-            return;
+            return "Empty Slot"; //TODO use i18n here
         }
 
         String info = "%s %d".formatted(currentGroup.getSlotPrefix(currentSlotItem.slot), currentSlotItem.slot.getStack().getCount());
@@ -323,9 +343,7 @@ public class InventoryControls {
             toolTipString.append(line.getString());
         }
 
-        String toSpeak = "%s %s".formatted(info, toolTipString.toString());
-        if (toSpeak.length() > 0)
-            Narrator.getNarrator().say(toSpeak, !afterChangingGroup);
+        return "%s %s".formatted(info, toolTipString.toString());
     }
 
     private void changeGroup(boolean goForward) {
