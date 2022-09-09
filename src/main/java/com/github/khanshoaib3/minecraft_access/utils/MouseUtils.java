@@ -121,6 +121,9 @@ public class MouseUtils {
         }
     }
 
+    /**
+     * Performs mouse scroll up
+     */
     public static void scrollUp(){
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
         if (minecraftClient == null)
@@ -136,7 +139,7 @@ public class MouseUtils {
             if (OsUtils.isWindows()) {
                 if (mainInterface == null) initializeUser32dll();
 
-                mainInterface.mouse_event(MouseEventFlags.WHEEL.getValue(), 0, 0, 0, 0);
+                mainInterface.mouse_event(MouseEventFlags.WHEEL.getValue(), 0, 0, 120, 0);
             }
         } catch (Exception e) {
             MainClass.errorLog("\nError encountered on performing scroll up.");
@@ -144,6 +147,9 @@ public class MouseUtils {
         }
     }
 
+    /**
+     * Performs mouse scroll down
+     */
     public static void scrollDown(){
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
         if (minecraftClient == null)
@@ -159,7 +165,7 @@ public class MouseUtils {
             if (OsUtils.isWindows()) {
                 if (mainInterface == null) initializeUser32dll();
 
-                mainInterface.mouse_event(MouseEventFlags.HWHEEL.getValue(), 0, 0, 0, 0);
+                mainInterface.mouse_event(MouseEventFlags.WHEEL.getValue(), 0, 0, -120, 0);
             }
         } catch (Exception e) {
             MainClass.errorLog("\nError encountered on performing scroll up.");
@@ -191,6 +197,7 @@ public class MouseUtils {
 
         // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-mouse_event?source=recommendations
         // https://stackoverflow.com/questions/8739523/directing-mouse-events-dllimportuser32-dll-click-double-click
+        // https://stackoverflow.com/questions/37262822/c-sharp-simulate-mouse-wheel-down
         void mouse_event(int dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
     }
 
@@ -207,9 +214,8 @@ public class MouseUtils {
         ABSOLUTE(0x00008000),
         RIGHTDOWN(0x00000008),
         RIGHTUP(0x00000010),
-        WHEEL(0x00000800),
+        WHEEL(0x00000800);
 
-        HWHEEL(0x00001000);
 
         private final int value;
 
