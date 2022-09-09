@@ -193,28 +193,28 @@ public class InventoryControls {
             changeTab(!isLeftShiftPressed);
             return true;
         } else if (isLeftClickKeyPressed) {
-            MouseUtils.leftClick();
             MainClass.infoLog("Left click key pressed");
+            MouseUtils.leftClick();
             return true;
         } else if (isRightCLickKeyPressed) {
-            MouseUtils.rightClick();
             MainClass.infoLog("Right click key pressed");
+            MouseUtils.rightClick();
             return true;
         } else if (isUpKeyPressed) {
-            focusSlotAt(FocusDirection.UP);
             MainClass.infoLog("Up key pressed");
+            focusSlotAt(FocusDirection.UP);
             return true;
         } else if (isRightKeyPressed) {
-            focusSlotAt(FocusDirection.RIGHT);
             MainClass.infoLog("Right key pressed");
+            focusSlotAt(FocusDirection.RIGHT);
             return true;
         } else if (isDownKeyPressed) {
             MainClass.infoLog("Down key pressed");
             focusSlotAt(FocusDirection.DOWN);
             return true;
         } else if (isLeftKeyPressed) {
-            focusSlotAt(FocusDirection.LEFT);
             MainClass.infoLog("Left key pressed");
+            focusSlotAt(FocusDirection.LEFT);
             return true;
         }
         return false;
