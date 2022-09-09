@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access;
 
 import com.github.khanshoaib3.minecraft_access.features.CameraControls;
-import com.github.khanshoaib3.minecraft_access.features.InventoryControls;
+import com.github.khanshoaib3.minecraft_access.features.InventoryControls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.MenuFix;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;

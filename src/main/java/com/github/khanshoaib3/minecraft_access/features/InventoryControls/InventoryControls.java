@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.features;
+package com.github.khanshoaib3.minecraft_access.features.InventoryControls;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.mixin.CreativeInventoryScreenAccessor;
@@ -33,7 +33,7 @@ public class InventoryControls {
     private List<SlotsGroup> currentSlotsGroupList = null;
     private SlotsGroup currentGroup = null;
     private int currentGroupIndex = 0;
-    private GroupItem currentGroupItem = null;
+    private SlotItem currentSlotItem = null;
 
     private final KeyBinding leftKey;
     private final KeyBinding rightKey;
@@ -165,11 +165,11 @@ public class InventoryControls {
     }
 
     private void refreshGroupListAndSelectFirstGroup(boolean interrupt) {
-        currentSlotsGroupList = SlotsGroup.generateGroupsFromSlots(currentScreen);
+        currentSlotsGroupList = GroupGenerator.generateGroupsFromSlots(currentScreen);
         if(currentSlotsGroupList.size()==0) return;
 
         currentGroup = currentSlotsGroupList.get(0);
-        Narrator.getNarrator().say("Group %s selected".formatted(currentGroup.name), interrupt);
+        Narrator.getNarrator().say("Group %s selected".formatted(currentGroup.groupName), interrupt);
         focusGroupItem(currentGroup.getFirstGroupItem(), true);
     }
 
@@ -238,62 +238,62 @@ public class InventoryControls {
             changeGroup(true);
             return;
         }
-        if (currentGroupItem == null) {
+        if (currentSlotItem == null) {
             focusGroupItem(currentGroup.getFirstGroupItem(), false);
             return;
         }
 
-        GroupItem groupItem = getGroupItemInDirection(direction);
-        if (groupItem == null) {
+        SlotItem slotItem = getGroupItemInDirection(direction);
+        if (slotItem == null) {
             Narrator.getNarrator().say("No slot %s".formatted(direction.getString()), true); //TODO use i18n instead
             return;
         }
 
-        focusGroupItem(groupItem, false);
+        focusGroupItem(slotItem, false);
     }
 
-    private GroupItem getGroupItemInDirection(FocusDirection focusDirection) {
+    private SlotItem getGroupItemInDirection(FocusDirection focusDirection) {
         switch (focusDirection) {
             case UP -> {
-                if (!currentGroup.hasGroupItemAbove(currentGroupItem)) return null;
+                if (!currentGroup.hasSlotItemAbove(currentSlotItem)) return null;
 
-                if (currentGroupItem.upGroupItem != null) return currentGroupItem.upGroupItem;
+                if (currentSlotItem.upSlotItem != null) return currentSlotItem.upSlotItem;
 
-                for (GroupItem item : currentGroup.groupItems) {
-                    if (item.x == currentGroupItem.x && item.y == currentGroupItem.y - 18) {
+                for (SlotItem item : currentGroup.slotItems) {
+                    if (item.x == currentSlotItem.x && item.y == currentSlotItem.y - 18) {
                         return item;
                     }
                 }
             }
             case RIGHT -> {
-                if (!currentGroup.hasGroupItemRight(currentGroupItem)) return null;
+                if (!currentGroup.hasSlotItemRight(currentSlotItem)) return null;
 
-                if (currentGroupItem.rightGroupItem != null) return currentGroupItem.rightGroupItem;
+                if (currentSlotItem.rightSlotItem != null) return currentSlotItem.rightSlotItem;
 
-                for (GroupItem item : currentGroup.groupItems) {
-                    if (item.x == currentGroupItem.x + 18 && item.y == currentGroupItem.y) {
+                for (SlotItem item : currentGroup.slotItems) {
+                    if (item.x == currentSlotItem.x + 18 && item.y == currentSlotItem.y) {
                         return item;
                     }
                 }
             }
             case DOWN -> {
-                if (!currentGroup.hasGroupItemBelow(currentGroupItem)) return null;
+                if (!currentGroup.hasSlotItemBelow(currentSlotItem)) return null;
 
-                if (currentGroupItem.downGroupItem != null) return currentGroupItem.downGroupItem;
+                if (currentSlotItem.downSlotItem != null) return currentSlotItem.downSlotItem;
 
-                for (GroupItem item : currentGroup.groupItems) {
-                    if (item.x == currentGroupItem.x && item.y == currentGroupItem.y + 18) {
+                for (SlotItem item : currentGroup.slotItems) {
+                    if (item.x == currentSlotItem.x && item.y == currentSlotItem.y + 18) {
                         return item;
                     }
                 }
             }
             case LEFT -> {
-                if (!currentGroup.hasGroupItemLeft(currentGroupItem)) return null;
+                if (!currentGroup.hasSlotItemLeft(currentSlotItem)) return null;
 
-                if (currentGroupItem.leftGroupItem != null) return currentGroupItem.leftGroupItem;
+                if (currentSlotItem.leftSlotItem != null) return currentSlotItem.leftSlotItem;
 
-                for (GroupItem item : currentGroup.groupItems) {
-                    if (item.x == currentGroupItem.x - 18 && item.y == currentGroupItem.y) {
+                for (SlotItem item : currentGroup.slotItems) {
+                    if (item.x == currentSlotItem.x - 18 && item.y == currentSlotItem.y) {
                         return item;
                     }
                 }
@@ -303,22 +303,22 @@ public class InventoryControls {
         return null;
     }
 
-    private void focusGroupItem(@NotNull GroupItem groupItem, boolean afterChangingGroup) {
-        currentGroupItem = groupItem;
-        moveToSlot(currentGroupItem);
-        MainClass.infoLog("Slot %d/%d selected".formatted(groupItem.slot.getIndex() + 1, currentGroup.groupItems.size()));
+    private void focusGroupItem(@NotNull SlotItem slotItem, boolean afterChangingGroup) {
+        currentSlotItem = slotItem;
+        moveToSlot(currentSlotItem);
+        MainClass.infoLog("Slot %d/%d selected".formatted(slotItem.slot.getIndex() + 1, currentGroup.slotItems.size()));
 
-        MainClass.infoLog("Index:%d Class:%s".formatted(((SlotAccessor) groupItem.slot).getInventoryIndex(), groupItem.slot.getClass().toString()));
+        MainClass.infoLog("Index:%d Class:%s".formatted(((SlotAccessor) slotItem.slot).getInventoryIndex(), slotItem.slot.getClass().toString()));
 
-        if (!currentGroupItem.slot.hasStack()) {
+        if (!currentSlotItem.slot.hasStack()) {
             // I18n.translate("minecraft_access.inventory_controls.empty_slot");
-            Narrator.getNarrator().say("%s Empty groupItem".formatted(currentGroup.getSlotName(currentGroupItem.slot)), !afterChangingGroup);
+            Narrator.getNarrator().say("%s Empty groupItem".formatted(currentGroup.getSlotPrefix(currentSlotItem.slot)), !afterChangingGroup);
             return;
         }
 
-        String info = "%s %d".formatted(currentGroup.getSlotName(currentGroupItem.slot), currentGroupItem.slot.getStack().getCount());
+        String info = "%s %d".formatted(currentGroup.getSlotPrefix(currentSlotItem.slot), currentSlotItem.slot.getStack().getCount());
         StringBuilder toolTipString = new StringBuilder();
-        List<Text> toolTipList = currentGroupItem.slot.getStack().getTooltip(minecraftClient.player, TooltipContext.Default.NORMAL);
+        List<Text> toolTipList = currentSlotItem.slot.getStack().getTooltip(minecraftClient.player, TooltipContext.Default.NORMAL);
         for (Text line : toolTipList) {
             toolTipString.append(line.getString());
         }
@@ -336,18 +336,18 @@ public class InventoryControls {
 
         currentGroupIndex = nextGroupIndex;
         currentGroup = currentSlotsGroupList.get(currentGroupIndex);
-        MainClass.infoLog("Group(name:%s) %d/%d selected".formatted(currentGroup.name, currentGroupIndex + 1, currentSlotsGroupList.size()));
-        Narrator.getNarrator().say("Group %s selected".formatted(currentGroup.name), true);
+        MainClass.infoLog("Group(name:%s) %d/%d selected".formatted(currentGroup.groupName, currentGroupIndex + 1, currentSlotsGroupList.size()));
+        Narrator.getNarrator().say("Group %s selected".formatted(currentGroup.groupName), true);
 
         focusGroupItem(currentGroup.getFirstGroupItem(), true);
     }
 
-    private void moveToSlot(GroupItem groupItem) {
-        if (groupItem == null) return;
+    private void moveToSlot(SlotItem slotItem) {
+        if (slotItem == null) return;
 
         // To get the centre of the groupItem
-        int centreX = groupItem.x/* + 9*/;
-        int centreY = groupItem.y/* + 9*/;
+        int centreX = slotItem.x/* + 9*/;
+        int centreY = slotItem.y/* + 9*/;
 
         int targetX = (int) (minecraftClient.getWindow().getX() + ((currentScreen.getX() + centreX) * minecraftClient.getWindow().getScaleFactor()));
         int targetY = (int) (minecraftClient.getWindow().getY() + ((currentScreen.getY() + centreY) * minecraftClient.getWindow().getScaleFactor()));
