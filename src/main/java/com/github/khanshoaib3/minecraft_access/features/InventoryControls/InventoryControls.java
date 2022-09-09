@@ -1,9 +1,9 @@
 package com.github.khanshoaib3.minecraft_access.features.InventoryControls;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.mixin.ClickableWidgetAccessor;
 import com.github.khanshoaib3.minecraft_access.mixin.CreativeInventoryScreenAccessor;
 import com.github.khanshoaib3.minecraft_access.mixin.HandledScreenAccessor;
-import com.github.khanshoaib3.minecraft_access.mixin.SlotAccessor;
 import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
 import com.mojang.text2speech.Narrator;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -155,6 +155,7 @@ public class InventoryControls {
 
             // Pause the execution of this feature for 250 milliseconds
             if (wasAnyKeyPressed) {
+                MainClass.infoLog("YESS");
                 shouldRun = false;
                 TimerTask timerTask = new TimerTask() {
                     @Override
@@ -170,15 +171,6 @@ public class InventoryControls {
         }
     }
 
-    private void refreshGroupListAndSelectFirstGroup(boolean interrupt) {
-        currentSlotsGroupList = GroupGenerator.generateGroupsFromSlots(currentScreen);
-        if (currentSlotsGroupList.size() == 0) return;
-
-        currentGroup = currentSlotsGroupList.get(0);
-        Narrator.getNarrator().say("Group %s selected".formatted(currentGroup.groupName), interrupt);
-        focusGroupItem(currentGroup.getFirstGroupItem(), true);
-    }
-
     private boolean keyListener() {
         boolean isGroupKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(groupKey.getBoundKeyTranslationKey()).getCode());
         boolean isLeftClickKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(leftMouseClickKey.getBoundKeyTranslationKey()).getCode());
@@ -189,6 +181,22 @@ public class InventoryControls {
         boolean isLeftKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(leftKey.getBoundKeyTranslationKey()).getCode());
         boolean isSwitchTabKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(switchTabKey.getBoundKeyTranslationKey()).getCode());
         boolean isLeftShiftPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.left.shift").getCode());
+        boolean isEnterPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.enter").getCode())
+                || InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.keypad.enter").getCode());
+        boolean isTPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.t").getCode());
+        boolean disableInputForSearchBox = false;
+
+        if (minecraftClient.currentScreen instanceof CreativeInventoryScreen creativeInventoryScreen && ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox().isActive()) {
+            disableInputForSearchBox = true;
+            if (isEnterPressed) {
+                MainClass.infoLog("Enter key pressed, deselecting the search box.");
+                ((ClickableWidgetAccessor) ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox()).setFocused(false);
+                refreshGroupListAndSelectFirstGroup(true);
+                return true;
+            }
+        }
+
+        if (disableInputForSearchBox) return false;
 
         if (isGroupKeyPressed) {
             MainClass.infoLog("Group key pressed");
@@ -230,8 +238,22 @@ public class InventoryControls {
             MainClass.infoLog("Left key pressed");
             focusSlotAt(FocusDirection.LEFT);
             return true;
+        } else if (isTPressed && minecraftClient.currentScreen instanceof CreativeInventoryScreen creativeInventoryScreen && creativeInventoryScreen.getSelectedTab() == 5) {
+            MainClass.infoLog("T key pressed, selecting the search box.");
+            ((ClickableWidgetAccessor) ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox()).setFocused(true);
+            return true;
         }
+
         return false;
+    }
+
+    private void refreshGroupListAndSelectFirstGroup(boolean interrupt) {
+        currentSlotsGroupList = GroupGenerator.generateGroupsFromSlots(currentScreen);
+        if (currentSlotsGroupList.size() == 0) return;
+
+        currentGroup = currentSlotsGroupList.get(0);
+        Narrator.getNarrator().say("%s %s Group selected".formatted(currentGroup.isScrollable?"Scrollable":"", currentGroup.groupName), interrupt);
+        focusGroupItem(currentGroup.getFirstGroupItem(), false);
     }
 
     private void changeTab(boolean goForward) {
@@ -253,7 +275,7 @@ public class InventoryControls {
             return;
         }
         if (currentSlotItem == null) {
-            focusGroupItem(currentGroup.getFirstGroupItem(), false);
+            focusGroupItem(currentGroup.getFirstGroupItem(), true);
             return;
         }
 
@@ -263,7 +285,7 @@ public class InventoryControls {
             return;
         }
 
-        focusGroupItem(slotItem, false);
+        focusGroupItem(slotItem, true);
     }
 
     private SlotItem getGroupItemInDirection(FocusDirection focusDirection) {
@@ -317,17 +339,15 @@ public class InventoryControls {
         return null;
     }
 
-    private void focusGroupItem(@NotNull SlotItem slotItem, boolean afterChangingGroup) {
+    private void focusGroupItem(@NotNull SlotItem slotItem, boolean interrupt) {
         currentSlotItem = slotItem;
         moveToSlot(currentSlotItem);
         MainClass.infoLog("Slot %d/%d selected".formatted(slotItem.slot.getIndex() + 1, currentGroup.slotItems.size()));
 
-        MainClass.infoLog("Index:%d Class:%s".formatted(((SlotAccessor) slotItem.slot).getInventoryIndex(), slotItem.slot.getClass().toString()));
-
         String toSpeak = getCurrentSlotNarrationText();
         if (toSpeak.length() > 0) {
             previousSlotText = toSpeak;
-            Narrator.getNarrator().say(toSpeak, !afterChangingGroup);
+            Narrator.getNarrator().say(toSpeak, interrupt);
         }
     }
 
@@ -357,7 +377,7 @@ public class InventoryControls {
         MainClass.infoLog("Group(name:%s) %d/%d selected".formatted(currentGroup.groupName, currentGroupIndex + 1, currentSlotsGroupList.size()));
         Narrator.getNarrator().say("Group %s selected".formatted(currentGroup.groupName), true);
 
-        focusGroupItem(currentGroup.getFirstGroupItem(), true);
+        focusGroupItem(currentGroup.getFirstGroupItem(), false);
     }
 
     private void moveToSlot(SlotItem slotItem) {

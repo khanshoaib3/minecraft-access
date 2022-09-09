@@ -10,7 +10,8 @@
     "HandledScreenAccessor",
     "NarratorLinuxMixin",
     "NarratorWindowsMixin",
-    "SlotAccessor"
+    "SlotAccessor",
+    "ClickableWidgetAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

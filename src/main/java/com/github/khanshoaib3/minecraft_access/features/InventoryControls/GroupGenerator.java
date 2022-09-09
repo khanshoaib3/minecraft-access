@@ -9,6 +9,7 @@ import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.screen.slot.FurnaceFuelSlot;
 import net.minecraft.screen.slot.FurnaceOutputSlot;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.screen.slot.TradeOutputSlot;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -157,9 +158,6 @@ public class GroupGenerator {
             foundGroups.add(inventoryGroup);
             foundGroups.add(hotbarGroup);
             foundGroups.add(deleteItemGroup);
-        } else if (creativeInventoryScreen.getSelectedTab()==5) {
-            // Skip if in search item tab
-            return foundGroups;
         } else {
             SlotsGroup hotbarGroup = new SlotsGroup("Hotbar", null);
             SlotsGroup tabInventoryGroup = new SlotsGroup("Tab Inventory", null);
@@ -199,16 +197,20 @@ public class GroupGenerator {
 
     public static String getInventoryName(@NotNull Slot slot) {
         if (slot.inventory instanceof CraftingResultInventory) {
-            return "crafting_output";
+            return "Crafting Output";
         } else if (slot.inventory instanceof CraftingInventory) {
-            return "crafting_input";
+            return "Crafting Input";
         }
 
         if (slot instanceof FurnaceFuelSlot) {
-            return "fuel_input";
+            return "Fuel Input";
         } else if (slot instanceof FurnaceOutputSlot) {
-            return "furnace_output";
+            return "Furnace Output";
+        } else if(slot instanceof TradeOutputSlot) {
+            return "Trade Output";
         }
-        return "group";
+
+
+        return "Group";
     }
 }
