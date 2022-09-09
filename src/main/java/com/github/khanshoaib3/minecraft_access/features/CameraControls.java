@@ -13,6 +13,9 @@ import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * This feature adds key binds to control the camera.
  */
@@ -29,6 +32,7 @@ public class CameraControls {
     private final float normalRotatingDeltaAngle = delta90Degrees / (90 / normalRotatingAngle);
     private final float modifiedRotatingAngle = 11.25f; //TODO add this to config
     private final float modifiedRotatingDeltaAngle = delta90Degrees / (90 / modifiedRotatingAngle);
+    private boolean shouldRun = true;
 
     /**
      * Initializes the key binds.
@@ -67,45 +71,92 @@ public class CameraControls {
 
     /**
      * This method gets called at the end of every tick.
-     *
-     * @param minecraftClient Current MinecraftClient instance
      */
-    public void update(MinecraftClient minecraftClient) {
+    public void update() {
+        if (!this.shouldRun) return;
         try {
+            this.minecraftClient = MinecraftClient.getInstance();
+
             if (minecraftClient == null) return;
             if (minecraftClient.currentScreen != null) return; //Prevent running if any screen is opened
-            this.minecraftClient = minecraftClient;
 
-            // https://minecraft.fandom.com/wiki/Key_codes
-            boolean isLeftAltPressed = InputUtil.isKeyPressed(
-                    MinecraftClient.getInstance().getWindow().getHandle(),
-                    InputUtil.fromTranslationKey("key.keyboard.left.alt").getCode()
-            );
+            boolean wasAnyKeyPressed = keyListener();
 
-            boolean isRightAltPressed = InputUtil.isKeyPressed(
-                    MinecraftClient.getInstance().getWindow().getHandle(),
-                    InputUtil.fromTranslationKey("key.keyboard.right.alt").getCode()
-            );
-
-            if (up.wasPressed()) {
-                upKeyHandler(isLeftAltPressed, isRightAltPressed);
-            }
-
-            if (right.wasPressed()) {
-                rightKeyHandler(isLeftAltPressed, isRightAltPressed);
-            }
-
-            if (down.wasPressed()) {
-                downKeyHandler(isLeftAltPressed, isRightAltPressed);
-            }
-
-            if (left.wasPressed()) {
-                leftKeyHandler(isLeftAltPressed, isRightAltPressed);
+            // Pause the execution of this feature for 250 milliseconds
+            if (wasAnyKeyPressed) {
+                shouldRun = false;
+                TimerTask timerTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        shouldRun = true;
+                    }
+                };
+                new Timer().schedule(timerTask, 250);
             }
         } catch (Exception e) {
             MainClass.errorLog("\nError encountered in Camera Controls feature.");
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Handles the key inputs
+     * @return True if any key is pressed.
+     */
+    private boolean keyListener() {
+        // https://minecraft.fandom.com/wiki/Key_codes
+        boolean isLeftAltPressed = InputUtil.isKeyPressed(
+                MinecraftClient.getInstance().getWindow().getHandle(),
+                InputUtil.fromTranslationKey("key.keyboard.left.alt").getCode()
+        );
+
+        boolean isRightAltPressed = InputUtil.isKeyPressed(
+                MinecraftClient.getInstance().getWindow().getHandle(),
+                InputUtil.fromTranslationKey("key.keyboard.right.alt").getCode()
+        );
+
+        boolean isUpKeyPressed = InputUtil.isKeyPressed(
+                minecraftClient.getWindow().getHandle(),
+                InputUtil.fromTranslationKey(up.getBoundKeyTranslationKey()).getCode()
+        );
+
+        boolean isRightKeyPressed = InputUtil.isKeyPressed(
+                minecraftClient.getWindow().getHandle(),
+                InputUtil.fromTranslationKey(right.getBoundKeyTranslationKey()).getCode()
+        );
+
+        boolean isDownKeyPressed = InputUtil.isKeyPressed(
+                minecraftClient.getWindow().getHandle(),
+                InputUtil.fromTranslationKey(down.getBoundKeyTranslationKey()).getCode()
+        );
+
+        boolean isLeftKeyPressed = InputUtil.isKeyPressed(
+                minecraftClient.getWindow().getHandle(),
+                InputUtil.fromTranslationKey(left.getBoundKeyTranslationKey()).getCode()
+        );
+
+
+        if (isUpKeyPressed) {
+            upKeyHandler(isLeftAltPressed, isRightAltPressed);
+            return true;
+        }
+
+        if (isRightKeyPressed) {
+            rightKeyHandler(isLeftAltPressed, isRightAltPressed);
+            return true;
+        }
+
+        if (isDownKeyPressed) {
+            downKeyHandler(isLeftAltPressed, isRightAltPressed);
+            return true;
+        }
+
+        if (isLeftKeyPressed) {
+            leftKeyHandler(isLeftAltPressed, isRightAltPressed);
+            return true;
+        }
+
+        return false;
     }
 
     /**

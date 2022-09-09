@@ -45,7 +45,9 @@ public class MainClass implements ModInitializer {
     }
 
     private void hudRenderCallbackMethod(MatrixStack matrixStack, float v) {
-        if (inventoryControls != null)inventoryControls.update();
+        if (inventoryControls != null) inventoryControls.update();
+
+        if (cameraControls != null) cameraControls.update();
     }
 
     /**
@@ -55,8 +57,6 @@ public class MainClass implements ModInitializer {
      */
     private void clientTickEventsMethod(MinecraftClient minecraftClient) {
         MenuFix.update(minecraftClient);
-
-        if (cameraControls != null) cameraControls.update(minecraftClient);
     }
 
     public static void infoLog(String msg) {
