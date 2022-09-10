@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -139,6 +140,7 @@ public class InventoryControls {
             boolean wasAnyKeyPressed = keyListener();
 
             currentScreen = (HandledScreenAccessor) minecraftClient.currentScreen;
+            currentSlotsGroupList = GroupGenerator.generateGroupsFromSlots(currentScreen);
 
             if (previousScreen != currentScreen) {
                 // Focus at the first slot of the first group if a new screen is opened or the total number of group changes
@@ -155,7 +157,6 @@ public class InventoryControls {
 
             // Pause the execution of this feature for 250 milliseconds
             if (wasAnyKeyPressed) {
-                MainClass.infoLog("YESS");
                 shouldRun = false;
                 TimerTask timerTask = new TimerTask() {
                     @Override
@@ -252,7 +253,7 @@ public class InventoryControls {
         if (currentSlotsGroupList.size() == 0) return;
 
         currentGroup = currentSlotsGroupList.get(0);
-        Narrator.getNarrator().say("%s %s Group selected".formatted(currentGroup.isScrollable?"Scrollable":"", currentGroup.groupName), interrupt);
+        Narrator.getNarrator().say("%s %s Group selected".formatted(currentGroup.isScrollable ? "Scrollable" : "", currentGroup.groupName), interrupt);
         focusGroupItem(currentGroup.getFirstGroupItem(), false);
     }
 
@@ -342,7 +343,7 @@ public class InventoryControls {
     private void focusGroupItem(@NotNull SlotItem slotItem, boolean interrupt) {
         currentSlotItem = slotItem;
         moveToSlot(currentSlotItem);
-        MainClass.infoLog("Slot %d/%d selected".formatted(slotItem.slot.getIndex() + 1, currentGroup.slotItems.size()));
+//        MainClass.infoLog("Slot %d/%d selected".formatted(slotItem.slot.getIndex() + 1, currentGroup.slotItems.size()));
 
         String toSpeak = getCurrentSlotNarrationText();
         if (toSpeak.length() > 0) {
@@ -352,6 +353,10 @@ public class InventoryControls {
     }
 
     private String getCurrentSlotNarrationText() {
+        if (currentSlotItem.slot == null) {
+            return Objects.requireNonNullElse(currentSlotItem.narratableText, "Unknown");
+        }
+
         if (!currentSlotItem.slot.hasStack()) {
             return "Empty Slot"; //TODO use i18n here
         }
@@ -375,7 +380,7 @@ public class InventoryControls {
         currentGroupIndex = nextGroupIndex;
         currentGroup = currentSlotsGroupList.get(currentGroupIndex);
         MainClass.infoLog("Group(name:%s) %d/%d selected".formatted(currentGroup.groupName, currentGroupIndex + 1, currentSlotsGroupList.size()));
-        Narrator.getNarrator().say("Group %s selected".formatted(currentGroup.groupName), true);
+        Narrator.getNarrator().say("%s %s Group selected".formatted(currentGroup.isScrollable ? "Scrollable" : "", currentGroup.groupName), true);
 
         focusGroupItem(currentGroup.getFirstGroupItem(), false);
     }
@@ -383,12 +388,11 @@ public class InventoryControls {
     private void moveToSlot(SlotItem slotItem) {
         if (slotItem == null) return;
 
-        // To get the centre of the groupItem
-        int centreX = slotItem.x/* + 9*/;
-        int centreY = slotItem.y/* + 9*/;
+        int x = slotItem.x;
+        int y = slotItem.y;
 
-        int targetX = (int) (minecraftClient.getWindow().getX() + ((currentScreen.getX() + centreX) * minecraftClient.getWindow().getScaleFactor()));
-        int targetY = (int) (minecraftClient.getWindow().getY() + ((currentScreen.getY() + centreY) * minecraftClient.getWindow().getScaleFactor()));
+        int targetX = (int) (minecraftClient.getWindow().getX() + ((currentScreen.getX() + x) * minecraftClient.getWindow().getScaleFactor()));
+        int targetY = (int) (minecraftClient.getWindow().getY() + ((currentScreen.getY() + y) * minecraftClient.getWindow().getScaleFactor()));
 
         MouseUtils.move(targetX, targetY);
     }

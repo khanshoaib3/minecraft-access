@@ -65,11 +65,7 @@ public class MouseUtils {
             return;
 
         try {
-            int x = 1, y = 1;
-            if (!minecraftClient.options.getFullscreen().getValue()) {
-                x += minecraftClient.getWindow().getX();
-                y += minecraftClient.getWindow().getY();
-            }
+            int x = (int) minecraftClient.mouse.getX(), y = (int) minecraftClient.mouse.getY();
             MainClass.infoLog("Performing left click at x:%d y:%d".formatted(x, y));
 
             if (OsUtils.isLinux()) {
@@ -98,11 +94,7 @@ public class MouseUtils {
             return;
 
         try {
-            int x = 1, y = 1;
-            if (!minecraftClient.options.getFullscreen().getValue()) {
-                x += minecraftClient.getWindow().getX();
-                y += minecraftClient.getWindow().getY();
-            }
+            int x = (int) minecraftClient.mouse.getX(), y = (int) minecraftClient.mouse.getY();
             MainClass.infoLog("Performing right click at x:%d y:%d".formatted(x, y));
 
             if (OsUtils.isLinux()) {

@@ -4,13 +4,17 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.mixin.HandledScreenAccessor;
 import com.github.khanshoaib3.minecraft_access.mixin.RecipeBookWidgetAccessor;
 import com.github.khanshoaib3.minecraft_access.mixin.SlotAccessor;
+import com.github.khanshoaib3.minecraft_access.mixin.StonecutterScreenAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.AbstractFurnaceScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.client.gui.screen.ingame.StonecutterScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.CraftingResultInventory;
+import net.minecraft.recipe.StonecuttingRecipe;
+import net.minecraft.screen.StonecutterScreenHandler;
 import net.minecraft.screen.slot.FurnaceFuelSlot;
 import net.minecraft.screen.slot.FurnaceOutputSlot;
 import net.minecraft.screen.slot.Slot;
@@ -77,6 +81,9 @@ public class GroupGenerator {
         SlotsGroup craftingInputGroup = new SlotsGroup("Crafting Input", null);
         SlotsGroup furnaceOutputGroup = new SlotsGroup("Furnace Output", null);
         SlotsGroup furnaceInputGroup = new SlotsGroup("Furnace Input", null);
+        SlotsGroup stoneCutterOutputGroup = new SlotsGroup("Stone Cutter Output", null);
+        SlotsGroup stoneCutterInputGroup = new SlotsGroup("Stone Cutter Input", null);
+        SlotsGroup stoneCutterRecipesGroup = new SlotsGroup("Stone Cutter Recipes", null);
         SlotsGroup fuelInputGroup = new SlotsGroup("Fuel Input", null);
         SlotsGroup tradeOutputGroup = new SlotsGroup("Trade Output", null);
         SlotsGroup tradeInputGroup = new SlotsGroup("Trade Input", null);
@@ -133,6 +140,16 @@ public class GroupGenerator {
 
             if (s instanceof TradeOutputSlot) {
                 tradeOutputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if (MinecraftClient.getInstance().currentScreen instanceof StonecutterScreen && index == 0) {
+                stoneCutterInputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if (MinecraftClient.getInstance().currentScreen instanceof StonecutterScreen && index == 1) {
+                stoneCutterOutputGroup.slotItems.add(new SlotItem(s));
             }
         }
 
@@ -181,6 +198,40 @@ public class GroupGenerator {
         if (tradeOutputGroup.slotItems.size() > 0) {
             foundGroups.add(tradeOutputGroup);
         }
+
+        if (stoneCutterInputGroup.slotItems.size() > 0) {
+            foundGroups.add(stoneCutterInputGroup);
+        }
+
+        if (stoneCutterOutputGroup.slotItems.size() > 0) {
+            foundGroups.add(stoneCutterOutputGroup);
+        }
+
+        if (MinecraftClient.getInstance().currentScreen instanceof StonecutterScreen stonecutterScreen) {
+            // Refer to StonecutterScreen.java -->> renderRecipeIcons()
+            int x = ((HandledScreenAccessor) stonecutterScreen).getX() + 52;
+            int y = ((HandledScreenAccessor) stonecutterScreen).getY() + 14;
+            int scrollOffset = ((StonecutterScreenAccessor) stonecutterScreen).getScrollOffset();
+            List<StonecuttingRecipe> list = stonecutterScreen.getScreenHandler().getAvailableRecipes();
+
+            for (int i = scrollOffset; i < scrollOffset + 12 && i < stonecutterScreen.getScreenHandler().getAvailableRecipeCount(); ++i) {
+                int j = i - scrollOffset;
+                int k = x + j % 4 * 16;
+                int l = j / 4;
+                int m = y + l * 18 + 2;
+
+                int realX = k - ((HandledScreenAccessor) stonecutterScreen).getX() + 8;
+                int realY = m - ((HandledScreenAccessor) stonecutterScreen).getY() + 8;
+                stoneCutterRecipesGroup.slotItems.add(new SlotItem(realX, realY, list.get(i).getOutput()));
+            }
+
+            stoneCutterRecipesGroup.isScrollable = true;
+            if (stoneCutterRecipesGroup.slotItems.size() > 0) {
+                stoneCutterRecipesGroup.mapTheGroupList(4);
+                foundGroups.add(stoneCutterRecipesGroup);
+            }
+        }
+
 
         return foundGroups;
     }
