@@ -156,7 +156,6 @@ public class GroupGenerator {
 
             //<editor-fold desc="Group forging screen(smithing and anvil screens) slot items">
             if (screen.getHandler() instanceof ForgingScreenHandler && (index == 0 || index == 1)) {
-                //FIXME fix the renaming thing for anvils
                 if (screen.getHandler() instanceof SmithingScreenHandler && index == 1)
                     netheriteIngotInputGroup.slotItems.add(new SlotItem(s));
                 else
@@ -165,6 +164,18 @@ public class GroupGenerator {
             }
 
             if (screen.getHandler() instanceof ForgingScreenHandler && index == 2) {
+                itemOutputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+            //</editor-fold>
+
+            //<editor-fold desc="Group grind stone screen slot items">
+            if (screen.getHandler() instanceof GrindstoneScreenHandler && (index == 0 || index == 1)) {
+                itemInputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if (screen.getHandler() instanceof GrindstoneScreenHandler && index == 2) {
                 itemOutputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
