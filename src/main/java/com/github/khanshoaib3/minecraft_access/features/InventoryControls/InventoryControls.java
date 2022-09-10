@@ -383,8 +383,8 @@ public class InventoryControls {
         if (currentSlotsGroupList.size() == 0) return;
 
         currentGroupIndex = 0;
-        MainClass.infoLog("Group(name:%s) %d/%d selected".formatted(currentGroup.groupName, currentGroupIndex + 1, currentSlotsGroupList.size()));
         currentGroup = currentSlotsGroupList.get(0);
+        MainClass.infoLog("Group(name:%s) %d/%d selected".formatted(currentGroup.groupName, currentGroupIndex + 1, currentSlotsGroupList.size()));
         Narrator.getNarrator().say("%s %s Group selected".formatted(currentGroup.isScrollable ? "Scrollable" : "", currentGroup.groupName), interrupt);
         focusGroupItem(currentGroup.getFirstGroupItem(), false);
     }

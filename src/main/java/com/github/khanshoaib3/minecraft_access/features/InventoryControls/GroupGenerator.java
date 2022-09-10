@@ -56,6 +56,8 @@ public class GroupGenerator {
         SlotsGroup fuelInputGroup = new SlotsGroup("Fuel Input", null);
         SlotsGroup tradeOutputGroup = new SlotsGroup("Trade Output", null);
         SlotsGroup tradeInputGroup = new SlotsGroup("Trade Input", null);
+        SlotsGroup cartographyOutputGroup = new SlotsGroup("Cartography Output", null);
+        SlotsGroup cartographyInputGroup = new SlotsGroup("Cartography Input", null);
         SlotsGroup blockInventoryGroup = new SlotsGroup("Block Inventory", null);
         SlotsGroup unknownGroup = new SlotsGroup("Unknown", null);
 
@@ -76,16 +78,6 @@ public class GroupGenerator {
             }
             if (s.inventory instanceof PlayerInventory && index == 40) {
                 offHandGroup.slotItems.add(new SlotItem(s));
-                continue;
-            }
-
-            if (s.inventory instanceof CraftingResultInventory && !(s instanceof FurnaceOutputSlot)) {
-                craftingOutputGroup.slotItems.add(new SlotItem(s));
-                continue;
-            }
-
-            if (s.inventory instanceof CraftingInventory) {
-                craftingInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
@@ -124,18 +116,38 @@ public class GroupGenerator {
                 continue;
             }
 
-            if(screen.getHandler() instanceof GenericContainerScreenHandler && s.inventory instanceof SimpleInventory){
+            if (screen.getHandler() instanceof GenericContainerScreenHandler && s.inventory instanceof SimpleInventory) {
                 blockInventoryGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
-            if(screen.getHandler() instanceof Generic3x3ContainerScreenHandler && s.inventory instanceof SimpleInventory){
+            if (screen.getHandler() instanceof Generic3x3ContainerScreenHandler && s.inventory instanceof SimpleInventory) {
                 blockInventoryGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
-            if(screen.getHandler() instanceof HopperScreenHandler && s.inventory instanceof SimpleInventory){
+            if (screen.getHandler() instanceof HopperScreenHandler && s.inventory instanceof SimpleInventory) {
                 blockInventoryGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if (screen.getHandler() instanceof CartographyTableScreenHandler && (index == 0 || index == 1)) {
+                cartographyInputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if (screen.getHandler() instanceof CartographyTableScreenHandler && index == 2) {
+                cartographyOutputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if (s.inventory instanceof CraftingResultInventory && !(s instanceof FurnaceOutputSlot)) {
+                craftingOutputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if (s.inventory instanceof CraftingInventory) {
+                craftingInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
@@ -196,12 +208,21 @@ public class GroupGenerator {
             foundGroups.add(stoneCutterOutputGroup);
         }
 
-        if(blockInventoryGroup.slotItems.size()>0){
-            if(screen.getHandler() instanceof Generic3x3ContainerScreenHandler)
+        if (cartographyInputGroup.slotItems.size() > 0) {
+            cartographyInputGroup.mapTheGroupList(2, true);
+            foundGroups.add(cartographyInputGroup);
+        }
+
+        if (cartographyOutputGroup.slotItems.size() > 0) {
+            foundGroups.add(cartographyOutputGroup);
+        }
+
+        if (blockInventoryGroup.slotItems.size() > 0) {
+            if (screen.getHandler() instanceof Generic3x3ContainerScreenHandler)
                 blockInventoryGroup.mapTheGroupList(3);
-            else if(screen.getHandler() instanceof GenericContainerScreenHandler)
+            else if (screen.getHandler() instanceof GenericContainerScreenHandler)
                 blockInventoryGroup.mapTheGroupList(9);
-            else if(screen.getHandler() instanceof HopperScreenHandler)
+            else if (screen.getHandler() instanceof HopperScreenHandler)
                 blockInventoryGroup.mapTheGroupList(5);
             foundGroups.add(blockInventoryGroup);
         }
