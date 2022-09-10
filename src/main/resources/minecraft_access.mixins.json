@@ -4,14 +4,15 @@
   "package": "com.github.khanshoaib3.minecraft_access.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "RecipeBookWidgetAccessor"
   ],
   "client": [
+    "ClickableWidgetAccessor",
     "CreativeInventoryScreenAccessor",
     "HandledScreenAccessor",
     "NarratorLinuxMixin",
     "NarratorWindowsMixin",
-    "SlotAccessor",
-    "ClickableWidgetAccessor"
+    "SlotAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

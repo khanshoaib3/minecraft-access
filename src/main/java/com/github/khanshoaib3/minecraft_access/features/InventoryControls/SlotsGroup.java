@@ -55,6 +55,10 @@ public class SlotsGroup {
         return (slotItem.rightSlotItem != null) || (slotItem.x != this.getLastGroupItem().x);
     }
 
+    void mapTheGroupList(int factor){
+        mapTheGroupList(factor, false);
+    }
+
     // Maps the list into 2d form like a matrix, the factor being the no. of columns and transpose is whether to transpose the matrix or not
     void mapTheGroupList(int factor, boolean transpose) {
         int size = this.slotItems.size();
