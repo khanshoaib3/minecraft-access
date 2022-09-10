@@ -1,10 +1,9 @@
 package com.github.khanshoaib3.minecraft_access.features.InventoryControls;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.mixin.HandledScreenAccessor;
-import com.github.khanshoaib3.minecraft_access.mixin.RecipeBookWidgetAccessor;
-import com.github.khanshoaib3.minecraft_access.mixin.SlotAccessor;
-import com.github.khanshoaib3.minecraft_access.mixin.StonecutterScreenAccessor;
+import com.github.khanshoaib3.minecraft_access.mixin.*;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.*;
 import net.minecraft.entity.player.PlayerInventory;
@@ -17,6 +16,7 @@ import net.minecraft.screen.slot.FurnaceFuelSlot;
 import net.minecraft.screen.slot.FurnaceOutputSlot;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.TradeOutputSlot;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.village.MerchantInventory;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,6 +52,9 @@ public class GroupGenerator {
         SlotsGroup fuelInputGroup = new SlotsGroup("Fuel Input", null);
         SlotsGroup craftingOutputGroup = new SlotsGroup("Crafting Output", null);
         SlotsGroup craftingInputGroup = new SlotsGroup("Crafting Input", null);
+        SlotsGroup bannerInputGroup = new SlotsGroup("Banner Input", null);
+        SlotsGroup dyeInputGroup = new SlotsGroup("Dye Input", null);
+        SlotsGroup patternInputGroup = new SlotsGroup("Pattern Input", null);
         SlotsGroup blockInventoryGroup = new SlotsGroup("Block Inventory", null);
         SlotsGroup unknownGroup = new SlotsGroup("Unknown", null);
 
@@ -90,12 +93,12 @@ public class GroupGenerator {
                 continue;
             }
 
-            if (screen.getHandler() instanceof MerchantScreenHandler && (index==0||index==1)) {
+            if (screen.getHandler() instanceof MerchantScreenHandler && (index == 0 || index == 1)) {
                 itemInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
-            if (screen.getHandler() instanceof MerchantScreenHandler && index==2) {
+            if (screen.getHandler() instanceof MerchantScreenHandler && index == 2) {
                 itemOutputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
@@ -112,6 +115,25 @@ public class GroupGenerator {
 
             if (screen.getHandler() instanceof CartographyTableScreenHandler && (index == 0 || index == 1)) {
                 itemInputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if (screen.getHandler() instanceof LoomScreenHandler && index == 0) {
+                if (s.inventory.size() == 3) {
+                    bannerInputGroup.slotItems.add(new SlotItem(s));
+                } else if (s.inventory.size() == 1) {
+                    itemOutputGroup.slotItems.add(new SlotItem(s));
+                }
+                continue;
+            }
+
+            if (screen.getHandler() instanceof LoomScreenHandler && index == 1) {
+                dyeInputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if (screen.getHandler() instanceof LoomScreenHandler && index == 2) {
+                patternInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
@@ -185,6 +207,18 @@ public class GroupGenerator {
             foundGroups.add(itemOutputGroup);
         }
 
+        if (bannerInputGroup.slotItems.size() > 0) {
+            foundGroups.add(bannerInputGroup);
+        }
+
+        if (dyeInputGroup.slotItems.size() > 0) {
+            foundGroups.add(dyeInputGroup);
+        }
+
+        if (patternInputGroup.slotItems.size() > 0) {
+            foundGroups.add(patternInputGroup);
+        }
+
         if (blockInventoryGroup.slotItems.size() > 0) {
             if (screen.getHandler() instanceof Generic3x3ContainerScreenHandler)
                 blockInventoryGroup.mapTheGroupList(3);
@@ -201,10 +235,9 @@ public class GroupGenerator {
 
         if (MinecraftClient.getInstance().currentScreen instanceof StonecutterScreen stonecutterScreen) {
             // Refer to StonecutterScreen.java -->> renderRecipeIcons()
-            int x = ((HandledScreenAccessor) stonecutterScreen).getX() + 52;
-            int y = ((HandledScreenAccessor) stonecutterScreen).getY() + 14;
+            int x = screen.getX() + 52;
+            int y = screen.getY() + 14;
             int scrollOffset = ((StonecutterScreenAccessor) stonecutterScreen).getScrollOffset();
-            List<StonecuttingRecipe> list = stonecutterScreen.getScreenHandler().getAvailableRecipes();
 
             for (int i = scrollOffset; i < scrollOffset + 12 && i < stonecutterScreen.getScreenHandler().getAvailableRecipeCount(); ++i) {
                 int j = i - scrollOffset;
@@ -212,16 +245,43 @@ public class GroupGenerator {
                 int l = j / 4;
                 int m = y + l * 18 + 2;
 
-                int realX = k - ((HandledScreenAccessor) stonecutterScreen).getX() + 8;
-                int realY = m - ((HandledScreenAccessor) stonecutterScreen).getY() + 8;
-                recipesGroup.slotItems.add(new SlotItem(realX, realY, list.get(i).getOutput()));
+                int realX = k - screen.getX() + 8;
+                int realY = m - screen.getY() + 8;
+                recipesGroup.slotItems.add(new SlotItem(realX, realY, j));
             }
+        }
 
-            recipesGroup.isScrollable = true;
-            if (recipesGroup.slotItems.size() > 0) {
-                recipesGroup.mapTheGroupList(4);
-                foundGroups.add(recipesGroup);
+        if (screen instanceof LoomScreen loomScreen) {
+            // TODO add tutorial on wiki
+            // Refer to LoomScreen.java -->> drawBackground()
+            int i = screen.getX();
+            int j = screen.getY();
+            if (((LoomScreenAccessor) loomScreen).isCanApplyDyePattern()) {
+                int l = i + 60;
+                int m = j + 13;
+                List<RegistryEntry<BannerPattern>> list = loomScreen.getScreenHandler().getBannerPatterns();
+                block0:
+                for (int n = 0; n < 4; ++n) {
+                    for (int o = 0; o < 4; ++o) {
+                        int p = n + ((LoomScreenAccessor) loomScreen).getVisibleTopRow();
+                        int q = p * 4 + o;
+                        if (q >= list.size()) break block0;
+                        int r = l + o * 14;
+                        int s = m + n * 14;
+
+                        int realX = r - screen.getX() + 8;
+                        int realY = s - screen.getY() + 8;
+
+                        recipesGroup.slotItems.add(new SlotItem(realX, realY, n, o));
+                    }
+                }
             }
+        }
+
+        if (recipesGroup.slotItems.size() > 0) {
+            recipesGroup.isScrollable = true;
+            recipesGroup.mapTheGroupList(4);
+            foundGroups.add(recipesGroup);
         }
 
         return foundGroups;

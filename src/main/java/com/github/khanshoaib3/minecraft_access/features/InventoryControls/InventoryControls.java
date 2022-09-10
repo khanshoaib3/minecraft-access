@@ -347,7 +347,7 @@ public class InventoryControls {
 
     private String getCurrentSlotNarrationText() {
         if (currentSlotItem.slot == null) {
-            return Objects.requireNonNullElse(currentSlotItem.narratableText, "Unknown");
+            return Objects.requireNonNullElse(currentSlotItem.getNarratableText(), "Unknown");
         }
 
         if (!currentSlotItem.slot.hasStack()) {
