@@ -4,12 +4,12 @@
   "package": "com.github.khanshoaib3.minecraft_access.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "LoomScreenAccessor",
-    "RecipeBookWidgetAccessor",
-    "StonecutterScreenAccessor"
   ],
   "client": [
-    "ClickableWidgetAccessor",
+    "StonecutterScreenAccessor",
+    "RecipeBookWidgetAccessor",
+    "LoomScreenAccessor",
+    "AnvilScreenAccessor",
     "CreativeInventoryScreenAccessor",
     "HandledScreenAccessor",
     "NarratorLinuxMixin",

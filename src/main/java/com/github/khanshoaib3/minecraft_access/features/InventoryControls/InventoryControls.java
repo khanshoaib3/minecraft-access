@@ -1,13 +1,14 @@
 package com.github.khanshoaib3.minecraft_access.features.InventoryControls;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.mixin.ClickableWidgetAccessor;
+import com.github.khanshoaib3.minecraft_access.mixin.AnvilScreenAccessor;
 import com.github.khanshoaib3.minecraft_access.mixin.CreativeInventoryScreenAccessor;
 import com.github.khanshoaib3.minecraft_access.mixin.HandledScreenAccessor;
 import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
 import com.mojang.text2speech.Narrator;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ingame.AnvilScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.item.TooltipContext;
@@ -144,10 +145,13 @@ public class InventoryControls {
             currentScreen = (HandledScreenAccessor) minecraftClient.currentScreen;
             currentSlotsGroupList = GroupGenerator.generateGroupsFromSlots(currentScreen);
 
+            // On screen open
             if (previousScreen != currentScreen) {
-                // Focus at the first slot of the first group if a new screen is opened or the total number of group changes
                 previousScreen = currentScreen;
-                refreshGroupListAndSelectFirstGroup(true);
+                if (currentScreen instanceof AnvilScreen anvilScreen) {
+                    ((AnvilScreenAccessor) anvilScreen).getNameField().setTextFieldFocused(false);
+                }
+                refreshGroupListAndSelectFirstGroup(false); // Interrupt is false to let it speak the screen's name
             }
 
             if (currentSlotsGroupList.size() == 0) return;
@@ -189,12 +193,22 @@ public class InventoryControls {
         boolean isTPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.t").getCode());
         boolean disableInputForSearchBox = false;
 
-        if (minecraftClient.currentScreen instanceof CreativeInventoryScreen creativeInventoryScreen && ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox().isActive()) {
+        if (currentScreen instanceof CreativeInventoryScreen creativeInventoryScreen && ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox().isActive()) {
             disableInputForSearchBox = true;
             if (isEnterPressed) {
                 MainClass.infoLog("Enter key pressed, deselecting the search box.");
-                ((ClickableWidgetAccessor) ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox()).setFocused(false);
+                ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox().setTextFieldFocused(false);
                 refreshGroupListAndSelectFirstGroup(true);
+                return true;
+            }
+        }
+
+        if (currentScreen instanceof AnvilScreen anvilScreen && ((AnvilScreenAccessor) anvilScreen).getNameField().isActive()) {
+            disableInputForSearchBox = true;
+            if (isEnterPressed) {
+                MainClass.infoLog("Enter key pressed, deselecting the search box.");
+                ((AnvilScreenAccessor) anvilScreen).getNameField().setTextFieldFocused(false);
+                previousSlotText = "";
                 return true;
             }
         }
@@ -241,9 +255,13 @@ public class InventoryControls {
             MainClass.infoLog("Left key pressed");
             focusSlotAt(FocusDirection.LEFT);
             return true;
-        } else if (isTPressed && minecraftClient.currentScreen instanceof CreativeInventoryScreen creativeInventoryScreen && creativeInventoryScreen.getSelectedTab() == 5) {
+        } else if (isTPressed) {
+            if (currentScreen instanceof CreativeInventoryScreen creativeInventoryScreen && creativeInventoryScreen.getSelectedTab() == 5) {
+                ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox().setTextFieldFocused(true);
+            } else if (currentScreen instanceof AnvilScreen anvilScreen) {
+                ((AnvilScreenAccessor) anvilScreen).getNameField().setTextFieldFocused(true);
+            }
             MainClass.infoLog("T key pressed, selecting the search box.");
-            ((ClickableWidgetAccessor) ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox()).setFocused(true);
             return true;
         }
 
@@ -251,7 +269,7 @@ public class InventoryControls {
     }
 
     private void changeTab(boolean goForward) {
-        if (!(minecraftClient.currentScreen instanceof CreativeInventoryScreen creativeInventoryScreen)) return;
+        if (!(currentScreen instanceof CreativeInventoryScreen creativeInventoryScreen)) return;
 
         int nextTabIndex = creativeInventoryScreen.getSelectedTab() + (goForward ? 1 : -1);
         nextTabIndex = MathHelper.clamp(nextTabIndex, 0, 11);

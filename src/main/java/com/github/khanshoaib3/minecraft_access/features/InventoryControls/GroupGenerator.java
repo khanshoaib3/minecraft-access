@@ -54,6 +54,7 @@ public class GroupGenerator {
         SlotsGroup bannerInputGroup = new SlotsGroup("Banner Input", null);
         SlotsGroup dyeInputGroup = new SlotsGroup("Dye Input", null);
         SlotsGroup patternInputGroup = new SlotsGroup("Pattern Input", null);
+        SlotsGroup netheriteIngotInputGroup = new SlotsGroup("Netherite Ingot Input", null);
         SlotsGroup blockInventoryGroup = new SlotsGroup("Block Inventory", null);
         SlotsGroup unknownGroup = new SlotsGroup("Unknown", null);
 
@@ -153,6 +154,22 @@ public class GroupGenerator {
             }
             //</editor-fold>
 
+            //<editor-fold desc="Group forging screen(smithing and anvil screens) slot items">
+            if (screen.getHandler() instanceof ForgingScreenHandler && (index == 0 || index == 1)) {
+                //FIXME fix the renaming thing for anvils
+                if (screen.getHandler() instanceof SmithingScreenHandler && index == 1)
+                    netheriteIngotInputGroup.slotItems.add(new SlotItem(s));
+                else
+                    itemInputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if (screen.getHandler() instanceof ForgingScreenHandler && index == 2) {
+                itemOutputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+            //</editor-fold>
+
             //<editor-fold desc="Group storage container(chests, hopper, dispenser, etc.) inventory slot items">
             if (screen.getHandler() instanceof GenericContainerScreenHandler && s.inventory instanceof SimpleInventory) {
                 blockInventoryGroup.slotItems.add(new SlotItem(s));
@@ -186,7 +203,7 @@ public class GroupGenerator {
         }
 
         //<editor-fold desc="Group recipe group slot items if any">
-        if (MinecraftClient.getInstance().currentScreen instanceof StonecutterScreen stonecutterScreen) {
+        if (screen instanceof StonecutterScreen stonecutterScreen) {
             // Refer to StonecutterScreen.java -->> renderRecipeIcons()
             int x = screen.getX() + 52;
             int y = screen.getY() + 14;
@@ -269,11 +286,16 @@ public class GroupGenerator {
         }
 
         if (itemInputGroup.slotItems.size() > 0) {
+            itemInputGroup.mapTheGroupList(4);
             foundGroups.add(itemInputGroup);
         }
 
         if (fuelInputGroup.slotItems.size() > 0) {
             foundGroups.add(fuelInputGroup);
+        }
+
+        if (netheriteIngotInputGroup.slotItems.size() > 0) {
+            foundGroups.add(netheriteIngotInputGroup);
         }
 
         if (bannerInputGroup.slotItems.size() > 0) {
@@ -303,6 +325,7 @@ public class GroupGenerator {
         }
 
         if (itemOutputGroup.slotItems.size() > 0) {
+            itemOutputGroup.mapTheGroupList(4);
             foundGroups.add(itemOutputGroup);
         }
 
