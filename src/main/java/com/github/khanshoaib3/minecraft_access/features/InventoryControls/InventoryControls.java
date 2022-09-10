@@ -358,7 +358,7 @@ public class InventoryControls {
         }
 
         if (!currentSlotItem.slot.hasStack()) {
-            return "Empty Slot"; //TODO use i18n here
+            return "%s Empty Slot".formatted(currentGroup.getSlotPrefix(currentSlotItem.slot)); //TODO use i18n here
         }
 
         String info = "%s %d".formatted(currentGroup.getSlotPrefix(currentSlotItem.slot), currentSlotItem.slot.getStack().getCount());

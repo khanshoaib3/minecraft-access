@@ -14,7 +14,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.recipe.StonecuttingRecipe;
-import net.minecraft.screen.StonecutterScreenHandler;
 import net.minecraft.screen.slot.FurnaceFuelSlot;
 import net.minecraft.screen.slot.FurnaceOutputSlot;
 import net.minecraft.screen.slot.Slot;
@@ -56,7 +55,7 @@ public class GroupGenerator {
     }
 
     public static List<SlotsGroup> generateGroupsFromSlots(HandledScreenAccessor screen) {
-        List<SlotsGroup> foundGroups = new ArrayList<>();
+        List<SlotsGroup> foundGroups;
 
         if (screen instanceof CreativeInventoryScreen creativeInventoryScreen) {
             foundGroups = forCreativeInventoryScreen(creativeInventoryScreen);
@@ -87,6 +86,7 @@ public class GroupGenerator {
         SlotsGroup fuelInputGroup = new SlotsGroup("Fuel Input", null);
         SlotsGroup tradeOutputGroup = new SlotsGroup("Trade Output", null);
         SlotsGroup tradeInputGroup = new SlotsGroup("Trade Input", null);
+        SlotsGroup unknownGroup = new SlotsGroup("Unknown", null);
 
         for (Slot s : slots) {
             int index = ((SlotAccessor) s).getInventoryIndex();
@@ -108,7 +108,7 @@ public class GroupGenerator {
                 continue;
             }
 
-            if (s.inventory instanceof CraftingResultInventory) {
+            if (s.inventory instanceof CraftingResultInventory && !(s instanceof FurnaceOutputSlot)) {
                 craftingOutputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
@@ -150,7 +150,10 @@ public class GroupGenerator {
 
             if (MinecraftClient.getInstance().currentScreen instanceof StonecutterScreen && index == 1) {
                 stoneCutterOutputGroup.slotItems.add(new SlotItem(s));
+                continue;
             }
+
+            unknownGroup.slotItems.add(new SlotItem(s));
         }
 
         if (armourGroup.slotItems.size() > 0)
@@ -207,6 +210,10 @@ public class GroupGenerator {
             foundGroups.add(stoneCutterOutputGroup);
         }
 
+        if (unknownGroup.slotItems.size() > 0) {
+            foundGroups.add(unknownGroup);
+        }
+
         if (MinecraftClient.getInstance().currentScreen instanceof StonecutterScreen stonecutterScreen) {
             // Refer to StonecutterScreen.java -->> renderRecipeIcons()
             int x = ((HandledScreenAccessor) stonecutterScreen).getX() + 52;
@@ -231,7 +238,6 @@ public class GroupGenerator {
                 foundGroups.add(stoneCutterRecipesGroup);
             }
         }
-
 
         return foundGroups;
     }
