@@ -46,18 +46,12 @@ public class GroupGenerator {
         SlotsGroup playerInventoryGroup = new SlotsGroup("Player Inventory", null);
         SlotsGroup armourGroup = new SlotsGroup("Armour", null);
         SlotsGroup offHandGroup = new SlotsGroup("Off Hand", null);
+        SlotsGroup itemOutputGroup = new SlotsGroup("Item Output", null);
+        SlotsGroup itemInputGroup = new SlotsGroup("Item Input", null);
+        SlotsGroup recipesGroup = new SlotsGroup("Recipes", null);
+        SlotsGroup fuelInputGroup = new SlotsGroup("Fuel Input", null);
         SlotsGroup craftingOutputGroup = new SlotsGroup("Crafting Output", null);
         SlotsGroup craftingInputGroup = new SlotsGroup("Crafting Input", null);
-        SlotsGroup furnaceOutputGroup = new SlotsGroup("Furnace Output", null);
-        SlotsGroup furnaceInputGroup = new SlotsGroup("Furnace Input", null);
-        SlotsGroup stoneCutterOutputGroup = new SlotsGroup("Stone Cutter Output", null);
-        SlotsGroup stoneCutterInputGroup = new SlotsGroup("Stone Cutter Input", null);
-        SlotsGroup stoneCutterRecipesGroup = new SlotsGroup("Stone Cutter Recipes", null);
-        SlotsGroup fuelInputGroup = new SlotsGroup("Fuel Input", null);
-        SlotsGroup tradeOutputGroup = new SlotsGroup("Trade Output", null);
-        SlotsGroup tradeInputGroup = new SlotsGroup("Trade Input", null);
-        SlotsGroup cartographyOutputGroup = new SlotsGroup("Cartography Output", null);
-        SlotsGroup cartographyInputGroup = new SlotsGroup("Cartography Input", null);
         SlotsGroup blockInventoryGroup = new SlotsGroup("Block Inventory", null);
         SlotsGroup unknownGroup = new SlotsGroup("Unknown", null);
 
@@ -81,38 +75,48 @@ public class GroupGenerator {
                 continue;
             }
 
-            if (s instanceof FurnaceOutputSlot && index == 2) {
-                furnaceOutputGroup.slotItems.add(new SlotItem(s));
+            if (screen.getHandler() instanceof AbstractFurnaceScreenHandler && index == 2) {
+                itemOutputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
-            if (s instanceof FurnaceFuelSlot && index == 1) {
+            if (screen.getHandler() instanceof AbstractFurnaceScreenHandler && index == 1) {
                 fuelInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
             if (screen.getHandler() instanceof AbstractFurnaceScreenHandler && index == 0) {
-                furnaceInputGroup.slotItems.add(new SlotItem(s));
+                itemInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
-            if (s.inventory instanceof MerchantInventory && !(s instanceof TradeOutputSlot)) {
-                tradeInputGroup.slotItems.add(new SlotItem(s));
+            if (screen.getHandler() instanceof MerchantScreenHandler && (index==0||index==1)) {
+                itemInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
-            if (s instanceof TradeOutputSlot) {
-                tradeOutputGroup.slotItems.add(new SlotItem(s));
+            if (screen.getHandler() instanceof MerchantScreenHandler && index==2) {
+                itemOutputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
             if (screen.getHandler() instanceof StonecutterScreenHandler && index == 0) {
-                stoneCutterInputGroup.slotItems.add(new SlotItem(s));
+                itemInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
             if (screen.getHandler() instanceof StonecutterScreenHandler && index == 1) {
-                stoneCutterOutputGroup.slotItems.add(new SlotItem(s));
+                itemOutputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if (screen.getHandler() instanceof CartographyTableScreenHandler && (index == 0 || index == 1)) {
+                itemInputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if (screen.getHandler() instanceof CartographyTableScreenHandler && index == 2) {
+                itemOutputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
@@ -131,23 +135,13 @@ public class GroupGenerator {
                 continue;
             }
 
-            if (screen.getHandler() instanceof CartographyTableScreenHandler && (index == 0 || index == 1)) {
-                cartographyInputGroup.slotItems.add(new SlotItem(s));
-                continue;
-            }
-
-            if (screen.getHandler() instanceof CartographyTableScreenHandler && index == 2) {
-                cartographyOutputGroup.slotItems.add(new SlotItem(s));
-                continue;
-            }
-
             if (s.inventory instanceof CraftingResultInventory && !(s instanceof FurnaceOutputSlot)) {
-                craftingOutputGroup.slotItems.add(new SlotItem(s));
+                itemOutputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
             if (s.inventory instanceof CraftingInventory) {
-                craftingInputGroup.slotItems.add(new SlotItem(s));
+                itemInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
@@ -179,42 +173,16 @@ public class GroupGenerator {
             foundGroups.add(craftingOutputGroup);
         }
 
-        if (furnaceInputGroup.slotItems.size() > 0) {
-            foundGroups.add(furnaceInputGroup);
+        if (itemInputGroup.slotItems.size() > 0) {
+            foundGroups.add(itemInputGroup);
         }
 
         if (fuelInputGroup.slotItems.size() > 0) {
             foundGroups.add(fuelInputGroup);
         }
 
-        if (furnaceOutputGroup.slotItems.size() > 0) {
-            foundGroups.add(furnaceOutputGroup);
-        }
-
-        if (tradeInputGroup.slotItems.size() > 0) {
-            tradeInputGroup.mapTheGroupList(4);
-            foundGroups.add(tradeInputGroup);
-        }
-
-        if (tradeOutputGroup.slotItems.size() > 0) {
-            foundGroups.add(tradeOutputGroup);
-        }
-
-        if (stoneCutterInputGroup.slotItems.size() > 0) {
-            foundGroups.add(stoneCutterInputGroup);
-        }
-
-        if (stoneCutterOutputGroup.slotItems.size() > 0) {
-            foundGroups.add(stoneCutterOutputGroup);
-        }
-
-        if (cartographyInputGroup.slotItems.size() > 0) {
-            cartographyInputGroup.mapTheGroupList(2, true);
-            foundGroups.add(cartographyInputGroup);
-        }
-
-        if (cartographyOutputGroup.slotItems.size() > 0) {
-            foundGroups.add(cartographyOutputGroup);
+        if (itemOutputGroup.slotItems.size() > 0) {
+            foundGroups.add(itemOutputGroup);
         }
 
         if (blockInventoryGroup.slotItems.size() > 0) {
@@ -246,13 +214,13 @@ public class GroupGenerator {
 
                 int realX = k - ((HandledScreenAccessor) stonecutterScreen).getX() + 8;
                 int realY = m - ((HandledScreenAccessor) stonecutterScreen).getY() + 8;
-                stoneCutterRecipesGroup.slotItems.add(new SlotItem(realX, realY, list.get(i).getOutput()));
+                recipesGroup.slotItems.add(new SlotItem(realX, realY, list.get(i).getOutput()));
             }
 
-            stoneCutterRecipesGroup.isScrollable = true;
-            if (stoneCutterRecipesGroup.slotItems.size() > 0) {
-                stoneCutterRecipesGroup.mapTheGroupList(4);
-                foundGroups.add(stoneCutterRecipesGroup);
+            recipesGroup.isScrollable = true;
+            if (recipesGroup.slotItems.size() > 0) {
+                recipesGroup.mapTheGroupList(4);
+                foundGroups.add(recipesGroup);
             }
         }
 
@@ -384,8 +352,8 @@ public class GroupGenerator {
             foundGroups.add(deleteItemGroup);
         } else {
             SlotsGroup hotbarGroup = new SlotsGroup("Hotbar", null);
-            SlotsGroup tabplayerInventoryGroup = new SlotsGroup("Tab Inventory", null);
-            tabplayerInventoryGroup.isScrollable = true;
+            SlotsGroup tabInventoryGroup = new SlotsGroup("Tab Inventory", null);
+            tabInventoryGroup.isScrollable = true;
 
             for (Slot s : slots) {
                 if (s.x < 0 || s.y < 0) continue;
@@ -398,14 +366,14 @@ public class GroupGenerator {
                 }
 
                 if (index >= 0 && index <= 44) {
-                    tabplayerInventoryGroup.slotItems.add(new SlotItem(s));
+                    tabInventoryGroup.slotItems.add(new SlotItem(s));
                 }
             }
 
-            tabplayerInventoryGroup.mapTheGroupList(9);
+            tabInventoryGroup.mapTheGroupList(9);
             hotbarGroup.mapTheGroupList(9);
 
-            foundGroups.add(tabplayerInventoryGroup);
+            foundGroups.add(tabInventoryGroup);
             foundGroups.add(hotbarGroup);
         }
         return foundGroups;
