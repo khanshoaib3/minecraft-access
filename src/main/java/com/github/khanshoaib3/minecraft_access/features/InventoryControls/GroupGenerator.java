@@ -3,7 +3,6 @@ package com.github.khanshoaib3.minecraft_access.features.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.mixin.*;
 import net.minecraft.block.entity.BannerPattern;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.screen.ingame.LoomScreen;
@@ -40,7 +39,7 @@ public class GroupGenerator {
 
         List<Slot> slots = new ArrayList<>(screen.getHandler().slots);
 
-        // TODO use i18n instead
+        // TODO use i18n here
         SlotsGroup hotbarGroup = new SlotsGroup("Hotbar", null);
         SlotsGroup playerInventoryGroup = new SlotsGroup("Player Inventory", null);
         SlotsGroup armourGroup = new SlotsGroup("Armour", null);
@@ -55,6 +54,8 @@ public class GroupGenerator {
         SlotsGroup dyeInputGroup = new SlotsGroup("Dye Input", null);
         SlotsGroup patternInputGroup = new SlotsGroup("Pattern Input", null);
         SlotsGroup netheriteIngotInputGroup = new SlotsGroup("Netherite Ingot Input", null);
+        SlotsGroup potionGroup = new SlotsGroup("Potion", null);
+        SlotsGroup ingredientGroup = new SlotsGroup("Ingredient", null);
         SlotsGroup blockInventoryGroup = new SlotsGroup("Block Inventory", null);
         SlotsGroup unknownGroup = new SlotsGroup("Unknown", null);
 
@@ -165,6 +166,23 @@ public class GroupGenerator {
 
             if (screen.getHandler() instanceof ForgingScreenHandler && index == 2) {
                 itemOutputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+            //</editor-fold>
+
+            //<editor-fold desc="Group brewing stand screen slot items">
+            if(screen.getHandler() instanceof BrewingStandScreenHandler && index>=0&&index<=2){
+                potionGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if(screen.getHandler() instanceof BrewingStandScreenHandler && index==3){
+                ingredientGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if(screen.getHandler() instanceof BrewingStandScreenHandler && index==4){
+                fuelInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
             //</editor-fold>
@@ -305,6 +323,15 @@ public class GroupGenerator {
             foundGroups.add(fuelInputGroup);
         }
 
+        if (ingredientGroup.slotItems.size() > 0) {
+            foundGroups.add(ingredientGroup);
+        }
+
+        if (potionGroup.slotItems.size() > 0) {
+            potionGroup.mapTheGroupList(3);
+            foundGroups.add(potionGroup);
+        }
+
         if (netheriteIngotInputGroup.slotItems.size() > 0) {
             foundGroups.add(netheriteIngotInputGroup);
         }
@@ -405,18 +432,9 @@ public class GroupGenerator {
         foundGroups.add(craftingInputGroup);
         foundGroups.add(craftingOutputGroup);
 
-
-        for (Slot s : slots) {
-            int index = ((SlotAccessor) s).getInventoryIndex();
-            int centreX = s.x + 9;
-            int centreY = s.y + 9;
-
-            MainClass.infoLog("Slot index:%d x:%d y:%d InvClass:%s SlotClass:%s".formatted(index, centreX, centreY, s.inventory.getClass().getName(), s.getClass().getName()));
-        }
-        int mouseX = (int) ((MinecraftClient.getInstance().mouse.getX() - MinecraftClient.getInstance().getWindow().getX()) / MinecraftClient.getInstance().getWindow().getScaleFactor()) - ((HandledScreenAccessor) inventoryScreen).getX();
+        /*int mouseX = (int) ((MinecraftClient.getInstance().mouse.getX() - MinecraftClient.getInstance().getWindow().getX()) / MinecraftClient.getInstance().getWindow().getScaleFactor()) - ((HandledScreenAccessor) inventoryScreen).getX();
         int mouseY = (int) ((MinecraftClient.getInstance().mouse.getY() - MinecraftClient.getInstance().getWindow().getY()) / MinecraftClient.getInstance().getWindow().getScaleFactor()) - ((HandledScreenAccessor) inventoryScreen).getY();
-        MainClass.infoLog("Mouse x:%d y:%d".formatted(mouseX, mouseY));
-        MainClass.infoLog("\n\n");
+        MainClass.infoLog("\n\n");*/
 
         return foundGroups;
     }

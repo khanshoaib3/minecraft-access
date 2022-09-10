@@ -151,6 +151,9 @@ public class InventoryControls {
                 if (currentScreen instanceof AnvilScreen anvilScreen) {
                     ((AnvilScreenAccessor) anvilScreen).getNameField().setTextFieldFocused(false);
                 }
+                if(currentScreen instanceof CreativeInventoryScreen creativeInventoryScreen && ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox().isActive()){
+                    ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox().setTextFieldFocused(false);
+                }
                 refreshGroupListAndSelectFirstGroup(false); // Interrupt is false to let it speak the screen's name
             }
 
