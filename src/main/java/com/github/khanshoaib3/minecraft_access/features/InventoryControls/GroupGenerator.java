@@ -2,22 +2,20 @@ package com.github.khanshoaib3.minecraft_access.features.InventoryControls;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.mixin.*;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ingame.*;
+import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.client.gui.screen.ingame.LoomScreen;
+import net.minecraft.client.gui.screen.ingame.StonecutterScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.recipe.StonecuttingRecipe;
 import net.minecraft.screen.*;
-import net.minecraft.screen.slot.FurnaceFuelSlot;
 import net.minecraft.screen.slot.FurnaceOutputSlot;
 import net.minecraft.screen.slot.Slot;
-import net.minecraft.screen.slot.TradeOutputSlot;
 import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.village.MerchantInventory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -42,6 +40,7 @@ public class GroupGenerator {
 
         List<Slot> slots = new ArrayList<>(screen.getHandler().slots);
 
+        // TODO use i18n instead
         SlotsGroup hotbarGroup = new SlotsGroup("Hotbar", null);
         SlotsGroup playerInventoryGroup = new SlotsGroup("Player Inventory", null);
         SlotsGroup armourGroup = new SlotsGroup("Armour", null);
@@ -61,6 +60,7 @@ public class GroupGenerator {
         for (Slot s : slots) {
             int index = ((SlotAccessor) s).getInventoryIndex();
 
+            //<editor-fold desc="Group player inventory slot items">
             if (s.inventory instanceof PlayerInventory && index >= 0 && index <= 8) {
                 hotbarGroup.slotItems.add(new SlotItem(s));
                 continue;
@@ -77,7 +77,9 @@ public class GroupGenerator {
                 offHandGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
+            //</editor-fold>
 
+            //<editor-fold desc="Group furnace(blast furnace, regular furnace and smoker) screen slot items">
             if (screen.getHandler() instanceof AbstractFurnaceScreenHandler && index == 2) {
                 itemOutputGroup.slotItems.add(new SlotItem(s));
                 continue;
@@ -92,7 +94,9 @@ public class GroupGenerator {
                 itemInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
+            //</editor-fold>
 
+            //<editor-fold desc="Group villager trading screen slot items">
             if (screen.getHandler() instanceof MerchantScreenHandler && (index == 0 || index == 1)) {
                 itemInputGroup.slotItems.add(new SlotItem(s));
                 continue;
@@ -102,7 +106,9 @@ public class GroupGenerator {
                 itemOutputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
+            //</editor-fold>
 
+            //<editor-fold desc="Group stone cutter screen slot items">
             if (screen.getHandler() instanceof StonecutterScreenHandler && index == 0) {
                 itemInputGroup.slotItems.add(new SlotItem(s));
                 continue;
@@ -112,12 +118,21 @@ public class GroupGenerator {
                 itemOutputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
+            //</editor-fold>
 
+            //<editor-fold desc="Group cartography screen slot items">
             if (screen.getHandler() instanceof CartographyTableScreenHandler && (index == 0 || index == 1)) {
                 itemInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
+            if (screen.getHandler() instanceof CartographyTableScreenHandler && index == 2) {
+                itemOutputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+            //</editor-fold>
+
+            //<editor-fold desc="Group loom screen slot items">
             if (screen.getHandler() instanceof LoomScreenHandler && index == 0) {
                 if (s.inventory.size() == 3) {
                     bannerInputGroup.slotItems.add(new SlotItem(s));
@@ -136,12 +151,9 @@ public class GroupGenerator {
                 patternInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
+            //</editor-fold>
 
-            if (screen.getHandler() instanceof CartographyTableScreenHandler && index == 2) {
-                itemOutputGroup.slotItems.add(new SlotItem(s));
-                continue;
-            }
-
+            //<editor-fold desc="Group storage container(chests, hopper, dispenser, etc.) inventory slot items">
             if (screen.getHandler() instanceof GenericContainerScreenHandler && s.inventory instanceof SimpleInventory) {
                 blockInventoryGroup.slotItems.add(new SlotItem(s));
                 continue;
@@ -156,7 +168,9 @@ public class GroupGenerator {
                 blockInventoryGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
+            //</editor-fold>
 
+            //<editor-fold desc="Group crafting related slot items">
             if (s.inventory instanceof CraftingResultInventory && !(s instanceof FurnaceOutputSlot)) {
                 itemOutputGroup.slotItems.add(new SlotItem(s));
                 continue;
@@ -166,73 +180,12 @@ public class GroupGenerator {
                 itemInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
+            //</editor-fold>
 
             unknownGroup.slotItems.add(new SlotItem(s));
         }
 
-        if (armourGroup.slotItems.size() > 0)
-            foundGroups.add(armourGroup);
-
-        if (offHandGroup.slotItems.size() > 0)
-            foundGroups.add(offHandGroup);
-
-        if (playerInventoryGroup.slotItems.size() > 0) {
-            playerInventoryGroup.mapTheGroupList(9);
-            foundGroups.add(playerInventoryGroup);
-        }
-
-        if (hotbarGroup.slotItems.size() > 0) {
-            hotbarGroup.mapTheGroupList(9);
-            foundGroups.add(hotbarGroup);
-        }
-
-        if (craftingInputGroup.slotItems.size() > 0) {
-            craftingInputGroup.setRowColumnPrefixForSlots();
-            foundGroups.add(craftingInputGroup);
-        }
-
-        if (craftingOutputGroup.slotItems.size() > 0) {
-            foundGroups.add(craftingOutputGroup);
-        }
-
-        if (itemInputGroup.slotItems.size() > 0) {
-            foundGroups.add(itemInputGroup);
-        }
-
-        if (fuelInputGroup.slotItems.size() > 0) {
-            foundGroups.add(fuelInputGroup);
-        }
-
-        if (itemOutputGroup.slotItems.size() > 0) {
-            foundGroups.add(itemOutputGroup);
-        }
-
-        if (bannerInputGroup.slotItems.size() > 0) {
-            foundGroups.add(bannerInputGroup);
-        }
-
-        if (dyeInputGroup.slotItems.size() > 0) {
-            foundGroups.add(dyeInputGroup);
-        }
-
-        if (patternInputGroup.slotItems.size() > 0) {
-            foundGroups.add(patternInputGroup);
-        }
-
-        if (blockInventoryGroup.slotItems.size() > 0) {
-            if (screen.getHandler() instanceof Generic3x3ContainerScreenHandler)
-                blockInventoryGroup.mapTheGroupList(3);
-            else if (screen.getHandler() instanceof GenericContainerScreenHandler)
-                blockInventoryGroup.mapTheGroupList(9);
-            else if (screen.getHandler() instanceof HopperScreenHandler)
-                blockInventoryGroup.mapTheGroupList(5);
-            foundGroups.add(blockInventoryGroup);
-        }
-
-        if (unknownGroup.slotItems.size() > 0) {
-            foundGroups.add(unknownGroup);
-        }
-
+        //<editor-fold desc="Group recipe group slot items if any">
         if (MinecraftClient.getInstance().currentScreen instanceof StonecutterScreen stonecutterScreen) {
             // Refer to StonecutterScreen.java -->> renderRecipeIcons()
             int x = screen.getX() + 52;
@@ -277,12 +230,86 @@ public class GroupGenerator {
                 }
             }
         }
+        //</editor-fold>
 
+        //<editor-fold desc="Add Inventory Groups to foundGroups">
+        if (armourGroup.slotItems.size() > 0) {
+            foundGroups.add(armourGroup);
+        }
+
+        if (offHandGroup.slotItems.size() > 0) {
+            foundGroups.add(offHandGroup);
+        }
+
+        if (playerInventoryGroup.slotItems.size() > 0) {
+            playerInventoryGroup.mapTheGroupList(9);
+            foundGroups.add(playerInventoryGroup);
+        }
+
+        if (hotbarGroup.slotItems.size() > 0) {
+            hotbarGroup.mapTheGroupList(9);
+            foundGroups.add(hotbarGroup);
+        }
+
+        if (blockInventoryGroup.slotItems.size() > 0) {
+            if (screen.getHandler() instanceof Generic3x3ContainerScreenHandler)
+                blockInventoryGroup.mapTheGroupList(3);
+            else if (screen.getHandler() instanceof GenericContainerScreenHandler)
+                blockInventoryGroup.mapTheGroupList(9);
+            else if (screen.getHandler() instanceof HopperScreenHandler)
+                blockInventoryGroup.mapTheGroupList(5);
+            foundGroups.add(blockInventoryGroup);
+        }
+        //</editor-fold>
+
+        //<editor-fold desc="Add Input Groups to foundGroups">
+        if (craftingInputGroup.slotItems.size() > 0) {
+            craftingInputGroup.setRowColumnPrefixForSlots();
+            foundGroups.add(craftingInputGroup);
+        }
+
+        if (itemInputGroup.slotItems.size() > 0) {
+            foundGroups.add(itemInputGroup);
+        }
+
+        if (fuelInputGroup.slotItems.size() > 0) {
+            foundGroups.add(fuelInputGroup);
+        }
+
+        if (bannerInputGroup.slotItems.size() > 0) {
+            foundGroups.add(bannerInputGroup);
+        }
+
+        if (dyeInputGroup.slotItems.size() > 0) {
+            foundGroups.add(dyeInputGroup);
+        }
+
+        if (patternInputGroup.slotItems.size() > 0) {
+            foundGroups.add(patternInputGroup);
+        }
+        //</editor-fold>
+
+        //<editor-fold desc="Add Recipe Groups to foundGroups">
         if (recipesGroup.slotItems.size() > 0) {
             recipesGroup.isScrollable = true;
             recipesGroup.mapTheGroupList(4);
             foundGroups.add(recipesGroup);
         }
+        //</editor-fold>
+
+        //<editor-fold desc="Add Output Groups to foundGroups">
+        if (craftingOutputGroup.slotItems.size() > 0) {
+            foundGroups.add(craftingOutputGroup);
+        }
+
+        if (itemOutputGroup.slotItems.size() > 0) {
+            foundGroups.add(itemOutputGroup);
+        }
+
+        if (unknownGroup.slotItems.size() > 0) {
+            foundGroups.add(unknownGroup);
+        }
+        //</editor-fold>
 
         return foundGroups;
     }
