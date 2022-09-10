@@ -6,14 +6,13 @@ import com.github.khanshoaib3.minecraft_access.mixin.RecipeBookWidgetAccessor;
 import com.github.khanshoaib3.minecraft_access.mixin.SlotAccessor;
 import com.github.khanshoaib3.minecraft_access.mixin.StonecutterScreenAccessor;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ingame.AbstractFurnaceScreen;
-import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.client.gui.screen.ingame.StonecutterScreen;
+import net.minecraft.client.gui.screen.ingame.*;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.CraftingResultInventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.recipe.StonecuttingRecipe;
+import net.minecraft.screen.*;
 import net.minecraft.screen.slot.FurnaceFuelSlot;
 import net.minecraft.screen.slot.FurnaceOutputSlot;
 import net.minecraft.screen.slot.Slot;
@@ -25,35 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GroupGenerator {
-    private static @NotNull List<SlotItem> getSlotNeighbours(Slot slot, @NotNull List<Slot> allSlots) {
-        List<SlotItem> neighbours = new ArrayList<>();
-
-        int deltaY = 0;
-        while (true) {
-            boolean rowHasSlots = false;
-            List<Slot> sameY = new ArrayList<>();
-            for (Slot s : allSlots) {
-                if (s.y == slot.y + deltaY) {
-                    sameY.add(s);
-                    rowHasSlots = true;
-                }
-            }
-            int deltaX = 0;
-            for (Slot s : sameY) {
-                if (s.x == slot.x + deltaX && s.y == slot.y + deltaY) {
-                    deltaX += 18;
-                    neighbours.add(new SlotItem(s));
-                }
-            }
-
-            if (!rowHasSlots || deltaX == 0) {
-                break;
-            }
-            deltaY += 18;
-        }
-        return neighbours;
-    }
-
     public static List<SlotsGroup> generateGroupsFromSlots(HandledScreenAccessor screen) {
         List<SlotsGroup> foundGroups;
 
@@ -73,7 +43,7 @@ public class GroupGenerator {
         List<Slot> slots = new ArrayList<>(screen.getHandler().slots);
 
         SlotsGroup hotbarGroup = new SlotsGroup("Hotbar", null);
-        SlotsGroup inventoryGroup = new SlotsGroup("Inventory", null);
+        SlotsGroup playerInventoryGroup = new SlotsGroup("Player Inventory", null);
         SlotsGroup armourGroup = new SlotsGroup("Armour", null);
         SlotsGroup offHandGroup = new SlotsGroup("Off Hand", null);
         SlotsGroup craftingOutputGroup = new SlotsGroup("Crafting Output", null);
@@ -86,6 +56,7 @@ public class GroupGenerator {
         SlotsGroup fuelInputGroup = new SlotsGroup("Fuel Input", null);
         SlotsGroup tradeOutputGroup = new SlotsGroup("Trade Output", null);
         SlotsGroup tradeInputGroup = new SlotsGroup("Trade Input", null);
+        SlotsGroup blockInventoryGroup = new SlotsGroup("Block Inventory", null);
         SlotsGroup unknownGroup = new SlotsGroup("Unknown", null);
 
         for (Slot s : slots) {
@@ -96,7 +67,7 @@ public class GroupGenerator {
                 continue;
             }
             if (s.inventory instanceof PlayerInventory && index >= 9 && index <= 35) {
-                inventoryGroup.slotItems.add(new SlotItem(s));
+                playerInventoryGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
             if (s.inventory instanceof PlayerInventory && index >= 36 && index <= 39) {
@@ -128,7 +99,7 @@ public class GroupGenerator {
                 continue;
             }
 
-            if (MinecraftClient.getInstance().currentScreen instanceof AbstractFurnaceScreen<?> && index == 0) {
+            if (screen.getHandler() instanceof AbstractFurnaceScreenHandler && index == 0) {
                 furnaceInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
@@ -143,13 +114,28 @@ public class GroupGenerator {
                 continue;
             }
 
-            if (MinecraftClient.getInstance().currentScreen instanceof StonecutterScreen && index == 0) {
+            if (screen.getHandler() instanceof StonecutterScreenHandler && index == 0) {
                 stoneCutterInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
-            if (MinecraftClient.getInstance().currentScreen instanceof StonecutterScreen && index == 1) {
+            if (screen.getHandler() instanceof StonecutterScreenHandler && index == 1) {
                 stoneCutterOutputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if(screen.getHandler() instanceof GenericContainerScreenHandler && s.inventory instanceof SimpleInventory){
+                blockInventoryGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if(screen.getHandler() instanceof Generic3x3ContainerScreenHandler && s.inventory instanceof SimpleInventory){
+                blockInventoryGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if(screen.getHandler() instanceof HopperScreenHandler && s.inventory instanceof SimpleInventory){
+                blockInventoryGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
@@ -162,9 +148,9 @@ public class GroupGenerator {
         if (offHandGroup.slotItems.size() > 0)
             foundGroups.add(offHandGroup);
 
-        if (inventoryGroup.slotItems.size() > 0) {
-            inventoryGroup.mapTheGroupList(9);
-            foundGroups.add(inventoryGroup);
+        if (playerInventoryGroup.slotItems.size() > 0) {
+            playerInventoryGroup.mapTheGroupList(9);
+            foundGroups.add(playerInventoryGroup);
         }
 
         if (hotbarGroup.slotItems.size() > 0) {
@@ -210,6 +196,16 @@ public class GroupGenerator {
             foundGroups.add(stoneCutterOutputGroup);
         }
 
+        if(blockInventoryGroup.slotItems.size()>0){
+            if(screen.getHandler() instanceof Generic3x3ContainerScreenHandler)
+                blockInventoryGroup.mapTheGroupList(3);
+            else if(screen.getHandler() instanceof GenericContainerScreenHandler)
+                blockInventoryGroup.mapTheGroupList(9);
+            else if(screen.getHandler() instanceof HopperScreenHandler)
+                blockInventoryGroup.mapTheGroupList(5);
+            foundGroups.add(blockInventoryGroup);
+        }
+
         if (unknownGroup.slotItems.size() > 0) {
             foundGroups.add(unknownGroup);
         }
@@ -250,7 +246,7 @@ public class GroupGenerator {
         List<Slot> slots = new ArrayList<>(((HandledScreenAccessor) inventoryScreen).getHandler().slots);
 
         SlotsGroup hotbarGroup = new SlotsGroup("Hotbar", null);
-        SlotsGroup inventoryGroup = new SlotsGroup("Inventory", null);
+        SlotsGroup playerInventoryGroup = new SlotsGroup("Player Inventory", null);
         SlotsGroup armourGroup = new SlotsGroup("Armour", null);
         SlotsGroup offHandGroup = new SlotsGroup("Off Hand", null);
         SlotsGroup craftingOutputGroup = new SlotsGroup("Crafting Output", null);
@@ -264,7 +260,7 @@ public class GroupGenerator {
                 continue;
             }
             if (s.inventory instanceof PlayerInventory && index >= 9 && index <= 35) {
-                inventoryGroup.slotItems.add(new SlotItem(s));
+                playerInventoryGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
             if (s.inventory instanceof PlayerInventory && index >= 36 && index <= 39) {
@@ -287,14 +283,14 @@ public class GroupGenerator {
         }
 
         armourGroup.mapTheGroupList(4, true);
-        inventoryGroup.mapTheGroupList(9);
+        playerInventoryGroup.mapTheGroupList(9);
         hotbarGroup.mapTheGroupList(9);
         craftingInputGroup.mapTheGroupList(2);
         craftingInputGroup.setRowColumnPrefixForSlots();
 
         foundGroups.add(armourGroup);
         foundGroups.add(offHandGroup);
-        foundGroups.add(inventoryGroup);
+        foundGroups.add(playerInventoryGroup);
         foundGroups.add(hotbarGroup);
         foundGroups.add(craftingInputGroup);
         foundGroups.add(craftingOutputGroup);
@@ -324,7 +320,7 @@ public class GroupGenerator {
             SlotsGroup offHandGroup = new SlotsGroup("Off Hand", null);
             SlotsGroup hotbarGroup = new SlotsGroup("Hotbar", null);
             SlotsGroup armourGroup = new SlotsGroup("Armour", null); //FIXME
-            SlotsGroup inventoryGroup = new SlotsGroup("Inventory", null);
+            SlotsGroup playerInventoryGroup = new SlotsGroup("Player Inventory", null);
 
             for (Slot s : slots) {
                 if (s.x < 0 || s.y < 0) continue;
@@ -342,7 +338,7 @@ public class GroupGenerator {
                 }
 
                 if (index >= 9 && index <= 35) {
-                    inventoryGroup.slotItems.add(new SlotItem(s));
+                    playerInventoryGroup.slotItems.add(new SlotItem(s));
                     continue;
                 }
 
@@ -357,18 +353,18 @@ public class GroupGenerator {
             }
 
             armourGroup.mapTheGroupList(2, true);
-            inventoryGroup.mapTheGroupList(9);
+            playerInventoryGroup.mapTheGroupList(9);
             hotbarGroup.mapTheGroupList(9);
 
             foundGroups.add(armourGroup);
             foundGroups.add(offHandGroup);
-            foundGroups.add(inventoryGroup);
+            foundGroups.add(playerInventoryGroup);
             foundGroups.add(hotbarGroup);
             foundGroups.add(deleteItemGroup);
         } else {
             SlotsGroup hotbarGroup = new SlotsGroup("Hotbar", null);
-            SlotsGroup tabInventoryGroup = new SlotsGroup("Tab Inventory", null);
-            tabInventoryGroup.isScrollable = true;
+            SlotsGroup tabplayerInventoryGroup = new SlotsGroup("Tab Inventory", null);
+            tabplayerInventoryGroup.isScrollable = true;
 
             for (Slot s : slots) {
                 if (s.x < 0 || s.y < 0) continue;
@@ -381,14 +377,14 @@ public class GroupGenerator {
                 }
 
                 if (index >= 0 && index <= 44) {
-                    tabInventoryGroup.slotItems.add(new SlotItem(s));
+                    tabplayerInventoryGroup.slotItems.add(new SlotItem(s));
                 }
             }
 
-            tabInventoryGroup.mapTheGroupList(9);
+            tabplayerInventoryGroup.mapTheGroupList(9);
             hotbarGroup.mapTheGroupList(9);
 
-            foundGroups.add(tabInventoryGroup);
+            foundGroups.add(tabplayerInventoryGroup);
             foundGroups.add(hotbarGroup);
         }
         return foundGroups;

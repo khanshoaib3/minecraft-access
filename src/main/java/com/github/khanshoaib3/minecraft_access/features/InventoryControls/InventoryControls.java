@@ -132,6 +132,8 @@ public class InventoryControls {
         if (minecraftClient.currentScreen == null) {
             previousScreen = null;
             currentScreen = null;
+            currentGroupIndex = 0;
+            currentGroup = null;
             return;
         }
         if (!(minecraftClient.currentScreen instanceof HandledScreen)) return;
@@ -246,15 +248,6 @@ public class InventoryControls {
         }
 
         return false;
-    }
-
-    private void refreshGroupListAndSelectFirstGroup(boolean interrupt) {
-        currentSlotsGroupList = GroupGenerator.generateGroupsFromSlots(currentScreen);
-        if (currentSlotsGroupList.size() == 0) return;
-
-        currentGroup = currentSlotsGroupList.get(0);
-        Narrator.getNarrator().say("%s %s Group selected".formatted(currentGroup.isScrollable ? "Scrollable" : "", currentGroup.groupName), interrupt);
-        focusGroupItem(currentGroup.getFirstGroupItem(), false);
     }
 
     private void changeTab(boolean goForward) {
@@ -382,6 +375,17 @@ public class InventoryControls {
         MainClass.infoLog("Group(name:%s) %d/%d selected".formatted(currentGroup.groupName, currentGroupIndex + 1, currentSlotsGroupList.size()));
         Narrator.getNarrator().say("%s %s Group selected".formatted(currentGroup.isScrollable ? "Scrollable" : "", currentGroup.groupName), true);
 
+        focusGroupItem(currentGroup.getFirstGroupItem(), false);
+    }
+
+    private void refreshGroupListAndSelectFirstGroup(boolean interrupt) {
+        currentSlotsGroupList = GroupGenerator.generateGroupsFromSlots(currentScreen);
+        if (currentSlotsGroupList.size() == 0) return;
+
+        currentGroupIndex = 0;
+        MainClass.infoLog("Group(name:%s) %d/%d selected".formatted(currentGroup.groupName, currentGroupIndex + 1, currentSlotsGroupList.size()));
+        currentGroup = currentSlotsGroupList.get(0);
+        Narrator.getNarrator().say("%s %s Group selected".formatted(currentGroup.isScrollable ? "Scrollable" : "", currentGroup.groupName), interrupt);
         focusGroupItem(currentGroup.getFirstGroupItem(), false);
     }
 
