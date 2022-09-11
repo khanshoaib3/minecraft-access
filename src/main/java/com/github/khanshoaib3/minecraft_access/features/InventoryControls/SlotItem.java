@@ -15,15 +15,15 @@ import net.minecraft.util.registry.RegistryEntry;
 import java.util.List;
 
 public class SlotItem {
-    public SlotItem upSlotItem;
-    public SlotItem rightSlotItem;
-    public SlotItem downSlotItem;
-    public SlotItem leftSlotItem;
+    public SlotItem upSlotItem = null;
+    public SlotItem rightSlotItem = null;
+    public SlotItem downSlotItem = null;
+    public SlotItem leftSlotItem = null;
 
     public int x;
     public int y;
 
-    public Slot slot;
+    public Slot slot = null;
 
     private int recipeIndex;
 
@@ -34,22 +34,12 @@ public class SlotItem {
         this.slot = slot;
         this.x = slot.x + 9;
         this.y = slot.y + 9;
-        upSlotItem = null;
-        rightSlotItem = null;
-        downSlotItem = null;
-        leftSlotItem = null;
     }
 
     public SlotItem(int x, int y, int recipeIndex) {
         this.x = x;
         this.y = y;
         this.recipeIndex = recipeIndex;
-
-        upSlotItem = null;
-        rightSlotItem = null;
-        downSlotItem = null;
-        leftSlotItem = null;
-        slot = null;
     }
 
     public SlotItem(int x, int y, int row, int column) {
@@ -57,12 +47,11 @@ public class SlotItem {
         this.y = y;
         this.row = row;
         this.column = column;
+    }
 
-        upSlotItem = null;
-        rightSlotItem = null;
-        downSlotItem = null;
-        leftSlotItem = null;
-        slot = null;
+    public SlotItem(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     public String getNarratableText() {
@@ -81,14 +70,14 @@ public class SlotItem {
             if (list.size() == 0) return "";
 
             int scrollOffset = ((StonecutterScreenAccessor) stonecutterScreen).getScrollOffset();
-            ItemStack itemStack = list.get(recipeIndex + scrollOffset).getOutput();
-            List<Text> toolTip = MinecraftClient.getInstance().currentScreen.getTooltipFromItem(itemStack);
+            ItemStack item = list.get(recipeIndex + scrollOffset).getOutput();
+            List<Text> toolTip = MinecraftClient.getInstance().currentScreen.getTooltipFromItem(item);
             StringBuilder toolTipString = new StringBuilder();
             for (Text text : toolTip) {
-                toolTipString.append(text.getString()).append(",");
+                toolTipString.append(text.getString()).append("\n");
             }
 
-            return "%s %s".formatted(itemStack.getCount(), toolTipString);
+            return "%s %s".formatted(item.getCount(), toolTipString);
         }
 
         return "";

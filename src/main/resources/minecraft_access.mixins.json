@@ -6,15 +6,18 @@
   "mixins": [
   ],
   "client": [
-    "StonecutterScreenAccessor",
-    "RecipeBookWidgetAccessor",
-    "LoomScreenAccessor",
+    "AnimatedResultButtonAccessor",
+    "AnimatedResultButtonMixin",
     "AnvilScreenAccessor",
     "CreativeInventoryScreenAccessor",
     "HandledScreenAccessor",
+    "LoomScreenAccessor",
     "NarratorLinuxMixin",
     "NarratorWindowsMixin",
-    "SlotAccessor"
+    "RecipeBookResultsAccessor",
+    "RecipeBookWidgetAccessor",
+    "SlotAccessor",
+    "StonecutterScreenAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

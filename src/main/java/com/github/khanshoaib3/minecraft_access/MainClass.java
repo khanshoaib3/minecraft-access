@@ -17,7 +17,7 @@ import net.fabricmc.api.ModInitializer;
 public class MainClass implements ModInitializer {
     private static final Logger LOGGER = LoggerFactory.getLogger("minecraft_access");
     private static ScreenReaderInterface screenReader = null;
-    public static CameraControls cameraControls = null;
+    private static CameraControls cameraControls = null;
     private static InventoryControls inventoryControls = null;
 
     public static boolean debugMode = true; // TODO add option to toggle this

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class SlotsGroup {
-    public String groupName;
+    private final String groupName;
     public List<SlotItem> slotItems;
     public boolean isScrollable = false;
 
@@ -55,7 +55,7 @@ public class SlotsGroup {
         return (slotItem.rightSlotItem != null) || (slotItem.x != this.getLastGroupItem().x);
     }
 
-    void mapTheGroupList(int factor){
+    void mapTheGroupList(int factor) {
         mapTheGroupList(factor, false);
     }
 
@@ -96,18 +96,16 @@ public class SlotsGroup {
 
     // Sets the row and column as prefix
     void setRowColumnPrefixForSlots() {
-        if (this.slotItems.get(0).slot.inventory instanceof CraftingInventory) {
-            int size = (int) Math.round(Math.sqrt(this.slotItems.size()));
-            int i=0;
+        int size = (int) Math.round(Math.sqrt(this.slotItems.size()));
+        int i = 0;
 
-            for (int row = 1; row <= size; row++) {
-                for (int column = 1; column <= size; column++) {
-                    Slot slot = this.slotItems.get(i).slot;
-                    String prefix = "%dx%d".formatted(row, column); //TODO use i18n here
+        for (int row = 1; row <= size; row++) {
+            for (int column = 1; column <= size; column++) {
+                Slot slot = this.slotItems.get(i).slot;
+                String prefix = "%dx%d".formatted(row, column); //TODO use i18n here
 
-                    this.setSlotPrefix(slot, prefix);
-                    ++i;
-                }
+                this.setSlotPrefix(slot, prefix);
+                ++i;
             }
         }
     }

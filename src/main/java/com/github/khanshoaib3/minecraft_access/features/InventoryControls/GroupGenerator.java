@@ -1,12 +1,15 @@
 package com.github.khanshoaib3.minecraft_access.features.InventoryControls;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.mixin.*;
+import com.google.common.collect.Lists;
+import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
 import net.minecraft.block.entity.BannerPattern;
-import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.client.gui.screen.ingame.LoomScreen;
-import net.minecraft.client.gui.screen.ingame.StonecutterScreen;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ingame.*;
+import net.minecraft.client.gui.screen.recipebook.AnimatedResultButton;
+import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
+import net.minecraft.client.gui.screen.recipebook.RecipeResultCollection;
+import net.minecraft.client.search.SearchManager;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.CraftingResultInventory;
@@ -19,22 +22,22 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class GroupGenerator {
     public static List<SlotsGroup> generateGroupsFromSlots(HandledScreenAccessor screen) {
-        List<SlotsGroup> foundGroups;
-
         if (screen instanceof CreativeInventoryScreen creativeInventoryScreen) {
-            foundGroups = forCreativeInventoryScreen(creativeInventoryScreen);
-        } else if (screen instanceof InventoryScreen inventoryScreen) {
-            foundGroups = forPlayerInventoryScreen(inventoryScreen);
-        } else {
-            foundGroups = forOtherScreens(screen);
+            return creativeInventoryGroups(creativeInventoryScreen);
         }
-        return foundGroups;
+
+        if (screen instanceof InventoryScreen || screen instanceof CraftingScreen) {
+            return inventoryAndCraftingScreensGroups(screen);
+        }
+
+        return commonGroups(screen);
     }
 
-    private static @NotNull List<SlotsGroup> forOtherScreens(@NotNull HandledScreenAccessor screen) {
+    private static @NotNull List<SlotsGroup> commonGroups(@NotNull HandledScreenAccessor screen) {
         List<SlotsGroup> foundGroups = new ArrayList<>();
 
         List<Slot> slots = new ArrayList<>(screen.getHandler().slots);
@@ -60,7 +63,7 @@ public class GroupGenerator {
         SlotsGroup unknownGroup = new SlotsGroup("Unknown", null);
 
         for (Slot s : slots) {
-            int index = ((SlotAccessor) s).getInventoryIndex();
+            int index = ((SlotAccessor) s).getIndex();
 
             //<editor-fold desc="Group player inventory slot items">
             if (s.inventory instanceof PlayerInventory && index >= 0 && index <= 8) {
@@ -171,17 +174,17 @@ public class GroupGenerator {
             //</editor-fold>
 
             //<editor-fold desc="Group brewing stand screen slot items">
-            if(screen.getHandler() instanceof BrewingStandScreenHandler && index>=0&&index<=2){
+            if (screen.getHandler() instanceof BrewingStandScreenHandler && index >= 0 && index <= 2) {
                 potionGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
-            if(screen.getHandler() instanceof BrewingStandScreenHandler && index==3){
+            if (screen.getHandler() instanceof BrewingStandScreenHandler && index == 3) {
                 ingredientGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
-            if(screen.getHandler() instanceof BrewingStandScreenHandler && index==4){
+            if (screen.getHandler() instanceof BrewingStandScreenHandler && index == 4) {
                 fuelInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
@@ -218,12 +221,12 @@ public class GroupGenerator {
 
             //<editor-fold desc="Group crafting related slot items">
             if (s.inventory instanceof CraftingResultInventory && !(s instanceof FurnaceOutputSlot)) {
-                itemOutputGroup.slotItems.add(new SlotItem(s));
+                craftingOutputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
             if (s.inventory instanceof CraftingInventory) {
-                itemInputGroup.slotItems.add(new SlotItem(s));
+                craftingInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
             //</editor-fold>
@@ -375,62 +378,52 @@ public class GroupGenerator {
         return foundGroups;
     }
 
-    private static @NotNull List<SlotsGroup> forPlayerInventoryScreen(@NotNull InventoryScreen inventoryScreen) {
-        List<SlotsGroup> foundGroups = new ArrayList<>();
-
-        MainClass.infoLog("Recipe Book:%s Tab:%s".formatted(inventoryScreen.getRecipeBookWidget().isOpen(), ((RecipeBookWidgetAccessor) inventoryScreen.getRecipeBookWidget()).getCurrentTab().getCategory().name()));
-
-        List<Slot> slots = new ArrayList<>(((HandledScreenAccessor) inventoryScreen).getHandler().slots);
-
-        SlotsGroup hotbarGroup = new SlotsGroup("Hotbar", null);
-        SlotsGroup playerInventoryGroup = new SlotsGroup("Player Inventory", null);
-        SlotsGroup armourGroup = new SlotsGroup("Armour", null);
-        SlotsGroup offHandGroup = new SlotsGroup("Off Hand", null);
-        SlotsGroup craftingOutputGroup = new SlotsGroup("Crafting Output", null);
-        SlotsGroup craftingInputGroup = new SlotsGroup("Crafting Input", null);
-
-        for (Slot s : slots) {
-            int index = ((SlotAccessor) s).getInventoryIndex();
-
-            if (s.inventory instanceof PlayerInventory && index >= 0 && index <= 8) {
-                hotbarGroup.slotItems.add(new SlotItem(s));
-                continue;
-            }
-            if (s.inventory instanceof PlayerInventory && index >= 9 && index <= 35) {
-                playerInventoryGroup.slotItems.add(new SlotItem(s));
-                continue;
-            }
-            if (s.inventory instanceof PlayerInventory && index >= 36 && index <= 39) {
-                armourGroup.slotItems.add(new SlotItem(s));
-                continue;
-            }
-            if (s.inventory instanceof PlayerInventory && index == 40) {
-                offHandGroup.slotItems.add(new SlotItem(s));
-                continue;
-            }
-
-            if (s.inventory instanceof CraftingResultInventory && index == 0) {
-                craftingOutputGroup.slotItems.add(new SlotItem(s));
-                continue;
-            }
-
-            if (s.inventory instanceof CraftingInventory && index >= 0 && index <= 3) {
-                craftingInputGroup.slotItems.add(new SlotItem(s));
-            }
+    private static @NotNull List<SlotsGroup> inventoryAndCraftingScreensGroups(@NotNull HandledScreenAccessor screen) {
+        List<SlotsGroup> foundGroups = commonGroups(screen);
+        RecipeBookWidget recipeBookWidget = null;
+        if (screen instanceof InventoryScreen inventoryScreen) {
+            recipeBookWidget = inventoryScreen.getRecipeBookWidget();
+        } else if (screen instanceof CraftingScreen craftingScreen) {
+            recipeBookWidget = craftingScreen.getRecipeBookWidget();
         }
 
-        armourGroup.mapTheGroupList(4, true);
-        playerInventoryGroup.mapTheGroupList(9);
-        hotbarGroup.mapTheGroupList(9);
-        craftingInputGroup.mapTheGroupList(2);
-        craftingInputGroup.setRowColumnPrefixForSlots();
+        if (recipeBookWidget == null || !recipeBookWidget.isOpen()) {
+            return foundGroups;
+        }
 
-        foundGroups.add(armourGroup);
-        foundGroups.add(offHandGroup);
-        foundGroups.add(playerInventoryGroup);
-        foundGroups.add(hotbarGroup);
-        foundGroups.add(craftingInputGroup);
-        foundGroups.add(craftingOutputGroup);
+        RecipeBookWidgetAccessor recipeBookWidgetAccessor = (RecipeBookWidgetAccessor) recipeBookWidget;
+
+        SlotsGroup recipesGroup = new SlotsGroup("Recipes", null);
+        List<AnimatedResultButton> slots = ((RecipeBookResultsAccessor) recipeBookWidgetAccessor.getRecipesArea()).getResultButtons();
+
+        //<editor-fold desc="Get the recipe list (refer to RecipeBookWidget.java -->> refreshResults())">
+        List<RecipeResultCollection> list = recipeBookWidgetAccessor.getRecipeBook().getResultsForGroup(recipeBookWidgetAccessor.getCurrentTab().getCategory());
+        list.forEach(resultCollection -> resultCollection.computeCraftables(recipeBookWidgetAccessor.getRecipeFinder(), recipeBookWidgetAccessor.getCraftingScreenHandler().getCraftingWidth(), recipeBookWidgetAccessor.getCraftingScreenHandler().getCraftingHeight(), recipeBookWidgetAccessor.getRecipeBook()));
+        ArrayList<RecipeResultCollection> finalRecipeSearchResultList = Lists.newArrayList(list);
+        finalRecipeSearchResultList.removeIf(resultCollection -> !resultCollection.isInitialized());
+        finalRecipeSearchResultList.removeIf(resultCollection -> !resultCollection.hasFittingRecipes());
+        String string = recipeBookWidgetAccessor.getSearchField().getText();
+        if (!string.isEmpty()) {
+            ObjectLinkedOpenHashSet<RecipeResultCollection> objectSet = new ObjectLinkedOpenHashSet<>(MinecraftClient.getInstance().getSearchProvider(SearchManager.RECIPE_OUTPUT).findAll(string.toLowerCase(Locale.ROOT)));
+            finalRecipeSearchResultList.removeIf(recipeResultCollection -> !objectSet.contains(recipeResultCollection));
+        }
+        if (recipeBookWidgetAccessor.getRecipeBook().isFilteringCraftable(recipeBookWidgetAccessor.getCraftingScreenHandler())) {
+            finalRecipeSearchResultList.removeIf(resultCollection -> !resultCollection.hasCraftableRecipes());
+        }
+        //</editor-fold>
+
+        for (int i = 0; i < slots.size() && i < finalRecipeSearchResultList.size(); i++) {
+            AnimatedResultButton animatedResultButton = slots.get(i);
+            int realX = animatedResultButton.x - screen.getX() + 10;
+            int realY = animatedResultButton.y - screen.getY() + 10;
+            recipesGroup.slotItems.add(new SlotItem(realX, realY));
+        }
+
+        if (recipesGroup.slotItems.size() > 0) {
+            recipesGroup.isScrollable = true;
+            recipesGroup.mapTheGroupList(5);
+            foundGroups.add(foundGroups.size() - 1, recipesGroup); // Add to second last index
+        }
 
         /*int mouseX = (int) ((MinecraftClient.getInstance().mouse.getX() - MinecraftClient.getInstance().getWindow().getX()) / MinecraftClient.getInstance().getWindow().getScaleFactor()) - ((HandledScreenAccessor) inventoryScreen).getX();
         int mouseY = (int) ((MinecraftClient.getInstance().mouse.getY() - MinecraftClient.getInstance().getWindow().getY()) / MinecraftClient.getInstance().getWindow().getScaleFactor()) - ((HandledScreenAccessor) inventoryScreen).getY();
@@ -439,7 +432,7 @@ public class GroupGenerator {
         return foundGroups;
     }
 
-    private static @NotNull List<SlotsGroup> forCreativeInventoryScreen(@NotNull CreativeInventoryScreen creativeInventoryScreen) {
+    private static @NotNull List<SlotsGroup> creativeInventoryGroups(@NotNull CreativeInventoryScreen creativeInventoryScreen) {
         List<SlotsGroup> foundGroups = new ArrayList<>();
         List<Slot> slots = new ArrayList<>(creativeInventoryScreen.getScreenHandler().slots);
 
@@ -453,7 +446,7 @@ public class GroupGenerator {
             for (Slot s : slots) {
                 if (s.x < 0 || s.y < 0) continue;
 
-                int index = ((SlotAccessor) s).getInventoryIndex();
+                int index = ((SlotAccessor) s).getIndex();
 
                 if (index == 0) {
                     deleteItemGroup.slotItems.add(new SlotItem(s));
@@ -497,7 +490,7 @@ public class GroupGenerator {
             for (Slot s : slots) {
                 if (s.x < 0 || s.y < 0) continue;
 
-                int index = ((SlotAccessor) s).getInventoryIndex();
+                int index = ((SlotAccessor) s).getIndex();
 
                 if (index >= 0 && index <= 8 && s.inventory instanceof PlayerInventory) {
                     hotbarGroup.slotItems.add(new SlotItem(s));

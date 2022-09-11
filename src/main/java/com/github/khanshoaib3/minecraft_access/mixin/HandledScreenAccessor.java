@@ -11,24 +11,12 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Environment(EnvType.CLIENT)
 @Mixin(HandledScreen.class)
 public interface HandledScreenAccessor {
-    @Accessor("playerInventoryTitleX")
-    int getPlayerInventoryTitleX();
-
-    @Accessor("playerInventoryTitleY")
-    int getPlayerInventoryTitleY();
-
     @Accessor("x")
     int getX();
 
     @Accessor("y")
     int getY();
 
-    @Accessor("handler")
+    @Accessor
     ScreenHandler getHandler();
-
-    @Accessor("focusedSlot")
-    Slot getFocusedSlot();
-
-    @Accessor("focusedSlot")
-    public void setFocusedSlot(Slot slot);
 }

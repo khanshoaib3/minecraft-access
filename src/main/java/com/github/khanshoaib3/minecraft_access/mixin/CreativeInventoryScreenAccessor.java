@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Environment(EnvType.CLIENT)
 @Mixin(CreativeInventoryScreen.class)
 public interface CreativeInventoryScreenAccessor {
-    @Invoker("setSelectedTab")
+    @Invoker
     void invokeSetSelectedTab(ItemGroup group);
 
     @Accessor

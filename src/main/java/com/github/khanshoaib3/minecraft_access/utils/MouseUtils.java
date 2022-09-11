@@ -5,6 +5,9 @@ import com.sun.jna.Library;
 import com.sun.jna.Native;
 import net.minecraft.client.MinecraftClient;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Contains functions to simulate mouse events.
  */
@@ -50,6 +53,28 @@ public class MouseUtils {
                 if (!mainInterface.SetCursorPos(x, y))
                     MainClass.errorLog("\nError encountered on moving mouse.");
             }
+        } catch (Exception e) {
+            MainClass.errorLog("\nError encountered on moving mouse.");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Move the mouse to the given pixel location after a dela.
+     * @param x the x position of the pixel location
+     * @param y the y position of the pixel location
+     * @param delay delay amount in milliseconds
+     */
+    public static void moveAfterDelay(int x, int y, int delay){
+        try {
+            MainClass.infoLog("Moving mouse to x:%d y:%d after %d milliseconds".formatted(x, y, delay));
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    move(x, y);
+                }
+            };
+            new Timer().schedule(timerTask, delay);
         } catch (Exception e) {
             MainClass.errorLog("\nError encountered on moving mouse.");
             e.printStackTrace();
