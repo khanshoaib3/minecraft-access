@@ -11,13 +11,18 @@ import net.minecraft.client.gui.screen.recipebook.AnimatedResultButton;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.client.gui.screen.recipebook.RecipeResultCollection;
 import net.minecraft.client.search.SearchManager;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.Items;
 import net.minecraft.screen.*;
 import net.minecraft.screen.slot.FurnaceOutputSlot;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.registry.RegistryEntry;
 import org.jetbrains.annotations.NotNull;
 
@@ -58,13 +63,15 @@ public class GroupGenerator {
         SlotsGroup bannerInputGroup = new SlotsGroup("Banner Input", null);
         SlotsGroup dyeInputGroup = new SlotsGroup("Dye Input", null);
         SlotsGroup patternInputGroup = new SlotsGroup("Pattern Input", null);
-        SlotsGroup netheriteIngotInputGroup = new SlotsGroup("Netherite Ingot Input", null);
+        SlotsGroup netheriteIngotInputGroup = new SlotsGroup("%s Input".formatted(Items.NETHERITE_INGOT.getName().getString()), null);
         SlotsGroup potionGroup = new SlotsGroup("Potion", null);
         SlotsGroup ingredientGroup = new SlotsGroup("Ingredient", null);
         SlotsGroup blockInventoryGroup = new SlotsGroup("Block Inventory", null);
         SlotsGroup beaconConfirmButtonsGroup = new SlotsGroup("Beacon Confirm Buttons", null);
         SlotsGroup primaryBeaconPowersButtonsGroup = new SlotsGroup("Primary Beacon Powers Buttons", null);
         SlotsGroup secondaryBeaconPowersButtonsGroup = new SlotsGroup("Secondary Beacon Powers Buttons", null);
+        SlotsGroup lapisLazuliInputGroup = new SlotsGroup("%s Input".formatted(Items.LAPIS_LAZULI.getName().getString()), null);
+        SlotsGroup enchantsGroup = new SlotsGroup("Enchants", null);
         SlotsGroup unknownGroup = new SlotsGroup("Unknown", null);
 
         for (Slot s : slots) {
@@ -214,6 +221,18 @@ public class GroupGenerator {
             }
             //</editor-fold>
 
+            //<editor-fold desc="Group enchantment screen slot items">
+            if (screen.getHandler() instanceof EnchantmentScreenHandler && index == 0) {
+                itemInputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+
+            if (screen.getHandler() instanceof EnchantmentScreenHandler && index == 1) {
+                lapisLazuliInputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+            //</editor-fold>
+
             //<editor-fold desc="Group storage container(chests, hopper, dispenser, etc.) inventory slot items">
             if (screen.getHandler() instanceof GenericContainerScreenHandler && s.inventory instanceof SimpleInventory) {
                 blockInventoryGroup.slotItems.add(new SlotItem(s));
@@ -294,7 +313,7 @@ public class GroupGenerator {
         //</editor-fold>
 
         //<editor-fold desc="Group beacon screen buttons (refer to BeaconScreen.java -->> init())">
-        if(screen.getHandler() instanceof BeaconScreenHandler){
+        if (screen.getHandler() instanceof BeaconScreenHandler) {
             int l;
             int k;
             int j;
@@ -314,6 +333,34 @@ public class GroupGenerator {
                 secondaryBeaconPowersButtonsGroup.slotItems.add(new SlotItem(176 + l * 24 - k / 2, screen.getY() + 47));
             }
             secondaryBeaconPowersButtonsGroup.slotItems.add(new SlotItem(176 + (j - 1) * 24 - k / 2, screen.getY() + 47));
+        }
+        //</editor-fold>
+
+        //<editor-fold desc="Group enchantment screen enchant buttons (EnchantScreen.java -->> render())">
+        if (MinecraftClient.getInstance().player != null && screen.getHandler() instanceof EnchantmentScreenHandler enchantmentScreenHandler) {
+            boolean bl = MinecraftClient.getInstance().player.getAbilities().creativeMode;
+            int i = enchantmentScreenHandler.getLapisCount();
+            for (int j = 0; j < 3; ++j) {
+                int k = enchantmentScreenHandler.enchantmentPower[j];
+                Enchantment enchantment = Enchantment.byRawId(enchantmentScreenHandler.enchantmentId[j]);
+                int l = enchantmentScreenHandler.enchantmentLevel[j];
+                int m = j + 1;
+                if( enchantment == null) break;
+                StringBuilder clueText = new StringBuilder(Text.translatable("container.enchant.clue", enchantment.getName(l)).formatted(Formatting.WHITE).getString());
+                if (!bl) {
+                    clueText = new StringBuilder();
+                    if (MinecraftClient.getInstance().player.experienceLevel < k) {
+                        clueText.append(Text.translatable("container.enchant.level.requirement", enchantmentScreenHandler.enchantmentPower[j]).formatted(Formatting.RED).getString());
+                    } else {
+                        MutableText mutableText = m == 1 ? Text.translatable("container.enchant.lapis.one") : Text.translatable("container.enchant.lapis.many", m);
+                        clueText.append(mutableText.formatted(i >= m ? Formatting.GRAY : Formatting.RED).getString());
+                        MutableText mutableText2 = m == 1 ? Text.translatable("container.enchant.level.one") : Text.translatable("container.enchant.level.many", m);
+                        clueText.append(mutableText2.formatted(Formatting.GRAY).getString());
+                    }
+                }
+
+                enchantsGroup.slotItems.add(new SlotItem(80, 21 + 19 * j, clueText.toString()));
+            }
         }
         //</editor-fold>
 
@@ -386,6 +433,10 @@ public class GroupGenerator {
         if (patternInputGroup.slotItems.size() > 0) {
             foundGroups.add(patternInputGroup);
         }
+
+        if (lapisLazuliInputGroup.slotItems.size() > 0) {
+            foundGroups.add(lapisLazuliInputGroup);
+        }
         //</editor-fold>
 
         //<editor-fold desc="Add Screen Specific Groups to foundGroups">
@@ -394,17 +445,25 @@ public class GroupGenerator {
             recipesGroup.mapTheGroupList(4);
             foundGroups.add(recipesGroup);
         }
+
         if (beaconConfirmButtonsGroup.slotItems.size() > 0) {
             beaconConfirmButtonsGroup.mapTheGroupList(2);
             foundGroups.add(beaconConfirmButtonsGroup);
         }
+
         if (primaryBeaconPowersButtonsGroup.slotItems.size() > 0) {
             primaryBeaconPowersButtonsGroup.mapTheGroupList(2);
             foundGroups.add(primaryBeaconPowersButtonsGroup);
         }
+
         if (secondaryBeaconPowersButtonsGroup.slotItems.size() > 0) {
             secondaryBeaconPowersButtonsGroup.mapTheGroupList(2);
             foundGroups.add(secondaryBeaconPowersButtonsGroup);
+        }
+
+        if (enchantsGroup.slotItems.size() > 0) {
+            enchantsGroup.mapTheGroupList(3, true);
+            foundGroups.add(enchantsGroup);
         }
         //</editor-fold>
 

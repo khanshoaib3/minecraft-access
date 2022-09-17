@@ -19,4 +19,10 @@ public interface HandledScreenAccessor {
 
     @Accessor
     ScreenHandler getHandler();
+
+    @Accessor
+    int getBackgroundWidth();
+
+    @Accessor
+    int getBackgroundHeight();
 }
