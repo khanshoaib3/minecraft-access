@@ -30,6 +30,8 @@ public class SlotItem {
     private int row;
     private int column;
 
+    private String text = null;
+
     public SlotItem(Slot slot) {
         this.slot = slot;
         this.x = slot.x + 9;
@@ -52,6 +54,12 @@ public class SlotItem {
     public SlotItem(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public SlotItem(int x, int y, String text) {
+        this.x = x;
+        this.y = y;
+        this.text = text;
     }
 
     public String getNarratableText() {
@@ -79,6 +87,9 @@ public class SlotItem {
 
             return "%s %s".formatted(item.getCount(), toolTipString);
         }
+
+        if(text!=null)
+            return text;
 
         return "";
     }

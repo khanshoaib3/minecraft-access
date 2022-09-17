@@ -4,6 +4,7 @@ import com.github.khanshoaib3.minecraft_access.mixin.*;
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
 import net.minecraft.block.entity.BannerPattern;
+import net.minecraft.block.entity.BeaconBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.*;
 import net.minecraft.client.gui.screen.recipebook.AnimatedResultButton;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class GroupGenerator {
+
     public static List<SlotsGroup> generateGroupsFromSlots(HandledScreenAccessor screen) {
         if (screen instanceof CreativeInventoryScreen creativeInventoryScreen) {
             return creativeInventoryGroups(creativeInventoryScreen);
@@ -60,6 +62,9 @@ public class GroupGenerator {
         SlotsGroup potionGroup = new SlotsGroup("Potion", null);
         SlotsGroup ingredientGroup = new SlotsGroup("Ingredient", null);
         SlotsGroup blockInventoryGroup = new SlotsGroup("Block Inventory", null);
+        SlotsGroup beaconConfirmButtonsGroup = new SlotsGroup("Beacon Confirm Buttons", null);
+        SlotsGroup primaryBeaconPowersButtonsGroup = new SlotsGroup("Primary Beacon Powers Buttons", null);
+        SlotsGroup secondaryBeaconPowersButtonsGroup = new SlotsGroup("Secondary Beacon Powers Buttons", null);
         SlotsGroup unknownGroup = new SlotsGroup("Unknown", null);
 
         for (Slot s : slots) {
@@ -202,6 +207,13 @@ public class GroupGenerator {
             }
             //</editor-fold>
 
+            //<editor-fold desc="Group beacon screen slot items">
+            if (screen.getHandler() instanceof BeaconScreenHandler && index == 0) {
+                itemInputGroup.slotItems.add(new SlotItem(s));
+                continue;
+            }
+            //</editor-fold>
+
             //<editor-fold desc="Group storage container(chests, hopper, dispenser, etc.) inventory slot items">
             if (screen.getHandler() instanceof GenericContainerScreenHandler && s.inventory instanceof SimpleInventory) {
                 blockInventoryGroup.slotItems.add(new SlotItem(s));
@@ -281,6 +293,30 @@ public class GroupGenerator {
         }
         //</editor-fold>
 
+        //<editor-fold desc="Group beacon screen buttons (refer to BeaconScreen.java -->> init())">
+        if(screen.getHandler() instanceof BeaconScreenHandler){
+            int l;
+            int k;
+            int j;
+            int i;
+            beaconConfirmButtonsGroup.slotItems.add(new SlotItem(173, screen.getY() + 107, "Done Button"));
+            beaconConfirmButtonsGroup.slotItems.add(new SlotItem(199, screen.getY() + 107, "Cancel Button"));
+            for (i = 0; i <= 2; ++i) {
+                j = BeaconBlockEntity.EFFECTS_BY_LEVEL[i].length;
+                k = j * 22 + (j - 1) * 2;
+                for (l = 0; l < j; ++l) {
+                    primaryBeaconPowersButtonsGroup.slotItems.add(new SlotItem(85 + l * 24 - k / 2, screen.getY() + 22 + i * 25));
+                }
+            }
+            j = BeaconBlockEntity.EFFECTS_BY_LEVEL[3].length + 1;
+            k = j * 22 + (j - 1) * 2;
+            for (l = 0; l < j - 1; ++l) {
+                secondaryBeaconPowersButtonsGroup.slotItems.add(new SlotItem(176 + l * 24 - k / 2, screen.getY() + 47));
+            }
+            secondaryBeaconPowersButtonsGroup.slotItems.add(new SlotItem(176 + (j - 1) * 24 - k / 2, screen.getY() + 47));
+        }
+        //</editor-fold>
+
         //<editor-fold desc="Add Inventory Groups to foundGroups">
         if (armourGroup.slotItems.size() > 0) {
             foundGroups.add(armourGroup);
@@ -352,11 +388,23 @@ public class GroupGenerator {
         }
         //</editor-fold>
 
-        //<editor-fold desc="Add Recipe Groups to foundGroups">
+        //<editor-fold desc="Add Screen Specific Groups to foundGroups">
         if (recipesGroup.slotItems.size() > 0) {
             recipesGroup.isScrollable = true;
             recipesGroup.mapTheGroupList(4);
             foundGroups.add(recipesGroup);
+        }
+        if (beaconConfirmButtonsGroup.slotItems.size() > 0) {
+            beaconConfirmButtonsGroup.mapTheGroupList(2);
+            foundGroups.add(beaconConfirmButtonsGroup);
+        }
+        if (primaryBeaconPowersButtonsGroup.slotItems.size() > 0) {
+            primaryBeaconPowersButtonsGroup.mapTheGroupList(2);
+            foundGroups.add(primaryBeaconPowersButtonsGroup);
+        }
+        if (secondaryBeaconPowersButtonsGroup.slotItems.size() > 0) {
+            secondaryBeaconPowersButtonsGroup.mapTheGroupList(2);
+            foundGroups.add(secondaryBeaconPowersButtonsGroup);
         }
         //</editor-fold>
 
