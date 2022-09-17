@@ -94,13 +94,13 @@ public class SlotItem {
 
         if (MinecraftClient.getInstance().currentScreen instanceof MerchantScreen merchantScreen) {
             TradeOfferList tradeOfferList = merchantScreen.getScreenHandler().getRecipes();
-            if(tradeOfferList.isEmpty()) return "Unknown";
-            TradeOffer tradeOffer = tradeOfferList.get(recipeOrTradeIndex + ((MerchantScreenAccessor)merchantScreen).getIndexStartOffset());
+            if (tradeOfferList.isEmpty()) return "Unknown";
+            TradeOffer tradeOffer = tradeOfferList.get(recipeOrTradeIndex + ((MerchantScreenAccessor) merchantScreen).getIndexStartOffset());
 
             ItemStack firstBuyItem = tradeOffer.getOriginalFirstBuyItem();
             ItemStack secondBuyItem = tradeOffer.getSecondBuyItem();
             ItemStack sellItem = tradeOffer.getSellItem();
-            String tradeText = "Trade %d %s".formatted(firstBuyItem.getCount(), firstBuyItem.getName().getString());
+            String tradeText = "Trade %d %s".formatted(firstBuyItem.getCount() + tradeOffer.getSpecialPrice(), firstBuyItem.getName().getString());
             if (!secondBuyItem.isEmpty()) {
                 tradeText = "%s and %d %s".formatted(tradeText, secondBuyItem.getCount(), secondBuyItem.getName().getString());
             }
