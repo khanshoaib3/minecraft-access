@@ -9,15 +9,18 @@
     "AnimatedResultButtonAccessor",
     "AnimatedResultButtonMixin",
     "AnvilScreenAccessor",
+    "ButtonWidgetMixin",
     "CreativeInventoryScreenAccessor",
     "HandledScreenAccessor",
     "LoomScreenAccessor",
+    "MerchantScreenAccessor",
     "NarratorLinuxMixin",
     "NarratorWindowsMixin",
     "RecipeBookResultsAccessor",
     "RecipeBookWidgetAccessor",
     "SlotAccessor",
-    "StonecutterScreenAccessor"
+    "StonecutterScreenAccessor",
+    "ScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

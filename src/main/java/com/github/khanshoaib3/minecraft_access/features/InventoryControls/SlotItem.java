@@ -1,16 +1,20 @@
 package com.github.khanshoaib3.minecraft_access.features.InventoryControls;
 
 import com.github.khanshoaib3.minecraft_access.mixin.LoomScreenAccessor;
+import com.github.khanshoaib3.minecraft_access.mixin.MerchantScreenAccessor;
 import com.github.khanshoaib3.minecraft_access.mixin.StonecutterScreenAccessor;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.LoomScreen;
+import net.minecraft.client.gui.screen.ingame.MerchantScreen;
 import net.minecraft.client.gui.screen.ingame.StonecutterScreen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.StonecuttingRecipe;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.village.TradeOffer;
+import net.minecraft.village.TradeOfferList;
 
 import java.util.List;
 
@@ -25,7 +29,7 @@ public class SlotItem {
 
     public Slot slot = null;
 
-    private int recipeIndex;
+    private int recipeOrTradeIndex;
 
     private int row;
     private int column;
@@ -38,10 +42,10 @@ public class SlotItem {
         this.y = slot.y + 9;
     }
 
-    public SlotItem(int x, int y, int recipeIndex) {
+    public SlotItem(int x, int y, int recipeOrTradeIndex) {
         this.x = x;
         this.y = y;
-        this.recipeIndex = recipeIndex;
+        this.recipeOrTradeIndex = recipeOrTradeIndex;
     }
 
     public SlotItem(int x, int y, int row, int column) {
@@ -78,7 +82,7 @@ public class SlotItem {
             if (list.size() == 0) return "";
 
             int scrollOffset = ((StonecutterScreenAccessor) stonecutterScreen).getScrollOffset();
-            ItemStack item = list.get(recipeIndex + scrollOffset).getOutput();
+            ItemStack item = list.get(recipeOrTradeIndex + scrollOffset).getOutput();
             List<Text> toolTip = MinecraftClient.getInstance().currentScreen.getTooltipFromItem(item);
             StringBuilder toolTipString = new StringBuilder();
             for (Text text : toolTip) {
@@ -88,8 +92,26 @@ public class SlotItem {
             return "%s %s".formatted(item.getCount(), toolTipString);
         }
 
-        if(text!=null)
+        if (MinecraftClient.getInstance().currentScreen instanceof MerchantScreen merchantScreen) {
+            TradeOfferList tradeOfferList = merchantScreen.getScreenHandler().getRecipes();
+            if(tradeOfferList.isEmpty()) return "Unknown";
+            TradeOffer tradeOffer = tradeOfferList.get(recipeOrTradeIndex + ((MerchantScreenAccessor)merchantScreen).getIndexStartOffset());
+
+            ItemStack firstBuyItem = tradeOffer.getOriginalFirstBuyItem();
+            ItemStack secondBuyItem = tradeOffer.getSecondBuyItem();
+            ItemStack sellItem = tradeOffer.getSellItem();
+            String tradeText = "Trade %d %s".formatted(firstBuyItem.getCount(), firstBuyItem.getName().getString());
+            if (!secondBuyItem.isEmpty()) {
+                tradeText = "%s and %d %s".formatted(tradeText, secondBuyItem.getCount(), secondBuyItem.getName().getString());
+            }
+            tradeText = "%s for %d %s".formatted(tradeText, sellItem.getCount(), sellItem.getName().getString());
+
+            return tradeText;
+        }
+
+        if (text != null) {
             return text;
+        }
 
         return "";
     }

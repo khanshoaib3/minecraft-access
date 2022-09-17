@@ -24,6 +24,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.village.TradeOfferList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class GroupGenerator {
         SlotsGroup itemOutputGroup = new SlotsGroup("Item Output", null);
         SlotsGroup itemInputGroup = new SlotsGroup("Item Input", null);
         SlotsGroup recipesGroup = new SlotsGroup("Recipes", null);
+        SlotsGroup tradesGroup = new SlotsGroup("Trades", null);
         SlotsGroup fuelInputGroup = new SlotsGroup("Fuel Input", null);
         SlotsGroup craftingOutputGroup = new SlotsGroup("Crafting Output", null);
         SlotsGroup craftingInputGroup = new SlotsGroup("Crafting Input", null);
@@ -345,7 +347,7 @@ public class GroupGenerator {
                 Enchantment enchantment = Enchantment.byRawId(enchantmentScreenHandler.enchantmentId[j]);
                 int l = enchantmentScreenHandler.enchantmentLevel[j];
                 int m = j + 1;
-                if( enchantment == null) break;
+                if (enchantment == null) break;
                 StringBuilder clueText = new StringBuilder(Text.translatable("container.enchant.clue", enchantment.getName(l)).formatted(Formatting.WHITE).getString());
                 if (!bl) {
                     clueText = new StringBuilder();
@@ -360,6 +362,25 @@ public class GroupGenerator {
                 }
 
                 enchantsGroup.slotItems.add(new SlotItem(80, 21 + 19 * j, clueText.toString()));
+            }
+        }
+        //</editor-fold>
+
+        //<editor-fold desc="Group merchant trades">
+        if (screen instanceof MerchantScreen merchantScreen) {
+            MerchantScreenHandler merchantScreenHandler = merchantScreen.getScreenHandler();
+            TradeOfferList tradeOfferList = merchantScreenHandler.getRecipes();
+            if (!tradeOfferList.isEmpty()) {
+                int i = (merchantScreen.width - screen.getBackgroundWidth()) / 2;
+                int j = (merchantScreen.height - screen.getBackgroundHeight()) / 2;
+                int k = j + 16 + 1;
+                int l = i + 5 + 5;
+                for (int z = 0; z < tradeOfferList.size() && z < 7; z++) {
+                    int n = k + 11;
+
+                    tradesGroup.slotItems.add(new SlotItem(l - screen.getX(), n - screen.getY(), z));
+                    k += 20;
+                }
             }
         }
         //</editor-fold>
@@ -464,6 +485,12 @@ public class GroupGenerator {
         if (enchantsGroup.slotItems.size() > 0) {
             enchantsGroup.mapTheGroupList(3, true);
             foundGroups.add(enchantsGroup);
+        }
+
+        if (tradesGroup.slotItems.size() > 0) {
+            tradesGroup.isScrollable = true;
+            tradesGroup.mapTheGroupList(7, true);
+            foundGroups.add(tradesGroup);
         }
         //</editor-fold>
 
