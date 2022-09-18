@@ -69,9 +69,6 @@ public class CameraControls {
         ));
     }
 
-    /**
-     * This method gets called at the end of every tick.
-     */
     public void update() {
         if (!this.shouldRun) return;
         try {

@@ -1,6 +1,5 @@
 package com.github.khanshoaib3.minecraft_access.features.InventoryControls;
 
-import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.screen.slot.Slot;
 import org.jetbrains.annotations.NotNull;
 

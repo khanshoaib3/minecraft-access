@@ -14,7 +14,6 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.text.Text;
-import net.minecraft.util.Pair;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
@@ -24,6 +23,26 @@ import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * This features lets us use keyboard in inventory screens. Works with all default minecraft screens.
+ * <p>
+ * Key binds and combinations: (all key binds are re-mappable(except two keys) from the game's controls menu and these key binds do not interrupt with any other key with same key.)<br>
+ * 1) Up Key (default: I) = Focus to slot above.<br>
+ * 2) Right Key (default: L) = Focus to slot right.<br>
+ * 3) Down Key (default: K) = Focus to slot down.<br>
+ * 10) Left Mouse Click Sim Key (default: [) = Simulates left mouse click.<br>
+ * 4) Left Key (default: J) = Focus to slot left.<br>
+ * 5) Group Key (default: C) = Select next group.<br>
+ * 6) Left Shift + Group Key = Select previous group.<br>
+ * 7) Switch Tab Key (default: V) = Select next tab (only for creative inventory screen and inventory/crafting screen).<br>
+ * 8) Left Shift + Switch Tab Key = Select previous tab (only for creative inventory screen and inventory/crafting screen).<br>
+ * 9) Toggle Craftable Key (default: R) = Toggle between show all and show only craftable recipes in inventory/crafting screen.<br>
+ * 10) Left Mouse Click Sim Key (default: [) = Simulates left mouse click.<br>
+ * 11) Right Mouse Click Sim Key (default: ]) = Simulates right mouse click.<br>
+ * 12) T Key (not re-mappable) = Select the search box.<br>
+ * 13) Enter Key (not re-mappable) = Deselect the search box.<br>
+ * </p>
+ */
 public class InventoryControls {
     public boolean shouldRun = true;
     private MinecraftClient minecraftClient;
@@ -37,15 +56,15 @@ public class InventoryControls {
     private SlotItem currentSlotItem = null;
     private String previousSlotText = "";
 
-    private final KeyBinding leftKey;
-    private final KeyBinding rightKey;
-    private final KeyBinding upKey;
-    private final KeyBinding downKey;
     private final KeyBinding groupKey;
+    private final KeyBinding upKey;
+    private final KeyBinding rightKey;
+    private final KeyBinding downKey;
+    private final KeyBinding leftKey;
     private final KeyBinding leftMouseClickKey;
     private final KeyBinding rightMouseClickKey;
     private final KeyBinding switchTabKey;
-    private final KeyBinding recipeToggleKey;
+    private final KeyBinding toggleCraftableKey;
 
     private enum FocusDirection {
         UP("above"),
@@ -64,67 +83,70 @@ public class InventoryControls {
         }
     }
 
+    /**
+     * Initializes the key bindings.
+     */
     public InventoryControls() {
         String categoryTranslationKey = "Inventory Controls"; //TODO add translation key instead
 
         groupKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "GROUP_KEY", //TODO add translation key instead
+                "Group Key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_C,
                 categoryTranslationKey
         ));
 
         leftMouseClickKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "CLICK_KEY", //TODO add translation key instead
+                "Left mouse click sim key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_LEFT_BRACKET,
                 categoryTranslationKey
         ));
 
         rightMouseClickKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "RIGHT_CLICK_KEY", //TODO add translation key instead
+                "Right mouse click sim key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_RIGHT_BRACKET,
                 categoryTranslationKey
         ));
 
         upKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "UP_KEY", //TODO add translation key instead
+                "Up key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_I,
                 categoryTranslationKey
         ));
 
         rightKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "RIGHT_KEY", //TODO add translation key instead
+                "Right Key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_L,
                 categoryTranslationKey
         ));
 
         downKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "DOWN_KEY", //TODO add translation key instead
+                "Down Key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_K,
                 categoryTranslationKey
         ));
 
         leftKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "LEFT_KEY", //TODO add translation key instead
+                "Left Key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_J,
                 categoryTranslationKey
         ));
 
         switchTabKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "Switch Tab Key", //TODO add translation key instead
+                "Switch tabs Key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_V,
                 categoryTranslationKey
         ));
 
-        recipeToggleKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "Toggle Recipe Book Key", //TODO add translation key instead
+        toggleCraftableKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "Toggle craftable Key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_R,
                 categoryTranslationKey
@@ -203,6 +225,10 @@ public class InventoryControls {
         }
     }
 
+    /**
+     * Handles the key inputs.
+     * @return True if any key is pressed else false.
+     */
     private boolean keyListener() {
         boolean isGroupKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(groupKey.getBoundKeyTranslationKey()).getCode());
         boolean isLeftClickKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(leftMouseClickKey.getBoundKeyTranslationKey()).getCode());
@@ -212,7 +238,7 @@ public class InventoryControls {
         boolean isDownKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(downKey.getBoundKeyTranslationKey()).getCode());
         boolean isLeftKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(leftKey.getBoundKeyTranslationKey()).getCode());
         boolean isSwitchTabKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(switchTabKey.getBoundKeyTranslationKey()).getCode());
-        boolean isRecipeToggleCraftableKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(recipeToggleKey.getBoundKeyTranslationKey()).getCode());
+        boolean isToggleCraftableKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(toggleCraftableKey.getBoundKeyTranslationKey()).getCode());
         boolean isLeftShiftPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.left.shift").getCode());
         boolean isEnterPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.enter").getCode())
                 || InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.keypad.enter").getCode());
@@ -308,13 +334,13 @@ public class InventoryControls {
                     MouseUtils.scrollUp();
                 }
             } else {
-                focusSlotAt(FocusDirection.UP);
+                focusSlotItemAt(FocusDirection.UP);
             }
             return true;
         }
         if (isRightKeyPressed) {
             MainClass.infoLog("Right key pressed");
-            focusSlotAt(FocusDirection.RIGHT);
+            focusSlotItemAt(FocusDirection.RIGHT);
             return true;
         }
         if (isDownKeyPressed) {
@@ -339,14 +365,14 @@ public class InventoryControls {
                 } else {
                     MouseUtils.scrollDown();
                 }
-            }else {
-                focusSlotAt(FocusDirection.DOWN);
+            } else {
+                focusSlotItemAt(FocusDirection.DOWN);
             }
             return true;
         }
         if (isLeftKeyPressed) {
             MainClass.infoLog("Left key pressed");
-            focusSlotAt(FocusDirection.LEFT);
+            focusSlotItemAt(FocusDirection.LEFT);
             return true;
         }
         if (isTPressed) {
@@ -365,7 +391,7 @@ public class InventoryControls {
             }
             return true;
         }
-        if (isRecipeToggleCraftableKeyPressed) {
+        if (isToggleCraftableKeyPressed) {
             RecipeBookWidget recipeBookWidget = null;
             if (currentScreen instanceof InventoryScreen inventoryScreen) {
                 recipeBookWidget = inventoryScreen.getRecipeBookWidget();
@@ -395,67 +421,34 @@ public class InventoryControls {
         return false;
     }
 
-    private void changeCreativeInventoryTab(boolean goForward) {
-        if (!(currentScreen instanceof CreativeInventoryScreen creativeInventoryScreen)) return;
-
-        int nextTabIndex = creativeInventoryScreen.getSelectedTab() + (goForward ? 1 : -1);
-        nextTabIndex = MathHelper.clamp(nextTabIndex, 0, 11);
-
-        ((CreativeInventoryScreenAccessor) creativeInventoryScreen).invokeSetSelectedTab(ItemGroup.GROUPS[nextTabIndex]);
-        MainClass.infoLog("Tab(name:%s) %d/%d selected".formatted(ItemGroup.GROUPS[nextTabIndex].getName(), nextTabIndex + 1, 12));
-        Narrator.getNarrator().say("Tab %s selected".formatted(ItemGroup.GROUPS[nextTabIndex].getDisplayName().getString()), true);
-
-        refreshGroupListAndSelectFirstGroup(false);
-    }
-
-    private void changeRecipeTab(boolean goForward) {
-        RecipeBookWidget recipeBookWidget = null;
-        if (currentScreen instanceof InventoryScreen inventoryScreen) {
-            recipeBookWidget = inventoryScreen.getRecipeBookWidget();
-        } else if (currentScreen instanceof CraftingScreen craftingScreen) {
-            recipeBookWidget = craftingScreen.getRecipeBookWidget();
-        }
-
-        if (recipeBookWidget == null) return;
-        if (!recipeBookWidget.isOpen()) return;
-
-        RecipeBookWidgetAccessor recipeBookWidgetAccessor = (RecipeBookWidgetAccessor) recipeBookWidget;
-        int currentTabIndex = recipeBookWidgetAccessor.getTabButtons().indexOf(recipeBookWidgetAccessor.getCurrentTab());
-
-        int nextTabIndex = currentTabIndex + (goForward ? 1 : -1);
-        nextTabIndex = MathHelper.clamp(nextTabIndex, 0, recipeBookWidgetAccessor.getTabButtons().size() - 1);
-
-        int y = recipeBookWidgetAccessor.getTabButtons().get(nextTabIndex).y + 9;
-        int x = recipeBookWidgetAccessor.getTabButtons().get(nextTabIndex).x + 9;
-
-        int targetX = (int) (minecraftClient.getWindow().getX() + (x * minecraftClient.getWindow().getScaleFactor()));
-        int targetY = (int) (minecraftClient.getWindow().getY() + (y * minecraftClient.getWindow().getScaleFactor()));
-
-        MouseUtils.moveAndLeftClick(targetX, targetY);
-        moveToSlotItem(currentSlotItem, 100);
-
-        MainClass.infoLog("Change tab to %s".formatted(recipeBookWidgetAccessor.getCurrentTab().getCategory().name()));
-    }
-
-    private void focusSlotAt(FocusDirection direction) {
+    /**
+     * Focuses a slot item in the specified direction if available.
+     * @param focusDirection The direction of the slot item to focus.
+     */
+    private void focusSlotItemAt(FocusDirection focusDirection) {
         if (currentGroup == null) {
             changeGroup(true);
             return;
         }
         if (currentSlotItem == null) {
-            focusGroupItem(currentGroup.getFirstGroupItem(), true);
+            focusSlotItem(currentGroup.getFirstGroupItem(), true);
             return;
         }
 
-        SlotItem slotItem = getGroupItemInDirection(direction);
+        SlotItem slotItem = getGroupItemInDirection(focusDirection);
         if (slotItem == null) {
-            Narrator.getNarrator().say("No slot %s".formatted(direction.getString()), true); //TODO use i18n instead
+            Narrator.getNarrator().say("No slot %s".formatted(focusDirection.getString()), true); //TODO use i18n instead
             return;
         }
 
-        focusGroupItem(slotItem, true);
+        focusSlotItem(slotItem, true);
     }
 
+    /**
+     * Returns the slot item in the specified direction if available.
+     * @param focusDirection The direction of the slot item.
+     * @return The object of the slot item if found else null.
+     */
     private SlotItem getGroupItemInDirection(FocusDirection focusDirection) {
         switch (focusDirection) {
             case UP -> {
@@ -507,7 +500,12 @@ public class InventoryControls {
         return null;
     }
 
-    private void focusGroupItem(@NotNull SlotItem slotItem, boolean interrupt) {
+    /**
+     * Focuses at the specified slot item in the current group and narrate its details.
+     * @param slotItem The object of the slot item to focus.
+     * @param interrupt Whether to stop the narrator from speaking the previous message or not.
+     */
+    private void focusSlotItem(@NotNull SlotItem slotItem, boolean interrupt) {
         currentSlotItem = slotItem;
         moveToSlotItem(currentSlotItem);
 //        MainClass.infoLog("Slot %d/%d selected".formatted(slotItem.slot.getIndex() + 1, currentGroup.slotItems.size()));
@@ -519,6 +517,44 @@ public class InventoryControls {
         }
     }
 
+    /**
+     * Moves the mouse cursor over to the slot item specified.
+     * @param slotItem The object of the slot item to move the mouse cursor over to.
+     */
+    private void moveToSlotItem(SlotItem slotItem) {
+        if (slotItem == null) return;
+
+        int x = slotItem.x;
+        int y = slotItem.y;
+
+        int targetX = (int) (minecraftClient.getWindow().getX() + ((currentScreen.getX() + x) * minecraftClient.getWindow().getScaleFactor()));
+        int targetY = (int) (minecraftClient.getWindow().getY() + ((currentScreen.getY() + y) * minecraftClient.getWindow().getScaleFactor()));
+
+        MouseUtils.move(targetX, targetY);
+    }
+
+    /**
+     * Moves the mouse cursor over to the specified slot item after some delay.
+     * @param slotItem The object of the slot item to move the mouse cursor over to.
+     * @param delay The delay in milliseconds.
+     */
+    @SuppressWarnings("SameParameterValue")
+    private void moveToSlotItem(SlotItem slotItem, int delay) {
+        if (slotItem == null) return;
+
+        int x = slotItem.x;
+        int y = slotItem.y;
+
+        int targetX = (int) (minecraftClient.getWindow().getX() + ((currentScreen.getX() + x) * minecraftClient.getWindow().getScaleFactor()));
+        int targetY = (int) (minecraftClient.getWindow().getY() + ((currentScreen.getY() + y) * minecraftClient.getWindow().getScaleFactor()));
+
+        MouseUtils.moveAfterDelay(targetX, targetY, delay);
+    }
+
+    /**
+     * Get the details of the current slot item to narrate.
+     * @return The details of the current slot item.
+     */
     private String getCurrentSlotNarrationText() {
         if (currentSlotItem.slot == null) {
             return Objects.requireNonNullElse(currentSlotItem.getNarratableText(), "Unknown");
@@ -538,6 +574,10 @@ public class InventoryControls {
         return "%s %s".formatted(info, toolTipString.toString());
     }
 
+    /**
+     * Change the selected group.
+     * @param goForward Whether to switch to next group or previous group.
+     */
     private void changeGroup(boolean goForward) {
         int nextGroupIndex = currentGroupIndex + (goForward ? 1 : -1);
         nextGroupIndex = MathHelper.clamp(nextGroupIndex, 0, currentSlotsGroupList.size() - 1);
@@ -549,9 +589,13 @@ public class InventoryControls {
         MainClass.infoLog("Group(name:%s) %d/%d selected".formatted(currentGroup.getGroupName(), currentGroupIndex + 1, currentSlotsGroupList.size()));
         Narrator.getNarrator().say("%s %s Group selected".formatted(currentGroup.isScrollable ? "Scrollable" : "", currentGroup.getGroupName()), true);
 
-        focusGroupItem(currentGroup.getFirstGroupItem(), false);
+        focusSlotItem(currentGroup.getFirstGroupItem(), false);
     }
 
+    /**
+     * Refreshes the current group list and selects the first group.
+     * @param interrupt Whether to stop the narrator from speaking the previous message or not.
+     */
     private void refreshGroupListAndSelectFirstGroup(boolean interrupt) {
         currentSlotsGroupList = GroupGenerator.generateGroupsFromSlots(currentScreen);
         if (currentSlotsGroupList.size() == 0) return;
@@ -560,31 +604,56 @@ public class InventoryControls {
         currentGroup = currentSlotsGroupList.get(0);
         MainClass.infoLog("Group(name:%s) %d/%d selected".formatted(currentGroup.getGroupName(), currentGroupIndex + 1, currentSlotsGroupList.size()));
         Narrator.getNarrator().say("%s %s Group selected".formatted(currentGroup.isScrollable ? "Scrollable" : "", currentGroup.getGroupName()), interrupt);
-        focusGroupItem(currentGroup.getFirstGroupItem(), false);
+        focusSlotItem(currentGroup.getFirstGroupItem(), false);
     }
 
-    @SuppressWarnings("SameParameterValue")
-    private void moveToSlotItem(SlotItem slotItem, int delay) {
-        if (slotItem == null) return;
+    /**
+     * Changes the selected tab for creative inventory screen.
+     * @param goForward Whether to switch to next tab or previous tab.
+     */
+    private void changeCreativeInventoryTab(boolean goForward) {
+        if (!(currentScreen instanceof CreativeInventoryScreen creativeInventoryScreen)) return;
 
-        int x = slotItem.x;
-        int y = slotItem.y;
+        int nextTabIndex = creativeInventoryScreen.getSelectedTab() + (goForward ? 1 : -1);
+        nextTabIndex = MathHelper.clamp(nextTabIndex, 0, 11);
 
-        int targetX = (int) (minecraftClient.getWindow().getX() + ((currentScreen.getX() + x) * minecraftClient.getWindow().getScaleFactor()));
-        int targetY = (int) (minecraftClient.getWindow().getY() + ((currentScreen.getY() + y) * minecraftClient.getWindow().getScaleFactor()));
+        ((CreativeInventoryScreenAccessor) creativeInventoryScreen).invokeSetSelectedTab(ItemGroup.GROUPS[nextTabIndex]);
+        MainClass.infoLog("Tab(name:%s) %d/%d selected".formatted(ItemGroup.GROUPS[nextTabIndex].getName(), nextTabIndex + 1, 12));
+        Narrator.getNarrator().say("Tab %s selected".formatted(ItemGroup.GROUPS[nextTabIndex].getDisplayName().getString()), true);
 
-        MouseUtils.moveAfterDelay(targetX, targetY, delay);
+        refreshGroupListAndSelectFirstGroup(false);
     }
 
-    private void moveToSlotItem(SlotItem slotItem) {
-        if (slotItem == null) return;
+    /**
+     * Changes the selected tab for inventory/crafting screen.
+     * @param goForward Whether to switch to next tab or previous tab.
+     */
+    private void changeRecipeTab(boolean goForward) {
+        RecipeBookWidget recipeBookWidget = null;
+        if (currentScreen instanceof InventoryScreen inventoryScreen) {
+            recipeBookWidget = inventoryScreen.getRecipeBookWidget();
+        } else if (currentScreen instanceof CraftingScreen craftingScreen) {
+            recipeBookWidget = craftingScreen.getRecipeBookWidget();
+        }
 
-        int x = slotItem.x;
-        int y = slotItem.y;
+        if (recipeBookWidget == null) return;
+        if (!recipeBookWidget.isOpen()) return;
 
-        int targetX = (int) (minecraftClient.getWindow().getX() + ((currentScreen.getX() + x) * minecraftClient.getWindow().getScaleFactor()));
-        int targetY = (int) (minecraftClient.getWindow().getY() + ((currentScreen.getY() + y) * minecraftClient.getWindow().getScaleFactor()));
+        RecipeBookWidgetAccessor recipeBookWidgetAccessor = (RecipeBookWidgetAccessor) recipeBookWidget;
+        int currentTabIndex = recipeBookWidgetAccessor.getTabButtons().indexOf(recipeBookWidgetAccessor.getCurrentTab());
 
-        MouseUtils.move(targetX, targetY);
+        int nextTabIndex = currentTabIndex + (goForward ? 1 : -1);
+        nextTabIndex = MathHelper.clamp(nextTabIndex, 0, recipeBookWidgetAccessor.getTabButtons().size() - 1);
+
+        int y = recipeBookWidgetAccessor.getTabButtons().get(nextTabIndex).y + 9;
+        int x = recipeBookWidgetAccessor.getTabButtons().get(nextTabIndex).x + 9;
+
+        int targetX = (int) (minecraftClient.getWindow().getX() + (x * minecraftClient.getWindow().getScaleFactor()));
+        int targetY = (int) (minecraftClient.getWindow().getY() + (y * minecraftClient.getWindow().getScaleFactor()));
+
+        MouseUtils.moveAndLeftClick(targetX, targetY);
+        moveToSlotItem(currentSlotItem, 100);
+
+        MainClass.infoLog("Change tab to %s".formatted(recipeBookWidgetAccessor.getCurrentTab().getCategory().name()));
     }
 }
