@@ -4,7 +4,7 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.mixin.*;
 import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
 import com.mojang.text2speech.Narrator;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.*;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
@@ -89,68 +89,77 @@ public class InventoryControls {
     public InventoryControls() {
         String categoryTranslationKey = "Inventory Controls"; //TODO add translation key instead
 
-        groupKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        groupKey = new KeyBinding(
                 "Group Key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_C,
                 categoryTranslationKey
-        ));
+        );
+        KeyMappingRegistry.register(groupKey);
 
-        leftMouseClickKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        leftMouseClickKey = new KeyBinding(
                 "Left mouse click sim key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_LEFT_BRACKET,
                 categoryTranslationKey
-        ));
+        );
+        KeyMappingRegistry.register(leftMouseClickKey);
 
-        rightMouseClickKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        rightMouseClickKey = new KeyBinding(
                 "Right mouse click sim key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_RIGHT_BRACKET,
                 categoryTranslationKey
-        ));
+        );
+        KeyMappingRegistry.register(rightMouseClickKey);
 
-        upKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        upKey = new KeyBinding(
                 "Up key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_I,
                 categoryTranslationKey
-        ));
+        );
+        KeyMappingRegistry.register(upKey);
 
-        rightKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        rightKey = new KeyBinding(
                 "Right Key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_L,
                 categoryTranslationKey
-        ));
+        );
+        KeyMappingRegistry.register(rightKey);
 
-        downKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        downKey = new KeyBinding(
                 "Down Key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_K,
                 categoryTranslationKey
-        ));
+        );
+        KeyMappingRegistry.register(downKey);
 
-        leftKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        leftKey = new KeyBinding(
                 "Left Key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_J,
                 categoryTranslationKey
-        ));
+        );
+        KeyMappingRegistry.register(leftKey);
 
-        switchTabKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        switchTabKey = new KeyBinding(
                 "Switch tabs Key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_V,
                 categoryTranslationKey
-        ));
+        );
+        KeyMappingRegistry.register(switchTabKey);
 
-        toggleCraftableKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        toggleCraftableKey = new KeyBinding(
                 "Toggle craftable Key", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_R,
                 categoryTranslationKey
-        ));
+        );
+        KeyMappingRegistry.register(toggleCraftableKey);
     }
 
     public void update() {

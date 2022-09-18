@@ -3,9 +3,9 @@ package com.github.khanshoaib3.minecraft_access.features;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
 import com.mojang.text2speech.Narrator;
+import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -40,33 +40,38 @@ public class CameraControls {
     public CameraControls() {
         String categoryTranslationKey = "Camera Controls"; //TODO add translation key instead
 
-        up = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        up = new KeyBinding(
                 "Up", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_I,
                 categoryTranslationKey
-        ));
+        );
 
-        right = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        right = new KeyBinding(
                 "Right", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_L,
                 categoryTranslationKey
-        ));
+        );
 
-        down = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        down = new KeyBinding(
                 "Down", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_K,
                 categoryTranslationKey
-        ));
+        );
 
-        left = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        left = new KeyBinding(
                 "Left", //TODO add translation key instead
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_J,
                 categoryTranslationKey
-        ));
+        );
+
+        KeyMappingRegistry.register(up);
+        KeyMappingRegistry.register(right);
+        KeyMappingRegistry.register(down);
+        KeyMappingRegistry.register(left);
     }
 
     public void update() {
