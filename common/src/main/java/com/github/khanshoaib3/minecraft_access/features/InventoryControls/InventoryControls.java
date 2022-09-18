@@ -3,7 +3,6 @@ package com.github.khanshoaib3.minecraft_access.features.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.mixin.*;
 import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
-import com.mojang.text2speech.Narrator;
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.*;
@@ -214,7 +213,7 @@ public class InventoryControls {
 
             if (!previousSlotText.equals(getCurrentSlotNarrationText())) {
                 previousSlotText = getCurrentSlotNarrationText();
-                Narrator.getNarrator().say(previousSlotText, true);
+                MainClass.speakWithNarrator(previousSlotText, true);
             }
 
             // Pause the execution of this feature for 250 milliseconds
@@ -423,7 +422,7 @@ public class InventoryControls {
             moveToSlotItem(currentSlotItem, 100);
 
             MainClass.infoLog("Recipe toggle key pressed, Showing %s".formatted(toggleCraftableButton.isToggled() ? "all" : "craftable only"));
-            Narrator.getNarrator().say("Showing %s".formatted(toggleCraftableButton.isToggled() ? "all" : "craftable only"), true);
+            MainClass.speakWithNarrator("Showing %s".formatted(toggleCraftableButton.isToggled() ? "all" : "craftable only"), true);
             return true;
         }
 
@@ -446,7 +445,7 @@ public class InventoryControls {
 
         SlotItem slotItem = getGroupItemInDirection(focusDirection);
         if (slotItem == null) {
-            Narrator.getNarrator().say("No slot %s".formatted(focusDirection.getString()), true); //TODO use i18n instead
+            MainClass.speakWithNarrator("No slot %s".formatted(focusDirection.getString()), true); //TODO use i18n instead
             return;
         }
 
@@ -522,7 +521,7 @@ public class InventoryControls {
         String toSpeak = getCurrentSlotNarrationText();
         if (toSpeak.length() > 0) {
             previousSlotText = toSpeak;
-            Narrator.getNarrator().say(toSpeak, interrupt);
+            MainClass.speakWithNarrator(toSpeak, interrupt);
         }
     }
 
@@ -596,7 +595,7 @@ public class InventoryControls {
         currentGroupIndex = nextGroupIndex;
         currentGroup = currentSlotsGroupList.get(currentGroupIndex);
         MainClass.infoLog("Group(name:%s) %d/%d selected".formatted(currentGroup.getGroupName(), currentGroupIndex + 1, currentSlotsGroupList.size()));
-        Narrator.getNarrator().say("%s %s Group selected".formatted(currentGroup.isScrollable ? "Scrollable" : "", currentGroup.getGroupName()), true);
+        MainClass.speakWithNarrator("%s %s Group selected".formatted(currentGroup.isScrollable ? "Scrollable" : "", currentGroup.getGroupName()), true);
 
         focusSlotItem(currentGroup.getFirstGroupItem(), false);
     }
@@ -612,7 +611,7 @@ public class InventoryControls {
         currentGroupIndex = 0;
         currentGroup = currentSlotsGroupList.get(0);
         MainClass.infoLog("Group(name:%s) %d/%d selected".formatted(currentGroup.getGroupName(), currentGroupIndex + 1, currentSlotsGroupList.size()));
-        Narrator.getNarrator().say("%s %s Group selected".formatted(currentGroup.isScrollable ? "Scrollable" : "", currentGroup.getGroupName()), interrupt);
+        MainClass.speakWithNarrator("%s %s Group selected".formatted(currentGroup.isScrollable ? "Scrollable" : "", currentGroup.getGroupName()), interrupt);
         focusSlotItem(currentGroup.getFirstGroupItem(), false);
     }
 
@@ -628,7 +627,7 @@ public class InventoryControls {
 
         ((CreativeInventoryScreenAccessor) creativeInventoryScreen).invokeSetSelectedTab(ItemGroup.GROUPS[nextTabIndex]);
         MainClass.infoLog("Tab(name:%s) %d/%d selected".formatted(ItemGroup.GROUPS[nextTabIndex].getName(), nextTabIndex + 1, 12));
-        Narrator.getNarrator().say("Tab %s selected".formatted(ItemGroup.GROUPS[nextTabIndex].getDisplayName().getString()), true);
+        MainClass.speakWithNarrator("Tab %s selected".formatted(ItemGroup.GROUPS[nextTabIndex].getDisplayName().getString()), true);
 
         refreshGroupListAndSelectFirstGroup(false);
     }

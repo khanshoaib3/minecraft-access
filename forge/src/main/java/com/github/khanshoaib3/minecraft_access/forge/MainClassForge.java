@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.Mod;
 public class MainClassForge {
 
     public MainClassForge() {
+        MainClass.isForge = true;
         MainClass.init();
     }
 }

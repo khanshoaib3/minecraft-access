@@ -1,23 +1,22 @@
-package com.github.khanshoaib3.minecraft_access.mixin;
+package com.github.khanshoaib3.minecraft_access.forge.mixin;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.mojang.text2speech.NarratorWindows;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.NarratorManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(NarratorWindows.class)
-public class NarratorWindowsMixin {
-
-    @Inject(at = @At("HEAD"), method = "say", remap = false, cancellable = true)
-    public void say(String msg, boolean interrupt, CallbackInfo info) {
+@Mixin(NarratorManager.class)
+public class NarratorMixin {
+    @Inject(at = @At("HEAD"), method = "narrate(Ljava/lang/String;)V", cancellable = true)
+    private void narrate(String text, CallbackInfo callbackInfo) {
         if (MainClass.getScreenReader() != null && MainClass.getScreenReader().isInitialized()) {
             if (MinecraftClient.getInstance().options.getNarrator().getValue().shouldNarrateSystem())
-                MainClass.getScreenReader().say(msg, interrupt);
+                MainClass.getScreenReader().say(text, true);
 
-            info.cancel();
+            callbackInfo.cancel();
         }
     }
 }

@@ -2,7 +2,6 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
-import com.mojang.text2speech.Narrator;
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -177,7 +176,7 @@ public class CameraControls {
 
             MainClass.infoLog("Rotating %f degrees upwards.".formatted((isLeftAltPressed) ? modifiedRotatingAngle : normalRotatingAngle));
             if(ClientPlayerEntityUtils.getVerticalFacingDirectionInWords()!=null)
-                Narrator.getNarrator().say(ClientPlayerEntityUtils.getVerticalFacingDirectionInWords(), true);
+                MainClass.speakWithNarrator(ClientPlayerEntityUtils.getVerticalFacingDirectionInWords(), true);
         }
     }
 
@@ -197,7 +196,7 @@ public class CameraControls {
 
             MainClass.infoLog("Rotating %f degrees rightwards.".formatted((isLeftAltPressed) ? modifiedRotatingAngle : normalRotatingAngle));
             if(ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true)!=null)
-                Narrator.getNarrator().say(ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true), true);
+                MainClass.speakWithNarrator(ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true), true);
         }
     }
 
@@ -217,7 +216,7 @@ public class CameraControls {
 
             MainClass.infoLog("Rotating %f degrees downwards.".formatted((isLeftAltPressed) ? modifiedRotatingAngle : normalRotatingAngle));
             if(ClientPlayerEntityUtils.getVerticalFacingDirectionInWords()!=null)
-                Narrator.getNarrator().say(ClientPlayerEntityUtils.getVerticalFacingDirectionInWords(), true);
+                MainClass.speakWithNarrator(ClientPlayerEntityUtils.getVerticalFacingDirectionInWords(), true);
         }
     }
 
@@ -237,7 +236,7 @@ public class CameraControls {
 
             MainClass.infoLog("Rotating %f degrees leftwards.".formatted((isLeftAltPressed) ? modifiedRotatingAngle : normalRotatingAngle));
             if(ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true)!=null)
-                Narrator.getNarrator().say(ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true), true);
+                MainClass.speakWithNarrator(ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true), true);
         }
     }
 
@@ -252,7 +251,7 @@ public class CameraControls {
 
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, northBlockPosition);
         MainClass.infoLog("Looking north");
-        Narrator.getNarrator().say("North", true); //TODO use i18n instead
+        MainClass.speakWithNarrator("North", true); //TODO use i18n instead
     }
 
     /**
@@ -266,7 +265,7 @@ public class CameraControls {
 
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, eastBlockPosition);
         MainClass.infoLog("Looking east");
-        Narrator.getNarrator().say("East", true); //TODO use i18n instead
+        MainClass.speakWithNarrator("East", true); //TODO use i18n instead
     }
 
     /**
@@ -280,7 +279,7 @@ public class CameraControls {
 
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, westBlockPosition);
         MainClass.infoLog("Looking west");
-        Narrator.getNarrator().say("West", true); //TODO use i18n instead
+        MainClass.speakWithNarrator("West", true); //TODO use i18n instead
     }
 
     /**
@@ -294,6 +293,6 @@ public class CameraControls {
 
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, southBlockPosition);
         MainClass.infoLog("Looking south");
-        Narrator.getNarrator().say("South", true); //TODO use i18n instead
+        MainClass.speakWithNarrator("South", true); //TODO use i18n instead
     }
 }

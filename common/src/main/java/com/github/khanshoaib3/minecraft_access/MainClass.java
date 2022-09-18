@@ -5,6 +5,7 @@ import com.github.khanshoaib3.minecraft_access.features.InventoryControls.Invent
 import com.github.khanshoaib3.minecraft_access.features.MenuFix;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
+import com.mojang.text2speech.Narrator;
 import dev.architectury.event.events.client.ClientTickEvent;
 import net.minecraft.client.MinecraftClient;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ public class MainClass {
     public static InventoryControls inventoryControls = null;
 
     public static boolean debugMode = true; // TODO add option to toggle this
+    public static boolean isForge = false;
 
     /**
      * Initializes the mod
@@ -69,5 +71,14 @@ public class MainClass {
 
     public static void setScreenReader(ScreenReaderInterface screenReader) {
         MainClass.screenReader = screenReader;
+    }
+
+    public static void speakWithNarrator(String text, boolean interrupt){
+        if(isForge){
+            MinecraftClient.getInstance().getNarratorManager().narrate(text);
+            return;
+        }
+
+        Narrator.getNarrator().say(text, interrupt);
     }
 }

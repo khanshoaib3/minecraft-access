@@ -14,6 +14,7 @@ loom {
         convertAccessWideners = true
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
 
+        mixinConfig "minecraft_access-common.mixins.json"
         mixinConfig "minecraft_access.mixins.json"
     }
 }

@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.mixin;
+package com.github.khanshoaib3.minecraft_access.fabric.mixin;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.mojang.text2speech.NarratorLinux;
@@ -14,7 +14,6 @@ public class NarratorLinuxMixin {
 
     @Inject(at = @At("HEAD"), method = "say", remap = false, cancellable = true)
     public void say(String msg, boolean interrupt, CallbackInfo info) {
-        MainClass.infoLog("\n\n\nHERE\n\n\n");
         if (MainClass.getScreenReader() != null && MainClass.getScreenReader().isInitialized()) {
             if (MinecraftClient.getInstance().options.getNarrator().getValue().shouldNarrateSystem())
                 MainClass.getScreenReader().say(msg, interrupt);

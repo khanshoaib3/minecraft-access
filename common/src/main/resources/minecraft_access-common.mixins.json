@@ -14,13 +14,11 @@
     "HandledScreenAccessor",
     "LoomScreenAccessor",
     "MerchantScreenAccessor",
-    "NarratorLinuxMixin",
-    "NarratorWindowsMixin",
     "RecipeBookResultsAccessor",
     "RecipeBookWidgetAccessor",
+    "ScreenMixin",
     "SlotAccessor",
-    "StonecutterScreenAccessor",
-    "ScreenMixin"
+    "StonecutterScreenAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
