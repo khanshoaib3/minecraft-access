@@ -23,7 +23,7 @@ public class MainClassFabric implements ModInitializer {
         MainClass.inventoryControls = new InventoryControls();
 
         ClientTickEvents.END_CLIENT_TICK.register(MainClass::clientTickEventsMethod);
-        HudRenderCallback.EVENT.register(MainClass::hudRenderCallbackMethod);
+        HudRenderCallback.EVENT.register((matrixStack, v) -> MainClass.hudRenderCallbackMethod());
 
         // This executes when minecraft closes
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

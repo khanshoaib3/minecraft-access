@@ -4,12 +4,9 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.features.CameraControls;
 import com.github.khanshoaib3.minecraft_access.features.InventoryControls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
-import dev.architectury.platform.forge.EventBuses;
-import com.github.khanshoaib3.minecraft_access.ExampleMod;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(ExampleMod.MOD_ID)
+@Mod(MainClass.MOD_ID)
 public class MainClassForge {
     public MainClassForge() {
         String msg = "Initializing Minecraft Access";

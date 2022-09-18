@@ -1,33 +1,33 @@
 modLoader = "javafml"
 loaderVersion = "[43,)"
 #issueTrackerURL = ""
-license = "Insert License Here"
+license = "GNU GPLv3"
 
 [[mods]]
-modId = "examplemod"
+modId = "minecraft_access"
 version = "${version}"
-displayName = "Example Mod"
-authors = "Me!"
+displayName = "Minecraft Access"
+authors = "Shoaib"
 description = '''
-This is an example description! Tell everyone what your mod is about!
+A mod for minecraft java that adds accessibility feature.
 '''
 #logoFile = ""
 
-[[dependencies.examplemod]]
+[[dependencies.minecraft_access]]
 modId = "forge"
 mandatory = true
 versionRange = "[43,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.examplemod]]
+[[dependencies.minecraft_access]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.19.2,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.examplemod]]
+[[dependencies.minecraft_access]]
 modId = "architectury"
 mandatory = true
 versionRange = "[6.2.43,)"

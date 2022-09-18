@@ -21,6 +21,7 @@ public class NarratorLinuxMixin {
                 MainClass.getScreenReader().say(msg, interrupt);
 
             info.cancel();
+
         }
     }
 
