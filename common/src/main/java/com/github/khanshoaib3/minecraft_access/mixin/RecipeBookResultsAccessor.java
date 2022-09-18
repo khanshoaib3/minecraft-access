@@ -1,7 +1,5 @@
 package com.github.khanshoaib3.minecraft_access.mixin;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.recipebook.AnimatedResultButton;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookResults;
 import net.minecraft.client.gui.widget.ToggleButtonWidget;
@@ -10,7 +8,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 import java.util.List;
 
-@Environment(EnvType.CLIENT)
 @Mixin(RecipeBookResults.class)
 public interface RecipeBookResultsAccessor {
     @Accessor
