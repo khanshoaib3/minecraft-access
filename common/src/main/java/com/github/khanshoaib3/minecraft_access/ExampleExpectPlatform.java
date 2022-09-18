@@ -1,4 +1,4 @@
-package net.examplemod;
+package com.github.khanshoaib3.minecraft_access;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.architectury.platform.Platform;

@@ -1,4 +1,4 @@
-package net.examplemod;
+package com.github.khanshoaib3.minecraft_access;
 
 import com.google.common.base.Suppliers;
 import dev.architectury.registry.CreativeTabRegistry;

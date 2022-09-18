@@ -1,31 +1,37 @@
 {
   "schemaVersion": 1,
-  "id": "examplemod",
+  "id": "minecraft_access",
   "version": "${version}",
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+
+  "name": "Minecraft Access",
+  "description": "A mod for minecraft java that adds accessibility feature.",
   "authors": [
-    "Me!"
+    "Shoaib"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/khanshoaib3/minecraft-access",
+    "sources": "https://github.com/khanshoaib3/minecraft-access"
   },
-  "license": "Insert License Here",
-  "icon": "assets/examplemod/icon.png",
+
+  "license": "GNU GPLv3",
+
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.examplemod.fabric.ExampleModFabric"
+      "com.github.khanshoaib3.minecraft_access.fabric.MainClassFabric"
     ]
   },
   "mixins": [
-    "examplemod.mixins.json",
-    "examplemod-common.mixins.json"
+    "minecraft_access.mixins.json",
+    "minecraft_access-common.mixins.json"
   ],
+
   "depends": {
+    "fabricloader": ">=0.14.6",
     "fabric": "*",
-    "minecraft": ">=1.19.2",
-    "architectury": ">=6.2.43"
+    "minecraft": "~1.19"
+  },
+  "suggests": {
+    "another-mod": "*"
   }
 }
