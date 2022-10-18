@@ -13,9 +13,11 @@ public class NarratorMixin {
     @Inject(at = @At("HEAD"), method = "narrate(Ljava/lang/String;)V", cancellable = true)
     private void narrate(String text, CallbackInfo callbackInfo) {
         if (MainClass.getScreenReader() != null && MainClass.getScreenReader().isInitialized()) {
-            if (MinecraftClient.getInstance().options.getNarrator().getValue().shouldNarrateSystem())
-                MainClass.getScreenReader().say(text, true);
+            if (MinecraftClient.getInstance().options.getNarrator().getValue().shouldNarrateSystem()) {
+                MainClass.getScreenReader().say(text, MainClass.interrupt);
+            }
 
+            MainClass.interrupt = true;
             callbackInfo.cancel();
         }
     }

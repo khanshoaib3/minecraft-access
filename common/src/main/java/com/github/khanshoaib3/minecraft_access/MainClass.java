@@ -20,6 +20,7 @@ public class MainClass {
 
     public static boolean debugMode = true; // TODO add option to toggle this
     public static boolean isForge = false;
+    public static boolean interrupt = true;
 
     /**
      * Initializes the mod
@@ -74,6 +75,7 @@ public class MainClass {
     }
 
     public static void speakWithNarrator(String text, boolean interrupt){
+        MainClass.interrupt = interrupt;
         if(isForge){
             MinecraftClient.getInstance().getNarratorManager().narrate(text);
             return;
