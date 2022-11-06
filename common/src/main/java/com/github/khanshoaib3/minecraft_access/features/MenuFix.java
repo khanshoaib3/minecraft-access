@@ -74,9 +74,11 @@ public class MenuFix {
                     prevScreenClass = minecraftClient.currentScreen.getClass();
                 }
 
+                boolean isLeftAltPressed = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(),
+                        InputUtil.fromTranslationKey("key.keyboard.left.alt").getCode());
                 boolean isRPressed = (InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(),
                         InputUtil.fromTranslationKey("key.keyboard.r").getCode()));
-                if (isRPressed)
+                if (isLeftAltPressed && isRPressed)
                     moveMouseCursor(minecraftClient);
             }
         } catch (Exception e) {

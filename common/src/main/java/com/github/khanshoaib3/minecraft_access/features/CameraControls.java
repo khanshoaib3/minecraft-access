@@ -7,6 +7,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.util.math.Vec3d;
@@ -16,10 +17,25 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * This feature adds key binds to control the camera.
+ * This feature adds the following key binds to control the camera.
  */
 @Environment(EnvType.CLIENT)
 public class CameraControls {
+    /* Key binds:-
+            Look Up Key (default=i): Moves the camera vertically up by the normal rotating angle (default=22.5).
+            Look Right Key (default=l): Moves the camera vertically right by the normal rotating angle (default=22.5).
+            Look Down Key (default=k): Moves the camera vertically down by the normal rotating angle (default=22.5).
+            Look Left Key (default=j): Moves the camera vertically left by the normal rotating angle (default=22.5).
+            Left Alt + Look Up Key: Moves the camera vertically up by the modified rotating angle (default=11.25).
+            Left Alt + Look Right Key: Moves the camera vertically right by the modified rotating angle (default=11.25).
+            Left Alt + Look Down Key: Moves the camera vertically down by the modified rotating angle (default=11.25).
+            Left Alt + Look Left Key: Moves the camera vertically left by the modified rotating angle (default=11.25).
+            Right Alt + Look Up Key: Snaps the camera to the north block.
+            Right Alt + Look Right Key: Snaps the camera to the east block.
+            Right Alt + Look Down Key: Snaps the camera to the south block.
+            Right Alt + Look Left Key: Snaps the camera to the west block.
+    */
+
     public final KeyBinding up; //TODO create a separate class for initializing key binds
     public final KeyBinding right;
     public final KeyBinding down;
@@ -37,31 +53,31 @@ public class CameraControls {
      * Initializes the key binds.
      */
     public CameraControls() {
-        String categoryTranslationKey = "Camera Controls"; //TODO add translation key instead
+        String categoryTranslationKey = "minecraft_access.keys.camera_controls.group_name";
 
         up = new KeyBinding(
-                "Up", //TODO add translation key instead
+                "minecraft_access.keys.camera_controls.up_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_I,
                 categoryTranslationKey
         );
 
         right = new KeyBinding(
-                "Right", //TODO add translation key instead
+                "minecraft_access.keys.camera_controls.right_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_L,
                 categoryTranslationKey
         );
 
         down = new KeyBinding(
-                "Down", //TODO add translation key instead
+                "minecraft_access.keys.camera_controls.down_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_K,
                 categoryTranslationKey
         );
 
         left = new KeyBinding(
-                "Left", //TODO add translation key instead
+                "minecraft_access.keys.camera_controls.left_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_J,
                 categoryTranslationKey
@@ -102,6 +118,7 @@ public class CameraControls {
 
     /**
      * Handles the key inputs
+     *
      * @return True if any key is pressed.
      */
     private boolean keyListener() {
@@ -175,7 +192,7 @@ public class CameraControls {
                 minecraftClient.player.changeLookDirection(0, -normalRotatingDeltaAngle);
 
             MainClass.infoLog("Rotating %f degrees upwards.".formatted((isLeftAltPressed) ? modifiedRotatingAngle : normalRotatingAngle));
-            if(ClientPlayerEntityUtils.getVerticalFacingDirectionInWords()!=null)
+            if (ClientPlayerEntityUtils.getVerticalFacingDirectionInWords() != null)
                 MainClass.speakWithNarrator(ClientPlayerEntityUtils.getVerticalFacingDirectionInWords(), true);
         }
     }
@@ -195,7 +212,7 @@ public class CameraControls {
                 minecraftClient.player.changeLookDirection(normalRotatingDeltaAngle, 0);
 
             MainClass.infoLog("Rotating %f degrees rightwards.".formatted((isLeftAltPressed) ? modifiedRotatingAngle : normalRotatingAngle));
-            if(ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true)!=null)
+            if (ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true) != null)
                 MainClass.speakWithNarrator(ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true), true);
         }
     }
@@ -215,7 +232,7 @@ public class CameraControls {
                 minecraftClient.player.changeLookDirection(0, normalRotatingDeltaAngle);
 
             MainClass.infoLog("Rotating %f degrees downwards.".formatted((isLeftAltPressed) ? modifiedRotatingAngle : normalRotatingAngle));
-            if(ClientPlayerEntityUtils.getVerticalFacingDirectionInWords()!=null)
+            if (ClientPlayerEntityUtils.getVerticalFacingDirectionInWords() != null)
                 MainClass.speakWithNarrator(ClientPlayerEntityUtils.getVerticalFacingDirectionInWords(), true);
         }
     }
@@ -235,7 +252,7 @@ public class CameraControls {
                 minecraftClient.player.changeLookDirection(-normalRotatingDeltaAngle, 0);
 
             MainClass.infoLog("Rotating %f degrees leftwards.".formatted((isLeftAltPressed) ? modifiedRotatingAngle : normalRotatingAngle));
-            if(ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true)!=null)
+            if (ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true) != null)
                 MainClass.speakWithNarrator(ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true), true);
         }
     }
@@ -251,7 +268,7 @@ public class CameraControls {
 
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, northBlockPosition);
         MainClass.infoLog("Looking north");
-        MainClass.speakWithNarrator("North", true); //TODO use i18n instead
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.direction.horizontal_angle_north"), true);
     }
 
     /**
@@ -265,7 +282,7 @@ public class CameraControls {
 
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, eastBlockPosition);
         MainClass.infoLog("Looking east");
-        MainClass.speakWithNarrator("East", true); //TODO use i18n instead
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.direction.horizontal_angle_east"), true);
     }
 
     /**
@@ -279,7 +296,7 @@ public class CameraControls {
 
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, westBlockPosition);
         MainClass.infoLog("Looking west");
-        MainClass.speakWithNarrator("West", true); //TODO use i18n instead
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.direction.horizontal_angle_west"), true);
     }
 
     /**
@@ -293,6 +310,6 @@ public class CameraControls {
 
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, southBlockPosition);
         MainClass.infoLog("Looking south");
-        MainClass.speakWithNarrator("South", true); //TODO use i18n instead
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.direction.horizontal_angle_south"), true);
     }
 }
