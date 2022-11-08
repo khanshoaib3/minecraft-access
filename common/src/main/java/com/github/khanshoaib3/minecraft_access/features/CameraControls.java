@@ -17,25 +17,23 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * This feature adds the following key binds to control the camera.
+ * This feature adds the following key binds to control the camera.<br><br>
+ * Key binds and combinations:-<br>
+ * Look Up Key (default=i): Moves the camera vertically up by the normal rotating angle (default=22.5).<br>
+ * Look Right Key (default=l): Moves the camera vertically right by the normal rotating angle (default=22.5).<br>
+ * Look Down Key (default=k): Moves the camera vertically down by the normal rotating angle (default=22.5).<br>
+ * Look Left Key (default=j): Moves the camera vertically left by the normal rotating angle (default=22.5).<br>
+ * Left Alt + Look Up Key: Moves the camera vertically up by the modified rotating angle (default=11.25).<br>
+ * Left Alt + Look Right Key: Moves the camera vertically right by the modified rotating angle (default=11.25).<br>
+ * Left Alt + Look Down Key: Moves the camera vertically down by the modified rotating angle (default=11.25).<br>
+ * Left Alt + Look Left Key: Moves the camera vertically left by the modified rotating angle (default=11.25).<br>
+ * Right Alt + Look Up Key: Snaps the camera to the north block.<br>
+ * Right Alt + Look Right Key: Snaps the camera to the east block.<br>
+ * Right Alt + Look Down Key: Snaps the camera to the south block.<br>
+ * Right Alt + Look Left Key: Snaps the camera to the west block.<br>
  */
 @Environment(EnvType.CLIENT)
 public class CameraControls {
-    /* Key binds:-
-            Look Up Key (default=i): Moves the camera vertically up by the normal rotating angle (default=22.5).
-            Look Right Key (default=l): Moves the camera vertically right by the normal rotating angle (default=22.5).
-            Look Down Key (default=k): Moves the camera vertically down by the normal rotating angle (default=22.5).
-            Look Left Key (default=j): Moves the camera vertically left by the normal rotating angle (default=22.5).
-            Left Alt + Look Up Key: Moves the camera vertically up by the modified rotating angle (default=11.25).
-            Left Alt + Look Right Key: Moves the camera vertically right by the modified rotating angle (default=11.25).
-            Left Alt + Look Down Key: Moves the camera vertically down by the modified rotating angle (default=11.25).
-            Left Alt + Look Left Key: Moves the camera vertically left by the modified rotating angle (default=11.25).
-            Right Alt + Look Up Key: Snaps the camera to the north block.
-            Right Alt + Look Right Key: Snaps the camera to the east block.
-            Right Alt + Look Down Key: Snaps the camera to the south block.
-            Right Alt + Look Left Key: Snaps the camera to the west block.
-    */
-
     public final KeyBinding up; //TODO create a separate class for initializing key binds
     public final KeyBinding right;
     public final KeyBinding down;
@@ -100,6 +98,7 @@ public class CameraControls {
             boolean wasAnyKeyPressed = keyListener();
 
             // Pause the execution of this feature for 250 milliseconds
+            // TODO Remove Timer
             if (wasAnyKeyPressed) {
                 shouldRun = false;
                 TimerTask timerTask = new TimerTask() {

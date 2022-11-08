@@ -269,7 +269,7 @@ public class GroupGenerator {
 
         //<editor-fold desc="Group recipe group slot items if any">
         if (screen instanceof StonecutterScreen stonecutterScreen) {
-            // Refer to StonecutterScreen.java -->> renderRecipeIcons()
+            // Refer to StoneCutterScreen.java -->> renderRecipeIcons()
             int x = screen.getX() + 52;
             int y = screen.getY() + 14;
             int scrollOffset = ((StonecutterScreenAccessor) stonecutterScreen).getScrollOffset();
@@ -559,7 +559,8 @@ public class GroupGenerator {
             foundGroups.add(foundGroups.size() - 1, recipesGroup); // Add to second last index
         }
 
-        /*int mouseX = (int) ((MinecraftClient.getInstance().mouse.getX() - MinecraftClient.getInstance().getWindow().getX()) / MinecraftClient.getInstance().getWindow().getScaleFactor()) - ((HandledScreenAccessor) inventoryScreen).getX();
+        /*
+        int mouseX = (int) ((MinecraftClient.getInstance().mouse.getX() - MinecraftClient.getInstance().getWindow().getX()) / MinecraftClient.getInstance().getWindow().getScaleFactor()) - ((HandledScreenAccessor) inventoryScreen).getX();
         int mouseY = (int) ((MinecraftClient.getInstance().mouse.getY() - MinecraftClient.getInstance().getWindow().getY()) / MinecraftClient.getInstance().getWindow().getScaleFactor()) - ((HandledScreenAccessor) inventoryScreen).getY();
         MainClass.infoLog("\n\n");*/
 

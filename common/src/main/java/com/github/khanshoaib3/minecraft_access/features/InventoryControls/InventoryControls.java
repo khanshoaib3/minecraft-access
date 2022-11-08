@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.client.gui.widget.ToggleButtonWidget;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.text.Text;
@@ -86,10 +87,10 @@ public class InventoryControls {
      * Initializes the key bindings.
      */
     public InventoryControls() {
-        String categoryTranslationKey = "Inventory Controls"; //TODO add translation key instead
+        String categoryTranslationKey = "minecraft_access.keys.inventory_controls.group_name";
 
         groupKey = new KeyBinding(
-                "Group Key", //TODO add translation key instead
+                "minecraft_access.keys.inventory_controls.change_group_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_C,
                 categoryTranslationKey
@@ -97,7 +98,7 @@ public class InventoryControls {
         KeyMappingRegistry.register(groupKey);
 
         leftMouseClickKey = new KeyBinding(
-                "Left mouse click sim key", //TODO add translation key instead
+                "minecraft_access.keys.inventory_controls.left_mouse_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_LEFT_BRACKET,
                 categoryTranslationKey
@@ -105,7 +106,7 @@ public class InventoryControls {
         KeyMappingRegistry.register(leftMouseClickKey);
 
         rightMouseClickKey = new KeyBinding(
-                "Right mouse click sim key", //TODO add translation key instead
+                "minecraft_access.keys.inventory_controls.right_mouse_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_RIGHT_BRACKET,
                 categoryTranslationKey
@@ -113,7 +114,7 @@ public class InventoryControls {
         KeyMappingRegistry.register(rightMouseClickKey);
 
         upKey = new KeyBinding(
-                "Up key", //TODO add translation key instead
+                "minecraft_access.keys.inventory_controls.up_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_I,
                 categoryTranslationKey
@@ -121,7 +122,7 @@ public class InventoryControls {
         KeyMappingRegistry.register(upKey);
 
         rightKey = new KeyBinding(
-                "Right Key", //TODO add translation key instead
+                "minecraft_access.keys.inventory_controls.right_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_L,
                 categoryTranslationKey
@@ -129,7 +130,7 @@ public class InventoryControls {
         KeyMappingRegistry.register(rightKey);
 
         downKey = new KeyBinding(
-                "Down Key", //TODO add translation key instead
+                "minecraft_access.keys.inventory_controls.down_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_K,
                 categoryTranslationKey
@@ -137,7 +138,7 @@ public class InventoryControls {
         KeyMappingRegistry.register(downKey);
 
         leftKey = new KeyBinding(
-                "Left Key", //TODO add translation key instead
+                "minecraft_access.keys.inventory_controls.left_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_J,
                 categoryTranslationKey
@@ -145,7 +146,7 @@ public class InventoryControls {
         KeyMappingRegistry.register(leftKey);
 
         switchTabKey = new KeyBinding(
-                "Switch tabs Key", //TODO add translation key instead
+                "minecraft_access.keys.inventory_controls.switch_tabs_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_V,
                 categoryTranslationKey
@@ -153,7 +154,7 @@ public class InventoryControls {
         KeyMappingRegistry.register(switchTabKey);
 
         toggleCraftableKey = new KeyBinding(
-                "Toggle craftable Key", //TODO add translation key instead
+                "minecraft_access.keys.inventory_controls.toggle_craftable_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_R,
                 categoryTranslationKey
@@ -217,6 +218,7 @@ public class InventoryControls {
             }
 
             // Pause the execution of this feature for 250 milliseconds
+            // TODO Remove Timer
             if (wasAnyKeyPressed) {
                 shouldRun = false;
                 TimerTask timerTask = new TimerTask() {
@@ -235,6 +237,7 @@ public class InventoryControls {
 
     /**
      * Handles the key inputs.
+     *
      * @return True if any key is pressed else false.
      */
     private boolean keyListener() {
@@ -431,6 +434,7 @@ public class InventoryControls {
 
     /**
      * Focuses a slot item in the specified direction if available.
+     *
      * @param focusDirection The direction of the slot item to focus.
      */
     private void focusSlotItemAt(FocusDirection focusDirection) {
@@ -454,6 +458,7 @@ public class InventoryControls {
 
     /**
      * Returns the slot item in the specified direction if available.
+     *
      * @param focusDirection The direction of the slot item.
      * @return The object of the slot item if found else null.
      */
@@ -510,7 +515,8 @@ public class InventoryControls {
 
     /**
      * Focuses at the specified slot item in the current group and narrate its details.
-     * @param slotItem The object of the slot item to focus.
+     *
+     * @param slotItem  The object of the slot item to focus.
      * @param interrupt Whether to stop the narrator from speaking the previous message or not.
      */
     private void focusSlotItem(@NotNull SlotItem slotItem, boolean interrupt) {
@@ -527,6 +533,7 @@ public class InventoryControls {
 
     /**
      * Moves the mouse cursor over to the slot item specified.
+     *
      * @param slotItem The object of the slot item to move the mouse cursor over to.
      */
     private void moveToSlotItem(SlotItem slotItem) {
@@ -543,8 +550,9 @@ public class InventoryControls {
 
     /**
      * Moves the mouse cursor over to the specified slot item after some delay.
+     *
      * @param slotItem The object of the slot item to move the mouse cursor over to.
-     * @param delay The delay in milliseconds.
+     * @param delay    The delay in milliseconds.
      */
     @SuppressWarnings("SameParameterValue")
     private void moveToSlotItem(SlotItem slotItem, int delay) {
@@ -561,15 +569,16 @@ public class InventoryControls {
 
     /**
      * Get the details of the current slot item to narrate.
+     *
      * @return The details of the current slot item.
      */
     private String getCurrentSlotNarrationText() {
         if (currentSlotItem.slot == null) {
-            return Objects.requireNonNullElse(currentSlotItem.getNarratableText(), "Unknown");
+            return Objects.requireNonNullElse(currentSlotItem.getNarratableText(), I18n.translate("minecraft_access.inventory_controls.Unknown"));
         }
 
         if (!currentSlotItem.slot.hasStack()) {
-            return "%s Empty Slot".formatted(currentGroup.getSlotPrefix(currentSlotItem.slot)); //TODO use i18n here
+            return I18n.translate("minecraft_access.inventory_controls.empty_slot", currentGroup.getSlotPrefix(currentSlotItem.slot));
         }
 
         String info = "%s %d".formatted(currentGroup.getSlotPrefix(currentSlotItem.slot), currentSlotItem.slot.getStack().getCount());
@@ -584,6 +593,7 @@ public class InventoryControls {
 
     /**
      * Change the selected group.
+     *
      * @param goForward Whether to switch to next group or previous group.
      */
     private void changeGroup(boolean goForward) {
@@ -595,13 +605,16 @@ public class InventoryControls {
         currentGroupIndex = nextGroupIndex;
         currentGroup = currentSlotsGroupList.get(currentGroupIndex);
         MainClass.infoLog("Group(name:%s) %d/%d selected".formatted(currentGroup.getGroupName(), currentGroupIndex + 1, currentSlotsGroupList.size()));
-        MainClass.speakWithNarrator("%s %s Group selected".formatted(currentGroup.isScrollable ? "Scrollable" : "", currentGroup.getGroupName()), true);
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.inventory_controls.group_selected",
+                currentGroup.isScrollable ? I18n.translate("minecraft_access.inventory_controls.scrollable") : "",
+                currentGroup.getGroupName()), true);
 
         focusSlotItem(currentGroup.getFirstGroupItem(), false);
     }
 
     /**
      * Refreshes the current group list and selects the first group.
+     *
      * @param interrupt Whether to stop the narrator from speaking the previous message or not.
      */
     private void refreshGroupListAndSelectFirstGroup(boolean interrupt) {
@@ -611,12 +624,15 @@ public class InventoryControls {
         currentGroupIndex = 0;
         currentGroup = currentSlotsGroupList.get(0);
         MainClass.infoLog("Group(name:%s) %d/%d selected".formatted(currentGroup.getGroupName(), currentGroupIndex + 1, currentSlotsGroupList.size()));
-        MainClass.speakWithNarrator("%s %s Group selected".formatted(currentGroup.isScrollable ? "Scrollable" : "", currentGroup.getGroupName()), interrupt);
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.inventory_controls.group_selected",
+                currentGroup.isScrollable ? I18n.translate("minecraft_access.inventory_controls.scrollable") : "",
+                currentGroup.getGroupName()), true);
         focusSlotItem(currentGroup.getFirstGroupItem(), false);
     }
 
     /**
      * Changes the selected tab for creative inventory screen.
+     *
      * @param goForward Whether to switch to next tab or previous tab.
      */
     private void changeCreativeInventoryTab(boolean goForward) {
@@ -627,13 +643,14 @@ public class InventoryControls {
 
         ((CreativeInventoryScreenAccessor) creativeInventoryScreen).invokeSetSelectedTab(ItemGroup.GROUPS[nextTabIndex]);
         MainClass.infoLog("Tab(name:%s) %d/%d selected".formatted(ItemGroup.GROUPS[nextTabIndex].getName(), nextTabIndex + 1, 12));
-        MainClass.speakWithNarrator("Tab %s selected".formatted(ItemGroup.GROUPS[nextTabIndex].getDisplayName().getString()), true);
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.inventory_controls.tab_selected", ItemGroup.GROUPS[nextTabIndex].getDisplayName().getString()), true);
 
         refreshGroupListAndSelectFirstGroup(false);
     }
 
     /**
      * Changes the selected tab for inventory/crafting screen.
+     *
      * @param goForward Whether to switch to next tab or previous tab.
      */
     private void changeRecipeTab(boolean goForward) {
