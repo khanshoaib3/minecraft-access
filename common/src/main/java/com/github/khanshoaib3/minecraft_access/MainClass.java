@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access;
 import com.github.khanshoaib3.minecraft_access.features.CameraControls;
 import com.github.khanshoaib3.minecraft_access.features.InventoryControls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.MenuFix;
+import com.github.khanshoaib3.minecraft_access.features.ReadBlock;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
 import com.mojang.text2speech.Narrator;
@@ -17,6 +18,7 @@ public class MainClass {
     private static ScreenReaderInterface screenReader = null;
     public static CameraControls cameraControls = null;
     public static InventoryControls inventoryControls = null;
+    public static ReadBlock readBlock = null;
 
     public static boolean debugMode = true; // TODO add option to toggle this
     public static boolean isForge = false;
@@ -35,6 +37,7 @@ public class MainClass {
 
         MainClass.cameraControls = new CameraControls();
         MainClass.inventoryControls = new InventoryControls();
+        MainClass.readBlock = new ReadBlock();
 
         ClientTickEvent.CLIENT_POST.register(MainClass::clientTickEventsMethod);
 
@@ -56,6 +59,8 @@ public class MainClass {
         if (inventoryControls != null) inventoryControls.update();
 
         if (cameraControls != null) cameraControls.update();
+
+        if (readBlock != null) readBlock.update();
     }
 
     public static void infoLog(String msg) {
