@@ -56,6 +56,7 @@ public class InventoryControls {
     private SlotItem currentSlotItem = null;
     private String previousSlotText = "";
 
+    //TODO use different method for keys
     private final KeyBinding groupKey;
     private final KeyBinding upKey;
     private final KeyBinding rightKey;
@@ -626,7 +627,7 @@ public class InventoryControls {
         MainClass.infoLog("Group(name:%s) %d/%d selected".formatted(currentGroup.getGroupName(), currentGroupIndex + 1, currentSlotsGroupList.size()));
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.inventory_controls.group_selected",
                 currentGroup.isScrollable ? I18n.translate("minecraft_access.inventory_controls.scrollable") : "",
-                currentGroup.getGroupName()), true);
+                currentGroup.getGroupName()), interrupt);
         focusSlotItem(currentGroup.getFirstGroupItem(), false);
     }
 
