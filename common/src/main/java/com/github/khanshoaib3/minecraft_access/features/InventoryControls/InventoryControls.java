@@ -67,10 +67,10 @@ public class InventoryControls {
     private final KeyBinding toggleCraftableKey;
 
     private enum FocusDirection {
-        UP("above"),
-        DOWN("below"),
-        LEFT("left"),
-        RIGHT("right");
+        UP(I18n.translate("minecraft_access.inventory_controls.direction_up")),
+        DOWN(I18n.translate("minecraft_access.inventory_controls.direction_down")),
+        LEFT(I18n.translate("minecraft_access.inventory_controls.direction_left")),
+        RIGHT(I18n.translate("minecraft_access.inventory_controls.direction_right"));
 
         private final String value;
 
@@ -449,7 +449,7 @@ public class InventoryControls {
 
         SlotItem slotItem = getGroupItemInDirection(focusDirection);
         if (slotItem == null) {
-            MainClass.speakWithNarrator("No slot %s".formatted(focusDirection.getString()), true); //TODO use i18n instead
+            MainClass.speakWithNarrator(I18n.translate("minecraft_access.inventory_controls.no_slot_in_direction", focusDirection.getString()), true);
             return;
         }
 
