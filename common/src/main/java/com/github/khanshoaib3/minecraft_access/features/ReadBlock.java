@@ -97,10 +97,32 @@ public class ReadBlock {
         } else if (block instanceof DoorBlock doorBlock && doorBlock.isOpen(blockState)) {
             toSpeak = "Opened " + toSpeak; //TODO I18n
             currentQuery += "open";
-        } else if (block instanceof HopperBlock hopperBlock) {
+        } else if (block instanceof HopperBlock) {
             toSpeak += " Facing " + blockState.get(HopperBlock.FACING).getName(); //TODO I18n (use directions too)
             currentQuery += "facing " + blockState.get(HopperBlock.FACING).getName();
+            if(isReceivingPower) {
+                toSpeak = "Locked " + toSpeak; //TODO I18n
+                currentQuery += "locked";
+            }
+        } else if (block instanceof ObserverBlock) {
+            toSpeak += " Facing " + blockState.get(ObserverBlock.FACING).getName(); //TODO I18n (use directions too)
+            currentQuery += "facing " + blockState.get(ObserverBlock.FACING).getName();
+            if(isEmittingPower) {
+                toSpeak = "Powered " + toSpeak; //TODO I18n
+                currentQuery += "powered";
+            }
+        } else if (block instanceof DispenserBlock) {
+            toSpeak += " Facing " + blockState.get(DispenserBlock.FACING).getName(); //TODO I18n (use directions too)
+            currentQuery += "facing " + blockState.get(DispenserBlock.FACING).getName();
+            if(isReceivingPower) {
+                toSpeak = "Powered " + toSpeak; //TODO I18n
+                currentQuery += "powered";
+            }
+        } else if(isReceivingPower){ // For all the other blocks
+            toSpeak = "Powered " + toSpeak; //TODO I18n
+            currentQuery += "powered";
         }
+        //TODO add for comparator and repeater
 
 
         if (!previousQuery.equalsIgnoreCase(currentQuery)) {
