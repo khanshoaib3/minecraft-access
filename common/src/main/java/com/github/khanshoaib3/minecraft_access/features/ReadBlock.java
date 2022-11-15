@@ -4,6 +4,7 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.SignBlockEntity;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -60,7 +61,7 @@ public class ReadBlock {
         String name = block.getName().getString();
         String toSpeak = name;
 
-        //TODO make this toggle-able
+        //TODO make this toggle-able and i18n
         Direction side = hit.getSide();
         toSpeak += " " + side.asString();
 
@@ -78,7 +79,7 @@ public class ReadBlock {
                     contents += signEntity.getTextOnRow(2, false).getString() + ", ";
                     contents += signEntity.getTextOnRow(3, false).getString();
 
-                    toSpeak += " says: " + contents; //TODO use i18n here
+                    toSpeak = I18n.translate("minecraft_access.read_block.sign_content", toSpeak, contents);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -89,37 +90,37 @@ public class ReadBlock {
         boolean isReceivingPower = minecraftClient.world.isReceivingRedstonePower(hit.getBlockPos().toImmutable());
 
         if ((block instanceof RedstoneWireBlock || block instanceof PistonBlock || block instanceof GlowLichenBlock || block instanceof RedstoneLampBlock) && (isReceivingPower || isEmittingPower)) {
-            toSpeak = "Powered " + toSpeak; //TODO I18n
+            toSpeak = I18n.translate("minecraft_access.read_block.powered", toSpeak);
             currentQuery += "powered";
         } else if ((block instanceof RedstoneTorchBlock || block instanceof LeverBlock || block instanceof AbstractButtonBlock) && isEmittingPower) {
-            toSpeak = "Powered " + toSpeak; //TODO I18n
+            toSpeak = I18n.translate("minecraft_access.read_block.powered", toSpeak);
             currentQuery += "powered";
         } else if (block instanceof DoorBlock doorBlock && doorBlock.isOpen(blockState)) {
-            toSpeak = "Opened " + toSpeak; //TODO I18n
+            toSpeak = I18n.translate("minecraft_access.read_block.opened", toSpeak);
             currentQuery += "open";
         } else if (block instanceof HopperBlock) {
-            toSpeak += " Facing " + blockState.get(HopperBlock.FACING).getName(); //TODO I18n (use directions too)
+            toSpeak = I18n.translate("minecraft_access.read_block.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_"+blockState.get(HopperBlock.FACING).getName()));
             currentQuery += "facing " + blockState.get(HopperBlock.FACING).getName();
             if(isReceivingPower) {
-                toSpeak = "Locked " + toSpeak; //TODO I18n
+                toSpeak = I18n.translate("minecraft_access.read_block.locked", toSpeak);
                 currentQuery += "locked";
             }
         } else if (block instanceof ObserverBlock) {
-            toSpeak += " Facing " + blockState.get(ObserverBlock.FACING).getName(); //TODO I18n (use directions too)
+            toSpeak = I18n.translate("minecraft_access.read_block.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_"+blockState.get(ObserverBlock.FACING).getName()));
             currentQuery += "facing " + blockState.get(ObserverBlock.FACING).getName();
             if(isEmittingPower) {
-                toSpeak = "Powered " + toSpeak; //TODO I18n
+                toSpeak = I18n.translate("minecraft_access.read_block.powered", toSpeak);
                 currentQuery += "powered";
             }
         } else if (block instanceof DispenserBlock) {
-            toSpeak += " Facing " + blockState.get(DispenserBlock.FACING).getName(); //TODO I18n (use directions too)
+            toSpeak = I18n.translate("minecraft_access.read_block.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_"+blockState.get(DispenserBlock.FACING).getName()));
             currentQuery += "facing " + blockState.get(DispenserBlock.FACING).getName();
             if(isReceivingPower) {
-                toSpeak = "Powered " + toSpeak; //TODO I18n
+                toSpeak = I18n.translate("minecraft_access.read_block.powered", toSpeak);
                 currentQuery += "powered";
             }
         } else if(isReceivingPower){ // For all the other blocks
-            toSpeak = "Powered " + toSpeak; //TODO I18n
+            toSpeak = I18n.translate("minecraft_access.read_block.powered", toSpeak);
             currentQuery += "powered";
         }
         //TODO add for comparator and repeater
