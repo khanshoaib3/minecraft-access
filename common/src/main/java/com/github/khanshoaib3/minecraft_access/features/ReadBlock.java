@@ -1,11 +1,9 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.SignBlockEntity;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -56,7 +54,7 @@ public class ReadBlock {
 
     private void checkForBlocks(MinecraftClient minecraftClient, BlockHitResult hit) {
         if (minecraftClient.world == null) return;
-        BlockState blockState = minecraftClient.world.getBlockState(hit.getBlockPos());
+        BlockState blockState = minecraftClient.world.getBlockState(hit.getBlockPos().toImmutable());
         Block block = blockState.getBlock();
 
         String name = block.getName().getString();
@@ -64,7 +62,7 @@ public class ReadBlock {
 
         //TODO make this toggle-able
         Direction side = hit.getSide();
-        toSpeak += " " + I18n.translate("minecraft_access.direction.horizontal_angle_" + side.asString());
+        toSpeak += " " + side.asString();
 
         // Class name in production environment can be different
         String blockPos = hit.getBlockPos().toImmutable().toString();
@@ -86,6 +84,24 @@ public class ReadBlock {
                 e.printStackTrace();
             }
         }
+
+        boolean isEmittingPower = minecraftClient.world.isEmittingRedstonePower(hit.getBlockPos().toImmutable(), Direction.DOWN);
+        boolean isReceivingPower = minecraftClient.world.isReceivingRedstonePower(hit.getBlockPos().toImmutable());
+
+        if ((block instanceof RedstoneWireBlock || block instanceof PistonBlock || block instanceof GlowLichenBlock || block instanceof RedstoneLampBlock) && (isReceivingPower || isEmittingPower)) {
+            toSpeak = "Powered " + toSpeak; //TODO I18n
+            currentQuery += "powered";
+        } else if ((block instanceof RedstoneTorchBlock || block instanceof LeverBlock || block instanceof AbstractButtonBlock) && isEmittingPower) {
+            toSpeak = "Powered " + toSpeak; //TODO I18n
+            currentQuery += "powered";
+        } else if (block instanceof DoorBlock doorBlock && doorBlock.isOpen(blockState)) {
+            toSpeak = "Opened " + toSpeak; //TODO I18n
+            currentQuery += "open";
+        } else if (block instanceof HopperBlock hopperBlock) {
+            toSpeak += " Facing " + blockState.get(HopperBlock.FACING).getName(); //TODO I18n (use directions too)
+            currentQuery += "facing " + blockState.get(HopperBlock.FACING).getName();
+        }
+
 
         if (!previousQuery.equalsIgnoreCase(currentQuery)) {
             previousQuery = currentQuery;
