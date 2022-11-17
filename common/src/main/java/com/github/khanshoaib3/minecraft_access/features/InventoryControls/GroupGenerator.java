@@ -575,7 +575,7 @@ public class GroupGenerator {
             SlotsGroup deleteItemGroup = new SlotsGroup("Delete Items", null);
             SlotsGroup offHandGroup = new SlotsGroup("Off Hand", null);
             SlotsGroup hotbarGroup = new SlotsGroup("Hotbar", null);
-            SlotsGroup armourGroup = new SlotsGroup("Armour", null); //FIXME
+            SlotsGroup armourGroup = new SlotsGroup("Armour", null);
             SlotsGroup playerInventoryGroup = new SlotsGroup("Player Inventory", null);
 
             for (Slot s : slots) {

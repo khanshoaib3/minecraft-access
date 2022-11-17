@@ -101,7 +101,7 @@ public class SlotsGroup {
         for (int row = 1; row <= size; row++) {
             for (int column = 1; column <= size; column++) {
                 Slot slot = this.slotItems.get(i).slot;
-                String prefix = "%dx%d".formatted(row, column); //TODO use i18n here
+                String prefix = "%dx%d".formatted(row, column);
 
                 this.setSlotPrefix(slot, prefix);
                 ++i;

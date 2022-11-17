@@ -12,6 +12,7 @@
     "ButtonWidgetMixin",
     "CreativeInventoryScreenAccessor",
     "HandledScreenAccessor",
+    "InGameHudMixin",
     "LoomScreenAccessor",
     "MerchantScreenAccessor",
     "RecipeBookResultsAccessor",

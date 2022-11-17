@@ -94,6 +94,6 @@ public class ClientPlayerEntityUtils {
             }
         }
 
-        return angleInWords; //TODO use i18n instead
+        return angleInWords;
     }
 }
