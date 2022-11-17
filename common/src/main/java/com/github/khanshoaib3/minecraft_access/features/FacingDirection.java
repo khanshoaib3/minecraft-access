@@ -12,7 +12,6 @@ import org.lwjgl.glfw.GLFW;
  * Speaks the player facing direction on key press.
  */
 public class FacingDirection {
-
     public final KeyBinding directionNarrationKey; //TODO create a separate class for initializing key binds
 
     public FacingDirection() {
