@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access;
 
+import com.github.khanshoaib3.minecraft_access.features.BiomeIndicator;
 import com.github.khanshoaib3.minecraft_access.features.CameraControls;
 import com.github.khanshoaib3.minecraft_access.features.InventoryControls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.MenuFix;
@@ -19,6 +20,7 @@ public class MainClass {
     public static CameraControls cameraControls = null;
     public static InventoryControls inventoryControls = null;
     public static ReadBlock readBlock = null;
+    public static BiomeIndicator biomeIndicator = null;
 
     public static boolean debugMode = true; // TODO add option to toggle this
     public static boolean isForge = false;
@@ -38,6 +40,7 @@ public class MainClass {
         MainClass.cameraControls = new CameraControls();
         MainClass.inventoryControls = new InventoryControls();
         MainClass.readBlock = new ReadBlock();
+        MainClass.biomeIndicator = new BiomeIndicator();
 
         ClientTickEvent.CLIENT_POST.register(MainClass::clientTickEventsMethod);
 
@@ -61,6 +64,8 @@ public class MainClass {
         if (cameraControls != null) cameraControls.update();
 
         if (readBlock != null) readBlock.update();
+
+        if (biomeIndicator != null) biomeIndicator.update();
     }
 
     public static void infoLog(String msg) {
