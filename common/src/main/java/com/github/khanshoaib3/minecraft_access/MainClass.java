@@ -7,6 +7,7 @@ import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterfa
 import com.mojang.text2speech.Narrator;
 import dev.architectury.event.events.client.ClientTickEvent;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.InputUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +25,7 @@ public class MainClass {
     public static boolean debugMode = true; // TODO add option to toggle this
     public static boolean isForge = false;
     public static boolean interrupt = true;
+    private static boolean alreadyDisabledAdvancementKey = false;
 
     /**
      * Initializes the mod
@@ -57,6 +59,12 @@ public class MainClass {
      * @param minecraftClient The current minecraft client object
      */
     public static void clientTickEventsMethod(MinecraftClient minecraftClient) {
+        if(!MainClass.alreadyDisabledAdvancementKey && minecraftClient.options!=null) {
+            minecraftClient.options.advancementsKey.setBoundKey(InputUtil.fromTranslationKey("key.keyboard.unknown"));
+            MainClass.alreadyDisabledAdvancementKey = true;
+            infoLog("Unbound advancements key");
+        }
+
         MenuFix.update(minecraftClient);
 
         if (inventoryControls != null) inventoryControls.update();
