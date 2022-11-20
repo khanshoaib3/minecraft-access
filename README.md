@@ -18,8 +18,8 @@ Note that not all features have been ported over to this mod.
         For windows the default location is -
             %appdata%\.minecraft
 4. Linux specific:-
-
     In linux we need to install the [libspeechdwrapper](https://github.com/khanshoaib3/libspeechdwrapper) as well as [xdotool](https://github.com/jordansissel/xdotool) which is used for simulating the mouse actions.
+    Although the mod overrides the library used for tts, minecraft still needs the `flite` library to be installed, so you can install it using your distro's package manager itself.
     For libspeechdwrapper, [download](https://github.com/khanshoaib3/libspeechdwrapper/raw/main/lib/libspeechdwrapper.so) the library and move it over to the minecraft folder.
     For linux the default location is -
         ~/.minecraft
@@ -27,7 +27,7 @@ Note that not all features have been ported over to this mod.
 
 ## Mod Installation
 
-- Download the mod file according to the loader installed from the [latest release page]().
+- Download the mod file according to the loader installed from the [latest release page](https://github.com/khanshoaib3/minecraft-access/releases).
 - Move the downloaded jar file over to the mods folder.
   For windows the default location is - `%appdata%\.minecraft\mods`
   And for linux it is - `~/.minecraft/mods`

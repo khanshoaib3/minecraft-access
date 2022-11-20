@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(NarratorManager.class)
 public class NarratorMixin {
@@ -24,8 +23,8 @@ public class NarratorMixin {
     }
 
     // Always set as active even if `flite` library is not installed in system
-    @Inject(at = @At("TAIL"), method = "isActive", cancellable = true, remap = false)
-    public void isActive(CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(true);
-    }
+//    @Inject(at = @At("TAIL"), method = "isActive", cancellable = true, remap = false)
+//    public void isActive(CallbackInfoReturnable<Boolean> cir) {
+//        cir.setReturnValue(true);
+//    }
 }
