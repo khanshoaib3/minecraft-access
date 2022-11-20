@@ -9,7 +9,8 @@ import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
 /**
- * Speaks the player facing direction on key press.
+ * Adds key binding to speak the player's facing direction.<br>
+ * - Speak Facing Direction Key (default: H) = Speaks the player facing direction.
  */
 public class FacingDirection {
     public final KeyBinding directionNarrationKey; //TODO create a separate class for initializing key binds

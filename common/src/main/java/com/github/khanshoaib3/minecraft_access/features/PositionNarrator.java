@@ -8,7 +8,12 @@ import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
 /**
- * Narrates the player's position on key press.
+ * Adds key bindings to speak the player's position.<br><br>
+ * Keybindings and combinations:<br>
+ * 1. Speak Player Position Key (default: G) = Speaks the player's x y and z position.<br>
+ * 2. Left Alt + X = Speaks only the x position.<br>
+ * 3. Left Alt + C = Speaks only the y position.<br>
+ * 4. Left Alt + Z = Speaks only the z position.<br>
  */
 public class PositionNarrator {
     public final KeyBinding positionNarrationKey; //TODO create a separate class for initializing key binds

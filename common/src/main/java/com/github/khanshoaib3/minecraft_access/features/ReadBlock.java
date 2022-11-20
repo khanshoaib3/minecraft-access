@@ -11,6 +11,10 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Direction;
 
+/**
+ * This feature reads the name of the targeted block or entity.<br>
+ * It also gives feedback when a block is powered by a redstone signal or when a door is open similar cases.
+ */
 public class ReadBlock {
     private String previousQuery;
 
