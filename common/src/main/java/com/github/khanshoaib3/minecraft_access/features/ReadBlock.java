@@ -27,6 +27,7 @@ public class ReadBlock {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
             if (minecraftClient == null) return;
             if (minecraftClient.world == null) return;
+            if (minecraftClient.currentScreen != null) return;
 
             //TODO reset previousQuery after every 5000ms
 
