@@ -9,7 +9,7 @@
     "AnimatedResultButtonAccessor",
     "AnimatedResultButtonMixin",
     "AnvilScreenAccessor",
-    "BookScreenAccessor",
+    "BookScreenMixin",
     "ButtonWidgetMixin",
     "ClickableWidgetAccessor",
     "CreativeInventoryScreenAccessor",

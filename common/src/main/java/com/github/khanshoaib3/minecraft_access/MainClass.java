@@ -15,13 +15,13 @@ public class MainClass {
     public static final String MOD_ID = "minecraft_access";
     private static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     private static ScreenReaderInterface screenReader = null;
+
     public static CameraControls cameraControls = null;
     public static InventoryControls inventoryControls = null;
     public static ReadBlock readBlock = null;
     public static BiomeIndicator biomeIndicator = null;
     public static FacingDirection facingDirection = null;
     public static PositionNarrator positionNarrator = null;
-    public static LecternScreenPatch lecternScreenPatch = null;
 
     public static boolean debugMode = true; // TODO add option to toggle this
     public static boolean isForge = false;
@@ -44,7 +44,6 @@ public class MainClass {
         MainClass.readBlock = new ReadBlock();
         MainClass.biomeIndicator = new BiomeIndicator();
         MainClass.positionNarrator = new PositionNarrator();
-        MainClass.lecternScreenPatch = new LecternScreenPatch();
 
         ClientTickEvent.CLIENT_POST.register(MainClass::clientTickEventsMethod);
 
@@ -80,8 +79,6 @@ public class MainClass {
         if (facingDirection != null) facingDirection.update();
 
         if (positionNarrator != null) positionNarrator.update();
-
-        if (lecternScreenPatch != null) lecternScreenPatch.update();
     }
 
     public static void infoLog(String msg) {
