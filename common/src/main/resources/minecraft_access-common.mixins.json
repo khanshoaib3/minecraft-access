@@ -9,6 +9,7 @@
     "AnimatedResultButtonAccessor",
     "AnimatedResultButtonMixin",
     "AnvilScreenAccessor",
+    "BookEditScreenMixin",
     "BookScreenMixin",
     "ButtonWidgetMixin",
     "ClickableWidgetAccessor",

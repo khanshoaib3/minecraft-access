@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.mixin;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.BookScreen;
 import net.minecraft.client.gui.widget.PageTurnWidget;
 import net.minecraft.client.util.InputUtil;
@@ -22,33 +23,25 @@ public class BookScreenMixin {
 
     @Shadow
     private Text pageIndexText;
-    @Shadow private PageTurnWidget nextPageButton;
-    @Shadow private PageTurnWidget previousPageButton;
+    @Shadow
+    private PageTurnWidget nextPageButton;
+    @Shadow
+    private PageTurnWidget previousPageButton;
     String previousContent = "";
 
     @Inject(at = @At("HEAD"), method = "render")
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo callbackInfo) {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
         if (minecraftClient == null) return;
-        if (minecraftClient.currentScreen == null) {
-            previousContent = "";
-            return;
-        }
+        if (minecraftClient.currentScreen == null) return;
 
-        if (!(minecraftClient.currentScreen instanceof BookScreen)) {
-            previousContent = "";
-            return;
-        }
-
-        boolean isLeftAltPressed = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(),
-                InputUtil.fromTranslationKey("key.keyboard.left.alt").getCode());
         boolean isRPressed = (InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(),
                 InputUtil.fromTranslationKey("key.keyboard.r").getCode()));
 
         // Repeat current page content and un-focus next and previous page buttons
-        if (isLeftAltPressed && isRPressed) {
-            if(this.nextPageButton.isFocused()) this.nextPageButton.changeFocus(false);
-            if(this.previousPageButton.isFocused()) this.previousPageButton.changeFocus(false);
+        if (Screen.hasAltDown() && isRPressed) {
+            if (this.nextPageButton.isFocused()) this.nextPageButton.changeFocus(false);
+            if (this.previousPageButton.isFocused()) this.previousPageButton.changeFocus(false);
             previousContent = "";
         }
 
