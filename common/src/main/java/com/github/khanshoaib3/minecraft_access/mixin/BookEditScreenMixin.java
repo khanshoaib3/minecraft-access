@@ -34,6 +34,10 @@ public class BookEditScreenMixin {
     @Shadow private ButtonWidget cancelButton;
     @Shadow private ButtonWidget finalizeButton;
     @Shadow private ButtonWidget signButton;
+    @Shadow private ButtonWidget doneButton;
+
+    @Shadow private String title;
+    boolean firstTimeInSignMenu = true;
     String previousContent = "";
 
     @Inject(at = @At("HEAD"), method = "render")
@@ -59,21 +63,30 @@ public class BookEditScreenMixin {
             return;
         }
 
+        if(this.doneButton.isFocused() && (isEnterPressed || isKeypadEnterPressed || isSpaceBarPressed)) {
+            this.doneButton.onPress();
+            return;
+        }
+
         if(this.signButton.isFocused() && (isEnterPressed || isKeypadEnterPressed || isSpaceBarPressed)) {
             this.signButton.onPress();
             return;
         }
 
         if (this.signing) {
-            String currentPageContentString = FINALIZE_WARNING_TEXT.getString() + "\n" + EDIT_TITLE_TEXT.getString();
-            MainClass.infoLog(FINALIZE_WARNING_TEXT.getString());
+            String currentTitle = this.title.trim();
 
-            if (!previousContent.equals(currentPageContentString)) {
-                previousContent = currentPageContentString;
-                MainClass.speakWithNarrator(currentPageContentString, true);
+            if (!previousContent.equals(currentTitle)) {
+                previousContent = currentTitle;
+                if(firstTimeInSignMenu){
+                    firstTimeInSignMenu = false;
+                    currentTitle = FINALIZE_WARNING_TEXT.getString() + "\n" + EDIT_TITLE_TEXT.getString();
+                }
+                MainClass.speakWithNarrator(currentTitle, true);
             }
             return;
         }
+        firstTimeInSignMenu = true;
 
         // Repeat current page content and un-focus next and previous page buttons
         if (Screen.hasAltDown() && Screen.hasControlDown()) {
@@ -85,7 +98,7 @@ public class BookEditScreenMixin {
         if (this.currentPage < 0 || this.currentPage > this.pages.size())
             return; // Return if the page index is out of bounds
 
-        String currentPageContentString = this.pages.get(this.currentPage);
+        String currentPageContentString = this.pages.get(this.currentPage).trim();
         currentPageContentString = "%s \n\n %s".formatted(currentPageContentString, this.pageIndicatorText.getString());
 
         if (!previousContent.equals(currentPageContentString)) {
