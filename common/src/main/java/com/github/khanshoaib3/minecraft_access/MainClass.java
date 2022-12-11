@@ -22,6 +22,7 @@ public class MainClass {
     public static BiomeIndicator biomeIndicator = null;
     public static FacingDirection facingDirection = null;
     public static PositionNarrator positionNarrator = null;
+    public static HealthNHunger healthNHunger = null;
 
     public static boolean debugMode = true; // TODO add option to toggle this
     public static boolean isForge = false;
@@ -43,7 +44,9 @@ public class MainClass {
         MainClass.inventoryControls = new InventoryControls();
         MainClass.readBlock = new ReadBlock();
         MainClass.biomeIndicator = new BiomeIndicator();
+        MainClass.facingDirection = new FacingDirection();
         MainClass.positionNarrator = new PositionNarrator();
+        MainClass.healthNHunger = new HealthNHunger();
 
         ClientTickEvent.CLIENT_POST.register(MainClass::clientTickEventsMethod);
 
@@ -79,6 +82,8 @@ public class MainClass {
         if (facingDirection != null) facingDirection.update();
 
         if (positionNarrator != null) positionNarrator.update();
+
+        if (healthNHunger != null) healthNHunger.update();
     }
 
     public static void infoLog(String msg) {
