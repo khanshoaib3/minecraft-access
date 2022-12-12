@@ -7,6 +7,10 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
+/**
+ * Adds a key bind to narrate/speak the player's health and hunger.
+ * - Speak Player Health and Hunger Key (default: R) = Speaks the health and hunger.
+ */
 public class HealthNHunger {
     public final KeyBinding healthNHungerNarrationKey; //TODO create a separate class for initializing key binds
 
