@@ -11,8 +11,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AnimatedResultButton.class)
 public class AnimatedResultButtonMixin {
-    @Inject(at = @At("HEAD"), method = "appendNarrations", cancellable = true)
+//    @Inject(at = @At("HEAD"), method = "appendNarrations", cancellable = true) // Pre 1.19.3
+    @Inject(at = @At("HEAD"), method = "appendClickableNarrations", cancellable = true) // From 1.19.3
     private void appendNarrations(NarrationMessageBuilder builder, CallbackInfo callbackInfo) {
+        //TODO re-check if it still works
         ItemStack itemStack = ((AnimatedResultButtonAccessor) this).callGetResults().get(((AnimatedResultButtonAccessor) this).getCurrentResultIndex()).getOutput();
         String toSpeak = "%s %d %s".formatted(((AnimatedResultButtonAccessor) this).getResultCollection().hasCraftableRecipes() ? "Craftable" : "Not craftable", itemStack.getCount(), itemStack.getName().getString());
 

@@ -9,6 +9,11 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(CreativeInventoryScreen.class)
 public interface CreativeInventoryScreenAccessor {
+    @Accessor
+    static ItemGroup getSelectedTab() {
+        throw new UnsupportedOperationException();
+    }
+
     @Invoker
     void invokeSetSelectedTab(ItemGroup group);
 

@@ -16,14 +16,15 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.*;
 import net.minecraft.screen.slot.FurnaceOutputSlot;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.village.TradeOfferList;
 import org.jetbrains.annotations.NotNull;
 
@@ -548,8 +549,10 @@ public class GroupGenerator {
 
         for (int i = 0; i < slots.size() && i < finalRecipeSearchResultList.size(); i++) {
             AnimatedResultButton animatedResultButton = slots.get(i);
-            int realX = animatedResultButton.x - screen.getX() + 10;
-            int realY = animatedResultButton.y - screen.getY() + 10;
+//            int realX = animatedResultButton.x - screen.getX() + 10;
+//            int realY = animatedResultButton.y - screen.getY() + 10;
+            int realX = animatedResultButton.getX() - screen.getX() + 10;
+            int realY = animatedResultButton.getY() - screen.getY() + 10;
             recipesGroup.slotItems.add(new SlotItem(realX, realY));
         }
 
@@ -570,8 +573,7 @@ public class GroupGenerator {
     private static @NotNull List<SlotsGroup> creativeInventoryGroups(@NotNull CreativeInventoryScreen creativeInventoryScreen) {
         List<SlotsGroup> foundGroups = new ArrayList<>();
         List<Slot> slots = new ArrayList<>(creativeInventoryScreen.getScreenHandler().slots);
-
-        if (creativeInventoryScreen.getSelectedTab() == 11) {
+        if (CreativeInventoryScreenAccessor.getSelectedTab().getType() == ItemGroup.Type.INVENTORY) {
             SlotsGroup deleteItemGroup = new SlotsGroup("Delete Items", null);
             SlotsGroup offHandGroup = new SlotsGroup("Off Hand", null);
             SlotsGroup hotbarGroup = new SlotsGroup("Hotbar", null);

@@ -11,9 +11,9 @@ import net.minecraft.client.gui.screen.ingame.StonecutterScreen;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.StonecuttingRecipe;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOfferList;
 
