@@ -77,9 +77,9 @@ This features lets us use keyboard in inventory screens. Works with all default 
 13. T Key (not re-mappable) = Select the search box.
 14. Enter Key (not re-mappable) = Deselect the search box.
 
-## Read Block
+## Read Crosshair
 
-This feature reads the name of the targeted block or entity. It also gives feedback when a block is powered by a redstone signal or when a door is open similar cases.
+This feature reads the name of the targeted block, entity or fluid. It also gives feedback when a block is powered by a redstone signal or when a door is open and other similar cases.
 
 ## Position Narrator
 

@@ -18,7 +18,7 @@ public class MainClass {
 
     public static CameraControls cameraControls = null;
     public static InventoryControls inventoryControls = null;
-    public static ReadBlock readBlock = null;
+    public static ReadCrosshair readCrosshair = null;
     public static BiomeIndicator biomeIndicator = null;
     public static FacingDirection facingDirection = null;
     public static PositionNarrator positionNarrator = null;
@@ -42,7 +42,7 @@ public class MainClass {
 
         MainClass.cameraControls = new CameraControls();
         MainClass.inventoryControls = new InventoryControls();
-        MainClass.readBlock = new ReadBlock();
+        MainClass.readCrosshair = new ReadCrosshair();
         MainClass.biomeIndicator = new BiomeIndicator();
         MainClass.facingDirection = new FacingDirection();
         MainClass.positionNarrator = new PositionNarrator();
@@ -75,7 +75,7 @@ public class MainClass {
 
         if (cameraControls != null) cameraControls.update();
 
-        if (readBlock != null) readBlock.update();
+        if (readCrosshair != null) readCrosshair.update();
 
         if (biomeIndicator != null) biomeIndicator.update();
 

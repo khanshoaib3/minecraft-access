@@ -20,10 +20,10 @@ import net.minecraft.util.math.Direction;
  * This feature reads the name of the targeted block or entity.<br>
  * It also gives feedback when a block is powered by a redstone signal or when a door is open similar cases.
  */
-public class ReadBlock {
+public class ReadCrosshair {
     private String previousQuery;
 
-    public ReadBlock() {
+    public ReadCrosshair() {
         previousQuery = "";
     }
 
@@ -163,6 +163,7 @@ public class ReadBlock {
 
             String name = getFluidName(fluidState.getRegistryEntry());
             if(name.equals("block.minecraft.empty")) return false;
+            if(name.contains("block.minecraft.")) name = name.replace("block.minecraft.", ""); // Remove `block.minecraft.` for unsupported languages
 
             String currentQuery = name + blockPos;
 
