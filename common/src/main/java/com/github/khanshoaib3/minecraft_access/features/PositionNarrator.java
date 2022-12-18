@@ -32,6 +32,7 @@ public class PositionNarrator {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
             if (minecraftClient == null) return;
             if (minecraftClient.player == null) return;
+            if (minecraftClient.currentScreen != null) return;
 
             boolean isLeftAltPressed = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(),
                     InputUtil.fromTranslationKey("key.keyboard.left.alt").getCode());
@@ -64,7 +65,7 @@ public class PositionNarrator {
                     InputUtil.fromTranslationKey(positionNarrationKey.getBoundKeyTranslationKey()).getCode()
             );
 
-            if (isPositionNarrationKeyPressed && minecraftClient.currentScreen == null) {
+            if (isPositionNarrationKeyPressed) {
                 String posX = new PlayerPosition(minecraftClient).getNarratableXPos();
                 String posY = new PlayerPosition(minecraftClient).getNarratableYPos();
                 String posZ = new PlayerPosition(minecraftClient).getNarratableZPos();

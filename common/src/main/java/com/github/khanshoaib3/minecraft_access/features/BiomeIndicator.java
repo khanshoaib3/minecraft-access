@@ -22,6 +22,7 @@ public class BiomeIndicator {
             if (minecraftClient == null) return;
             if (minecraftClient.world == null) return;
             if (minecraftClient.player == null) return;
+            if (minecraftClient.currentScreen != null) return;
 
             RegistryEntry<Biome> var27 = minecraftClient.world.getBiome(minecraftClient.player.getBlockPos());
             String name = I18n.translate(getBiomeName(var27));

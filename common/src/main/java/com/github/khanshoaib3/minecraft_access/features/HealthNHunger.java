@@ -28,6 +28,7 @@ public class HealthNHunger {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
             if (minecraftClient == null) return;
             if (minecraftClient.player == null) return;
+            if (minecraftClient.currentScreen != null) return;
 
             boolean isHealthNHungerNarrationKeyPressed = InputUtil.isKeyPressed(
                     minecraftClient.getWindow().getHandle(),

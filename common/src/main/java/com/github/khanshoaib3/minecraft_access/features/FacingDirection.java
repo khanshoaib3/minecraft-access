@@ -28,6 +28,8 @@ public class FacingDirection {
         try {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
             if (minecraftClient == null) return;
+            if (minecraftClient.player == null) return;
+            if (minecraftClient.currentScreen != null) return;
 
             boolean isDirectionNarrationKeyPressed = InputUtil.isKeyPressed(
                     minecraftClient.getWindow().getHandle(),
