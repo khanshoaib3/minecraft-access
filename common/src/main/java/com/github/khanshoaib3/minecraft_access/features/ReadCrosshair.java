@@ -169,7 +169,7 @@ public class ReadCrosshair {
 
             int level = fluidState.getLevel();
             String levelString = "";
-            if(level < 8) levelString = " Level: %d".formatted(level);
+            if(level < 8) levelString = ", Level: %d".formatted(level); // TODO add to i18n
 
             String toSpeak = name + levelString;
 
