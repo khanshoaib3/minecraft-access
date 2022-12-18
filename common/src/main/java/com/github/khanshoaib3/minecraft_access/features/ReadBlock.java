@@ -5,10 +5,15 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.SignBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.entity.Entity;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 /**
@@ -28,20 +33,29 @@ public class ReadBlock {
             if (minecraftClient == null) return;
             if (minecraftClient.world == null) return;
             if (minecraftClient.currentScreen != null) return;
+            Entity entity = minecraftClient.getCameraEntity();
+            if(entity == null) return;
 
+            HitResult blockHit = minecraftClient.crosshairTarget;
+            HitResult fluidHit = entity.raycast(6.0, 0.0F, true);
             //TODO reset previousQuery after every 5000ms
 
-            HitResult hit = minecraftClient.crosshairTarget;
-            if (hit == null) return;
+            if (blockHit == null) return;
 
-            switch (hit.getType()) {
-                case MISS -> {
-                }
-                case BLOCK -> checkForBlocks(minecraftClient, (BlockHitResult) hit);
-                case ENTITY -> checkForEntities((EntityHitResult) hit);
-            }
+            if (checkForFluidHit(minecraftClient, fluidHit)) return;
+
+            checkForBlockAndEntityHit(minecraftClient, blockHit);
         } catch (Exception e) {
             MainClass.errorLog("Error occurred in read block feature.\n%s".formatted(e.getMessage()));
+        }
+    }
+
+    private void checkForBlockAndEntityHit(MinecraftClient minecraftClient, HitResult blockHit) {
+        switch (blockHit.getType()) {
+            case MISS -> {
+            }
+            case BLOCK -> checkForBlocks(minecraftClient, (BlockHitResult) blockHit);
+            case ENTITY -> checkForEntities((EntityHitResult) blockHit);
         }
     }
 
@@ -136,5 +150,55 @@ public class ReadBlock {
             previousQuery = currentQuery;
             MainClass.speakWithNarrator(toSpeak, true);
         }
+    }
+
+    private boolean checkForFluidHit(MinecraftClient minecraftClient, HitResult fluidHit) {
+        if (minecraftClient == null) return false;
+        if (minecraftClient.world == null) return false;
+        if (minecraftClient.currentScreen != null) return false;
+
+        if (fluidHit.getType() == HitResult.Type.BLOCK) {
+            BlockPos blockPos = ((BlockHitResult) fluidHit).getBlockPos();
+            FluidState fluidState = minecraftClient.world.getFluidState(blockPos);
+
+            String name = getFluidName(fluidState.getRegistryEntry());
+            if(name.equals("block.minecraft.empty")) return false;
+
+            String currentQuery = name + blockPos;
+
+            int level = fluidState.getLevel();
+            String levelString = "";
+            if(level < 8) levelString = " Level: %d".formatted(level);
+
+            String toSpeak = name + levelString;
+
+            if (!previousQuery.equalsIgnoreCase(currentQuery)) {
+                previousQuery = currentQuery;
+                MainClass.speakWithNarrator(toSpeak, true);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Gets the fluid name from registry entry
+     * @param fluid the fluid's registry entry
+     * @return the fluid's name
+     */
+    private static String getFluidName(RegistryEntry<Fluid> fluid) {
+        return I18n.translate(getFluidTranslationKey(fluid));
+    }
+
+    /**
+     * Gets the fluid translation key from registry entry
+     * @param fluid the fluid's registry entry
+     * @return the fluid's translation key
+     */
+    private static String getFluidTranslationKey(RegistryEntry<Fluid> fluid) {
+        return fluid.getKeyOrValue().map(
+                (fluidKey) -> "block." + fluidKey.getValue().getNamespace() + "." + fluidKey.getValue().getPath(),
+                (fluidValue) -> "[unregistered " + fluidValue + "]" // For unregistered fluid
+        );
     }
 }
