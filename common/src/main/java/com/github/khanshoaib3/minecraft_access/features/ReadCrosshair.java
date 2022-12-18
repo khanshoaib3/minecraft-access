@@ -98,7 +98,7 @@ public class ReadCrosshair {
                     contents += signEntity.getTextOnRow(2, false).getString() + ", ";
                     contents += signEntity.getTextOnRow(3, false).getString();
 
-                    toSpeak = I18n.translate("minecraft_access.read_block.sign_content", toSpeak, contents);
+                    toSpeak = I18n.translate("minecraft_access.read_crosshair.sign_content", toSpeak, contents);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -109,38 +109,38 @@ public class ReadCrosshair {
         boolean isReceivingPower = minecraftClient.world.isReceivingRedstonePower(hit.getBlockPos().toImmutable());
 
         if ((block instanceof RedstoneWireBlock || block instanceof PistonBlock || block instanceof GlowLichenBlock || block instanceof RedstoneLampBlock) && (isReceivingPower || isEmittingPower)) {
-            toSpeak = I18n.translate("minecraft_access.read_block.powered", toSpeak);
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
             currentQuery += "powered";
 //        } else if ((block instanceof RedstoneTorchBlock || block instanceof LeverBlock || block instanceof AbstractButtonBlock) && isEmittingPower) { // pre 1.19.3
         } else if ((block instanceof RedstoneTorchBlock || block instanceof LeverBlock || block instanceof ButtonBlock) && isEmittingPower) { // From 1.19.3
-            toSpeak = I18n.translate("minecraft_access.read_block.powered", toSpeak);
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
             currentQuery += "powered";
         } else if (block instanceof DoorBlock doorBlock && doorBlock.isOpen(blockState)) {
-            toSpeak = I18n.translate("minecraft_access.read_block.opened", toSpeak);
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.opened", toSpeak);
             currentQuery += "open";
         } else if (block instanceof HopperBlock) {
-            toSpeak = I18n.translate("minecraft_access.read_block.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_"+blockState.get(HopperBlock.FACING).getName()));
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_"+blockState.get(HopperBlock.FACING).getName()));
             currentQuery += "facing " + blockState.get(HopperBlock.FACING).getName();
             if(isReceivingPower) {
-                toSpeak = I18n.translate("minecraft_access.read_block.locked", toSpeak);
+                toSpeak = I18n.translate("minecraft_access.read_crosshair.locked", toSpeak);
                 currentQuery += "locked";
             }
         } else if (block instanceof ObserverBlock) {
-            toSpeak = I18n.translate("minecraft_access.read_block.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_"+blockState.get(ObserverBlock.FACING).getName()));
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_"+blockState.get(ObserverBlock.FACING).getName()));
             currentQuery += "facing " + blockState.get(ObserverBlock.FACING).getName();
             if(isEmittingPower) {
-                toSpeak = I18n.translate("minecraft_access.read_block.powered", toSpeak);
+                toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
                 currentQuery += "powered";
             }
         } else if (block instanceof DispenserBlock) {
-            toSpeak = I18n.translate("minecraft_access.read_block.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_"+blockState.get(DispenserBlock.FACING).getName()));
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_"+blockState.get(DispenserBlock.FACING).getName()));
             currentQuery += "facing " + blockState.get(DispenserBlock.FACING).getName();
             if(isReceivingPower) {
-                toSpeak = I18n.translate("minecraft_access.read_block.powered", toSpeak);
+                toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
                 currentQuery += "powered";
             }
         } else if(isReceivingPower){ // For all the other blocks
-            toSpeak = I18n.translate("minecraft_access.read_block.powered", toSpeak);
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
             currentQuery += "powered";
         }
         //TODO add for comparator and repeater
@@ -169,7 +169,7 @@ public class ReadCrosshair {
 
             int level = fluidState.getLevel();
             String levelString = "";
-            if(level < 8) levelString = ", Level: %d".formatted(level); // TODO add to i18n
+            if(level < 8) levelString = I18n.translate("minecraft_access.read_crosshair.fluid_level", level);
 
             String toSpeak = name + levelString;
 
