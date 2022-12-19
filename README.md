@@ -92,6 +92,10 @@ Adds key bindings to speak the player's position.
 3. Left Alt + C = Speaks only the y position.
 4. Left Alt + Z = Speaks only the z position.
 
+## Player Warnings
+
+This feature warns the player when the health, hunger or air bubble is low.
+
 ## Facing Direction
 
 Adds key binding to speak the player's facing direction.
