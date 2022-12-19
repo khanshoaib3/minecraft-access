@@ -32,6 +32,7 @@ public class ReadCrosshair {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
             if (minecraftClient == null) return;
             if (minecraftClient.world == null) return;
+            if (minecraftClient.player == null) return;
             if (minecraftClient.currentScreen != null) return;
             Entity entity = minecraftClient.getCameraEntity();
             if(entity == null) return;
@@ -42,7 +43,7 @@ public class ReadCrosshair {
 
             if (blockHit == null) return;
 
-            if (checkForFluidHit(minecraftClient, fluidHit)) return;
+            if (!minecraftClient.player.isSwimming() && !minecraftClient.player.isSubmergedInWater() && !minecraftClient.player.isInsideWaterOrBubbleColumn() && !minecraftClient.player.isInLava() && checkForFluidHit(minecraftClient, fluidHit)) return;
 
             checkForBlockAndEntityHit(minecraftClient, blockHit);
         } catch (Exception e) {

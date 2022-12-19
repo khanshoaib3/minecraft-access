@@ -23,6 +23,7 @@ public class MainClass {
     public static FacingDirection facingDirection = null;
     public static PositionNarrator positionNarrator = null;
     public static HealthNHunger healthNHunger = null;
+    public static PlayerWarnings playerWarnings = null;
 
     public static boolean debugMode = true; // TODO add option to toggle this
     public static boolean isForge = false;
@@ -47,6 +48,7 @@ public class MainClass {
         MainClass.facingDirection = new FacingDirection();
         MainClass.positionNarrator = new PositionNarrator();
         MainClass.healthNHunger = new HealthNHunger();
+        MainClass.playerWarnings = new PlayerWarnings();
 
         ClientTickEvent.CLIENT_POST.register(MainClass::clientTickEventsMethod);
 
@@ -84,6 +86,8 @@ public class MainClass {
         if (positionNarrator != null) positionNarrator.update();
 
         if (healthNHunger != null) healthNHunger.update();
+
+        if (playerWarnings != null) playerWarnings.update();
     }
 
     public static void infoLog(String msg) {
