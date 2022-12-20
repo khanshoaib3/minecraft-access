@@ -52,7 +52,7 @@ public class BiomeIndicator {
      * @param biome the biome's registry entry
      * @return the biome's name
      */
-    private static String getBiomeName(RegistryEntry<Biome> biome) {
+    public static String getBiomeName(RegistryEntry<Biome> biome) {
         return I18n.translate(getBiomeTranslationKey(biome));
     }
 
