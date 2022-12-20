@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.gui;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.features.BiomeIndicator;
+import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPosition;
 import io.github.cottonmc.cotton.gui.client.BackgroundPainter;
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
@@ -14,6 +15,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -27,40 +29,46 @@ import net.minecraft.world.biome.Biome;
 
 public class NarratorMenuGUI extends LightweightGuiDescription {
     private final ClientPlayerEntity player;
-    public MinecraftClient client;
+    public MinecraftClient minecraftClient;
 
     public NarratorMenuGUI(ClientPlayerEntity player, MinecraftClient client) {
         this.player = player;
-        this.client = client;
+        this.minecraftClient = client;
 
         WGridPanel rootGridPanel = new WGridPanel();
 
         setRootPanel(rootGridPanel);
 
-        WButton wb11 = new WButton(Text.of(I18n.translate("minecraft_access.gui.button.target_info")));
-        wb11.setOnClick(this::block_target_information);
-        rootGridPanel.add(wb11, 1, 1, 7, 1);
+        WButton blockAndFluidTargetInformationButton = new WButton(Text.of(I18n.translate("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_info")));
+        blockAndFluidTargetInformationButton.setOnClick(this::getBlockAndFluidTargetInformation);
+        rootGridPanel.add(blockAndFluidTargetInformationButton, 1, 1, 9, 1);
 
-        WButton wb12 = new WButton(Text.of(I18n.translate("minecraft_access.gui.button.target_position")));
-        wb12.setOnClick(this::block_target_position);
-        rootGridPanel.add(wb12, 9, 1, 7, 1);
+        WButton blockAndFluidTargetPositionButton = new WButton(Text.of(I18n.translate("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_position")));
+        blockAndFluidTargetPositionButton.setOnClick(this::getBlockAndFluidTargetPosition);
+        rootGridPanel.add(blockAndFluidTargetPositionButton, 11, 1, 9, 1);
 
-        WButton wb22 = new WButton(Text.of(I18n.translate("minecraft_access.gui.button.light_level")));
-        wb22.setOnClick(this::light_level);
-        rootGridPanel.add(wb22, 1, 3, 7, 1);
+        WButton entityTargetInformationButton = new WButton(Text.of(I18n.translate("minecraft_access.narrator_menu.gui.button.entity_target_info")));
+        entityTargetInformationButton.setOnClick(this::getEntityTargetInformation);
+        rootGridPanel.add(entityTargetInformationButton, 1, 3, 9, 1);
 
-        WButton wb23 = new WButton(Text.of(I18n.translate("minecraft_access.gui.button.biome")));
-        wb23.setOnClick(this::getBiome);
-        rootGridPanel.add(wb23, 9, 3, 7, 1);
+        WButton entityTargetPositionButton = new WButton(Text.of(I18n.translate("minecraft_access.narrator_menu.gui.button.entity_target_position")));
+        entityTargetPositionButton.setOnClick(this::getEntityTargetPosition);
+        rootGridPanel.add(entityTargetPositionButton, 11, 3, 9, 1);
+
+        WButton lightLevelButton = new WButton(Text.of(I18n.translate("minecraft_access.narrator_menu.gui.button.light_level")));
+        lightLevelButton.setOnClick(this::getLightLevel);
+        rootGridPanel.add(lightLevelButton, 1, 5, 9, 1);
+
+        WButton biomeButton = new WButton(Text.of(I18n.translate("minecraft_access.narrator_menu.gui.button.biome")));
+        biomeButton.setOnClick(this::getBiome);
+        rootGridPanel.add(biomeButton, 11, 5, 9, 1);
 
         WLabel labelForPadding = new WLabel(Text.of(""), Color.RED.toRgb());
-        rootGridPanel.add(labelForPadding, 0, 4, 17, 1);
+        rootGridPanel.add(labelForPadding, 0, 6, 21, 1);
 
         rootGridPanel.validate(this);
 
-//        WButton wb31 = new WButton(Text.of("Time Of Day"));
-//        wb31.setOnClick(this::getTimeOfDay);
-//        rootGridPanel.add(wb31, 4, 4, 7, 1);
+        // TODO add time of day and map number buttons to trigger above buttons
     }
 
     @Override
@@ -68,39 +76,94 @@ public class NarratorMenuGUI extends LightweightGuiDescription {
         this.rootPanel.setBackgroundPainter(BackgroundPainter.createColorful(Color.LIGHT_GRAY_DYE.toRgb()));
     }
 
-    private void block_target_information() {
+    private void getBlockAndFluidTargetInformation() {
         try {
             this.player.closeScreen();
-            if(this.client.cameraEntity == null) return;
+            if(this.minecraftClient.cameraEntity == null) return;
+            if(this.minecraftClient.player == null) return;
+            if(this.minecraftClient.world == null) return;
 
-
-            HitResult hit = this.client.cameraEntity.raycast(20.0, 0.0f, false);
+            HitResult hit = this.minecraftClient.cameraEntity.raycast(20.0, 0.0f, true);
             if (hit == null)
                 return;
 
+            if (!minecraftClient.player.isSwimming() && !minecraftClient.player.isSubmergedInWater() && !minecraftClient.player.isInsideWaterOrBubbleColumn() && !minecraftClient.player.isInLava()
+                    && checkForFluidHit(minecraftClient, hit, false)) return;
+
             switch (hit.getType()) {
-                case MISS -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
+                case MISS, ENTITY -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
                 case BLOCK -> {
                     try {
                         BlockHitResult blockHit = (BlockHitResult) hit;
                         BlockPos blockPos = blockHit.getBlockPos();
-                        assert client.world != null;
-                        BlockState blockState = client.world.getBlockState(blockPos);
+
+                        BlockState blockState = minecraftClient.world.getBlockState(blockPos);
                         Block block = blockState.getBlock();
                         MutableText mutableText = block.getName();
-                        String text = mutableText.getString() + ", " + get_position_difference(blockPos);
+
+                        String text = mutableText.getString() + ", " + getPositionDifference(blockPos);
                         MainClass.speakWithNarrator(text, true);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getBlockAndFluidTargetPosition() {
+        try {
+            this.player.closeScreen();
+            if(this.minecraftClient.cameraEntity == null) return;
+            if(this.minecraftClient.player == null) return;
+            if(this.minecraftClient.world == null) return;
+
+            HitResult hit = this.minecraftClient.cameraEntity.raycast(20.0, 0.0f, true);
+            if (hit == null)
+                return;
+
+            if (!minecraftClient.player.isSwimming() && !minecraftClient.player.isSubmergedInWater() && !minecraftClient.player.isInsideWaterOrBubbleColumn() && !minecraftClient.player.isInLava()
+                    && checkForFluidHit(minecraftClient, hit, true)) return;
+
+            switch (hit.getType()) {
+                case MISS, ENTITY -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
+                case BLOCK -> {
+                    try {
+                        BlockHitResult blockHitResult = (BlockHitResult) hit;
+                        BlockPos blockPos = blockHitResult.getBlockPos();
+                        MainClass.speakWithNarrator(getPosition(blockPos), true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getEntityTargetInformation() {
+        try {
+            this.player.closeScreen();
+            if(this.minecraftClient.cameraEntity == null) return;
+            if(this.minecraftClient.player == null) return;
+            if(this.minecraftClient.world == null) return;
+
+            HitResult hit = this.minecraftClient.cameraEntity.raycast(20.0, 0.0f, false);
+            if (hit == null)
+                return;
+
+            switch (hit.getType()) {
+                case MISS, BLOCK -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
                 case ENTITY -> {
                     try {
                         EntityHitResult entityHitResult = (EntityHitResult) hit;
                         String name;
                         name = entityHitResult.getEntity().getName().getString();
                         BlockPos blockPos = entityHitResult.getEntity().getBlockPos();
-                        String text = name + ", " + get_position_difference(blockPos);
+                        String text = name + ", " + getPositionDifference(blockPos);
                         MainClass.speakWithNarrator(text, true);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -110,35 +173,26 @@ public class NarratorMenuGUI extends LightweightGuiDescription {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
-    private void block_target_position() {
+    private void getEntityTargetPosition() {
         try {
             this.player.closeScreen();
-            if(this.client.cameraEntity == null) return;
+            if(this.minecraftClient.cameraEntity == null) return;
+            if(this.minecraftClient.player == null) return;
+            if(this.minecraftClient.world == null) return;
 
-            HitResult hit = this.client.cameraEntity.raycast(20.0, 0.0f, false);
+            HitResult hit = this.minecraftClient.cameraEntity.raycast(20.0, 0.0f, false);
             if (hit == null)
                 return;
 
             switch (hit.getType()) {
-                case MISS -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
-                case BLOCK -> {
-                    try {
-                        BlockHitResult blockHitResult = (BlockHitResult) hit;
-                        BlockPos blockPos = blockHitResult.getBlockPos();
-                        MainClass.speakWithNarrator(get_position(blockPos), true);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+                case MISS, BLOCK -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
                 case ENTITY -> {
                     try {
                         EntityHitResult entityHitResult = (EntityHitResult) hit;
                         BlockPos blockPos = entityHitResult.getEntity().getBlockPos();
-                        MainClass.speakWithNarrator(get_position(blockPos), true);
+                        MainClass.speakWithNarrator(getPosition(blockPos), true);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -149,12 +203,42 @@ public class NarratorMenuGUI extends LightweightGuiDescription {
         }
     }
 
-    private void light_level() {
+    private boolean checkForFluidHit(MinecraftClient minecraftClient, HitResult fluidHit, boolean onlyPosition) {
+        if (minecraftClient == null) return false;
+        if (minecraftClient.world == null) return false;
+        if (minecraftClient.currentScreen != null) return false;
+
+        if (fluidHit.getType() == HitResult.Type.BLOCK) {
+            BlockPos blockPos = ((BlockHitResult) fluidHit).getBlockPos();
+            FluidState fluidState = minecraftClient.world.getFluidState(blockPos);
+
+            String name = ReadCrosshair.getFluidName(fluidState.getRegistryEntry());
+            if(name.equals("block.minecraft.empty")) return false;
+            if(name.contains("block.minecraft.")) name = name.replace("block.minecraft.", ""); // Remove `block.minecraft.` for unsupported languages
+
+            if(onlyPosition) {
+                MainClass.speakWithNarrator(getPosition(blockPos), true);
+                return true;
+            }
+
+            int level = fluidState.getLevel();
+            String levelString = "";
+            if(level < 8) levelString = I18n.translate("minecraft_access.read_crosshair.fluid_level", level);
+
+            String toSpeak = name + levelString + ", " + getPositionDifference(blockPos);
+
+            MainClass.speakWithNarrator(toSpeak, true);
+            return true;
+        }
+        return false;
+    }
+
+    private void getLightLevel() {
         try {
             this.player.closeScreen();
-            if(this.client.world == null) return;
+            if(this.minecraftClient.world == null) return;
 
-            int light = this.client.world.getLightLevel(this.player.getBlockPos());
+            int light = this.minecraftClient.world.getLightLevel(this.player.getBlockPos());
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.light_level", light), true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -164,9 +248,9 @@ public class NarratorMenuGUI extends LightweightGuiDescription {
     private void getBiome() {
         try {
             this.player.closeScreen();
-            if(client.world == null) return;
+            if(minecraftClient.world == null) return;
 
-            RegistryEntry<Biome> var27 = this.client.world.getBiome(this.player.getBlockPos());
+            RegistryEntry<Biome> var27 = this.minecraftClient.world.getBiome(this.player.getBlockPos());
             String name = I18n.translate(BiomeIndicator.getBiomeName(var27));
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.biome", name), true);
         } catch (Exception e) {
@@ -174,11 +258,11 @@ public class NarratorMenuGUI extends LightweightGuiDescription {
         }
     }
 
-    public String get_position_difference(BlockPos blockPos) {
-        ClientPlayerEntity player = client.player;
-        if(this.client.player == null) return "up";
+    public String getPositionDifference(BlockPos blockPos) {
+        ClientPlayerEntity player = minecraftClient.player;
+        if(this.minecraftClient.player == null) return "up";
 
-        Direction dir = client.player.getHorizontalFacing();
+        Direction dir = minecraftClient.player.getHorizontalFacing();
 
 //        Vec3d diff = player.getEyePos().subtract(Vec3d.ofCenter(blockPos)); // post 1.18
         Vec3d diff = new Vec3d(player.getX(), player.getEyeY(), player.getZ()).subtract(Vec3d.ofCenter(blockPos)); // pre 1.18
@@ -224,7 +308,7 @@ public class NarratorMenuGUI extends LightweightGuiDescription {
         return text;
     }
 
-    private String get_position(BlockPos blockPos) {
+    private String getPosition(BlockPos blockPos) {
         try {
             String posX = PlayerPosition.getNarratableNumber(blockPos.getX());
             String posY = PlayerPosition.getNarratableNumber(blockPos.getY());

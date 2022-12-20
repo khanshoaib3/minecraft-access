@@ -188,7 +188,7 @@ public class ReadCrosshair {
      * @param fluid the fluid's registry entry
      * @return the fluid's name
      */
-    private static String getFluidName(RegistryEntry<Fluid> fluid) {
+    public static String getFluidName(RegistryEntry<Fluid> fluid) {
         return I18n.translate(getFluidTranslationKey(fluid));
     }
 
