@@ -14,9 +14,17 @@ subprojects {
         silentMojangMappingsLicense()
     }
 
+    repositories {
+        maven {
+            name = "CottonMC"
+            url = "https://server.bbkr.space/artifactory/libs-release"
+        }
+    }
+
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
         mappings "net.fabricmc:yarn:${rootProject.fabric_yarn_version}"
+        modImplementation include("io.github.cottonmc:LibGui:${rootProject.libgui_version}")
     }
 }
 
