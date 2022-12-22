@@ -1,7 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.gui.ConfigScreen;
 import com.github.khanshoaib3.minecraft_access.gui.NarratorMenuGUI;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPosition;
 import net.minecraft.block.Block;
@@ -49,7 +48,7 @@ public class NarratorMenu {
             );
 
             if (isNarratorMenuKeyPressed) {
-                Screen screen = new ConfigScreen(new NarratorMenuGUI(), "f4_menu");
+                Screen screen = new NarratorMenuGUI("f4_menu");
                 minecraftClient.setScreen(screen); // post 1.18
 //                minecraftClient.openScreen(screen); // pre 1.18
             }

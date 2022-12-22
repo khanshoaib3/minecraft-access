@@ -1,55 +1,59 @@
 package com.github.khanshoaib3.minecraft_access.gui;
 
 import com.github.khanshoaib3.minecraft_access.features.NarratorMenu;
-import io.github.cottonmc.cotton.gui.client.BackgroundPainter;
-import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
-import io.github.cottonmc.cotton.gui.widget.WButton;
-import io.github.cottonmc.cotton.gui.widget.WGridPanel;
-import io.github.cottonmc.cotton.gui.widget.WLabel;
-import io.github.cottonmc.cotton.gui.widget.data.Color;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
-public class NarratorMenuGUI extends LightweightGuiDescription {
-    public NarratorMenuGUI() {
-        WGridPanel rootGridPanel = new WGridPanel();
-
-        setRootPanel(rootGridPanel);
-
-        WButton blockAndFluidTargetInformationButton = new WButton(Text.of(I18n.translate("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_info")));
-        blockAndFluidTargetInformationButton.setOnClick(NarratorMenu::getBlockAndFluidTargetInformation);
-        rootGridPanel.add(blockAndFluidTargetInformationButton, 1, 1, 9, 1);
-
-        WButton blockAndFluidTargetPositionButton = new WButton(Text.of(I18n.translate("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_position")));
-        blockAndFluidTargetPositionButton.setOnClick(NarratorMenu::getBlockAndFluidTargetPosition);
-        rootGridPanel.add(blockAndFluidTargetPositionButton, 11, 1, 9, 1);
-
-        WButton entityTargetInformationButton = new WButton(Text.of(I18n.translate("minecraft_access.narrator_menu.gui.button.entity_target_info")));
-        entityTargetInformationButton.setOnClick(NarratorMenu::getEntityTargetInformation);
-        rootGridPanel.add(entityTargetInformationButton, 1, 3, 9, 1);
-
-        WButton entityTargetPositionButton = new WButton(Text.of(I18n.translate("minecraft_access.narrator_menu.gui.button.entity_target_position")));
-        entityTargetPositionButton.setOnClick(NarratorMenu::getEntityTargetPosition);
-        rootGridPanel.add(entityTargetPositionButton, 11, 3, 9, 1);
-
-        WButton lightLevelButton = new WButton(Text.of(I18n.translate("minecraft_access.narrator_menu.gui.button.light_level")));
-        lightLevelButton.setOnClick(NarratorMenu::getLightLevel);
-        rootGridPanel.add(lightLevelButton, 1, 5, 9, 1);
-
-        WButton biomeButton = new WButton(Text.of(I18n.translate("minecraft_access.narrator_menu.gui.button.biome")));
-        biomeButton.setOnClick(NarratorMenu::getBiome);
-        rootGridPanel.add(biomeButton, 11, 5, 9, 1);
-
-        WLabel labelForPadding = new WLabel(Text.of(""), Color.RED.toRgb());
-        rootGridPanel.add(labelForPadding, 0, 6, 21, 1);
-
-        rootGridPanel.validate(this);
-
-        // TODO add time of day and map number buttons to trigger above buttons
+public class NarratorMenuGUI extends Screen {
+    public NarratorMenuGUI(String title) {
+        super(Text.of(I18n.translate("minecraft_access.gui.screen." + title)));
     }
 
     @Override
-    public void addPainters() {
-        this.rootPanel.setBackgroundPainter(BackgroundPainter.createColorful(Color.LIGHT_GRAY_DYE.toRgb()));
+    protected void init() {
+        int centerX = this.width / 2;
+        int buttonHeight = 20;
+        int startY = this.height / 6;
+
+        ButtonWidget blockAndFluidTargetInformationButton = ButtonWidget.builder(Text.translatable("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_info"),
+                (button) -> NarratorMenu.getBlockAndFluidTargetInformation()).dimensions(centerX - (this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_info"))) + 35) / 2, startY, this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_info"))) + 35, buttonHeight).build();
+        startY += buttonHeight + buttonHeight / 2;
+
+        ButtonWidget blockAndFluidTargetPositionButton = ButtonWidget.builder(Text.translatable("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_position"),
+                (button) -> NarratorMenu.getBlockAndFluidTargetPosition()).dimensions(centerX - (this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_position"))) + 35) / 2, startY, this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_position"))) + 35, buttonHeight).build();
+        startY += buttonHeight + buttonHeight / 2;
+
+        ButtonWidget entityTargetInformationButton = ButtonWidget.builder(Text.translatable("minecraft_access.narrator_menu.gui.button.entity_target_info"),
+                (button) -> NarratorMenu.getEntityTargetInformation()).dimensions(centerX - (this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.entity_target_info"))) + 35) / 2, startY, this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.entity_target_info"))) + 35, buttonHeight).build();
+        startY += buttonHeight + buttonHeight / 2;
+
+        ButtonWidget entityTargetPositionButton = ButtonWidget.builder(Text.translatable("minecraft_access.narrator_menu.gui.button.entity_target_position"),
+                (button) -> NarratorMenu.getEntityTargetPosition()).dimensions(centerX - (this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.entity_target_position"))) + 35) / 2, startY, this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.entity_target_position"))) + 35, buttonHeight).build();
+        startY += buttonHeight + buttonHeight / 2;
+
+        ButtonWidget lightLevelButton = ButtonWidget.builder(Text.translatable("minecraft_access.narrator_menu.gui.button.light_level"),
+                (button) -> NarratorMenu.getLightLevel()).dimensions(centerX - (this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.light_level"))) + 35) / 2, startY, this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.light_level"))) + 35, buttonHeight).build();
+        startY += buttonHeight + buttonHeight / 2;
+
+        ButtonWidget biomeButton = ButtonWidget.builder(Text.translatable("minecraft_access.narrator_menu.gui.button.biome"),
+                (button) -> NarratorMenu.getBiome()).dimensions(centerX - (this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.biome"))) + 35) / 2, startY, this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.biome"))) + 35, buttonHeight).build();
+
+        // TODO add time of day and map number buttons to trigger above buttons
+        this.addDrawableChild(blockAndFluidTargetInformationButton);
+        this.addDrawableChild(blockAndFluidTargetPositionButton);
+        this.addDrawableChild(entityTargetInformationButton);
+        this.addDrawableChild(entityTargetPositionButton);
+        this.addDrawableChild(lightLevelButton);
+        this.addDrawableChild(biomeButton);
+    }
+
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.renderBackground(matrices);
+        drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 15, 16777215);
+        super.render(matrices, mouseX, mouseY, delta);
     }
 }
