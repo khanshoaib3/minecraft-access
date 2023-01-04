@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access;
 import com.github.khanshoaib3.minecraft_access.features.*;
 import com.github.khanshoaib3.minecraft_access.features.InventoryControls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.PointOfInterest.POIBlocks;
+import com.github.khanshoaib3.minecraft_access.features.PointOfInterest.POIEntities;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
 import com.mojang.text2speech.Narrator;
@@ -27,6 +28,7 @@ public class MainClass {
     public static PlayerWarnings playerWarnings = null;
     public static NarratorMenu narratorMenu = null;
     public static POIBlocks poiBlocks = null;
+    public static POIEntities poiEntities = null;
 
     public static boolean debugMode = true; // TODO add option to toggle this
     public static boolean isForge = false;
@@ -54,6 +56,7 @@ public class MainClass {
         MainClass.playerWarnings = new PlayerWarnings();
         MainClass.narratorMenu = new NarratorMenu();
         MainClass.poiBlocks = new POIBlocks();
+        MainClass.poiEntities = new POIEntities();
 
         ClientTickEvent.CLIENT_POST.register(MainClass::clientTickEventsMethod);
 
@@ -97,6 +100,8 @@ public class MainClass {
         if (narratorMenu != null) narratorMenu.update();
 
         if (poiBlocks != null) poiBlocks.update();
+
+        if (poiEntities != null) poiEntities.update();
     }
 
     public static void infoLog(String msg) {

@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.sound.SoundCategory;
@@ -151,7 +150,7 @@ public class POIBlocks {
 
 //            if (Config.get(ConfigKeys.POI_FLUID_DETECTOR_Key.getKey())
 //                    && !modInit.mainThreadMap.containsKey("fluid_detector_key")) {
-            MainClass.speakWithNarrator(I18n.translate("narrate.apextended.poiblock.warn"), true);
+//            MainClass.speakWithNarrator(I18n.translate("narrate.apextended.poiblock.warn"), true);
 //                modInit.mainThreadMap.put("fluid_detector_key", delay);
 //            }
         } else if (oreBlockList.stream().anyMatch($ -> $.test(blockState))) {
