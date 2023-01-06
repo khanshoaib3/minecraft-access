@@ -32,12 +32,12 @@ public class LockingHandler {
     public static boolean isLockedOntoEyeOfEnderTarget = false;
     public static String lockedOnBlockEntries = "";
 
-    public final KeyBinding narratorMenuKey; //TODO create a separate class for initializing key binds
+    public final KeyBinding lockingHandlerKey; //TODO create a separate class for initializing key binds
     private boolean shouldRun = true;
 
     public LockingHandler() {
-        narratorMenuKey = new KeyBinding(
-                "minecraft_access.keys.other.narrator_menu_key_name",
+        lockingHandlerKey = new KeyBinding(
+                "minecraft_access.keys.other.locking_handler_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_Y,
                 "minecraft_access.keys.other.group_name"
@@ -47,203 +47,9 @@ public class LockingHandler {
     public void update() {
         if (!this.shouldRun) return;
         try {
-            MinecraftClient minecraftClient = MinecraftClient.getInstance();
+            mainLogic();
 
-            if (minecraftClient == null) return;
-            if (minecraftClient.player == null) return;
-            if (minecraftClient.world == null) return;
-            if (minecraftClient.currentScreen != null) return; //Prevent running if any screen is opened
-
-            boolean isLockingKeyPressed = InputUtil.isKeyPressed(
-                    minecraftClient.getWindow().getHandle(),
-                    InputUtil.fromTranslationKey(narratorMenuKey.getBoundKeyTranslationKey()).getCode()
-            );
-
-            if (lockedOnEntity != null) {
-
-                if (!lockedOnEntity.isAlive()) {
-                    lockedOnEntity = null;
-                    playUnlockingSound(minecraftClient);
-                } else {
-                    double posX = lockedOnEntity.getX() - 0.5;
-                    double posY = lockedOnEntity.getY() - 0.5;
-                    double posZ = lockedOnEntity.getZ() - 0.5;
-                    if (lockedOnEntity instanceof EyeOfEnderEntity)
-                        prevEntityPos = new Vec3d(posX, posY, posZ);
-
-                    Vec3d vec3d = new Vec3d(lockedOnEntity.getX(),
-                            lockedOnEntity.getY() + lockedOnEntity.getHeight() - 0.25, lockedOnEntity.getZ());
-                    minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, vec3d);
-                }
-            } else {
-                if (prevEntityPos != null) {
-                    lockedOnBlock = prevEntityPos;
-                    isLockedOntoEyeOfEnderTarget = true;
-                    prevEntityPos = null;
-                }
-            }
-
-            if (isLockedOntoLadder) {
-                Vec3d playerPos = minecraftClient.player.getPos();
-                double distance = lockedOnBlock.distanceTo(playerPos);
-                if (distance <= 0.5) {
-                    lockedOnBlock = null;
-                    isLockedOntoLadder = false;
-                    playUnlockingSound(minecraftClient);
-                }
-            }
-
-            if (lockedOnBlock != null) {
-                BlockState blockState = minecraftClient.world.getBlockState(new BlockPos(lockedOnBlock));
-                String entries = blockState.getEntries() + "" + blockState.getBlock() + "" + (new BlockPos(lockedOnBlock));
-                if (entries.equalsIgnoreCase(lockedOnBlockEntries) || isLockedOntoEyeOfEnderTarget)
-                    minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, lockedOnBlock);
-                else {
-                    lockedOnBlockEntries = "";
-                    isLockedOntoLadder = false;
-                    lockedOnBlock = null;
-                    playUnlockingSound(minecraftClient);
-                }
-            }
-
-            if (isLockingKeyPressed) {
-                if (Screen.hasAltDown() && (lockedOnEntity != null || lockedOnBlock != null)) {
-                    MainClass.speakWithNarrator("narrate.apextended.locking.unlocked", true);
-                    lockedOnEntity = null;
-                    lockedOnBlockEntries = "";
-                    lockedOnBlock = null;
-                    isLockedOntoLadder = false;
-                    isLockedOntoEyeOfEnderTarget = false;
-                    playUnlockingSound(minecraftClient);
-                } else {
-                    if (!POIEntities.eyeOfEnderEntity.isEmpty()) {
-                        Entry<Double, Entity> entry = POIEntities.eyeOfEnderEntity.firstEntry();
-                        Entity entity = entry.getValue();
-
-                        String text = I18n.translate("narrate.apextended.locking.trackingEyeOfEnder");
-                        lockedOnEntity = entity;
-                        lockedOnBlockEntries = "";
-
-                        lockedOnBlock = null;
-                        isLockedOntoLadder = false;
-
-                        MainClass.speakWithNarrator(text, true);
-                    } else if (!POIEntities.hostileEntity.isEmpty()) {
-                        Entry<Double, Entity> entry = POIEntities.hostileEntity.firstEntry();
-                        Entity entity = entry.getValue();
-
-                        String text = entity.getName().getString();
-                        lockedOnEntity = entity;
-                        lockedOnBlockEntries = "";
-
-                        lockedOnBlock = null;
-                        isLockedOntoLadder = false;
-
-//                    if (Config.get(ConfigKeys.POI_ENTITY_LOCKING_NARRATE_DISTANCE_KEY.getKey())) {
-//                        text += " " + HudRenderCallBackClass.get_position_difference(entity.getBlockPos(), minecraftClient);
-//                    }
-                        MainClass.speakWithNarrator(text, true);
-                    } else {
-                        Double closest = -9999.0;
-
-                        Entry<Double, Entity> closestPassiveEntityEntry = null;
-                        Double closestPassiveEntityDouble = -9999.0;
-                        if (!POIEntities.passiveEntity.isEmpty()) {
-                            closestPassiveEntityEntry = POIEntities.passiveEntity.firstEntry();
-                            closestPassiveEntityDouble = closestPassiveEntityEntry.getKey();
-                            closest = closestPassiveEntityDouble;
-                        }
-
-                        Entry<Double, Vec3d> closestDoorBlockEntry = null;
-                        Double closestDoorBlockDouble = -9999.0;
-                        if (!POIBlocks.doorBlocks.isEmpty()) {
-                            closestDoorBlockEntry = POIBlocks.doorBlocks.firstEntry();
-                            closestDoorBlockDouble = closestDoorBlockEntry.getKey();
-                            closest = closestDoorBlockDouble;
-                        }
-
-                        Entry<Double, Vec3d> closestButtonBlockEntry = null;
-                        Double closestButtonBlockDouble = -9999.0;
-                        if (!POIBlocks.buttonBlocks.isEmpty()) {
-                            closestButtonBlockEntry = POIBlocks.buttonBlocks.firstEntry();
-                            closestButtonBlockDouble = closestButtonBlockEntry.getKey();
-                            closest = closestButtonBlockDouble;
-                        }
-
-                        Entry<Double, Vec3d> closestLadderBlockEntry = null;
-                        Double closestLadderBlockDouble = -9999.0;
-                        if (!POIBlocks.ladderBlocks.isEmpty()) {
-                            closestLadderBlockEntry = POIBlocks.ladderBlocks.firstEntry();
-                            closestLadderBlockDouble = closestLadderBlockEntry.getKey();
-                            closest = closestLadderBlockDouble;
-                        }
-
-                        Entry<Double, Vec3d> closestLeverBlockEntry = null;
-                        Double closestLeverBlockDouble = -9999.0;
-                        if (!POIBlocks.leverBlocks.isEmpty()) {
-                            closestLeverBlockEntry = POIBlocks.leverBlocks.firstEntry();
-                            closestLeverBlockDouble = closestLeverBlockEntry.getKey();
-                            closest = closestLeverBlockDouble;
-                        }
-
-                        Entry<Double, Vec3d> closestTrapDoorBlockEntry = null;
-                        Double closestTrapDoorBlockDouble = -9999.0;
-                        if (!POIBlocks.trapDoorBlocks.isEmpty()) {
-                            closestTrapDoorBlockEntry = POIBlocks.trapDoorBlocks.firstEntry();
-                            closestTrapDoorBlockDouble = closestTrapDoorBlockEntry.getKey();
-                            closest = closestTrapDoorBlockDouble;
-                        }
-
-                        Entry<Double, Vec3d> closestBlockEntry = null;
-                        Double closestBlockDouble = -9999.0;
-                        if (!POIBlocks.blocks.isEmpty()) {
-                            closestBlockEntry = POIBlocks.blocks.firstEntry();
-                            closestBlockDouble = closestBlockEntry.getKey();
-                            closest = closestBlockDouble;
-                        }
-
-                        Entry<Double, Vec3d> closestOreBlockEntry = null;
-                        Double closestOreBlockDouble = -9999.0;
-                        if (!POIBlocks.oreBlocks.isEmpty()) {
-                            closestOreBlockEntry = POIBlocks.oreBlocks.firstEntry();
-                            closestOreBlockDouble = closestOreBlockEntry.getKey();
-                            closest = closestOreBlockDouble;
-                        }
-
-                        if (closest != -9999.0) {
-                            if (closestPassiveEntityDouble != -9999.0)
-                                closest = Math.min(closest, closestPassiveEntityDouble);
-                            if (closestDoorBlockDouble != -9999.0)
-                                closest = Math.min(closest, closestDoorBlockDouble);
-                            if (closestButtonBlockDouble != -9999.0)
-                                closest = Math.min(closest, closestButtonBlockDouble);
-                            if (closestLadderBlockDouble != -9999.0)
-                                closest = Math.min(closest, closestLadderBlockDouble);
-                            if (closestLeverBlockDouble != -9999.0)
-                                closest = Math.min(closest, closestLeverBlockDouble);
-                            if (closestTrapDoorBlockDouble != -9999.0)
-                                closest = Math.min(closest, closestTrapDoorBlockDouble);
-                            if (closestOreBlockDouble != -9999.0)
-                                closest = Math.min(closest, closestOreBlockDouble);
-                            if (closestBlockDouble != -9999.0)
-                                closest = Math.min(closest, closestBlockDouble);
-
-                            lockOntoBlocksOrPassiveEntity(minecraftClient, closest, closestPassiveEntityEntry,
-                                    closestPassiveEntityDouble, closestDoorBlockEntry, closestDoorBlockDouble,
-                                    closestButtonBlockEntry, closestButtonBlockDouble, closestLadderBlockEntry,
-                                    closestLadderBlockDouble, closestLeverBlockEntry, closestLeverBlockDouble,
-                                    closestTrapDoorBlockEntry, closestTrapDoorBlockDouble, closestBlockEntry,
-                                    closestBlockDouble, closestOreBlockEntry, closestOreBlockDouble);
-
-                            narrateBlockPosAndSetBlockEntries(minecraftClient);
-
-                        }
-                    }
-                }
-
-            }
-
-            // Pause the execution of this feature for 250 milliseconds
+            // Pause the execution of this feature for 100 milliseconds
             // TODO Remove Timer
             shouldRun = false;
             TimerTask timerTask = new TimerTask() {
@@ -252,9 +58,214 @@ public class LockingHandler {
                     shouldRun = true;
                 }
             };
-            new Timer().schedule(timerTask, 300);
+            new Timer().schedule(timerTask, 100);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void mainLogic() {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+
+        if (minecraftClient == null) return;
+        if (minecraftClient.player == null) return;
+        if (minecraftClient.world == null) return;
+        if (minecraftClient.currentScreen != null) return;
+
+        boolean isLockingKeyPressed = InputUtil.isKeyPressed(
+                minecraftClient.getWindow().getHandle(),
+                InputUtil.fromTranslationKey(lockingHandlerKey.getBoundKeyTranslationKey()).getCode()
+        );
+
+        if (lockedOnEntity != null) outer:{
+            if (!lockedOnEntity.isAlive()) {
+                lockedOnEntity = null;
+                playUnlockingSound(minecraftClient);
+                break outer;
+            }
+
+            double posX = lockedOnEntity.getX() - 0.5;
+            double posY = lockedOnEntity.getY() - 0.5;
+            double posZ = lockedOnEntity.getZ() - 0.5;
+            if (lockedOnEntity instanceof EyeOfEnderEntity)
+                prevEntityPos = new Vec3d(posX, posY, posZ);
+
+            Vec3d vec3d = new Vec3d(lockedOnEntity.getX(),
+                    lockedOnEntity.getY() + lockedOnEntity.getHeight() - 0.25, lockedOnEntity.getZ());
+            minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, vec3d);
+        }
+        else {
+            if (prevEntityPos != null) {
+                lockedOnBlock = prevEntityPos;
+                isLockedOntoEyeOfEnderTarget = true;
+                prevEntityPos = null;
+            }
+        }
+
+        if (isLockedOntoLadder) {
+            Vec3d playerPos = minecraftClient.player.getPos();
+            double distance = lockedOnBlock.distanceTo(playerPos);
+            if (distance <= 0.5) {
+                lockedOnBlock = null;
+                isLockedOntoLadder = false;
+                playUnlockingSound(minecraftClient);
+            }
+        }
+
+        if (lockedOnBlock != null) {
+            BlockState blockState = minecraftClient.world.getBlockState(new BlockPos(lockedOnBlock));
+            String entries = blockState.getEntries() + "" + blockState.getBlock() + "" + (new BlockPos(lockedOnBlock));
+            if (entries.equalsIgnoreCase(lockedOnBlockEntries) || isLockedOntoEyeOfEnderTarget)
+                minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, lockedOnBlock);
+            else {
+                lockedOnBlockEntries = "";
+                isLockedOntoLadder = false;
+                lockedOnBlock = null;
+                playUnlockingSound(minecraftClient);
+            }
+        }
+
+        if (!isLockingKeyPressed) return;
+
+        if (Screen.hasAltDown()) {
+            if (lockedOnEntity != null || lockedOnBlock != null) {
+                MainClass.speakWithNarrator("narrate.apextended.locking.unlocked", true);
+                lockedOnEntity = null;
+                lockedOnBlockEntries = "";
+                lockedOnBlock = null;
+                isLockedOntoLadder = false;
+                isLockedOntoEyeOfEnderTarget = false;
+                playUnlockingSound(minecraftClient);
+            }
+            return;
+        }
+
+        if (!POIEntities.eyeOfEnderEntity.isEmpty()) {
+            Entry<Double, Entity> entry = POIEntities.eyeOfEnderEntity.firstEntry();
+            Entity entity = entry.getValue();
+
+            String text = I18n.translate("narrate.apextended.locking.trackingEyeOfEnder");
+            lockedOnEntity = entity;
+            lockedOnBlockEntries = "";
+
+            lockedOnBlock = null;
+            isLockedOntoLadder = false;
+
+            MainClass.speakWithNarrator(text, true);
+            return;
+        }
+
+        if (!POIEntities.hostileEntity.isEmpty()) {
+            Entry<Double, Entity> entry = POIEntities.hostileEntity.firstEntry();
+            Entity entity = entry.getValue();
+
+            String text = entity.getName().getString();
+            lockedOnEntity = entity;
+            lockedOnBlockEntries = "";
+
+            lockedOnBlock = null;
+            isLockedOntoLadder = false;
+
+//                    if (Config.get(ConfigKeys.POI_ENTITY_LOCKING_NARRATE_DISTANCE_KEY.getKey())) {
+//                        text += " " + HudRenderCallBackClass.get_position_difference(entity.getBlockPos(), minecraftClient);
+//                    }
+            MainClass.speakWithNarrator(text, true);
+            return;
+        }
+
+        Double closest = -9999.0;
+
+        Entry<Double, Entity> closestPassiveEntityEntry = null;
+        Double closestPassiveEntityDouble = -9999.0;
+        if (!POIEntities.passiveEntity.isEmpty()) {
+            closestPassiveEntityEntry = POIEntities.passiveEntity.firstEntry();
+            closestPassiveEntityDouble = closestPassiveEntityEntry.getKey();
+            closest = closestPassiveEntityDouble;
+        }
+
+        Entry<Double, Vec3d> closestDoorBlockEntry = null;
+        Double closestDoorBlockDouble = -9999.0;
+        if (!POIBlocks.doorBlocks.isEmpty()) {
+            closestDoorBlockEntry = POIBlocks.doorBlocks.firstEntry();
+            closestDoorBlockDouble = closestDoorBlockEntry.getKey();
+            closest = closestDoorBlockDouble;
+        }
+
+        Entry<Double, Vec3d> closestButtonBlockEntry = null;
+        Double closestButtonBlockDouble = -9999.0;
+        if (!POIBlocks.buttonBlocks.isEmpty()) {
+            closestButtonBlockEntry = POIBlocks.buttonBlocks.firstEntry();
+            closestButtonBlockDouble = closestButtonBlockEntry.getKey();
+            closest = closestButtonBlockDouble;
+        }
+
+        Entry<Double, Vec3d> closestLadderBlockEntry = null;
+        Double closestLadderBlockDouble = -9999.0;
+        if (!POIBlocks.ladderBlocks.isEmpty()) {
+            closestLadderBlockEntry = POIBlocks.ladderBlocks.firstEntry();
+            closestLadderBlockDouble = closestLadderBlockEntry.getKey();
+            closest = closestLadderBlockDouble;
+        }
+
+        Entry<Double, Vec3d> closestLeverBlockEntry = null;
+        Double closestLeverBlockDouble = -9999.0;
+        if (!POIBlocks.leverBlocks.isEmpty()) {
+            closestLeverBlockEntry = POIBlocks.leverBlocks.firstEntry();
+            closestLeverBlockDouble = closestLeverBlockEntry.getKey();
+            closest = closestLeverBlockDouble;
+        }
+
+        Entry<Double, Vec3d> closestTrapDoorBlockEntry = null;
+        Double closestTrapDoorBlockDouble = -9999.0;
+        if (!POIBlocks.trapDoorBlocks.isEmpty()) {
+            closestTrapDoorBlockEntry = POIBlocks.trapDoorBlocks.firstEntry();
+            closestTrapDoorBlockDouble = closestTrapDoorBlockEntry.getKey();
+            closest = closestTrapDoorBlockDouble;
+        }
+
+        Entry<Double, Vec3d> closestBlockEntry = null;
+        Double closestBlockDouble = -9999.0;
+        if (!POIBlocks.otherBlocks.isEmpty()) {
+            closestBlockEntry = POIBlocks.otherBlocks.firstEntry();
+            closestBlockDouble = closestBlockEntry.getKey();
+            closest = closestBlockDouble;
+        }
+
+        Entry<Double, Vec3d> closestOreBlockEntry = null;
+        Double closestOreBlockDouble = -9999.0;
+        if (!POIBlocks.oreBlocks.isEmpty()) {
+            closestOreBlockEntry = POIBlocks.oreBlocks.firstEntry();
+            closestOreBlockDouble = closestOreBlockEntry.getKey();
+            closest = closestOreBlockDouble;
+        }
+
+        if (closest != -9999.0) {
+            if (closestPassiveEntityDouble != -9999.0)
+                closest = Math.min(closest, closestPassiveEntityDouble);
+            if (closestDoorBlockDouble != -9999.0)
+                closest = Math.min(closest, closestDoorBlockDouble);
+            if (closestButtonBlockDouble != -9999.0)
+                closest = Math.min(closest, closestButtonBlockDouble);
+            if (closestLadderBlockDouble != -9999.0)
+                closest = Math.min(closest, closestLadderBlockDouble);
+            if (closestLeverBlockDouble != -9999.0)
+                closest = Math.min(closest, closestLeverBlockDouble);
+            if (closestTrapDoorBlockDouble != -9999.0)
+                closest = Math.min(closest, closestTrapDoorBlockDouble);
+            if (closestOreBlockDouble != -9999.0)
+                closest = Math.min(closest, closestOreBlockDouble);
+            if (closestBlockDouble != -9999.0)
+                closest = Math.min(closest, closestBlockDouble);
+
+            lockOntoBlocksOrPassiveEntity(minecraftClient, closest, closestPassiveEntityEntry,
+                    closestPassiveEntityDouble, closestDoorBlockEntry, closestDoorBlockDouble,
+                    closestButtonBlockEntry, closestButtonBlockDouble, closestLadderBlockEntry,
+                    closestLadderBlockDouble, closestLeverBlockEntry, closestLeverBlockDouble,
+                    closestTrapDoorBlockEntry, closestTrapDoorBlockDouble, closestBlockEntry,
+                    closestBlockDouble, closestOreBlockEntry, closestOreBlockDouble);
+
+            narrateBlockPosAndSetBlockEntries(minecraftClient);
+
         }
     }
 
