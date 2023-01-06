@@ -102,6 +102,12 @@ We can also lock onto the closest entity or block with a hotkey.
 1. Locking Key (default: Y) = Locks onto the nearest entity or block
 2. Alt key + Locking Key = Unlocks from the currently locked entity or block
 
+## Health n Hunger
+
+Adds a key bind to narrate/speak the player's health and hunger.
+
+- Speak Player Health and Hunger Key (default: R) = Speaks the health and hunger.
+
 ## Player Warnings
 
 This feature warns the player when the health, hunger or air bubble is low.
