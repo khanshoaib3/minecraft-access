@@ -24,7 +24,8 @@ public class POIBlocks {
     public static TreeMap<Double, Vec3d> ladderBlocks = new TreeMap<>();
     public static TreeMap<Double, Vec3d> leverBlocks = new TreeMap<>();
     public static TreeMap<Double, Vec3d> trapDoorBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> blocks = new TreeMap<>();
+    public static TreeMap<Double, Vec3d> fluidBlocks = new TreeMap<>();
+    public static TreeMap<Double, Vec3d> otherBlocks = new TreeMap<>();
 
     private List<Vec3d> checkedBlocks = new ArrayList<>();
     private float volume;
@@ -89,7 +90,8 @@ public class POIBlocks {
             ladderBlocks = new TreeMap<>();
             leverBlocks = new TreeMap<>();
             trapDoorBlocks = new TreeMap<>();
-            blocks = new TreeMap<>();
+            fluidBlocks = new TreeMap<>();
+            otherBlocks = new TreeMap<>();
 
             BlockPos pos = minecraftClient.player.getBlockPos();
 
@@ -143,7 +145,7 @@ public class POIBlocks {
         if (block instanceof FluidBlock) { //TODO make toggleable
             FluidState fluidState = minecraftClient.world.getFluidState(blockPos);
             if (fluidState.getLevel() == 8) {
-                blocks.put(diff, blockVec3dPos);
+                fluidBlocks.put(diff, blockVec3dPos);
                 playSound = true;
                 soundType = "blocks";
             }
@@ -178,9 +180,9 @@ public class POIBlocks {
 
             }
         } else if (blockList.stream().anyMatch($ -> $.test(blockState))) {
-            blocks.put(diff, blockVec3dPos);
+            otherBlocks.put(diff, blockVec3dPos);
         } else if (blockState.createScreenHandlerFactory(minecraftClient.world, blockPos) != null) {
-            blocks.put(diff, blockVec3dPos);
+            otherBlocks.put(diff, blockVec3dPos);
         } else if (blockState.isAir() && val - 1 >= 0) {
             checkBlock(new BlockPos(new Vec3d(posX, posY, posZ - 1)), val - 1); // North Block
             checkBlock(new BlockPos(new Vec3d(posX, posY, posZ + 1)), val - 1); // South Block

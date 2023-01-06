@@ -1,7 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.features.PointOfInterest;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -13,7 +12,6 @@ import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EyeOfEnderEntity;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.property.Property;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
@@ -129,7 +127,7 @@ public class LockingHandler {
 
         if (Screen.hasAltDown()) {
             if (lockedOnEntity != null || lockedOnBlock != null) {
-                MainClass.speakWithNarrator("narrate.apextended.locking.unlocked", true);
+                MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.unlocked"), true);
                 lockedOnEntity = null;
                 lockedOnBlockEntries = "";
                 lockedOnBlock = null;
@@ -144,7 +142,7 @@ public class LockingHandler {
             Entry<Double, Entity> entry = POIEntities.eyeOfEnderEntity.firstEntry();
             Entity entity = entry.getValue();
 
-            String text = I18n.translate("narrate.apextended.locking.trackingEyeOfEnder");
+            String text = I18n.translate("minecraft_access.point_of_interest.locking.tracking_eye_of_ender");
             lockedOnEntity = entity;
             lockedOnBlockEntries = "";
 
@@ -166,7 +164,25 @@ public class LockingHandler {
             lockedOnBlock = null;
             isLockedOntoLadder = false;
 
-//                    if (Config.get(ConfigKeys.POI_ENTITY_LOCKING_NARRATE_DISTANCE_KEY.getKey())) {
+//  FIXME                  if (Config.get(ConfigKeys.POI_ENTITY_LOCKING_NARRATE_DISTANCE_KEY.getKey())) {
+//                        text += " " + HudRenderCallBackClass.get_position_difference(entity.getBlockPos(), minecraftClient);
+//                    }
+            MainClass.speakWithNarrator(text, true);
+            return;
+        }
+
+        if (!POIEntities.passiveEntity.isEmpty()) {
+            Entry<Double, Entity> entry = POIEntities.passiveEntity.firstEntry();
+            Entity entity = entry.getValue();
+
+            String text = entity.getName().getString();
+            lockedOnEntity = entity;
+            lockedOnBlockEntries = "";
+
+            lockedOnBlock = null;
+            isLockedOntoLadder = false;
+
+//  FIXME                  if (Config.get(ConfigKeys.POI_ENTITY_LOCKING_NARRATE_DISTANCE_KEY.getKey())) {
 //                        text += " " + HudRenderCallBackClass.get_position_difference(entity.getBlockPos(), minecraftClient);
 //                    }
             MainClass.speakWithNarrator(text, true);
@@ -174,14 +190,6 @@ public class LockingHandler {
         }
 
         Double closest = -9999.0;
-
-        Entry<Double, Entity> closestPassiveEntityEntry = null;
-        Double closestPassiveEntityDouble = -9999.0;
-        if (!POIEntities.passiveEntity.isEmpty()) {
-            closestPassiveEntityEntry = POIEntities.passiveEntity.firstEntry();
-            closestPassiveEntityDouble = closestPassiveEntityEntry.getKey();
-            closest = closestPassiveEntityDouble;
-        }
 
         Entry<Double, Vec3d> closestDoorBlockEntry = null;
         Double closestDoorBlockDouble = -9999.0;
@@ -223,12 +231,20 @@ public class LockingHandler {
             closest = closestTrapDoorBlockDouble;
         }
 
-        Entry<Double, Vec3d> closestBlockEntry = null;
-        Double closestBlockDouble = -9999.0;
+        Entry<Double, Vec3d> closestFluidBlockEntry = null;
+        Double closestFluidBlockDouble = -9999.0;
+        if (!POIBlocks.fluidBlocks.isEmpty()) {
+            closestFluidBlockEntry = POIBlocks.fluidBlocks.firstEntry();
+            closestFluidBlockDouble = closestFluidBlockEntry.getKey();
+            closest = closestFluidBlockDouble;
+        }
+
+        Entry<Double, Vec3d> closestOtherBlockEntry = null;
+        Double closestOtherBlockDouble = -9999.0;
         if (!POIBlocks.otherBlocks.isEmpty()) {
-            closestBlockEntry = POIBlocks.otherBlocks.firstEntry();
-            closestBlockDouble = closestBlockEntry.getKey();
-            closest = closestBlockDouble;
+            closestOtherBlockEntry = POIBlocks.otherBlocks.firstEntry();
+            closestOtherBlockDouble = closestOtherBlockEntry.getKey();
+            closest = closestOtherBlockDouble;
         }
 
         Entry<Double, Vec3d> closestOreBlockEntry = null;
@@ -240,8 +256,6 @@ public class LockingHandler {
         }
 
         if (closest != -9999.0) {
-            if (closestPassiveEntityDouble != -9999.0)
-                closest = Math.min(closest, closestPassiveEntityDouble);
             if (closestDoorBlockDouble != -9999.0)
                 closest = Math.min(closest, closestDoorBlockDouble);
             if (closestButtonBlockDouble != -9999.0)
@@ -254,77 +268,64 @@ public class LockingHandler {
                 closest = Math.min(closest, closestTrapDoorBlockDouble);
             if (closestOreBlockDouble != -9999.0)
                 closest = Math.min(closest, closestOreBlockDouble);
-            if (closestBlockDouble != -9999.0)
-                closest = Math.min(closest, closestBlockDouble);
+            if (closestOtherBlockDouble != -9999.0)
+                closest = Math.min(closest, closestOtherBlockDouble);
 
-            lockOntoBlocksOrPassiveEntity(minecraftClient, closest, closestPassiveEntityEntry,
-                    closestPassiveEntityDouble, closestDoorBlockEntry, closestDoorBlockDouble,
-                    closestButtonBlockEntry, closestButtonBlockDouble, closestLadderBlockEntry,
-                    closestLadderBlockDouble, closestLeverBlockEntry, closestLeverBlockDouble,
-                    closestTrapDoorBlockEntry, closestTrapDoorBlockDouble, closestBlockEntry,
-                    closestBlockDouble, closestOreBlockEntry, closestOreBlockDouble);
+            lockOntoBlocksOrPassiveEntity(minecraftClient, closest, closestDoorBlockEntry,
+                    closestDoorBlockDouble, closestButtonBlockEntry, closestButtonBlockDouble,
+                    closestLadderBlockEntry, closestLadderBlockDouble, closestLeverBlockEntry,
+                    closestLeverBlockDouble, closestTrapDoorBlockEntry, closestTrapDoorBlockDouble,
+                    closestFluidBlockEntry, closestFluidBlockDouble, closestOtherBlockEntry,
+                    closestOtherBlockDouble, closestOreBlockEntry, closestOreBlockDouble);
 
             narrateBlockPosAndSetBlockEntries(minecraftClient);
-
         }
     }
 
     private void lockOntoBlocksOrPassiveEntity(MinecraftClient client, Double closest,
-                                               Entry<Double, Entity> closestPassiveEntityEntry, Double closestPassiveEntityDouble,
                                                Entry<Double, Vec3d> closestDoorBlockEntry, Double closestDoorBlockDouble,
                                                Entry<Double, Vec3d> closestButtonBlockEntry, Double closestButtonBlockDouble,
                                                Entry<Double, Vec3d> closestLadderBlockEntry, Double closestLadderBlockDouble,
                                                Entry<Double, Vec3d> closestLeverBlockEntry, Double closestLeverBlockDouble,
                                                Entry<Double, Vec3d> closestTrapDoorBlockEntry, Double closestTrapDoorBlockDouble,
-                                               Entry<Double, Vec3d> closestBlockEntry, Double closestBlockDouble,
+                                               Entry<Double, Vec3d> closestFluidBlockEntry, Double closestFluidBlockDouble,
+                                               Entry<Double, Vec3d> closestOtherBlockEntry, Double closestOtherBlockDouble,
                                                Entry<Double, Vec3d> closestOreBlockEntry, Double closestOreBlockDouble) {
 
-        if (closest.equals(closestPassiveEntityDouble) && closestPassiveEntityDouble != -9999.0) {
-            MutableText mutableText = (Text.literal("")).append(closestPassiveEntityEntry.getValue().getName()); // post 1.19
-//            MutableText mutableText = (new net.minecraft.text.LiteralText("")).append(closestPassiveEntityEntry.getValue().getName()); // pre 1.19
-            String text = mutableText.getString();
+        if (client.player == null) return;
 
-            lockedOnEntity = closestPassiveEntityEntry.getValue();
-            lockedOnBlockEntries = "";
-            lockedOnBlock = null;
+        if (closest.equals(closestOreBlockDouble) && closestOreBlockDouble != -9999.0) {
+            lockedOnBlock = closestOreBlockEntry.getValue();
+            lockedOnEntity = null;
             isLockedOntoLadder = false;
-
-//            if (Config.get(ConfigKeys.POI_ENTITY_LOCKING_NARRATE_DISTANCE_KEY.getKey())) {
-//                text += " " + HudRenderCallBackClass.get_position_difference(lockedOnEntity.getBlockPos(), client);
-//            }
-            MainClass.speakWithNarrator(text, true);
-
         } else if (closest.equals(closestDoorBlockDouble) && closestDoorBlockDouble != -9999.0) {
-            Vec3d absolutePos = getDoorAbsolutePosition(client, closestDoorBlockEntry.getValue());
-            lockedOnBlock = absolutePos;
+            lockedOnBlock = AbsolutePositions.getDoorAbsolutePosition(client, closestDoorBlockEntry.getValue());
             lockedOnEntity = null;
             isLockedOntoLadder = false;
         } else if (closest.equals(closestButtonBlockDouble) && closestButtonBlockDouble != -9999.0) {
-            Vec3d absolutePos = getButtonsAbsolutePosition(client, closestButtonBlockEntry.getValue());
-            lockedOnBlock = absolutePos;
+            lockedOnBlock = AbsolutePositions.getButtonsAbsolutePosition(client, closestButtonBlockEntry.getValue());
             lockedOnEntity = null;
             isLockedOntoLadder = false;
         } else if (closest.equals(closestLadderBlockDouble) && closestLadderBlockDouble != -9999.0) {
-            Vec3d absolutePos = getLaddersAbsolutePosition(client, closestLadderBlockEntry.getValue());
+            Vec3d absolutePos = AbsolutePositions.getLaddersAbsolutePosition(client, closestLadderBlockEntry.getValue());
             isLockedOntoLadder = true;
             lockedOnBlock = absolutePos;
             lockedOnEntity = null;
         } else if (closest.equals(closestLeverBlockDouble) && closestLeverBlockDouble != -9999.0) {
-            Vec3d absolutePos = getLeversAbsolutePosition(client, closestLeverBlockEntry.getValue());
-            lockedOnBlock = absolutePos;
+            lockedOnBlock = AbsolutePositions.getLeversAbsolutePosition(client, closestLeverBlockEntry.getValue());
             lockedOnEntity = null;
             isLockedOntoLadder = false;
         } else if (closest.equals(closestTrapDoorBlockDouble) && closestTrapDoorBlockDouble != -9999.0) {
-            Vec3d absolutePos = getTrapDoorAbsolutePosition(client, closestTrapDoorBlockEntry.getValue());
-            lockedOnBlock = absolutePos;
+            lockedOnBlock = AbsolutePositions.getTrapDoorAbsolutePosition(client, closestTrapDoorBlockEntry.getValue());
             lockedOnEntity = null;
             isLockedOntoLadder = false;
-        } else if (closest.equals(closestBlockDouble) && closestBlockDouble != -9999.0) {
-            lockedOnBlock = closestBlockEntry.getValue();
+        } else if (closest.equals(closestFluidBlockDouble) && closestFluidBlockDouble != -9999.0
+                && !client.player.isSwimming() && !client.player.isSubmergedInWater() && !client.player.isInsideWaterOrBubbleColumn() && !client.player.isInLava()) {
+            lockedOnBlock = closestFluidBlockEntry.getValue();
             lockedOnEntity = null;
             isLockedOntoLadder = false;
-        } else if (closest.equals(closestOreBlockDouble) && closestOreBlockDouble != -9999.0) {
-            lockedOnBlock = closestOreBlockEntry.getValue();
+        } else if (closest.equals(closestOtherBlockDouble) && closestOtherBlockDouble != -9999.0) {
+            lockedOnBlock = closestOtherBlockEntry.getValue();
             lockedOnEntity = null;
             isLockedOntoLadder = false;
         }
@@ -344,7 +345,7 @@ public class LockingHandler {
 //            MutableText mutableText = (new net.minecraft.text.LiteralText("")).append(closestBlock.getName()); // pre 1.19
         String text = mutableText.getString();
 
-//            if (Config.get(ConfigKeys.POI_BLOCKS_LOCKING_NARRATE_DISTANCE_KEY.getKey())) {
+//   FIXME         if (Config.get(ConfigKeys.POI_BLOCKS_LOCKING_NARRATE_DISTANCE_KEY.getKey())) {
 //                text += " " + HudRenderCallBackClass.get_position_difference(new BlockPos(lockedOnBlock), client);
 //            }
         MainClass.speakWithNarrator(text, true);
@@ -357,221 +358,5 @@ public class LockingHandler {
         float volume = 0.4f;
         client.player.playSound(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM.value(), volume, 2f);
 //        }
-    }
-
-    private Vec3d getTrapDoorAbsolutePosition(MinecraftClient client, Vec3d blockPos) {
-        if (client.world == null) return blockPos;
-
-        BlockState blockState = client.world.getBlockState(new BlockPos(blockPos));
-        ImmutableSet<Entry<Property<?>, Comparable<?>>> entries = blockState.getEntries().entrySet();
-
-        String half = "", facing = "", open = "";
-
-        for (Entry<Property<?>, Comparable<?>> i : entries) {
-
-            System.out.println("Key:\t" + i.getKey().getName());
-            System.out.println("Value:\t" + i.getValue());
-            if (i.getKey().getName().equalsIgnoreCase("half")) {
-                half = i.getValue().toString();
-            } else if (i.getKey().getName().equalsIgnoreCase("facing")) {
-                facing = i.getValue().toString();
-            } else if (i.getKey().getName().equalsIgnoreCase("open")) {
-                open = i.getValue().toString();
-            }
-
-        }
-
-        double x = blockPos.getX();
-        double y = blockPos.getY();
-        double z = blockPos.getZ();
-
-        if (open.equalsIgnoreCase("true")) {
-            if (facing.equalsIgnoreCase("north"))
-                z += 0.4;
-            else if (facing.equalsIgnoreCase("south"))
-                z -= 0.4;
-            else if (facing.equalsIgnoreCase("west"))
-                x += 0.4;
-            else if (facing.equalsIgnoreCase("east"))
-                x -= 0.4;
-        } else if (open.equalsIgnoreCase("false")) {
-            if (half.equalsIgnoreCase("bottom"))
-                y -= 0.4;
-            else if (half.equalsIgnoreCase("top"))
-                y += 0.4;
-        }
-
-        return new Vec3d(x, y, z);
-    }
-
-    private Vec3d getLeversAbsolutePosition(MinecraftClient client, Vec3d blockPos) {
-        if (client.world == null) return blockPos;
-
-        BlockState blockState = client.world.getBlockState(new BlockPos(blockPos));
-        ImmutableSet<Entry<Property<?>, Comparable<?>>> entries = blockState.getEntries().entrySet();
-
-        String face = "", facing = "";
-
-        for (Entry<Property<?>, Comparable<?>> i : entries) {
-
-            if (i.getKey().getName().equalsIgnoreCase("face")) {
-                face = i.getValue().toString();
-
-            } else if (i.getKey().getName().equalsIgnoreCase("facing")) {
-                facing = i.getValue().toString();
-            }
-
-        }
-
-        double x = blockPos.getX();
-        double y = blockPos.getY();
-        double z = blockPos.getZ();
-
-        if (face.equalsIgnoreCase("floor")) {
-            y -= 0.3;
-        } else if (face.equalsIgnoreCase("ceiling")) {
-            y += 0.3;
-        } else if (face.equalsIgnoreCase("wall")) {
-            if (facing.equalsIgnoreCase("north"))
-                z += 0.3;
-            else if (facing.equalsIgnoreCase("south"))
-                z -= 0.3;
-            else if (facing.equalsIgnoreCase("east"))
-                x -= 0.3;
-            else if (facing.equalsIgnoreCase("west"))
-                x += 0.3;
-        }
-
-        return new Vec3d(x, y, z);
-    }
-
-    private Vec3d getLaddersAbsolutePosition(MinecraftClient client, Vec3d blockPos) {
-        if (client.world == null) return blockPos;
-
-        BlockState blockState = client.world.getBlockState(new BlockPos(blockPos));
-        ImmutableSet<Entry<Property<?>, Comparable<?>>> entries = blockState.getEntries().entrySet();
-
-        String facing = "";
-
-        for (Entry<Property<?>, Comparable<?>> i : entries) {
-
-            if (i.getKey().getName().equalsIgnoreCase("facing")) {
-                facing = i.getValue().toString();
-                break;
-            }
-
-        }
-
-        double x = blockPos.getX();
-        double y = blockPos.getY();
-        double z = blockPos.getZ();
-
-        if (facing.equalsIgnoreCase("north"))
-            z += 0.35;
-        else if (facing.equalsIgnoreCase("south"))
-            z -= 0.35;
-        else if (facing.equalsIgnoreCase("west"))
-            x += 0.35;
-        else if (facing.equalsIgnoreCase("east"))
-            x -= 0.35;
-
-        return new Vec3d(x, y, z);
-    }
-
-    private Vec3d getButtonsAbsolutePosition(MinecraftClient client, Vec3d blockPos) {
-        if (client.world == null) return blockPos;
-
-        BlockState blockState = client.world.getBlockState(new BlockPos(blockPos));
-        ImmutableSet<Entry<Property<?>, Comparable<?>>> entries = blockState.getEntries().entrySet();
-
-        double x = blockPos.getX();
-        double y = blockPos.getY();
-        double z = blockPos.getZ();
-
-        String face = "", facing = "";
-
-        for (Entry<Property<?>, Comparable<?>> i : entries) {
-
-            if (i.getKey().getName().equalsIgnoreCase("face")) {
-                face = i.getValue().toString();
-
-            } else if (i.getKey().getName().equalsIgnoreCase("facing")) {
-                facing = i.getValue().toString();
-            }
-        }
-
-        if (face.equalsIgnoreCase("floor")) {
-            y -= 0.4;
-        } else if (face.equalsIgnoreCase("ceiling")) {
-            y += 0.4;
-        } else if (face.equalsIgnoreCase("wall")) {
-            if (facing.equalsIgnoreCase("north"))
-                z += 0.4;
-            else if (facing.equalsIgnoreCase("south"))
-                z -= 0.4;
-            else if (facing.equalsIgnoreCase("east"))
-                x -= 0.4;
-            else if (facing.equalsIgnoreCase("west"))
-                x += 0.4;
-        }
-
-        return new Vec3d(x, y, z);
-    }
-
-    private Vec3d getDoorAbsolutePosition(MinecraftClient client, Vec3d blockPos) {
-        if (client.world == null) return blockPos;
-
-        BlockState blockState = client.world.getBlockState(new BlockPos(blockPos));
-        ImmutableSet<Entry<Property<?>, Comparable<?>>> entries = blockState.getEntries().entrySet();
-
-        String facing = "", hinge = "", open = "";
-
-        for (Entry<Property<?>, Comparable<?>> i : entries) {
-
-            if (i.getKey().getName().equalsIgnoreCase("facing"))
-                facing = i.getValue().toString();
-            else if (i.getKey().getName().equalsIgnoreCase("hinge"))
-                hinge = i.getValue().toString();
-            else if (i.getKey().getName().equalsIgnoreCase("open"))
-                open = i.getValue().toString();
-
-        }
-
-        double x = blockPos.getX();
-        double y = blockPos.getY();
-        double z = blockPos.getZ();
-
-        if (open.equalsIgnoreCase("false")) {
-            if (facing.equalsIgnoreCase("north"))
-                z += 0.35;
-            else if (facing.equalsIgnoreCase("south"))
-                z -= 0.35;
-            else if (facing.equalsIgnoreCase("east"))
-                x -= 0.35;
-            else if (facing.equalsIgnoreCase("west"))
-                x += 0.35;
-        } else {
-            if (hinge.equalsIgnoreCase("right")) {
-                if (facing.equalsIgnoreCase("north"))
-                    x += 0.35;
-                else if (facing.equalsIgnoreCase("south"))
-                    x -= 0.35;
-                else if (facing.equalsIgnoreCase("east"))
-                    z += 0.35;
-                else if (facing.equalsIgnoreCase("west"))
-                    z -= 0.35;
-            } else {
-                if (facing.equalsIgnoreCase("north"))
-                    x -= 0.35;
-                else if (facing.equalsIgnoreCase("south"))
-                    x += 0.35;
-                else if (facing.equalsIgnoreCase("east"))
-                    z -= 0.35;
-                else if (facing.equalsIgnoreCase("west"))
-                    z += 0.35;
-            }
-        }
-
-        return new Vec3d(x, y, z);
     }
 }

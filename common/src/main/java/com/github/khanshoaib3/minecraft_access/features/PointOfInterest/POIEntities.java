@@ -1,11 +1,13 @@
 package com.github.khanshoaib3.minecraft_access.features.PointOfInterest;
 
+import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EyeOfEnderEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -53,44 +55,41 @@ public class POIEntities {
                         minecraftClient.player.getBlockPos().getZ());
                 Double distance = entityVec3d.distanceTo(playerVec3d);
 
-                if (distance <= range) {
-                    String entityString = i + "";
-                    int z = entityString.indexOf("/");
-                    int y = entityString.indexOf(",", z);
-                    entityString = entityString.substring(z, y);
+                if (distance > range) continue;
 
-                    if (i instanceof EyeOfEnderEntity && distance <= 0.2) {
-                        eyeOfEnderEntity.put(distance, i);
-//                        LockingHandler.lockedOnEntity = i;
-//                        LockingHandler.lockedOnBlockEntries = "";
-//
-//                        LockingHandler.lockedOnBlock = null;
-//                        LockingHandler.isLockedOntoLadder = false;
+                MainClass.infoLog(i.getType().getName().getString());
 
-                    } else if (i instanceof PassiveEntity) {
-                        passiveEntity.put(distance, i);
-                            minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), SoundCategory.BLOCKS,
-                                    volume, 0f);
-                    } else if (i instanceof HostileEntity) {
-                        hostileEntity.put(distance, i);
-                            minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), SoundCategory.BLOCKS,
-                                    volume, 2f);
-                    } else if (i instanceof ItemEntity) {
-                        if (i.isOnGround()) {
-                                minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON,
-                                        SoundCategory.BLOCKS, volume, 2f);
-                            }
-                    } else if (i instanceof PlayerEntity) {
-                        passiveEntity.put(distance, i);
-                            minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), SoundCategory.BLOCKS,
-                                    volume, 0f);
+                if (i instanceof EyeOfEnderEntity && distance <= 0.2) {
+                    eyeOfEnderEntity.put(distance, i);
+                    LockingHandler.lockedOnEntity = i;
+                    LockingHandler.lockedOnBlockEntries = "";
+
+                    LockingHandler.lockedOnBlock = null;
+                    LockingHandler.isLockedOntoLadder = false;
+
+                } else if (i instanceof PassiveEntity) {
+                    passiveEntity.put(distance, i);
+                    minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), SoundCategory.BLOCKS,
+                            volume, 0f);
+                } else if (i instanceof HostileEntity) {
+                    hostileEntity.put(distance, i);
+                    minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), SoundCategory.BLOCKS,
+                            volume, 2f);
+                } else if (i instanceof WaterCreatureEntity) {
+                    passiveEntity.put(distance, i);
+                    minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), SoundCategory.BLOCKS,
+                            volume, 0f);
+                } else if (i instanceof ItemEntity) {
+                    if (i.isOnGround()) {
+                        minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON,
+                                SoundCategory.BLOCKS, volume, 2f);
                     }
+                } else if (i instanceof PlayerEntity) {
+                    passiveEntity.put(distance, i);
+                    minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), SoundCategory.BLOCKS,
+                            volume, 0f);
                 }
             }
-//        POIHandler.passiveEntity = passiveEntity;
-//        POIHandler.hostileEntity = hostileEntity;
-//        POIHandler.eyeOfEnderEntity = eyeOfEnderEntity;
-
 
             // Pause the execution of this feature for 250 milliseconds
             // TODO Remove Timer
