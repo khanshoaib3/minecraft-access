@@ -82,12 +82,12 @@ public class ReadCrosshair {
         String toSpeak = name;
 
         //TODO make this toggle-able and i18n
-        Direction side = hit.getSide();
-        toSpeak += " " + side.asString();
+//        Direction side = hit.getSide();
+//        toSpeak += " " + side.asString();
 
         // Class name in production environment can be different
         String blockPos = hit.getBlockPos().toImmutable().toString();
-        String currentQuery = name + side + blockPos;
+        String currentQuery = name + /*TODO side +*/ blockPos;
 
         if (blockState.isIn(BlockTags.SIGNS)) {
             String contents = "";
