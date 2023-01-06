@@ -1,6 +1,5 @@
 package com.github.khanshoaib3.minecraft_access.features.PointOfInterest;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EyeOfEnderEntity;
@@ -59,8 +58,6 @@ public class POIEntities {
                 Double distance = entityVec3d.distanceTo(playerVec3d);
 
                 if (distance > range) continue;
-
-                MainClass.infoLog(i.getType().getName().getString());
 
                 if (i instanceof EyeOfEnderEntity && distance <= 0.2) {
                     eyeOfEnderEntity.put(distance, i);
