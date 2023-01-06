@@ -16,6 +16,9 @@ import net.minecraft.util.math.Vec3d;
 import java.util.*;
 import java.util.function.Predicate;
 
+/**
+ * Scans the area to find exposed ore blocks, doors, buttons, ladders, etc., groups them and plays a sound only at ore blocks.
+ */
 public class POIBlocks {
     private MinecraftClient minecraftClient;
     public static TreeMap<Double, Vec3d> oreBlocks = new TreeMap<>();
@@ -29,7 +32,7 @@ public class POIBlocks {
 
     private List<Vec3d> checkedBlocks = new ArrayList<>();
     private float volume;
-    private int delayInMiliseconds;
+    private int delayInMilliseconds;
 
     private static final List<Predicate<BlockState>> blockList = Lists.newArrayList();
     private static final List<Predicate<BlockState>> oreBlockList = Lists.newArrayList();
@@ -72,7 +75,7 @@ public class POIBlocks {
 
     public POIBlocks() {
         volume = 0.25f;
-        delayInMiliseconds = 3000;
+        delayInMilliseconds = 3000;
     }
 
     public void update() {
@@ -116,7 +119,7 @@ public class POIBlocks {
                     shouldRun = true;
                 }
             };
-            new Timer().schedule(timerTask, delayInMiliseconds);
+            new Timer().schedule(timerTask, delayInMilliseconds);
         } catch (Exception e) {
             MainClass.errorLog("\nError encountered in Camera Controls feature.");
             e.printStackTrace();
@@ -206,7 +209,7 @@ public class POIBlocks {
                 minecraftClient.world.playSound(minecraftClient.player, new BlockPos(blockVec3dPos), SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(),
                         SoundCategory.BLOCKS, volume, 0f);*/
 
-//            modInit.mainThreadMap.put("sound+" + blockPos, delayInMiliseconds);
+//            modInit.mainThreadMap.put("sound+" + blockPos, delayInMilliseconds);
         }
     }
 }

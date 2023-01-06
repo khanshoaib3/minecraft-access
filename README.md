@@ -92,6 +92,16 @@ Adds key bindings to speak the player's position.
 3. Left Alt + C = Speaks only the y position.
 4. Left Alt + Z = Speaks only the z position.
 
+## Points of Interest
+
+This feature scans the area for entities, ore blocks, doors, levers, etc. and plays a sound at their position (only for entities and ore blocks).
+We can also lock onto the closest entity or block with a hotkey.
+
+**Keybindings and combinations:**
+
+1. Locking Key (default: Y) = Locks onto the nearest entity or block
+2. Alt key + Locking Key = Unlocks from the currently locked entity or block
+
 ## Player Warnings
 
 This feature warns the player when the health, hunger or air bubble is low.

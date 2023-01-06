@@ -19,6 +19,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
 
+/**
+ * Scans the area for entities, groups them and plays a sound at their location.
+ */
 public class POIEntities {
     private boolean shouldRun = true;
 

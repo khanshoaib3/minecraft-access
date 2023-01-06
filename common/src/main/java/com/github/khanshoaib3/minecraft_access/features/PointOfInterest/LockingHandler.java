@@ -22,6 +22,12 @@ import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Locks on to the nearest entity or block.<br><br>
+ * Keybindings and combinations:<br>
+ * 1. Locking Key (default: Y) = Locks onto the nearest entity or block<br>
+ * 2. Alt key + Locking Key = Unlocks from the currently locked entity or block<br>
+ */
 public class LockingHandler {
     public static Entity lockedOnEntity = null;
     public static Vec3d lockedOnBlock = null;
