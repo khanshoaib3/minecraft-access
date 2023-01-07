@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access;
 
 import com.github.khanshoaib3.minecraft_access.features.*;
 import com.github.khanshoaib3.minecraft_access.features.InventoryControls.InventoryControls;
+import com.github.khanshoaib3.minecraft_access.features.NarratorMenu.NarratorMenu;
 import com.github.khanshoaib3.minecraft_access.features.PointOfInterest.LockingHandler;
 import com.github.khanshoaib3.minecraft_access.features.PointOfInterest.POIBlocks;
 import com.github.khanshoaib3.minecraft_access.features.PointOfInterest.POIEntities;

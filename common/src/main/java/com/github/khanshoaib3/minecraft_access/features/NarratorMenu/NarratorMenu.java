@@ -1,7 +1,8 @@
-package com.github.khanshoaib3.minecraft_access.features;
+package com.github.khanshoaib3.minecraft_access.features.NarratorMenu;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.gui.NarratorMenuGUI;
+import com.github.khanshoaib3.minecraft_access.features.BiomeIndicator;
+import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPosition;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

@@ -1,6 +1,5 @@
-package com.github.khanshoaib3.minecraft_access.gui;
+package com.github.khanshoaib3.minecraft_access.features.NarratorMenu;
 
-import com.github.khanshoaib3.minecraft_access.features.NarratorMenu;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
