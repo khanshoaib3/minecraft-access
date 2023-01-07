@@ -7,9 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.MutableText;
@@ -20,20 +18,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.biome.Biome;
-import org.lwjgl.glfw.GLFW;
 
+// TODO add doc and update readme
+/**
+ * Narrator Menu Key (default: F4) = Opens a menu with few options.
+ */
 public class NarratorMenu {
-    public final KeyBinding narratorMenuKey; //TODO create a separate class for initializing key binds
     private static MinecraftClient minecraftClient;
-
-    public NarratorMenu() {
-        narratorMenuKey = new KeyBinding(
-                "minecraft_access.keys.other.narrator_menu_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_F4,
-                "minecraft_access.keys.other.group_name"
-        );
-    }
 
     public void update() {
         try {
@@ -42,10 +33,7 @@ public class NarratorMenu {
             if (minecraftClient.player == null) return;
             if (minecraftClient.currentScreen != null) return;
 
-            boolean isNarratorMenuKeyPressed = InputUtil.isKeyPressed(
-                    minecraftClient.getWindow().getHandle(),
-                    InputUtil.fromTranslationKey(narratorMenuKey.getBoundKeyTranslationKey()).getCode()
-            );
+            boolean isNarratorMenuKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.narratorMenuKey);
 
             if (isNarratorMenuKeyPressed) {
                 Screen screen = new NarratorMenuGUI("f4_menu");

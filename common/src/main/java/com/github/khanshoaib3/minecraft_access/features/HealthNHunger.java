@@ -2,27 +2,13 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.InputUtil;
-import org.lwjgl.glfw.GLFW;
 
 /**
- * Adds a key bind to narrate/speak the player's health and hunger.
- * - Speak Player Health and Hunger Key (default: R) = Speaks the health and hunger.
+ * Adds a key bind to narrate/speak the player's health and hunger.<br>
+ * - Speak Player Health and Hunger Key (default: R) = Speaks the health and hunger.<br>
  */
 public class HealthNHunger {
-    public final KeyBinding healthNHungerNarrationKey; //TODO create a separate class for initializing key binds
-
-    public HealthNHunger(){
-        healthNHungerNarrationKey = new KeyBinding(
-                "minecraft_access.keys.other.health_n_hunger_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_R,
-                "minecraft_access.keys.other.group_name"
-        );
-    }
-
     public void update(){
         try {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
@@ -30,10 +16,7 @@ public class HealthNHunger {
             if (minecraftClient.player == null) return;
             if (minecraftClient.currentScreen != null) return;
 
-            boolean isHealthNHungerNarrationKeyPressed = InputUtil.isKeyPressed(
-                    minecraftClient.getWindow().getHandle(),
-                    InputUtil.fromTranslationKey(healthNHungerNarrationKey.getBoundKeyTranslationKey()).getCode()
-            );
+            boolean isHealthNHungerNarrationKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.healthNHungerNarrationKey);
             if (!isHealthNHungerNarrationKeyPressed) return;
 
             double health = minecraftClient.player.getHealth();

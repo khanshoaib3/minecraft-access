@@ -3,27 +3,14 @@ package com.github.khanshoaib3.minecraft_access.features;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPosition;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
-import org.lwjgl.glfw.GLFW;
 
 /**
  * Adds key binding to speak the player's facing direction.<br>
  * - Speak Facing Direction Key (default: H) = Speaks the player facing direction.
  */
 public class FacingDirection {
-    public final KeyBinding directionNarrationKey; //TODO create a separate class for initializing key binds
-
-    public FacingDirection() {
-        directionNarrationKey = new KeyBinding(
-                "minecraft_access.keys.other.facing_direction_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_H,
-                "minecraft_access.keys.other.group_name"
-        );
-    }
-
     public void update() {
         try {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
@@ -31,10 +18,7 @@ public class FacingDirection {
             if (minecraftClient.player == null) return;
             if (minecraftClient.currentScreen != null) return;
 
-            boolean isDirectionNarrationKeyPressed = InputUtil.isKeyPressed(
-                    minecraftClient.getWindow().getHandle(),
-                    InputUtil.fromTranslationKey(directionNarrationKey.getBoundKeyTranslationKey()).getCode()
-            );
+            boolean isDirectionNarrationKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.directionNarrationKey);
             if (!isDirectionNarrationKeyPressed) return;
 
             boolean isLeftAltPressed = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(),

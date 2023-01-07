@@ -3,13 +3,11 @@ package com.github.khanshoaib3.minecraft_access.features.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.mixin.*;
 import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
-import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.*;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.client.gui.widget.ToggleButtonWidget;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.ItemGroup;
@@ -17,7 +15,6 @@ import net.minecraft.item.ItemGroups;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.*;
 
@@ -28,7 +25,6 @@ import java.util.*;
  * 1) Up Key (default: I) = Focus to slot above.<br>
  * 2) Right Key (default: L) = Focus to slot right.<br>
  * 3) Down Key (default: K) = Focus to slot down.<br>
- * 10) Left Mouse Click Sim Key (default: [) = Simulates left mouse click.<br>
  * 4) Left Key (default: J) = Focus to slot left.<br>
  * 5) Group Key (default: C) = Select next group.<br>
  * 6) Left Shift + Group Key = Select previous group.<br>
@@ -54,17 +50,6 @@ public class InventoryControls {
     private SlotItem currentSlotItem = null;
     private String previousSlotText = "";
 
-    //TODO use different method for keys
-    private final KeyBinding groupKey;
-    private final KeyBinding upKey;
-    private final KeyBinding rightKey;
-    private final KeyBinding downKey;
-    private final KeyBinding leftKey;
-    private final KeyBinding leftMouseClickKey;
-    private final KeyBinding rightMouseClickKey;
-    private final KeyBinding switchTabKey;
-    private final KeyBinding toggleCraftableKey;
-
     private enum FocusDirection {
         UP(I18n.translate("minecraft_access.inventory_controls.direction_up")),
         DOWN(I18n.translate("minecraft_access.inventory_controls.direction_down")),
@@ -86,79 +71,6 @@ public class InventoryControls {
      * Initializes the key bindings.
      */
     public InventoryControls() {
-        String categoryTranslationKey = "minecraft_access.keys.inventory_controls.group_name";
-
-        groupKey = new KeyBinding(
-                "minecraft_access.keys.inventory_controls.change_group_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_C,
-                categoryTranslationKey
-        );
-        KeyMappingRegistry.register(groupKey);
-
-        leftMouseClickKey = new KeyBinding(
-                "minecraft_access.keys.inventory_controls.left_mouse_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_LEFT_BRACKET,
-                categoryTranslationKey
-        );
-        KeyMappingRegistry.register(leftMouseClickKey);
-
-        rightMouseClickKey = new KeyBinding(
-                "minecraft_access.keys.inventory_controls.right_mouse_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_RIGHT_BRACKET,
-                categoryTranslationKey
-        );
-        KeyMappingRegistry.register(rightMouseClickKey);
-
-        upKey = new KeyBinding(
-                "minecraft_access.keys.inventory_controls.up_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_I,
-                categoryTranslationKey
-        );
-        KeyMappingRegistry.register(upKey);
-
-        rightKey = new KeyBinding(
-                "minecraft_access.keys.inventory_controls.right_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_L,
-                categoryTranslationKey
-        );
-        KeyMappingRegistry.register(rightKey);
-
-        downKey = new KeyBinding(
-                "minecraft_access.keys.inventory_controls.down_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_K,
-                categoryTranslationKey
-        );
-        KeyMappingRegistry.register(downKey);
-
-        leftKey = new KeyBinding(
-                "minecraft_access.keys.inventory_controls.left_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_J,
-                categoryTranslationKey
-        );
-        KeyMappingRegistry.register(leftKey);
-
-        switchTabKey = new KeyBinding(
-                "minecraft_access.keys.inventory_controls.switch_tabs_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_V,
-                categoryTranslationKey
-        );
-        KeyMappingRegistry.register(switchTabKey);
-
-        toggleCraftableKey = new KeyBinding(
-                "minecraft_access.keys.inventory_controls.toggle_craftable_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_R,
-                categoryTranslationKey
-        );
-        KeyMappingRegistry.register(toggleCraftableKey);
     }
 
     public void update() {
@@ -240,15 +152,15 @@ public class InventoryControls {
      * @return True if any key is pressed else false.
      */
     private boolean keyListener() {
-        boolean isGroupKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(groupKey.getBoundKeyTranslationKey()).getCode());
-        boolean isLeftClickKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(leftMouseClickKey.getBoundKeyTranslationKey()).getCode());
-        boolean isRightCLickKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(rightMouseClickKey.getBoundKeyTranslationKey()).getCode());
-        boolean isUpKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(upKey.getBoundKeyTranslationKey()).getCode());
-        boolean isRightKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(rightKey.getBoundKeyTranslationKey()).getCode());
-        boolean isDownKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(downKey.getBoundKeyTranslationKey()).getCode());
-        boolean isLeftKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(leftKey.getBoundKeyTranslationKey()).getCode());
-        boolean isSwitchTabKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(switchTabKey.getBoundKeyTranslationKey()).getCode());
-        boolean isToggleCraftableKeyPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey(toggleCraftableKey.getBoundKeyTranslationKey()).getCode());
+        boolean isGroupKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsGroupKey);
+        boolean isLeftClickKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsLeftMouseClickKey);
+        boolean isRightCLickKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsRightMouseClickKey);
+        boolean isUpKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsUpKey);
+        boolean isRightKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsDownKey);
+        boolean isDownKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsDownKey);
+        boolean isLeftKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsLeftKey);
+        boolean isSwitchTabKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsSwitchTabKey);
+        boolean isToggleCraftableKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsToggleCraftableKey);
         boolean isLeftShiftPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.left.shift").getCode());
         boolean isEnterPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.enter").getCode())
                 || InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.keypad.enter").getCode());

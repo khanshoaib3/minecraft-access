@@ -3,9 +3,7 @@ package com.github.khanshoaib3.minecraft_access.features;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPosition;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import org.lwjgl.glfw.GLFW;
 
 /**
  * Adds key bindings to speak the player's position.<br><br>
@@ -16,17 +14,6 @@ import org.lwjgl.glfw.GLFW;
  * 4. Left Alt + Z = Speaks only the z position.<br>
  */
 public class PositionNarrator {
-    public final KeyBinding positionNarrationKey; //TODO create a separate class for initializing key binds
-
-    public PositionNarrator() {
-        positionNarrationKey = new KeyBinding(
-                "minecraft_access.keys.other.player_position_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_G,
-                "minecraft_access.keys.other.group_name"
-        );
-    }
-
     public void update() {
         try {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
@@ -60,10 +47,7 @@ public class PositionNarrator {
                 }
             }
 
-            boolean isPositionNarrationKeyPressed = InputUtil.isKeyPressed(
-                    minecraftClient.getWindow().getHandle(),
-                    InputUtil.fromTranslationKey(positionNarrationKey.getBoundKeyTranslationKey()).getCode()
-            );
+            boolean isPositionNarrationKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.positionNarrationKey);
 
             if (isPositionNarrationKeyPressed) {
                 String posX = new PlayerPosition(minecraftClient).getNarratableXPos();

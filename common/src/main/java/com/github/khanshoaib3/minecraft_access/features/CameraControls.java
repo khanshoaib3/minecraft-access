@@ -2,16 +2,13 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
-import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.util.math.Vec3d;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -19,25 +16,21 @@ import java.util.TimerTask;
 /**
  * This feature adds the following key binds to control the camera.<br><br>
  * Key binds and combinations:-<br>
- * Look Up Key (default=i): Moves the camera vertically up by the normal rotating angle (default=22.5).<br>
- * Look Right Key (default=l): Moves the camera vertically right by the normal rotating angle (default=22.5).<br>
- * Look Down Key (default=k): Moves the camera vertically down by the normal rotating angle (default=22.5).<br>
- * Look Left Key (default=j): Moves the camera vertically left by the normal rotating angle (default=22.5).<br>
- * Left Alt + Look Up Key: Moves the camera vertically up by the modified rotating angle (default=11.25).<br>
- * Left Alt + Look Right Key: Moves the camera vertically right by the modified rotating angle (default=11.25).<br>
- * Left Alt + Look Down Key: Moves the camera vertically down by the modified rotating angle (default=11.25).<br>
- * Left Alt + Look Left Key: Moves the camera vertically left by the modified rotating angle (default=11.25).<br>
- * Right Alt + Look Up Key: Snaps the camera to the north block.<br>
- * Right Alt + Look Right Key: Snaps the camera to the east block.<br>
- * Right Alt + Look Down Key: Snaps the camera to the south block.<br>
- * Right Alt + Look Left Key: Snaps the camera to the west block.<br>
+ * 1) Look Up Key (default=i): Moves the camera vertically up by the normal rotating angle (default=22.5).<br>
+ * 2) Look Right Key (default=l): Moves the camera vertically right by the normal rotating angle (default=22.5).<br>
+ * 3) Look Down Key (default=k): Moves the camera vertically down by the normal rotating angle (default=22.5).<br>
+ * 4) Look Left Key (default=j): Moves the camera vertically left by the normal rotating angle (default=22.5).<br>
+ * 5) Left Alt + Look Up Key: Moves the camera vertically up by the modified rotating angle (default=11.25).<br>
+ * 6) Left Alt + Look Right Key: Moves the camera vertically right by the modified rotating angle (default=11.25).<br>
+ * 7) Left Alt + Look Down Key: Moves the camera vertically down by the modified rotating angle (default=11.25).<br>
+ * 8) Left Alt + Look Left Key: Moves the camera vertically left by the modified rotating angle (default=11.25).<br>
+ * 9) Right Alt + Look Up Key: Snaps the camera to the north block.<br>
+ * 10) Right Alt + Look Right Key: Snaps the camera to the east block.<br>
+ * 11) Right Alt + Look Down Key: Snaps the camera to the south block.<br>
+ * 12) Right Alt + Look Left Key: Snaps the camera to the west block.<br>
  */
 @Environment(EnvType.CLIENT)
 public class CameraControls {
-    public final KeyBinding up; //TODO create a separate class for initializing key binds
-    public final KeyBinding right;
-    public final KeyBinding down;
-    public final KeyBinding left;
     private MinecraftClient minecraftClient;
 
     private final float delta90Degrees = 600f; // 90 / 0.15
@@ -46,46 +39,6 @@ public class CameraControls {
     private final float modifiedRotatingAngle = 11.25f; //TODO add this to config
     private final float modifiedRotatingDeltaAngle = delta90Degrees / (90 / modifiedRotatingAngle);
     private boolean shouldRun = true;
-
-    /**
-     * Initializes the key binds.
-     */
-    public CameraControls() {
-        String categoryTranslationKey = "minecraft_access.keys.camera_controls.group_name";
-
-        up = new KeyBinding(
-                "minecraft_access.keys.camera_controls.up_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_I,
-                categoryTranslationKey
-        );
-
-        right = new KeyBinding(
-                "minecraft_access.keys.camera_controls.right_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_L,
-                categoryTranslationKey
-        );
-
-        down = new KeyBinding(
-                "minecraft_access.keys.camera_controls.down_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_K,
-                categoryTranslationKey
-        );
-
-        left = new KeyBinding(
-                "minecraft_access.keys.camera_controls.left_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_J,
-                categoryTranslationKey
-        );
-
-        KeyMappingRegistry.register(up);
-        KeyMappingRegistry.register(right);
-        KeyMappingRegistry.register(down);
-        KeyMappingRegistry.register(left);
-    }
 
     public void update() {
         if (!this.shouldRun) return;
@@ -132,25 +85,10 @@ public class CameraControls {
                 InputUtil.fromTranslationKey("key.keyboard.right.alt").getCode()
         );
 
-        boolean isUpKeyPressed = InputUtil.isKeyPressed(
-                minecraftClient.getWindow().getHandle(),
-                InputUtil.fromTranslationKey(up.getBoundKeyTranslationKey()).getCode()
-        );
-
-        boolean isRightKeyPressed = InputUtil.isKeyPressed(
-                minecraftClient.getWindow().getHandle(),
-                InputUtil.fromTranslationKey(right.getBoundKeyTranslationKey()).getCode()
-        );
-
-        boolean isDownKeyPressed = InputUtil.isKeyPressed(
-                minecraftClient.getWindow().getHandle(),
-                InputUtil.fromTranslationKey(down.getBoundKeyTranslationKey()).getCode()
-        );
-
-        boolean isLeftKeyPressed = InputUtil.isKeyPressed(
-                minecraftClient.getWindow().getHandle(),
-                InputUtil.fromTranslationKey(left.getBoundKeyTranslationKey()).getCode()
-        );
+        boolean isUpKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsUp);
+        boolean isRightKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsRight);
+        boolean isDownKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsDown);
+        boolean isLeftKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsLeft);
 
 
         if (isUpKeyPressed) {

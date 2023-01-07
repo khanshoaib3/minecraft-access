@@ -5,9 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EyeOfEnderEntity;
@@ -16,7 +14,6 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.Map.Entry;
 import java.util.Timer;
@@ -36,17 +33,7 @@ public class LockingHandler {
     public static boolean isLockedOntoEyeOfEnderTarget = false;
     public static String lockedOnBlockEntries = "";
 
-    public final KeyBinding lockingHandlerKey; //TODO create a separate class for initializing key binds
     private boolean shouldRun = true;
-
-    public LockingHandler() {
-        lockingHandlerKey = new KeyBinding(
-                "minecraft_access.keys.other.locking_handler_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_Y,
-                "minecraft_access.keys.other.group_name"
-        );
-    }
 
     public void update() {
         if (!this.shouldRun) return;
@@ -76,10 +63,7 @@ public class LockingHandler {
         if (minecraftClient.world == null) return;
         if (minecraftClient.currentScreen != null) return;
 
-        boolean isLockingKeyPressed = InputUtil.isKeyPressed(
-                minecraftClient.getWindow().getHandle(),
-                InputUtil.fromTranslationKey(lockingHandlerKey.getBoundKeyTranslationKey()).getCode()
-        );
+        boolean isLockingKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.lockingHandlerKey);
 
         if (lockedOnEntity != null) outer:{
             if (!lockedOnEntity.isAlive()) {
