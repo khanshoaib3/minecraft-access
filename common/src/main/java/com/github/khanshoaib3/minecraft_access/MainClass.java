@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access;
 
+import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.features.*;
 import com.github.khanshoaib3.minecraft_access.features.InventoryControls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.NarratorMenu.NarratorMenu;
@@ -21,6 +22,7 @@ public class MainClass {
     private static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     private static ScreenReaderInterface screenReader = null;
     public static KeyBindingsHandler keyBindingsHandler = null;
+    public static Config config = null;
 
     public static CameraControls cameraControls = null;
     public static InventoryControls inventoryControls = null;
@@ -46,6 +48,9 @@ public class MainClass {
     public static void init(){
         String msg = "Initializing Minecraft Access";
         MainClass.infoLog(msg);
+
+        config = new Config();
+        config.loadConfig();
 
         MainClass.setScreenReader(ScreenReaderController.getAvailable());
         if (MainClass.getScreenReader() != null && MainClass.getScreenReader().isInitialized())

@@ -17,6 +17,8 @@ subprojects {
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
         mappings "net.fabricmc:yarn:${rootProject.fabric_yarn_version}"
+        // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+        implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
     }
 }
 
