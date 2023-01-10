@@ -181,7 +181,7 @@ public class InventoryControls {
         boolean isLeftClickKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsLeftMouseClickKey);
         boolean isRightCLickKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsRightMouseClickKey);
         boolean isUpKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsUpKey);
-        boolean isRightKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsDownKey);
+        boolean isRightKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsRightKey);
         boolean isDownKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsDownKey);
         boolean isLeftKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsLeftKey);
         boolean isSwitchTabKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsSwitchTabKey);
