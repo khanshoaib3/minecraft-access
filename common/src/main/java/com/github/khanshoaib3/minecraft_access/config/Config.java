@@ -38,6 +38,7 @@ public class Config {
         try {
             configMap = new ConfigMap();
             configMap.setDefaultCameraControlsConfigMap();
+            configMap.setDefaultInventoryControlsConfigMap();
             writeJSON(configMap);
         } catch (IOException e) {
             e.printStackTrace();

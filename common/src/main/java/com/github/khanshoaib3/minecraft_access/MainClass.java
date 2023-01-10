@@ -94,7 +94,7 @@ public class MainClass {
 
         MenuFix.update(minecraftClient);
 
-        if (inventoryControls != null) inventoryControls.update();
+        if (inventoryControls != null && inventoryControls.isEnabled()) inventoryControls.update();
 
         if (cameraControls != null && cameraControls.isEnabled()) cameraControls.update();
 
