@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 
 import java.io.File;
@@ -9,73 +10,63 @@ import java.nio.file.Paths;
 
 public class Config {
     private static final String CONFIG_PATH = Paths.get("config", "minecraft-access", "config.json").toString();
+    private ConfigMap configMap = null;
+
+    public ConfigMap getConfigMap(){
+        if(configMap == null) loadConfig();
+        return configMap;
+    }
 
     public void loadConfig() {
         createEmptyConfigFileIfNotExist();
 
         try {
-            Student student = new Student();
-            student.setAge(10);
-            student.setName("Mahesh");
-            writeJSON(student);
+            configMap = readJSON();
+//TODO add log            System.out.println("Delay: "+configMap.getCameraControls().getDelayInMilliseconds());
 
-            Student student1 = readJSON();
-            System.out.println(student1);
-
-        } catch (Exception e) {
+        } catch (UnrecognizedPropertyException e) {
             e.printStackTrace();
+            MainClass.errorLog("Unsupported config.json file format, resetting to default.");
+            resetToDefault();
+        } catch (Exception e){
+            e.printStackTrace();
+            MainClass.errorLog("An error occurred while reading config.json file.");
+        }
+    }
+
+    private void resetToDefault() {
+        try {
+            configMap = new ConfigMap();
+            configMap.setDefaultCameraControlsConfigMap();
+            writeJSON(configMap);
+        } catch (IOException e) {
+            e.printStackTrace();
+            MainClass.errorLog("An error occurred while resetting config.json file to default.");
         }
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    private static void createEmptyConfigFileIfNotExist() {
+    private void createEmptyConfigFileIfNotExist() {
         File configFile = new File(CONFIG_PATH);
-        if (!configFile.exists()) {
-            MainClass.infoLog(configFile.getAbsolutePath());
-            try {
-                configFile.getParentFile().mkdirs();
-                configFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (configFile.exists()) return;
+
+        try {
+            configFile.getParentFile().mkdirs();
+            configFile.createNewFile();
+            MainClass.infoLog("Created an empty config.json file at: %s".formatted(configFile.getAbsolutePath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            MainClass.errorLog("An error occurred while creating empty config.json file.");
         }
     }
 
-    private void writeJSON(Student student) throws IOException {
+    private void writeJSON(ConfigMap configMap) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(CONFIG_PATH), student);
+        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(CONFIG_PATH), configMap);
     }
 
-    private Student readJSON() throws IOException {
+    private ConfigMap readJSON() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(new File(CONFIG_PATH), Student.class);
-    }
-}
-
-class Student {
-    private String name;
-    private int age;
-
-    public Student() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String toString() {
-        return "Student [ name: " + getName() + ", age: " + getAge() + " ]";
+        return mapper.readValue(new File(CONFIG_PATH), ConfigMap.class);
     }
 }
