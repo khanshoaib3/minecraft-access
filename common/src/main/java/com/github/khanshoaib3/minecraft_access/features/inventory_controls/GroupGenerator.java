@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.features.InventoryControls;
+package com.github.khanshoaib3.minecraft_access.features.inventory_controls;
 
 import com.github.khanshoaib3.minecraft_access.mixin.*;
 import com.google.common.collect.Lists;

@@ -2,11 +2,11 @@ package com.github.khanshoaib3.minecraft_access;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.features.*;
-import com.github.khanshoaib3.minecraft_access.features.InventoryControls.InventoryControls;
-import com.github.khanshoaib3.minecraft_access.features.NarratorMenu.NarratorMenu;
-import com.github.khanshoaib3.minecraft_access.features.PointOfInterest.LockingHandler;
-import com.github.khanshoaib3.minecraft_access.features.PointOfInterest.POIBlocks;
-import com.github.khanshoaib3.minecraft_access.features.PointOfInterest.POIEntities;
+import com.github.khanshoaib3.minecraft_access.features.inventory_controls.InventoryControls;
+import com.github.khanshoaib3.minecraft_access.features.narrator_menu.NarratorMenu;
+import com.github.khanshoaib3.minecraft_access.features.point_of_interest.LockingHandler;
+import com.github.khanshoaib3.minecraft_access.features.point_of_interest.POIBlocks;
+import com.github.khanshoaib3.minecraft_access.features.point_of_interest.POIEntities;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
