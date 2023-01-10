@@ -96,7 +96,7 @@ public class MainClass {
 
         if (inventoryControls != null) inventoryControls.update();
 
-        if (cameraControls != null) cameraControls.update();
+        if (cameraControls != null && cameraControls.isEnabled()) cameraControls.update();
 
         if (readCrosshair != null) readCrosshair.update();
 
