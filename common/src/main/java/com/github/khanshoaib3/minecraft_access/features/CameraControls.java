@@ -42,6 +42,10 @@ public class CameraControls {
     private boolean shouldRun = true;
     private int delay;
 
+    public CameraControls() {
+        loadConfigurations();
+    }
+
     public void update() {
         if (!this.shouldRun) return;
         try {

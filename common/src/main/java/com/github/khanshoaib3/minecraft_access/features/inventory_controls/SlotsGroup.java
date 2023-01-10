@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.features.inventory_controls;
 
+import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.screen.slot.Slot;
 import org.jetbrains.annotations.NotNull;
 
@@ -101,7 +102,7 @@ public class SlotsGroup {
         for (int row = 1; row <= size; row++) {
             for (int column = 1; column <= size; column++) {
                 Slot slot = this.slotItems.get(i).slot;
-                String prefix = "%dx%d".formatted(row, column);
+                String prefix = MainClass.inventoryControls.getRowAndColumnFormat().formatted(row, column);
 
                 this.setSlotPrefix(slot, prefix);
                 ++i;
@@ -110,7 +111,7 @@ public class SlotsGroup {
     }
 
     public String getGroupName() {
-//        return I18n.translate("narrate.apextended.slotGroup." + name);
+//TODO i18n        return I18n.translate("narrate.apextended.slotGroup." + name);
         return groupName;
     }
 }

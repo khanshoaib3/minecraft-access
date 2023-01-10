@@ -38,6 +38,11 @@ import java.util.*;
  * </p>
  */
 public class InventoryControls {
+    private boolean enabled;
+    private boolean autoOpenRecipeBook;
+    private String rowAndColumnFormat;
+    private int delay;
+
     public boolean shouldRun = true;
     private MinecraftClient minecraftClient;
 
@@ -65,12 +70,19 @@ public class InventoryControls {
         String getString() {
             return this.value;
         }
+
     }
 
-    /**
-     * Initializes the key bindings.
-     */
     public InventoryControls() {
+        loadConfigurations();
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public String getRowAndColumnFormat() {
+        return rowAndColumnFormat;
     }
 
     public void update() {
@@ -89,6 +101,8 @@ public class InventoryControls {
         if (!(minecraftClient.currentScreen instanceof HandledScreen)) return;
 
         try {
+            loadConfigurations();
+
             boolean wasAnyKeyPressed = keyListener();
 
             currentScreen = (HandledScreenAccessor) minecraftClient.currentScreen;
@@ -112,7 +126,7 @@ public class InventoryControls {
                     recipeBookWidget = craftingScreen.getRecipeBookWidget();
                 }
 
-                if (recipeBookWidget != null) {
+                if (autoOpenRecipeBook && recipeBookWidget != null) {
                     if (!recipeBookWidget.isOpen()) recipeBookWidget.toggleOpen();
                     ((RecipeBookWidgetAccessor) recipeBookWidget).getSearchField().setTextFieldFocused(false);
                 }
@@ -138,7 +152,7 @@ public class InventoryControls {
                         shouldRun = true;
                     }
                 };
-                new Timer().schedule(timerTask, 250);
+                new Timer().schedule(timerTask, delay);
             }
         } catch (Exception e) {
             MainClass.errorLog("\nError encountered in Inventory Controls feature.");
@@ -147,10 +161,21 @@ public class InventoryControls {
     }
 
     /**
+     * Load configs from config.json
+     */
+    private void loadConfigurations() {
+        enabled = MainClass.config.getConfigMap().getInventoryControlsConfigMap().isEnabled();
+        autoOpenRecipeBook = MainClass.config.getConfigMap().getInventoryControlsConfigMap().isAutoOpenRecipeBook();
+        rowAndColumnFormat = MainClass.config.getConfigMap().getInventoryControlsConfigMap().getRowAndColumnFormat();
+        delay = MainClass.config.getConfigMap().getInventoryControlsConfigMap().getDelayInMilliseconds();
+    }
+
+    /**
      * Handles the key inputs.
      *
      * @return True if any key is pressed else false.
      */
+    @SuppressWarnings("CommentedOutCode")
     private boolean keyListener() {
         boolean isGroupKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsGroupKey);
         boolean isLeftClickKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsLeftMouseClickKey);
@@ -562,9 +587,11 @@ public class InventoryControls {
 
         ListIterator<ItemGroup> nextTab = ItemGroups.getGroupsToDisplay().listIterator();
 
-        while(nextTab.hasNext() && nextTab.next() != CreativeInventoryScreenAccessor.getSelectedTab()) {}
+        //noinspection StatementWithEmptyBody
+        while (nextTab.hasNext() && nextTab.next() != CreativeInventoryScreenAccessor.getSelectedTab()) {
+        }
 
-        if(goForward && nextTab.hasNext()) {
+        if (goForward && nextTab.hasNext()) {
             ((CreativeInventoryScreenAccessor) creativeInventoryScreen).invokeSetSelectedTab(nextTab.next());
             refreshGroupListAndSelectFirstGroup(false);
         } else if (!goForward) {
@@ -581,6 +608,7 @@ public class InventoryControls {
      *
      * @param goForward Whether to switch to next tab or previous tab.
      */
+    @SuppressWarnings("CommentedOutCode")
     private void changeRecipeTab(boolean goForward) {
         RecipeBookWidget recipeBookWidget = null;
         if (currentScreen instanceof InventoryScreen inventoryScreen) {
