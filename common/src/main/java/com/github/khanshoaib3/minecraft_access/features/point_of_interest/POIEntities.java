@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.features.PointOfInterest;
+package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;

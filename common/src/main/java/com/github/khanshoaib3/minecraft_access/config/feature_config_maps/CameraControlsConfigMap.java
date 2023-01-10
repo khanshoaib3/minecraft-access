@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.config;
+package com.github.khanshoaib3.minecraft_access.config.feature_config_maps;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.khanshoaib3.minecraft_access.config.feature_config_maps.CameraControlsConfigMap;
 
 public class ConfigMap {
     private CameraControlsConfigMap cameraControlsConfigMap;

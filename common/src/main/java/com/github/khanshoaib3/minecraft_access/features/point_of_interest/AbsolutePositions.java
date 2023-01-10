@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.features.PointOfInterest;
+package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.BlockState;

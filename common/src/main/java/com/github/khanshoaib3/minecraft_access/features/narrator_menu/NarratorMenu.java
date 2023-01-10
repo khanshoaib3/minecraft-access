@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.features.NarratorMenu;
+package com.github.khanshoaib3.minecraft_access.features.narrator_menu;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.features.BiomeIndicator;
