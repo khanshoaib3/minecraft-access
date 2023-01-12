@@ -32,7 +32,6 @@ import java.util.TimerTask;
 @Environment(EnvType.CLIENT)
 public class CameraControls {
     private MinecraftClient minecraftClient;
-    private boolean enabled;
 
     private float normalRotatingAngle;
     private float normalRotatingDeltaAngle;
@@ -82,7 +81,6 @@ public class CameraControls {
     private void loadConfigurations() {
         float delta90Degrees = 600f; // 90 / 0.15
 
-        enabled = MainClass.config.getConfigMap().getCameraControlsConfigMap().isEnabled();
         delay = MainClass.config.getConfigMap().getCameraControlsConfigMap().getDelayInMilliseconds();
         normalRotatingAngle = MainClass.config.getConfigMap().getCameraControlsConfigMap().getNormalRotatingAngle();
         modifiedRotatingAngle = MainClass.config.getConfigMap().getCameraControlsConfigMap().getModifiedRotatingAngle();
@@ -270,9 +268,5 @@ public class CameraControls {
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, southBlockPosition);
         MainClass.infoLog("Looking south");
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.direction.horizontal_angle_south"), true);
-    }
-
-    public boolean isEnabled() {
-        return enabled;
     }
 }

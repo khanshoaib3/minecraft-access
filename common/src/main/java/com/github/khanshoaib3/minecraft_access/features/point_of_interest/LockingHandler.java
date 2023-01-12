@@ -19,6 +19,8 @@ import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.github.khanshoaib3.minecraft_access.features.narrator_menu.NarratorMenu.getPositionDifference;
+
 /**
  * Locks on to the nearest entity or block.<br><br>
  * Keybindings and combinations:<br>
@@ -34,10 +36,21 @@ public class LockingHandler {
     public static String lockedOnBlockEntries = "";
 
     private boolean shouldRun = true;
+    private boolean lockOnBlocks;
+    private boolean speakDistance;
+    private boolean unlockingSound;
+    private int delayInMilliseconds;
+//    private boolean autoLockEyeOfEnderEntity;
+
+    public LockingHandler() {
+        loadConfigurations();
+    }
 
     public void update() {
         if (!this.shouldRun) return;
         try {
+            loadConfigurations();
+
             mainLogic();
 
             // Pause the execution of this feature for 100 milliseconds
@@ -49,10 +62,20 @@ public class LockingHandler {
                     shouldRun = true;
                 }
             };
-            new Timer().schedule(timerTask, 100);
+            new Timer().schedule(timerTask, this.delayInMilliseconds);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Loads the configs from the config.json
+     */
+    private void loadConfigurations() {
+        this.lockOnBlocks = MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isLockOnBlocks();
+        this.speakDistance = MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isSpeakDistance();
+        this.unlockingSound = MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isUnlockingSound();
+        this.delayInMilliseconds = MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().getDelay();
     }
 
     private void mainLogic() {
@@ -154,9 +177,7 @@ public class LockingHandler {
             lockedOnBlock = null;
             isLockedOntoLadder = false;
 
-//  FIXME                  if (Config.get(ConfigKeys.POI_ENTITY_LOCKING_NARRATE_DISTANCE_KEY.getKey())) {
-//                        text += " " + HudRenderCallBackClass.get_position_difference(entity.getBlockPos(), minecraftClient);
-//                    }
+            if (this.speakDistance) text += " " + getPositionDifference(entity.getBlockPos());
             MainClass.speakWithNarrator(text, true);
             return;
         }
@@ -172,12 +193,12 @@ public class LockingHandler {
             lockedOnBlock = null;
             isLockedOntoLadder = false;
 
-//  FIXME                  if (Config.get(ConfigKeys.POI_ENTITY_LOCKING_NARRATE_DISTANCE_KEY.getKey())) {
-//                        text += " " + HudRenderCallBackClass.get_position_difference(entity.getBlockPos(), minecraftClient);
-//                    }
+            if (this.speakDistance) text += " " + getPositionDifference(entity.getBlockPos());
             MainClass.speakWithNarrator(text, true);
             return;
         }
+
+        if (!this.lockOnBlocks) return;
 
         Double closest = -9999.0;
 
@@ -245,31 +266,31 @@ public class LockingHandler {
             closest = closestOreBlockDouble;
         }
 
-        if (closest != -9999.0) {
-            if (closestDoorBlockDouble != -9999.0)
-                closest = Math.min(closest, closestDoorBlockDouble);
-            if (closestButtonBlockDouble != -9999.0)
-                closest = Math.min(closest, closestButtonBlockDouble);
-            if (closestLadderBlockDouble != -9999.0)
-                closest = Math.min(closest, closestLadderBlockDouble);
-            if (closestLeverBlockDouble != -9999.0)
-                closest = Math.min(closest, closestLeverBlockDouble);
-            if (closestTrapDoorBlockDouble != -9999.0)
-                closest = Math.min(closest, closestTrapDoorBlockDouble);
-            if (closestOreBlockDouble != -9999.0)
-                closest = Math.min(closest, closestOreBlockDouble);
-            if (closestOtherBlockDouble != -9999.0)
-                closest = Math.min(closest, closestOtherBlockDouble);
+        if (closest == -9999.0) return;
 
-            lockOntoBlocksOrPassiveEntity(minecraftClient, closest, closestDoorBlockEntry,
-                    closestDoorBlockDouble, closestButtonBlockEntry, closestButtonBlockDouble,
-                    closestLadderBlockEntry, closestLadderBlockDouble, closestLeverBlockEntry,
-                    closestLeverBlockDouble, closestTrapDoorBlockEntry, closestTrapDoorBlockDouble,
-                    closestFluidBlockEntry, closestFluidBlockDouble, closestOtherBlockEntry,
-                    closestOtherBlockDouble, closestOreBlockEntry, closestOreBlockDouble);
+        if (closestDoorBlockDouble != -9999.0)
+            closest = Math.min(closest, closestDoorBlockDouble);
+        if (closestButtonBlockDouble != -9999.0)
+            closest = Math.min(closest, closestButtonBlockDouble);
+        if (closestLadderBlockDouble != -9999.0)
+            closest = Math.min(closest, closestLadderBlockDouble);
+        if (closestLeverBlockDouble != -9999.0)
+            closest = Math.min(closest, closestLeverBlockDouble);
+        if (closestTrapDoorBlockDouble != -9999.0)
+            closest = Math.min(closest, closestTrapDoorBlockDouble);
+        if (closestOreBlockDouble != -9999.0)
+            closest = Math.min(closest, closestOreBlockDouble);
+        if (closestOtherBlockDouble != -9999.0)
+            closest = Math.min(closest, closestOtherBlockDouble);
 
-            narrateBlockPosAndSetBlockEntries(minecraftClient);
-        }
+        lockOntoBlocksOrPassiveEntity(minecraftClient, closest, closestDoorBlockEntry,
+                closestDoorBlockDouble, closestButtonBlockEntry, closestButtonBlockDouble,
+                closestLadderBlockEntry, closestLadderBlockDouble, closestLeverBlockEntry,
+                closestLeverBlockDouble, closestTrapDoorBlockEntry, closestTrapDoorBlockDouble,
+                closestFluidBlockEntry, closestFluidBlockDouble, closestOtherBlockEntry,
+                closestOtherBlockDouble, closestOreBlockEntry, closestOreBlockDouble);
+
+        narrateBlockPosAndSetBlockEntries(minecraftClient);
     }
 
     private void lockOntoBlocksOrPassiveEntity(MinecraftClient client, Double closest,
@@ -335,18 +356,15 @@ public class LockingHandler {
 //            MutableText mutableText = (new net.minecraft.text.LiteralText("")).append(closestBlock.getName()); // pre 1.19
         String text = mutableText.getString();
 
-//   FIXME         if (Config.get(ConfigKeys.POI_BLOCKS_LOCKING_NARRATE_DISTANCE_KEY.getKey())) {
-//                text += " " + HudRenderCallBackClass.get_position_difference(new BlockPos(lockedOnBlock), client);
-//            }
+        if (this.speakDistance) text += " " + getPositionDifference(new BlockPos(lockedOnBlock));
         MainClass.speakWithNarrator(text, true);
     }
 
     private void playUnlockingSound(MinecraftClient client) {
+        if (!this.unlockingSound) return;
         if (client.player == null) return;
 
-//        if (Config.get(ConfigKeys.POI_UNLOCKING_SOUND_KEY.getKey())) {
         float volume = 0.4f;
         client.player.playSound(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM.value(), volume, 2f);
-//        }
     }
 }
