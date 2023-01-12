@@ -41,6 +41,7 @@ public class Config {
             configMap.setDefaultCameraControlsConfigMap();
             configMap.setDefaultInventoryControlsConfigMap();
             configMap.setDefaultPoiConfigMap();
+            configMap.setDefaultOtherConfigsMap();
             writeJSON(configMap);
         } catch (IOException e) {
             MainClass.errorLog("An error occurred while resetting config.json file to default.");

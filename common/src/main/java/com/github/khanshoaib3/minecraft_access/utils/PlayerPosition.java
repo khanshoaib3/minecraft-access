@@ -31,8 +31,6 @@ public class PlayerPosition {
         Vec3d pos = player.getPos();
 
         String tempPosY;
-//        if (Config.get(Config.getReplace_y_to_z_key())) tempPosY = pos.z + "";
-//        else tempPosY = pos.y + "";
         tempPosY = pos.y + "";
         tempPosY = tempPosY.substring(0, tempPosY.indexOf(".") + 2);
 
@@ -44,8 +42,6 @@ public class PlayerPosition {
         Vec3d pos = player.getPos();
 
         String tempPosZ;
-//        if (Config.get(Config.getReplace_y_to_z_key())) tempPosZ = pos.y + "";
-//        else tempPosZ = pos.z + "";
         tempPosZ = pos.z + "";
         tempPosZ = tempPosZ.substring(0, tempPosZ.indexOf(".") + 2);
 
