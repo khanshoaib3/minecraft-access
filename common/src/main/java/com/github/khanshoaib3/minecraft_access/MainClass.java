@@ -112,7 +112,7 @@ public class MainClass {
 
         if (narratorMenu != null) narratorMenu.update();
 
-        if (poiBlocks != null) poiBlocks.update();
+        if (poiBlocks != null && config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isEnabled()) poiBlocks.update();
 
         if (poiEntities != null) poiEntities.update();
 
