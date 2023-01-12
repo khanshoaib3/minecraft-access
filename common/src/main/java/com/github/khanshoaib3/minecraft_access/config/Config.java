@@ -25,12 +25,13 @@ public class Config {
 //TODO add log            System.out.println("Delay: "+configMap.getCameraControls().getDelayInMilliseconds());
 
         } catch (UnrecognizedPropertyException e) {
-            e.printStackTrace();
             MainClass.errorLog("Unsupported config.json file format, resetting to default.");
+            e.printStackTrace();
             resetToDefault();
         } catch (Exception e){
+            MainClass.errorLog("An error occurred while reading config.json file, resetting to default");
             e.printStackTrace();
-            MainClass.errorLog("An error occurred while reading config.json file.");
+            resetToDefault();
         }
     }
 
@@ -39,10 +40,11 @@ public class Config {
             configMap = new ConfigMap();
             configMap.setDefaultCameraControlsConfigMap();
             configMap.setDefaultInventoryControlsConfigMap();
+            configMap.setDefaultPoiConfigMap();
             writeJSON(configMap);
         } catch (IOException e) {
-            e.printStackTrace();
             MainClass.errorLog("An error occurred while resetting config.json file to default.");
+            e.printStackTrace();
         }
     }
 
@@ -56,8 +58,8 @@ public class Config {
             configFile.createNewFile();
             MainClass.infoLog("Created an empty config.json file at: %s".formatted(configFile.getAbsolutePath()));
         } catch (IOException e) {
-            e.printStackTrace();
             MainClass.errorLog("An error occurred while creating empty config.json file.");
+            e.printStackTrace();
         }
     }
 

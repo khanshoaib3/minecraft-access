@@ -94,9 +94,9 @@ public class MainClass {
 
         MenuFix.update(minecraftClient);
 
-        if (inventoryControls != null && inventoryControls.isEnabled()) inventoryControls.update();
+        if (inventoryControls != null && config.getConfigMap().getInventoryControlsConfigMap().isEnabled()) inventoryControls.update();
 
-        if (cameraControls != null && cameraControls.isEnabled()) cameraControls.update();
+        if (cameraControls != null && config.getConfigMap().getCameraControlsConfigMap().isEnabled()) cameraControls.update();
 
         if (readCrosshair != null) readCrosshair.update();
 
@@ -116,7 +116,7 @@ public class MainClass {
 
         if (poiEntities != null) poiEntities.update();
 
-        if (lockingHandler != null) lockingHandler.update();
+        if (lockingHandler != null && config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isEnabled()) lockingHandler.update();
     }
 
     public static void infoLog(String msg) {

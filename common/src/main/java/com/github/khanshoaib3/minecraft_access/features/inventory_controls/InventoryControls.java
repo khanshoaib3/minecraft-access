@@ -38,7 +38,6 @@ import java.util.*;
  * </p>
  */
 public class InventoryControls {
-    private boolean enabled;
     private boolean autoOpenRecipeBook;
     private String rowAndColumnFormat;
     private int delay;
@@ -75,10 +74,6 @@ public class InventoryControls {
 
     public InventoryControls() {
         loadConfigurations();
-    }
-
-    public boolean isEnabled() {
-        return enabled;
     }
 
     public String getRowAndColumnFormat() {
@@ -164,7 +159,6 @@ public class InventoryControls {
      * Load configs from config.json
      */
     private void loadConfigurations() {
-        enabled = MainClass.config.getConfigMap().getInventoryControlsConfigMap().isEnabled();
         autoOpenRecipeBook = MainClass.config.getConfigMap().getInventoryControlsConfigMap().isAutoOpenRecipeBook();
         rowAndColumnFormat = MainClass.config.getConfigMap().getInventoryControlsConfigMap().getRowAndColumnFormat();
         delay = MainClass.config.getConfigMap().getInventoryControlsConfigMap().getDelayInMilliseconds();
