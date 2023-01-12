@@ -45,7 +45,7 @@ public class MainClass {
     /**
      * Initializes the mod
      */
-    public static void init(){
+    public static void init() {
         String msg = "Initializing Minecraft Access";
         MainClass.infoLog(msg);
 
@@ -86,37 +86,50 @@ public class MainClass {
      * @param minecraftClient The current minecraft client object
      */
     public static void clientTickEventsMethod(MinecraftClient minecraftClient) {
-        if(!MainClass.alreadyDisabledAdvancementKey && minecraftClient.options!=null) {
+        if (!MainClass.alreadyDisabledAdvancementKey && minecraftClient.options != null) {
             minecraftClient.options.advancementsKey.setBoundKey(InputUtil.fromTranslationKey("key.keyboard.unknown"));
             MainClass.alreadyDisabledAdvancementKey = true;
             infoLog("Unbound advancements key");
         }
 
-        MenuFix.update(minecraftClient);
+        if (config.getConfigMap().getOtherConfigsMap().isMenuFixEnabled())
+            MenuFix.update(minecraftClient);
 
-        if (inventoryControls != null && config.getConfigMap().getInventoryControlsConfigMap().isEnabled()) inventoryControls.update();
+        if (inventoryControls != null && config.getConfigMap().getInventoryControlsConfigMap().isEnabled())
+            inventoryControls.update();
 
-        if (cameraControls != null && config.getConfigMap().getCameraControlsConfigMap().isEnabled()) cameraControls.update();
+        if (cameraControls != null && config.getConfigMap().getCameraControlsConfigMap().isEnabled())
+            cameraControls.update();
 
-        if (readCrosshair != null) readCrosshair.update();
+        if (readCrosshair != null)
+            readCrosshair.update();
 
-        if (biomeIndicator != null) biomeIndicator.update();
+        if (biomeIndicator != null && config.getConfigMap().getOtherConfigsMap().isBiomeIndicatorEnabled())
+            biomeIndicator.update();
 
-        if (facingDirection != null) facingDirection.update();
+        if (facingDirection != null && config.getConfigMap().getOtherConfigsMap().isFacingDirectionEnabled())
+            facingDirection.update();
 
-        if (positionNarrator != null) positionNarrator.update();
+        if (positionNarrator != null && config.getConfigMap().getOtherConfigsMap().isPositionNarratorEnabled())
+            positionNarrator.update();
 
-        if (healthNHunger != null) healthNHunger.update();
+        if (healthNHunger != null && config.getConfigMap().getOtherConfigsMap().isHealthNHungerEnabled())
+            healthNHunger.update();
 
-        if (playerWarnings != null) playerWarnings.update();
+        if (playerWarnings != null)
+            playerWarnings.update();
 
-        if (narratorMenu != null) narratorMenu.update();
+        if (narratorMenu != null && config.getConfigMap().getOtherConfigsMap().isNarratorMenuEnabled())
+            narratorMenu.update();
 
-        if (poiBlocks != null && config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isEnabled()) poiBlocks.update();
+        if (poiBlocks != null && config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isEnabled())
+            poiBlocks.update();
 
-        if (poiEntities != null && config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isEnabled()) poiEntities.update();
+        if (poiEntities != null && config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isEnabled())
+            poiEntities.update();
 
-        if (lockingHandler != null && config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isEnabled()) lockingHandler.update();
+        if (lockingHandler != null && config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isEnabled())
+            lockingHandler.update();
     }
 
     public static void infoLog(String msg) {
@@ -135,9 +148,9 @@ public class MainClass {
         MainClass.screenReader = screenReader;
     }
 
-    public static void speakWithNarrator(String text, boolean interrupt){
+    public static void speakWithNarrator(String text, boolean interrupt) {
         MainClass.interrupt = interrupt;
-        if(isForge){
+        if (isForge) {
             MinecraftClient.getInstance().getNarratorManager().narrate(text);
             return;
         }

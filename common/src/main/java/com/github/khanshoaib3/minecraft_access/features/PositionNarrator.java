@@ -14,6 +14,8 @@ import net.minecraft.client.util.InputUtil;
  * 4. Left Alt + Z = Speaks only the z position.<br>
  */
 public class PositionNarrator {
+    public static String defaultFormat = "{x}x, {y}y, {z}z";
+
     public void update() {
         try {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
@@ -50,16 +52,27 @@ public class PositionNarrator {
             boolean isPositionNarrationKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.positionNarrationKey);
 
             if (isPositionNarrationKeyPressed) {
-                String posX = new PlayerPosition(minecraftClient).getNarratableXPos();
-                String posY = new PlayerPosition(minecraftClient).getNarratableYPos();
-                String posZ = new PlayerPosition(minecraftClient).getNarratableZPos();
-                String text = String.format("%s, %s, %s", posX, posY, posZ);
+                String posX = PlayerPosition.getNarratableNumber(new PlayerPosition(minecraftClient).getX());
+                String posY = PlayerPosition.getNarratableNumber(new PlayerPosition(minecraftClient).getY());
+                String posZ = PlayerPosition.getNarratableNumber(new PlayerPosition(minecraftClient).getZ());
 
-                MainClass.speakWithNarrator(text, true);
+                MainClass.speakWithNarrator(getNarrationText(posX, posY, posZ), true);
             }
         } catch (Exception e) {
             MainClass.errorLog("An error occurred in PositionNarrator.");
             e.printStackTrace();
         }
+    }
+
+    private String getNarrationText(String posX, String posY, String posZ) {
+        String format = MainClass.config.getConfigMap().getOtherConfigsMap().getPositionNarratorFormat();
+
+        if (!format.contains("{x}") || !format.contains("{y}") || !format.contains("{z}")) format = defaultFormat;
+
+        format = format.replace("{x}", posX);
+        format = format.replace("{y}", posY);
+        format = format.replace("{z}", posZ);
+
+        return format;
     }
 }

@@ -2,11 +2,13 @@ package com.github.khanshoaib3.minecraft_access.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.khanshoaib3.minecraft_access.config.feature_config_maps.*;
+import com.github.khanshoaib3.minecraft_access.features.PositionNarrator;
 
 public class ConfigMap {
     private CameraControlsConfigMap cameraControlsConfigMap;
     private InventoryControlsConfigMap inventoryControlsConfigMap;
     private POIConfigMap poiConfigMap;
+    private OtherConfigsMap otherConfigsMap;
 
     @JsonProperty("Camera Controls")
     public CameraControlsConfigMap getCameraControlsConfigMap() {
@@ -86,6 +88,29 @@ public class ConfigMap {
         defaultPoiConfigMap.setLockingConfigMap(defaultPoiLockingConfigMap);
 
         setPoiConfigMap(defaultPoiConfigMap);
+    }
+
+    @JsonProperty("Other Configurations")
+    public OtherConfigsMap getOtherConfigsMap() {
+        return otherConfigsMap;
+    }
+
+    public void setOtherConfigsMap(OtherConfigsMap otherConfigsMap) {
+        this.otherConfigsMap = otherConfigsMap;
+    }
+
+    public void setDefaultOtherConfigsMap(){
+        OtherConfigsMap defaultOtherConfigsMap = new OtherConfigsMap();
+        defaultOtherConfigsMap.setBiomeIndicatorEnabled(true);
+        defaultOtherConfigsMap.setFacingDirectionEnabled(true);
+        defaultOtherConfigsMap.setHealthNHungerEnabled(true);
+        defaultOtherConfigsMap.setPositionNarratorEnabled(true);
+        defaultOtherConfigsMap.setPositionNarratorFormat(PositionNarrator.defaultFormat);
+        defaultOtherConfigsMap.setNarratorMenuEnabled(true);
+        defaultOtherConfigsMap.setMenuFixEnabled(true);
+
+        setOtherConfigsMap(defaultOtherConfigsMap);
+
     }
 }
 
