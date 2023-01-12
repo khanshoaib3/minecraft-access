@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
+import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EyeOfEnderEntity;
@@ -10,6 +11,7 @@ import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -28,19 +30,26 @@ public class POIEntities {
     public static TreeMap<Double, Entity> hostileEntity = new TreeMap<>();
     public static TreeMap<Double, Entity> eyeOfEnderEntity = new TreeMap<>();
 
+    private int range;
+    private boolean playSound;
+    private float volume;
+    private int delayInMilliseconds;
+
+    public POIEntities() {
+        loadConfigurations();
+    }
+
     public void update() {
         if (!this.shouldRun) return;
         try {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
 
-            int range = 6;
-            float volume = 0.25f;
-            int delayInMilliseconds = 3000;
-
             if (minecraftClient == null) return;
             if (minecraftClient.player == null) return;
             if (minecraftClient.world == null) return;
             if (minecraftClient.currentScreen != null) return; //Prevent running if any screen is opened
+
+            loadConfigurations();
 
             passiveEntity = new TreeMap<>();
             hostileEntity = new TreeMap<>();
@@ -60,6 +69,7 @@ public class POIEntities {
                 if (distance > range) continue;
 
                 if (i instanceof EyeOfEnderEntity && distance <= 0.2) {
+                    // FIXME use different method, this is not working anymore
                     eyeOfEnderEntity.put(distance, i);
                     LockingHandler.lockedOnEntity = i;
                     LockingHandler.lockedOnBlockEntries = "";
@@ -69,29 +79,22 @@ public class POIEntities {
 
                 } else if (i instanceof PassiveEntity) {
                     passiveEntity.put(distance, i);
-                    minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), SoundCategory.BLOCKS,
-                            volume, 0f);
+                    this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
                 } else if (i instanceof HostileEntity) {
                     hostileEntity.put(distance, i);
-                    minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), SoundCategory.BLOCKS,
-                            volume, 2f);
+                    this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 2f);
                 } else if (i instanceof WaterCreatureEntity) {
                     passiveEntity.put(distance, i);
-                    minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), SoundCategory.BLOCKS,
-                            volume, 0f);
-                } else if (i instanceof ItemEntity) {
-                    if (i.isOnGround()) {
-                        minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON,
-                                SoundCategory.BLOCKS, volume, 2f);
-                    }
+                    this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
+                } else if (i instanceof ItemEntity itemEntity && itemEntity.isOnGround()) {
+                    this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON, 2f);
                 } else if (i instanceof PlayerEntity) {
                     passiveEntity.put(distance, i);
-                    minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), SoundCategory.BLOCKS,
-                            volume, 0f);
+                    this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
                 }
             }
 
-            // Pause the execution of this feature for 250 milliseconds
+            // Pause the execution of this feature for the given milliseconds
             // TODO Remove Timer
             shouldRun = false;
             TimerTask timerTask = new TimerTask() {
@@ -106,4 +109,22 @@ public class POIEntities {
         }
     }
 
+    private void playSoundAtBlockPos(MinecraftClient minecraftClient, BlockPos blockPos, SoundEvent soundEvent, float pitch) {
+        if (minecraftClient.player == null) return;
+        if (minecraftClient.world == null) return;
+        if (!playSound || !(volume > 0f)) return;
+
+        MainClass.infoLog("{POIEntity} Playing sound at x:%d y:%d z%d".formatted(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
+        minecraftClient.world.playSound(minecraftClient.player, blockPos, soundEvent, SoundCategory.BLOCKS, volume, pitch);
+    }
+
+    /**
+     * Loads the configs from config.json
+     */
+    private void loadConfigurations() {
+        this.range = MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getRange();
+        this.playSound = MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isPlaySound();
+        this.volume = MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getVolume();
+        this.delayInMilliseconds = MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getDelay();
+    }
 }

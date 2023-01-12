@@ -69,6 +69,11 @@ public class ConfigMap {
         defaultPoiConfigMap.setBlocksConfigMap(defaultPoiBlocksConfigMap);
 
         POIEntitiesConfigMap defaultPoiEntitiesConfigMap = new POIEntitiesConfigMap();
+        defaultPoiEntitiesConfigMap.setEnabled(true);
+        defaultPoiEntitiesConfigMap.setRange(6);
+        defaultPoiEntitiesConfigMap.setPlaySound(true);
+        defaultPoiEntitiesConfigMap.setVolume(0.25f);
+        defaultPoiEntitiesConfigMap.setDelay(3000);
         defaultPoiConfigMap.setEntitiesConfigMap(defaultPoiEntitiesConfigMap);
 
         POILockingConfigMap defaultPoiLockingConfigMap = new POILockingConfigMap();

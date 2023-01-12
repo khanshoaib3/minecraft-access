@@ -114,7 +114,7 @@ public class MainClass {
 
         if (poiBlocks != null && config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isEnabled()) poiBlocks.update();
 
-        if (poiEntities != null) poiEntities.update();
+        if (poiEntities != null && config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isEnabled()) poiEntities.update();
 
         if (lockingHandler != null && config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isEnabled()) lockingHandler.update();
     }

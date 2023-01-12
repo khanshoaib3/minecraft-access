@@ -209,7 +209,7 @@ public class POIBlocks {
         }
 
         if (this.playSound && this.volume > 0 && !soundType.isEmpty()) {
-            MainClass.infoLog("Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+            MainClass.infoLog("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
 
             if (soundType.equalsIgnoreCase("ore"))
                 minecraftClient.world.playSound(minecraftClient.player, new BlockPos(blockVec3dPos), SoundEvents.ENTITY_ITEM_PICKUP,
