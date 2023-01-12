@@ -31,7 +31,11 @@ public class POIBlocks {
     public static TreeMap<Double, Vec3d> otherBlocks = new TreeMap<>();
 
     private List<Vec3d> checkedBlocks = new ArrayList<>();
+    private boolean detectFluidBlocks;
+    private int range;
+    private boolean playSound;
     private float volume;
+    private boolean playSoundForOtherBlocks;
     private int delayInMilliseconds;
 
     private static final List<Predicate<BlockState>> blockList = Lists.newArrayList();
@@ -74,8 +78,7 @@ public class POIBlocks {
     }
 
     public POIBlocks() {
-        volume = 0.25f;
-        delayInMilliseconds = 3000;
+        loadConfigurations();
     }
 
     public void update() {
@@ -86,6 +89,8 @@ public class POIBlocks {
             if (minecraftClient == null) return;
             if (minecraftClient.player == null) return;
             if (minecraftClient.currentScreen != null) return; //Prevent running if any screen is opened
+
+            loadConfigurations();
 
             oreBlocks = new TreeMap<>();
             doorBlocks = new TreeMap<>();
@@ -101,13 +106,12 @@ public class POIBlocks {
             int posX = pos.getX();
             int posY = pos.getY() - 1;
             int posZ = pos.getZ();
-            int rangeVal = 6;
             checkedBlocks = new ArrayList<>();
 
             checkBlock(new BlockPos(new Vec3d(posX, posY, posZ)), 0);
             checkBlock(new BlockPos(new Vec3d(posX, posY + 3, posZ)), 0);
-            checkBlock(new BlockPos(new Vec3d(posX, posY + 1, posZ)), rangeVal);
-            checkBlock(new BlockPos(new Vec3d(posX, posY + 2, posZ)), rangeVal);
+            checkBlock(new BlockPos(new Vec3d(posX, posY + 1, posZ)), this.range);
+            checkBlock(new BlockPos(new Vec3d(posX, posY + 2, posZ)), this.range);
 
 
             // Pause the execution of this feature for 250 milliseconds
@@ -126,6 +130,15 @@ public class POIBlocks {
         }
     }
 
+    private void loadConfigurations() {
+        this.detectFluidBlocks = MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isDetectFluidBlocks();
+        this.range = MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getRange();
+        this.playSound = MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isPlaySound();
+        this.volume = MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getVolume();
+        this.playSoundForOtherBlocks = MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isPlaySoundForOtherBlocks();
+        this.delayInMilliseconds = MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getDelay();
+    }
+
     private void checkBlock(BlockPos blockPos, int val) {
         if (minecraftClient.player == null) return;
         if (minecraftClient.world == null) return;
@@ -138,38 +151,35 @@ public class POIBlocks {
         double posX = blockPos.getX(), posY = blockPos.getY(), posZ = blockPos.getZ();
         Vec3d blockVec3dPos = Vec3d.ofCenter(blockPos);
 
-        if(checkedBlocks.contains(blockVec3dPos)) return;
+        if (checkedBlocks.contains(blockVec3dPos)) return;
         checkedBlocks.add(blockVec3dPos);
 
         double diff = playerVec3dPos.distanceTo(blockVec3dPos);
-        boolean playSound = false;
         String soundType = "";
 
-        if (block instanceof FluidBlock) { //TODO make toggleable
+        if (this.detectFluidBlocks && block instanceof FluidBlock) {
             FluidState fluidState = minecraftClient.world.getFluidState(blockPos);
             if (fluidState.getLevel() == 8) {
                 fluidBlocks.put(diff, blockVec3dPos);
-                playSound = true;
                 soundType = "blocks";
             }
 
-//            if (Config.get(ConfigKeys.POI_FLUID_DETECTOR_Key.getKey())
-//                    && !modInit.mainThreadMap.containsKey("fluid_detector_key")) {
 //            MainClass.speakWithNarrator(I18n.translate("narrate.apextended.poiblock.warn"), true);
-//                modInit.mainThreadMap.put("fluid_detector_key", delay);
-//            }
         } else if (oreBlockList.stream().anyMatch($ -> $.test(blockState))) {
             oreBlocks.put(diff, blockVec3dPos);
-            playSound = true;
             soundType = "ore";
         } else if (block instanceof ButtonBlock) {
             buttonBlocks.put(diff, blockVec3dPos);
+            soundType = "blocks";
         } else if (block instanceof LadderBlock) {
             ladderBlocks.put(diff, blockVec3dPos);
+            soundType = "blocks";
         } else if (block instanceof TrapdoorBlock) {
             trapDoorBlocks.put(diff, blockVec3dPos);
+            soundType = "blocks";
         } else if (block instanceof LeverBlock) {
             leverBlocks.put(diff, blockVec3dPos);
+            soundType = "blocks";
         } else if (block instanceof DoorBlock) {
             ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = blockState.getEntries().entrySet();
             for (Map.Entry<Property<?>, Comparable<?>> i : entries) {
@@ -177,6 +187,7 @@ public class POIBlocks {
                 if (i.getKey().getName().equals("half")) {
                     if (i.getValue().toString().equals("upper")) {
                         doorBlocks.put(diff, blockVec3dPos);
+                        soundType = "blocks";
                     }
                     break;
                 }
@@ -184,8 +195,10 @@ public class POIBlocks {
             }
         } else if (blockList.stream().anyMatch($ -> $.test(blockState))) {
             otherBlocks.put(diff, blockVec3dPos);
+            soundType = "blocks";
         } else if (blockState.createScreenHandlerFactory(minecraftClient.world, blockPos) != null) {
             otherBlocks.put(diff, blockVec3dPos);
+            soundType = "blocksWithInterface";
         } else if (blockState.isAir() && val - 1 >= 0) {
             checkBlock(new BlockPos(new Vec3d(posX, posY, posZ - 1)), val - 1); // North Block
             checkBlock(new BlockPos(new Vec3d(posX, posY, posZ + 1)), val - 1); // South Block
@@ -195,21 +208,20 @@ public class POIBlocks {
             checkBlock(new BlockPos(new Vec3d(posX, posY - 1, posZ)), val - 1); // Bottom Block
         }
 
-        if (playSound /*&& !modInit.mainThreadMap.containsKey("sound+" + blockPos) && volume>0*/) {
+        if (this.playSound && this.volume > 0 && !soundType.isEmpty()) {
+            MainClass.infoLog("Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
 
-            if (soundType.equalsIgnoreCase("ore")) {
-                MainClass.infoLog("Playing sound at x:%d y:%d z:%d".formatted((int)posX, (int)posY, (int)posZ));
+            if (soundType.equalsIgnoreCase("ore"))
                 minecraftClient.world.playSound(minecraftClient.player, new BlockPos(blockVec3dPos), SoundEvents.ENTITY_ITEM_PICKUP,
                         SoundCategory.BLOCKS, volume, -5f);
-            }
-            /*else if (soundType.equalsIgnoreCase("blocks"))
+            else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocks"))
                 minecraftClient.world.playSound(minecraftClient.player, new BlockPos(blockVec3dPos), SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(),
                         SoundCategory.BLOCKS, volume, 2f);
-            else if (soundType.equalsIgnoreCase("blocksWithInterface"))
-                minecraftClient.world.playSound(minecraftClient.player, new BlockPos(blockVec3dPos), SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(),
-                        SoundCategory.BLOCKS, volume, 0f);*/
+            else //noinspection ConstantValue
+                if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocksWithInterface"))
+                    minecraftClient.world.playSound(minecraftClient.player, new BlockPos(blockVec3dPos), SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(),
+                            SoundCategory.BLOCKS, volume, 0f);
 
-//            modInit.mainThreadMap.put("sound+" + blockPos, delayInMilliseconds);
         }
     }
 }
