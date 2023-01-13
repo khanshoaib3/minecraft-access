@@ -8,6 +8,7 @@ public class ConfigMap {
     private CameraControlsConfigMap cameraControlsConfigMap;
     private InventoryControlsConfigMap inventoryControlsConfigMap;
     private POIConfigMap poiConfigMap;
+    private PlayerWarningConfigMap playerWarningConfigMap;
     private OtherConfigsMap otherConfigsMap;
 
     @JsonProperty("Camera Controls")
@@ -99,7 +100,7 @@ public class ConfigMap {
         this.otherConfigsMap = otherConfigsMap;
     }
 
-    public void setDefaultOtherConfigsMap(){
+    public void setDefaultOtherConfigsMap() {
         OtherConfigsMap defaultOtherConfigsMap = new OtherConfigsMap();
         defaultOtherConfigsMap.setBiomeIndicatorEnabled(true);
         defaultOtherConfigsMap.setFacingDirectionEnabled(true);
@@ -111,6 +112,27 @@ public class ConfigMap {
 
         setOtherConfigsMap(defaultOtherConfigsMap);
 
+    }
+
+    @JsonProperty("Player Warnings")
+    public PlayerWarningConfigMap getPlayerWarningConfigMap() {
+        return playerWarningConfigMap;
+    }
+
+    public void setPlayerWarningConfigMap(PlayerWarningConfigMap playerWarningConfigMap) {
+        this.playerWarningConfigMap = playerWarningConfigMap;
+    }
+
+    public void setDefaultPlayerWarningConfigMap() {
+        PlayerWarningConfigMap defaultPlayerWarningConfigMap = new PlayerWarningConfigMap();
+        defaultPlayerWarningConfigMap.setEnabled(true);
+        defaultPlayerWarningConfigMap.setPlaySound(true);
+        defaultPlayerWarningConfigMap.setFirstHealthThreshold(6.0);
+        defaultPlayerWarningConfigMap.setSecondHealthThreshold(3.0);
+        defaultPlayerWarningConfigMap.setHungerThreshold(3.0);
+        defaultPlayerWarningConfigMap.setAirThreshold(3.0);
+
+        setPlayerWarningConfigMap(defaultPlayerWarningConfigMap);
     }
 }
 
