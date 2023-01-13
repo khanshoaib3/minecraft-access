@@ -37,9 +37,10 @@ public class MainClass {
     public static POIEntities poiEntities = null;
     public static LockingHandler lockingHandler = null;
 
-    public static boolean debugMode = true; // TODO add option to toggle this
     public static boolean isForge = false;
     public static boolean interrupt = true;
+
+    private static boolean debugMode;
     private static boolean alreadyDisabledAdvancementKey = false;
 
     /**
@@ -51,6 +52,7 @@ public class MainClass {
 
         config = new Config();
         config.loadConfig();
+        debugMode = config.getConfigMap().getOtherConfigsMap().isDebugMode();
 
         MainClass.setScreenReader(ScreenReaderController.getAvailable());
         if (MainClass.getScreenReader() != null && MainClass.getScreenReader().isInitialized())
@@ -102,7 +104,7 @@ public class MainClass {
         if (cameraControls != null && config.getConfigMap().getCameraControlsConfigMap().isEnabled())
             cameraControls.update();
 
-        if (readCrosshair != null)
+        if (readCrosshair != null && config.getConfigMap().getReadCrosshairConfigMap().isEnabled())
             readCrosshair.update();
 
         if (biomeIndicator != null && config.getConfigMap().getOtherConfigsMap().isBiomeIndicatorEnabled())

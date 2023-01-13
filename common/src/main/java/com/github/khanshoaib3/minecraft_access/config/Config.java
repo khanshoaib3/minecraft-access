@@ -42,6 +42,7 @@ public class Config {
             configMap.setDefaultInventoryControlsConfigMap();
             configMap.setDefaultPoiConfigMap();
             configMap.setDefaultPlayerWarningConfigMap();
+            configMap.setDefaultReadCrosshairConfigMap();
             configMap.setDefaultOtherConfigsMap();
             writeJSON(configMap);
         } catch (IOException e) {

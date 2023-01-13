@@ -22,9 +22,12 @@ import net.minecraft.util.math.Direction;
  */
 public class ReadCrosshair {
     private String previousQuery;
+    private boolean speakSide;
+    private boolean disableSpeakingConsecutiveBlocks;
 
     public ReadCrosshair() {
         previousQuery = "";
+        loadConfigurations();
     }
 
     public void update() {
@@ -34,8 +37,11 @@ public class ReadCrosshair {
             if (minecraftClient.world == null) return;
             if (minecraftClient.player == null) return;
             if (minecraftClient.currentScreen != null) return;
+
+            loadConfigurations();
+
             Entity entity = minecraftClient.getCameraEntity();
-            if(entity == null) return;
+            if (entity == null) return;
 
             HitResult blockHit = minecraftClient.crosshairTarget;
             HitResult fluidHit = entity.raycast(6.0, 0.0F, true);
@@ -43,12 +49,18 @@ public class ReadCrosshair {
 
             if (blockHit == null) return;
 
-            if (!minecraftClient.player.isSwimming() && !minecraftClient.player.isSubmergedInWater() && !minecraftClient.player.isInsideWaterOrBubbleColumn() && !minecraftClient.player.isInLava() && checkForFluidHit(minecraftClient, fluidHit)) return;
+            if (!minecraftClient.player.isSwimming() && !minecraftClient.player.isSubmergedInWater() && !minecraftClient.player.isInsideWaterOrBubbleColumn() && !minecraftClient.player.isInLava() && checkForFluidHit(minecraftClient, fluidHit))
+                return;
 
             checkForBlockAndEntityHit(minecraftClient, blockHit);
         } catch (Exception e) {
             MainClass.errorLog("Error occurred in read block feature.\n%s".formatted(e.getMessage()));
         }
+    }
+
+    private void loadConfigurations() {
+        this.speakSide = MainClass.config.getConfigMap().getReadCrosshairConfigMap().isSpeakSide();
+        this.disableSpeakingConsecutiveBlocks = MainClass.config.getConfigMap().getReadCrosshairConfigMap().isDisableSpeakingConsecutiveBlocks();
     }
 
     private void checkForBlockAndEntityHit(MinecraftClient minecraftClient, HitResult blockHit) {
@@ -64,7 +76,6 @@ public class ReadCrosshair {
         try {
             String currentQuery = hit.getEntity().getName().getString();
             if (!previousQuery.equalsIgnoreCase(currentQuery)) {
-
                 previousQuery = currentQuery;
                 MainClass.speakWithNarrator(currentQuery, true);
             }
@@ -81,13 +92,15 @@ public class ReadCrosshair {
         String name = block.getName().getString();
         String toSpeak = name;
 
-        //TODO make this toggle-able and i18n
-//        Direction side = hit.getSide();
-//        toSpeak += " " + side.asString();
+        String side = "";
+        if (this.speakSide) side = " " + hit.getSide().getName();
+        toSpeak += side;
 
         // Class name in production environment can be different
         String blockPos = hit.getBlockPos().toImmutable().toString();
-        String currentQuery = name + /*TODO side +*/ blockPos;
+        String currentQuery = name + side;
+
+        if (!this.disableSpeakingConsecutiveBlocks) currentQuery += " " + blockPos;
 
         if (blockState.isIn(BlockTags.SIGNS)) {
             String contents = "";
@@ -120,27 +133,27 @@ public class ReadCrosshair {
             toSpeak = I18n.translate("minecraft_access.read_crosshair.opened", toSpeak);
             currentQuery += "open";
         } else if (block instanceof HopperBlock) {
-            toSpeak = I18n.translate("minecraft_access.read_crosshair.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_"+blockState.get(HopperBlock.FACING).getName()));
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_" + blockState.get(HopperBlock.FACING).getName()));
             currentQuery += "facing " + blockState.get(HopperBlock.FACING).getName();
-            if(isReceivingPower) {
+            if (isReceivingPower) {
                 toSpeak = I18n.translate("minecraft_access.read_crosshair.locked", toSpeak);
                 currentQuery += "locked";
             }
         } else if (block instanceof ObserverBlock) {
-            toSpeak = I18n.translate("minecraft_access.read_crosshair.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_"+blockState.get(ObserverBlock.FACING).getName()));
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_" + blockState.get(ObserverBlock.FACING).getName()));
             currentQuery += "facing " + blockState.get(ObserverBlock.FACING).getName();
-            if(isEmittingPower) {
+            if (isEmittingPower) {
                 toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
                 currentQuery += "powered";
             }
         } else if (block instanceof DispenserBlock) {
-            toSpeak = I18n.translate("minecraft_access.read_crosshair.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_"+blockState.get(DispenserBlock.FACING).getName()));
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_" + blockState.get(DispenserBlock.FACING).getName()));
             currentQuery += "facing " + blockState.get(DispenserBlock.FACING).getName();
-            if(isReceivingPower) {
+            if (isReceivingPower) {
                 toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
                 currentQuery += "powered";
             }
-        } else if(isReceivingPower){ // For all the other blocks
+        } else if (isReceivingPower) { // For all the other blocks
             toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
             currentQuery += "powered";
         }
@@ -163,14 +176,15 @@ public class ReadCrosshair {
             FluidState fluidState = minecraftClient.world.getFluidState(blockPos);
 
             String name = getFluidName(fluidState.getRegistryEntry());
-            if(name.equals("block.minecraft.empty")) return false;
-            if(name.contains("block.minecraft.")) name = name.replace("block.minecraft.", ""); // Remove `block.minecraft.` for unsupported languages
+            if (name.equals("block.minecraft.empty")) return false;
+            if (name.contains("block.minecraft."))
+                name = name.replace("block.minecraft.", ""); // Remove `block.minecraft.` for unsupported languages
 
             String currentQuery = name + blockPos;
 
             int level = fluidState.getLevel();
             String levelString = "";
-            if(level < 8) levelString = I18n.translate("minecraft_access.read_crosshair.fluid_level", level);
+            if (level < 8) levelString = I18n.translate("minecraft_access.read_crosshair.fluid_level", level);
 
             String toSpeak = name + levelString;
 
@@ -185,6 +199,7 @@ public class ReadCrosshair {
 
     /**
      * Gets the fluid name from registry entry
+     *
      * @param fluid the fluid's registry entry
      * @return the fluid's name
      */
@@ -194,6 +209,7 @@ public class ReadCrosshair {
 
     /**
      * Gets the fluid translation key from registry entry
+     *
      * @param fluid the fluid's registry entry
      * @return the fluid's translation key
      */

@@ -10,6 +10,7 @@ public class OtherConfigsMap {
     private String positionNarratorFormat;
     private boolean narratorMenuEnabled;
     private boolean menuFixEnabled;
+    private boolean debugMode;
 
     @JsonProperty("Enable Biome Indicator")
     public boolean isBiomeIndicatorEnabled() {
@@ -72,5 +73,14 @@ public class OtherConfigsMap {
 
     public void setMenuFixEnabled(boolean menuFixEnabled) {
         this.menuFixEnabled = menuFixEnabled;
+    }
+
+    @JsonProperty("Debug Mode")
+    public boolean isDebugMode() {
+        return debugMode;
+    }
+
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
     }
 }
