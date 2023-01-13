@@ -9,6 +9,7 @@ public class ConfigMap {
     private InventoryControlsConfigMap inventoryControlsConfigMap;
     private POIConfigMap poiConfigMap;
     private PlayerWarningConfigMap playerWarningConfigMap;
+    private ReadCrosshairConfigMap readCrosshairConfigMap;
     private OtherConfigsMap otherConfigsMap;
 
     @JsonProperty("Camera Controls")
@@ -91,29 +92,6 @@ public class ConfigMap {
         setPoiConfigMap(defaultPoiConfigMap);
     }
 
-    @JsonProperty("Other Configurations")
-    public OtherConfigsMap getOtherConfigsMap() {
-        return otherConfigsMap;
-    }
-
-    public void setOtherConfigsMap(OtherConfigsMap otherConfigsMap) {
-        this.otherConfigsMap = otherConfigsMap;
-    }
-
-    public void setDefaultOtherConfigsMap() {
-        OtherConfigsMap defaultOtherConfigsMap = new OtherConfigsMap();
-        defaultOtherConfigsMap.setBiomeIndicatorEnabled(true);
-        defaultOtherConfigsMap.setFacingDirectionEnabled(true);
-        defaultOtherConfigsMap.setHealthNHungerEnabled(true);
-        defaultOtherConfigsMap.setPositionNarratorEnabled(true);
-        defaultOtherConfigsMap.setPositionNarratorFormat(PositionNarrator.defaultFormat);
-        defaultOtherConfigsMap.setNarratorMenuEnabled(true);
-        defaultOtherConfigsMap.setMenuFixEnabled(true);
-
-        setOtherConfigsMap(defaultOtherConfigsMap);
-
-    }
-
     @JsonProperty("Player Warnings")
     public PlayerWarningConfigMap getPlayerWarningConfigMap() {
         return playerWarningConfigMap;
@@ -134,5 +112,46 @@ public class ConfigMap {
 
         setPlayerWarningConfigMap(defaultPlayerWarningConfigMap);
     }
-}
 
+    @JsonProperty("Read Crosshair")
+    public ReadCrosshairConfigMap getReadCrosshairConfigMap() {
+        return readCrosshairConfigMap;
+    }
+
+    public void setReadCrosshairConfigMap(ReadCrosshairConfigMap readCrosshairConfigMap) {
+        this.readCrosshairConfigMap = readCrosshairConfigMap;
+    }
+
+    public void setDefaultReadCrosshairConfigMap() {
+        ReadCrosshairConfigMap defaultReadCrosshairConfigMap = new ReadCrosshairConfigMap();
+        defaultReadCrosshairConfigMap.setEnabled(true);
+        defaultReadCrosshairConfigMap.setSpeakSide(true);
+        defaultReadCrosshairConfigMap.setDisableSpeakingConsecutiveBlocks(true);
+
+        setReadCrosshairConfigMap(defaultReadCrosshairConfigMap);
+    }
+
+    @JsonProperty("Other Configurations")
+    public OtherConfigsMap getOtherConfigsMap() {
+        return otherConfigsMap;
+    }
+
+    public void setOtherConfigsMap(OtherConfigsMap otherConfigsMap) {
+        this.otherConfigsMap = otherConfigsMap;
+    }
+
+    public void setDefaultOtherConfigsMap() {
+        OtherConfigsMap defaultOtherConfigsMap = new OtherConfigsMap();
+        defaultOtherConfigsMap.setBiomeIndicatorEnabled(true);
+        defaultOtherConfigsMap.setFacingDirectionEnabled(true);
+        defaultOtherConfigsMap.setHealthNHungerEnabled(true);
+        defaultOtherConfigsMap.setPositionNarratorEnabled(true);
+        defaultOtherConfigsMap.setPositionNarratorFormat(PositionNarrator.defaultFormat);
+        defaultOtherConfigsMap.setNarratorMenuEnabled(true);
+        defaultOtherConfigsMap.setMenuFixEnabled(true);
+        defaultOtherConfigsMap.setDebugMode(false);
+
+        setOtherConfigsMap(defaultOtherConfigsMap);
+
+    }
+}
