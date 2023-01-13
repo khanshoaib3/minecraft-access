@@ -9,21 +9,27 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 public class Config {
-    private static final String CONFIG_PATH = Paths.get("config", "minecraft-access", "config.json").toString();
+    private static final String CONFIG_FILE_PATH = Paths.get("config", "minecraft-access", "config.json").toString();
     private ConfigMap configMap = null;
 
+    /**
+     * Returns the main config map, if not already initialized, initializes it.
+     * @return The main config map
+     */
     public ConfigMap getConfigMap(){
         if(configMap == null) loadConfig();
         return configMap;
     }
 
+    /**
+     * Loads the configurations from the config.json<br>
+     * The path for the file is: config/minecraft_access/config.json
+     * If the json format is wrong or an error occurs, the config.json is reset to default
+     */
     public void loadConfig() {
-        createEmptyConfigFileIfNotExist();
-
         try {
+            createEmptyConfigFileIfNotExist();
             configMap = readJSON();
-//TODO add log            System.out.println("Delay: "+configMap.getCameraControls().getDelayInMilliseconds());
-
         } catch (UnrecognizedPropertyException e) {
             MainClass.errorLog("Unsupported config.json file format, resetting to default.");
             e.printStackTrace();
@@ -32,9 +38,14 @@ public class Config {
             MainClass.errorLog("An error occurred while reading config.json file, resetting to default");
             e.printStackTrace();
             resetToDefault();
+        } finally {
+            MainClass.infoLog("Loaded configurations from config.json");
         }
     }
 
+    /**
+     * Resets the config.json to default
+     */
     private void resetToDefault() {
         try {
             configMap = new ConfigMap();
@@ -53,7 +64,7 @@ public class Config {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void createEmptyConfigFileIfNotExist() {
-        File configFile = new File(CONFIG_PATH);
+        File configFile = new File(CONFIG_FILE_PATH);
         if (configFile.exists()) return;
 
         try {
@@ -68,11 +79,11 @@ public class Config {
 
     private void writeJSON(ConfigMap configMap) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(CONFIG_PATH), configMap);
+        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(CONFIG_FILE_PATH), configMap);
     }
 
     private ConfigMap readJSON() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(new File(CONFIG_PATH), ConfigMap.class);
+        return mapper.readValue(new File(CONFIG_FILE_PATH), ConfigMap.class);
     }
 }
