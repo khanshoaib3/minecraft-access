@@ -152,6 +152,5 @@ public class ConfigMap {
         defaultOtherConfigsMap.setDebugMode(false);
 
         setOtherConfigsMap(defaultOtherConfigsMap);
-
     }
 }
