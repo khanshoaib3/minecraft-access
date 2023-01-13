@@ -86,6 +86,7 @@ public class MainClass {
      * @param minecraftClient The current minecraft client object
      */
     public static void clientTickEventsMethod(MinecraftClient minecraftClient) {
+        // TODO change attack and use keys on startup and add startup features to config.json
         if (!MainClass.alreadyDisabledAdvancementKey && minecraftClient.options != null) {
             minecraftClient.options.advancementsKey.setBoundKey(InputUtil.fromTranslationKey("key.keyboard.unknown"));
             MainClass.alreadyDisabledAdvancementKey = true;
@@ -116,7 +117,7 @@ public class MainClass {
         if (healthNHunger != null && config.getConfigMap().getOtherConfigsMap().isHealthNHungerEnabled())
             healthNHunger.update();
 
-        if (playerWarnings != null)
+        if (playerWarnings != null && config.getConfigMap().getPlayerWarningConfigMap().isEnabled())
             playerWarnings.update();
 
         if (narratorMenu != null && config.getConfigMap().getOtherConfigsMap().isNarratorMenuEnabled())

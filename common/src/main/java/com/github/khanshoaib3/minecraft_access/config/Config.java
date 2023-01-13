@@ -41,6 +41,7 @@ public class Config {
             configMap.setDefaultCameraControlsConfigMap();
             configMap.setDefaultInventoryControlsConfigMap();
             configMap.setDefaultPoiConfigMap();
+            configMap.setDefaultPlayerWarningConfigMap();
             configMap.setDefaultOtherConfigsMap();
             writeJSON(configMap);
         } catch (IOException e) {
