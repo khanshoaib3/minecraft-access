@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.features.narrator_menu;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.features.BiomeIndicator;
 import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
+import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPosition;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -21,6 +22,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.biome.Biome;
 
 // TODO add doc and update readme
+
 /**
  * Narrator Menu Key (default: F4) = Opens a menu with few options.
  */
@@ -122,7 +124,7 @@ public class NarratorMenu {
     public static void getEntityTargetInformation() {
         try {
             if (minecraftClient.player == null) return;
-            if (minecraftClient.cameraEntity == null)return;
+            if (minecraftClient.cameraEntity == null) return;
             if (minecraftClient.world == null) return;
 
             minecraftClient.player.closeScreen();
@@ -237,6 +239,18 @@ public class NarratorMenu {
             RegistryEntry<Biome> var27 = minecraftClient.world.getBiome(minecraftClient.player.getBlockPos());
             String name = I18n.translate(BiomeIndicator.getBiomeName(var27));
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.biome", name), true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void getXP() {
+        try {
+            if (minecraftClient.player == null) return;
+
+            minecraftClient.player.closeScreen();
+
+            MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.xp", ClientPlayerEntityUtils.getExperienceLevel(), ClientPlayerEntityUtils.getExperienceProgress()), true);
         } catch (Exception e) {
             e.printStackTrace();
         }

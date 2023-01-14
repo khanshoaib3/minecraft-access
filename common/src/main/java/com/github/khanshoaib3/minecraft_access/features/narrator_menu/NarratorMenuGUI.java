@@ -40,6 +40,10 @@ public class NarratorMenuGUI extends Screen {
 
         ButtonWidget biomeButton = ButtonWidget.builder(Text.translatable("minecraft_access.narrator_menu.gui.button.biome"),
                 (button) -> NarratorMenu.getBiome()).dimensions(centerX - (this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.biome"))) + 35) / 2, startY, this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.biome"))) + 35, buttonHeight).build();
+        startY += buttonHeight + buttonHeight / 2;
+
+        ButtonWidget xpButton = ButtonWidget.builder(Text.translatable("minecraft_access.narrator_menu.gui.button.xp"),
+                (button) -> NarratorMenu.getXP()).dimensions(centerX - (this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.xp"))) + 35) / 2, startY, this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.xp"))) + 35, buttonHeight).build();
 
         // TODO add time of day and map number buttons to trigger above buttons
         this.addDrawableChild(blockAndFluidTargetInformationButton);
@@ -49,6 +53,7 @@ public class NarratorMenuGUI extends Screen {
         this.addDrawableChild(entityTargetPositionButton);*/
         this.addDrawableChild(lightLevelButton);
         this.addDrawableChild(biomeButton);
+        this.addDrawableChild(xpButton);
     }
 
     @Override
