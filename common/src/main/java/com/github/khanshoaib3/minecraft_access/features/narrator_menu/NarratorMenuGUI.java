@@ -25,15 +25,6 @@ public class NarratorMenuGUI extends Screen {
                 (button) -> NarratorMenu.getBlockAndFluidTargetPosition()).dimensions(centerX - (this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_position"))) + 35) / 2, startY, this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_position"))) + 35, buttonHeight).build();
         startY += buttonHeight + buttonHeight / 2;
 
-        /*FIXME fix entity detection
-        ButtonWidget entityTargetInformationButton = ButtonWidget.builder(Text.translatable("minecraft_access.narrator_menu.gui.button.entity_target_info"),
-                (button) -> NarratorMenu.getEntityTargetInformation()).dimensions(centerX - (this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.entity_target_info"))) + 35) / 2, startY, this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.entity_target_info"))) + 35, buttonHeight).build();
-        startY += buttonHeight + buttonHeight / 2;
-
-        ButtonWidget entityTargetPositionButton = ButtonWidget.builder(Text.translatable("minecraft_access.narrator_menu.gui.button.entity_target_position"),
-                (button) -> NarratorMenu.getEntityTargetPosition()).dimensions(centerX - (this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.entity_target_position"))) + 35) / 2, startY, this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.entity_target_position"))) + 35, buttonHeight).build();
-        startY += buttonHeight + buttonHeight / 2;*/
-
         ButtonWidget lightLevelButton = ButtonWidget.builder(Text.translatable("minecraft_access.narrator_menu.gui.button.light_level"),
                 (button) -> NarratorMenu.getLightLevel()).dimensions(centerX - (this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.light_level"))) + 35) / 2, startY, this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.light_level"))) + 35, buttonHeight).build();
         startY += buttonHeight + buttonHeight / 2;
@@ -45,12 +36,8 @@ public class NarratorMenuGUI extends Screen {
         ButtonWidget xpButton = ButtonWidget.builder(Text.translatable("minecraft_access.narrator_menu.gui.button.xp"),
                 (button) -> NarratorMenu.getXP()).dimensions(centerX - (this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.xp"))) + 35) / 2, startY, this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.xp"))) + 35, buttonHeight).build();
 
-        // TODO add time of day and map number buttons to trigger above buttons
         this.addDrawableChild(blockAndFluidTargetInformationButton);
         this.addDrawableChild(blockAndFluidTargetPositionButton);
-        /* FIXME part of above fix
-        this.addDrawableChild(entityTargetInformationButton);
-        this.addDrawableChild(entityTargetPositionButton);*/
         this.addDrawableChild(lightLevelButton);
         this.addDrawableChild(biomeButton);
         this.addDrawableChild(xpButton);

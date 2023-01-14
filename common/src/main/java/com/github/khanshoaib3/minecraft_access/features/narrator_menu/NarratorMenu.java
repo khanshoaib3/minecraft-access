@@ -14,7 +14,6 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -110,69 +109,6 @@ public class NarratorMenu {
                     try {
                         BlockHitResult blockHitResult = (BlockHitResult) hit;
                         BlockPos blockPos = blockHitResult.getBlockPos();
-                        MainClass.speakWithNarrator(getPosition(blockPos), true);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void getEntityTargetInformation() {
-        try {
-            if (minecraftClient.player == null) return;
-            if (minecraftClient.cameraEntity == null) return;
-            if (minecraftClient.world == null) return;
-
-            minecraftClient.player.closeScreen();
-
-            HitResult hit = minecraftClient.cameraEntity.raycast(20.0, 0.0f, false);
-            if (hit == null)
-                return;
-
-            switch (hit.getType()) {
-                case MISS, BLOCK ->
-                        MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
-                case ENTITY -> {
-                    try {
-                        EntityHitResult entityHitResult = (EntityHitResult) hit;
-                        String name;
-                        name = entityHitResult.getEntity().getName().getString();
-                        BlockPos blockPos = entityHitResult.getEntity().getBlockPos();
-                        String text = name + ", " + getPositionDifference(blockPos);
-                        MainClass.speakWithNarrator(text, true);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void getEntityTargetPosition() {
-        try {
-            if (minecraftClient.player == null) return;
-            if (minecraftClient.cameraEntity == null) return;
-            if (minecraftClient.world == null) return;
-
-            minecraftClient.player.closeScreen();
-
-            HitResult hit = minecraftClient.cameraEntity.raycast(20.0, 0.0f, false);
-            if (hit == null)
-                return;
-
-            switch (hit.getType()) {
-                case MISS, BLOCK ->
-                        MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
-                case ENTITY -> {
-                    try {
-                        EntityHitResult entityHitResult = (EntityHitResult) hit;
-                        BlockPos blockPos = entityHitResult.getEntity().getBlockPos();
                         MainClass.speakWithNarrator(getPosition(blockPos), true);
                     } catch (Exception e) {
                         e.printStackTrace();
