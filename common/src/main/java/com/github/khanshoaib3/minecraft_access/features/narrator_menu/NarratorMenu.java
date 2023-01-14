@@ -36,7 +36,7 @@ public class NarratorMenu {
 
             boolean isNarratorMenuKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.narratorMenuKey);
 
-            if (isNarratorMenuKeyPressed) {
+            if (isNarratorMenuKeyPressed && !MainClass.keyBindingsHandler.isF3KeyPressed()) {
                 Screen screen = new NarratorMenuGUI("f4_menu");
                 minecraftClient.setScreen(screen); // post 1.18
 //                minecraftClient.openScreen(screen); // pre 1.18
