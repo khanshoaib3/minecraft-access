@@ -5,15 +5,11 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
-public class PlayerPosition {
+public class PlayerPositionUtils {
     private final PlayerEntity player;
 
-    public PlayerPosition(MinecraftClient client) {
+    public PlayerPositionUtils(MinecraftClient client) {
         this.player = client.player;
-    }
-
-    public static String getNarratableNumber(double d) {
-        return d >= 0 ? String.valueOf(d) : I18n.translate("minecraft_access.other.negative", -d);
     }
 
     public double getX() {
@@ -49,15 +45,15 @@ public class PlayerPosition {
     }
 
     public String getNarratableXPos() {
-        return getNarratableNumber(getX()) + "x";
+        return PositionUtils.getNarratableNumber(getX()) + "x";
     }
 
     public String getNarratableYPos() {
-        return getNarratableNumber(getY()) + "y";
+        return PositionUtils.getNarratableNumber(getY()) + "y";
     }
 
     public String getNarratableZPos() {
-        return getNarratableNumber(getZ()) + "z";
+        return PositionUtils.getNarratableNumber(getZ()) + "z";
     }
 
     public int getVerticalFacingDirection() {

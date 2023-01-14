@@ -1,7 +1,8 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.utils.PlayerPosition;
+import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
@@ -26,17 +27,17 @@ public class FacingDirection {
 
             String toSpeak;
             if (isLeftAltPressed) {
-                int angle = new PlayerPosition(minecraftClient).getVerticalFacingDirection();
-                toSpeak = PlayerPosition.getNarratableNumber(angle);
+                int angle = new PlayerPositionUtils(minecraftClient).getVerticalFacingDirection();
+                toSpeak = PositionUtils.getNarratableNumber(angle);
             } else {
 
-                /* FIXME
-                int angle = new PlayerPosition(minecraftClient).getHorizontalFacingDirectionInDegrees();
+                /* TODO add to config
+                int angle = new PlayerPositionUtils(minecraftClient).getHorizontalFacingDirectionInDegrees();
                 if (Config.get(Config.getCardinal_to_Degrees_Key())) {
                     toSpeak += angle;
                 } else {
                 */
-                String string = new PlayerPosition(minecraftClient).getHorizontalFacingDirectionInCardinal();
+                String string = new PlayerPositionUtils(minecraftClient).getHorizontalFacingDirectionInCardinal();
                 toSpeak = I18n.translate("minecraft_access.other.facing_direction", string);
                 // }
             }

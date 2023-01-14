@@ -1,7 +1,8 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.utils.PlayerPosition;
+import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 
@@ -34,17 +35,17 @@ public class PositionNarrator {
 
             if (isLeftAltPressed) {
                 if (isXPressed) {
-                    MainClass.speakWithNarrator(new PlayerPosition(minecraftClient).getNarratableXPos(), true);
+                    MainClass.speakWithNarrator(new PlayerPositionUtils(minecraftClient).getNarratableXPos(), true);
                     return;
                 }
 
                 if (isCPressed) {
-                    MainClass.speakWithNarrator(new PlayerPosition(minecraftClient).getNarratableYPos(), true);
+                    MainClass.speakWithNarrator(new PlayerPositionUtils(minecraftClient).getNarratableYPos(), true);
                     return;
                 }
 
                 if (isZPressed) {
-                    MainClass.speakWithNarrator(new PlayerPosition(minecraftClient).getNarratableZPos(), true);
+                    MainClass.speakWithNarrator(new PlayerPositionUtils(minecraftClient).getNarratableZPos(), true);
                     return;
                 }
             }
@@ -52,9 +53,9 @@ public class PositionNarrator {
             boolean isPositionNarrationKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.positionNarrationKey);
 
             if (isPositionNarrationKeyPressed) {
-                String posX = PlayerPosition.getNarratableNumber(new PlayerPosition(minecraftClient).getX());
-                String posY = PlayerPosition.getNarratableNumber(new PlayerPosition(minecraftClient).getY());
-                String posZ = PlayerPosition.getNarratableNumber(new PlayerPosition(minecraftClient).getZ());
+                String posX = PositionUtils.getNarratableNumber(new PlayerPositionUtils(minecraftClient).getX());
+                String posY = PositionUtils.getNarratableNumber(new PlayerPositionUtils(minecraftClient).getY());
+                String posZ = PositionUtils.getNarratableNumber(new PlayerPositionUtils(minecraftClient).getZ());
 
                 MainClass.speakWithNarrator(getNarrationText(posX, posY, posZ), true);
             }
