@@ -19,16 +19,24 @@ import net.minecraft.util.math.Vec3d;
 public class FluidDetector {
     /**
      * Finds the closest water source and plays a sound at its position.
+     * @param closeCurrentlyOpenedScreen Whether to close the currently opened screen or not
      */
-    public void findClosestWaterSource() {
+    public void findClosestWaterSource(boolean closeCurrentlyOpenedScreen) {
+        if (closeCurrentlyOpenedScreen && MinecraftClient.getInstance().currentScreen != null && MinecraftClient.getInstance().player != null)
+            MinecraftClient.getInstance().player.closeScreen();
+
         MainClass.infoLog("Finding closest water source");
         findClosestFluidSource(true);
     }
 
     /**
      * Finds the closest lava source and plays a sound at its position.
+     * @param closeCurrentlyOpenedScreen Whether to close the currently opened screen or not
      */
-    public void findClosestLavaSource() {
+    public void findClosestLavaSource(boolean closeCurrentlyOpenedScreen) {
+        if (closeCurrentlyOpenedScreen && MinecraftClient.getInstance().currentScreen != null && MinecraftClient.getInstance().player != null)
+            MinecraftClient.getInstance().player.closeScreen();
+
         MainClass.infoLog("Finding closest lava source");
         findClosestFluidSource(false);
     }
@@ -36,6 +44,7 @@ public class FluidDetector {
     /**
      * Finds the closest fluid(water/lava) source and plays a sound at its position and
      * speaks its name with relative position.
+     *
      * @param water Whether to find water or lava source block or not.
      */
     private void findClosestFluidSource(boolean water) {
@@ -72,10 +81,11 @@ public class FluidDetector {
     /**
      * Checks if the block at the given position is fluid or not. If not found and within the range,
      * checks for the neighbouring blocks for the fluid recursively.
+     *
      * @param minecraftClient The instance of MinecraftClient.
-     * @param blockPos The position of the block to check.
-     * @param range The range of the search area.
-     * @param water Whether to check for water source or lava source.
+     * @param blockPos        The position of the block to check.
+     * @param range           The range of the search area.
+     * @param water           Whether to check for water source or lava source.
      * @return Returns the position of the fluid source or null if not found
      */
     private static BlockPos findFluid(MinecraftClient minecraftClient, BlockPos blockPos, int range, boolean water) {

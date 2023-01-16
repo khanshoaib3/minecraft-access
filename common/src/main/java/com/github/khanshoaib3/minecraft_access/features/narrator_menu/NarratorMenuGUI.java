@@ -25,25 +25,32 @@ public class NarratorMenuGUI extends Screen {
         this.marginY = buttonHeight + buttonHeight / 4;
         this.calculatedYPosition = this.height / 6 - marginY; // Starting Y position (marginY will again be added in buildButtonWidget() so it is subtracted here to equate)
 
-        ButtonWidget blockAndFluidTargetInformationButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_info", (button) -> NarratorMenu.getBlockAndFluidTargetInformation());
+        ButtonWidget blockAndFluidTargetInformationButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_info",
+                (button) -> NarratorMenu.getBlockAndFluidTargetInformation());
         this.addDrawableChild(blockAndFluidTargetInformationButton);
 
-        ButtonWidget blockAndFluidTargetPositionButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_position", (button) -> NarratorMenu.getBlockAndFluidTargetPosition());
+        ButtonWidget blockAndFluidTargetPositionButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_position",
+                (button) -> NarratorMenu.getBlockAndFluidTargetPosition());
         this.addDrawableChild(blockAndFluidTargetPositionButton);
 
-        ButtonWidget lightLevelButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.light_level", (button) -> NarratorMenu.getLightLevel());
+        ButtonWidget lightLevelButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.light_level",
+                (button) -> NarratorMenu.getLightLevel());
         this.addDrawableChild(lightLevelButton);
 
-        ButtonWidget findWaterButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.find_water", (button) -> MainClass.fluidDetector.findClosestWaterSource());
+        ButtonWidget findWaterButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.find_water",
+                (button) -> MainClass.fluidDetector.findClosestWaterSource(true));
         this.addDrawableChild(findWaterButton);
 
-        ButtonWidget findLavaButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.find_lava", (button) -> MainClass.fluidDetector.findClosestLavaSource());
+        ButtonWidget findLavaButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.find_lava",
+                (button) -> MainClass.fluidDetector.findClosestLavaSource(true));
         this.addDrawableChild(findLavaButton);
 
-        ButtonWidget biomeButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.biome", (button) -> NarratorMenu.getBiome());
+        ButtonWidget biomeButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.biome",
+                (button) -> NarratorMenu.getBiome());
         this.addDrawableChild(biomeButton);
 
-        ButtonWidget xpButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.xp", (button) -> NarratorMenu.getXP());
+        ButtonWidget xpButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.xp",
+                (button) -> NarratorMenu.getXP());
         this.addDrawableChild(xpButton);
     }
 
