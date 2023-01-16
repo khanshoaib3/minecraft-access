@@ -36,6 +36,7 @@ public class MainClass {
     public static POIBlocks poiBlocks = null;
     public static POIEntities poiEntities = null;
     public static LockingHandler lockingHandler = null;
+    public static FluidDetector fluidDetector = null;
 
     public static boolean isForge = false;
     public static boolean interrupt = true;
@@ -72,6 +73,7 @@ public class MainClass {
         MainClass.poiBlocks = new POIBlocks();
         MainClass.poiEntities = new POIEntities();
         MainClass.lockingHandler = new LockingHandler();
+        MainClass.fluidDetector = new FluidDetector();
 
         ClientTickEvent.CLIENT_POST.register(MainClass::clientTickEventsMethod);
 

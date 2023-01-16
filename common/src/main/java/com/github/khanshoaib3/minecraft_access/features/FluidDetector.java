@@ -59,6 +59,7 @@ public class FluidDetector {
             return;
         }
 
+        MainClass.infoLog("{FluidDetector} playing sound at %dx %dy %dz".formatted(closestFluidPos.getX(), closestFluidPos.getY(), closestFluidPos.getZ()));
         minecraftClient.world.playSound(minecraftClient.player, closestFluidPos, SoundEvents.ENTITY_ITEM_PICKUP,
                 SoundCategory.BLOCKS, vol, 1f);
 

@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.features.narrator_menu;
 
+import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
@@ -29,6 +30,14 @@ public class NarratorMenuGUI extends Screen {
                 (button) -> NarratorMenu.getLightLevel()).dimensions(centerX - (this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.light_level"))) + 35) / 2, startY, this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.light_level"))) + 35, buttonHeight).build();
         startY += buttonHeight + buttonHeight / 2;
 
+        ButtonWidget findWaterButton = ButtonWidget.builder(Text.translatable("minecraft_access.narrator_menu.gui.button.find_water"),
+                (button) -> MainClass.fluidDetector.findClosestWaterSource()).dimensions(centerX - (this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.find_water"))) + 35) / 2, startY, this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.find_water"))) + 35, buttonHeight).build();
+        startY += buttonHeight + buttonHeight / 2;
+
+        ButtonWidget findLavaButton = ButtonWidget.builder(Text.translatable("minecraft_access.narrator_menu.gui.button.find_lava"),
+                (button) -> MainClass.fluidDetector.findClosestLavaSource()).dimensions(centerX - (this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.find_lava"))) + 35) / 2, startY, this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.find_lava"))) + 35, buttonHeight).build();
+        startY += buttonHeight + buttonHeight / 2;
+
         ButtonWidget biomeButton = ButtonWidget.builder(Text.translatable("minecraft_access.narrator_menu.gui.button.biome"),
                 (button) -> NarratorMenu.getBiome()).dimensions(centerX - (this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.biome"))) + 35) / 2, startY, this.textRenderer.getWidth(I18n.translate(("minecraft_access.narrator_menu.gui.button.biome"))) + 35, buttonHeight).build();
         startY += buttonHeight + buttonHeight / 2;
@@ -39,6 +48,8 @@ public class NarratorMenuGUI extends Screen {
         this.addDrawableChild(blockAndFluidTargetInformationButton);
         this.addDrawableChild(blockAndFluidTargetPositionButton);
         this.addDrawableChild(lightLevelButton);
+        this.addDrawableChild(findWaterButton);
+        this.addDrawableChild(findLavaButton);
         this.addDrawableChild(biomeButton);
         this.addDrawableChild(xpButton);
     }
