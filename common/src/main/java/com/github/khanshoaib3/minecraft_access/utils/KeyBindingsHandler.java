@@ -153,7 +153,7 @@ public class KeyBindingsHandler {
      * 11) Right Alt + Look Down Key: Snaps the camera to the south block.<br>
      * 12) Right Alt + Look Left Key: Snaps the camera to the west block.<br>
      */
-    private void initializeCameraControlsKeybindings(){
+    private void initializeCameraControlsKeybindings() {
         cameraControlsUp = new KeyBinding(
                 "minecraft_access.keys.camera_controls.up_key_name",
                 InputUtil.Type.KEYSYM,
@@ -244,16 +244,27 @@ public class KeyBindingsHandler {
 
     /**
      * Checks whether the given keybinding is currently pressed or not. This works even if the keybinding is duplicate i.e. another keybinding has the sane key bound to it.
+     *
      * @param keyBindingToCheck The keybinding we want to check.
      * @return Returns true if the keybinding is currently pressed else false.
      */
-    public boolean isPressed(KeyBinding keyBindingToCheck){
+    public boolean isPressed(KeyBinding keyBindingToCheck) {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
-        if(minecraftClient == null) return false;
+        if (minecraftClient == null) return false;
 
         return InputUtil.isKeyPressed(
                 minecraftClient.getWindow().getHandle(),
                 InputUtil.fromTranslationKey(keyBindingToCheck.getBoundKeyTranslationKey()).getCode()
+        );
+    }
+
+    public boolean isF3KeyPressed() {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient == null) return false;
+
+        return InputUtil.isKeyPressed(
+                minecraftClient.getWindow().getHandle(),
+                InputUtil.GLFW_KEY_F3
         );
     }
 }

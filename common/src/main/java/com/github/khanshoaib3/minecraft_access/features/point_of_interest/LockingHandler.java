@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -18,8 +19,6 @@ import net.minecraft.util.math.Vec3d;
 import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import static com.github.khanshoaib3.minecraft_access.features.narrator_menu.NarratorMenu.getPositionDifference;
 
 /**
  * Locks on to the nearest entity or block.<br><br>
@@ -177,7 +176,7 @@ public class LockingHandler {
             lockedOnBlock = null;
             isLockedOntoLadder = false;
 
-            if (this.speakDistance) text += " " + getPositionDifference(entity.getBlockPos());
+            if (this.speakDistance) text += " " + PositionUtils.getPositionDifference(entity.getBlockPos());
             MainClass.speakWithNarrator(text, true);
             return;
         }
@@ -193,7 +192,7 @@ public class LockingHandler {
             lockedOnBlock = null;
             isLockedOntoLadder = false;
 
-            if (this.speakDistance) text += " " + getPositionDifference(entity.getBlockPos());
+            if (this.speakDistance) text += " " + PositionUtils.getPositionDifference(entity.getBlockPos());
             MainClass.speakWithNarrator(text, true);
             return;
         }
@@ -356,7 +355,7 @@ public class LockingHandler {
 //            MutableText mutableText = (new net.minecraft.text.LiteralText("")).append(closestBlock.getName()); // pre 1.19
         String text = mutableText.getString();
 
-        if (this.speakDistance) text += " " + getPositionDifference(new BlockPos(lockedOnBlock));
+        if (this.speakDistance) text += " " + PositionUtils.getPositionDifference(new BlockPos(lockedOnBlock));
         MainClass.speakWithNarrator(text, true);
     }
 
