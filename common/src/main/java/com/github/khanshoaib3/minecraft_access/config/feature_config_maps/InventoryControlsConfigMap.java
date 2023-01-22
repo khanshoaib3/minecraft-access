@@ -1,6 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.config.feature_config_maps;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+//import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class InventoryControlsConfigMap {
     private boolean enabled;
@@ -8,7 +8,7 @@ public class InventoryControlsConfigMap {
     private String rowAndColumnFormat;
     private int delayInMilliseconds;
 
-    @JsonProperty("Enabled")
+//    @JsonProperty("Enabled")
     public boolean isEnabled() {
         return enabled;
     }
@@ -17,7 +17,7 @@ public class InventoryControlsConfigMap {
         this.enabled = enabled;
     }
 
-    @JsonProperty("Auto Open Recipe Book (in creative/survival and crafting inventory)")
+//    @JsonProperty("Auto Open Recipe Book (in creative/survival and crafting inventory)")
     public boolean isAutoOpenRecipeBook() {
         return autoOpenRecipeBook;
     }
@@ -26,7 +26,7 @@ public class InventoryControlsConfigMap {
         this.autoOpenRecipeBook = autoOpenRecipeBook;
     }
 
-    @JsonProperty("Row and Column Format in Crafting Input Slots")
+//    @JsonProperty("Row and Column Format in Crafting Input Slots")
     public String getRowAndColumnFormat() {
         return rowAndColumnFormat;
     }
@@ -35,7 +35,7 @@ public class InventoryControlsConfigMap {
         this.rowAndColumnFormat = rowAndColumnFormat;
     }
 
-    @JsonProperty("Delay (in milliseconds)")
+//    @JsonProperty("Delay (in milliseconds)")
     public int getDelayInMilliseconds() {
         return delayInMilliseconds;
     }

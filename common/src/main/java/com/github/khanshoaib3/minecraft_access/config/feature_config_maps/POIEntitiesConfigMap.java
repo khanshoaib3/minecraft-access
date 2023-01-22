@@ -1,6 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.config.feature_config_maps;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+//import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class POIEntitiesConfigMap {
     private boolean enabled;
@@ -9,7 +9,7 @@ public class POIEntitiesConfigMap {
     private float volume;
     private int delay;
 
-    @JsonProperty("Enabled")
+//    @JsonProperty("Enabled")
     public boolean isEnabled() {
         return enabled;
     }
@@ -18,7 +18,7 @@ public class POIEntitiesConfigMap {
         this.enabled = enabled;
     }
 
-    @JsonProperty("Range")
+//    @JsonProperty("Range")
     public int getRange() {
         return range;
     }
@@ -27,7 +27,7 @@ public class POIEntitiesConfigMap {
         this.range = range;
     }
 
-    @JsonProperty("Play Sound")
+//    @JsonProperty("Play Sound")
     public boolean isPlaySound() {
         return playSound;
     }
@@ -36,7 +36,7 @@ public class POIEntitiesConfigMap {
         this.playSound = playSound;
     }
 
-    @JsonProperty("Volume")
+//    @JsonProperty("Volume")
     public float getVolume() {
         return volume;
     }
@@ -45,7 +45,7 @@ public class POIEntitiesConfigMap {
         this.volume = volume;
     }
 
-    @JsonProperty("Delay (in milliseconds)")
+//    @JsonProperty("Delay (in milliseconds)")
     public int getDelay() {
         return delay;
     }

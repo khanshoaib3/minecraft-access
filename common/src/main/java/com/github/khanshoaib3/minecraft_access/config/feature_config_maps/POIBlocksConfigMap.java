@@ -1,6 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.config.feature_config_maps;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+//import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class POIBlocksConfigMap {
     private boolean enabled;
@@ -11,7 +11,7 @@ public class POIBlocksConfigMap {
     private boolean playSoundForOtherBlocks;
     private int delay;
 
-    @JsonProperty("Enabled")
+//    @JsonProperty("Enabled")
     public boolean isEnabled() {
         return enabled;
     }
@@ -20,7 +20,7 @@ public class POIBlocksConfigMap {
         this.enabled = enabled;
     }
 
-    @JsonProperty("Detect Fluid Blocks")
+//    @JsonProperty("Detect Fluid Blocks")
     public boolean isDetectFluidBlocks() {
         return detectFluidBlocks;
     }
@@ -29,7 +29,7 @@ public class POIBlocksConfigMap {
         this.detectFluidBlocks = detectFluidBlocks;
     }
 
-    @JsonProperty("Range")
+//    @JsonProperty("Range")
     public int getRange() {
         return range;
     }
@@ -38,7 +38,7 @@ public class POIBlocksConfigMap {
         this.range = range;
     }
 
-    @JsonProperty("Play Sound")
+//    @JsonProperty("Play Sound")
     public boolean isPlaySound() {
         return playSound;
     }
@@ -47,7 +47,7 @@ public class POIBlocksConfigMap {
         this.playSound = playSound;
     }
 
-    @JsonProperty("Sound Volume")
+//    @JsonProperty("Sound Volume")
     public float getVolume() {
         return volume;
     }
@@ -56,7 +56,7 @@ public class POIBlocksConfigMap {
         this.volume = volume;
     }
 
-    @JsonProperty("Play Sound for Other Blocks as well")
+//    @JsonProperty("Play Sound for Other Blocks as well")
     public boolean isPlaySoundForOtherBlocks() {
         return playSoundForOtherBlocks;
     }
@@ -65,7 +65,7 @@ public class POIBlocksConfigMap {
         this.playSoundForOtherBlocks = playSoundForOtherBlocks;
     }
 
-    @JsonProperty("Delay (in milliseconds)")
+//    @JsonProperty("Delay (in milliseconds)")
     public int getDelay() {
         return delay;
     }

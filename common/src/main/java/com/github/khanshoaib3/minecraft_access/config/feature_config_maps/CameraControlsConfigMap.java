@@ -1,7 +1,5 @@
 package com.github.khanshoaib3.minecraft_access.config.feature_config_maps;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class CameraControlsConfigMap {
     private boolean enabled;
     private float normalRotatingAngle;

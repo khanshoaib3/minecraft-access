@@ -1,6 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.config.feature_config_maps;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+//import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PlayerWarningConfigMap {
     private boolean enabled;
@@ -10,7 +10,7 @@ public class PlayerWarningConfigMap {
     private double hungerThreshold;
     private double airThreshold;
 
-    @JsonProperty("Enabled")
+//    @JsonProperty("Enabled")
     public boolean isEnabled() {
         return enabled;
     }
@@ -19,7 +19,7 @@ public class PlayerWarningConfigMap {
         this.enabled = enabled;
     }
 
-    @JsonProperty("Play Sound")
+//    @JsonProperty("Play Sound")
     public boolean isPlaySound() {
         return playSound;
     }
@@ -28,7 +28,7 @@ public class PlayerWarningConfigMap {
         this.playSound = playSound;
     }
 
-    @JsonProperty("Health Threshold First")
+//    @JsonProperty("Health Threshold First")
     public double getFirstHealthThreshold() {
         return firstHealthThreshold;
     }
@@ -37,7 +37,7 @@ public class PlayerWarningConfigMap {
         this.firstHealthThreshold = firstHealthThreshold;
     }
 
-    @JsonProperty("Health Threshold Second")
+//    @JsonProperty("Health Threshold Second")
     public double getSecondHealthThreshold() {
         return secondHealthThreshold;
     }
@@ -46,7 +46,7 @@ public class PlayerWarningConfigMap {
         this.secondHealthThreshold = secondHealthThreshold;
     }
 
-    @JsonProperty("Hunger Threshold")
+//    @JsonProperty("Hunger Threshold")
     public double getHungerThreshold() {
         return hungerThreshold;
     }
@@ -55,7 +55,7 @@ public class PlayerWarningConfigMap {
         this.hungerThreshold = hungerThreshold;
     }
 
-    @JsonProperty("Air Threshold")
+//    @JsonProperty("Air Threshold")
     public double getAirThreshold() {
         return airThreshold;
     }

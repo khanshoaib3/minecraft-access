@@ -1,6 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.config.feature_config_maps;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+//import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OtherConfigsMap {
     private boolean biomeIndicatorEnabled;
@@ -13,7 +13,7 @@ public class OtherConfigsMap {
     private boolean menuFixEnabled;
     private boolean debugMode;
 
-    @JsonProperty("Enable Biome Indicator")
+//    @JsonProperty("Enable Biome Indicator")
     public boolean isBiomeIndicatorEnabled() {
         return biomeIndicatorEnabled;
     }
@@ -22,7 +22,7 @@ public class OtherConfigsMap {
         this.biomeIndicatorEnabled = biomeIndicatorEnabled;
     }
 
-    @JsonProperty("Enable XP Indicator")
+//    @JsonProperty("Enable XP Indicator")
     public boolean isXpIndicatorEnabled() {
         return xpIndicatorEnabled;
     }
@@ -31,7 +31,7 @@ public class OtherConfigsMap {
         this.xpIndicatorEnabled = xpIndicatorEnabled;
     }
 
-    @JsonProperty("Enable Facing Direction")
+//    @JsonProperty("Enable Facing Direction")
     public boolean isFacingDirectionEnabled() {
         return facingDirectionEnabled;
     }
@@ -40,7 +40,7 @@ public class OtherConfigsMap {
         this.facingDirectionEnabled = facingDirectionEnabled;
     }
 
-    @JsonProperty("Enable Health n Hunger")
+//    @JsonProperty("Enable Health n Hunger")
     public boolean isHealthNHungerEnabled() {
         return healthNHungerEnabled;
     }
@@ -49,7 +49,7 @@ public class OtherConfigsMap {
         this.healthNHungerEnabled = healthNHungerEnabled;
     }
 
-    @JsonProperty("Enable Position Narrator")
+//    @JsonProperty("Enable Position Narrator")
     public boolean isPositionNarratorEnabled() {
         return positionNarratorEnabled;
     }
@@ -58,7 +58,7 @@ public class OtherConfigsMap {
         this.positionNarratorEnabled = positionNarratorEnabled;
     }
 
-    @JsonProperty("Position Narrator Format")
+//    @JsonProperty("Position Narrator Format")
     public String getPositionNarratorFormat() {
         return positionNarratorFormat;
     }
@@ -67,7 +67,7 @@ public class OtherConfigsMap {
         this.positionNarratorFormat = positionNarratorFormat;
     }
 
-    @JsonProperty("Enable Narrator Menu")
+//    @JsonProperty("Enable Narrator Menu")
     public boolean isNarratorMenuEnabled() {
         return narratorMenuEnabled;
     }
@@ -76,7 +76,7 @@ public class OtherConfigsMap {
         this.narratorMenuEnabled = narratorMenuEnabled;
     }
 
-    @JsonProperty("Enable Menu Fix")
+//    @JsonProperty("Enable Menu Fix")
     public boolean isMenuFixEnabled() {
         return menuFixEnabled;
     }
@@ -85,7 +85,7 @@ public class OtherConfigsMap {
         this.menuFixEnabled = menuFixEnabled;
     }
 
-    @JsonProperty("Debug Mode")
+//    @JsonProperty("Debug Mode")
     public boolean isDebugMode() {
         return debugMode;
     }

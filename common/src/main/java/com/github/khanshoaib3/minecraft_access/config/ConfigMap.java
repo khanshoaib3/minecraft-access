@@ -1,18 +1,23 @@
 package com.github.khanshoaib3.minecraft_access.config;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.khanshoaib3.minecraft_access.config.feature_config_maps.*;
 import com.github.khanshoaib3.minecraft_access.features.PositionNarrator;
+import com.google.gson.annotations.SerializedName;
 
 public class ConfigMap {
+    @SerializedName("Camera Controls")
     private CameraControlsConfigMap cameraControlsConfigMap;
+    @SerializedName("Inventory Controls")
     private InventoryControlsConfigMap inventoryControlsConfigMap;
+    @SerializedName("Points of Interest")
     private POIConfigMap poiConfigMap;
+    @SerializedName("Player Warnings")
     private PlayerWarningConfigMap playerWarningConfigMap;
+    @SerializedName("Read Crosshair")
     private ReadCrosshairConfigMap readCrosshairConfigMap;
+    @SerializedName("Other Configurations")
     private OtherConfigsMap otherConfigsMap;
 
-    @JsonProperty("Camera Controls")
     public CameraControlsConfigMap getCameraControlsConfigMap() {
         return cameraControlsConfigMap;
     }
@@ -31,7 +36,6 @@ public class ConfigMap {
         setCameraControlsConfigMap(defaultCameraControlsConfigMap);
     }
 
-    @JsonProperty("Inventory Controls")
     public InventoryControlsConfigMap getInventoryControlsConfigMap() {
         return inventoryControlsConfigMap;
     }
@@ -50,7 +54,6 @@ public class ConfigMap {
         setInventoryControlsConfigMap(defaultInventoryControlsConfigMap);
     }
 
-    @JsonProperty("Points of Interest")
     public POIConfigMap getPoiConfigMap() {
         return poiConfigMap;
     }
@@ -92,7 +95,6 @@ public class ConfigMap {
         setPoiConfigMap(defaultPoiConfigMap);
     }
 
-    @JsonProperty("Player Warnings")
     public PlayerWarningConfigMap getPlayerWarningConfigMap() {
         return playerWarningConfigMap;
     }
@@ -113,7 +115,6 @@ public class ConfigMap {
         setPlayerWarningConfigMap(defaultPlayerWarningConfigMap);
     }
 
-    @JsonProperty("Read Crosshair")
     public ReadCrosshairConfigMap getReadCrosshairConfigMap() {
         return readCrosshairConfigMap;
     }
@@ -131,7 +132,6 @@ public class ConfigMap {
         setReadCrosshairConfigMap(defaultReadCrosshairConfigMap);
     }
 
-    @JsonProperty("Other Configurations")
     public OtherConfigsMap getOtherConfigsMap() {
         return otherConfigsMap;
     }
