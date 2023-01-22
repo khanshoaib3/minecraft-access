@@ -143,6 +143,7 @@ public class ConfigMap {
     public void setDefaultOtherConfigsMap() {
         OtherConfigsMap defaultOtherConfigsMap = new OtherConfigsMap();
         defaultOtherConfigsMap.setBiomeIndicatorEnabled(true);
+        defaultOtherConfigsMap.setXpIndicatorEnabled(true);
         defaultOtherConfigsMap.setFacingDirectionEnabled(true);
         defaultOtherConfigsMap.setHealthNHungerEnabled(true);
         defaultOtherConfigsMap.setPositionNarratorEnabled(true);

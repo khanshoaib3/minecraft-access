@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OtherConfigsMap {
     private boolean biomeIndicatorEnabled;
+    private boolean xpIndicatorEnabled;
     private boolean facingDirectionEnabled;
     private boolean healthNHungerEnabled;
     private boolean positionNarratorEnabled;
@@ -19,6 +20,15 @@ public class OtherConfigsMap {
 
     public void setBiomeIndicatorEnabled(boolean biomeIndicatorEnabled) {
         this.biomeIndicatorEnabled = biomeIndicatorEnabled;
+    }
+
+    @JsonProperty("Enable XP Indicator")
+    public boolean isXpIndicatorEnabled() {
+        return xpIndicatorEnabled;
+    }
+
+    public void setXpIndicatorEnabled(boolean xpIndicatorEnabled) {
+        this.xpIndicatorEnabled = xpIndicatorEnabled;
     }
 
     @JsonProperty("Enable Facing Direction")

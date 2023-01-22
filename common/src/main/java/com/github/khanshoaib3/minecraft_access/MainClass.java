@@ -28,6 +28,7 @@ public class MainClass {
     public static InventoryControls inventoryControls = null;
     public static ReadCrosshair readCrosshair = null;
     public static BiomeIndicator biomeIndicator = null;
+    public static XPIndicator xpIndicator = null;
     public static FacingDirection facingDirection = null;
     public static PositionNarrator positionNarrator = null;
     public static HealthNHunger healthNHunger = null;
@@ -65,6 +66,7 @@ public class MainClass {
         MainClass.inventoryControls = new InventoryControls();
         MainClass.readCrosshair = new ReadCrosshair();
         MainClass.biomeIndicator = new BiomeIndicator();
+        MainClass.xpIndicator = new XPIndicator();
         MainClass.facingDirection = new FacingDirection();
         MainClass.positionNarrator = new PositionNarrator();
         MainClass.healthNHunger = new HealthNHunger();
@@ -111,6 +113,9 @@ public class MainClass {
 
         if (biomeIndicator != null && config.getConfigMap().getOtherConfigsMap().isBiomeIndicatorEnabled())
             biomeIndicator.update();
+
+        if (xpIndicator != null && config.getConfigMap().getOtherConfigsMap().isXpIndicatorEnabled())
+            xpIndicator.update();
 
         if (facingDirection != null && config.getConfigMap().getOtherConfigsMap().isFacingDirectionEnabled())
             facingDirection.update();
