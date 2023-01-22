@@ -199,6 +199,10 @@ Adds key binding to speak the player's facing direction.
 
 Narrates the name of the biome when entering a different biome.
 
+## XP Indicator
+
+Narrates when the player xp level is increased or decreased.
+
 # Mod Configuration
 
 The mod can be configured by the config.json file in the `config/minecraft_access/` directory.

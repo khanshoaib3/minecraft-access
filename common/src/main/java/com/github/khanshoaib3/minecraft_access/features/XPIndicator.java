@@ -5,6 +5,9 @@ import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 
+/**
+ * This feature speaks when the player xp level is increased or decreased.
+ */
 public class XPIndicator {
     private int previousXPLevel;
 
