@@ -8,6 +8,9 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
+/**
+ * GUI screen for the narrator menu.
+ */
 public class NarratorMenuGUI extends Screen {
     int centerX;
     int buttonHeight;

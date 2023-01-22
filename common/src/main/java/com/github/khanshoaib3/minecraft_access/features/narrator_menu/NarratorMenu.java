@@ -18,10 +18,8 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 
-// TODO add doc and update readme
-
 /**
- * Narrator Menu Key (default: F4) = Opens a menu with few options.
+ * Opens a menu when F4 button is pressed (configurable) with few helpful options.
  */
 public class NarratorMenu {
     private static MinecraftClient minecraftClient;

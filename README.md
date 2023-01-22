@@ -170,6 +170,20 @@ We can also lock onto the closest entity or block with a hotkey.
     - Delay (in milliseconds) = Pauses the execution of this feature after each cycle for the given amount of
       milliseconds.
 
+## Narrator Menu
+
+A menu that opens up when we press `F4` button.
+
+**Options included in this menu:-**
+
+1. Block and fluid target information = Speaks the name and information of the targeted block. The range is much more than normal crosshair target.
+2. Block and fluid target position = Speaks the name and position of the targeted block. The range is much more than normal crosshair target.
+3. Light level = Speaks the light level at the player's current position.
+4. Find water = Finds the closest water source block.
+5. Find lava = Finds the closest lava source block.
+6. Biome = Speaks the name of biome the player is currently in.
+7. XP = Speaks the experience level and progress of the player.
+
 ## Health n Hunger
 
 Adds a key bind to narrate/speak the player's health and hunger.
