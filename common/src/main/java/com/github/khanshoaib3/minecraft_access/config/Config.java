@@ -40,6 +40,8 @@ public class Config {
 
             createDefaultConfigFileIfNotExist();
             configMap = readJSON();
+
+            if(!isConfigMapValid(configMap)) resetToDefault();
         } catch (Exception e) {
             MainClass.errorLog("An error occurred while reading config.json file, resetting to default");
             e.printStackTrace();
@@ -47,6 +49,12 @@ public class Config {
         } finally {
             MainClass.infoLog("Loaded configurations from config.json");
         }
+    }
+
+    private boolean isConfigMapValid(ConfigMap configMap){
+        if(configMap == null) return false;
+
+        return configMap.validate();
     }
 
     /**

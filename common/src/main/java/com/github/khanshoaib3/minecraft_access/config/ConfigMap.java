@@ -154,4 +154,18 @@ public class ConfigMap {
 
         setOtherConfigsMap(defaultOtherConfigsMap);
     }
+
+    @SuppressWarnings("RedundantIfStatement")
+    public boolean validate() {
+        if (this.getCameraControlsConfigMap() == null) return false;
+        if (this.getInventoryControlsConfigMap() == null) return false;
+        if (this.getPlayerWarningConfigMap() == null) return false;
+        if (this.getOtherConfigsMap() == null) return false;
+        if (this.getReadCrosshairConfigMap() == null) return false;
+        if (this.getPoiConfigMap() == null || this.getPoiConfigMap().getEntitiesConfigMap() == null ||
+                this.getPoiConfigMap().getLockingConfigMap() == null || this.getPoiConfigMap().getBlocksConfigMap() == null)
+            return false;
+
+        return true;
+    }
 }
