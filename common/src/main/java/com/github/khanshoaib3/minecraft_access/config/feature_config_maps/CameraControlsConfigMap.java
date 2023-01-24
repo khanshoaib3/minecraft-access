@@ -1,12 +1,17 @@
 package com.github.khanshoaib3.minecraft_access.config.feature_config_maps;
 
+import com.google.gson.annotations.SerializedName;
+
 public class CameraControlsConfigMap {
+    @SerializedName("Enabled")
     private boolean enabled;
+    @SerializedName("Normal Rotating Angle")
     private float normalRotatingAngle;
+    @SerializedName("Modified Rotating Angle (on holding left alt)")
     private float modifiedRotatingAngle;
+    @SerializedName("Delay (in milliseconds)")
     private int delayInMilliseconds;
 
-    @JsonProperty("Enabled")
     public boolean isEnabled() {
         return enabled;
     }
@@ -15,7 +20,6 @@ public class CameraControlsConfigMap {
         this.enabled = enabled;
     }
 
-    @JsonProperty("Normal Rotating Angle")
     public float getNormalRotatingAngle() {
         return normalRotatingAngle;
     }
@@ -24,7 +28,6 @@ public class CameraControlsConfigMap {
         this.normalRotatingAngle = normalRotatingAngle;
     }
 
-    @JsonProperty("Modified Rotating Angle (on holding left alt)")
     public float getModifiedRotatingAngle() {
         return modifiedRotatingAngle;
     }
@@ -33,7 +36,6 @@ public class CameraControlsConfigMap {
         this.modifiedRotatingAngle = modifiedRotatingAngle;
     }
 
-    @JsonProperty("Delay (in milliseconds)")
     public int getDelayInMilliseconds() {
         return delayInMilliseconds;
     }

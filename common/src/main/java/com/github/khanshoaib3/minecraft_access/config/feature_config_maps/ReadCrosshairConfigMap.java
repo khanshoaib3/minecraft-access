@@ -1,13 +1,15 @@
 package com.github.khanshoaib3.minecraft_access.config.feature_config_maps;
 
-//import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 public class ReadCrosshairConfigMap {
+    @SerializedName("Enabled")
     private boolean enabled;
+    @SerializedName("Speak Block Sides")
     private boolean speakSide;
+    @SerializedName("Disable Speaking Consecutive Blocks With Same Name")
     private boolean disableSpeakingConsecutiveBlocks;
 
-//    @JsonProperty("Enabled")
     public boolean isEnabled() {
         return enabled;
     }
@@ -16,7 +18,6 @@ public class ReadCrosshairConfigMap {
         this.enabled = enabled;
     }
 
-//    @JsonProperty("Speak Block Sides")
     public boolean isSpeakSide() {
         return speakSide;
     }
@@ -25,7 +26,6 @@ public class ReadCrosshairConfigMap {
         this.speakSide = speakSide;
     }
 
-//    @JsonProperty("Disable Speaking Consecutive Blocks With Same Name")
     public boolean isDisableSpeakingConsecutiveBlocks() {
         return disableSpeakingConsecutiveBlocks;
     }

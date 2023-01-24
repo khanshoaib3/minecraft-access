@@ -1,17 +1,23 @@
 package com.github.khanshoaib3.minecraft_access.config.feature_config_maps;
 
-//import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 public class POIBlocksConfigMap {
+    @SerializedName("Enabled")
     private boolean enabled;
+    @SerializedName("Detect Fluid Blocks")
     private boolean detectFluidBlocks;
+    @SerializedName("Range")
     private int range;
+    @SerializedName("Play Sound")
     private boolean playSound;
+    @SerializedName("Sound Volume")
     private float volume;
+    @SerializedName("Play Sound for Other Blocks as well")
     private boolean playSoundForOtherBlocks;
+    @SerializedName("Delay (in milliseconds)")
     private int delay;
 
-//    @JsonProperty("Enabled")
     public boolean isEnabled() {
         return enabled;
     }
@@ -20,7 +26,6 @@ public class POIBlocksConfigMap {
         this.enabled = enabled;
     }
 
-//    @JsonProperty("Detect Fluid Blocks")
     public boolean isDetectFluidBlocks() {
         return detectFluidBlocks;
     }
@@ -29,7 +34,6 @@ public class POIBlocksConfigMap {
         this.detectFluidBlocks = detectFluidBlocks;
     }
 
-//    @JsonProperty("Range")
     public int getRange() {
         return range;
     }
@@ -38,7 +42,6 @@ public class POIBlocksConfigMap {
         this.range = range;
     }
 
-//    @JsonProperty("Play Sound")
     public boolean isPlaySound() {
         return playSound;
     }
@@ -47,7 +50,6 @@ public class POIBlocksConfigMap {
         this.playSound = playSound;
     }
 
-//    @JsonProperty("Sound Volume")
     public float getVolume() {
         return volume;
     }
@@ -56,7 +58,6 @@ public class POIBlocksConfigMap {
         this.volume = volume;
     }
 
-//    @JsonProperty("Play Sound for Other Blocks as well")
     public boolean isPlaySoundForOtherBlocks() {
         return playSoundForOtherBlocks;
     }
@@ -65,7 +66,6 @@ public class POIBlocksConfigMap {
         this.playSoundForOtherBlocks = playSoundForOtherBlocks;
     }
 
-//    @JsonProperty("Delay (in milliseconds)")
     public int getDelay() {
         return delay;
     }

@@ -1,16 +1,21 @@
 package com.github.khanshoaib3.minecraft_access.config.feature_config_maps;
 
-//import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 public class POILockingConfigMap {
+    @SerializedName("Enabled")
     private boolean enabled;
+    @SerializedName("Lock on Blocks")
     private boolean lockOnBlocks;
+    @SerializedName("Speak Relative Distance to Entity/Block")
     private boolean speakDistance;
+    @SerializedName("Play Unlocking Sound")
     private boolean unlockingSound;
+    @SerializedName("Auto Lock on to Eye of Ender when Used")
     private boolean autoLockEyeOfEnderEntity;
+    @SerializedName("Delay (in milliseconds)")
     private int delay;
 
-//    @JsonProperty("Enabled")
     public boolean isEnabled() {
         return enabled;
     }
@@ -19,7 +24,6 @@ public class POILockingConfigMap {
         this.enabled = enabled;
     }
 
-//    @JsonProperty("Lock on Blocks")
     public boolean isLockOnBlocks() {
         return lockOnBlocks;
     }
@@ -28,7 +32,6 @@ public class POILockingConfigMap {
         this.lockOnBlocks = lockOnBlocks;
     }
 
-//    @JsonProperty("Speak Relative Distance to Entity/Block")
     public boolean isSpeakDistance() {
         return speakDistance;
     }
@@ -37,7 +40,6 @@ public class POILockingConfigMap {
         this.speakDistance = speakDistance;
     }
 
-//    @JsonProperty("Play Unlocking Sound")
     public boolean isUnlockingSound() {
         return unlockingSound;
     }
@@ -46,7 +48,6 @@ public class POILockingConfigMap {
         this.unlockingSound = unlockingSound;
     }
 
-//    @JsonProperty("Auto Lock on to Eye of Ender when Used")
     public boolean isAutoLockEyeOfEnderEntity() {
         return autoLockEyeOfEnderEntity;
     }
@@ -55,7 +56,6 @@ public class POILockingConfigMap {
         this.autoLockEyeOfEnderEntity = autoLockEyeOfEnderEntity;
     }
 
-//    @JsonProperty("Delay (in milliseconds)")
     public int getDelay() {
         return delay;
     }

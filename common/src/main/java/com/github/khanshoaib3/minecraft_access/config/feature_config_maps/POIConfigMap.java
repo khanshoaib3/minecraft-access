@@ -1,13 +1,15 @@
 package com.github.khanshoaib3.minecraft_access.config.feature_config_maps;
 
-//import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 public class POIConfigMap {
+    @SerializedName("Blocks")
     private POIBlocksConfigMap poiBlocksConfigMap;
+    @SerializedName("Entities")
     private POIEntitiesConfigMap poiEntitiesConfigMap;
+    @SerializedName("Entities/Blocks Locking")
     private POILockingConfigMap poiLockingConfigMap;
 
-//    @JsonProperty("Blocks")
     public POIBlocksConfigMap getBlocksConfigMap() {
         return poiBlocksConfigMap;
     }
@@ -16,7 +18,6 @@ public class POIConfigMap {
         this.poiBlocksConfigMap = poiBlocksConfigMap;
     }
 
-//    @JsonProperty("Entities")
     public POIEntitiesConfigMap getEntitiesConfigMap() {
         return poiEntitiesConfigMap;
     }
@@ -25,7 +26,6 @@ public class POIConfigMap {
         this.poiEntitiesConfigMap = poiEntitiesConfigMap;
     }
 
-//    @JsonProperty("Entities/Blocks Locking")
     public POILockingConfigMap getLockingConfigMap() {
         return poiLockingConfigMap;
     }
