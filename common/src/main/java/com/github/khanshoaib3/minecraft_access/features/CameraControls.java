@@ -162,7 +162,7 @@ public class CameraControls {
         }
 
         if(isCenterCameraKeyPressed) {
-            centerCamera();
+            centerCamera(isLeftAltPressed);
             return true;
         }
 
@@ -361,10 +361,10 @@ public class CameraControls {
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.direction.horizontal_angle_south_west"), true);
     }
 
-    private void centerCamera() {
+    private void centerCamera(boolean lookOpposite) {
         if(minecraftClient.player == null) return;
 
-        String direction = new PlayerPositionUtils(minecraftClient).getHorizontalFacingDirectionInCardinal(true);
+        String direction = new PlayerPositionUtils(minecraftClient).getHorizontalFacingDirectionInCardinal(true, lookOpposite);
 
         switch (direction) {
             case "north" -> lookNorth();
