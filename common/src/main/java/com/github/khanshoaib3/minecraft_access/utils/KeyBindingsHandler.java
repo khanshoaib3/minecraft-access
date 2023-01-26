@@ -24,6 +24,10 @@ public class KeyBindingsHandler {
     public KeyBinding cameraControlsAlternateRight;
     public KeyBinding cameraControlsAlternateDown;
     public KeyBinding cameraControlsAlternateLeft;
+    public KeyBinding cameraControlsNorth;
+    public KeyBinding cameraControlsEast;
+    public KeyBinding cameraControlsWest;
+    public KeyBinding cameraControlsSouth;
 
     public KeyBinding inventoryControlsGroupKey;
     public KeyBinding inventoryControlsUpKey;
@@ -221,6 +225,38 @@ public class KeyBindingsHandler {
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
         KeyMappingRegistry.register(cameraControlsAlternateLeft);
+
+        cameraControlsNorth = new KeyBinding(
+                "minecraft_access.keys.camera_controls.north_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_7,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsNorth);
+
+        cameraControlsEast = new KeyBinding(
+                "minecraft_access.keys.camera_controls.east_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_9,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsEast);
+
+        cameraControlsWest = new KeyBinding(
+                "minecraft_access.keys.camera_controls.west_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_1,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsWest);
+
+        cameraControlsSouth = new KeyBinding(
+                "minecraft_access.keys.camera_controls.south_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_3,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsSouth);
     }
 
     /**

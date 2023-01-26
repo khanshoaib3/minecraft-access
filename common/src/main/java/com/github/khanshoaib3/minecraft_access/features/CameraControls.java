@@ -113,6 +113,10 @@ public class CameraControls {
                 || MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateDown);
         boolean isLeftKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsLeft)
                 || MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateLeft);
+        boolean isNorthKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsNorth);
+        boolean isEastKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsEast);
+        boolean isWestKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsWest);
+        boolean isSouthKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsSouth);
 
 
         if (isUpKeyPressed) {
@@ -132,6 +136,26 @@ public class CameraControls {
 
         if (isLeftKeyPressed) {
             leftKeyHandler(isLeftAltPressed, isRightAltPressed);
+            return true;
+        }
+
+        if(isNorthKeyPressed) {
+            lookNorth();
+            return true;
+        }
+
+        if(isEastKeyPressed) {
+            lookEast();
+            return true;
+        }
+
+        if(isWestKeyPressed) {
+            lookWest();
+            return true;
+        }
+
+        if(isSouthKeyPressed) {
+            lookSouth();
             return true;
         }
 
