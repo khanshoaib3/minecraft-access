@@ -105,10 +105,14 @@ public class CameraControls {
                 InputUtil.fromTranslationKey("key.keyboard.right.alt").getCode()
         );
 
-        boolean isUpKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsUp);
-        boolean isRightKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsRight);
-        boolean isDownKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsDown);
-        boolean isLeftKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsLeft);
+        boolean isUpKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsUp)
+                || MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateUp);
+        boolean isRightKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsRight)
+                || MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateRight);
+        boolean isDownKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsDown)
+                || MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateDown);
+        boolean isLeftKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsLeft)
+                || MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateLeft);
 
 
         if (isUpKeyPressed) {

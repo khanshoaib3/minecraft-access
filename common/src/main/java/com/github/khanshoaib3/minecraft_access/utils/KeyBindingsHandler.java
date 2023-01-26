@@ -20,6 +20,10 @@ public class KeyBindingsHandler {
     public KeyBinding cameraControlsRight;
     public KeyBinding cameraControlsDown;
     public KeyBinding cameraControlsLeft;
+    public KeyBinding cameraControlsAlternateUp;
+    public KeyBinding cameraControlsAlternateRight;
+    public KeyBinding cameraControlsAlternateDown;
+    public KeyBinding cameraControlsAlternateLeft;
 
     public KeyBinding inventoryControlsGroupKey;
     public KeyBinding inventoryControlsUpKey;
@@ -185,6 +189,38 @@ public class KeyBindingsHandler {
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
         KeyMappingRegistry.register(cameraControlsLeft);
+
+        cameraControlsAlternateUp = new KeyBinding(
+                "minecraft_access.keys.camera_controls.alternate_up_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_8,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+                );
+        KeyMappingRegistry.register(cameraControlsAlternateUp);
+
+        cameraControlsAlternateRight = new KeyBinding(
+                "minecraft_access.keys.camera_controls.alternate_right_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_6,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsAlternateRight);
+
+        cameraControlsAlternateDown = new KeyBinding(
+                "minecraft_access.keys.camera_controls.alternate_down_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_2,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsAlternateDown);
+
+        cameraControlsAlternateLeft = new KeyBinding(
+                "minecraft_access.keys.camera_controls.alternate_left_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_4,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsAlternateLeft);
     }
 
     /**
