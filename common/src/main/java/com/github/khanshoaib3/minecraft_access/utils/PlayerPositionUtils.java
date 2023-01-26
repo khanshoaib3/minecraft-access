@@ -72,6 +72,10 @@ public class PlayerPositionUtils {
     }
 
     public String getHorizontalFacingDirectionInCardinal() {
+        return getHorizontalFacingDirectionInCardinal(false);
+    }
+
+    public String getHorizontalFacingDirectionInCardinal(boolean returnOnlyDirectionKey) {
         assert player != null;
 
         int angle = getHorizontalFacingDirectionInDegrees();
@@ -93,6 +97,7 @@ public class PlayerPositionUtils {
             direction = player.getHorizontalFacing().asString().toLowerCase();
         }
 
-        return I18n.translate("minecraft_access.direction.horizontal_angle_" + direction);
+        if (returnOnlyDirectionKey) return direction;
+        else return I18n.translate("minecraft_access.direction.horizontal_angle_" + direction);
     }
 }

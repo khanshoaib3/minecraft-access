@@ -28,6 +28,7 @@ public class KeyBindingsHandler {
     public KeyBinding cameraControlsEast;
     public KeyBinding cameraControlsWest;
     public KeyBinding cameraControlsSouth;
+    public KeyBinding cameraControlsCenterCamera;
 
     public KeyBinding inventoryControlsGroupKey;
     public KeyBinding inventoryControlsUpKey;
@@ -257,6 +258,14 @@ public class KeyBindingsHandler {
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
         KeyMappingRegistry.register(cameraControlsSouth);
+
+        cameraControlsCenterCamera = new KeyBinding(
+                "minecraft_access.keys.camera_controls.center_camera_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_5,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsCenterCamera);
     }
 
     /**

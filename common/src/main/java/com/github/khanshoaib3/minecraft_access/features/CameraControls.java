@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
+import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -117,6 +118,7 @@ public class CameraControls {
         boolean isEastKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsEast);
         boolean isWestKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsWest);
         boolean isSouthKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsSouth);
+        boolean isCenterCameraKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsCenterCamera);
 
 
         if (isUpKeyPressed) {
@@ -156,6 +158,11 @@ public class CameraControls {
 
         if(isSouthKeyPressed) {
             lookSouth();
+            return true;
+        }
+
+        if(isCenterCameraKeyPressed) {
+            centerCamera();
             return true;
         }
 
@@ -296,5 +303,78 @@ public class CameraControls {
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, southBlockPosition);
         MainClass.infoLog("Looking south");
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.direction.horizontal_angle_south"), true);
+    }
+
+    /**
+     * Snaps the camera to the north-east block
+     */
+    private void lookNorthEast() {
+        if (minecraftClient.player == null) return;
+
+        Vec3d playerBlockPosition = minecraftClient.player.getPos();
+        Vec3d northEastBlockPosition = new Vec3d(playerBlockPosition.x + 1, playerBlockPosition.y + 0, playerBlockPosition.z - 1);
+
+        minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, northEastBlockPosition);
+        MainClass.infoLog("Looking north east");
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.direction.horizontal_angle_north_east"), true);
+    }
+
+    /**
+     * Snaps the camera to the north-west block
+     */
+    private void lookNorthWest() {
+        if (minecraftClient.player == null) return;
+
+        Vec3d playerBlockPosition = minecraftClient.player.getPos();
+        Vec3d northWestBlockPosition = new Vec3d(playerBlockPosition.x - 1, playerBlockPosition.y + 0, playerBlockPosition.z - 1);
+
+        minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, northWestBlockPosition);
+        MainClass.infoLog("Looking north west");
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.direction.horizontal_angle_north_west"), true);
+    }
+
+    /**
+     * Snaps the camera to the south-east block
+     */
+    private void lookSouthEast() {
+        if (minecraftClient.player == null) return;
+
+        Vec3d playerBlockPosition = minecraftClient.player.getPos();
+        Vec3d southEastBlockPosition = new Vec3d(playerBlockPosition.x + 1, playerBlockPosition.y + 0, playerBlockPosition.z + 1);
+
+        minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, southEastBlockPosition);
+        MainClass.infoLog("Looking south east");
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.direction.horizontal_angle_south_east"), true);
+    }
+
+    /**
+     * Snaps the camera to the south-west block
+     */
+    private void lookSouthWest() {
+        if (minecraftClient.player == null) return;
+
+        Vec3d playerBlockPosition = minecraftClient.player.getPos();
+        Vec3d southWestBlockPosition = new Vec3d(playerBlockPosition.x - 1, playerBlockPosition.y + 0, playerBlockPosition.z + 1);
+
+        minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, southWestBlockPosition);
+        MainClass.infoLog("Looking south west");
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.direction.horizontal_angle_south_west"), true);
+    }
+
+    private void centerCamera() {
+        if(minecraftClient.player == null) return;
+
+        String direction = new PlayerPositionUtils(minecraftClient).getHorizontalFacingDirectionInCardinal(true);
+
+        switch (direction) {
+            case "north" -> lookNorth();
+            case "east" -> lookEast();
+            case "west" -> lookWest();
+            case "south" -> lookSouth();
+            case "north_east" -> lookNorthEast();
+            case "north_west" -> lookNorthWest();
+            case "south_east" -> lookSouthEast();
+            case "south_west" -> lookSouthWest();
+        }
     }
 }
