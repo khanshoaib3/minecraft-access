@@ -58,6 +58,7 @@ public class ClientPlayerEntityUtils {
         return angle;
     }
 
+    // FIXME duplicate from new PlayerPositionUtils(minecraftClient).getHorizontalFacingDirectionInCardinal()
     /**
      * Get the horizontal direction in words.
      * @param precise whether to only say the direction when in range or not
