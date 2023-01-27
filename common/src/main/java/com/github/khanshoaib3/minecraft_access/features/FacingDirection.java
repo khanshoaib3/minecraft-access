@@ -31,7 +31,7 @@ public class FacingDirection {
                 toSpeak = PositionUtils.getNarratableNumber(angle);
             } else {
 
-                /* TODO add to config
+                /* TODO add to config and add left alt combination to readme
                 int angle = new PlayerPositionUtils(minecraftClient).getHorizontalFacingDirectionInDegrees();
                 if (Config.get(Config.getCardinal_to_Degrees_Key())) {
                     toSpeak += angle;

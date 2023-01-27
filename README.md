@@ -54,18 +54,20 @@ This feature adds the following key bindings to control the camera through the k
 
 **Key bindings and combinations:-**
 
-1. Look Up Key (default: I) = Moves the camera vertically up by the normal rotating angle (default=22.5).
-2. Look Right Key (default: L) = Moves the camera vertically right by the normal rotating angle (default=22.5).
-3. Look Down Key (default: K) = Moves the camera vertically down by the normal rotating angle (default=22.5).
-4. Look Left Key (default: J) = Moves the camera vertically left by the normal rotating angle (default=22.5).
+1. Look Up Key (default: I) or Alternate Look Up Key(default: Keypad 8) = Moves the camera vertically up by the normal rotating angle (default=22.5).
+2. Look Right Key (default: L) or Alternate Look Right Key(default: Keypad 6) = Moves the camera vertically right by the normal rotating angle (default=22.5).
+3. Look Down Key (default: K) or Alternate Look Down Key(default: Keypad 2) = Moves the camera vertically down by the normal rotating angle (default=22.5).
+4. Look Left Key (default: J) or Alternate Look Up Key(default: Keypad 4) = Moves the camera vertically left by the normal rotating angle (default=22.5).
 5. Left Alt + Look Up Key = Moves the camera vertically up by the modified rotating angle (default=11.25).
 6. Left Alt + Look Right Key = Moves the camera vertically right by the modified rotating angle (default=11.25).
 7. Left Alt + Look Down Key = Moves the camera vertically down by the modified rotating angle (default=11.25).
 8. Left Alt + Look Left Key = Moves the camera vertically left by the modified rotating angle (default=11.25).
-9. Right Alt + Look Up Key = Snaps the camera to the north block.
-10. Right Alt + Look Right Key = Snaps the camera to the east block.
-11. Right Alt + Look Down Key = Snaps the camera to the south block.
-12. Right Alt + Look Left Key = Snaps the camera to the west block.
+9. Right Alt + Look Up Key or Look North Key (default: Keypad 7) = Snaps the camera to the north block.
+10. Right Alt + Look Right Key or Look East Key (default: Keypad 9) = Snaps the camera to the east block.
+11. Right Alt + Look Down Key or Look South Key (default: Keypad 3) = Snaps the camera to the south block.
+12. Right Alt + Look Left Key or Look West Key (default: Keypad 1) = Snaps the camera to the west block.
+13. Center Camera (default: Keypad 5) = Snaps the camera to the closest cardinal direction and centers it.
+14. Left Alt + Center Camera = Snaps the camera to the closest opposite cardinal direction and centers it.
 
 **Configuration Options:-**
 

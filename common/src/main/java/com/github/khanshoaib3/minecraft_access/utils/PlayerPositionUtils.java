@@ -72,6 +72,15 @@ public class PlayerPositionUtils {
     }
 
     public String getHorizontalFacingDirectionInCardinal() {
+        return getHorizontalFacingDirectionInCardinal(false, false);
+    }
+
+    @SuppressWarnings("unused")
+    public String getHorizontalFacingDirectionInCardinal(boolean onlyDirectionKey) {
+        return getHorizontalFacingDirectionInCardinal(onlyDirectionKey, false);
+    }
+
+    public String getHorizontalFacingDirectionInCardinal(boolean onlyDirectionKey, boolean oppositeDirection) {
         assert player != null;
 
         int angle = getHorizontalFacingDirectionInDegrees();
@@ -93,6 +102,23 @@ public class PlayerPositionUtils {
             direction = player.getHorizontalFacing().asString().toLowerCase();
         }
 
-        return I18n.translate("minecraft_access.direction.horizontal_angle_" + direction);
+        if(oppositeDirection) direction = getOppositeDirectionKey(direction);
+
+        if (onlyDirectionKey) return direction;
+        else return I18n.translate("minecraft_access.direction.horizontal_angle_" + direction);
+    }
+
+    private String getOppositeDirectionKey(String originalDirectionKey) {
+        return switch (originalDirectionKey) {
+            case "north" -> "south";
+            case "east" -> "west";
+            case "west" -> "east";
+            case "south" -> "north";
+            case "north_east" -> "south_west";
+            case "north_west" -> "south_east";
+            case "south_east" -> "north_west";
+            case "south_west" -> "north_east";
+            default -> "unknown";
+        };
     }
 }

@@ -20,6 +20,15 @@ public class KeyBindingsHandler {
     public KeyBinding cameraControlsRight;
     public KeyBinding cameraControlsDown;
     public KeyBinding cameraControlsLeft;
+    public KeyBinding cameraControlsAlternateUp;
+    public KeyBinding cameraControlsAlternateRight;
+    public KeyBinding cameraControlsAlternateDown;
+    public KeyBinding cameraControlsAlternateLeft;
+    public KeyBinding cameraControlsNorth;
+    public KeyBinding cameraControlsEast;
+    public KeyBinding cameraControlsWest;
+    public KeyBinding cameraControlsSouth;
+    public KeyBinding cameraControlsCenterCamera;
 
     public KeyBinding inventoryControlsGroupKey;
     public KeyBinding inventoryControlsUpKey;
@@ -140,18 +149,20 @@ public class KeyBindingsHandler {
     /**
      * Initializes keybindings related to camera controls.<br><br>
      * Related key binds and combinations:-<br>
-     * 1) Look Up Key (default=i): Moves the camera vertically up by the normal rotating angle (default=22.5).<br>
-     * 2) Look Right Key (default=l): Moves the camera vertically right by the normal rotating angle (default=22.5).<br>
-     * 3) Look Down Key (default=k): Moves the camera vertically down by the normal rotating angle (default=22.5).<br>
-     * 4) Look Left Key (default=j): Moves the camera vertically left by the normal rotating angle (default=22.5).<br>
+     * 1) Look Up Key (default=i, alternate=keypad 8): Moves the camera vertically up by the normal rotating angle (default=22.5).<br>
+     * 2) Look Right Key (default=l, alternate=keypad 6): Moves the camera vertically right by the normal rotating angle (default=22.5).<br>
+     * 3) Look Down Key (default=k, alternate=keypad 2): Moves the camera vertically down by the normal rotating angle (default=22.5).<br>
+     * 4) Look Left Key (default=j, alternate=keypad 4): Moves the camera vertically left by the normal rotating angle (default=22.5).<br>
      * 5) Left Alt + Look Up Key: Moves the camera vertically up by the modified rotating angle (default=11.25).<br>
      * 6) Left Alt + Look Right Key: Moves the camera vertically right by the modified rotating angle (default=11.25).<br>
      * 7) Left Alt + Look Down Key: Moves the camera vertically down by the modified rotating angle (default=11.25).<br>
      * 8) Left Alt + Look Left Key: Moves the camera vertically left by the modified rotating angle (default=11.25).<br>
-     * 9) Right Alt + Look Up Key: Snaps the camera to the north block.<br>
-     * 10) Right Alt + Look Right Key: Snaps the camera to the east block.<br>
-     * 11) Right Alt + Look Down Key: Snaps the camera to the south block.<br>
-     * 12) Right Alt + Look Left Key: Snaps the camera to the west block.<br>
+     * 9) Right Alt + Look Up Key or Look North Key (default=keypad 7): Snaps the camera to the north block.<br>
+     * 10) Right Alt + Look Right Key or Look East Key (default=keypad 9): Snaps the camera to the east block.<br>
+     * 11) Right Alt + Look Down Key or Look South Key (default=keypad 3): Snaps the camera to the south block.<br>
+     * 12) Right Alt + Look Left Key or Look West Key (default=keypad 1): Snaps the camera to the west block.<br>
+     * 13) Center Camera Key (default=keypad 5): Snaps the camera to the closest cardinal direction and center it.<br>
+     * 14) Left Alt + Center Camera Key : Snaps the camera to the closest opposite cardinal direction and center it.<br>
      */
     private void initializeCameraControlsKeybindings() {
         cameraControlsUp = new KeyBinding(
@@ -185,6 +196,78 @@ public class KeyBindingsHandler {
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
         KeyMappingRegistry.register(cameraControlsLeft);
+
+        cameraControlsAlternateUp = new KeyBinding(
+                "minecraft_access.keys.camera_controls.alternate_up_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_8,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+                );
+        KeyMappingRegistry.register(cameraControlsAlternateUp);
+
+        cameraControlsAlternateRight = new KeyBinding(
+                "minecraft_access.keys.camera_controls.alternate_right_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_6,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsAlternateRight);
+
+        cameraControlsAlternateDown = new KeyBinding(
+                "minecraft_access.keys.camera_controls.alternate_down_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_2,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsAlternateDown);
+
+        cameraControlsAlternateLeft = new KeyBinding(
+                "minecraft_access.keys.camera_controls.alternate_left_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_4,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsAlternateLeft);
+
+        cameraControlsNorth = new KeyBinding(
+                "minecraft_access.keys.camera_controls.north_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_7,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsNorth);
+
+        cameraControlsEast = new KeyBinding(
+                "minecraft_access.keys.camera_controls.east_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_9,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsEast);
+
+        cameraControlsWest = new KeyBinding(
+                "minecraft_access.keys.camera_controls.west_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_1,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsWest);
+
+        cameraControlsSouth = new KeyBinding(
+                "minecraft_access.keys.camera_controls.south_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_3,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsSouth);
+
+        cameraControlsCenterCamera = new KeyBinding(
+                "minecraft_access.keys.camera_controls.center_camera_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_5,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsCenterCamera);
     }
 
     /**
