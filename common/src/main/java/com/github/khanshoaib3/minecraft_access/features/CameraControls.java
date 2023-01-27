@@ -16,18 +16,20 @@ import java.util.TimerTask;
 /**
  * This feature adds the following key binds to control the camera.<br><br>
  * Key binds and combinations:-<br>
- * 1) Look Up Key (default=i): Moves the camera vertically up by the normal rotating angle (default=22.5).<br>
- * 2) Look Right Key (default=l): Moves the camera vertically right by the normal rotating angle (default=22.5).<br>
- * 3) Look Down Key (default=k): Moves the camera vertically down by the normal rotating angle (default=22.5).<br>
- * 4) Look Left Key (default=j): Moves the camera vertically left by the normal rotating angle (default=22.5).<br>
+ * 1) Look Up Key (default=i, alternate=keypad 8): Moves the camera vertically up by the normal rotating angle (default=22.5).<br>
+ * 2) Look Right Key (default=l, alternate=keypad 6): Moves the camera vertically right by the normal rotating angle (default=22.5).<br>
+ * 3) Look Down Key (default=k, alternate=keypad 2): Moves the camera vertically down by the normal rotating angle (default=22.5).<br>
+ * 4) Look Left Key (default=j, alternate=keypad 4): Moves the camera vertically left by the normal rotating angle (default=22.5).<br>
  * 5) Left Alt + Look Up Key: Moves the camera vertically up by the modified rotating angle (default=11.25).<br>
  * 6) Left Alt + Look Right Key: Moves the camera vertically right by the modified rotating angle (default=11.25).<br>
  * 7) Left Alt + Look Down Key: Moves the camera vertically down by the modified rotating angle (default=11.25).<br>
  * 8) Left Alt + Look Left Key: Moves the camera vertically left by the modified rotating angle (default=11.25).<br>
- * 9) Right Alt + Look Up Key: Snaps the camera to the north block.<br>
- * 10) Right Alt + Look Right Key: Snaps the camera to the east block.<br>
- * 11) Right Alt + Look Down Key: Snaps the camera to the south block.<br>
- * 12) Right Alt + Look Left Key: Snaps the camera to the west block.<br>
+ * 9) Right Alt + Look Up Key or Look North Key (default=keypad 7): Snaps the camera to the north block.<br>
+ * 10) Right Alt + Look Right Key or Look East Key (default=keypad 9): Snaps the camera to the east block.<br>
+ * 11) Right Alt + Look Down Key or Look South Key (default=keypad 3): Snaps the camera to the south block.<br>
+ * 12) Right Alt + Look Left Key or Look West Key (default=keypad 1): Snaps the camera to the west block.<br>
+ * 13) Center Camera Key (default=keypad 5): Snaps the camera to the closest cardinal direction and center it.<br>
+ * 14) Left Alt + Center Camera Key : Snaps the camera to the closest opposite cardinal direction and center it.<br>
  */
 @Environment(EnvType.CLIENT)
 public class CameraControls {
@@ -286,8 +288,8 @@ public class CameraControls {
     }
 
     /**
-     * Snaps the camera to the closest cardinal direction.
-     * @param lookOpposite Whether to snap the opposite cardinal direction or not.
+     * Snaps the camera to the closest cardinal direction and centers it.
+     * @param lookOpposite Whether to snap the opposite cardinal direction or not and centers it.
      */
     private void centerCamera(boolean lookOpposite) {
         if (minecraftClient.player == null) return;
