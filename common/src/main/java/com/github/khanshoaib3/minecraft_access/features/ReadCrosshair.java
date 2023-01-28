@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ComparatorBlockEntity;
@@ -171,9 +172,23 @@ public class ReadCrosshair {
             BlockEntity blockEntity = minecraftClient.world.getBlockEntity(hit.getBlockPos());
             int outputPower = blockEntity instanceof ComparatorBlockEntity ? ((ComparatorBlockEntity) blockEntity).getOutputSignal() : 0;
             ComparatorMode mode = blockState.get(ComparatorBlock.MODE);
+            Direction facing = blockState.get(ComparatorBlock.FACING);
+            String correctFacing = I18n.translate("minecraft_access.direction.horizontal_angle_" + PlayerPositionUtils.getOppositeDirectionKey(facing.getName()).toLowerCase());
 
-            toSpeak = I18n.translate("minecraft_access.read_crosshair.comparator_info", toSpeak, mode, outputPower);
-            currentQuery += mode + " " + outputPower;
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.comparator_info", toSpeak, correctFacing, mode, outputPower);
+            currentQuery += "mode:" + mode + " output_power:" + outputPower + " facing:" + correctFacing;
+        } else if (block instanceof RepeaterBlock) {
+            boolean locked = blockState.get(RepeaterBlock.LOCKED);
+            int delay = blockState.get(RepeaterBlock.DELAY);
+            Direction facing = blockState.get(ComparatorBlock.FACING);
+            String correctFacing = I18n.translate("minecraft_access.direction.horizontal_angle_" + PlayerPositionUtils.getOppositeDirectionKey(facing.getName()).toLowerCase());
+
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.repeater_info", toSpeak, correctFacing, delay);
+            currentQuery += "delay:" + delay + " facing:" + correctFacing;
+            if (locked) {
+                toSpeak = I18n.translate("minecraft_access.read_crosshair.locked", toSpeak);
+                currentQuery += "locked";
+            }
         } else if (isReceivingPower) { // For all the other blocks
             toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
             currentQuery += "powered";

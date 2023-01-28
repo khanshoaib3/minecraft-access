@@ -108,7 +108,7 @@ public class PlayerPositionUtils {
         else return I18n.translate("minecraft_access.direction.horizontal_angle_" + direction);
     }
 
-    private String getOppositeDirectionKey(String originalDirectionKey) {
+    public static String getOppositeDirectionKey(String originalDirectionKey) {
         return switch (originalDirectionKey) {
             case "north" -> "south";
             case "east" -> "west";
