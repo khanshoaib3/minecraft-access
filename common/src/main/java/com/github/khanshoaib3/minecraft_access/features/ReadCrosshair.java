@@ -2,7 +2,10 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.block.*;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.ComparatorBlockEntity;
 import net.minecraft.block.entity.SignBlockEntity;
+import net.minecraft.block.enums.ComparatorMode;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
@@ -78,9 +81,12 @@ public class ReadCrosshair {
         try {
             String currentQuery = hit.getEntity().getName().getString();
             if (hit.getEntity() instanceof AnimalEntity animalEntity) {
-                if (animalEntity instanceof SheepEntity sheepEntity) currentQuery = "%s %s".formatted(sheepEntity.getColor().getName(), currentQuery);
-                if (animalEntity.isBaby()) currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_baby", currentQuery);
-                if (animalEntity.isLeashed()) currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_leashed", currentQuery);
+                if (animalEntity instanceof SheepEntity sheepEntity)
+                    currentQuery = "%s %s".formatted(sheepEntity.getColor().getName(), currentQuery);
+                if (animalEntity.isBaby())
+                    currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_baby", currentQuery);
+                if (animalEntity.isLeashed())
+                    currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_leashed", currentQuery);
             }
 
             if (!previousQuery.equalsIgnoreCase(currentQuery)) {
@@ -161,12 +167,17 @@ public class ReadCrosshair {
                 toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
                 currentQuery += "powered";
             }
+        } else if (block instanceof ComparatorBlock) {
+            BlockEntity blockEntity = minecraftClient.world.getBlockEntity(hit.getBlockPos());
+            int outputPower = blockEntity instanceof ComparatorBlockEntity ? ((ComparatorBlockEntity) blockEntity).getOutputSignal() : 0;
+            ComparatorMode mode = blockState.get(ComparatorBlock.MODE);
+
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.comparator_info", toSpeak, mode, outputPower);
+            currentQuery += mode + " " + outputPower;
         } else if (isReceivingPower) { // For all the other blocks
             toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
             currentQuery += "powered";
         }
-        //TODO add for comparator and repeater
-
 
         if (!previousQuery.equalsIgnoreCase(currentQuery)) {
             previousQuery = currentQuery;
