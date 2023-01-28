@@ -6,6 +6,8 @@ import net.minecraft.block.entity.SignBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -75,6 +77,12 @@ public class ReadCrosshair {
     private void checkForEntities(EntityHitResult hit) {
         try {
             String currentQuery = hit.getEntity().getName().getString();
+            if (hit.getEntity() instanceof AnimalEntity animalEntity) {
+                if (animalEntity instanceof SheepEntity sheepEntity) currentQuery = "%s %s".formatted(sheepEntity.getColor().getName(), currentQuery);
+                if (animalEntity.isBaby()) currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_baby", currentQuery);
+                if (animalEntity.isLeashed()) currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_leashed", currentQuery);
+            }
+
             if (!previousQuery.equalsIgnoreCase(currentQuery)) {
                 previousQuery = currentQuery;
                 MainClass.speakWithNarrator(currentQuery, true);
