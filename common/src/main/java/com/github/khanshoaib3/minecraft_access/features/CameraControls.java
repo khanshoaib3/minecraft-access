@@ -175,44 +175,47 @@ public class CameraControls {
      * Executes when up key is pressed.
      */
     private void upKeyHandler(boolean isLeftAltPressed) {
-        rotateCamera(0, (isLeftAltPressed) ? -modifiedRotatingDeltaAngle : -normalRotatingDeltaAngle);
+        rotateCamera(0, (isLeftAltPressed) ? -modifiedRotatingDeltaAngle : -normalRotatingDeltaAngle, false);
     }
 
     /**
      * Executes when right key is pressed.
      */
     private void rightKeyHandler(boolean isLeftAltPressed) {
-        rotateCamera((isLeftAltPressed) ? modifiedRotatingDeltaAngle : normalRotatingDeltaAngle, 0);
+        rotateCamera((isLeftAltPressed) ? modifiedRotatingDeltaAngle : normalRotatingDeltaAngle, 0, true);
     }
 
     /**
      * Executes when down key is pressed.
      */
     private void downKeyHandler(boolean isLeftAltPressed) {
-        rotateCamera(0, (isLeftAltPressed) ? modifiedRotatingDeltaAngle : normalRotatingDeltaAngle);
+        rotateCamera(0, (isLeftAltPressed) ? modifiedRotatingDeltaAngle : normalRotatingDeltaAngle, false);
     }
 
     /**
      * Executes when left key is pressed.
      */
     private void leftKeyHandler(boolean isLeftAltPressed) {
-        rotateCamera((isLeftAltPressed) ? -modifiedRotatingDeltaAngle : -normalRotatingDeltaAngle, 0);
+        rotateCamera((isLeftAltPressed) ? -modifiedRotatingDeltaAngle : -normalRotatingDeltaAngle, 0, true);
     }
 
     /**
      * Rotates the player's camera.
      *
-     * @param deltaX The amount of rotation in X axis (in degrees).
-     * @param deltaY The amount of rotation in Y axis (in degrees).
+     * @param deltaX               The amount of rotation in X axis (in degrees).
+     * @param deltaY               The amount of rotation in Y axis (in degrees).
+     * @param isRotatingHorizontal Whether the rotation is horizontal or vertical
      */
-    private void rotateCamera(float deltaX, float deltaY) {
+    private void rotateCamera(float deltaX, float deltaY, boolean isRotatingHorizontal) {
         if (minecraftClient.player == null) return;
 
         minecraftClient.player.changeLookDirection(deltaX, deltaY);
 
         MainClass.infoLog("Rotating camera by x:%d y:%d".formatted((int) deltaX, (int) deltaY));
-        if (ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true) != null)
+        if (isRotatingHorizontal && ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true) != null)
             MainClass.speakWithNarrator(ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true), true);
+        else if (!isRotatingHorizontal && ClientPlayerEntityUtils.getVerticalFacingDirectionInWords() != null)
+            MainClass.speakWithNarrator(ClientPlayerEntityUtils.getVerticalFacingDirectionInWords(), true);
     }
 
     /**
@@ -289,6 +292,7 @@ public class CameraControls {
 
     /**
      * Snaps the camera to the closest cardinal direction and centers it.
+     *
      * @param lookOpposite Whether to snap the opposite cardinal direction or not and centers it.
      */
     private void centerCamera(boolean lookOpposite) {
