@@ -88,7 +88,7 @@ public class ConfigMap {
         defaultPoiLockingConfigMap.setLockOnBlocks(true);
         defaultPoiLockingConfigMap.setSpeakDistance(false);
         defaultPoiLockingConfigMap.setUnlockingSound(true);
-        defaultPoiLockingConfigMap.setAutoLockEyeOfEnderEntity(false);
+        defaultPoiLockingConfigMap.setAutoLockEyeOfEnderEntity(true);
         defaultPoiLockingConfigMap.setDelay(100);
         defaultPoiConfigMap.setLockingConfigMap(defaultPoiLockingConfigMap);
 

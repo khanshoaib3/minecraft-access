@@ -37,6 +37,7 @@ public class ScreenReaderController {
             MainClass.speakWithNarrator("Screen reader refreshed", true);
         } catch (Exception e) {
             MainClass.errorLog("An error while refreshing screen reader");
+            e.printStackTrace();
         }
     }
 }

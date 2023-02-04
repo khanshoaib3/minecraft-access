@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.config;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.minecraft.client.MinecraftClient;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -32,7 +33,7 @@ public class Config {
      * The path for the file is: config/minecraft_access/config.json
      * If the json format is wrong or an error occurs, the config.json is reset to default
      */
-    public void loadConfig() {
+    private void loadConfig() {
         try {
             GsonBuilder builder = new GsonBuilder();
             builder.setPrettyPrinting();
@@ -41,7 +42,7 @@ public class Config {
             createDefaultConfigFileIfNotExist();
             configMap = readJSON();
 
-            if(!isConfigMapValid(configMap)) resetToDefault();
+            if (!isConfigMapValid(configMap)) resetToDefault();
         } catch (Exception e) {
             MainClass.errorLog("An error occurred while reading config.json file, resetting to default");
             e.printStackTrace();
@@ -51,8 +52,8 @@ public class Config {
         }
     }
 
-    private boolean isConfigMapValid(ConfigMap configMap){
-        if(configMap == null) return false;
+    private boolean isConfigMapValid(ConfigMap configMap) {
+        if (configMap == null) return false;
 
         return configMap.validate();
     }
@@ -98,5 +99,24 @@ public class Config {
 
     private ConfigMap readJSON() throws IOException {
         return gson.fromJson(Files.readString(Path.of(CONFIG_FILE_PATH)), ConfigMap.class);
+    }
+
+    public static void refresh() {
+        refresh(false);
+    }
+
+    public static void refresh(boolean closeOpenedScreen) {
+        try {
+            MainClass.config.loadConfig();
+
+            if (!closeOpenedScreen) return;
+            if (MinecraftClient.getInstance() == null) return;
+            if (MinecraftClient.getInstance().player == null) return;
+            MinecraftClient.getInstance().player.closeScreen();
+            MainClass.speakWithNarrator("Mod configurations refreshed", true);
+        } catch (Exception e) {
+            MainClass.errorLog("An error while refreshing mod configurations");
+            e.printStackTrace();
+        }
     }
 }
