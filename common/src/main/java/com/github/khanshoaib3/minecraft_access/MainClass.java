@@ -53,10 +53,10 @@ public class MainClass {
         MainClass.infoLog(msg);
 
         config = new Config();
-        config.loadConfig();
+        Config.refresh();
         debugMode = config.getConfigMap().getOtherConfigsMap().isDebugMode();
 
-        MainClass.setScreenReader(ScreenReaderController.getAvailable());
+        ScreenReaderController.refreshScreenReader();
         if (MainClass.getScreenReader() != null && MainClass.getScreenReader().isInitialized())
             MainClass.getScreenReader().say(msg, true);
 

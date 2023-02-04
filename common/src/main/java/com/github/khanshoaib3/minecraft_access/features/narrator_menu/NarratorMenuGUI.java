@@ -1,6 +1,8 @@
 package com.github.khanshoaib3.minecraft_access.features.narrator_menu;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.Config;
+import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -16,6 +18,9 @@ public class NarratorMenuGUI extends Screen {
     int buttonHeight;
     int marginY;
     int calculatedYPosition;
+    int leftColumnX;
+    int rightColumnX;
+    boolean shouldRenderInLeftColumn;
 
     public NarratorMenuGUI(String title) {
         super(Text.of(I18n.translate("minecraft_access.gui.screen." + title)));
@@ -27,6 +32,10 @@ public class NarratorMenuGUI extends Screen {
         this.buttonHeight = 20;
         this.marginY = buttonHeight + buttonHeight / 4;
         this.calculatedYPosition = this.height / 6 - marginY; // Starting Y position (marginY will again be added in buildButtonWidget() so it is subtracted here to equate)
+        this.leftColumnX = 10;
+        this.rightColumnX = centerX + 10;
+        shouldRenderInLeftColumn = true;
+
 
         ButtonWidget blockAndFluidTargetInformationButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_info",
                 (button) -> NarratorMenu.getBlockAndFluidTargetInformation());
@@ -52,17 +61,30 @@ public class NarratorMenuGUI extends Screen {
                 (button) -> NarratorMenu.getBiome());
         this.addDrawableChild(biomeButton);
 
+        ButtonWidget timeOfDayButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.time_of_day",
+                (button) -> NarratorMenu.getTimeOfDay());
+        this.addDrawableChild(timeOfDayButton);
+
         ButtonWidget xpButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.xp",
                 (button) -> NarratorMenu.getXP());
         this.addDrawableChild(xpButton);
+
+        ButtonWidget refreshScreenReaderButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.refresh_screen_reader",
+                (button) -> ScreenReaderController.refreshScreenReader(true));
+        this.addDrawableChild(refreshScreenReaderButton);
+
+        ButtonWidget refreshConfigButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.refresh_config",
+                (button) -> Config.refresh(true));
+        this.addDrawableChild(refreshConfigButton);
     }
 
     private ButtonWidget buildButtonWidget(String translationKey, ButtonWidget.PressAction pressAction) {
         int calculatedButtonWidth = this.textRenderer.getWidth(I18n.translate((translationKey))) + 35;
-        calculatedYPosition += marginY;
+        if (shouldRenderInLeftColumn) calculatedYPosition += marginY;
+        shouldRenderInLeftColumn = !shouldRenderInLeftColumn;
 
         return ButtonWidget.builder(Text.translatable(translationKey), pressAction)
-                .dimensions(centerX - calculatedButtonWidth / 2, calculatedYPosition, calculatedButtonWidth, buttonHeight)
+                .dimensions((shouldRenderInLeftColumn) ? leftColumnX : rightColumnX, calculatedYPosition, calculatedButtonWidth, buttonHeight)
                 .build();
     }
 
