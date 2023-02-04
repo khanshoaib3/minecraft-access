@@ -14,6 +14,7 @@
     "ButtonWidgetMixin",
     "ClickableWidgetAccessor",
     "CreativeInventoryScreenAccessor",
+    "EyeOfEnderEntityMixin",
     "HandledScreenAccessor",
     "InGameHudMixin",
     "LoomScreenAccessor",

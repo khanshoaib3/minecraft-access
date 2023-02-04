@@ -28,7 +28,6 @@ public class POIEntities {
 
     public static TreeMap<Double, Entity> passiveEntity = new TreeMap<>();
     public static TreeMap<Double, Entity> hostileEntity = new TreeMap<>();
-    public static TreeMap<Double, Entity> eyeOfEnderEntity = new TreeMap<>();
 
     private int range;
     private boolean playSound;
@@ -53,7 +52,6 @@ public class POIEntities {
 
             passiveEntity = new TreeMap<>();
             hostileEntity = new TreeMap<>();
-            eyeOfEnderEntity = new TreeMap<>();
 
             for (Entity i : minecraftClient.world.getEntities()) {
                 if (!(i instanceof MobEntity || i instanceof ItemEntity || i instanceof EyeOfEnderEntity || (i instanceof PlayerEntity && i != minecraftClient.player)))
@@ -68,16 +66,7 @@ public class POIEntities {
 
                 if (distance > range) continue;
 
-                if (i instanceof EyeOfEnderEntity && distance <= 0.2) {
-                    // FIXME use different method, this is not working anymore
-                    eyeOfEnderEntity.put(distance, i);
-                    LockingHandler.lockedOnEntity = i;
-                    LockingHandler.lockedOnBlockEntries = "";
-
-                    LockingHandler.lockedOnBlock = null;
-                    LockingHandler.isLockedOntoLadder = false;
-
-                } else if (i instanceof PassiveEntity) {
+                if (i instanceof PassiveEntity) {
                     passiveEntity.put(distance, i);
                     this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
                 } else if (i instanceof HostileEntity) {

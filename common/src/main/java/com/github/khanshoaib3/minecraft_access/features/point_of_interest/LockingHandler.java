@@ -27,12 +27,12 @@ import java.util.TimerTask;
  * 2. Alt key + Locking Key = Unlocks from the currently locked entity or block<br>
  */
 public class LockingHandler {
-    public static Entity lockedOnEntity = null;
-    public static Vec3d lockedOnBlock = null;
-    public static Vec3d prevEntityPos = null;
-    public static boolean isLockedOntoLadder = false;
-    public static boolean isLockedOntoEyeOfEnderTarget = false;
-    public static String lockedOnBlockEntries = "";
+    public Entity lockedOnEntity = null;
+    public Vec3d lockedOnBlock = null;
+    public Vec3d prevEntityPos = null;
+    public boolean isLockedOntoLadder = false;
+    public boolean isLockedOntoEyeOfEnderTarget = false; // The block where the eye of ender disappears
+    public String lockedOnBlockEntries = "";
 
     private boolean shouldRun = true;
     private boolean lockOnBlocks;
@@ -147,21 +147,6 @@ public class LockingHandler {
                 isLockedOntoEyeOfEnderTarget = false;
                 playUnlockingSound(minecraftClient);
             }
-            return;
-        }
-
-        if (!POIEntities.eyeOfEnderEntity.isEmpty()) {
-            Entry<Double, Entity> entry = POIEntities.eyeOfEnderEntity.firstEntry();
-            Entity entity = entry.getValue();
-
-            String text = I18n.translate("minecraft_access.point_of_interest.locking.tracking_eye_of_ender");
-            lockedOnEntity = entity;
-            lockedOnBlockEntries = "";
-
-            lockedOnBlock = null;
-            isLockedOntoLadder = false;
-
-            MainClass.speakWithNarrator(text, true);
             return;
         }
 
