@@ -56,7 +56,7 @@ public class MainClass {
         config.loadConfig();
         debugMode = config.getConfigMap().getOtherConfigsMap().isDebugMode();
 
-        MainClass.setScreenReader(ScreenReaderController.getAvailable());
+        ScreenReaderController.refreshScreenReader();
         if (MainClass.getScreenReader() != null && MainClass.getScreenReader().isInitialized())
             MainClass.getScreenReader().say(msg, true);
 
