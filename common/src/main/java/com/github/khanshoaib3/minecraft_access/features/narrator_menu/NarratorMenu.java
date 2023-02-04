@@ -187,4 +187,22 @@ public class NarratorMenu {
             e.printStackTrace();
         }
     }
+
+    public static void getTimeOfDay() {
+        try {
+            if (minecraftClient.player == null) return;
+            if (minecraftClient.world == null) return;
+
+            minecraftClient.player.closeScreen();
+            long daytime = minecraftClient.player.world.getTimeOfDay() + 6000;
+            int hours = (int) (daytime / 1000) % 24;
+            int minutes = (int) ((daytime % 1000) * 60 / 1000);
+            String toSpeak = "%d:%d".formatted(hours, minutes);
+            toSpeak = I18n.translate("minecraft_access.narrator_menu.time_of_day", toSpeak);
+            MainClass.speakWithNarrator(toSpeak, true);
+        } catch (Exception e) {
+            MainClass.errorLog("An error occurred while speaking time of day.");
+            e.printStackTrace();
+        }
+    }
 }

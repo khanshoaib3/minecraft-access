@@ -54,6 +54,10 @@ public class NarratorMenuGUI extends Screen {
                 (button) -> NarratorMenu.getBiome());
         this.addDrawableChild(biomeButton);
 
+        ButtonWidget timeOfDayButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.time_of_day",
+                (button) -> NarratorMenu.getTimeOfDay());
+        this.addDrawableChild(timeOfDayButton);
+
         ButtonWidget xpButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.xp",
                 (button) -> NarratorMenu.getXP());
         this.addDrawableChild(xpButton);
