@@ -17,31 +17,31 @@ Note that not all features have been ported over to this mod.
 3. Windows specific:-
    In windows we need to install the [tolk](https://github.com/ndarilek/tolk) library. Here are the steps to install the
    library:-
-    - Head over to the [description](https://github.com/ndarilek/tolk#tolk-screen-reader-abstraction-library) of the
-      library and download
-      the [latest build](https://github.com/ndarilek/tolk/releases/download/refs%2Fheads%2Fmaster/tolk.zip).
+    - Download the latest build
+      zip - [here](https://github.com/ndarilek/tolk/releases/download/refs%2Fheads%2Fmaster/tolk.zip).
     - Extract the downloaded zip file anywhere you like, the Downloads folder should be fine.
     - Open the extracted folder and in that folder you'll find a folder called `x64` and another called `x86`.
     - Based on your operating system, `x64` for 64-bit OS and `x86` for 32-bit OS, copy all the files present in the
-      folder and paste them into the minecraft root folder.
-      For windows the default location is -
-      %appdata%\.minecraft
+      folder and paste them into the minecraft root folder (the folder containing the mods folder).
+      The default location is -
+      `%appdata%\.minecraft`
 4. Linux specific:-
    In linux we need to install the [libspeechdwrapper](https://github.com/khanshoaib3/libspeechdwrapper) as well
    as [xdotool](https://github.com/jordansissel/xdotool) which is used for simulating the mouse actions.
    Although the mod overrides the library used for tts, minecraft still needs the `flite` library to be installed, so
    you can install it using your distro's package manager itself.
-   For libspeechdwrapper, [download](https://github.com/khanshoaib3/libspeechdwrapper/raw/main/lib/libspeechdwrapper.so)
-   the library and move it over to the minecraft folder.
-   For linux the default location is -
-   ~/.minecraft
+   For libspeechdwrapper, download the
+   library - [here](https://github.com/khanshoaib3/libspeechdwrapper/raw/main/lib/libspeechdwrapper.so),
+   and move it over to the minecraft folder.
+   The default location is -
+   `~/.minecraft`
    Follow the [installation instruction](https://github.com/jordansissel/xdotool#installation) in the description to
    install xdotool.
 
 ## Mod Installation
 
 - Download the mod file according to the loader installed from
-  the [latest release page](https://github.com/khanshoaib3/minecraft-access/releases).
+  the latest release page - [here](https://github.com/khanshoaib3/minecraft-access/releases).
 - Move the downloaded jar file over to the mods folder.
   For windows the default location is - `%appdata%\.minecraft\mods`
   And for linux it is - `~/.minecraft/mods`
@@ -54,10 +54,14 @@ This feature adds the following key bindings to control the camera through the k
 
 **Key bindings and combinations:-**
 
-1. Look Up Key (default: I) or Alternate Look Up Key(default: Keypad 8) = Moves the camera vertically up by the normal rotating angle (default=22.5).
-2. Look Right Key (default: L) or Alternate Look Right Key(default: Keypad 6) = Moves the camera vertically right by the normal rotating angle (default=22.5).
-3. Look Down Key (default: K) or Alternate Look Down Key(default: Keypad 2) = Moves the camera vertically down by the normal rotating angle (default=22.5).
-4. Look Left Key (default: J) or Alternate Look Up Key(default: Keypad 4) = Moves the camera vertically left by the normal rotating angle (default=22.5).
+1. Look Up Key (default: I) or Alternate Look Up Key(default: Keypad 8) = Moves the camera vertically up by the normal
+   rotating angle (default=22.5).
+2. Look Right Key (default: L) or Alternate Look Right Key(default: Keypad 6) = Moves the camera vertically right by the
+   normal rotating angle (default=22.5).
+3. Look Down Key (default: K) or Alternate Look Down Key(default: Keypad 2) = Moves the camera vertically down by the
+   normal rotating angle (default=22.5).
+4. Look Left Key (default: J) or Alternate Look Up Key(default: Keypad 4) = Moves the camera vertically left by the
+   normal rotating angle (default=22.5).
 5. Left Alt + Look Up Key = Moves the camera vertically up by the modified rotating angle (default=11.25).
 6. Left Alt + Look Right Key = Moves the camera vertically right by the modified rotating angle (default=11.25).
 7. Left Alt + Look Down Key = Moves the camera vertically down by the modified rotating angle (default=11.25).
@@ -178,13 +182,18 @@ A menu that opens up when we press `F4` button.
 
 **Options included in this menu:-**
 
-1. Block and fluid target information = Speaks the name and information of the targeted block. The range is much more than normal crosshair target.
-2. Block and fluid target position = Speaks the name and position of the targeted block. The range is much more than normal crosshair target.
+1. Block and fluid target information = Speaks the name and information of the targeted block. The range is much more
+   than normal crosshair target.
+2. Block and fluid target position = Speaks the name and position of the targeted block. The range is much more than
+   normal crosshair target.
 3. Light level = Speaks the light level at the player's current position.
 4. Find water = Finds the closest water source block.
 5. Find lava = Finds the closest lava source block.
 6. Biome = Speaks the name of biome the player is currently in.
-7. XP = Speaks the experience level and progress of the player.
+7. Time of Day = Speaks the current time of day.
+8. XP = Speaks the experience level and progress of the player.
+9. Refresh config = Refreshes the mod configurations from config.json file.
+10. Refresh screen Reader = Refreshes the screen reader.
 
 ## Health n Hunger
 
@@ -219,9 +228,19 @@ Narrates the name of the biome when entering a different biome.
 
 Narrates when the player xp level is increased or decreased.
 
+## Durability Indicator
+
+Adds the item durability into the tooltip.
+
 # Mod Configuration
 
 The mod can be configured by the config.json file in the `config/minecraft_access/` directory.
 You can use notepad or any text editor to edit the file. You can also use online json editor like
 [Json Editor Online](https://jsoneditoronline.org/), [Json Formatter](https://jsonformatter.org/json-editor)
 or [Code Beautify Json Online Editor](https://jsonformatter.org/json-editor).
+
+# Known Issues
+
+1. The fall detector is not available in the mod yet, it will be added soon and will hopefully be better than before.
+2. (Forge only) The default narrator takes over in some cases, like when speaking chats.
+3. (Fabric only) The default narrator speaks even if the narrator is turned off.
