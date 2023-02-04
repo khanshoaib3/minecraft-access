@@ -7,6 +7,7 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,5 +31,10 @@ public class InGameHudMixin {
             MutableText mutableText = net.minecraft.text.Text.empty().append(this.currentStack.getName()).formatted(this.currentStack.getRarity().formatting);
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.other.hotbar", mutableText.getString()), true);
         }
+    }
+
+    @Inject(at = @At("HEAD"), method = "setOverlayMessage(Lnet/minecraft/text/Text;Z)V")
+    public void speakActionbar(Text message, boolean tinted, CallbackInfo ci) {
+        MainClass.speakWithNarrator(message.getString(), true);
     }
 }
