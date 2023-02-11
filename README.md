@@ -6,6 +6,8 @@ thanks to [tolk](https://github.com/ndarilek/tolk) library. Additionally, the mo
 the [libspeechdwrapper](https://github.com/khanshoaib3/libspeechdwrapper).
 Note that not all features have been ported over to this mod.
 
+*Note that you may have to enable the narrator from within minecraft, in the first sartup, the mod speaks "Initializing minecraft access" but does not speak anything else, then you'll have to use `control + b` to enable the narrator. And for fabric users, you will have to manually un-bound or re-bound the advancement key from l to something else as that is also used by the camera controls feature.*
+
 # Setup
 
 ## Requirements
