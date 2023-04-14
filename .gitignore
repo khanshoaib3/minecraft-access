@@ -1,5 +1,6 @@
 # gradle
 
+.factorypath
 .gradle/
 build/
 out/

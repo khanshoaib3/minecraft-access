@@ -197,8 +197,21 @@ public class NarratorMenu {
             long daytime = minecraftClient.player.world.getTimeOfDay() + 6000;
             int hours = (int) (daytime / 1000) % 24;
             int minutes = (int) ((daytime % 1000) * 60 / 1000);
+
+            String translationKey = "minecraft_access.narrator_menu.time_of_day";
+            if (MainClass.config.getConfigMap().getOtherConfigsMap().isUse12HourTimeFormat()) {
+                if (hours > 12) {
+                    hours -= 12;
+                    translationKey += "_pm";
+                } else if (hours == 12) {
+                    translationKey += "_pm";
+                } else {
+                    translationKey += "_am";
+                }
+            }
+
             String toSpeak = "%d:%d".formatted(hours, minutes);
-            toSpeak = I18n.translate("minecraft_access.narrator_menu.time_of_day", toSpeak);
+            toSpeak = I18n.translate(translationKey, toSpeak);
             MainClass.speakWithNarrator(toSpeak, true);
         } catch (Exception e) {
             MainClass.errorLog("An error occurred while speaking time of day.");

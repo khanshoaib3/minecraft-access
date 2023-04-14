@@ -148,6 +148,7 @@ public class ConfigMap {
         defaultOtherConfigsMap.setHealthNHungerEnabled(true);
         defaultOtherConfigsMap.setPositionNarratorEnabled(true);
         defaultOtherConfigsMap.setPositionNarratorFormat(PositionNarrator.defaultFormat);
+        defaultOtherConfigsMap.setUse12HourTimeFormat(false);
         defaultOtherConfigsMap.setNarratorMenuEnabled(true);
         defaultOtherConfigsMap.setMenuFixEnabled(true);
         defaultOtherConfigsMap.setDebugMode(false);

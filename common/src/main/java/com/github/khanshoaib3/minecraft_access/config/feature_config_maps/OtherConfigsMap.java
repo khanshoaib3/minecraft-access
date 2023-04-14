@@ -15,6 +15,8 @@ public class OtherConfigsMap {
     private boolean positionNarratorEnabled;
     @SerializedName("Position Narrator Format")
     private String positionNarratorFormat;
+    @SerializedName("Use 12 Hour Time Format")
+    private boolean use12HourTimeFormat;
     @SerializedName("Enable Narrator Menu")
     private boolean narratorMenuEnabled;
     @SerializedName("Enable Menu Fix")
@@ -68,6 +70,14 @@ public class OtherConfigsMap {
 
     public void setPositionNarratorFormat(String positionNarratorFormat) {
         this.positionNarratorFormat = positionNarratorFormat;
+    }
+
+    public boolean isUse12HourTimeFormat() {
+        return use12HourTimeFormat;
+    }
+
+    public void setUse12HourTimeFormat(boolean use12HourTimeFormat) {
+        this.use12HourTimeFormat = use12HourTimeFormat;
     }
 
     public boolean isNarratorMenuEnabled() {
