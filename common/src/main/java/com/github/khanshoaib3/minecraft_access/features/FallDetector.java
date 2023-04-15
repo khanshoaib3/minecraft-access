@@ -69,7 +69,7 @@ public class FallDetector {
         HashSet<BlockPos> searched = new HashSet<>();
         int[] dirX = {-1, 0, 1, 0};
         int[] dirZ = {0, 1, 0, -1};
-        int limit = 2;
+        int limit = 6;
         count = 0;
 
         toSearch.add(center);
@@ -105,5 +105,21 @@ public class FallDetector {
 
     private void checkForFall(BlockPos toCheck) {
         MainClass.infoLog("%d) Checking fall for x:%d y:%d z:%d".formatted(++count, toCheck.getX(), toCheck.getY(), toCheck.getZ()));
+
+        if (minecraftClient.world == null) return;
+        if (!(minecraftClient.world.getBlockState(toCheck).isAir())) return;
+
+        int depth = getDepth(toCheck, 6);
+        MainClass.infoLog("Depth: %d".formatted(depth));
+    }
+
+    private int getDepth(BlockPos blockPos, int maxDepth){
+        if (maxDepth <= 0)
+            return 0;
+
+        if (minecraftClient.world == null) return 0;
+        if (!(minecraftClient.world.getBlockState(blockPos).isAir())) return 0;
+
+        return 1 + getDepth(blockPos.down(), --maxDepth);
     }
 }
