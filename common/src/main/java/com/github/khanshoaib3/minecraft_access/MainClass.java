@@ -140,6 +140,8 @@ public class MainClass {
 
         if (lockingHandler != null && config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isEnabled())
             lockingHandler.update();
+
+        FallDetector.getInstance().update();
     }
 
     public static void infoLog(String msg) {
