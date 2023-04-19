@@ -13,6 +13,8 @@ public class ConfigMap {
     private POIConfigMap poiConfigMap;
     @SerializedName("Player Warnings")
     private PlayerWarningConfigMap playerWarningConfigMap;
+    @SerializedName("Fall Detector")
+    private FallDetectorConfigMap fallDetectorConfigMap;
     @SerializedName("Read Crosshair")
     private ReadCrosshairConfigMap readCrosshairConfigMap;
     @SerializedName("Other Configurations")
@@ -113,6 +115,14 @@ public class ConfigMap {
         defaultPlayerWarningConfigMap.setAirThreshold(3.0);
 
         setPlayerWarningConfigMap(defaultPlayerWarningConfigMap);
+    }
+
+    public FallDetectorConfigMap getFallDetectorConfigMap() {
+        return fallDetectorConfigMap;
+    }
+
+    public void setFallDetectorConfigMap(FallDetectorConfigMap fallDetectorConfigMap) {
+        this.fallDetectorConfigMap = fallDetectorConfigMap;
     }
 
     public ReadCrosshairConfigMap getReadCrosshairConfigMap() {

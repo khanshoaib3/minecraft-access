@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.config;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.feature_config_maps.FallDetectorConfigMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.client.MinecraftClient;
@@ -68,6 +69,7 @@ public class Config {
             configMap.setDefaultInventoryControlsConfigMap();
             configMap.setDefaultPoiConfigMap();
             configMap.setDefaultPlayerWarningConfigMap();
+            configMap.setFallDetectorConfigMap(FallDetectorConfigMap.defaultFallDetectorConfigMap());
             configMap.setDefaultReadCrosshairConfigMap();
             configMap.setDefaultOtherConfigsMap();
             writeJSON(configMap);
