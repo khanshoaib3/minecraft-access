@@ -176,6 +176,7 @@ public class ConfigMap {
         if (this.getPoiConfigMap() == null || this.getPoiConfigMap().getEntitiesConfigMap() == null ||
                 this.getPoiConfigMap().getLockingConfigMap() == null || this.getPoiConfigMap().getBlocksConfigMap() == null)
             return false;
+        if (this.getFallDetectorConfigMap() == null) return false;
 
         return true;
     }
