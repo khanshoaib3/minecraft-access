@@ -2,6 +2,8 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 
 import java.time.Clock;
@@ -109,8 +111,9 @@ public class FallDetector {
         if (minecraftClient.world == null) return;
         if (!(minecraftClient.world.getBlockState(toCheck).isAir())) return;
 
-        int depth = getDepth(toCheck, 6);
-        MainClass.infoLog("Depth: %d".formatted(depth));
+        if (getDepth(toCheck, 6) < 6) return;
+
+        minecraftClient.world.playSoundAtBlockCenter(toCheck, SoundEvents.BLOCK_ANVIL_HIT, SoundCategory.BLOCKS, 0.25f, 1f, true);
     }
 
     private int getDepth(BlockPos blockPos, int maxDepth){
