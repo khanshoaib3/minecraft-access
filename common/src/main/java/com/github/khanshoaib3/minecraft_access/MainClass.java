@@ -34,7 +34,6 @@ public class MainClass {
     public static HealthNHunger healthNHunger = null;
     public static PlayerWarnings playerWarnings = null;
     public static NarratorMenu narratorMenu = null;
-    public static POIBlocks poiBlocks = null;
     public static POIEntities poiEntities = null;
     public static LockingHandler lockingHandler = null;
     public static FluidDetector fluidDetector = null;
@@ -72,7 +71,6 @@ public class MainClass {
         MainClass.healthNHunger = new HealthNHunger();
         MainClass.playerWarnings = new PlayerWarnings();
         MainClass.narratorMenu = new NarratorMenu();
-        MainClass.poiBlocks = new POIBlocks();
         MainClass.poiEntities = new POIEntities();
         MainClass.lockingHandler = new LockingHandler();
         MainClass.fluidDetector = new FluidDetector();
@@ -132,8 +130,7 @@ public class MainClass {
         if (narratorMenu != null && config.getConfigMap().getOtherConfigsMap().isNarratorMenuEnabled())
             narratorMenu.update();
 
-        if (poiBlocks != null && config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isEnabled())
-            poiBlocks.update();
+        POIBlocks.getInstance().update();
 
         if (poiEntities != null && config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isEnabled())
             poiEntities.update();

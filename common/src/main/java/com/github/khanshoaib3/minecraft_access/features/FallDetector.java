@@ -83,7 +83,6 @@ public class FallDetector {
         HashSet<BlockPos> searched = new HashSet<>();
         int[] dirX = {-1, 0, 1, 0};
         int[] dirZ = {0, 1, 0, -1};
-        int limit = 6;
         count = 0;
 
         toSearch.add(center);

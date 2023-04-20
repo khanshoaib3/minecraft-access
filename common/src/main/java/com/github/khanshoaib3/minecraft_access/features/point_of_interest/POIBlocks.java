@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.feature_config_maps.POIBlocksConfigMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import net.minecraft.block.*;
@@ -20,7 +21,9 @@ import java.util.function.Predicate;
  * Scans the area to find exposed ore blocks, doors, buttons, ladders, etc., groups them and plays a sound only at ore blocks.
  */
 public class POIBlocks {
+    private static final POIBlocks instance;
     private MinecraftClient minecraftClient;
+
     public static TreeMap<Double, Vec3d> oreBlocks = new TreeMap<>();
     public static TreeMap<Double, Vec3d> doorBlocks = new TreeMap<>();
     public static TreeMap<Double, Vec3d> buttonBlocks = new TreeMap<>();
@@ -31,6 +34,7 @@ public class POIBlocks {
     public static TreeMap<Double, Vec3d> otherBlocks = new TreeMap<>();
 
     private List<Vec3d> checkedBlocks = new ArrayList<>();
+    private boolean enabled;
     private boolean detectFluidBlocks;
     private int range;
     private boolean playSound;
@@ -44,53 +48,63 @@ public class POIBlocks {
     private boolean shouldRun = true;
 
     static {
-        blockList.add(state -> state.isOf(Blocks.PISTON));
-        blockList.add(state -> state.isOf(Blocks.STICKY_PISTON));
-        blockList.add(state -> state.isOf(Blocks.RESPAWN_ANCHOR));
-        blockList.add(state -> state.isOf(Blocks.BELL));
-        blockList.add(state -> state.isOf(Blocks.OBSERVER));
-        blockList.add(state -> state.isOf(Blocks.DAYLIGHT_DETECTOR));
-        blockList.add(state -> state.isOf(Blocks.JUKEBOX));
-        blockList.add(state -> state.isOf(Blocks.LODESTONE));
-        blockList.add(state -> state.getBlock() instanceof BeehiveBlock);
-        blockList.add(state -> state.getBlock() instanceof ComposterBlock);
-        blockList.add(state -> state.isOf(Blocks.OBSERVER));
-        blockList.add(state -> state.isIn(BlockTags.FENCE_GATES));
+        try {
+            blockList.add(state -> state.isOf(Blocks.PISTON));
+            blockList.add(state -> state.isOf(Blocks.STICKY_PISTON));
+            blockList.add(state -> state.isOf(Blocks.RESPAWN_ANCHOR));
+            blockList.add(state -> state.isOf(Blocks.BELL));
+            blockList.add(state -> state.isOf(Blocks.OBSERVER));
+            blockList.add(state -> state.isOf(Blocks.DAYLIGHT_DETECTOR));
+            blockList.add(state -> state.isOf(Blocks.JUKEBOX));
+            blockList.add(state -> state.isOf(Blocks.LODESTONE));
+            blockList.add(state -> state.getBlock() instanceof BeehiveBlock);
+            blockList.add(state -> state.getBlock() instanceof ComposterBlock);
+            blockList.add(state -> state.isOf(Blocks.OBSERVER));
+            blockList.add(state -> state.isIn(BlockTags.FENCE_GATES));
 
-        oreBlockList.add(state -> state.isOf(Blocks.COAL_ORE));
-        oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_COAL_ORE));
-        oreBlockList.add(state -> state.isOf(Blocks.COPPER_ORE));
-        oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_COPPER_ORE));
-        oreBlockList.add(state -> state.isOf(Blocks.DIAMOND_ORE));
-        oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_DIAMOND_ORE));
-        oreBlockList.add(state -> state.isOf(Blocks.EMERALD_ORE));
-        oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_EMERALD_ORE));
-        oreBlockList.add(state -> state.isOf(Blocks.GOLD_ORE));
-        oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_GOLD_ORE));
-        oreBlockList.add(state -> state.isOf(Blocks.NETHER_GOLD_ORE));
-        oreBlockList.add(state -> state.isOf(Blocks.IRON_ORE));
-        oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_IRON_ORE));
-        oreBlockList.add(state -> state.isOf(Blocks.LAPIS_ORE));
-        oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_LAPIS_ORE));
-        oreBlockList.add(state -> state.isOf(Blocks.REDSTONE_ORE));
-        oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_REDSTONE_ORE));
-        oreBlockList.add(state -> state.isOf(Blocks.NETHER_QUARTZ_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.COAL_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_COAL_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.COPPER_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_COPPER_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.DIAMOND_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_DIAMOND_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.EMERALD_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_EMERALD_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.GOLD_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_GOLD_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.NETHER_GOLD_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.IRON_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_IRON_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.LAPIS_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_LAPIS_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.REDSTONE_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_REDSTONE_ORE));
+            oreBlockList.add(state -> state.isOf(Blocks.NETHER_QUARTZ_ORE));
+            instance = new POIBlocks();
+        } catch (Exception e) {
+            throw new RuntimeException("Exception occurred in creating POIBlocks instance");
+        }
     }
 
-    public POIBlocks() {
+    public static POIBlocks getInstance() {
+        return instance;
+    }
+
+    private POIBlocks() {
         loadConfigurations();
     }
 
     public void update() {
-        if (!this.shouldRun) return;
         try {
-            minecraftClient = MinecraftClient.getInstance();
+            loadConfigurations();
 
+            if (!this.enabled) return;
+            if (!this.shouldRun) return;
+
+            minecraftClient = MinecraftClient.getInstance();
             if (minecraftClient == null) return;
             if (minecraftClient.player == null) return;
             if (minecraftClient.currentScreen != null) return; //Prevent running if any screen is opened
-
-            loadConfigurations();
 
             oreBlocks = new TreeMap<>();
             doorBlocks = new TreeMap<>();
@@ -108,10 +122,14 @@ public class POIBlocks {
             int posZ = pos.getZ();
             checkedBlocks = new ArrayList<>();
 
+            MainClass.infoLog("POIBlock started...");
+
             checkBlock(new BlockPos(new Vec3d(posX, posY, posZ)), 0);
             checkBlock(new BlockPos(new Vec3d(posX, posY + 3, posZ)), 0);
             checkBlock(new BlockPos(new Vec3d(posX, posY + 1, posZ)), this.range);
             checkBlock(new BlockPos(new Vec3d(posX, posY + 2, posZ)), this.range);
+
+            MainClass.infoLog("POIBlock ended.");
 
 
             // Pause the execution of this feature for 250 milliseconds
@@ -125,18 +143,20 @@ public class POIBlocks {
             };
             new Timer().schedule(timerTask, delayInMilliseconds);
         } catch (Exception e) {
-            MainClass.errorLog("\nError encountered in Camera Controls feature.");
+            MainClass.errorLog("\nError encountered in poi blocks feature.");
             e.printStackTrace();
         }
     }
 
     private void loadConfigurations() {
-        this.detectFluidBlocks = MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isDetectFluidBlocks();
-        this.range = MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getRange();
-        this.playSound = MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isPlaySound();
-        this.volume = MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getVolume();
-        this.playSoundForOtherBlocks = MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isPlaySoundForOtherBlocks();
-        this.delayInMilliseconds = MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getDelay();
+        POIBlocksConfigMap poiBlocksConfigMap = MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap();
+        this.enabled = poiBlocksConfigMap.isEnabled();
+        this.detectFluidBlocks = poiBlocksConfigMap.isDetectFluidBlocks();
+        this.range = poiBlocksConfigMap.getRange();
+        this.playSound = poiBlocksConfigMap.isPlaySound();
+        this.volume = poiBlocksConfigMap.getVolume();
+        this.playSoundForOtherBlocks = poiBlocksConfigMap.isPlaySoundForOtherBlocks();
+        this.delayInMilliseconds = poiBlocksConfigMap.getDelay();
     }
 
     private void checkBlock(BlockPos blockPos, int val) {
