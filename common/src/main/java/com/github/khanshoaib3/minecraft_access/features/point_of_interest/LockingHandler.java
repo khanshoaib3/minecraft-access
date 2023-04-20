@@ -124,7 +124,7 @@ public class LockingHandler {
 
         if (lockedOnBlock != null) {
             BlockState blockState = minecraftClient.world.getBlockState(new BlockPos(lockedOnBlock));
-            String entries = blockState.getEntries() + "" + blockState.getBlock() + "" + (new BlockPos(lockedOnBlock));
+            String entries = blockState.getEntries() + String.valueOf(blockState.getBlock()) + (new BlockPos(lockedOnBlock));
             if (entries.equalsIgnoreCase(lockedOnBlockEntries) || isLockedOntoEyeOfEnderTarget)
                 minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, lockedOnBlock);
             else {
@@ -184,6 +184,10 @@ public class LockingHandler {
 
         if (!this.lockOnBlocks) return;
 
+        determineClosestEntriesAndLock(minecraftClient);
+    }
+
+    private void determineClosestEntriesAndLock(MinecraftClient minecraftClient) {
         Double closest = -9999.0;
 
         Entry<Double, Vec3d> closestDoorBlockEntry = null;
@@ -331,8 +335,7 @@ public class LockingHandler {
         if (lockedOnBlock == null) return;
 
         BlockState blockState = client.world.getBlockState(new BlockPos(lockedOnBlock));
-        lockedOnBlockEntries = blockState.getEntries() + "" + blockState.getBlock() + ""
-                + (new BlockPos(lockedOnBlock));
+        lockedOnBlockEntries = blockState.getEntries() + String.valueOf(blockState.getBlock()) + (new BlockPos(lockedOnBlock));
 
         Block closestBlock = blockState.getBlock();
 
