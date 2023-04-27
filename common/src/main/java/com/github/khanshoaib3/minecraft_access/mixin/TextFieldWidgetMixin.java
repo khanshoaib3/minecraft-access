@@ -1,6 +1,5 @@
 package com.github.khanshoaib3.minecraft_access.mixin;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +16,6 @@ public class TextFieldWidgetMixin {
     private void charTyped(char chr, int modifiers, CallbackInfoReturnable<Boolean> cir) {
         if (!Screen.hasAltDown()) return;
 
-        MainClass.infoLog("HERE");
         cir.setReturnValue(false);
         cir.cancel();
     }
