@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.config.feature_config_maps;
 
+import com.github.khanshoaib3.minecraft_access.features.PositionNarrator;
 import com.google.gson.annotations.SerializedName;
 
 public class OtherConfigsMap {
@@ -17,6 +18,8 @@ public class OtherConfigsMap {
     private String positionNarratorFormat;
     @SerializedName("Use 12 Hour Time Format")
     private boolean use12HourTimeFormat;
+    @SerializedName("Speak Action Bar Updates")
+    private boolean actionBarEnabled;
     @SerializedName("Enable Narrator Menu")
     private boolean narratorMenuEnabled;
     @SerializedName("Enable Menu Fix")
@@ -102,5 +105,30 @@ public class OtherConfigsMap {
 
     public void setDebugMode(boolean debugMode) {
         this.debugMode = debugMode;
+    }
+
+    public boolean isActionBarEnabled() {
+        return actionBarEnabled;
+    }
+
+    public void setActionBarEnabled(boolean actionBarEnabled) {
+        this.actionBarEnabled = actionBarEnabled;
+    }
+
+    public static OtherConfigsMap getDefaultOtherConfigsMap() {
+        OtherConfigsMap defaultOtherConfigsMap = new OtherConfigsMap();
+        defaultOtherConfigsMap.setBiomeIndicatorEnabled(true);
+        defaultOtherConfigsMap.setXpIndicatorEnabled(true);
+        defaultOtherConfigsMap.setFacingDirectionEnabled(true);
+        defaultOtherConfigsMap.setHealthNHungerEnabled(true);
+        defaultOtherConfigsMap.setPositionNarratorEnabled(true);
+        defaultOtherConfigsMap.setPositionNarratorFormat(PositionNarrator.defaultFormat);
+        defaultOtherConfigsMap.setUse12HourTimeFormat(false);
+        defaultOtherConfigsMap.setActionBarEnabled(true);
+        defaultOtherConfigsMap.setNarratorMenuEnabled(true);
+        defaultOtherConfigsMap.setMenuFixEnabled(true);
+        defaultOtherConfigsMap.setDebugMode(false);
+
+        return defaultOtherConfigsMap;
     }
 }

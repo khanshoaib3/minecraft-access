@@ -1,7 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.config;
 
 import com.github.khanshoaib3.minecraft_access.config.feature_config_maps.*;
-import com.github.khanshoaib3.minecraft_access.features.PositionNarrator;
 import com.google.gson.annotations.SerializedName;
 
 public class ConfigMap {
@@ -148,22 +147,6 @@ public class ConfigMap {
 
     public void setOtherConfigsMap(OtherConfigsMap otherConfigsMap) {
         this.otherConfigsMap = otherConfigsMap;
-    }
-
-    public void setDefaultOtherConfigsMap() {
-        OtherConfigsMap defaultOtherConfigsMap = new OtherConfigsMap();
-        defaultOtherConfigsMap.setBiomeIndicatorEnabled(true);
-        defaultOtherConfigsMap.setXpIndicatorEnabled(true);
-        defaultOtherConfigsMap.setFacingDirectionEnabled(true);
-        defaultOtherConfigsMap.setHealthNHungerEnabled(true);
-        defaultOtherConfigsMap.setPositionNarratorEnabled(true);
-        defaultOtherConfigsMap.setPositionNarratorFormat(PositionNarrator.defaultFormat);
-        defaultOtherConfigsMap.setUse12HourTimeFormat(false);
-        defaultOtherConfigsMap.setNarratorMenuEnabled(true);
-        defaultOtherConfigsMap.setMenuFixEnabled(true);
-        defaultOtherConfigsMap.setDebugMode(false);
-
-        setOtherConfigsMap(defaultOtherConfigsMap);
     }
 
     @SuppressWarnings("RedundantIfStatement")

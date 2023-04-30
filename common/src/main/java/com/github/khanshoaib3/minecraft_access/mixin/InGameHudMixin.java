@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Narrates/Speaks the currently selected hotbar item's name.
+ * Narrates/Speaks the currently selected hotbar item's name and the action bar.
  */
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
@@ -35,6 +35,7 @@ public class InGameHudMixin {
 
     @Inject(at = @At("HEAD"), method = "setOverlayMessage(Lnet/minecraft/text/Text;Z)V")
     public void speakActionbar(Text message, boolean tinted, CallbackInfo ci) {
-        MainClass.speakWithNarrator(message.getString(), true);
+        if (MainClass.config.getConfigMap().getOtherConfigsMap().isActionBarEnabled())
+            MainClass.speakWithNarrator(message.getString(), true);
     }
 }
