@@ -12,6 +12,7 @@
     "BookEditScreenMixin",
     "BookScreenMixin",
     "ButtonWidgetMixin",
+    "ChatScreenMixin",
     "ClickableWidgetAccessor",
     "CreativeInventoryScreenAccessor",
     "DurabilityMixin",
@@ -25,7 +26,8 @@
     "RecipeBookWidgetAccessor",
     "ScreenMixin",
     "SlotAccessor",
-    "StonecutterScreenAccessor"
+    "StonecutterScreenAccessor",
+    "TextFieldWidgetMixin"
   ],
   "injectors": {
     "defaultRequire": 1
