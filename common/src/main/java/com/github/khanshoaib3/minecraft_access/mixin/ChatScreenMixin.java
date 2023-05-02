@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.mixin;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
@@ -67,7 +68,7 @@ public class ChatScreenMixin {
     private static boolean handleKeyInput(int keyCode) {
         for (int i = 1; i <= 9; i++) {
             if (keyCode == InputUtil.GLFW_KEY_0 + i || keyCode == InputUtil.GLFW_KEY_KP_0 + i) {
-                speakPreviousChatAtIndex(i);
+                speakPreviousChatAtIndex(i - 1);
                 return true;
             }
         }
@@ -76,12 +77,13 @@ public class ChatScreenMixin {
 
     /**
      * Speaks the previous chat message at the specified index offset.
+     *
      * @param indexOffset the index offset from the most recent chat message to speak.
      */
     private static void speakPreviousChatAtIndex(int indexOffset) {
-        List<String> messages = MinecraftClient.getInstance().inGameHud.getChatHud().getMessageHistory();
-        if ((messages.size() - indexOffset) < 0) return;
+        List<ChatHudLine> messages = ((ChatHudAccessor) MinecraftClient.getInstance().inGameHud.getChatHud()).getMessages();
+        if ((messages.size() - indexOffset) <= 0) return;
 
-        MainClass.speakWithNarrator(messages.get(messages.size() - indexOffset), true);
+        MainClass.speakWithNarrator(messages.get(indexOffset).content().getString(), true);
     }
 }
