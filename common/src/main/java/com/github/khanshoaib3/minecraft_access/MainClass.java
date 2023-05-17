@@ -48,12 +48,14 @@ public class MainClass {
      * Initializes the mod
      */
     public static void init() {
-        String msg = "Initializing Minecraft Access";
-        MainClass.infoLog(msg);
-
         config = new Config();
         Config.refresh();
         debugMode = config.getConfigMap().getOtherConfigsMap().isDebugMode();
+
+        String msg = "Initializing Minecraft Access";
+        MainClass.infoLog(msg);
+
+        new AutoLibrarySetup().initialize();
 
         ScreenReaderController.refreshScreenReader();
         if (MainClass.getScreenReader() != null && MainClass.getScreenReader().isInitialized())
