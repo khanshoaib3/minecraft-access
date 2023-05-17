@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.utils.UnzipUtility;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -32,7 +33,22 @@ public class AutoLibrarySetup {
 
     private void downloadAndInstall() throws IOException {
         if (SystemUtils.IS_OS_WINDOWS) {
+            MainClass.infoLog("Downloading latest tolk build...");
+            File tolkLatestBuildZip = new File(Paths.get("tolk-latest-build.zip").toAbsolutePath().toString());
+            FileUtils.copyURLToFile(new URL("https://github.com/ndarilek/tolk/releases/download/refs%2Fheads%2Fmaster/tolk.zip"), tolkLatestBuildZip);
 
+            UnzipUtility unzipUtility = new UnzipUtility();
+            File tempDirectoryPath = Paths.get("temp-tolk-latest").toFile();
+            try {
+                unzipUtility.unzip(tolkLatestBuildZip.getAbsolutePath(), tempDirectoryPath.getAbsolutePath());
+            } catch (Exception e) {
+                MainClass.errorLog("An error occurred while extracting tolk-latest-build.zip");
+                e.printStackTrace();
+            }
+
+            MainClass.infoLog("Deleting temp files.");
+            FileUtils.delete(tolkLatestBuildZip);
+            FileUtils.deleteDirectory(tempDirectoryPath);
         } else if (SystemUtils.IS_OS_LINUX) {
             MainClass.infoLog("Downloading libspeechdwrapper.so ...");
             FileUtils.copyURLToFile(new URL("https://github.com/khanshoaib3/libspeechdwrapper/releases/download/v1.0.0/libspeechdwrapper.so"), new File(Paths.get("libspeechdwrapper.so").toAbsolutePath().toString()));
