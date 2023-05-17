@@ -1,8 +1,12 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -17,11 +21,28 @@ public class AutoLibrarySetup {
     }
 
     public void initialize() {
-        checkInstalled();
+        if (checkInstalled()) return;
+
+        try {
+            downloadAndInstall();
+        } catch (IOException e) {
+            MainClass.errorLog("An error occurred while downloading library.");
+        }
+    }
+
+    private void downloadAndInstall() throws IOException {
+        if (SystemUtils.IS_OS_WINDOWS) {
+
+        } else if (SystemUtils.IS_OS_LINUX) {
+            MainClass.infoLog("Downloading libspeechdwrapper.so ...");
+            FileUtils.copyURLToFile(new URL("https://github.com/khanshoaib3/libspeechdwrapper/releases/download/v1.0.0/libspeechdwrapper.so"), new File(Paths.get("libspeechdwrapper.so").toAbsolutePath().toString()));
+            MainClass.infoLog("libspeechdwrapper.so downloaded and installed.");
+        }
     }
 
     /**
      * Checks whether all the library files are installed or not
+     *
      * @return Returns true if all files are installed otherwise false.
      */
     private boolean checkInstalled() {
@@ -41,6 +62,7 @@ public class AutoLibrarySetup {
 
     /**
      * Returns the list of libraries required based on the operating system.
+     *
      * @return The list of required libraries
      */
     private List<String> getRequiredLibraryNames() {
