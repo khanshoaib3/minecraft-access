@@ -17,9 +17,7 @@ import java.util.List;
  * Automatically installs the required libraries for client's operating system.
  */
 public class AutoLibrarySetup {
-    public AutoLibrarySetup() {
-
-    }
+    public AutoLibrarySetup() {}
 
     public void initialize() {
         if (checkInstalled()) return;
@@ -31,6 +29,10 @@ public class AutoLibrarySetup {
         }
     }
 
+    /**
+     * Downloads and installs library based on the operating system.
+     * Installs <a href="https://github.com/ndarilek/tolk">tolk</a> for windows and <a href="https://github.com/khanshoaib3/libspeechdwrapper">libspeechdwrapper</a> for linux.
+     */
     private void downloadAndInstall() throws IOException {
         if (SystemUtils.IS_OS_WINDOWS) {
             MainClass.infoLog("Downloading latest tolk build...");
@@ -38,7 +40,7 @@ public class AutoLibrarySetup {
             FileUtils.copyURLToFile(new URL("https://github.com/ndarilek/tolk/releases/download/refs%2Fheads%2Fmaster/tolk.zip"), tolkLatestBuildZip);
 
             UnzipUtility unzipUtility = new UnzipUtility();
-            File tempDirectoryPath = Paths.get("temp-tolk-latest").toFile();
+            File tempDirectoryPath = Paths.get("temp-tolk-latest").toAbsolutePath().toFile();
             try {
                 unzipUtility.unzip(tolkLatestBuildZip.getAbsolutePath(), tempDirectoryPath.getAbsolutePath());
             } catch (Exception e) {
@@ -46,9 +48,16 @@ public class AutoLibrarySetup {
                 e.printStackTrace();
             }
 
-            MainClass.infoLog("Deleting temp files.");
+            MainClass.infoLog("Moving files...");
+            String sourceDir = "x64";
+            if (SystemUtils.OS_ARCH.equalsIgnoreCase("X86")) sourceDir = "x86";
+            FileUtils.copyDirectory(Paths.get(tempDirectoryPath.getAbsolutePath(), sourceDir).toFile(),
+                    tempDirectoryPath.getParentFile());
+
+            MainClass.infoLog("Deleting temp files...");
             FileUtils.delete(tolkLatestBuildZip);
             FileUtils.deleteDirectory(tempDirectoryPath);
+            MainClass.infoLog("tolk library downloaded and installed.");
         } else if (SystemUtils.IS_OS_LINUX) {
             MainClass.infoLog("Downloading libspeechdwrapper.so ...");
             FileUtils.copyURLToFile(new URL("https://github.com/khanshoaib3/libspeechdwrapper/releases/download/v1.0.0/libspeechdwrapper.so"), new File(Paths.get("libspeechdwrapper.so").toAbsolutePath().toString()));

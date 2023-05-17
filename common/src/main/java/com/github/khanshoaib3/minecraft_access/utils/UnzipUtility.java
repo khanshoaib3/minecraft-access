@@ -6,12 +6,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * (Taken from https://www.codejava.net/java-se/file-io/programmatically-extract-a-zip-file-using-java)
+ * (Taken from <a href="https://www.codejava.net/java-se/file-io/programmatically-extract-a-zip-file-using-java">here</a>)
  * This utility extracts files and directories of a standard zip file to
  * a destination directory.
  *
  * @author www.codejava.net
  */
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class UnzipUtility {
     /**
      * Size of the buffer to read/write data
@@ -21,10 +22,6 @@ public class UnzipUtility {
     /**
      * Extracts a zip file specified by the zipFilePath to a directory specified by
      * destDirectory (will be created if does not exists)
-     *
-     * @param zipFilePath
-     * @param destDirectory
-     * @throws IOException
      */
     public void unzip(String zipFilePath, String destDirectory) throws IOException {
         File destDir = new File(destDirectory);
@@ -52,17 +49,13 @@ public class UnzipUtility {
 
     /**
      * Extracts a zip entry (file entry)
-     *
-     * @param zipIn
-     * @param filePath
-     * @throws IOException
      */
     private void extractFile(ZipInputStream zipIn, String filePath) throws IOException {
         String parentDirectory = Paths.get(filePath).getParent().toString();
         new File(parentDirectory).mkdirs();
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
         byte[] bytesIn = new byte[BUFFER_SIZE];
-        int read = 0;
+        int read;
         while ((read = zipIn.read(bytesIn)) != -1) {
             bos.write(bytesIn, 0, read);
         }
