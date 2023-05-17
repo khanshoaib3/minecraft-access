@@ -351,7 +351,6 @@ public class GroupGenerator {
                 if (enchantment == null) break;
                 StringBuilder clueText = new StringBuilder(Text.translatable("container.enchant.clue", enchantment.getName(l)).formatted(Formatting.WHITE).getString());
                 if (!bl) {
-                    clueText = new StringBuilder();
                     if (MinecraftClient.getInstance().player.experienceLevel < k) {
                         clueText.append(Text.translatable("container.enchant.level.requirement", enchantmentScreenHandler.enchantmentPower[j]).formatted(Formatting.RED).getString());
                     } else {
@@ -549,8 +548,6 @@ public class GroupGenerator {
 
         for (int i = 0; i < slots.size() && i < finalRecipeSearchResultList.size(); i++) {
             AnimatedResultButton animatedResultButton = slots.get(i);
-//            int realX = animatedResultButton.x - screen.getX() + 10;
-//            int realY = animatedResultButton.y - screen.getY() + 10;
             int realX = animatedResultButton.getX() - screen.getX() + 10;
             int realY = animatedResultButton.getY() - screen.getY() + 10;
             recipesGroup.slotItems.add(new SlotItem(realX, realY));
@@ -561,11 +558,6 @@ public class GroupGenerator {
             recipesGroup.mapTheGroupList(5);
             foundGroups.add(foundGroups.size() - 1, recipesGroup); // Add to second last index
         }
-
-        /*
-        int mouseX = (int) ((MinecraftClient.getInstance().mouse.getX() - MinecraftClient.getInstance().getWindow().getX()) / MinecraftClient.getInstance().getWindow().getScaleFactor()) - ((HandledScreenAccessor) inventoryScreen).getX();
-        int mouseY = (int) ((MinecraftClient.getInstance().mouse.getY() - MinecraftClient.getInstance().getWindow().getY()) / MinecraftClient.getInstance().getWindow().getScaleFactor()) - ((HandledScreenAccessor) inventoryScreen).getY();
-        MainClass.infoLog("\n\n");*/
 
         return foundGroups;
     }
