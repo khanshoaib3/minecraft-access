@@ -30,10 +30,29 @@ public class ReadCrosshair {
     private String previousQuery;
     private boolean speakSide;
     private boolean disableSpeakingConsecutiveBlocks;
+    /**
+     * previousQuery should be expired after five seconds.
+     * 5 sec = 5 * 10^9 nano-sec
+     */
+    private static final Long PREVIOUS_QUERY_EXPIRE_INTERVAL = 5_000_000_000L;
+    private Long previousQuerySetTime;
 
     public ReadCrosshair() {
         previousQuery = "";
+        previousQuerySetTime = 0L;
         loadConfigurations();
+    }
+
+    public String getPreviousQuery() {
+        if (System.nanoTime() - previousQuerySetTime > PREVIOUS_QUERY_EXPIRE_INTERVAL) {
+            previousQuery = "";
+        }
+        return previousQuery;
+    }
+
+    public void setPreviousQuery(String previousQuery) {
+        previousQuerySetTime = System.nanoTime();
+        this.previousQuery = previousQuery;
     }
 
     public void update() {
@@ -51,7 +70,6 @@ public class ReadCrosshair {
 
             HitResult blockHit = minecraftClient.crosshairTarget;
             HitResult fluidHit = entity.raycast(6.0, 0.0F, true);
-            //TODO reset previousQuery after every 5000ms
 
             if (blockHit == null) return;
 
@@ -90,12 +108,16 @@ public class ReadCrosshair {
                     currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_leashed", currentQuery);
             }
 
-            if (!previousQuery.equalsIgnoreCase(currentQuery)) {
-                previousQuery = currentQuery;
-                MainClass.speakWithNarrator(currentQuery, true);
-            }
+            speakIfFresh(currentQuery);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void speakIfFresh(String currentQuery) {
+        if (!getPreviousQuery().equalsIgnoreCase(currentQuery)) {
+            setPreviousQuery(currentQuery);
+            MainClass.speakWithNarrator(currentQuery, true);
         }
     }
 
@@ -194,10 +216,7 @@ public class ReadCrosshair {
             currentQuery += "powered";
         }
 
-        if (!previousQuery.equalsIgnoreCase(currentQuery)) {
-            previousQuery = currentQuery;
-            MainClass.speakWithNarrator(toSpeak, true);
-        }
+        speakIfFresh(currentQuery);
     }
 
     private boolean checkForFluidHit(MinecraftClient minecraftClient, HitResult fluidHit) {
@@ -222,10 +241,7 @@ public class ReadCrosshair {
 
             String toSpeak = name + levelString;
 
-            if (!previousQuery.equalsIgnoreCase(currentQuery)) {
-                previousQuery = currentQuery;
-                MainClass.speakWithNarrator(toSpeak, true);
-            }
+            speakIfFresh(currentQuery);
             return true;
         }
         return false;
