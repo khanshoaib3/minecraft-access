@@ -4,7 +4,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.Nullable;
 
+/**
+ * Functions about getting player entity's position, facing direction etc.
+ */
 public class PlayerPositionUtils {
     private final PlayerEntity player;
 
@@ -16,7 +20,7 @@ public class PlayerPositionUtils {
         assert player != null;
         Vec3d pos = player.getPos();
 
-        String tempPosX = pos.x + "";
+        String tempPosX = String.valueOf(pos.x);
         tempPosX = tempPosX.substring(0, tempPosX.indexOf(".") + 2);
 
         return Double.parseDouble(tempPosX);
@@ -27,7 +31,7 @@ public class PlayerPositionUtils {
         Vec3d pos = player.getPos();
 
         String tempPosY;
-        tempPosY = pos.y + "";
+        tempPosY = String.valueOf(pos.y);
         tempPosY = tempPosY.substring(0, tempPosY.indexOf(".") + 2);
 
         return Double.parseDouble(tempPosY);
@@ -38,7 +42,7 @@ public class PlayerPositionUtils {
         Vec3d pos = player.getPos();
 
         String tempPosZ;
-        tempPosZ = pos.z + "";
+        tempPosZ = String.valueOf(pos.z);
         tempPosZ = tempPosZ.substring(0, tempPosZ.indexOf(".") + 2);
 
         return Double.parseDouble(tempPosZ);
@@ -61,6 +65,30 @@ public class PlayerPositionUtils {
         return (int) player.getRotationClient().x;
     }
 
+    /**
+     * Get the vertical direction in words.
+     *
+     * @return the vertical direction in words. null on error.
+     */
+    public @Nullable String getVerticalFacingDirectionInWords() {
+        if (MinecraftClient.getInstance() == null) return null;
+        if (MinecraftClient.getInstance().player == null) return null;
+
+        int angle = getVerticalFacingDirection();
+        if (angle == -999) return null;
+
+        String angleInWords = null;
+
+        if (angle >= -2 && angle <= 2)
+            angleInWords = I18n.translate("minecraft_access.direction.vertical_angle_straight");
+        else if (angle <= -88 && angle >= -90)
+            angleInWords = I18n.translate("minecraft_access.direction.vertical_angle_up");
+        else if (angle >= 88 && angle <= 90)
+            angleInWords = I18n.translate("minecraft_access.direction.vertical_angle_down");
+
+        return angleInWords;
+    }
+
     public int getHorizontalFacingDirectionInDegrees() {
         assert player != null;
         int angle = (int) player.getRotationClient().y;
@@ -80,6 +108,13 @@ public class PlayerPositionUtils {
         return getHorizontalFacingDirectionInCardinal(onlyDirectionKey, false);
     }
 
+    /**
+     * Get the horizontal direction in words.
+     *
+     * @param onlyDirectionKey  directly return the direction word without i18n it.
+     * @param oppositeDirection output the opposite direction instead.
+     * @return onlyDirectionKey ? direction word : translated direction
+     */
     public String getHorizontalFacingDirectionInCardinal(boolean onlyDirectionKey, boolean oppositeDirection) {
         assert player != null;
 
@@ -102,7 +137,7 @@ public class PlayerPositionUtils {
             direction = player.getHorizontalFacing().asString().toLowerCase();
         }
 
-        if(oppositeDirection) direction = getOppositeDirectionKey(direction);
+        if (oppositeDirection) direction = getOppositeDirectionKey(direction);
 
         if (onlyDirectionKey) return direction;
         else return I18n.translate("minecraft_access.direction.horizontal_angle_" + direction);
