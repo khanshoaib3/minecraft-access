@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features.inventory_controls;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.screen.slot.Slot;
 import org.jetbrains.annotations.NotNull;
 
@@ -111,7 +112,6 @@ public class SlotsGroup {
     }
 
     public String getGroupName() {
-//TODO i18n        return I18n.translate("narrate.apextended.slotGroup." + name);
-        return groupName;
+        return I18n.translate("minecraft_access.slot_group." + this.groupName);
     }
 }

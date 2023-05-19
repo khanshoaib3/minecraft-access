@@ -17,7 +17,6 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.Items;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.*;
 import net.minecraft.screen.slot.FurnaceOutputSlot;
@@ -51,31 +50,30 @@ public class GroupGenerator {
 
         List<Slot> slots = new ArrayList<>(screen.getHandler().slots);
 
-        // TODO use i18n here
-        SlotsGroup hotbarGroup = new SlotsGroup("Hotbar", null);
-        SlotsGroup playerInventoryGroup = new SlotsGroup("Player Inventory", null);
-        SlotsGroup armourGroup = new SlotsGroup("Armour", null);
-        SlotsGroup offHandGroup = new SlotsGroup("Off Hand", null);
-        SlotsGroup itemOutputGroup = new SlotsGroup("Item Output", null);
-        SlotsGroup itemInputGroup = new SlotsGroup("Item Input", null);
-        SlotsGroup recipesGroup = new SlotsGroup("Recipes", null);
-        SlotsGroup tradesGroup = new SlotsGroup("Trades", null);
-        SlotsGroup fuelInputGroup = new SlotsGroup("Fuel Input", null);
-        SlotsGroup craftingOutputGroup = new SlotsGroup("Crafting Output", null);
-        SlotsGroup craftingInputGroup = new SlotsGroup("Crafting Input", null);
-        SlotsGroup bannerInputGroup = new SlotsGroup("Banner Input", null);
-        SlotsGroup dyeInputGroup = new SlotsGroup("Dye Input", null);
-        SlotsGroup patternInputGroup = new SlotsGroup("Pattern Input", null);
-        SlotsGroup netheriteIngotInputGroup = new SlotsGroup("%s Input".formatted(Items.NETHERITE_INGOT.getName().getString()), null);
-        SlotsGroup potionGroup = new SlotsGroup("Potion", null);
-        SlotsGroup ingredientGroup = new SlotsGroup("Ingredient", null);
-        SlotsGroup blockInventoryGroup = new SlotsGroup("Block Inventory", null);
-        SlotsGroup beaconConfirmButtonsGroup = new SlotsGroup("Beacon Confirm Buttons", null);
-        SlotsGroup primaryBeaconPowersButtonsGroup = new SlotsGroup("Primary Beacon Powers Buttons", null);
-        SlotsGroup secondaryBeaconPowersButtonsGroup = new SlotsGroup("Secondary Beacon Powers Buttons", null);
-        SlotsGroup lapisLazuliInputGroup = new SlotsGroup("%s Input".formatted(Items.LAPIS_LAZULI.getName().getString()), null);
-        SlotsGroup enchantsGroup = new SlotsGroup("Enchants", null);
-        SlotsGroup unknownGroup = new SlotsGroup("Unknown", null);
+        SlotsGroup hotbarGroup = new SlotsGroup("hot_bar", null);
+        SlotsGroup playerInventoryGroup = new SlotsGroup("player_inventory", null);
+        SlotsGroup armourGroup = new SlotsGroup("armour", null);
+        SlotsGroup offHandGroup = new SlotsGroup("off_hand", null);
+        SlotsGroup itemOutputGroup = new SlotsGroup("item_output", null);
+        SlotsGroup itemInputGroup = new SlotsGroup("item_input", null);
+        SlotsGroup recipesGroup = new SlotsGroup("recipes", null);
+        SlotsGroup tradesGroup = new SlotsGroup("trades", null);
+        SlotsGroup fuelInputGroup = new SlotsGroup("fuel_input", null);
+        SlotsGroup craftingOutputGroup = new SlotsGroup("crafting_output", null);
+        SlotsGroup craftingInputGroup = new SlotsGroup("crafting_input", null);
+        SlotsGroup bannerInputGroup = new SlotsGroup("banner_input", null);
+        SlotsGroup dyeInputGroup = new SlotsGroup("dye_input", null);
+        SlotsGroup patternInputGroup = new SlotsGroup("pattern_input", null);
+        SlotsGroup netheriteIngotInputGroup = new SlotsGroup("netherite_ingot_input", null);
+        SlotsGroup potionGroup = new SlotsGroup("potion", null);
+        SlotsGroup ingredientGroup = new SlotsGroup("ingredient", null);
+        SlotsGroup blockInventoryGroup = new SlotsGroup("block_inventory", null);
+        SlotsGroup beaconConfirmButtonsGroup = new SlotsGroup("beacon_confirm_buttons", null);
+        SlotsGroup primaryBeaconPowersButtonsGroup = new SlotsGroup("primary_beacon_powers_buttons", null);
+        SlotsGroup secondaryBeaconPowersButtonsGroup = new SlotsGroup("secondary_beacon_powers_buttons", null);
+        SlotsGroup lapisLazuliInputGroup = new SlotsGroup("lapis_lazuli_input", null);
+        SlotsGroup enchantsGroup = new SlotsGroup("enchants", null);
+        SlotsGroup unknownGroup = new SlotsGroup("unknown", null);
 
         for (Slot s : slots) {
             int index = ((SlotAccessor) s).getIndex();
