@@ -1,7 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -212,10 +211,15 @@ public class CameraControls {
         minecraftClient.player.changeLookDirection(deltaX, deltaY);
 
         MainClass.infoLog("Rotating camera by x:%d y:%d".formatted((int) deltaX, (int) deltaY));
-        if (isRotatingHorizontal && ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true) != null)
-            MainClass.speakWithNarrator(ClientPlayerEntityUtils.getHorizontalFacingDirectionInWords(true), true);
-        else if (!isRotatingHorizontal && ClientPlayerEntityUtils.getVerticalFacingDirectionInWords() != null)
-            MainClass.speakWithNarrator(ClientPlayerEntityUtils.getVerticalFacingDirectionInWords(), true);
+
+        PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
+        String horizontalDirection = pUtil.getHorizontalFacingDirectionInCardinal();
+        String verticalDirection = pUtil.getVerticalFacingDirectionInWords();
+
+        if (isRotatingHorizontal && horizontalDirection != null)
+            MainClass.speakWithNarrator(horizontalDirection, true);
+        else if (!isRotatingHorizontal && verticalDirection != null)
+            MainClass.speakWithNarrator(verticalDirection, true);
     }
 
     /**

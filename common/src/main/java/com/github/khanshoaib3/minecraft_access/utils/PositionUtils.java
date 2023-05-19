@@ -6,7 +6,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
-//TODO add doc
+/**
+ * Functions about getting blocks' position.
+ */
 public class PositionUtils {
     public static String getNarratableNumber(double d) {
         return d >= 0 ? String.valueOf(d) : I18n.translate("minecraft_access.other.negative", -d);
