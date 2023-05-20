@@ -127,6 +127,8 @@ redstone signal or when a door is open and other similar cases.
 1. Enabled = Enables this feature.
 2. Speak Block Sides = Enables speaking of the side of block as well.
 3. Disable Speaking Consecutive Blocks With Same Name = Disables speaking the block if the previous block was also same.
+4. Repeat Speaking Interval (in milliseconds) = Repeat speaking the block you are facing for the given amount of time, even you haven't moved the camera.
+   Zero for tuning it off, default: 5000.
 
 ## Position Narrator
 

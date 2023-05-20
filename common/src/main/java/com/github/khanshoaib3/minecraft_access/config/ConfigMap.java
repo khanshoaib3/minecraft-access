@@ -137,6 +137,7 @@ public class ConfigMap {
         defaultReadCrosshairConfigMap.setEnabled(true);
         defaultReadCrosshairConfigMap.setSpeakSide(true);
         defaultReadCrosshairConfigMap.setDisableSpeakingConsecutiveBlocks(true);
+        defaultReadCrosshairConfigMap.setRepeatSpeakingInterval(5000L);
 
         setReadCrosshairConfigMap(defaultReadCrosshairConfigMap);
     }
