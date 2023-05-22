@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.feature_config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -29,11 +30,30 @@ import net.minecraft.util.math.Direction;
 public class ReadCrosshair {
     private String previousQuery;
     private boolean speakSide;
-    private boolean disableSpeakingConsecutiveBlocks;
+    private boolean speakingConsecutiveBlocks;
+    /**
+     * previousQuery should be expired after given time in nanosecond.
+     */
+    private Long repeatSpeakingInterval;
+    private Long previousQuerySetTime;
 
     public ReadCrosshair() {
         previousQuery = "";
+        previousQuerySetTime = 0L;
         loadConfigurations();
+    }
+
+    public String getPreviousQuery() {
+        boolean expired = System.nanoTime() - this.previousQuerySetTime > this.repeatSpeakingInterval;
+        if (expired) {
+            this.previousQuery = "";
+        }
+        return this.previousQuery;
+    }
+
+    public void setPreviousQuery(String previousQuery) {
+        this.previousQuerySetTime = System.nanoTime();
+        this.previousQuery = previousQuery;
     }
 
     public void update() {
@@ -51,7 +71,6 @@ public class ReadCrosshair {
 
             HitResult blockHit = minecraftClient.crosshairTarget;
             HitResult fluidHit = entity.raycast(6.0, 0.0F, true);
-            //TODO reset previousQuery after every 5000ms
 
             if (blockHit == null) return;
 
@@ -65,8 +84,12 @@ public class ReadCrosshair {
     }
 
     private void loadConfigurations() {
-        this.speakSide = MainClass.config.getConfigMap().getReadCrosshairConfigMap().isSpeakSide();
-        this.disableSpeakingConsecutiveBlocks = MainClass.config.getConfigMap().getReadCrosshairConfigMap().isDisableSpeakingConsecutiveBlocks();
+        ReadCrosshairConfigMap map = MainClass.config.getConfigMap().getReadCrosshairConfigMap();
+        this.speakSide = map.isSpeakSide();
+        // affirmation for easier use
+        this.speakingConsecutiveBlocks = !map.isDisableSpeakingConsecutiveBlocks();
+        // 1 milliseconds = 1*10^6 nanoseconds
+        this.repeatSpeakingInterval = map.getRepeatSpeakingInterval() * 1000_000;
     }
 
     private void checkForBlockAndEntityHit(MinecraftClient minecraftClient, HitResult blockHit) {
@@ -90,12 +113,21 @@ public class ReadCrosshair {
                     currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_leashed", currentQuery);
             }
 
-            if (!previousQuery.equalsIgnoreCase(currentQuery)) {
-                previousQuery = currentQuery;
-                MainClass.speakWithNarrator(currentQuery, true);
-            }
+            speakIfFocusChanged(currentQuery, currentQuery);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * @param currentQuery for checking if focus is changed
+     * @param toSpeak      text will be narrated (if focus has changed)
+     */
+    private void speakIfFocusChanged(String currentQuery, String toSpeak) {
+        boolean focusChanged = !getPreviousQuery().equalsIgnoreCase(currentQuery);
+        if (focusChanged) {
+            setPreviousQuery(currentQuery);
+            MainClass.speakWithNarrator(toSpeak, true);
         }
     }
 
@@ -108,14 +140,23 @@ public class ReadCrosshair {
         String toSpeak = name;
 
         String side = "";
-        if (this.speakSide) side = " " + hit.getSide().getName();
-        toSpeak += side;
+        if (this.speakSide) {
+            Direction d = hit.getSide();
+            String prefix;
+            if (Direction.UP.equals(d) || Direction.DOWN.equals(d)) {
+                prefix = "minecraft_access.direction.vertical_angle_";
+            } else {
+                prefix = "minecraft_access.direction.horizontal_angle_";
+            }
+            side = I18n.translate(prefix + d.getName());
+        }
+        toSpeak +=  " " + side;
 
         // Class name in production environment can be different
         String blockPos = hit.getBlockPos().toImmutable().toString();
         String currentQuery = name + side;
 
-        if (!this.disableSpeakingConsecutiveBlocks) currentQuery += " " + blockPos;
+        if (this.speakingConsecutiveBlocks) currentQuery += " " + blockPos;
 
         if (blockState.isIn(BlockTags.SIGNS)) {
             String contents = "";
@@ -194,10 +235,7 @@ public class ReadCrosshair {
             currentQuery += "powered";
         }
 
-        if (!previousQuery.equalsIgnoreCase(currentQuery)) {
-            previousQuery = currentQuery;
-            MainClass.speakWithNarrator(toSpeak, true);
-        }
+        speakIfFocusChanged(currentQuery, toSpeak);
     }
 
     private boolean checkForFluidHit(MinecraftClient minecraftClient, HitResult fluidHit) {
@@ -222,10 +260,7 @@ public class ReadCrosshair {
 
             String toSpeak = name + levelString;
 
-            if (!previousQuery.equalsIgnoreCase(currentQuery)) {
-                previousQuery = currentQuery;
-                MainClass.speakWithNarrator(toSpeak, true);
-            }
+            speakIfFocusChanged(currentQuery, toSpeak);
             return true;
         }
         return false;
