@@ -50,7 +50,7 @@ public class GroupGenerator {
 
         List<Slot> slots = new ArrayList<>(screen.getHandler().slots);
 
-        SlotsGroup hotbarGroup = new SlotsGroup("hot_bar", null);
+        SlotsGroup hotbarGroup = new SlotsGroup("hotbar", null);
         SlotsGroup playerInventoryGroup = new SlotsGroup("player_inventory", null);
         SlotsGroup armourGroup = new SlotsGroup("armour", null);
         SlotsGroup offHandGroup = new SlotsGroup("off_hand", null);
@@ -525,7 +525,7 @@ public class GroupGenerator {
 
         RecipeBookWidgetAccessor recipeBookWidgetAccessor = (RecipeBookWidgetAccessor) recipeBookWidget;
 
-        SlotsGroup recipesGroup = new SlotsGroup("Recipes", null);
+        SlotsGroup recipesGroup = new SlotsGroup("recipes", null);
         List<AnimatedResultButton> slots = ((RecipeBookResultsAccessor) recipeBookWidgetAccessor.getRecipesArea()).getResultButtons();
 
         //<editor-fold desc="Get the recipe list (refer to RecipeBookWidget.java -->> refreshResults())">
@@ -564,11 +564,11 @@ public class GroupGenerator {
         List<SlotsGroup> foundGroups = new ArrayList<>();
         List<Slot> slots = new ArrayList<>(creativeInventoryScreen.getScreenHandler().slots);
         if (CreativeInventoryScreenAccessor.getSelectedTab().getType() == ItemGroup.Type.INVENTORY) {
-            SlotsGroup deleteItemGroup = new SlotsGroup("Delete Items", null);
-            SlotsGroup offHandGroup = new SlotsGroup("Off Hand", null);
-            SlotsGroup hotbarGroup = new SlotsGroup("Hotbar", null);
-            SlotsGroup armourGroup = new SlotsGroup("Armour", null);
-            SlotsGroup playerInventoryGroup = new SlotsGroup("Player Inventory", null);
+            SlotsGroup deleteItemGroup = new SlotsGroup("delete_items", null);
+            SlotsGroup offHandGroup = new SlotsGroup("off_hand", null);
+            SlotsGroup hotbarGroup = new SlotsGroup("hotbar", null);
+            SlotsGroup armourGroup = new SlotsGroup("armour", null);
+            SlotsGroup playerInventoryGroup = new SlotsGroup("player_inventory", null);
 
             for (Slot s : slots) {
                 if (s.x < 0 || s.y < 0) continue;
@@ -610,8 +610,8 @@ public class GroupGenerator {
             foundGroups.add(hotbarGroup);
             foundGroups.add(deleteItemGroup);
         } else {
-            SlotsGroup hotbarGroup = new SlotsGroup("Hotbar", null);
-            SlotsGroup tabInventoryGroup = new SlotsGroup("Tab Inventory", null);
+            SlotsGroup hotbarGroup = new SlotsGroup("hotbar", null);
+            SlotsGroup tabInventoryGroup = new SlotsGroup("tab_inventory", null);
             tabInventoryGroup.isScrollable = true;
 
             for (Slot s : slots) {
