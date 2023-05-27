@@ -73,6 +73,7 @@ public class Config {
             configMap.setFallDetectorConfigMap(FallDetectorConfigMap.defaultFallDetectorConfigMap());
             configMap.setDefaultReadCrosshairConfigMap();
             configMap.setOtherConfigsMap(OtherConfigsMap.getDefaultOtherConfigsMap());
+            configMap.setDefaultNarratorMenuConfigMap();
             writeJSON(configMap);
         } catch (Exception e) {
             MainClass.errorLog("An error occurred while resetting config.json file to default.");

@@ -198,6 +198,12 @@ A menu that opens up when we press `F4` button.
 9. Refresh config = Refreshes the mod configurations from config.json file.
 10. Refresh screen Reader = Refreshes the screen reader.
 
+**Configuration Options:-**
+
+1. For Find Water and Find Lava, or Fluid Detector:
+    - Range = The detection range.
+    - Sound Volume = The volume of the sound.
+
 ## Health n Hunger
 
 Adds a key bind to narrate/speak the player's health and hunger.
