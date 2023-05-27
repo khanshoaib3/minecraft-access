@@ -210,7 +210,7 @@ public class NarratorMenu {
                 }
             }
 
-            String toSpeak = "%d:%d".formatted(hours, minutes);
+            String toSpeak = "%02d:%02d".formatted(hours, minutes);
             toSpeak = I18n.translate(translationKey, toSpeak);
             MainClass.speakWithNarrator(toSpeak, true);
         } catch (Exception e) {
