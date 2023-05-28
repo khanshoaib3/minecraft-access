@@ -15,11 +15,13 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.util.Pair;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * This feature reads the name of the targeted block or entity.<br>
@@ -156,39 +158,42 @@ public class ReadCrosshair {
 
         if (this.speakingConsecutiveBlocks) currentQuery += " " + blockPos;
 
-        if (blockState.isIn(BlockTags.SIGNS)) {
-            String contents = "";
-            try {
-                SignBlockEntity signEntity = (SignBlockEntity) minecraftClient.world.getBlockEntity(hit.getBlockPos());
-                if (signEntity != null) {
-                    contents += signEntity.getTextOnRow(0, false).getString() + ", ";
-                    contents += signEntity.getTextOnRow(1, false).getString() + ", ";
-                    contents += signEntity.getTextOnRow(2, false).getString() + ", ";
-                    contents += signEntity.getTextOnRow(3, false).getString();
+        toSpeak = getSignInfo(minecraftClient, hit, blockState, toSpeak);
 
-                    toSpeak = I18n.translate("minecraft_access.read_crosshair.sign_content", toSpeak, contents);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+        Pair<String, String> beehiveInfo = getBeehiveInfo(minecraftClient, hit, blockState, currentQuery, toSpeak);
+        toSpeak = beehiveInfo.getLeft();
+        currentQuery = beehiveInfo.getRight();
+
+        Pair<String, String> redstoneRelatedInfo = getRedstoneRelatedInfo(minecraftClient, hit, block, blockState, currentQuery, toSpeak);
+        toSpeak = redstoneRelatedInfo.getLeft();
+        currentQuery = redstoneRelatedInfo.getRight();
+
+        speakIfFocusChanged(currentQuery, toSpeak);
+    }
+
+    private static String getSignInfo(MinecraftClient minecraftClient, BlockHitResult hit, BlockState blockState, String toSpeak) {
+        if (minecraftClient.world == null) return toSpeak;
+        if (!blockState.isIn(BlockTags.SIGNS)) return toSpeak;
+
+        String contents = "";
+        try {
+            SignBlockEntity signEntity = (SignBlockEntity) minecraftClient.world.getBlockEntity(hit.getBlockPos());
+            if (signEntity != null) {
+                contents += signEntity.getTextOnRow(0, false).getString() + ", ";
+                contents += signEntity.getTextOnRow(1, false).getString() + ", ";
+                contents += signEntity.getTextOnRow(2, false).getString() + ", ";
+                contents += signEntity.getTextOnRow(3, false).getString();
+
+                toSpeak = I18n.translate("minecraft_access.read_crosshair.sign_content", toSpeak, contents);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return toSpeak;
+    }
 
-        if (minecraftClient.world.getBlockEntity(hit.getBlockPos(), BlockEntityType.BEEHIVE).isPresent()) {
-            try {
-                BeehiveBlockEntity beehiveBlockEntity = minecraftClient.world.getBlockEntity(hit.getBlockPos(), BlockEntityType.BEEHIVE).get();
-                boolean isSmoked = beehiveBlockEntity.isSmoked();
-                int honeyLevel = blockState.get(BeehiveBlock.HONEY_LEVEL);
-                Direction facingDirection = blockState.get(BeehiveBlock.FACING);
-
-                if (isSmoked)
-                    toSpeak = I18n.translate("minecraft_access.read_crosshair.bee_hive_smoked", toSpeak);
-                if (honeyLevel > 0)
-                    toSpeak = I18n.translate("minecraft_access.read_crosshair.bee_hive_honey_level", toSpeak, honeyLevel);
-                toSpeak = I18n.translate("minecraft_access.read_crosshair.bee_hive_facing", toSpeak, facingDirection.getName());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    private static @NotNull Pair<String, String> getRedstoneRelatedInfo(MinecraftClient minecraftClient, BlockHitResult hit, Block block, BlockState blockState, String currentQuery, String toSpeak) {
+        if (minecraftClient.world == null) return new Pair<>(toSpeak, currentQuery);
 
         boolean isEmittingPower = minecraftClient.world.isEmittingRedstonePower(hit.getBlockPos().toImmutable(), Direction.DOWN);
         boolean isReceivingPower = minecraftClient.world.isReceivingRedstonePower(hit.getBlockPos().toImmutable());
@@ -250,7 +255,34 @@ public class ReadCrosshair {
             currentQuery += "powered";
         }
 
-        speakIfFocusChanged(currentQuery, toSpeak);
+        return new Pair<>(toSpeak, currentQuery);
+    }
+
+    private static @NotNull Pair<String, String> getBeehiveInfo(MinecraftClient minecraftClient, BlockHitResult hit, BlockState blockState, String currentQuery, String toSpeak) {
+        if (minecraftClient.world == null) return new Pair<>(toSpeak, currentQuery);
+        if (minecraftClient.world.getBlockEntity(hit.getBlockPos(), BlockEntityType.BEEHIVE).isEmpty())
+            return new Pair<>(toSpeak, currentQuery);
+
+        try {
+            BeehiveBlockEntity beehiveBlockEntity = minecraftClient.world.getBlockEntity(hit.getBlockPos(), BlockEntityType.BEEHIVE).get();
+            boolean isSmoked = beehiveBlockEntity.isSmoked();
+            int honeyLevel = blockState.get(BeehiveBlock.HONEY_LEVEL);
+            Direction facingDirection = blockState.get(BeehiveBlock.FACING);
+
+            if (isSmoked) {
+                toSpeak = I18n.translate("minecraft_access.read_crosshair.bee_hive_smoked", toSpeak);
+                currentQuery += "smoked";
+            }
+            if (honeyLevel > 0) {
+                toSpeak = I18n.translate("minecraft_access.read_crosshair.bee_hive_honey_level", toSpeak, honeyLevel);
+                currentQuery += ("honey-level:" + honeyLevel);
+            }
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.bee_hive_facing", toSpeak, facingDirection.getName());
+            currentQuery += ("facing:" + facingDirection.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Pair<>(toSpeak, currentQuery);
     }
 
     private boolean checkForFluidHit(MinecraftClient minecraftClient, HitResult fluidHit) {
