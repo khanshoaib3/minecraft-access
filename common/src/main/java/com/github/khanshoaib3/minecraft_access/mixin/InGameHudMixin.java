@@ -28,7 +28,10 @@ public class InGameHudMixin {
     @Inject(at = @At("TAIL"), method = "renderHeldItemTooltip")
     public void renderHeldItemTooltipMixin(MatrixStack matrixStack, CallbackInfo callbackInfo) {
         if (this.heldItemTooltipFade == 38 && !this.currentStack.isEmpty()/*FIXME && Config.get(Config.getHelditemnarratorkey())*/) {
-            MutableText mutableText = net.minecraft.text.Text.empty().append(this.currentStack.getName()).formatted(this.currentStack.getRarity().formatting);
+            MutableText mutableText = net.minecraft.text.Text.empty()
+                    .append(String.valueOf(this.currentStack.getCount()))
+                    .append(this.currentStack.getName())
+                    .formatted(this.currentStack.getRarity().formatting);
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.other.hotbar", mutableText.getString()), true);
         }
     }

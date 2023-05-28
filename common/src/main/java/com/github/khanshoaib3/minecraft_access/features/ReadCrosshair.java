@@ -105,8 +105,14 @@ public class ReadCrosshair {
         try {
             String currentQuery = hit.getEntity().getName().getString();
             if (hit.getEntity() instanceof AnimalEntity animalEntity) {
-                if (animalEntity instanceof SheepEntity sheepEntity)
-                    currentQuery = "%s %s".formatted(sheepEntity.getColor().getName(), currentQuery);
+                if (animalEntity instanceof SheepEntity sheepEntity) {
+                    String color = sheepEntity.getColor().getName();
+                    String translatedColor = I18n.translate("minecraft_access.color." + color);
+                    String shearable = sheepEntity.isShearable() ?
+                            I18n.translate("minecraft_access.other.shearable") :
+                            I18n.translate("minecraft_access.other.not_shearable");
+                    currentQuery = "%s %s %s".formatted(translatedColor, currentQuery, shearable);
+                }
                 if (animalEntity.isBaby())
                     currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_baby", currentQuery);
                 if (animalEntity.isLeashed())
