@@ -44,7 +44,7 @@ public class ReadCrosshair {
     }
 
     public String getPreviousQuery() {
-        boolean expired = System.nanoTime() - this.previousQuerySetTime > this.repeatSpeakingInterval;
+        boolean expired = (repeatSpeakingInterval != 0) && (System.nanoTime() - this.previousQuerySetTime > this.repeatSpeakingInterval);
         if (expired) {
             this.previousQuery = "";
         }
