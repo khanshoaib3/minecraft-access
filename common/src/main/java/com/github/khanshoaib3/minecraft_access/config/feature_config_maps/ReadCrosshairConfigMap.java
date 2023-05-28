@@ -9,7 +9,7 @@ public class ReadCrosshairConfigMap {
     private boolean speakSide;
     @SerializedName("Disable Speaking Consecutive Blocks With Same Name")
     private boolean disableSpeakingConsecutiveBlocks;
-    @SerializedName("Repeat Speaking Interval (in milliseconds)")
+    @SerializedName("Repeat Speaking Interval (in milliseconds) (0 to disable)")
     private long repeatSpeakingInterval;
 
     public boolean isEnabled() {
