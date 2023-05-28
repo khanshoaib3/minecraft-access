@@ -4,9 +4,7 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.feature_config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.ComparatorBlockEntity;
-import net.minecraft.block.entity.SignBlockEntity;
+import net.minecraft.block.entity.*;
 import net.minecraft.block.enums.ComparatorMode;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
@@ -133,7 +131,7 @@ public class ReadCrosshair {
 
     private void checkForBlocks(MinecraftClient minecraftClient, BlockHitResult hit) {
         if (minecraftClient.world == null) return;
-        BlockState blockState = minecraftClient.world.getBlockState(hit.getBlockPos().toImmutable());
+        BlockState blockState = minecraftClient.world.getBlockState(hit.getBlockPos());
         Block block = blockState.getBlock();
 
         String name = block.getName().getString();
@@ -150,7 +148,7 @@ public class ReadCrosshair {
             }
             side = I18n.translate(prefix + d.getName());
         }
-        toSpeak +=  " " + side;
+        toSpeak += " " + side;
 
         // Class name in production environment can be different
         String blockPos = hit.getBlockPos().toImmutable().toString();
@@ -170,6 +168,23 @@ public class ReadCrosshair {
 
                     toSpeak = I18n.translate("minecraft_access.read_crosshair.sign_content", toSpeak, contents);
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (minecraftClient.world.getBlockEntity(hit.getBlockPos(), BlockEntityType.BEEHIVE).isPresent()) {
+            try {
+                BeehiveBlockEntity beehiveBlockEntity = minecraftClient.world.getBlockEntity(hit.getBlockPos(), BlockEntityType.BEEHIVE).get();
+                boolean isSmoked = beehiveBlockEntity.isSmoked();
+                int honeyLevel = blockState.get(BeehiveBlock.HONEY_LEVEL);
+                Direction facingDirection = blockState.get(BeehiveBlock.FACING);
+
+                if (isSmoked)
+                    toSpeak = I18n.translate("minecraft_access.read_crosshair.bee_hive_smoked", toSpeak);
+                if (honeyLevel > 0)
+                    toSpeak = I18n.translate("minecraft_access.read_crosshair.bee_hive_honey_level", toSpeak, honeyLevel);
+                toSpeak = I18n.translate("minecraft_access.read_crosshair.bee_hive_facing", toSpeak, facingDirection.getName());
             } catch (Exception e) {
                 e.printStackTrace();
             }
