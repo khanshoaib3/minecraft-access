@@ -6,42 +6,38 @@ import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
-import org.lwjgl.glfw.GLFW;
+import org.nd4j.common.io.ClassPathResource;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
-import org.nd4j.linalg.io.ClassPathResource;
-import org.platanios.tensorflow.api.core.Graph;
-import org.platanios.tensorflow.api.core.Session;
-import org.platanios.tensorflow.api.core.Session.Runner;
-import org.platanios.tensorflow.api.core.Tensor;
+import org.tensorflow.Graph;
+import org.tensorflow.Session;
+import org.tensorflow.Tensor;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ScreenshotDescription {
-    private static final int ACTIVATION_KEY = GLFW.GLFW_KEY_X;  // Change this to the desired activation key
 
     public static void initialize() {
-        MinecraftClient.getInstance().keyboard.setKeyPressedCallback(MinecraftClient.getInstance().window.getHandle(), (window, key, scancode, action, modifiers) -> {
-            if (key == ACTIVATION_KEY && action == GLFW.GLFW_PRESS) {
-                HitResult hitResult = MinecraftClient.getInstance().crosshairTarget;
-                if (hitResult instanceof BlockHitResult) {
-                    BlockPos blockPos = ((BlockHitResult) hitResult).getBlockPos();
-                    // Capture screenshot
-                    String screenshotPath = captureScreenshot();
+        HitResult hitResult = MinecraftClient.getInstance().crosshairTarget;
+        if (hitResult instanceof BlockHitResult) {
+            BlockPos blockPos = ((BlockHitResult) hitResult).getBlockPos();
+            // Capture screenshot
+            String screenshotPath = captureScreenshot();
 
-                    // Generate image description using CNTK
-                    String imageDescription = generateImageDescription(screenshotPath);
+            // Generate image description using CNTK
+            String imageDescription = generateImageDescription(screenshotPath);
 
-                    // Print image description in game chat
-                    MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.of(imageDescription));
-                }
-            }
-        });
+            // Print image description in game chat
+            MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.of(imageDescription));
+        }
     }
 
     private static String captureScreenshot() {
@@ -67,24 +63,28 @@ public class ScreenshotDescription {
 
             try (Session session = new Session(graph)) {
                 INDArray imageArray = loadImage(imagePath);
-                Tensor<Float> imageTensor = Tensor.create(new long[]{1, 3, 224, 224}, imageArray);
+                Tensor<Float> imageTensor = Tensor.create(new long[]{1, 3, 224, 224}, (FloatBuffer) imageArray);
 
-                try (Runner runner = session.runner()) {
+//                session.
+                try {
+                    Session.Runner runner = session.runner();
                     runner.feed("input_1", imageTensor);
                     runner.fetch("probs/Sigmoid");
-                    Tensor<?> outputTensor = runner.runAndFetchMetadata().get(0).getTensor();
+                    Tensor<?> outputTensor = runner.runAndFetchMetadata().outputs.get(0);
 
                     INDArray outputArray = Nd4j.create(outputTensor.shape());
-                    outputTensor.writeTo(outputArray);
+                    outputTensor.writeTo((IntBuffer) outputArray);
 
                     String imageDescription = processOutput(outputArray);
                     return imageDescription;
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     private static INDArray loadImage(String imagePath) throws IOException {

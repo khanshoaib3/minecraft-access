@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.features.narrator_menu;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.Config;
+import com.github.khanshoaib3.minecraft_access.features.ScreenshotDescription;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
@@ -76,6 +77,10 @@ public class NarratorMenuGUI extends Screen {
         ButtonWidget refreshConfigButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.refresh_config",
                 (button) -> Config.refresh(true));
         this.addDrawableChild(refreshConfigButton);
+
+        ButtonWidget screenshotAIButton = this.buildButtonWidget("Scan",
+                (button) -> ScreenshotDescription.initialize());
+        this.addDrawableChild(screenshotAIButton);
     }
 
     private ButtonWidget buildButtonWidget(String translationKey, ButtonWidget.PressAction pressAction) {
