@@ -17,6 +17,13 @@ subprojects {
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
         mappings "net.fabricmc:yarn:${rootProject.fabric_yarn_version}"
+        // https://mvnrepository.com/artifact/org.platanios/tensorflow-api
+        implementation 'org.platanios:tensorflow-api_2.12:0.5.10'
+//        // https://mvnrepository.com/artifact/org.nd4j/nd4j-native-platform
+//        implementation 'org.nd4j:nd4j-native-platform:1.0.0-M2.1'
+        // https://mvnrepository.com/artifact/org.nd4j/nd4j-native-api
+        implementation 'org.nd4j:nd4j-native-api:1.0.0-M2.1'
+        implementation 'org.tensorflow:tensorflow:1.14.0'
     }
 }
 
