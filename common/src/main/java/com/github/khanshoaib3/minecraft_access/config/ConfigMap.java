@@ -16,6 +16,8 @@ public class ConfigMap {
     private FallDetectorConfigMap fallDetectorConfigMap;
     @SerializedName("Read Crosshair")
     private ReadCrosshairConfigMap readCrosshairConfigMap;
+    @SerializedName("Narrator Menu")
+    private NarratorMenuConfigMap narratorMenuConfigMap;
     @SerializedName("Other Configurations")
     private OtherConfigsMap otherConfigsMap;
 
@@ -148,6 +150,21 @@ public class ConfigMap {
 
     public void setOtherConfigsMap(OtherConfigsMap otherConfigsMap) {
         this.otherConfigsMap = otherConfigsMap;
+    }
+
+    public NarratorMenuConfigMap getNarratorMenuConfigMap() {
+        return narratorMenuConfigMap;
+    }
+
+    public void setDefaultNarratorMenuConfigMap() {
+        NarratorMenuConfigMap defaultNarratorMenuConfigMap = new NarratorMenuConfigMap();
+
+        FluidDetectorConfigMap fluidDetectorConfigMap = new FluidDetectorConfigMap();
+        fluidDetectorConfigMap.setRange(10);
+        fluidDetectorConfigMap.setVolume(0.2f);
+        defaultNarratorMenuConfigMap.setFluidDetectorConfigMap(fluidDetectorConfigMap);
+
+        this.narratorMenuConfigMap = defaultNarratorMenuConfigMap;
     }
 
     @SuppressWarnings("RedundantIfStatement")

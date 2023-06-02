@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.feature_config_maps.FluidDetectorConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -17,6 +18,9 @@ import net.minecraft.util.math.Vec3d;
  * Searches for the closest water/lava source.
  */
 public class FluidDetector {
+    private int range;
+    private float volume;
+
     /**
      * Finds the closest water source and plays a sound at its position.
      * @param closeCurrentlyOpenedScreen Whether to close the currently opened screen or not
@@ -57,11 +61,10 @@ public class FluidDetector {
         int posY = pos.getY();
         int posZ = pos.getZ();
 
-        int rangeVal = 10; //TODO Add to config
-        float vol = 0.2f;
+        loadConfigurations();
 
         BlockPos startingPointPos = new BlockPos(new Vec3d(posX, posY, posZ));
-        BlockPos closestFluidPos = findFluid(minecraftClient, startingPointPos, rangeVal, water);
+        BlockPos closestFluidPos = findFluid(minecraftClient, startingPointPos, this.range, water);
         if (closestFluidPos == null) {
             MainClass.infoLog("Unable to find closest fluid source");
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.other.not_found"), true);
@@ -70,7 +73,7 @@ public class FluidDetector {
 
         MainClass.infoLog("{FluidDetector} playing sound at %dx %dy %dz".formatted(closestFluidPos.getX(), closestFluidPos.getY(), closestFluidPos.getZ()));
         minecraftClient.world.playSound(minecraftClient.player, closestFluidPos, SoundEvents.ENTITY_ITEM_PICKUP,
-                SoundCategory.BLOCKS, vol, 1f);
+                SoundCategory.BLOCKS, this.volume, 1f);
 
         String posDifference = PositionUtils.getPositionDifference(closestFluidPos);
         String name = minecraftClient.world.getBlockState(closestFluidPos).getBlock().getName().getString();
@@ -121,5 +124,11 @@ public class FluidDetector {
         }
 
         return null;
+    }
+
+    private void loadConfigurations() {
+        FluidDetectorConfigMap map = MainClass.config.getConfigMap().getNarratorMenuConfigMap().getFluidDetectorConfigMap();
+        this.range = map.getRange();
+        this.volume = map.getVolume();
     }
 }
