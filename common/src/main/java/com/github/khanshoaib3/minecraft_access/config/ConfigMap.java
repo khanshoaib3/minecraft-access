@@ -1,6 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.config;
 
-import com.github.khanshoaib3.minecraft_access.config.feature_config_maps.*;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.*;
 import com.google.gson.annotations.SerializedName;
 
 public class ConfigMap {

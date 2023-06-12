@@ -1,6 +1,8 @@
 package com.github.khanshoaib3.minecraft_access.config;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.config_menus.CameraControlsConfigMenu;
+import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
 

@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.config;
+package com.github.khanshoaib3.minecraft_access.utils;
 
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;

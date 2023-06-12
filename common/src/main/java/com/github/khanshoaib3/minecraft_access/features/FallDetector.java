@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.feature_config_maps.FallDetectorConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.FallDetectorConfigMap;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
