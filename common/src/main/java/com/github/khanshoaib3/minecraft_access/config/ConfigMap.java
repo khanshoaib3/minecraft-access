@@ -178,6 +178,7 @@ public class ConfigMap {
                 this.getPoiConfigMap().getLockingConfigMap() == null || this.getPoiConfigMap().getBlocksConfigMap() == null)
             return false;
         if (this.getFallDetectorConfigMap() == null) return false;
+        if(this.getNarratorMenuConfigMap() == null) return false;
 
         return true;
     }
