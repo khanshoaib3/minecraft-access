@@ -25,7 +25,7 @@ public class CameraControlsConfigMenu extends BaseScreen {
         this.addDrawableChild(featureToggleButton);
 
         ButtonWidget normalRotatingAngleButton = this.buildButtonWidget(I18n.translate("minecraft_access.gui.common.button.button_with_float_value", "Normal Rotating Angle", MainClass.config.getConfigMap().getCameraControlsConfigMap().getNormalRotatingAngle()),
-                (button) -> this.client.setScreen(new ValueEntryMenu("TEST", ValueEntryMenu.TYPE.CameraControls_NormalRotatingAngle, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.CameraControls_NormalRotatingAngle, this)));
         this.addDrawableChild(normalRotatingAngleButton);
     }
 }
