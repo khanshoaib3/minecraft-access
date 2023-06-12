@@ -31,6 +31,19 @@ public class Config {
     }
 
     /**
+     * Updates the config.json with the new config map
+     * @param configMap The new config map to update to.
+     */
+    public void setConfigMap(ConfigMap configMap) {
+        try {
+            writeJSON(configMap);
+        } catch (Exception e) {
+            MainClass.errorLog("An error occurred while updating config.");
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Loads the configurations from the config.json<br>
      * The path for the file is: config/minecraft_access/config.json
      * If the json format is wrong or an error occurs, the config.json is reset to default

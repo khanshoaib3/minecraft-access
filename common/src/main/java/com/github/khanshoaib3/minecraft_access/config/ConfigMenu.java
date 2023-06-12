@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.config;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
 
 public class ConfigMenu extends BaseScreen {
@@ -13,7 +14,7 @@ public class ConfigMenu extends BaseScreen {
         super.init();
 
         ButtonWidget cameraControlsButton = this.buildButtonWidget("minecraft_access.gui.config_menu.button.camera_controls_button",
-                (button) -> MainClass.infoLog("SAVING..."));
+                (button) -> MinecraftClient.getInstance().setScreen(new CameraControlsConfigMenu("camera_controls_config_menu", this)));
         this.addDrawableChild(cameraControlsButton);
 
         ButtonWidget inventoryControlsButton = this.buildButtonWidget("minecraft_access.gui.config_menu.button.inventory_controls_button",

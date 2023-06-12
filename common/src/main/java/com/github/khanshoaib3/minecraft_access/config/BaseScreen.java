@@ -16,9 +16,16 @@ public class BaseScreen extends Screen {
     int leftColumnX;
     int rightColumnX;
     boolean shouldRenderInLeftColumn;
+    BaseScreen previousScreen;
 
     public BaseScreen(String title) {
         super(Text.of(I18n.translate("minecraft_access.gui.screen." + title)));
+        previousScreen = null;
+    }
+
+    public BaseScreen(String title, BaseScreen previousScreen) {
+        super(Text.of(I18n.translate("minecraft_access.gui.screen." + title)));
+        this.previousScreen = previousScreen;
     }
 
     @Override
@@ -48,5 +55,10 @@ public class BaseScreen extends Screen {
         this.renderBackground(matrices);
         DrawableHelper.drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 15, 16777215);
         super.render(matrices, mouseX, mouseY, delta);
+    }
+
+    @Override
+    public void close() {
+        if (this.client != null) this.client.setScreen(previousScreen);
     }
 }
