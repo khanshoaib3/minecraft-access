@@ -9,7 +9,9 @@ import org.lwjgl.glfw.GLFW;
 
 public class ValueEntryMenu extends BaseScreen {
     public enum CONFIG_TYPE {
-        CameraControls_NormalRotatingAngle
+        CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE,
+        CAMERA_CONTROLS_MODIFIED_ROTATING_ANGLE,
+        CAMERA_CONTROLS_DELAY,
     }
 
     public enum VALUE_TYPE {
@@ -32,10 +34,21 @@ public class ValueEntryMenu extends BaseScreen {
     protected void init() {
         super.init();
 
-        if (configType == CONFIG_TYPE.CameraControls_NormalRotatingAngle) {
-            this.value = String.valueOf(MainClass.config.getConfigMap().getCameraControlsConfigMap().getNormalRotatingAngle());
-            this.valueType = VALUE_TYPE.FLOAT;
+        switch (configType) {
+            case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getCameraControlsConfigMap().getNormalRotatingAngle());
+                this.valueType = VALUE_TYPE.FLOAT;
+            }
+            case CAMERA_CONTROLS_MODIFIED_ROTATING_ANGLE -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getCameraControlsConfigMap().getModifiedRotatingAngle());
+                this.valueType = VALUE_TYPE.FLOAT;
+            }
+            case CAMERA_CONTROLS_DELAY -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getCameraControlsConfigMap().getDelayInMilliseconds());
+                this.valueType = VALUE_TYPE.INT;
+            }
         }
+
         this.previousValue = this.value;
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.gui.value_entry_menu.info_text", this.value), true);
     }
@@ -70,8 +83,13 @@ public class ValueEntryMenu extends BaseScreen {
     private void updateConfig() {
         try {
             ConfigMap configMap = MainClass.config.getConfigMap();
-            if (configType == CONFIG_TYPE.CameraControls_NormalRotatingAngle) {
-                configMap.getCameraControlsConfigMap().setNormalRotatingAngle(Float.parseFloat(value));
+            switch (configType) {
+                case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE ->
+                        configMap.getCameraControlsConfigMap().setNormalRotatingAngle(Float.parseFloat(value));
+                case CAMERA_CONTROLS_MODIFIED_ROTATING_ANGLE ->
+                        configMap.getCameraControlsConfigMap().setModifiedRotatingAngle(Float.parseFloat(value));
+                case CAMERA_CONTROLS_DELAY ->
+                        configMap.getCameraControlsConfigMap().setDelayInMilliseconds(Integer.parseInt(value));
             }
             MainClass.config.setConfigMap(configMap);
         } catch (Exception e) {

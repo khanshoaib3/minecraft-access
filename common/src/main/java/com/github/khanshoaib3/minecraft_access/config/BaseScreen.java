@@ -39,13 +39,14 @@ public class BaseScreen extends Screen {
         shouldRenderInLeftColumn = true;
     }
 
-    protected ButtonWidget buildButtonWidget(String translationKey, ButtonWidget.PressAction pressAction) {
-        int calculatedButtonWidth = this.textRenderer.getWidth(I18n.translate((translationKey))) + 35;
+    protected ButtonWidget buildButtonWidget(String translationKeyOrText, ButtonWidget.PressAction pressAction) {
+        String buttonText = I18n.hasTranslation(translationKeyOrText) ? I18n.translate((translationKeyOrText)) : translationKeyOrText;
+        int calculatedButtonWidth = this.textRenderer.getWidth(buttonText) + 35;
         calculatedXPosition = (shouldRenderInLeftColumn) ? leftColumnX : rightColumnX;
         if (shouldRenderInLeftColumn) calculatedYPosition += marginY;
         shouldRenderInLeftColumn = !shouldRenderInLeftColumn;
 
-        return ButtonWidget.builder(Text.translatable(translationKey), pressAction)
+        return ButtonWidget.builder(Text.of(buttonText), pressAction)
                 .dimensions(calculatedXPosition, calculatedYPosition, calculatedButtonWidth, buttonHeight)
                 .build();
     }
