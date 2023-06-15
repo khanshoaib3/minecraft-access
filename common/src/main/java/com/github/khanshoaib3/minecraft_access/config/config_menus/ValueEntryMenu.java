@@ -23,6 +23,10 @@ public class ValueEntryMenu extends BaseScreen {
         POI_ENTITIES_VOLUME,
         POI_ENTITIES_DELAY,
         POI_LOCKING_DELAY,
+        PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD,
+        PLAYER_WARNINGS_SECOND_HEALTH_THRESHOLD,
+        PLAYER_WARNINGS_HUNGER_THRESHOLD,
+        PLAYER_WARNINGS_AIR_THRESHOLD,
     }
 
     public enum VALUE_TYPE {
@@ -94,6 +98,22 @@ public class ValueEntryMenu extends BaseScreen {
                 this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().getDelay());
                 this.valueType = VALUE_TYPE.INT;
             }
+            case PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getPlayerWarningConfigMap().getFirstHealthThreshold());
+                this.valueType = VALUE_TYPE.FLOAT;
+            }
+            case PLAYER_WARNINGS_SECOND_HEALTH_THRESHOLD -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getPlayerWarningConfigMap().getSecondHealthThreshold());
+                this.valueType = VALUE_TYPE.FLOAT;
+            }
+            case PLAYER_WARNINGS_HUNGER_THRESHOLD -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getPlayerWarningConfigMap().getHungerThreshold());
+                this.valueType = VALUE_TYPE.FLOAT;
+            }
+            case PLAYER_WARNINGS_AIR_THRESHOLD -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getPlayerWarningConfigMap().getAirThreshold());
+                this.valueType = VALUE_TYPE.FLOAT;
+            }
         }
 
         this.previousValue = this.value;
@@ -157,6 +177,14 @@ public class ValueEntryMenu extends BaseScreen {
                         configMap.getPoiConfigMap().getEntitiesConfigMap().setDelay(Integer.parseInt(value));
                 case POI_LOCKING_DELAY ->
                         configMap.getPoiConfigMap().getLockingConfigMap().setDelay(Integer.parseInt(value));
+                case PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD ->
+                        configMap.getPlayerWarningConfigMap().setFirstHealthThreshold(Double.parseDouble(value));
+                case PLAYER_WARNINGS_SECOND_HEALTH_THRESHOLD ->
+                        configMap.getPlayerWarningConfigMap().setSecondHealthThreshold(Double.parseDouble(value));
+                case PLAYER_WARNINGS_HUNGER_THRESHOLD ->
+                        configMap.getPlayerWarningConfigMap().setHungerThreshold(Double.parseDouble(value));
+                case PLAYER_WARNINGS_AIR_THRESHOLD ->
+                        configMap.getPlayerWarningConfigMap().setAirThreshold(Double.parseDouble(value));
             }
             MainClass.config.setConfigMap(configMap);
         } catch (Exception e) {

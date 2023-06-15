@@ -4,6 +4,7 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_menus.CameraControlsConfigMenu;
 import com.github.khanshoaib3.minecraft_access.config.config_menus.InventoryControlsConfigMenu;
 import com.github.khanshoaib3.minecraft_access.config.config_menus.POIConfigMenu;
+import com.github.khanshoaib3.minecraft_access.config.config_menus.PlayerWarningsConfigMenu;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 
@@ -30,7 +31,7 @@ public class ConfigMenu extends BaseScreen {
         this.addDrawableChild(poiButton);
 
         ButtonWidget playerWarningsButton = this.buildButtonWidget("minecraft_access.gui.config_menu.button.player_warnings_button",
-                (button) -> MainClass.infoLog("CANCEL..."));
+                (button) -> this.client.setScreen(new PlayerWarningsConfigMenu("player_warnings_config_menu", this)));
         this.addDrawableChild(playerWarningsButton);
 
         ButtonWidget fallDetectorButton = this.buildButtonWidget("minecraft_access.gui.config_menu.button.fall_detector_button",
