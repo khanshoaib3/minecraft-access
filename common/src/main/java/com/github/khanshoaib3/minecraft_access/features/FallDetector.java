@@ -110,6 +110,7 @@ public class FallDetector {
         if (Math.abs(dir.getZ() - center.getZ()) > range)
             return false;
 
+        //noinspection RedundantIfStatement
         if (searched.contains(dir))
             return false;
 

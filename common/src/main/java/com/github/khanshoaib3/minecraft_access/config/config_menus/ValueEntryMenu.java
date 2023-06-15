@@ -14,6 +14,8 @@ public class ValueEntryMenu extends BaseScreen {
         CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE,
         CAMERA_CONTROLS_MODIFIED_ROTATING_ANGLE,
         CAMERA_CONTROLS_DELAY,
+        INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT,
+        INVENTORY_CONTROLS_DELAY,
     }
 
     public enum VALUE_TYPE {
@@ -49,6 +51,14 @@ public class ValueEntryMenu extends BaseScreen {
                 this.value = String.valueOf(MainClass.config.getConfigMap().getCameraControlsConfigMap().getDelayInMilliseconds());
                 this.valueType = VALUE_TYPE.INT;
             }
+            case INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT -> {
+                this.value = MainClass.config.getConfigMap().getInventoryControlsConfigMap().getRowAndColumnFormat();
+                this.valueType = VALUE_TYPE.STRING;
+            }
+            case INVENTORY_CONTROLS_DELAY -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getInventoryControlsConfigMap().getDelayInMilliseconds());
+                this.valueType = VALUE_TYPE.INT;
+            }
         }
 
         this.previousValue = this.value;
@@ -64,16 +74,18 @@ public class ValueEntryMenu extends BaseScreen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) {
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+            this.close();
+        } else if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) {
             this.updateConfig();
             this.close();
-        } else if ((keyCode >= GLFW.GLFW_KEY_0 && keyCode <= GLFW.GLFW_KEY_9)
-                || (keyCode >= GLFW.GLFW_KEY_KP_0 && keyCode <= GLFW.GLFW_KEY_KP_9)
-                || (valueType != VALUE_TYPE.INT && keyCode == GLFW.GLFW_KEY_PERIOD)) {
+        } else if (valueType != VALUE_TYPE.STRING && ((keyCode >= GLFW.GLFW_KEY_0 && keyCode <= GLFW.GLFW_KEY_9)
+                        || (keyCode >= GLFW.GLFW_KEY_KP_0 && keyCode <= GLFW.GLFW_KEY_KP_9)
+                        || (valueType != VALUE_TYPE.INT && (keyCode == GLFW.GLFW_KEY_PERIOD || keyCode == GLFW.GLFW_KEY_KP_DECIMAL)))) {
             this.value += GLFW.glfwGetKeyName(keyCode, scanCode);
         } else if (keyCode == GLFW.GLFW_KEY_BACKSPACE && this.value.length() > 0) {
             this.value = this.value.substring(0, this.value.length() - 1);
-        } else if (valueType == VALUE_TYPE.STRING) {
+        } else if (valueType == VALUE_TYPE.STRING && GLFW.glfwGetKeyName(keyCode, scanCode) != null) {
             this.value += GLFW.glfwGetKeyName(keyCode, scanCode);
         } else {
             return false;
@@ -92,6 +104,10 @@ public class ValueEntryMenu extends BaseScreen {
                         configMap.getCameraControlsConfigMap().setModifiedRotatingAngle(Float.parseFloat(value));
                 case CAMERA_CONTROLS_DELAY ->
                         configMap.getCameraControlsConfigMap().setDelayInMilliseconds(Integer.parseInt(value));
+                case INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT ->
+                        configMap.getInventoryControlsConfigMap().setRowAndColumnFormat(value);
+                case INVENTORY_CONTROLS_DELAY ->
+                        configMap.getInventoryControlsConfigMap().setDelayInMilliseconds(Integer.parseInt(value));
             }
             MainClass.config.setConfigMap(configMap);
         } catch (Exception e) {

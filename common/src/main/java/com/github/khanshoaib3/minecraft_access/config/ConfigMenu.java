@@ -2,10 +2,11 @@ package com.github.khanshoaib3.minecraft_access.config;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_menus.CameraControlsConfigMenu;
+import com.github.khanshoaib3.minecraft_access.config.config_menus.InventoryControlsConfigMenu;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
 
+@SuppressWarnings("DataFlowIssue")
 public class ConfigMenu extends BaseScreen {
     public ConfigMenu(String title) {
         super(title);
@@ -16,11 +17,11 @@ public class ConfigMenu extends BaseScreen {
         super.init();
 
         ButtonWidget cameraControlsButton = this.buildButtonWidget("minecraft_access.gui.config_menu.button.camera_controls_button",
-                (button) -> MinecraftClient.getInstance().setScreen(new CameraControlsConfigMenu("camera_controls_config_menu", this)));
+                (button) -> this.client.setScreen(new CameraControlsConfigMenu("camera_controls_config_menu", this)));
         this.addDrawableChild(cameraControlsButton);
 
         ButtonWidget inventoryControlsButton = this.buildButtonWidget("minecraft_access.gui.config_menu.button.inventory_controls_button",
-                (button) -> MainClass.infoLog("CANCEL..."));
+                (button) -> this.client.setScreen(new InventoryControlsConfigMenu("inventory_controls_config_menu", this)));
         this.addDrawableChild(inventoryControlsButton);
 
         ButtonWidget poiButton = this.buildButtonWidget("minecraft_access.gui.config_menu.button.poi_button",

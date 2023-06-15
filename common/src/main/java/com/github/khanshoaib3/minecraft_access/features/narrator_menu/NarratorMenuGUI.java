@@ -20,6 +20,7 @@ public class NarratorMenuGUI extends Screen {
     int buttonHeight;
     int marginY;
     int calculatedYPosition;
+    int calculatedXPosition;
     int leftColumnX;
     int rightColumnX;
     boolean shouldRenderInLeftColumn;
@@ -86,11 +87,12 @@ public class NarratorMenuGUI extends Screen {
 
     private ButtonWidget buildButtonWidget(String translationKey, ButtonWidget.PressAction pressAction) {
         int calculatedButtonWidth = this.textRenderer.getWidth(I18n.translate((translationKey))) + 35;
+        calculatedXPosition = shouldRenderInLeftColumn ? leftColumnX : rightColumnX;
         if (shouldRenderInLeftColumn) calculatedYPosition += marginY;
         shouldRenderInLeftColumn = !shouldRenderInLeftColumn;
 
         return ButtonWidget.builder(Text.translatable(translationKey), pressAction)
-                .dimensions((shouldRenderInLeftColumn) ? leftColumnX : rightColumnX, calculatedYPosition, calculatedButtonWidth, buttonHeight)
+                .dimensions(calculatedXPosition, calculatedYPosition, calculatedButtonWidth, buttonHeight)
                 .build();
     }
 
