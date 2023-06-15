@@ -16,6 +16,9 @@ public class ValueEntryMenu extends BaseScreen {
         CAMERA_CONTROLS_DELAY,
         INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT,
         INVENTORY_CONTROLS_DELAY,
+        POI_BLOCKS_RANGE,
+        POI_BLOCKS_VOLUME,
+        POI_BLOCKS_DELAY,
         POI_ENTITIES_RANGE,
         POI_ENTITIES_VOLUME,
         POI_ENTITIES_DELAY,
@@ -61,6 +64,18 @@ public class ValueEntryMenu extends BaseScreen {
             }
             case INVENTORY_CONTROLS_DELAY -> {
                 this.value = String.valueOf(MainClass.config.getConfigMap().getInventoryControlsConfigMap().getDelayInMilliseconds());
+                this.valueType = VALUE_TYPE.INT;
+            }
+            case POI_BLOCKS_RANGE -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getRange());
+                this.valueType = VALUE_TYPE.INT;
+            }
+            case POI_BLOCKS_VOLUME -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getVolume());
+                this.valueType = VALUE_TYPE.FLOAT;
+            }
+            case POI_BLOCKS_DELAY -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getDelay());
                 this.valueType = VALUE_TYPE.INT;
             }
             case POI_ENTITIES_RANGE -> {
@@ -128,6 +143,12 @@ public class ValueEntryMenu extends BaseScreen {
                         configMap.getInventoryControlsConfigMap().setRowAndColumnFormat(value);
                 case INVENTORY_CONTROLS_DELAY ->
                         configMap.getInventoryControlsConfigMap().setDelayInMilliseconds(Integer.parseInt(value));
+                case POI_BLOCKS_RANGE ->
+                        configMap.getPoiConfigMap().getBlocksConfigMap().setRange(Integer.parseInt(value));
+                case POI_BLOCKS_VOLUME ->
+                        configMap.getPoiConfigMap().getBlocksConfigMap().setVolume(Float.parseFloat(value));
+                case POI_BLOCKS_DELAY ->
+                        configMap.getPoiConfigMap().getBlocksConfigMap().setDelay(Integer.parseInt(value));
                 case POI_ENTITIES_RANGE ->
                         configMap.getPoiConfigMap().getEntitiesConfigMap().setRange(Integer.parseInt(value));
                 case POI_ENTITIES_VOLUME ->

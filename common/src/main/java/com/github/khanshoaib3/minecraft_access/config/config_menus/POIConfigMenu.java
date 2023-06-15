@@ -31,6 +31,7 @@ public class POIConfigMenu extends BaseScreen {
     }
 }
 
+@SuppressWarnings("DataFlowIssue")
 class POIBlocksConfigMenu extends BaseScreen {
     public POIBlocksConfigMenu(String title, BaseScreen previousScreen) {
         super(title, previousScreen);
@@ -39,6 +40,80 @@ class POIBlocksConfigMenu extends BaseScreen {
     @Override
     protected void init() {
         super.init();
+
+        ButtonWidget featureToggleButton = this.buildButtonWidget("minecraft_access.gui.common.button.feature_toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isEnabled() ? "enabled" : "disabled"),
+                (button) -> {
+                    ConfigMap configMap = MainClass.config.getConfigMap();
+                    configMap.getPoiConfigMap().getBlocksConfigMap().setEnabled(!configMap.getPoiConfigMap().getBlocksConfigMap().isEnabled());
+                    MainClass.config.setConfigMap(configMap);
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.feature_toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isEnabled() ? "enabled" : "disabled"))));
+                });
+        this.addDrawableChild(featureToggleButton);
+
+        ButtonWidget detectFluidBlocksButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isDetectFluidBlocks() ? "enabled" : "disabled"),
+                        I18n.translate("minecraft_access.gui.poi_blocks_config_menu.button.detect_fluid_blocks_button")
+                ),
+                (button) -> {
+                    ConfigMap configMap = MainClass.config.getConfigMap();
+                    configMap.getPoiConfigMap().getBlocksConfigMap().setDetectFluidBlocks(!configMap.getPoiConfigMap().getBlocksConfigMap().isDetectFluidBlocks());
+                    MainClass.config.setConfigMap(configMap);
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isDetectFluidBlocks() ? "enabled" : "disabled"),
+                            I18n.translate("minecraft_access.gui.poi_blocks_config_menu.button.detect_fluid_blocks_button")
+                    )));
+                });
+        this.addDrawableChild(detectFluidBlocksButton);
+
+        ButtonWidget rangeButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
+                        I18n.translate("minecraft_access.gui.poi_blocks_config_menu.button.range_button"),
+                        MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getRange()
+                ),
+                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_BLOCKS_RANGE, this)));
+        this.addDrawableChild(rangeButton);
+
+        ButtonWidget playSoundButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isPlaySound() ? "enabled" : "disabled"),
+                        I18n.translate("minecraft_access.gui.poi_blocks_config_menu.button.play_sound_button")
+                ),
+                (button) -> {
+                    ConfigMap configMap = MainClass.config.getConfigMap();
+                    configMap.getPoiConfigMap().getBlocksConfigMap().setPlaySound(!configMap.getPoiConfigMap().getBlocksConfigMap().isPlaySound());
+                    MainClass.config.setConfigMap(configMap);
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isPlaySound() ? "enabled" : "disabled"),
+                            I18n.translate("minecraft_access.gui.poi_blocks_config_menu.button.play_sound_button")
+                    )));
+                });
+        this.addDrawableChild(playSoundButton);
+
+        ButtonWidget volumeButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
+                        I18n.translate("minecraft_access.gui.poi_blocks_config_menu.button.volume_button"),
+                        MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getVolume()
+                ),
+                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_BLOCKS_VOLUME, this)));
+        this.addDrawableChild(volumeButton);
+
+        ButtonWidget playSoundForOtherBlocksButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isPlaySoundForOtherBlocks() ? "enabled" : "disabled"),
+                        I18n.translate("minecraft_access.gui.poi_blocks_config_menu.button.play_sound_for_other_blocks_button")
+                ),
+                (button) -> {
+                    ConfigMap configMap = MainClass.config.getConfigMap();
+                    configMap.getPoiConfigMap().getBlocksConfigMap().setPlaySoundForOtherBlocks(!configMap.getPoiConfigMap().getBlocksConfigMap().isPlaySoundForOtherBlocks());
+                    MainClass.config.setConfigMap(configMap);
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isPlaySoundForOtherBlocks() ? "enabled" : "disabled"),
+                            I18n.translate("minecraft_access.gui.poi_blocks_config_menu.button.play_sound_for_other_blocks_button")
+                    )));
+                },
+                true);
+        this.addDrawableChild(playSoundForOtherBlocksButton);
+
+        ButtonWidget delayButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.delay",
+                        MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getDelay()),
+                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_BLOCKS_DELAY, this)));
+        this.addDrawableChild(delayButton);
     }
 }
 
