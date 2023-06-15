@@ -40,11 +40,21 @@ public class BaseScreen extends Screen {
     }
 
     protected ButtonWidget buildButtonWidget(String translationKeyOrText, ButtonWidget.PressAction pressAction) {
+        return buildButtonWidget(translationKeyOrText, pressAction, false);
+    }
+
+    protected ButtonWidget buildButtonWidget(String translationKeyOrText, ButtonWidget.PressAction pressAction, boolean shouldRenderInSeparateRow) {
         String buttonText = I18n.hasTranslation(translationKeyOrText) ? I18n.translate((translationKeyOrText)) : translationKeyOrText;
         int calculatedButtonWidth = this.textRenderer.getWidth(buttonText) + 35;
-        calculatedXPosition = (shouldRenderInLeftColumn) ? leftColumnX : rightColumnX;
-        if (shouldRenderInLeftColumn) calculatedYPosition += marginY;
-        shouldRenderInLeftColumn = !shouldRenderInLeftColumn;
+        if (shouldRenderInSeparateRow) {
+            calculatedXPosition = centerX - calculatedButtonWidth / 2;
+            calculatedYPosition += marginY;
+            shouldRenderInLeftColumn = true;
+        } else {
+            calculatedXPosition = (shouldRenderInLeftColumn) ? leftColumnX : rightColumnX;
+            if (shouldRenderInLeftColumn) calculatedYPosition += marginY;
+            shouldRenderInLeftColumn = !shouldRenderInLeftColumn;
+        }
 
         return ButtonWidget.builder(Text.of(buttonText), pressAction)
                 .dimensions(calculatedXPosition, calculatedYPosition, calculatedButtonWidth, buttonHeight)

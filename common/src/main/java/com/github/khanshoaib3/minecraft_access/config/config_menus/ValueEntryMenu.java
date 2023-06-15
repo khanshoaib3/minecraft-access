@@ -16,6 +16,7 @@ public class ValueEntryMenu extends BaseScreen {
         CAMERA_CONTROLS_DELAY,
         INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT,
         INVENTORY_CONTROLS_DELAY,
+        POI_LOCKING_DELAY,
     }
 
     public enum VALUE_TYPE {
@@ -59,6 +60,10 @@ public class ValueEntryMenu extends BaseScreen {
                 this.value = String.valueOf(MainClass.config.getConfigMap().getInventoryControlsConfigMap().getDelayInMilliseconds());
                 this.valueType = VALUE_TYPE.INT;
             }
+            case POI_LOCKING_DELAY -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().getDelay());
+                this.valueType = VALUE_TYPE.INT;
+            }
         }
 
         this.previousValue = this.value;
@@ -80,8 +85,8 @@ public class ValueEntryMenu extends BaseScreen {
             this.updateConfig();
             this.close();
         } else if (valueType != VALUE_TYPE.STRING && ((keyCode >= GLFW.GLFW_KEY_0 && keyCode <= GLFW.GLFW_KEY_9)
-                        || (keyCode >= GLFW.GLFW_KEY_KP_0 && keyCode <= GLFW.GLFW_KEY_KP_9)
-                        || (valueType != VALUE_TYPE.INT && (keyCode == GLFW.GLFW_KEY_PERIOD || keyCode == GLFW.GLFW_KEY_KP_DECIMAL)))) {
+                || (keyCode >= GLFW.GLFW_KEY_KP_0 && keyCode <= GLFW.GLFW_KEY_KP_9)
+                || (valueType != VALUE_TYPE.INT && (keyCode == GLFW.GLFW_KEY_PERIOD || keyCode == GLFW.GLFW_KEY_KP_DECIMAL)))) {
             this.value += GLFW.glfwGetKeyName(keyCode, scanCode);
         } else if (keyCode == GLFW.GLFW_KEY_BACKSPACE && this.value.length() > 0) {
             this.value = this.value.substring(0, this.value.length() - 1);
@@ -108,6 +113,8 @@ public class ValueEntryMenu extends BaseScreen {
                         configMap.getInventoryControlsConfigMap().setRowAndColumnFormat(value);
                 case INVENTORY_CONTROLS_DELAY ->
                         configMap.getInventoryControlsConfigMap().setDelayInMilliseconds(Integer.parseInt(value));
+                case POI_LOCKING_DELAY ->
+                        configMap.getPoiConfigMap().getLockingConfigMap().setDelay(Integer.parseInt(value));
             }
             MainClass.config.setConfigMap(configMap);
         } catch (Exception e) {

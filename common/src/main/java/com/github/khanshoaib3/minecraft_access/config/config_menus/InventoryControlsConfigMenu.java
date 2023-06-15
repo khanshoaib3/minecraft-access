@@ -34,7 +34,9 @@ public class InventoryControlsConfigMenu extends BaseScreen {
                     ConfigMap configMap = MainClass.config.getConfigMap();
                     configMap.getInventoryControlsConfigMap().setAutoOpenRecipeBook(!configMap.getInventoryControlsConfigMap().isAutoOpenRecipeBook());
                     MainClass.config.setConfigMap(configMap);
-                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.feature_toggle_button." + (MainClass.config.getConfigMap().getInventoryControlsConfigMap().isAutoOpenRecipeBook() ? "enabled" : "disabled"))));
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getInventoryControlsConfigMap().isAutoOpenRecipeBook() ? "enabled" : "disabled"),
+                            I18n.translate("minecraft_access.gui.inventory_controls_config_menu.button.auto_open_recipe_book")
+                    )));
                 });
         this.addDrawableChild(autoOpenRecipeBookButton);
 
