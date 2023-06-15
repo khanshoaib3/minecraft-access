@@ -42,6 +42,7 @@ class POIBlocksConfigMenu extends BaseScreen {
     }
 }
 
+@SuppressWarnings("DataFlowIssue")
 class POIEntitiesConfigMenu extends BaseScreen {
     public POIEntitiesConfigMenu(String title, BaseScreen previousScreen) {
         super(title, previousScreen);
@@ -50,6 +51,51 @@ class POIEntitiesConfigMenu extends BaseScreen {
     @Override
     protected void init() {
         super.init();
+
+        ButtonWidget featureToggleButton = this.buildButtonWidget("minecraft_access.gui.common.button.feature_toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isEnabled() ? "enabled" : "disabled"),
+                (button) -> {
+                    ConfigMap configMap = MainClass.config.getConfigMap();
+                    configMap.getPoiConfigMap().getEntitiesConfigMap().setEnabled(!configMap.getPoiConfigMap().getEntitiesConfigMap().isEnabled());
+                    MainClass.config.setConfigMap(configMap);
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.feature_toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isEnabled() ? "enabled" : "disabled"))));
+                });
+        this.addDrawableChild(featureToggleButton);
+
+        ButtonWidget rangeButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
+                        I18n.translate("minecraft_access.gui.poi_entities_config_menu.button.range_button"),
+                        MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getRange()
+                ),
+                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_ENTITIES_RANGE, this)));
+        this.addDrawableChild(rangeButton);
+
+        ButtonWidget playSoundButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isPlaySound() ? "enabled" : "disabled"),
+                        I18n.translate("minecraft_access.gui.poi_entities_config_menu.button.play_sound_button")
+                ),
+                (button) -> {
+                    ConfigMap configMap = MainClass.config.getConfigMap();
+                    configMap.getPoiConfigMap().getEntitiesConfigMap().setPlaySound(!configMap.getPoiConfigMap().getEntitiesConfigMap().isPlaySound());
+                    MainClass.config.setConfigMap(configMap);
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isPlaySound() ? "enabled" : "disabled"),
+                            I18n.translate("minecraft_access.gui.poi_entities_config_menu.button.play_sound_button")
+                    )));
+                });
+        this.addDrawableChild(playSoundButton);
+
+        ButtonWidget volumeButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
+                        I18n.translate("minecraft_access.gui.poi_entities_config_menu.button.volume_button"),
+                        MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getVolume()
+                ),
+                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_ENTITIES_VOLUME, this)));
+        this.addDrawableChild(volumeButton);
+
+        ButtonWidget delayButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.delay",
+                        MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getDelay()),
+                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_ENTITIES_DELAY, this)));
+        this.addDrawableChild(delayButton);
     }
 }
 
