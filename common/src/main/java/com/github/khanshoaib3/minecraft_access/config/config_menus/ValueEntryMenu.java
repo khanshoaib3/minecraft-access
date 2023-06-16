@@ -27,6 +27,10 @@ public class ValueEntryMenu extends BaseScreen {
         PLAYER_WARNINGS_SECOND_HEALTH_THRESHOLD,
         PLAYER_WARNINGS_HUNGER_THRESHOLD,
         PLAYER_WARNINGS_AIR_THRESHOLD,
+        FALL_DETECTOR_RANGE,
+        FALL_DETECTOR_DEPTH_THRESHOLD,
+        FALL_DETECTOR_VOLUME,
+        FALL_DETECTOR_DELAY,
     }
 
     public enum VALUE_TYPE {
@@ -114,6 +118,22 @@ public class ValueEntryMenu extends BaseScreen {
                 this.value = String.valueOf(MainClass.config.getConfigMap().getPlayerWarningConfigMap().getAirThreshold());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
+            case FALL_DETECTOR_RANGE -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getFallDetectorConfigMap().getRange());
+                this.valueType = VALUE_TYPE.INT;
+            }
+            case FALL_DETECTOR_DEPTH_THRESHOLD -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getFallDetectorConfigMap().getDepth());
+                this.valueType = VALUE_TYPE.INT;
+            }
+            case FALL_DETECTOR_VOLUME -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getFallDetectorConfigMap().getVolume());
+                this.valueType = VALUE_TYPE.FLOAT;
+            }
+            case FALL_DETECTOR_DELAY -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getFallDetectorConfigMap().getDelay());
+                this.valueType = VALUE_TYPE.INT;
+            }
         }
 
         this.previousValue = this.value;
@@ -185,6 +205,14 @@ public class ValueEntryMenu extends BaseScreen {
                         configMap.getPlayerWarningConfigMap().setHungerThreshold(Double.parseDouble(value));
                 case PLAYER_WARNINGS_AIR_THRESHOLD ->
                         configMap.getPlayerWarningConfigMap().setAirThreshold(Double.parseDouble(value));
+                case FALL_DETECTOR_RANGE ->
+                        configMap.getFallDetectorConfigMap().setRange(Integer.parseInt(value));
+                case FALL_DETECTOR_DEPTH_THRESHOLD ->
+                        configMap.getFallDetectorConfigMap().setDepth(Integer.parseInt(value));
+                case FALL_DETECTOR_VOLUME ->
+                        configMap.getFallDetectorConfigMap().setVolume(Float.parseFloat(value));
+                case FALL_DETECTOR_DELAY ->
+                        configMap.getFallDetectorConfigMap().setDelay(Integer.parseInt(value));
             }
             MainClass.config.setConfigMap(configMap);
         } catch (Exception e) {

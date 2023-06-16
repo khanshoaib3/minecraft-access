@@ -143,7 +143,7 @@ public class FallDetector {
         enabled = fallDetectorConfigMap.isEnabled();
         range = fallDetectorConfigMap.getRange();
         depth = fallDetectorConfigMap.getDepth();
-//        playSound = fallDetectorConfigMap.isPlaySound();
+//        playSound = fallDetectorConfigMap.isPlayAlternateSound();
         volume = fallDetectorConfigMap.getVolume();
         delayInMilliseconds = fallDetectorConfigMap.getDelay();
     }

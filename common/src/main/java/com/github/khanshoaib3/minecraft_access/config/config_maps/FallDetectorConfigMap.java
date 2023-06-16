@@ -9,8 +9,8 @@ public class FallDetectorConfigMap {
     private int range;
     @SerializedName("Depth Threshold")
     private int depth;
-//    @SerializedName("Play Sound")
-//    private boolean playSound;
+    @SerializedName("Play Alternate Sound")
+    private boolean playAlternateSound;
     @SerializedName("Sound Volume")
     private float volume;
     @SerializedName("Delay (in milliseconds)")
@@ -40,16 +40,16 @@ public class FallDetectorConfigMap {
         this.depth = depth;
     }
 
-//    public boolean isPlaySound() {
-//        return playSound;
-//    }
-//
-//    public void setPlaySound(boolean playSound) {
-//        this.playSound = playSound;
-//    }
-
     public float getVolume() {
         return volume;
+    }
+
+    public boolean isPlayAlternateSound() {
+        return playAlternateSound;
+    }
+
+    public void setPlayAlternateSound(boolean playAlternateSound) {
+        this.playAlternateSound = playAlternateSound;
     }
 
     public void setVolume(float volume) {
@@ -64,12 +64,12 @@ public class FallDetectorConfigMap {
         this.delay = delay;
     }
 
-    public static FallDetectorConfigMap defaultFallDetectorConfigMap(){
+    public static FallDetectorConfigMap defaultFallDetectorConfigMap() {
         FallDetectorConfigMap fallDetectorConfigMap = new FallDetectorConfigMap();
         fallDetectorConfigMap.setEnabled(true);
         fallDetectorConfigMap.setRange(6);
         fallDetectorConfigMap.setDepth(4);
-//        fallDetectorConfigMap.setPlaySound(true);
+        fallDetectorConfigMap.setPlayAlternateSound(true);
         fallDetectorConfigMap.setVolume(0.25f);
         fallDetectorConfigMap.setDelay(2500);
 
