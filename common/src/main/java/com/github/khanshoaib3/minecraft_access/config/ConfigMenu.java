@@ -36,7 +36,7 @@ public class ConfigMenu extends BaseScreen {
         this.addDrawableChild(fallDetectorButton);
 
         ButtonWidget readCrosshairButton = this.buildButtonWidget("minecraft_access.gui.config_menu.button.read_crosshair_button",
-                (button) -> MainClass.infoLog("CANCEL..."));
+                (button) -> this.client.setScreen(new ReadCrosshairConfigMenu("read_crosshair_config_menu", this)));
         this.addDrawableChild(readCrosshairButton);
 
         ButtonWidget narratorMenuButton = this.buildButtonWidget("minecraft_access.gui.config_menu.button.narrator_menu_button",

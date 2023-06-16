@@ -31,6 +31,7 @@ public class ValueEntryMenu extends BaseScreen {
         FALL_DETECTOR_DEPTH_THRESHOLD,
         FALL_DETECTOR_VOLUME,
         FALL_DETECTOR_DELAY,
+        READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL,
     }
 
     public enum VALUE_TYPE {
@@ -134,6 +135,10 @@ public class ValueEntryMenu extends BaseScreen {
                 this.value = String.valueOf(MainClass.config.getConfigMap().getFallDetectorConfigMap().getDelay());
                 this.valueType = VALUE_TYPE.INT;
             }
+            case READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getReadCrosshairConfigMap().getRepeatSpeakingInterval());
+                this.valueType = VALUE_TYPE.INT;
+            }
         }
 
         this.previousValue = this.value;
@@ -213,6 +218,8 @@ public class ValueEntryMenu extends BaseScreen {
                         configMap.getFallDetectorConfigMap().setVolume(Float.parseFloat(value));
                 case FALL_DETECTOR_DELAY ->
                         configMap.getFallDetectorConfigMap().setDelay(Integer.parseInt(value));
+                case READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL ->
+                        configMap.getReadCrosshairConfigMap().setRepeatSpeakingInterval(Long.parseLong(value));
             }
             MainClass.config.setConfigMap(configMap);
         } catch (Exception e) {
