@@ -77,8 +77,9 @@ public class Config {
     /**
      * Resets the config.json to default
      */
-    private void resetToDefault() {
+    protected void resetToDefault() {
         try {
+            // TODO Update these
             configMap = new ConfigMap();
             configMap.setDefaultCameraControlsConfigMap();
             configMap.setDefaultInventoryControlsConfigMap();
