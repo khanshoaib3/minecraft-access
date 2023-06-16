@@ -27,10 +27,8 @@ public class FallDetectorConfigMenu extends BaseScreen {
         this.addDrawableChild(featureToggleButton);
 
         ButtonWidget rangeButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
-                        I18n.translate("minecraft_access.gui.fall_detector_config_menu.button.range_button"),
-                        MainClass.config.getConfigMap().getFallDetectorConfigMap().getRange()
-                ),
+                I18n.translate("minecraft_access.gui.common.button.range",
+                        MainClass.config.getConfigMap().getFallDetectorConfigMap().getRange()),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.FALL_DETECTOR_RANGE, this)));
         this.addDrawableChild(rangeButton);
 

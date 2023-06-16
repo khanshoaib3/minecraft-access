@@ -65,10 +65,8 @@ class POIBlocksConfigMenu extends BaseScreen {
         this.addDrawableChild(detectFluidBlocksButton);
 
         ButtonWidget rangeButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
-                        I18n.translate("minecraft_access.gui.poi_blocks_config_menu.button.range_button"),
-                        MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getRange()
-                ),
+                I18n.translate("minecraft_access.gui.common.button.range",
+                        MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getRange()),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_BLOCKS_RANGE, this)));
         this.addDrawableChild(rangeButton);
 
@@ -137,10 +135,8 @@ class POIEntitiesConfigMenu extends BaseScreen {
         this.addDrawableChild(featureToggleButton);
 
         ButtonWidget rangeButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
-                        I18n.translate("minecraft_access.gui.poi_entities_config_menu.button.range_button"),
-                        MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getRange()
-                ),
+                I18n.translate("minecraft_access.gui.common.button.range",
+                        MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getRange()),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_ENTITIES_RANGE, this)));
         this.addDrawableChild(rangeButton);
 
