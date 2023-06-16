@@ -156,15 +156,8 @@ public class ConfigMap {
         return narratorMenuConfigMap;
     }
 
-    public void setDefaultNarratorMenuConfigMap() {
-        NarratorMenuConfigMap defaultNarratorMenuConfigMap = new NarratorMenuConfigMap();
-
-        FluidDetectorConfigMap fluidDetectorConfigMap = new FluidDetectorConfigMap();
-        fluidDetectorConfigMap.setRange(10);
-        fluidDetectorConfigMap.setVolume(0.2f);
-        defaultNarratorMenuConfigMap.setFluidDetectorConfigMap(fluidDetectorConfigMap);
-
-        this.narratorMenuConfigMap = defaultNarratorMenuConfigMap;
+    public void setNarratorMenuConfigMap(NarratorMenuConfigMap narratorMenuConfigMap) {
+        this.narratorMenuConfigMap = narratorMenuConfigMap;
     }
 
     @SuppressWarnings("RedundantIfStatement")

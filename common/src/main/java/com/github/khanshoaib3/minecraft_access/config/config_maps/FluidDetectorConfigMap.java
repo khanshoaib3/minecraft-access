@@ -24,4 +24,11 @@ public class FluidDetectorConfigMap {
     public void setRange(int range) {
         this.range = range;
     }
+
+    public static FluidDetectorConfigMap getDefaultFluidDetectorConfigMap() {
+        FluidDetectorConfigMap defaultFluidDetectorConfigMap  = new FluidDetectorConfigMap();
+        defaultFluidDetectorConfigMap.setRange(10);
+        defaultFluidDetectorConfigMap.setVolume(0.25f);
+        return defaultFluidDetectorConfigMap;
+    }
 }

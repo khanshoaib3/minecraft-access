@@ -20,8 +20,6 @@ public class OtherConfigsMap {
     private boolean use12HourTimeFormat;
     @SerializedName("Speak Action Bar Updates")
     private boolean actionBarEnabled;
-    @SerializedName("Enable Narrator Menu")
-    private boolean narratorMenuEnabled;
     @SerializedName("Enable Menu Fix")
     private boolean menuFixEnabled;
     @SerializedName("Debug Mode")
@@ -83,14 +81,6 @@ public class OtherConfigsMap {
         this.use12HourTimeFormat = use12HourTimeFormat;
     }
 
-    public boolean isNarratorMenuEnabled() {
-        return narratorMenuEnabled;
-    }
-
-    public void setNarratorMenuEnabled(boolean narratorMenuEnabled) {
-        this.narratorMenuEnabled = narratorMenuEnabled;
-    }
-
     public boolean isMenuFixEnabled() {
         return menuFixEnabled;
     }
@@ -125,7 +115,6 @@ public class OtherConfigsMap {
         defaultOtherConfigsMap.setPositionNarratorFormat(PositionNarrator.defaultFormat);
         defaultOtherConfigsMap.setUse12HourTimeFormat(false);
         defaultOtherConfigsMap.setActionBarEnabled(true);
-        defaultOtherConfigsMap.setNarratorMenuEnabled(true);
         defaultOtherConfigsMap.setMenuFixEnabled(true);
         defaultOtherConfigsMap.setDebugMode(false);
 

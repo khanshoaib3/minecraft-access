@@ -1,6 +1,5 @@
 package com.github.khanshoaib3.minecraft_access.config;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_menus.*;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -44,7 +43,7 @@ public class ConfigMenu extends BaseScreen {
         this.addDrawableChild(narratorMenuButton);
 
         ButtonWidget otherButton = this.buildButtonWidget("minecraft_access.gui.config_menu.button.other_button",
-                (button) -> MainClass.infoLog("CANCEL..."));
+                (button) -> this.client.setScreen(new OtherConfigMenu("other_config_menu", this)));
         this.addDrawableChild(otherButton);
     }
 }

@@ -34,6 +34,7 @@ public class ValueEntryMenu extends BaseScreen {
         READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL,
         NARRATOR_MENU_VOLUME,
         NARRATOR_MENU_RANGE,
+        OTHER_POSITION_NARRATOR_FORMAT,
     }
 
     public enum VALUE_TYPE {
@@ -149,6 +150,10 @@ public class ValueEntryMenu extends BaseScreen {
                 this.value = String.valueOf(MainClass.config.getConfigMap().getNarratorMenuConfigMap().getFluidDetectorConfigMap().getRange());
                 this.valueType = VALUE_TYPE.INT;
             }
+            case OTHER_POSITION_NARRATOR_FORMAT -> {
+                this.value = MainClass.config.getConfigMap().getOtherConfigsMap().getPositionNarratorFormat();
+                this.valueType = VALUE_TYPE.STRING;
+            }
         }
 
         this.previousValue = this.value;
@@ -234,6 +239,8 @@ public class ValueEntryMenu extends BaseScreen {
                         configMap.getNarratorMenuConfigMap().getFluidDetectorConfigMap().setVolume(Float.parseFloat(value));
                 case NARRATOR_MENU_RANGE ->
                         configMap.getNarratorMenuConfigMap().getFluidDetectorConfigMap().setRange(Integer.parseInt(value));
+                case OTHER_POSITION_NARRATOR_FORMAT ->
+                        configMap.getOtherConfigsMap().setPositionNarratorFormat(value);
             }
             MainClass.config.setConfigMap(configMap);
         } catch (Exception e) {

@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.config;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.FallDetectorConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.NarratorMenuConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -86,7 +87,7 @@ public class Config {
             configMap.setFallDetectorConfigMap(FallDetectorConfigMap.defaultFallDetectorConfigMap());
             configMap.setDefaultReadCrosshairConfigMap();
             configMap.setOtherConfigsMap(OtherConfigsMap.getDefaultOtherConfigsMap());
-            configMap.setDefaultNarratorMenuConfigMap();
+            configMap.setNarratorMenuConfigMap(NarratorMenuConfigMap.getDefaultNarratorMenuConfigMap());
             writeJSON(configMap);
         } catch (Exception e) {
             MainClass.errorLog("An error occurred while resetting config.json file to default.");
