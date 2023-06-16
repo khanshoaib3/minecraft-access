@@ -70,17 +70,12 @@ class POIBlocksConfigMenu extends BaseScreen {
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_BLOCKS_RANGE, this)));
         this.addDrawableChild(rangeButton);
 
-        ButtonWidget playSoundButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isPlaySound() ? "enabled" : "disabled"),
-                        I18n.translate("minecraft_access.gui.poi_blocks_config_menu.button.play_sound_button")
-                ),
+        ButtonWidget playSoundButton = this.buildButtonWidget("minecraft_access.gui.common.button.play_sound_toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isPlaySound() ? "enabled" : "disabled"),
                 (button) -> {
                     ConfigMap configMap = MainClass.config.getConfigMap();
                     configMap.getPoiConfigMap().getBlocksConfigMap().setPlaySound(!configMap.getPoiConfigMap().getBlocksConfigMap().isPlaySound());
                     MainClass.config.setConfigMap(configMap);
-                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isPlaySound() ? "enabled" : "disabled"),
-                            I18n.translate("minecraft_access.gui.poi_blocks_config_menu.button.play_sound_button")
-                    )));
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.play_sound_toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().isPlaySound() ? "enabled" : "disabled"))));
                 });
         this.addDrawableChild(playSoundButton);
 
@@ -138,17 +133,12 @@ class POIEntitiesConfigMenu extends BaseScreen {
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_ENTITIES_RANGE, this)));
         this.addDrawableChild(rangeButton);
 
-        ButtonWidget playSoundButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isPlaySound() ? "enabled" : "disabled"),
-                        I18n.translate("minecraft_access.gui.poi_entities_config_menu.button.play_sound_button")
-                ),
+        ButtonWidget playSoundButton = this.buildButtonWidget("minecraft_access.gui.common.button.play_sound_toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isPlaySound() ? "enabled" : "disabled"),
                 (button) -> {
                     ConfigMap configMap = MainClass.config.getConfigMap();
                     configMap.getPoiConfigMap().getEntitiesConfigMap().setPlaySound(!configMap.getPoiConfigMap().getEntitiesConfigMap().isPlaySound());
                     MainClass.config.setConfigMap(configMap);
-                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isPlaySound() ? "enabled" : "disabled"),
-                            I18n.translate("minecraft_access.gui.poi_entities_config_menu.button.play_sound_button")
-                    )));
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.play_sound_toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isPlaySound() ? "enabled" : "disabled"))));
                 });
         this.addDrawableChild(playSoundButton);
 

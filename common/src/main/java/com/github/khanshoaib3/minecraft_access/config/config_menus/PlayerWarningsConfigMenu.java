@@ -26,17 +26,12 @@ public class PlayerWarningsConfigMenu extends BaseScreen {
                 });
         this.addDrawableChild(featureToggleButton);
 
-        ButtonWidget playSoundButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPlayerWarningConfigMap().isPlaySound() ? "enabled" : "disabled"),
-                        I18n.translate("minecraft_access.gui.player_warnings_config_menu.button.play_sound_button")
-                ),
+        ButtonWidget playSoundButton = this.buildButtonWidget("minecraft_access.gui.common.button.play_sound_toggle_button." + (MainClass.config.getConfigMap().getPlayerWarningConfigMap().isPlaySound() ? "enabled" : "disabled"),
                 (button) -> {
                     ConfigMap configMap = MainClass.config.getConfigMap();
                     configMap.getPlayerWarningConfigMap().setPlaySound(!configMap.getPlayerWarningConfigMap().isPlaySound());
                     MainClass.config.setConfigMap(configMap);
-                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPlayerWarningConfigMap().isPlaySound() ? "enabled" : "disabled"),
-                            I18n.translate("minecraft_access.gui.player_warnings_config_menu.button.play_sound_button")
-                    )));
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.play_sound_toggle_button." + (MainClass.config.getConfigMap().getPlayerWarningConfigMap().isPlaySound() ? "enabled" : "disabled"))));
                 });
         this.addDrawableChild(playSoundButton);
 
