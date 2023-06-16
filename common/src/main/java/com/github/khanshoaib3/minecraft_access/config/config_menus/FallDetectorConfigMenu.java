@@ -56,10 +56,8 @@ public class FallDetectorConfigMenu extends BaseScreen {
         this.addDrawableChild(playAlternateSoundButton);
 
         ButtonWidget volumeButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
-                        I18n.translate("minecraft_access.gui.fall_detector_config_menu.button.volume_button"),
-                        MainClass.config.getConfigMap().getFallDetectorConfigMap().getVolume()
-                ),
+                I18n.translate("minecraft_access.gui.common.button.volume",
+                        MainClass.config.getConfigMap().getFallDetectorConfigMap().getVolume()),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.FALL_DETECTOR_VOLUME, this)));
         this.addDrawableChild(volumeButton);
 

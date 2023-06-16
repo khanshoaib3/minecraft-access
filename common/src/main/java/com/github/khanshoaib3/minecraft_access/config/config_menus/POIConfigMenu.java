@@ -85,10 +85,8 @@ class POIBlocksConfigMenu extends BaseScreen {
         this.addDrawableChild(playSoundButton);
 
         ButtonWidget volumeButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
-                        I18n.translate("minecraft_access.gui.poi_blocks_config_menu.button.volume_button"),
-                        MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getVolume()
-                ),
+                I18n.translate("minecraft_access.gui.common.button.volume",
+                        MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getVolume()),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_BLOCKS_VOLUME, this)));
         this.addDrawableChild(volumeButton);
 
@@ -155,10 +153,8 @@ class POIEntitiesConfigMenu extends BaseScreen {
         this.addDrawableChild(playSoundButton);
 
         ButtonWidget volumeButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
-                        I18n.translate("minecraft_access.gui.poi_entities_config_menu.button.volume_button"),
-                        MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getVolume()
-                ),
+                I18n.translate("minecraft_access.gui.common.button.volume",
+                        MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getVolume()),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_ENTITIES_VOLUME, this)));
         this.addDrawableChild(volumeButton);
 
