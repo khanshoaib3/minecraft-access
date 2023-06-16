@@ -40,7 +40,7 @@ public class ConfigMenu extends BaseScreen {
         this.addDrawableChild(readCrosshairButton);
 
         ButtonWidget narratorMenuButton = this.buildButtonWidget("minecraft_access.gui.config_menu.button.narrator_menu_button",
-                (button) -> MainClass.infoLog("CANCEL..."));
+                (button) -> this.client.setScreen(new NarratorMenuConfigMenu("narrator_menu_config_menu", this)));
         this.addDrawableChild(narratorMenuButton);
 
         ButtonWidget otherButton = this.buildButtonWidget("minecraft_access.gui.config_menu.button.other_button",

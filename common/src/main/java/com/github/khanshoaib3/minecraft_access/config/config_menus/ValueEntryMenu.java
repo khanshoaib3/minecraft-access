@@ -32,6 +32,8 @@ public class ValueEntryMenu extends BaseScreen {
         FALL_DETECTOR_VOLUME,
         FALL_DETECTOR_DELAY,
         READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL,
+        NARRATOR_MENU_VOLUME,
+        NARRATOR_MENU_RANGE,
     }
 
     public enum VALUE_TYPE {
@@ -139,6 +141,14 @@ public class ValueEntryMenu extends BaseScreen {
                 this.value = String.valueOf(MainClass.config.getConfigMap().getReadCrosshairConfigMap().getRepeatSpeakingInterval());
                 this.valueType = VALUE_TYPE.INT;
             }
+            case NARRATOR_MENU_VOLUME -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getNarratorMenuConfigMap().getFluidDetectorConfigMap().getVolume());
+                this.valueType = VALUE_TYPE.FLOAT;
+            }
+            case NARRATOR_MENU_RANGE -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getNarratorMenuConfigMap().getFluidDetectorConfigMap().getRange());
+                this.valueType = VALUE_TYPE.INT;
+            }
         }
 
         this.previousValue = this.value;
@@ -220,6 +230,10 @@ public class ValueEntryMenu extends BaseScreen {
                         configMap.getFallDetectorConfigMap().setDelay(Integer.parseInt(value));
                 case READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL ->
                         configMap.getReadCrosshairConfigMap().setRepeatSpeakingInterval(Long.parseLong(value));
+                case NARRATOR_MENU_VOLUME ->
+                        configMap.getNarratorMenuConfigMap().getFluidDetectorConfigMap().setVolume(Float.parseFloat(value));
+                case NARRATOR_MENU_RANGE ->
+                        configMap.getNarratorMenuConfigMap().getFluidDetectorConfigMap().setRange(Integer.parseInt(value));
             }
             MainClass.config.setConfigMap(configMap);
         } catch (Exception e) {
