@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.feature_config_maps.FallDetectorConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.FallDetectorConfigMap;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -110,6 +110,7 @@ public class FallDetector {
         if (Math.abs(dir.getZ() - center.getZ()) > range)
             return false;
 
+        //noinspection RedundantIfStatement
         if (searched.contains(dir))
             return false;
 
@@ -142,7 +143,7 @@ public class FallDetector {
         enabled = fallDetectorConfigMap.isEnabled();
         range = fallDetectorConfigMap.getRange();
         depth = fallDetectorConfigMap.getDepth();
-//        playSound = fallDetectorConfigMap.isPlaySound();
+//        playSound = fallDetectorConfigMap.isPlayAlternateSound();
         volume = fallDetectorConfigMap.getVolume();
         delayInMilliseconds = fallDetectorConfigMap.getDelay();
     }

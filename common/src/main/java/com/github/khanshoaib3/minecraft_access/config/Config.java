@@ -1,8 +1,9 @@
 package com.github.khanshoaib3.minecraft_access.config;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.feature_config_maps.FallDetectorConfigMap;
-import com.github.khanshoaib3.minecraft_access.config.feature_config_maps.OtherConfigsMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.FallDetectorConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.NarratorMenuConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.client.MinecraftClient;
@@ -28,6 +29,19 @@ public class Config {
     public ConfigMap getConfigMap() {
         if (configMap == null) loadConfig();
         return configMap;
+    }
+
+    /**
+     * Updates the config.json with the new config map
+     * @param configMap The new config map to update to.
+     */
+    public void setConfigMap(ConfigMap configMap) {
+        try {
+            writeJSON(configMap);
+        } catch (Exception e) {
+            MainClass.errorLog("An error occurred while updating config.");
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -63,8 +77,9 @@ public class Config {
     /**
      * Resets the config.json to default
      */
-    private void resetToDefault() {
+    protected void resetToDefault() {
         try {
+            // TODO Update these
             configMap = new ConfigMap();
             configMap.setDefaultCameraControlsConfigMap();
             configMap.setDefaultInventoryControlsConfigMap();
@@ -73,7 +88,7 @@ public class Config {
             configMap.setFallDetectorConfigMap(FallDetectorConfigMap.defaultFallDetectorConfigMap());
             configMap.setDefaultReadCrosshairConfigMap();
             configMap.setOtherConfigsMap(OtherConfigsMap.getDefaultOtherConfigsMap());
-            configMap.setDefaultNarratorMenuConfigMap();
+            configMap.setNarratorMenuConfigMap(NarratorMenuConfigMap.getDefaultNarratorMenuConfigMap());
             writeJSON(configMap);
         } catch (Exception e) {
             MainClass.errorLog("An error occurred while resetting config.json file to default.");

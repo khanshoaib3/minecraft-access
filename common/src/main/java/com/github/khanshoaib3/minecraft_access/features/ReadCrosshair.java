@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.feature_config_maps.ReadCrosshairConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.*;

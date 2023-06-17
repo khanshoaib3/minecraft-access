@@ -1,6 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.config;
 
-import com.github.khanshoaib3.minecraft_access.config.feature_config_maps.*;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.*;
 import com.google.gson.annotations.SerializedName;
 
 public class ConfigMap {
@@ -156,15 +156,8 @@ public class ConfigMap {
         return narratorMenuConfigMap;
     }
 
-    public void setDefaultNarratorMenuConfigMap() {
-        NarratorMenuConfigMap defaultNarratorMenuConfigMap = new NarratorMenuConfigMap();
-
-        FluidDetectorConfigMap fluidDetectorConfigMap = new FluidDetectorConfigMap();
-        fluidDetectorConfigMap.setRange(10);
-        fluidDetectorConfigMap.setVolume(0.2f);
-        defaultNarratorMenuConfigMap.setFluidDetectorConfigMap(fluidDetectorConfigMap);
-
-        this.narratorMenuConfigMap = defaultNarratorMenuConfigMap;
+    public void setNarratorMenuConfigMap(NarratorMenuConfigMap narratorMenuConfigMap) {
+        this.narratorMenuConfigMap = narratorMenuConfigMap;
     }
 
     @SuppressWarnings("RedundantIfStatement")
@@ -178,6 +171,7 @@ public class ConfigMap {
                 this.getPoiConfigMap().getLockingConfigMap() == null || this.getPoiConfigMap().getBlocksConfigMap() == null)
             return false;
         if (this.getFallDetectorConfigMap() == null) return false;
+        if(this.getNarratorMenuConfigMap() == null) return false;
 
         return true;
     }

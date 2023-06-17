@@ -195,8 +195,8 @@ A menu that opens up when we press `F4` button.
 6. Biome = Speaks the name of biome the player is currently in.
 7. Time of Day = Speaks the current time of day.
 8. XP = Speaks the experience level and progress of the player.
-9. Refresh config = Refreshes the mod configurations from config.json file.
-10. Refresh screen Reader = Refreshes the screen reader.
+9. Refresh screen Reader = Refreshes the screen reader.
+10. Open config menu = Opens the config menu which can be used to configure the mod.
 
 **Configuration Options:-**
 
@@ -243,13 +243,16 @@ Adds the item durability into the tooltip.
 
 # Mod Configuration
 
-The mod can be configured by the config.json file in the `config/minecraft_access/` directory.
+The mod can be configured in two ways: using the config menu or directly editing the config.json file.
+The config menu can be opened via the `Open Config Menu` option in the Narrator/F4 Menu.
+Currently, we do not have a command to open the config menu so don't disable the narrator menu or you won't be able to open the config menu.
+As for the other method, the config.json file can be found in the `config/minecraft_access/` directory.
 You can use notepad or any text editor to edit the file. You can also use online json editor like
 [Json Editor Online](https://jsoneditoronline.org/), [Json Formatter](https://jsonformatter.org/json-editor)
 or [Code Beautify Json Online Editor](https://jsonformatter.org/json-editor).
 
 # Known Issues
 
-1. The fall detector is not available in the mod yet, it will be added soon and will hopefully be better than before.
-2. (Forge only) The default narrator takes over in some cases, like when speaking chats.
-3. (Fabric only) The default narrator speaks even if the narrator is turned off.
+1. The default narrator speaks even if the narrator is turned off.
+2. (Linux only) xdotool is not recognised even if it is installed.
+3. (Linux only) Minecraft says not narrator available even if flite is installed.

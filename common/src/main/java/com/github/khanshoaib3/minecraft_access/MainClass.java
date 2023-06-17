@@ -99,9 +99,11 @@ public class MainClass {
             infoLog("Unbound advancements key");
         }
 
-        if (config.getConfigMap().getOtherConfigsMap().isMenuFixEnabled())
+        if (config.getConfigMap().getOtherConfigsMap().isMenuFixEnabled()) {
             MenuFix.update(minecraftClient);
+        }
 
+        // TODO Update these to singleton design pattern
         if (inventoryControls != null && config.getConfigMap().getInventoryControlsConfigMap().isEnabled())
             inventoryControls.update();
 
@@ -129,7 +131,7 @@ public class MainClass {
         if (playerWarnings != null && config.getConfigMap().getPlayerWarningConfigMap().isEnabled())
             playerWarnings.update();
 
-        if (narratorMenu != null && config.getConfigMap().getOtherConfigsMap().isNarratorMenuEnabled())
+        if (narratorMenu != null && config.getConfigMap().getNarratorMenuConfigMap().isEnabled())
             narratorMenu.update();
 
         POIBlocks.getInstance().update();

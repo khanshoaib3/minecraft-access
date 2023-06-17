@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.feature_config_maps.POIBlocksConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.POIBlocksConfigMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import net.minecraft.block.*;

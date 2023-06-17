@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.config.feature_config_maps;
+package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
 import com.google.gson.annotations.SerializedName;
 
