@@ -8,6 +8,7 @@ import net.minecraft.block.entity.*;
 import net.minecraft.block.enums.ComparatorMode;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.SheepEntity;
@@ -106,12 +107,7 @@ public class ReadCrosshair {
             String currentQuery = hit.getEntity().getName().getString();
             if (hit.getEntity() instanceof AnimalEntity animalEntity) {
                 if (animalEntity instanceof SheepEntity sheepEntity) {
-                    String color = sheepEntity.getColor().getName();
-                    String translatedColor = I18n.translate("minecraft_access.color." + color);
-                    String shearable = sheepEntity.isShearable() ?
-                            I18n.translate("minecraft_access.other.shearable") :
-                            I18n.translate("minecraft_access.other.not_shearable");
-                    currentQuery = "%s %s %s".formatted(translatedColor, currentQuery, shearable);
+                    currentQuery = getSheepInfo(sheepEntity, currentQuery);
                 }
                 if (animalEntity.isBaby())
                     currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_baby", currentQuery);
@@ -123,6 +119,15 @@ public class ReadCrosshair {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static String getSheepInfo(SheepEntity sheepEntity, String currentQuery) {
+        String dyedColor = sheepEntity.getColor().getName();
+        String translatedColor = I18n.translate("minecraft_access.color." + dyedColor);
+        String shearable = sheepEntity.isShearable() ?
+                I18n.translate("minecraft_access.other.shearable", currentQuery) :
+                I18n.translate("minecraft_access.other.not_shearable", currentQuery);
+        return translatedColor + " " + shearable;
     }
 
     /**
@@ -138,8 +143,14 @@ public class ReadCrosshair {
     }
 
     private void checkForBlocks(MinecraftClient minecraftClient, BlockHitResult hit) {
-        if (minecraftClient.world == null) return;
-        BlockState blockState = minecraftClient.world.getBlockState(hit.getBlockPos());
+        ClientWorld clientWorld = minecraftClient.world;
+        if (clientWorld == null) return;
+
+        // Since Minecraft uses flyweight pattern for blocks and entities,
+        // All same type of blocks share one singleton Block instance,
+        // While every block keep their states with a BlockState instance.
+        BlockPos blockPos = hit.getBlockPos();
+        BlockState blockState = clientWorld.getBlockState(blockPos);
         Block block = blockState.getBlock();
 
         String name = block.getName().getString();
@@ -158,51 +169,74 @@ public class ReadCrosshair {
         }
         toSpeak += " " + side;
 
-        // Class name in production environment can be different
-        String blockPos = hit.getBlockPos().toImmutable().toString();
+        // Difference between toSpeak and currentQuery:
+        // currentQuery is used for checking condition, toSpeak is actually the one to be spoken.
+        // currentQuery is checked to not speak the same block repeatedly, two blocks can have same name.
         String currentQuery = name + side;
 
-        if (this.speakingConsecutiveBlocks) currentQuery += " " + blockPos;
+        // If this config is enabled, add position info to currentQuery,
+        // so same blocks at different positions will be regard as different one then trigger the narrator.
+        // Class name in production environment can be different
+        String blockPosInString = blockPos.toString();
+        if (this.speakingConsecutiveBlocks) currentQuery += " " + blockPosInString;
 
-        toSpeak = getSignInfo(minecraftClient, hit, blockState, toSpeak);
+        // Different special narration (toSpeak) about different type of blocks
+        try {
+            BlockEntity blockEntity = clientWorld.getBlockEntity(blockPos);
+            if (blockEntity != null) {
+                // in case 1.20 hanging sign won't use SignBlockEntity
+                if (blockState.isIn(BlockTags.SIGNS)) {
+                    toSpeak = getSignInfo((SignBlockEntity) blockEntity, toSpeak);
 
-        Pair<String, String> beehiveInfo = getBeehiveInfo(minecraftClient, hit, blockState, currentQuery, toSpeak);
-        toSpeak = beehiveInfo.getLeft();
-        currentQuery = beehiveInfo.getRight();
+                } else if (blockEntity instanceof BeehiveBlockEntity beehiveBlockEntity) {
+                    Pair<String, String> beehiveInfo = getBeehiveInfo(beehiveBlockEntity, blockState, toSpeak, currentQuery);
+                    toSpeak = beehiveInfo.getLeft();
+                    currentQuery = beehiveInfo.getRight();
+                }
+            }
 
-        Pair<String, String> redstoneRelatedInfo = getRedstoneRelatedInfo(minecraftClient, hit, block, blockState, currentQuery, toSpeak);
-        toSpeak = redstoneRelatedInfo.getLeft();
-        currentQuery = redstoneRelatedInfo.getRight();
+            // TODO 1.20 Add pitcher crop
+            if (block instanceof CropBlock || block instanceof CocoaBlock || block instanceof NetherWartBlock) {
+                Pair<String, String> cropsInfo = getCropsInfo(block, blockState, toSpeak, currentQuery);
+                toSpeak = cropsInfo.getLeft();
+                currentQuery = cropsInfo.getRight();
+            }
+
+            // Check if farmland is wet
+            if (block instanceof FarmlandBlock && blockState.get(FarmlandBlock.MOISTURE) == FarmlandBlock.MAX_MOISTURE) {
+                toSpeak = I18n.translate("minecraft_access.crop.wet_farmland", toSpeak);
+                currentQuery = I18n.translate("minecraft_access.crop.wet_farmland", currentQuery);
+            }
+
+            // Redstone related
+            boolean isEmittingPower = clientWorld.isEmittingRedstonePower(hit.getBlockPos(), Direction.DOWN);
+            boolean isReceivingPower = clientWorld.isReceivingRedstonePower(hit.getBlockPos());
+            if (isEmittingPower || isReceivingPower) {
+                Pair<String, String> redstoneRelatedInfo = getRedstoneRelatedInfo(clientWorld, blockPos, block, blockState, toSpeak, currentQuery);
+                toSpeak = redstoneRelatedInfo.getLeft();
+                currentQuery = redstoneRelatedInfo.getRight();
+            }
+
+        } catch (Exception e) {
+            MainClass.errorLog("An error occurred while adding narration text for special blocks");
+            e.printStackTrace();
+        }
 
         speakIfFocusChanged(currentQuery, toSpeak);
     }
 
-    private static String getSignInfo(MinecraftClient minecraftClient, BlockHitResult hit, BlockState blockState, String toSpeak) {
-        if (minecraftClient.world == null) return toSpeak;
-        if (!blockState.isIn(BlockTags.SIGNS)) return toSpeak;
-
-        String contents = "";
-        try {
-            SignBlockEntity signEntity = (SignBlockEntity) minecraftClient.world.getBlockEntity(hit.getBlockPos());
-            if (signEntity != null) {
-                contents += signEntity.getTextOnRow(0, false).getString() + ", ";
-                contents += signEntity.getTextOnRow(1, false).getString() + ", ";
-                contents += signEntity.getTextOnRow(2, false).getString() + ", ";
-                contents += signEntity.getTextOnRow(3, false).getString();
-
-                toSpeak = I18n.translate("minecraft_access.read_crosshair.sign_content", toSpeak, contents);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    private static String getSignInfo(SignBlockEntity signEntity, String toSpeak) {
+        String[] lines = new String[4];
+        for (int i = 0; i < 4; i++) {
+            lines[i] = signEntity.getTextOnRow(i, false).getString();
         }
-        return toSpeak;
+        String content = String.join(", ", lines);
+        return I18n.translate("minecraft_access.read_crosshair.sign_content", toSpeak, content);
     }
 
-    private static @NotNull Pair<String, String> getRedstoneRelatedInfo(MinecraftClient minecraftClient, BlockHitResult hit, Block block, BlockState blockState, String currentQuery, String toSpeak) {
-        if (minecraftClient.world == null) return new Pair<>(toSpeak, currentQuery);
-
-        boolean isEmittingPower = minecraftClient.world.isEmittingRedstonePower(hit.getBlockPos().toImmutable(), Direction.DOWN);
-        boolean isReceivingPower = minecraftClient.world.isReceivingRedstonePower(hit.getBlockPos().toImmutable());
+    private static @NotNull Pair<String, String> getRedstoneRelatedInfo(ClientWorld world, BlockPos blockPos, Block block, BlockState blockState, String toSpeak, String currentQuery) {
+        boolean isEmittingPower = world.isEmittingRedstonePower(blockPos, Direction.DOWN);
+        boolean isReceivingPower = world.isReceivingRedstonePower(blockPos);
 
         if ((block instanceof RedstoneWireBlock || block instanceof PistonBlock || block instanceof GlowLichenBlock || block instanceof RedstoneLampBlock) && (isReceivingPower || isEmittingPower)) {
             toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
@@ -236,7 +270,7 @@ public class ReadCrosshair {
                 currentQuery += "powered";
             }
         } else if (block instanceof ComparatorBlock) {
-            BlockEntity blockEntity = minecraftClient.world.getBlockEntity(hit.getBlockPos());
+            BlockEntity blockEntity = world.getBlockEntity(blockPos);
             int outputPower = blockEntity instanceof ComparatorBlockEntity ? ((ComparatorBlockEntity) blockEntity).getOutputSignal() : 0;
             ComparatorMode mode = blockState.get(ComparatorBlock.MODE);
             Direction facing = blockState.get(ComparatorBlock.FACING);
@@ -264,31 +298,69 @@ public class ReadCrosshair {
         return new Pair<>(toSpeak, currentQuery);
     }
 
-    private static @NotNull Pair<String, String> getBeehiveInfo(MinecraftClient minecraftClient, BlockHitResult hit, BlockState blockState, String currentQuery, String toSpeak) {
-        if (minecraftClient.world == null) return new Pair<>(toSpeak, currentQuery);
-        if (minecraftClient.world.getBlockEntity(hit.getBlockPos(), BlockEntityType.BEEHIVE).isEmpty())
-            return new Pair<>(toSpeak, currentQuery);
+    private static @NotNull Pair<String, String> getBeehiveInfo(BeehiveBlockEntity blockEntity, BlockState blockState, String toSpeak, String currentQuery) {
+        boolean isSmoked = blockEntity.isSmoked();
+        int honeyLevel = blockState.get(BeehiveBlock.HONEY_LEVEL);
+        Direction facingDirection = blockState.get(BeehiveBlock.FACING);
 
-        try {
-            BeehiveBlockEntity beehiveBlockEntity = minecraftClient.world.getBlockEntity(hit.getBlockPos(), BlockEntityType.BEEHIVE).get();
-            boolean isSmoked = beehiveBlockEntity.isSmoked();
-            int honeyLevel = blockState.get(BeehiveBlock.HONEY_LEVEL);
-            Direction facingDirection = blockState.get(BeehiveBlock.FACING);
-
-            if (isSmoked) {
-                toSpeak = I18n.translate("minecraft_access.read_crosshair.bee_hive_smoked", toSpeak);
-                currentQuery += "smoked";
-            }
-            if (honeyLevel > 0) {
-                toSpeak = I18n.translate("minecraft_access.read_crosshair.bee_hive_honey_level", toSpeak, honeyLevel);
-                currentQuery += ("honey-level:" + honeyLevel);
-            }
-            toSpeak = I18n.translate("minecraft_access.read_crosshair.bee_hive_facing", toSpeak, facingDirection.getName());
-            currentQuery += ("facing:" + facingDirection.getName());
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (isSmoked) {
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.bee_hive_smoked", toSpeak);
+            currentQuery += "smoked";
         }
+
+        if (honeyLevel > 0) {
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.bee_hive_honey_level", toSpeak, honeyLevel);
+            currentQuery += ("honey-level:" + honeyLevel);
+        }
+
+        toSpeak = I18n.translate("minecraft_access.read_crosshair.bee_hive_facing", toSpeak, facingDirection.getName());
+        currentQuery += ("facing:" + facingDirection.getName());
+
         return new Pair<>(toSpeak, currentQuery);
+    }
+
+    /**
+     * Blocks that can be planted and have growing stages (age) and harvestable.<br>
+     * Including wheat, carrot, potato, beetroot, nether wart, cocoa bean.<br>
+     * Watermelon vein and pumpkin vein are not harvestable so not be included here.
+     */
+    private static @NotNull Pair<String, String> getCropsInfo(Block block, BlockState blockState, String toSpeak, String currentQuery) {
+        int currentAge = 0, maxAge = 64;
+
+        if (block instanceof CropBlock) {
+            if (block instanceof BeetrootsBlock) {
+                // Beetroots has a different max_age as 3
+                currentAge = blockState.get(BeetrootsBlock.AGE);
+                maxAge = BeetrootsBlock.BEETROOTS_MAX_AGE;
+            } else {
+                // While wheat, carrots, potatoes has max_age as 7
+                currentAge = blockState.get(CropBlock.AGE);
+                maxAge = CropBlock.MAX_AGE;
+            }
+        } else if (block instanceof CocoaBlock) {
+            currentAge = blockState.get(CocoaBlock.AGE);
+            maxAge = CocoaBlock.MAX_AGE;
+        } else if (block instanceof NetherWartBlock) {
+            currentAge = blockState.get(NetherWartBlock.AGE);
+            // The max_age of NetherWartBlock hasn't been translated, for future compatibility, hard code it.
+            maxAge = 3;
+        }
+
+        String configKey = checkCropRipeLevel(currentAge, maxAge);
+        return new Pair<>(I18n.translate(configKey, toSpeak), I18n.translate(configKey, currentQuery));
+    }
+
+    /**
+     * @return corresponding ripe level text config key
+     */
+    private static String checkCropRipeLevel(Integer current, int max) {
+        if (current == max) {
+            return "minecraft_access.crop.ripe";
+        } else if (current < max / 2) {
+            return "minecraft_access.crop.seedling";
+        } else {
+            return "minecraft_access.crop.half_ripe";
+        }
     }
 
     private boolean checkForFluidHit(MinecraftClient minecraftClient, HitResult fluidHit) {
