@@ -13,6 +13,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.MutableText;
@@ -22,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 /**
  * Opens a menu when F4 button is pressed (configurable) with few helpful options.
@@ -43,28 +45,38 @@ public class NarratorMenu {
      */
     private static final MenuFunction[] MENU_FUNCTIONS = new MenuFunction[]{
             new MenuFunction("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_info",
+                    InputUtil.GLFW_KEY_1,
                     NarratorMenu::getBlockAndFluidTargetInformation),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_position",
+                    InputUtil.GLFW_KEY_2,
                     NarratorMenu::getBlockAndFluidTargetPosition),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.light_level",
+                    InputUtil.GLFW_KEY_3,
                     NarratorMenu::getLightLevel),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.find_water",
+                    InputUtil.GLFW_KEY_4,
                     () -> MainClass.fluidDetector.findClosestWaterSource(true)),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.find_lava",
+                    InputUtil.GLFW_KEY_5,
                     () -> MainClass.fluidDetector.findClosestLavaSource(true)),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.biome",
+                    InputUtil.GLFW_KEY_6,
                     NarratorMenu::getBiome),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.time_of_day",
+                    InputUtil.GLFW_KEY_7,
                     NarratorMenu::getTimeOfDay),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.xp",
+                    InputUtil.GLFW_KEY_8,
                     NarratorMenu::getXP),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.refresh_screen_reader",
+                    InputUtil.GLFW_KEY_9,
                     () -> ScreenReaderController.refreshScreenReader(true)),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.open_config_menu",
+                    InputUtil.GLFW_KEY_0,
                     () -> MinecraftClient.getInstance().setScreen(new ConfigMenu("config_menu"))),
     };
 
-    private record MenuFunction(String configKey, Runnable func) {
+    private record MenuFunction(String configKey, int numberKeyCode, Runnable func) {
     }
 
     public void update() {
@@ -72,15 +84,27 @@ public class NarratorMenu {
             minecraftClient = MinecraftClient.getInstance();
             if (minecraftClient == null) return;
             if (minecraftClient.player == null) return;
+
+            // With Narrator Menu opened, listen to number keys pressing for executing corresponding functions
+            if (minecraftClient.currentScreen instanceof NarratorMenuGUI) {
+                Stream.of(MENU_FUNCTIONS)
+                        .filter(f -> InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), f.numberKeyCode()))
+                        .findFirst()
+                        .ifPresent(f -> f.func().run());
+            }
+
             if (minecraftClient.currentScreen != null) return;
 
             boolean isNarratorMenuKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.narratorMenuKey);
             boolean isNarratorMenuHotKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.narratorMenuHotKey);
+
             // F3 + F4 triggers game mode changing function in vanilla game, will not open the menu under this situation.
             boolean isF3KeyNotPressed = !KeyBindingsHandler.isF3KeyPressed();
+
             // The F4 is pressed before and released at current tick
             // To make the narrator menu open AFTER release the F4 key
             boolean openTheMenuScreen = !isNarratorMenuKeyPressed && isMenuKeyPressedPreviousTick;
+
             // Opposite to menu open, executes immediately,
             // but will not execute twice until release and press the key again
             boolean triggerHotKey = isNarratorMenuHotKeyPressed && !isHotKeyPressedPreviousTick;
