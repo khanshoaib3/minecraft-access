@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
 import net.minecraft.client.MinecraftClient;
@@ -50,7 +51,7 @@ public class PositionNarrator {
                 }
             }
 
-            boolean isPositionNarrationKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.positionNarrationKey);
+            boolean isPositionNarrationKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.positionNarrationKey);
 
             if (isPositionNarrationKeyPressed) {
                 String posX = PositionUtils.getNarratableNumber(new PlayerPositionUtils(minecraftClient).getX());

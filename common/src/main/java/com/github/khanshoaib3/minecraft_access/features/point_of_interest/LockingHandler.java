@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -85,7 +86,7 @@ public class LockingHandler {
         if (minecraftClient.world == null) return;
         if (minecraftClient.currentScreen != null) return;
 
-        boolean isLockingKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.lockingHandlerKey);
+        boolean isLockingKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.lockingHandlerKey);
 
         if (lockedOnEntity != null) outer:{
             if (!lockedOnEntity.isAlive()) {

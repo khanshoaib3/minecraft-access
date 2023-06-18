@@ -331,7 +331,7 @@ public class KeyBindingsHandler {
      * @param keyBindingToCheck The keybinding we want to check.
      * @return Returns true if the keybinding is currently pressed else false.
      */
-    public boolean isPressed(KeyBinding keyBindingToCheck) {
+    public static boolean isPressed(KeyBinding keyBindingToCheck) {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
         if (minecraftClient == null) return false;
 

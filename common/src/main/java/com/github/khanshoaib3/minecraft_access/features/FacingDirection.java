@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
 import net.minecraft.client.MinecraftClient;
@@ -19,7 +20,7 @@ public class FacingDirection {
             if (minecraftClient.player == null) return;
             if (minecraftClient.currentScreen != null) return;
 
-            boolean isDirectionNarrationKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.directionNarrationKey);
+            boolean isDirectionNarrationKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.directionNarrationKey);
             if (!isDirectionNarrationKeyPressed) return;
 
             boolean isLeftAltPressed = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(),
