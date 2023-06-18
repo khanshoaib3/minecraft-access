@@ -14,6 +14,7 @@ public class KeyBindingsHandler {
     public KeyBinding lockingHandlerKey;
     public KeyBinding positionNarrationKey;
     public KeyBinding narratorMenuKey;
+    public KeyBinding narratorMenuHotKey;
     public KeyBinding directionNarrationKey;
 
     public KeyBinding cameraControlsUp;
@@ -316,6 +317,14 @@ public class KeyBindingsHandler {
         );
         KeyMappingRegistry.register(narratorMenuKey);
 
+        narratorMenuHotKey = new KeyBinding(
+                "minecraft_access.keys.other.narrator_menu_hot_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_B,
+                OTHER_GROUP_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(narratorMenuHotKey);
+
         directionNarrationKey = new KeyBinding(
                 "minecraft_access.keys.other.facing_direction_key_name",
                 InputUtil.Type.KEYSYM,
@@ -341,7 +350,7 @@ public class KeyBindingsHandler {
         );
     }
 
-    public boolean isF3KeyPressed() {
+    public static boolean isF3KeyPressed() {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
         if (minecraftClient == null) return false;
 

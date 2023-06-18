@@ -28,6 +28,9 @@ public class NarratorMenuGUI extends Screen {
         super(Text.of(I18n.translate("minecraft_access.gui.screen." + title)));
     }
 
+    /**
+     * The order of buttons initialization should be same as NarratorMenu.menuFunctions
+     */
     @Override
     protected void init() {
         this.centerX = this.width / 2;

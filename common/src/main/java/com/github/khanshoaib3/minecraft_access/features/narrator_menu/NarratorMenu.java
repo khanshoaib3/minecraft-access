@@ -1,9 +1,12 @@
 package com.github.khanshoaib3.minecraft_access.features.narrator_menu;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.ConfigMenu;
 import com.github.khanshoaib3.minecraft_access.features.BiomeIndicator;
 import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
+import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
+import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -18,11 +21,51 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 
+import java.util.Arrays;
+
 /**
  * Opens a menu when F4 button is pressed (configurable) with few helpful options.
  */
 public class NarratorMenu {
     private static MinecraftClient minecraftClient;
+    private static boolean isMenuKeyPressedPreviousTick = false;
+    private static boolean isHotKeyPressedPreviousTick = false;
+    private static boolean isHotKeySwitchedPreviousTick = false;
+    private int hotKeyFunctionIndex = 0;
+    private static final Boolean[] LAST_RUN_HAS_DONE_FLAG = new Boolean[10];
+
+    static {
+        Arrays.fill(LAST_RUN_HAS_DONE_FLAG, Boolean.TRUE);
+    }
+
+    /**
+     * Should be same order as NarratorMenuGUI.init()
+     */
+    private static final MenuFunction[] MENU_FUNCTIONS = new MenuFunction[]{
+            new MenuFunction("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_info",
+                    NarratorMenu::getBlockAndFluidTargetInformation),
+            new MenuFunction("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_position",
+                    NarratorMenu::getBlockAndFluidTargetPosition),
+            new MenuFunction("minecraft_access.narrator_menu.gui.button.light_level",
+                    NarratorMenu::getLightLevel),
+            new MenuFunction("minecraft_access.narrator_menu.gui.button.find_water",
+                    () -> MainClass.fluidDetector.findClosestWaterSource(true)),
+            new MenuFunction("minecraft_access.narrator_menu.gui.button.find_lava",
+                    () -> MainClass.fluidDetector.findClosestLavaSource(true)),
+            new MenuFunction("minecraft_access.narrator_menu.gui.button.biome",
+                    NarratorMenu::getBiome),
+            new MenuFunction("minecraft_access.narrator_menu.gui.button.time_of_day",
+                    NarratorMenu::getTimeOfDay),
+            new MenuFunction("minecraft_access.narrator_menu.gui.button.xp",
+                    NarratorMenu::getXP),
+            new MenuFunction("minecraft_access.narrator_menu.gui.button.refresh_screen_reader",
+                    () -> ScreenReaderController.refreshScreenReader(true)),
+            new MenuFunction("minecraft_access.narrator_menu.gui.button.open_config_menu",
+                    () -> MinecraftClient.getInstance().setScreen(new ConfigMenu("config_menu"))),
+    };
+
+    private record MenuFunction(String configKey, Runnable func) {
+    }
 
     public void update() {
         try {
@@ -31,13 +74,47 @@ public class NarratorMenu {
             if (minecraftClient.player == null) return;
             if (minecraftClient.currentScreen != null) return;
 
-            boolean isNarratorMenuKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.narratorMenuKey);
+            boolean isNarratorMenuKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.narratorMenuKey);
+            boolean isNarratorMenuHotKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.narratorMenuHotKey);
+            // F3 + F4 triggers game mode changing function in vanilla game, will not open the menu under this situation.
+            boolean isF3KeyNotPressed = !KeyBindingsHandler.isF3KeyPressed();
+            // The F4 is pressed before and released at current tick
+            // To make the narrator menu open AFTER release the F4 key
+            boolean openTheMenuScreen = !isNarratorMenuKeyPressed && isMenuKeyPressedPreviousTick;
+            // Opposite to menu open, executes immediately,
+            // but will not execute twice until release and press the key again
+            boolean triggerHotKey = isNarratorMenuHotKeyPressed && !isHotKeyPressedPreviousTick;
 
-            if (isNarratorMenuKeyPressed && !MainClass.keyBindingsHandler.isF3KeyPressed()) {
+            if (isNarratorMenuKeyPressed && triggerHotKey) {
+                // for prevent the menu open this time after release the F4 key
+                // the user intend to switch the function, not open the menu
+                isHotKeySwitchedPreviousTick = true;
+                // switch to the next narrator menu function
+                hotKeyFunctionIndex = (hotKeyFunctionIndex + 1) % MENU_FUNCTIONS.length;
+                MenuFunction f = MENU_FUNCTIONS[hotKeyFunctionIndex];
+                String functionName = I18n.translate(f.configKey());
+                MainClass.speakWithNarrator(I18n.translate("minecraft_access.keys.other.narrator_menu_hot_key_switch", functionName), true);
+
+            } else if (triggerHotKey) {
+                // in case pressing the key too frequently, only execute when last execution has done
+                if (LAST_RUN_HAS_DONE_FLAG[hotKeyFunctionIndex]) {
+                    LAST_RUN_HAS_DONE_FLAG[hotKeyFunctionIndex] = Boolean.FALSE;
+                    MENU_FUNCTIONS[hotKeyFunctionIndex].func.run();
+                    LAST_RUN_HAS_DONE_FLAG[hotKeyFunctionIndex] = Boolean.TRUE;
+                }
+
+            } else if (openTheMenuScreen && isF3KeyNotPressed && !isHotKeySwitchedPreviousTick) {
                 Screen screen = new NarratorMenuGUI("f4_menu");
                 minecraftClient.setScreen(screen); // post 1.18
 //                minecraftClient.openScreen(screen); // pre 1.18
             }
+
+            // update the states for next tick
+            isMenuKeyPressedPreviousTick = isNarratorMenuKeyPressed;
+            isHotKeyPressedPreviousTick = isNarratorMenuHotKeyPressed;
+            // clean the state when F4 is released
+            if (openTheMenuScreen) isHotKeySwitchedPreviousTick = false;
+
         } catch (Exception e) {
             MainClass.errorLog("An error occurred in NarratorMenu.");
             e.printStackTrace();
@@ -60,8 +137,7 @@ public class NarratorMenu {
                     && checkForFluidHit(minecraftClient, hit, false)) return;
 
             switch (hit.getType()) {
-                case MISS, ENTITY ->
-                        MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
+                case MISS, ENTITY -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
                 case BLOCK -> {
                     try {
                         BlockHitResult blockHit = (BlockHitResult) hit;
@@ -99,8 +175,7 @@ public class NarratorMenu {
                     && checkForFluidHit(minecraftClient, hit, true)) return;
 
             switch (hit.getType()) {
-                case MISS, ENTITY ->
-                        MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
+                case MISS, ENTITY -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
                 case BLOCK -> {
                     try {
                         BlockHitResult blockHitResult = (BlockHitResult) hit;
