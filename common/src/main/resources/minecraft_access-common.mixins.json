@@ -15,6 +15,7 @@
     "ButtonWidgetMixin",
     "ChatScreenMixin",
     "ClickableWidgetAccessor",
+    "ClientPlayNetworkHandlerMixin",
     "CreativeInventoryScreenAccessor",
     "DurabilityMixin",
     "EyeOfEnderEntityMixin",

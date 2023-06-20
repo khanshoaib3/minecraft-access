@@ -1,0 +1,59 @@
+package com.github.khanshoaib3.minecraft_access.mixin;
+
+import com.github.khanshoaib3.minecraft_access.MainClass;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.item.FishingRodItem;
+import net.minecraft.network.NetworkThreadUtils;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.listener.TickablePacketListener;
+import net.minecraft.network.packet.s2c.play.ItemPickupAnimationS2CPacket;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Mixin(ClientPlayNetworkHandler.class)
+public abstract class ClientPlayNetworkHandlerMixin implements TickablePacketListener, ClientPlayPacketListener {
+    @Shadow
+    @Final
+    private MinecraftClient client;
+
+    @Shadow
+    private ClientWorld world;
+
+    @Inject(at = @At("HEAD"), method = "onItemPickupAnimation")
+    public void onItemPickupAnimation(ItemPickupAnimationS2CPacket packet, CallbackInfo ci) {
+        // This method will be executed at the head of injected method.
+        // Invoke ahead here do no harm, according to this method's implementation.
+        NetworkThreadUtils.forceMainThread(packet, this, this.client);
+
+        ClientPlayerEntity player = this.client.player;
+        if (player == null) return;
+        int cId = packet.getCollectorEntityId();
+        int pId = player.getId();
+        // Is this item picked by "me" or other players?
+        if (cId == pId) {
+            // Am "I" holding a fishing pod? (will be Air if holding nothing)
+            if (player.getMainHandStack().getItem() instanceof FishingRodItem) {
+                Entity entity = this.world.getEntityById(packet.getEntityId());
+                // This item might be an ExperienceOrbEntity and we don't want to speak this sort of thing.
+                if (entity instanceof ItemEntity itemEntity) {
+                    String name = I18n.translate(itemEntity.getStack().getItem().getTranslationKey());
+                    MainClass.infoLog("Fishing harvest: %s".formatted(name));
+
+                    // Have observed this speak will interrupt adventure achievement, level up notification or so,
+                    // it should be at low priority.
+                    MainClass.speakWithNarrator(name, false);
+                }
+            }
+        }
+    }
+}
