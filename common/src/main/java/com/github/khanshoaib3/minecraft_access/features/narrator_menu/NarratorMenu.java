@@ -34,10 +34,10 @@ public class NarratorMenu {
     private static boolean isHotKeyPressedPreviousTick = false;
     private static boolean isHotKeySwitchedPreviousTick = false;
     private int hotKeyFunctionIndex = 0;
-    private static final Boolean[] LAST_RUN_HAS_DONE_FLAG = new Boolean[10];
+    private static final boolean[] LAST_RUN_HAS_DONE_FLAG = new boolean[10];
 
     static {
-        Arrays.fill(LAST_RUN_HAS_DONE_FLAG, Boolean.TRUE);
+        Arrays.fill(LAST_RUN_HAS_DONE_FLAG, true);
     }
 
     /**
@@ -45,38 +45,38 @@ public class NarratorMenu {
      */
     private static final MenuFunction[] MENU_FUNCTIONS = new MenuFunction[]{
             new MenuFunction("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_info",
-                    InputUtil.GLFW_KEY_1,
+                    InputUtil.GLFW_KEY_1, InputUtil.GLFW_KEY_KP_1,
                     NarratorMenu::getBlockAndFluidTargetInformation),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_position",
-                    InputUtil.GLFW_KEY_2,
+                    InputUtil.GLFW_KEY_2, InputUtil.GLFW_KEY_KP_2,
                     NarratorMenu::getBlockAndFluidTargetPosition),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.light_level",
-                    InputUtil.GLFW_KEY_3,
+                    InputUtil.GLFW_KEY_3, InputUtil.GLFW_KEY_KP_3,
                     NarratorMenu::getLightLevel),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.find_water",
-                    InputUtil.GLFW_KEY_4,
+                    InputUtil.GLFW_KEY_4, InputUtil.GLFW_KEY_KP_4,
                     () -> MainClass.fluidDetector.findClosestWaterSource(true)),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.find_lava",
-                    InputUtil.GLFW_KEY_5,
+                    InputUtil.GLFW_KEY_5, InputUtil.GLFW_KEY_KP_5,
                     () -> MainClass.fluidDetector.findClosestLavaSource(true)),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.biome",
-                    InputUtil.GLFW_KEY_6,
+                    InputUtil.GLFW_KEY_6, InputUtil.GLFW_KEY_KP_6,
                     NarratorMenu::getBiome),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.time_of_day",
-                    InputUtil.GLFW_KEY_7,
+                    InputUtil.GLFW_KEY_7, InputUtil.GLFW_KEY_KP_7,
                     NarratorMenu::getTimeOfDay),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.xp",
-                    InputUtil.GLFW_KEY_8,
+                    InputUtil.GLFW_KEY_8, InputUtil.GLFW_KEY_KP_8,
                     NarratorMenu::getXP),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.refresh_screen_reader",
-                    InputUtil.GLFW_KEY_9,
+                    InputUtil.GLFW_KEY_9, InputUtil.GLFW_KEY_KP_9,
                     () -> ScreenReaderController.refreshScreenReader(true)),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.open_config_menu",
-                    InputUtil.GLFW_KEY_0,
+                    InputUtil.GLFW_KEY_0, InputUtil.GLFW_KEY_KP_0,
                     () -> MinecraftClient.getInstance().setScreen(new ConfigMenu("config_menu"))),
     };
 
-    private record MenuFunction(String configKey, int numberKeyCode, Runnable func) {
+    private record MenuFunction(String configKey, int numberKeyCode, int keyPadKeyCode, Runnable func) {
     }
 
     public void update() {
@@ -87,8 +87,10 @@ public class NarratorMenu {
 
             // With Narrator Menu opened, listen to number keys pressing for executing corresponding functions
             if (minecraftClient.currentScreen instanceof NarratorMenuGUI) {
+                long handle = minecraftClient.getWindow().getHandle();
                 Stream.of(MENU_FUNCTIONS)
-                        .filter(f -> InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), f.numberKeyCode()))
+                        .filter(f -> InputUtil.isKeyPressed(handle, f.numberKeyCode())
+                                || InputUtil.isKeyPressed(handle, f.keyPadKeyCode()))
                         .findFirst()
                         .ifPresent(f -> f.func().run());
             }
@@ -122,9 +124,9 @@ public class NarratorMenu {
             } else if (triggerHotKey) {
                 // in case pressing the key too frequently, only execute when last execution has done
                 if (LAST_RUN_HAS_DONE_FLAG[hotKeyFunctionIndex]) {
-                    LAST_RUN_HAS_DONE_FLAG[hotKeyFunctionIndex] = Boolean.FALSE;
+                    LAST_RUN_HAS_DONE_FLAG[hotKeyFunctionIndex] = false;
                     MENU_FUNCTIONS[hotKeyFunctionIndex].func.run();
-                    LAST_RUN_HAS_DONE_FLAG[hotKeyFunctionIndex] = Boolean.TRUE;
+                    LAST_RUN_HAS_DONE_FLAG[hotKeyFunctionIndex] = true;
                 }
 
             } else if (openTheMenuScreen && isF3KeyNotPressed && !isHotKeySwitchedPreviousTick) {
