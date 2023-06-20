@@ -161,13 +161,7 @@ public class ReadCrosshair {
         String side = "";
         if (this.speakSide) {
             Direction d = hit.getSide();
-            String prefix;
-            if (Direction.UP.equals(d) || Direction.DOWN.equals(d)) {
-                prefix = "minecraft_access.direction.vertical_angle_";
-            } else {
-                prefix = "minecraft_access.direction.horizontal_angle_";
-            }
-            side = I18n.translate(prefix + d.getName());
+            side = I18n.translate("minecraft_access.direction." + d.getName());
         }
         toSpeak += " " + side;
 
@@ -251,21 +245,21 @@ public class ReadCrosshair {
             toSpeak = I18n.translate("minecraft_access.read_crosshair.opened", toSpeak);
             currentQuery += "open";
         } else if (block instanceof HopperBlock) {
-            toSpeak = I18n.translate("minecraft_access.read_crosshair.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_" + blockState.get(HopperBlock.FACING).getName()));
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.facing", toSpeak, I18n.translate("minecraft_access.direction." + blockState.get(HopperBlock.FACING).getName()));
             currentQuery += "facing " + blockState.get(HopperBlock.FACING).getName();
             if (isReceivingPower) {
                 toSpeak = I18n.translate("minecraft_access.read_crosshair.locked", toSpeak);
                 currentQuery += "locked";
             }
         } else if (block instanceof ObserverBlock) {
-            toSpeak = I18n.translate("minecraft_access.read_crosshair.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_" + blockState.get(ObserverBlock.FACING).getName()));
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.facing", toSpeak, I18n.translate("minecraft_access.direction." + blockState.get(ObserverBlock.FACING).getName()));
             currentQuery += "facing " + blockState.get(ObserverBlock.FACING).getName();
             if (isEmittingPower) {
                 toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
                 currentQuery += "powered";
             }
         } else if (block instanceof DispenserBlock) {
-            toSpeak = I18n.translate("minecraft_access.read_crosshair.facing", toSpeak, I18n.translate("minecraft_access.direction.horizontal_angle_" + blockState.get(DispenserBlock.FACING).getName()));
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.facing", toSpeak, I18n.translate("minecraft_access.direction." + blockState.get(DispenserBlock.FACING).getName()));
             currentQuery += "facing " + blockState.get(DispenserBlock.FACING).getName();
             if (isReceivingPower) {
                 toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
@@ -274,7 +268,7 @@ public class ReadCrosshair {
         } else if (block instanceof ComparatorBlock) {
             ComparatorMode mode = blockState.get(ComparatorBlock.MODE);
             Direction facing = blockState.get(ComparatorBlock.FACING);
-            String correctFacing = I18n.translate("minecraft_access.direction.horizontal_angle_" + PlayerPositionUtils.getOppositeDirectionKey(facing.getName()).toLowerCase());
+            String correctFacing = I18n.translate("minecraft_access.direction." + PlayerPositionUtils.getOppositeDirectionKey(facing.getName()).toLowerCase());
             toSpeak = I18n.translate("minecraft_access.read_crosshair.comparator_info", toSpeak, correctFacing, mode);
             if (isReceivingPower) {
                 toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
@@ -285,7 +279,7 @@ public class ReadCrosshair {
             boolean locked = blockState.get(RepeaterBlock.LOCKED);
             int delay = blockState.get(RepeaterBlock.DELAY);
             Direction facing = blockState.get(ComparatorBlock.FACING);
-            String correctFacing = I18n.translate("minecraft_access.direction.horizontal_angle_" + PlayerPositionUtils.getOppositeDirectionKey(facing.getName()).toLowerCase());
+            String correctFacing = I18n.translate("minecraft_access.direction." + PlayerPositionUtils.getOppositeDirectionKey(facing.getName()).toLowerCase());
 
             toSpeak = I18n.translate("minecraft_access.read_crosshair.repeater_info", toSpeak, correctFacing, delay);
             currentQuery += "delay:" + delay + " facing:" + correctFacing;
