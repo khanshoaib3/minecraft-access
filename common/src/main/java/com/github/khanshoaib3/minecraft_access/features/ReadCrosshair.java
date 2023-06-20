@@ -4,7 +4,9 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import net.minecraft.block.*;
-import net.minecraft.block.entity.*;
+import net.minecraft.block.entity.BeehiveBlockEntity;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.SignBlockEntity;
 import net.minecraft.block.enums.ComparatorMode;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
@@ -270,14 +272,15 @@ public class ReadCrosshair {
                 currentQuery += "powered";
             }
         } else if (block instanceof ComparatorBlock) {
-            BlockEntity blockEntity = world.getBlockEntity(blockPos);
-            int outputPower = blockEntity instanceof ComparatorBlockEntity ? ((ComparatorBlockEntity) blockEntity).getOutputSignal() : 0;
             ComparatorMode mode = blockState.get(ComparatorBlock.MODE);
             Direction facing = blockState.get(ComparatorBlock.FACING);
             String correctFacing = I18n.translate("minecraft_access.direction.horizontal_angle_" + PlayerPositionUtils.getOppositeDirectionKey(facing.getName()).toLowerCase());
-
-            toSpeak = I18n.translate("minecraft_access.read_crosshair.comparator_info", toSpeak, correctFacing, mode, outputPower);
-            currentQuery += "mode:" + mode + " output_power:" + outputPower + " facing:" + correctFacing;
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.comparator_info", toSpeak, correctFacing, mode);
+            if (isReceivingPower) {
+                toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
+                currentQuery += "powered";
+            }
+            currentQuery += "mode:" + mode + " facing:" + correctFacing;
         } else if (block instanceof RepeaterBlock) {
             boolean locked = blockState.get(RepeaterBlock.LOCKED);
             int delay = blockState.get(RepeaterBlock.DELAY);
