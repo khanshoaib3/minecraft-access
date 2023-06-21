@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 
@@ -16,7 +17,7 @@ public class HealthNHunger {
             if (minecraftClient.player == null) return;
             if (minecraftClient.currentScreen != null) return;
 
-            boolean isHealthNHungerNarrationKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.healthNHungerNarrationKey);
+            boolean isHealthNHungerNarrationKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.healthNHungerNarrationKey);
             if (!isHealthNHungerNarrationKeyPressed) return;
 
             double health = minecraftClient.player.getHealth();

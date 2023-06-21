@@ -198,6 +198,13 @@ A menu that opens up when we press `F4` button.
 9. Refresh screen Reader = Refreshes the screen reader.
 10. Open config menu = Opens the config menu which can be used to configure the mod.
 
+**Keybindings and combinations:-**
+
+1. Narrator Menu Function Hot Key (default: B) = Holding `F4` then press this key to loop switch between functions in Narrator Menu,
+   then press this single key for executing selected function.
+2. When Narrator Menu is opened, press the number key corresponding to the function to execute it,
+   without pressing `Tab` several times.
+
 **Configuration Options:-**
 
 1. For Find Water and Find Lava, or Fluid Detector:

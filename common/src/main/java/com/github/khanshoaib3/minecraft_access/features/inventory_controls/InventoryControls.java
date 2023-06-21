@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.features.inventory_controls;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.mixin.*;
+import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.*;
@@ -171,15 +172,15 @@ public class InventoryControls {
      */
     @SuppressWarnings("CommentedOutCode")
     private boolean keyListener() {
-        boolean isGroupKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsGroupKey);
-        boolean isLeftClickKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsLeftMouseClickKey);
-        boolean isRightCLickKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsRightMouseClickKey);
-        boolean isUpKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsUpKey);
-        boolean isRightKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsRightKey);
-        boolean isDownKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsDownKey);
-        boolean isLeftKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsLeftKey);
-        boolean isSwitchTabKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsSwitchTabKey);
-        boolean isToggleCraftableKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsToggleCraftableKey);
+        boolean isGroupKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsGroupKey);
+        boolean isLeftClickKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsLeftMouseClickKey);
+        boolean isRightCLickKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsRightMouseClickKey);
+        boolean isUpKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsUpKey);
+        boolean isRightKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsRightKey);
+        boolean isDownKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsDownKey);
+        boolean isLeftKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsLeftKey);
+        boolean isSwitchTabKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsSwitchTabKey);
+        boolean isToggleCraftableKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsToggleCraftableKey);
         boolean isLeftShiftPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.left.shift").getCode());
         boolean isEnterPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.enter").getCode())
                 || InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.keypad.enter").getCode());

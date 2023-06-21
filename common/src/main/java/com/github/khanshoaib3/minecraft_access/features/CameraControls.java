@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -104,23 +105,23 @@ public class CameraControls {
                 InputUtil.fromTranslationKey("key.keyboard.right.alt").getCode()
         );
 
-        boolean isUpKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsUp)
-                || MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateUp);
-        boolean isRightKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsRight)
-                || MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateRight);
-        boolean isDownKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsDown)
-                || MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateDown);
-        boolean isLeftKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsLeft)
-                || MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateLeft);
-        boolean isNorthKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsNorth)
+        boolean isUpKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsUp)
+                || KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateUp);
+        boolean isRightKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsRight)
+                || KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateRight);
+        boolean isDownKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsDown)
+                || KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateDown);
+        boolean isLeftKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsLeft)
+                || KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateLeft);
+        boolean isNorthKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsNorth)
                 || (isUpKeyPressed && isRightAltPressed && !isLeftAltPressed);
-        boolean isEastKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsEast)
+        boolean isEastKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsEast)
                 || (isRightKeyPressed && isRightAltPressed && !isLeftAltPressed);
-        boolean isWestKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsWest)
+        boolean isWestKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsWest)
                 || (isLeftKeyPressed && isRightAltPressed && !isLeftAltPressed);
-        boolean isSouthKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsSouth)
+        boolean isSouthKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsSouth)
                 || (isDownKeyPressed && isRightAltPressed && !isLeftAltPressed);
-        boolean isCenterCameraKeyPressed = MainClass.keyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsCenterCamera);
+        boolean isCenterCameraKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsCenterCamera);
 
         if (isNorthKeyPressed) {
             lookNorth();
