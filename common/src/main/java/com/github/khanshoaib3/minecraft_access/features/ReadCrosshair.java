@@ -205,13 +205,9 @@ public class ReadCrosshair {
             }
 
             // Redstone related
-            boolean isEmittingPower = clientWorld.isEmittingRedstonePower(hit.getBlockPos(), Direction.DOWN);
-            boolean isReceivingPower = clientWorld.isReceivingRedstonePower(hit.getBlockPos());
-            if (isEmittingPower || isReceivingPower) {
-                Pair<String, String> redstoneRelatedInfo = getRedstoneRelatedInfo(clientWorld, blockPos, block, blockState, toSpeak, currentQuery);
-                toSpeak = redstoneRelatedInfo.getLeft();
-                currentQuery = redstoneRelatedInfo.getRight();
-            }
+            Pair<String, String> redstoneRelatedInfo = getRedstoneRelatedInfo(clientWorld, blockPos, block, blockState, toSpeak, currentQuery);
+            toSpeak = redstoneRelatedInfo.getLeft();
+            currentQuery = redstoneRelatedInfo.getRight();
 
         } catch (Exception e) {
             MainClass.errorLog("An error occurred while adding narration text for special blocks");
