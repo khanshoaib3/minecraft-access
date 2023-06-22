@@ -127,6 +127,21 @@ public class OtherConfigMenu extends BaseScreen {
                 true);
         this.addDrawableChild(speakActionBarButton);
 
+        ButtonWidget speakFishingHarvestButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getOtherConfigsMap().isFishingHarvestEnabled() ? "enabled" : "disabled"),
+                        I18n.translate("minecraft_access.gui.other_config_menu.button.speak_fishing_harvest_button")
+                ),
+                (button) -> {
+                    ConfigMap configMap = MainClass.config.getConfigMap();
+                    configMap.getOtherConfigsMap().setFishingHarvestEnabled(!configMap.getOtherConfigsMap().isFishingHarvestEnabled());
+                    MainClass.config.setConfigMap(configMap);
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getOtherConfigsMap().isFishingHarvestEnabled() ? "enabled" : "disabled"),
+                            I18n.translate("minecraft_access.gui.other_config_menu.button.speak_fishing_harvest_button")
+                    )));
+                },
+                true);
+        this.addDrawableChild(speakFishingHarvestButton);
+
         ButtonWidget menuFixButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getOtherConfigsMap().isMenuFixEnabled() ? "enabled" : "disabled"),
                         I18n.translate("minecraft_access.gui.other_config_menu.button.menu_fix_button")

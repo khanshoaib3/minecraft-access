@@ -35,6 +35,8 @@ public abstract class ClientPlayNetworkHandlerMixin implements TickablePacketLis
         // Invoke ahead here do no harm, according to this method's implementation.
         NetworkThreadUtils.forceMainThread(packet, this, this.client);
 
+        if (!MainClass.config.getConfigMap().getOtherConfigsMap().isFishingHarvestEnabled()) return;
+
         ClientPlayerEntity player = this.client.player;
         if (player == null) return;
         // Am "I" holding a fishing pod? (will be Air if holding nothing)
