@@ -20,6 +20,8 @@ public class OtherConfigsMap {
     private boolean use12HourTimeFormat;
     @SerializedName("Speak Action Bar Updates")
     private boolean actionBarEnabled;
+    @SerializedName("Speak Harvest Of Fishing")
+    private boolean fishingHarvestEnabled;
     @SerializedName("Enable Menu Fix")
     private boolean menuFixEnabled;
     @SerializedName("Debug Mode")
@@ -105,6 +107,14 @@ public class OtherConfigsMap {
         this.actionBarEnabled = actionBarEnabled;
     }
 
+    public boolean isFishingHarvestEnabled() {
+        return fishingHarvestEnabled;
+    }
+
+    public void setFishingHarvestEnabled(boolean fishingHarvestEnabled) {
+        this.fishingHarvestEnabled = fishingHarvestEnabled;
+    }
+
     public static OtherConfigsMap getDefaultOtherConfigsMap() {
         OtherConfigsMap defaultOtherConfigsMap = new OtherConfigsMap();
         defaultOtherConfigsMap.setBiomeIndicatorEnabled(true);
@@ -115,6 +125,7 @@ public class OtherConfigsMap {
         defaultOtherConfigsMap.setPositionNarratorFormat(PositionNarrator.defaultFormat);
         defaultOtherConfigsMap.setUse12HourTimeFormat(false);
         defaultOtherConfigsMap.setActionBarEnabled(true);
+        defaultOtherConfigsMap.setFishingHarvestEnabled(true);
         defaultOtherConfigsMap.setMenuFixEnabled(true);
         defaultOtherConfigsMap.setDebugMode(false);
 
