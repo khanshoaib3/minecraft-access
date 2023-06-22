@@ -80,11 +80,11 @@ public class PlayerPositionUtils {
         String angleInWords = null;
 
         if (angle >= -2 && angle <= 2)
-            angleInWords = I18n.translate("minecraft_access.direction.vertical_angle_straight");
+            angleInWords = I18n.translate("minecraft_access.direction.straight");
         else if (angle <= -88 && angle >= -90)
-            angleInWords = I18n.translate("minecraft_access.direction.vertical_angle_up");
+            angleInWords = I18n.translate("minecraft_access.direction.up");
         else if (angle >= 88 && angle <= 90)
-            angleInWords = I18n.translate("minecraft_access.direction.vertical_angle_down");
+            angleInWords = I18n.translate("minecraft_access.direction.down");
 
         return angleInWords;
     }
@@ -140,7 +140,7 @@ public class PlayerPositionUtils {
         if (oppositeDirection) direction = getOppositeDirectionKey(direction);
 
         if (onlyDirectionKey) return direction;
-        else return I18n.translate("minecraft_access.direction.horizontal_angle_" + direction);
+        else return I18n.translate("minecraft_access.direction." + direction);
     }
 
     public static String getOppositeDirectionKey(String originalDirectionKey) {
