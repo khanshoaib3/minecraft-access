@@ -92,6 +92,9 @@ public class MainClass {
      * @param minecraftClient The current minecraft client object
      */
     public static void clientTickEventsMethod(MinecraftClient minecraftClient) {
+        // update debug mode config
+        debugMode = config.getConfigMap().getOtherConfigsMap().isDebugMode();
+
         // TODO change attack and use keys on startup and add startup features to config.json
         if (!MainClass.alreadyDisabledAdvancementKey && minecraftClient.options != null) {
             minecraftClient.options.advancementsKey.setBoundKey(InputUtil.fromTranslationKey("key.keyboard.unknown"));
