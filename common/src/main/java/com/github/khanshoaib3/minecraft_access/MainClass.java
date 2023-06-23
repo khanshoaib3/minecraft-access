@@ -9,7 +9,6 @@ import com.github.khanshoaib3.minecraft_access.features.point_of_interest.POIBlo
 import com.github.khanshoaib3.minecraft_access.features.point_of_interest.POIEntities;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
-import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.mojang.text2speech.Narrator;
 import dev.architectury.event.events.client.ClientTickEvent;
 import net.minecraft.client.MinecraftClient;
@@ -21,7 +20,7 @@ public class MainClass {
     public static final String MOD_ID = "minecraft_access";
     private static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     private static ScreenReaderInterface screenReader = null;
-    public static KeyBindingsHandler keyBindingsHandler = null;
+
     public static Config config = null;
 
     public static CameraControls cameraControls = null;
@@ -60,8 +59,6 @@ public class MainClass {
         ScreenReaderController.refreshScreenReader();
         if (MainClass.getScreenReader() != null && MainClass.getScreenReader().isInitialized())
             MainClass.getScreenReader().say(msg, true);
-
-        keyBindingsHandler = new KeyBindingsHandler();
 
         MainClass.cameraControls = new CameraControls();
         MainClass.inventoryControls = new InventoryControls();

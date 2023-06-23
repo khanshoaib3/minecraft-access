@@ -8,8 +8,8 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.screen.narration.NarrationPart;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
+import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -67,7 +67,7 @@ public class ChatScreenMixin {
      */
     private static boolean handleKeyInput(int keyCode) {
         for (int i = 1; i <= 9; i++) {
-            if (keyCode == InputUtil.GLFW_KEY_0 + i || keyCode == InputUtil.GLFW_KEY_KP_0 + i) {
+            if (keyCode == GLFW.GLFW_KEY_0 + i || keyCode == GLFW.GLFW_KEY_KP_0 + i) {
                 speakPreviousChatAtIndex(i - 1);
                 return true;
             }

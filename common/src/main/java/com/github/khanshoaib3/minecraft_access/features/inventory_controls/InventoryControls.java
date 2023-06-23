@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.features.inventory_controls;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.mixin.*;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.*;
@@ -10,12 +11,12 @@ import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.client.gui.widget.ToggleButtonWidget;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.*;
 
@@ -172,19 +173,19 @@ public class InventoryControls {
      */
     @SuppressWarnings("CommentedOutCode")
     private boolean keyListener() {
-        boolean isGroupKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsGroupKey);
-        boolean isLeftClickKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsLeftMouseClickKey);
-        boolean isRightCLickKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsRightMouseClickKey);
-        boolean isUpKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsUpKey);
-        boolean isRightKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsRightKey);
-        boolean isDownKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsDownKey);
-        boolean isLeftKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsLeftKey);
-        boolean isSwitchTabKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsSwitchTabKey);
-        boolean isToggleCraftableKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.inventoryControlsToggleCraftableKey);
-        boolean isLeftShiftPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.left.shift").getCode());
-        boolean isEnterPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.enter").getCode())
-                || InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.keypad.enter").getCode());
-        boolean isTPressed = InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.t").getCode());
+        KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
+        boolean isGroupKeyPressed = KeyUtils.isAnyPressed(kbh.inventoryControlsGroupKey);
+        boolean isLeftClickKeyPressed = KeyUtils.isAnyPressed(kbh.inventoryControlsLeftMouseClickKey);
+        boolean isRightCLickKeyPressed = KeyUtils.isAnyPressed(kbh.inventoryControlsRightMouseClickKey);
+        boolean isUpKeyPressed = KeyUtils.isAnyPressed(kbh.inventoryControlsUpKey);
+        boolean isRightKeyPressed = KeyUtils.isAnyPressed(kbh.inventoryControlsRightKey);
+        boolean isDownKeyPressed = KeyUtils.isAnyPressed(kbh.inventoryControlsDownKey);
+        boolean isLeftKeyPressed = KeyUtils.isAnyPressed(kbh.inventoryControlsLeftKey);
+        boolean isSwitchTabKeyPressed = KeyUtils.isAnyPressed(kbh.inventoryControlsSwitchTabKey);
+        boolean isToggleCraftableKeyPressed = KeyUtils.isAnyPressed(kbh.inventoryControlsToggleCraftableKey);
+        boolean isLeftShiftPressed = KeyUtils.isLeftShiftPressed();
+        boolean isEnterPressed = KeyUtils.isEnterPressed();
+        boolean isTPressed = KeyUtils.isAnyPressed(GLFW.GLFW_KEY_T);
         boolean disableInputForSearchBox = false;
 
         //<editor-fold desc="When using a search box">

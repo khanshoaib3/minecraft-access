@@ -1,13 +1,14 @@
 package com.github.khanshoaib3.minecraft_access.mixin;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.BookScreen;
 import net.minecraft.client.gui.widget.PageTurnWidget;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -35,8 +36,7 @@ public class BookScreenMixin {
         if (minecraftClient == null) return;
         if (minecraftClient.currentScreen == null) return;
 
-        boolean isRPressed = (InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(),
-                InputUtil.fromTranslationKey("key.keyboard.r").getCode()));
+        boolean isRPressed = KeyUtils.isAnyPressed(GLFW.GLFW_KEY_R);
 
         // Repeat current page content and un-focus next and previous page buttons
         if (Screen.hasAltDown() && isRPressed) {

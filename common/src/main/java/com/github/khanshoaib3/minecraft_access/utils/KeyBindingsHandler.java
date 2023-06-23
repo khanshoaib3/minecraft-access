@@ -1,7 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.utils;
 
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
@@ -45,15 +44,29 @@ public class KeyBindingsHandler {
     private static final String CAMERA_CONTROLS_TRANSLATION_KEY = "minecraft_access.keys.camera_controls.group_name";
     private static final String INVENTORY_CONTROLS_TRANSLATION_KEY = "minecraft_access.keys.inventory_controls.group_name";
 
+    private static final KeyBindingsHandler instance;
+
     /**
      * Constructor that initializes all the keybindings.
      */
-    public KeyBindingsHandler() {
+    private KeyBindingsHandler() {
         initializeCameraControlsKeybindings();
 
         initializeInventoryControlsKeybindings();
 
         initializeOtherKeybindings();
+    }
+
+    static {
+        try {
+            instance = new KeyBindingsHandler();
+        } catch (Exception e) {
+            throw new RuntimeException("Exception occurred in creating KeyBindingsHandler instance", e);
+        }
+    }
+
+    public static KeyBindingsHandler getInstance() {
+        return instance;
     }
 
     /**
@@ -203,7 +216,7 @@ public class KeyBindingsHandler {
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_KP_8,
                 CAMERA_CONTROLS_TRANSLATION_KEY
-                );
+        );
         KeyMappingRegistry.register(cameraControlsAlternateUp);
 
         cameraControlsAlternateRight = new KeyBinding(
@@ -334,29 +347,4 @@ public class KeyBindingsHandler {
         KeyMappingRegistry.register(directionNarrationKey);
     }
 
-    /**
-     * Checks whether the given keybinding is currently pressed or not. This works even if the keybinding is duplicate i.e. another keybinding has the sane key bound to it.
-     *
-     * @param keyBindingToCheck The keybinding we want to check.
-     * @return Returns true if the keybinding is currently pressed else false.
-     */
-    public static boolean isPressed(KeyBinding keyBindingToCheck) {
-        MinecraftClient minecraftClient = MinecraftClient.getInstance();
-        if (minecraftClient == null) return false;
-
-        return InputUtil.isKeyPressed(
-                minecraftClient.getWindow().getHandle(),
-                InputUtil.fromTranslationKey(keyBindingToCheck.getBoundKeyTranslationKey()).getCode()
-        );
-    }
-
-    public static boolean isF3KeyPressed() {
-        MinecraftClient minecraftClient = MinecraftClient.getInstance();
-        if (minecraftClient == null) return false;
-
-        return InputUtil.isKeyPressed(
-                minecraftClient.getWindow().getHandle(),
-                InputUtil.GLFW_KEY_F3
-        );
-    }
 }
