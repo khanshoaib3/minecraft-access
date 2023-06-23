@@ -12,6 +12,12 @@ public class TimeUtils {
             this.disabled = delayInNanoTime == 0;
         }
 
+        /**
+         * Build or update instance according to delay config.
+         *
+         * @param delay    config value
+         * @param previous the interval class variable
+         */
         public static Interval inMilliseconds(long delay, Interval... previous) {
             if (previous == null || previous[0] == null) {
                 // 1 milliseconds = 1*10^6 nanoseconds

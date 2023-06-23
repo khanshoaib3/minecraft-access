@@ -1,8 +1,10 @@
 package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.POILockingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -18,8 +20,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.Map.Entry;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Locks on to the nearest entity or block.<br><br>
@@ -34,35 +34,21 @@ public class LockingHandler {
     public boolean isLockedOntoLadder = false;
     public boolean isLockedOntoEyeOfEnderTarget = false; // The block where the eye of ender disappears
     public String lockedOnBlockEntries = "";
+    private TimeUtils.Interval interval;
 
-    private boolean shouldRun = true;
     private boolean lockOnBlocks;
     private boolean speakDistance;
     private boolean unlockingSound;
-    private int delayInMilliseconds;
-//    private boolean autoLockEyeOfEnderEntity;
 
     public LockingHandler() {
         loadConfigurations();
     }
 
     public void update() {
-        if (!this.shouldRun) return;
+        if (!interval.isReady()) return;
         try {
             loadConfigurations();
-
             mainLogic();
-
-            // Pause the execution of this feature for 100 milliseconds
-            // TODO Remove Timer
-            shouldRun = false;
-            TimerTask timerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    shouldRun = true;
-                }
-            };
-            new Timer().schedule(timerTask, this.delayInMilliseconds);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,10 +58,11 @@ public class LockingHandler {
      * Loads the configs from the config.json
      */
     private void loadConfigurations() {
-        this.lockOnBlocks = MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isLockOnBlocks();
-        this.speakDistance = MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isSpeakDistance();
-        this.unlockingSound = MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isUnlockingSound();
-        this.delayInMilliseconds = MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().getDelay();
+        POILockingConfigMap map = MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap();
+        this.lockOnBlocks = map.isLockOnBlocks();
+        this.speakDistance = map.isSpeakDistance();
+        this.unlockingSound = map.isUnlockingSound();
+        this.interval = TimeUtils.Interval.inMilliseconds(map.getDelay(), this.interval);
     }
 
     private void mainLogic() {
