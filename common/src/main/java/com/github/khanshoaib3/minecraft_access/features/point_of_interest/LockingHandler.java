@@ -195,7 +195,7 @@ public class LockingHandler {
         isLockedOntoLadder = false;
 
         if (this.speakDistance) text += " " + PositionUtils.getPositionDifference(entity.getBlockPos());
-        MainClass.speakWithNarrator(text, true);
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", text), true);
     }
 
     private void determineClosestEntriesAndLock(MinecraftClient minecraftClient) {
