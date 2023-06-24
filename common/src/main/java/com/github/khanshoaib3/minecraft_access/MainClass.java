@@ -5,8 +5,7 @@ import com.github.khanshoaib3.minecraft_access.features.*;
 import com.github.khanshoaib3.minecraft_access.features.inventory_controls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.narrator_menu.NarratorMenu;
 import com.github.khanshoaib3.minecraft_access.features.point_of_interest.LockingHandler;
-import com.github.khanshoaib3.minecraft_access.features.point_of_interest.POIBlocks;
-import com.github.khanshoaib3.minecraft_access.features.point_of_interest.POIEntities;
+import com.github.khanshoaib3.minecraft_access.features.point_of_interest.POIMarking;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
 import com.mojang.text2speech.Narrator;
@@ -33,7 +32,6 @@ public class MainClass {
     public static HealthNHunger healthNHunger = null;
     public static PlayerWarnings playerWarnings = null;
     public static NarratorMenu narratorMenu = null;
-    public static POIEntities poiEntities = null;
     public static LockingHandler lockingHandler = null;
     public static FluidDetector fluidDetector = null;
 
@@ -47,7 +45,7 @@ public class MainClass {
      * Initializes the mod
      */
     public static void init() {
-        config = new Config();
+        config = Config.getInstance();
         Config.refresh();
         debugMode = config.getConfigMap().getOtherConfigsMap().isDebugMode();
 
@@ -70,7 +68,6 @@ public class MainClass {
         MainClass.healthNHunger = new HealthNHunger();
         MainClass.playerWarnings = new PlayerWarnings();
         MainClass.narratorMenu = new NarratorMenu();
-        MainClass.poiEntities = new POIEntities();
         MainClass.lockingHandler = new LockingHandler();
         MainClass.fluidDetector = new FluidDetector();
 
@@ -131,10 +128,7 @@ public class MainClass {
         if (narratorMenu != null && config.getConfigMap().getNarratorMenuConfigMap().isEnabled())
             narratorMenu.update();
 
-        POIBlocks.getInstance().update();
-
-        if (poiEntities != null && config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isEnabled())
-            poiEntities.update();
+        POIMarking.getInstance().update();
 
         if (lockingHandler != null && config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isEnabled())
             lockingHandler.update();
