@@ -32,13 +32,26 @@ public class POIEntities {
     private boolean playSound;
     private float volume;
     private TimeUtils.Interval interval;
+    private boolean enabled;
 
-    public POIEntities() {
+    private static final POIEntities instance;
+
+    static {
+        instance = new POIEntities();
+    }
+
+    public static POIEntities getInstance() {
+        return instance;
+    }
+
+    private POIEntities() {
         loadConfigurations();
     }
 
     public void update() {
+        if (!enabled) return;
         if (!this.interval.isReady()) return;
+
         try {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
 
@@ -101,6 +114,7 @@ public class POIEntities {
      */
     private void loadConfigurations() {
         POIEntitiesConfigMap map = MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap();
+        this.enabled = map.isEnabled();
         this.range = map.getRange();
         this.playSound = map.isPlaySound();
         this.volume = map.getVolume();
