@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIBlocksConfigMap;
+import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import net.minecraft.block.*;
@@ -40,12 +41,10 @@ public class POIBlocks {
     private boolean playSound;
     private float volume;
     private boolean playSoundForOtherBlocks;
-    private int delayInMilliseconds;
+    private TimeUtils.Interval interval;
 
     private static final List<Predicate<BlockState>> blockList = Lists.newArrayList();
     private static final List<Predicate<BlockState>> oreBlockList = Lists.newArrayList();
-
-    private boolean shouldRun = true;
 
     static {
         try {
@@ -102,7 +101,7 @@ public class POIBlocks {
             loadConfigurations();
 
             if (!this.enabled) return;
-            if (!this.shouldRun) return;
+            if (!this.interval.isReady()) return;
 
             minecraftClient = MinecraftClient.getInstance();
             if (minecraftClient == null) return;
@@ -134,17 +133,6 @@ public class POIBlocks {
 
             MainClass.infoLog("POIBlock ended.");
 
-
-            // Pause the execution of this feature for 250 milliseconds
-            // TODO Remove Timer
-            shouldRun = false;
-            TimerTask timerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    shouldRun = true;
-                }
-            };
-            new Timer().schedule(timerTask, delayInMilliseconds);
         } catch (Exception e) {
             MainClass.errorLog("\nError encountered in poi blocks feature.");
             e.printStackTrace();
@@ -159,7 +147,7 @@ public class POIBlocks {
         this.playSound = poiBlocksConfigMap.isPlaySound();
         this.volume = poiBlocksConfigMap.getVolume();
         this.playSoundForOtherBlocks = poiBlocksConfigMap.isPlaySoundForOtherBlocks();
-        this.delayInMilliseconds = poiBlocksConfigMap.getDelay();
+        this.interval = TimeUtils.Interval.inMilliseconds(poiBlocksConfigMap.getDelay(), this.interval);
     }
 
     private void checkBlock(BlockPos blockPos, int val) {

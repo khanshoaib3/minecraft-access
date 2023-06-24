@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.features;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BeehiveBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -34,29 +35,18 @@ public class ReadCrosshair {
     private String previousQuery;
     private boolean speakSide;
     private boolean speakingConsecutiveBlocks;
-    /**
-     * previousQuery should be expired after given time in nanosecond.
-     */
-    private Long repeatSpeakingInterval;
-    private Long previousQuerySetTime;
+    private TimeUtils.Interval repeatSpeakingInterval;
 
     public ReadCrosshair() {
         previousQuery = "";
-        previousQuerySetTime = 0L;
         loadConfigurations();
     }
 
     public String getPreviousQuery() {
-        boolean expired = (repeatSpeakingInterval != 0) && (System.nanoTime() - this.previousQuerySetTime > this.repeatSpeakingInterval);
-        if (expired) {
+        if (repeatSpeakingInterval.isReady()) {
             this.previousQuery = "";
         }
         return this.previousQuery;
-    }
-
-    public void setPreviousQuery(String previousQuery) {
-        this.previousQuerySetTime = System.nanoTime();
-        this.previousQuery = previousQuery;
     }
 
     public void update() {
@@ -91,8 +81,8 @@ public class ReadCrosshair {
         this.speakSide = map.isSpeakSide();
         // affirmation for easier use
         this.speakingConsecutiveBlocks = !map.isDisableSpeakingConsecutiveBlocks();
-        // 1 milliseconds = 1*10^6 nanoseconds
-        this.repeatSpeakingInterval = map.getRepeatSpeakingInterval() * 1000_000;
+        long interval = map.getRepeatSpeakingInterval();
+        this.repeatSpeakingInterval = TimeUtils.Interval.inMilliseconds(interval, this.repeatSpeakingInterval);
     }
 
     private void checkForBlockAndEntityHit(MinecraftClient minecraftClient, HitResult blockHit) {
@@ -139,7 +129,7 @@ public class ReadCrosshair {
     private void speakIfFocusChanged(String currentQuery, String toSpeak) {
         boolean focusChanged = !getPreviousQuery().equalsIgnoreCase(currentQuery);
         if (focusChanged) {
-            setPreviousQuery(currentQuery);
+            this.previousQuery = currentQuery;
             MainClass.speakWithNarrator(toSpeak, true);
         }
     }
@@ -191,7 +181,7 @@ public class ReadCrosshair {
                 }
             }
 
-            // TODO 1.20 Add pitcher crop
+            // TODO 1.20 Add pitcher crop and two ancient plants
             if (block instanceof CropBlock || block instanceof CocoaBlock || block instanceof NetherWartBlock) {
                 Pair<String, String> cropsInfo = getCropsInfo(block, blockState, toSpeak, currentQuery);
                 toSpeak = cropsInfo.getLeft();
