@@ -46,7 +46,7 @@ public class LockingHandler {
     }
 
     public void update() {
-        if (!interval.isReady()) return;
+        if (interval != null && !interval.isReady()) return;
         try {
             loadConfigurations();
             mainLogic();
