@@ -1,7 +1,9 @@
 package com.github.khanshoaib3.minecraft_access.config.config_menus;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.config.ConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
@@ -28,6 +30,10 @@ public class POIConfigMenu extends BaseScreen {
         ButtonWidget poiLockingButton = this.buildButtonWidget("minecraft_access.gui.poi_config_menu.button.poi_locking_button",
                 (button) -> this.client.setScreen(new POILockingConfigMenu("poi_locking_config_menu", this)));
         this.addDrawableChild(poiLockingButton);
+
+        ButtonWidget poiMarkingButton = this.buildButtonWidget("minecraft_access.gui.poi_config_menu.button.poi_marking_button",
+                (button) -> this.client.setScreen(new POIMarkingConfigMenu("poi_marking_config_menu", this)));
+        this.addDrawableChild(poiMarkingButton);
     }
 }
 
@@ -238,5 +244,36 @@ class POILockingConfigMenu extends BaseScreen {
                         MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().getDelay()),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_LOCKING_DELAY, this)));
         this.addDrawableChild(delayButton);
+    }
+}
+
+class POIMarkingConfigMenu extends BaseScreen {
+    public POIMarkingConfigMenu(String title, BaseScreen previousScreen) {
+        super(title, previousScreen);
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+
+        POIMarkingConfigMap map = POIMarkingConfigMap.getInstance();
+
+        ButtonWidget b1 = this.buildButtonWidget(translateFeatureToggleButtonMessage(map.isEnabled()),
+                (button) -> {
+                    map.setEnabled(!map.isEnabled());
+                    button.setMessage(Text.of(translateFeatureToggleButtonMessage(map.isEnabled())));
+                    Config.getInstance().writeJSON();
+                });
+        this.addDrawableChild(b1);
+
+        var m2 = buildFeatureToggleButtonMessageTranslator("minecraft_access.gui.poi_marking_config_menu.button.suppress_other_when_enabled_button");
+        ButtonWidget b2 = this.buildButtonWidget(
+                m2.apply(map.isSuppressOtherWhenEnabled()),
+                (button) -> {
+                    map.setSuppressOtherWhenEnabled(!map.isSuppressOtherWhenEnabled());
+                    button.setMessage(Text.of(m2.apply(map.isSuppressOtherWhenEnabled())));
+                    Config.getInstance().writeJSON();
+                });
+        this.addDrawableChild(b2);
     }
 }
