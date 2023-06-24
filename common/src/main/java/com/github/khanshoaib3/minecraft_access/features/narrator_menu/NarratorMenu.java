@@ -7,6 +7,7 @@ import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -21,6 +22,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -45,34 +47,34 @@ public class NarratorMenu {
      */
     private static final MenuFunction[] MENU_FUNCTIONS = new MenuFunction[]{
             new MenuFunction("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_info",
-                    InputUtil.GLFW_KEY_1, InputUtil.GLFW_KEY_KP_1,
+                    GLFW.GLFW_KEY_1, GLFW.GLFW_KEY_KP_1,
                     NarratorMenu::getBlockAndFluidTargetInformation),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_position",
-                    InputUtil.GLFW_KEY_2, InputUtil.GLFW_KEY_KP_2,
+                    GLFW.GLFW_KEY_2, GLFW.GLFW_KEY_KP_2,
                     NarratorMenu::getBlockAndFluidTargetPosition),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.light_level",
-                    InputUtil.GLFW_KEY_3, InputUtil.GLFW_KEY_KP_3,
+                    GLFW.GLFW_KEY_3, GLFW.GLFW_KEY_KP_3,
                     NarratorMenu::getLightLevel),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.find_water",
-                    InputUtil.GLFW_KEY_4, InputUtil.GLFW_KEY_KP_4,
+                    GLFW.GLFW_KEY_4, GLFW.GLFW_KEY_KP_4,
                     () -> MainClass.fluidDetector.findClosestWaterSource(true)),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.find_lava",
-                    InputUtil.GLFW_KEY_5, InputUtil.GLFW_KEY_KP_5,
+                    GLFW.GLFW_KEY_5, GLFW.GLFW_KEY_KP_5,
                     () -> MainClass.fluidDetector.findClosestLavaSource(true)),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.biome",
-                    InputUtil.GLFW_KEY_6, InputUtil.GLFW_KEY_KP_6,
+                    GLFW.GLFW_KEY_6, GLFW.GLFW_KEY_KP_6,
                     NarratorMenu::getBiome),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.time_of_day",
-                    InputUtil.GLFW_KEY_7, InputUtil.GLFW_KEY_KP_7,
+                    GLFW.GLFW_KEY_7, GLFW.GLFW_KEY_KP_7,
                     NarratorMenu::getTimeOfDay),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.xp",
-                    InputUtil.GLFW_KEY_8, InputUtil.GLFW_KEY_KP_8,
+                    GLFW.GLFW_KEY_8, GLFW.GLFW_KEY_KP_8,
                     NarratorMenu::getXP),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.refresh_screen_reader",
-                    InputUtil.GLFW_KEY_9, InputUtil.GLFW_KEY_KP_9,
+                    GLFW.GLFW_KEY_9, GLFW.GLFW_KEY_KP_9,
                     () -> ScreenReaderController.refreshScreenReader(true)),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.open_config_menu",
-                    InputUtil.GLFW_KEY_0, InputUtil.GLFW_KEY_KP_0,
+                    GLFW.GLFW_KEY_0, GLFW.GLFW_KEY_KP_0,
                     () -> MinecraftClient.getInstance().setScreen(new ConfigMenu("config_menu"))),
     };
 
@@ -87,6 +89,7 @@ public class NarratorMenu {
 
             // With Narrator Menu opened, listen to number keys pressing for executing corresponding functions
             if (minecraftClient.currentScreen instanceof NarratorMenuGUI) {
+                // for the little performance improvement, will not use KeyUtils here.
                 long handle = minecraftClient.getWindow().getHandle();
                 Stream.of(MENU_FUNCTIONS)
                         .filter(f -> InputUtil.isKeyPressed(handle, f.numberKeyCode())
@@ -97,11 +100,12 @@ public class NarratorMenu {
 
             if (minecraftClient.currentScreen != null) return;
 
-            boolean isNarratorMenuKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.narratorMenuKey);
-            boolean isNarratorMenuHotKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.narratorMenuHotKey);
+            KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
+            boolean isNarratorMenuKeyPressed = KeyUtils.isAnyPressed(kbh.narratorMenuKey);
+            boolean isNarratorMenuHotKeyPressed = KeyUtils.isAnyPressed(kbh.narratorMenuHotKey);
 
             // F3 + F4 triggers game mode changing function in vanilla game, will not open the menu under this situation.
-            boolean isF3KeyNotPressed = !KeyBindingsHandler.isF3KeyPressed();
+            boolean isF3KeyNotPressed = !KeyUtils.isF3Pressed();
 
             // The F4 is pressed before and released at current tick
             // To make the narrator menu open AFTER release the F4 key

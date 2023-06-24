@@ -2,10 +2,11 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.InputUtil;
+import org.lwjgl.glfw.GLFW;
 
 /**
  * Adds key bindings to speak the player's position.<br><br>
@@ -25,14 +26,10 @@ public class PositionNarrator {
             if (minecraftClient.player == null) return;
             if (minecraftClient.currentScreen != null) return;
 
-            boolean isLeftAltPressed = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(),
-                    InputUtil.fromTranslationKey("key.keyboard.left.alt").getCode());
-            boolean isXPressed = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(),
-                    InputUtil.fromTranslationKey("key.keyboard.x").getCode());
-            boolean isCPressed = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(),
-                    InputUtil.fromTranslationKey("key.keyboard.c").getCode());
-            boolean isZPressed = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(),
-                    InputUtil.fromTranslationKey("key.keyboard.z").getCode());
+            boolean isLeftAltPressed = KeyUtils.isLeftAltPressed();
+            boolean isXPressed = KeyUtils.isAnyPressed(GLFW.GLFW_KEY_X);
+            boolean isCPressed = KeyUtils.isAnyPressed(GLFW.GLFW_KEY_C);
+            boolean isZPressed = KeyUtils.isAnyPressed(GLFW.GLFW_KEY_Z);
 
             if (isLeftAltPressed) {
                 if (isXPressed) {
@@ -51,7 +48,7 @@ public class PositionNarrator {
                 }
             }
 
-            boolean isPositionNarrationKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.positionNarrationKey);
+            boolean isPositionNarrationKeyPressed = KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().positionNarrationKey);
 
             if (isPositionNarrationKeyPressed) {
                 String posX = PositionUtils.getNarratableNumber(new PlayerPositionUtils(minecraftClient).getX());

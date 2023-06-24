@@ -2,11 +2,11 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.InputUtil;
 
 /**
  * Adds key binding to speak the player's facing direction.<br>
@@ -20,11 +20,10 @@ public class FacingDirection {
             if (minecraftClient.player == null) return;
             if (minecraftClient.currentScreen != null) return;
 
-            boolean isDirectionNarrationKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.directionNarrationKey);
+            boolean isDirectionNarrationKeyPressed = KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().directionNarrationKey);
             if (!isDirectionNarrationKeyPressed) return;
 
-            boolean isLeftAltPressed = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(),
-                    InputUtil.fromTranslationKey("key.keyboard.left.alt").getCode());
+            boolean isLeftAltPressed = KeyUtils.isLeftAltPressed();
 
             String toSpeak;
             if (isLeftAltPressed) {
