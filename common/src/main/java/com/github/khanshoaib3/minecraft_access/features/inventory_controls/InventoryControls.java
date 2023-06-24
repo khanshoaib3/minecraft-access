@@ -82,7 +82,7 @@ public class InventoryControls {
     }
 
     public void update() {
-        if (!interval.isReady()) return;
+        if (interval != null && !interval.isReady()) return;
         this.minecraftClient = MinecraftClient.getInstance();
 
         if (minecraftClient == null) return;

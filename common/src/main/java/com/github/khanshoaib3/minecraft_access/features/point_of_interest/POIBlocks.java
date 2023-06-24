@@ -101,7 +101,7 @@ public class POIBlocks {
             loadConfigurations();
 
             if (!this.enabled) return;
-            if (!this.interval.isReady()) return;
+            if (interval != null && !interval.isReady()) return;
 
             minecraftClient = MinecraftClient.getInstance();
             if (minecraftClient == null) return;

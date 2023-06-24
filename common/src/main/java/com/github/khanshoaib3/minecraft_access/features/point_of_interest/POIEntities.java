@@ -38,7 +38,8 @@ public class POIEntities {
     }
 
     public void update() {
-        if (!this.interval.isReady()) return;
+        if (interval != null && !interval.isReady()) return;
+
         try {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
 

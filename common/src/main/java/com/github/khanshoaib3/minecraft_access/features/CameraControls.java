@@ -43,7 +43,7 @@ public class CameraControls {
     }
 
     public void update() {
-        if (!this.interval.isReady()) return;
+        if (interval != null && !interval.isReady()) return;
         try {
             this.minecraftClient = MinecraftClient.getInstance();
 
