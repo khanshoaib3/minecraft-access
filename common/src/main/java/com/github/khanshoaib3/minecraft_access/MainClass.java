@@ -68,7 +68,7 @@ public class MainClass {
         MainClass.healthNHunger = new HealthNHunger();
         MainClass.playerWarnings = new PlayerWarnings();
         MainClass.narratorMenu = new NarratorMenu();
-        MainClass.lockingHandler = new LockingHandler();
+        MainClass.lockingHandler = LockingHandler.getInstance();
         MainClass.fluidDetector = new FluidDetector();
 
         ClientTickEvent.CLIENT_POST.register(MainClass::clientTickEventsMethod);

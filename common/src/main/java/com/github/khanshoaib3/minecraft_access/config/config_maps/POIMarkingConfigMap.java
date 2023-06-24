@@ -8,7 +8,7 @@ public class POIMarkingConfigMap {
     @SerializedName("Enabled")
     private boolean enabled;
 
-    @SerializedName("Suppress Other POI Reports When Marking")
+    @SerializedName("Suppress Other POI When Marking On")
     private boolean suppressOtherWhenEnabled;
 
     public static POIMarkingConfigMap buildDefault() {

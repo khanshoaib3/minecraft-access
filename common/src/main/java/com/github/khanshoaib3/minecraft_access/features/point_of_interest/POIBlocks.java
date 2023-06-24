@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIBlocksConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -33,6 +34,7 @@ public class POIBlocks {
     public static TreeMap<Double, Vec3d> trapDoorBlocks = new TreeMap<>();
     public static TreeMap<Double, Vec3d> fluidBlocks = new TreeMap<>();
     public static TreeMap<Double, Vec3d> otherBlocks = new TreeMap<>();
+    public static TreeMap<Double, Vec3d> markedBlocks = new TreeMap<>();
 
     private List<Vec3d> checkedBlocks = new ArrayList<>();
     private boolean enabled;
@@ -45,6 +47,8 @@ public class POIBlocks {
 
     private static final List<Predicate<BlockState>> blockList = Lists.newArrayList();
     private static final List<Predicate<BlockState>> oreBlockList = Lists.newArrayList();
+    private Predicate<BlockState> markedBlock = state -> false;
+    private boolean marking = false;
 
     static {
         try {
@@ -116,6 +120,7 @@ public class POIBlocks {
             trapDoorBlocks = new TreeMap<>();
             fluidBlocks = new TreeMap<>();
             otherBlocks = new TreeMap<>();
+            markedBlocks = new TreeMap<>();
 
             BlockPos pos = minecraftClient.player.getBlockPos();
 
@@ -168,7 +173,10 @@ public class POIBlocks {
         double diff = playerVec3dPos.distanceTo(blockVec3dPos);
         String soundType = "";
 
-        if (this.detectFluidBlocks && block instanceof FluidBlock) {
+        if (markedBlock.test(blockState)) {
+            markedBlocks.put(diff, blockVec3dPos);
+            soundType = "mark";
+        } else if (this.detectFluidBlocks && block instanceof FluidBlock) {
             FluidState fluidState = minecraftClient.world.getFluidState(blockPos);
             if (fluidState.getLevel() == 8) {
                 fluidBlocks.put(diff, blockVec3dPos);
@@ -220,6 +228,18 @@ public class POIBlocks {
         }
 
         if (this.playSound && this.volume > 0 && !soundType.isEmpty()) {
+
+            if (soundType.equalsIgnoreCase("mark")) {
+                MainClass.infoLog("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+                minecraftClient.world.playSound(minecraftClient.player, new BlockPos(blockVec3dPos), SoundEvents.ENTITY_ITEM_PICKUP,
+                        SoundCategory.BLOCKS, volume, -5f);
+            }
+
+            if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+                MainClass.infoLog("{POIBlocks} Suppress sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+                return;
+            }
+
             MainClass.infoLog("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
 
             if (soundType.equalsIgnoreCase("ore"))
@@ -233,6 +253,20 @@ public class POIBlocks {
                     minecraftClient.world.playSound(minecraftClient.player, new BlockPos(blockVec3dPos), SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(),
                             SoundCategory.BLOCKS, volume, 0f);
 
+        }
+    }
+
+    public void setMarking(boolean marking) {
+        this.marking = marking;
+    }
+
+    public void setMarkedBlock(Block block) {
+        if (block == null) {
+            this.marking = false;
+            this.markedBlock = s -> false;
+        } else {
+            this.marking = true;
+            this.markedBlock = s -> s.isOf(block);
         }
     }
 }

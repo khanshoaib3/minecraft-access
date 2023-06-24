@@ -1,7 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.utils;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
@@ -64,11 +63,6 @@ public class KeyUtils {
 
     public static boolean isLeftShiftPressed() {
         return isAnyPressed(GLFW.GLFW_KEY_LEFT_SHIFT);
-    }
-
-    public static boolean isShiftPressedWith(KeyBinding keyBinding) {
-        int keyCode = InputUtil.fromTranslationKey(keyBinding.getBoundKeyTranslationKey()).getCode();
-        return Screen.hasShiftDown() && isAnyPressed(keyCode);
     }
 
     public static boolean isLeftAltPressed() {
