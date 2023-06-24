@@ -236,7 +236,9 @@ public class POIBlocks {
             }
 
             if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
-                MainClass.infoLog("{POIBlocks} Suppress sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+                if (!soundType.equalsIgnoreCase("mark")) {
+                    MainClass.infoLog("{POIBlocks} Suppress sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+                }
                 return;
             }
 

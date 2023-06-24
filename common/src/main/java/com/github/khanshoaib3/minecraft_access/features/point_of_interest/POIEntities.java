@@ -69,6 +69,9 @@ public class POIEntities {
 
             passiveEntity = new TreeMap<>();
             hostileEntity = new TreeMap<>();
+            markedEntities = new TreeMap<>();
+
+            MainClass.infoLog("POIEntities started...");
 
             for (Entity i : minecraftClient.world.getEntities()) {
                 if (!(i instanceof MobEntity || i instanceof ItemEntity || i instanceof EyeOfEnderEntity || (i instanceof PlayerEntity && i != minecraftClient.player)))
@@ -92,7 +95,10 @@ public class POIEntities {
                     }
                 }
 
-                if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) return;
+                if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+                    MainClass.infoLog("POIEntities end early by POI marking feature.");
+                    return;
+                }
 
                 if (i instanceof PassiveEntity) {
                     passiveEntity.put(distance, i);
@@ -110,6 +116,7 @@ public class POIEntities {
                     this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
                 }
             }
+            MainClass.infoLog("POIEntities end.");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -147,7 +154,8 @@ public class POIEntities {
             this.markedEntity = e -> false;
         } else {
             this.marking = true;
-            this.markedEntity = e -> entity.getClass().isInstance(e);
+            Class<? extends Entity> clazz = entity.getClass();
+            this.markedEntity = clazz::isInstance;
         }
     }
 }
