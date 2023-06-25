@@ -1,9 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.config;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.FallDetectorConfigMap;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.NarratorMenuConfigMap;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.client.MinecraftClient;
@@ -17,10 +14,26 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Config {
+    private static final Config instance;
     private static final String CONFIG_FILE_PATH = Paths.get("config", "minecraft-access", "config.json").toString();
     private ConfigMap configMap = null;
     private Gson gson = null;
 
+    static {
+        instance = new Config();
+    }
+
+    /**
+     * To prevent constructing other instances.
+     */
+    private Config() {
+        
+    }
+
+    public static Config getInstance() {
+        return instance;
+    }
+    
     /**
      * Returns the main config map, if not already initialized, initializes it.
      *
@@ -37,7 +50,8 @@ public class Config {
      */
     public void setConfigMap(ConfigMap configMap) {
         try {
-            writeJSON(configMap);
+            this.configMap = configMap;
+            writeJSON();
         } catch (Exception e) {
             MainClass.errorLog("An error occurred while updating config.");
             e.printStackTrace();
@@ -57,6 +71,8 @@ public class Config {
 
             createDefaultConfigFileIfNotExist();
             configMap = readJSON();
+            // update config maps' singleton instances
+            ConfigMap.setInstance(configMap);
 
             if (!isConfigMapValid(configMap)) resetToDefault();
         } catch (Exception e) {
@@ -80,16 +96,8 @@ public class Config {
     protected void resetToDefault() {
         try {
             // TODO Update these
-            configMap = new ConfigMap();
-            configMap.setDefaultCameraControlsConfigMap();
-            configMap.setDefaultInventoryControlsConfigMap();
-            configMap.setDefaultPoiConfigMap();
-            configMap.setDefaultPlayerWarningConfigMap();
-            configMap.setFallDetectorConfigMap(FallDetectorConfigMap.defaultFallDetectorConfigMap());
-            configMap.setDefaultReadCrosshairConfigMap();
-            configMap.setOtherConfigsMap(OtherConfigsMap.getDefaultOtherConfigsMap());
-            configMap.setNarratorMenuConfigMap(NarratorMenuConfigMap.getDefaultNarratorMenuConfigMap());
-            writeJSON(configMap);
+            this.configMap = ConfigMap.buildDefault();
+            writeJSON();
         } catch (Exception e) {
             MainClass.errorLog("An error occurred while resetting config.json file to default.");
             e.printStackTrace();
@@ -108,7 +116,7 @@ public class Config {
         resetToDefault();
     }
 
-    private void writeJSON(ConfigMap configMap) {
+    public void writeJSON() {
         try (Writer writer = new FileWriter(CONFIG_FILE_PATH)) {
             writer.write(gson.toJson(configMap));
         } catch (Exception e) {

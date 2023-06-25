@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -14,7 +15,7 @@ import net.minecraft.client.gui.screen.pack.PackScreen;
 import net.minecraft.client.gui.screen.world.CreateWorldScreen;
 import net.minecraft.client.gui.screen.world.EditWorldScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
-import net.minecraft.client.util.InputUtil;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,10 +75,8 @@ public class MenuFix {
                     prevScreenClass = minecraftClient.currentScreen.getClass();
                 }
 
-                boolean isLeftAltPressed = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(),
-                        InputUtil.fromTranslationKey("key.keyboard.left.alt").getCode());
-                boolean isRPressed = (InputUtil.isKeyPressed(minecraftClient.getWindow().getHandle(),
-                        InputUtil.fromTranslationKey("key.keyboard.r").getCode()));
+                boolean isLeftAltPressed = KeyUtils.isLeftAltPressed();
+                boolean isRPressed = KeyUtils.isAnyPressed(GLFW.GLFW_KEY_R);
                 if (isLeftAltPressed && isRPressed)
                     moveMouseCursor(minecraftClient);
             }

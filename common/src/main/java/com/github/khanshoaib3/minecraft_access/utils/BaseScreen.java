@@ -7,6 +7,8 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
+import java.util.function.Function;
+
 public class BaseScreen extends Screen {
     int centerX;
     int buttonHeight;
@@ -71,5 +73,17 @@ public class BaseScreen extends Screen {
     @Override
     public void close() {
         if (this.client != null) this.client.setScreen(previousScreen);
+    }
+
+    protected static String translateFeatureToggleButtonMessage(boolean enabled) {
+        return I18n.translate("minecraft_access.gui.common.button.feature_toggle_button." + (enabled ? "enabled" : "disabled"));
+    }
+
+    /**
+     * A reusable function for calculating feature toggle button message.
+     */
+    protected static Function<Boolean, String> buildFeatureToggleButtonMessageTranslator(String buttonTranslationKey) {
+        return (Boolean b) -> I18n.translate("minecraft_access.gui.common.button.toggle_button." + (b ? "enabled" : "disabled"),
+                I18n.translate(buttonTranslationKey));
     }
 }

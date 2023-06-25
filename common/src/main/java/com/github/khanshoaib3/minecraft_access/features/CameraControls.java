@@ -1,17 +1,16 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControlsConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.util.math.Vec3d;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * This feature adds the following key binds to control the camera.<br><br>
@@ -37,16 +36,14 @@ public class CameraControls {
 
     private float normalRotatingDeltaAngle;
     private float modifiedRotatingDeltaAngle;
-
-    private boolean shouldRun = true;
-    private int delay;
+    private TimeUtils.Interval interval;
 
     public CameraControls() {
         loadConfigurations();
     }
 
     public void update() {
-        if (!this.shouldRun) return;
+        if (interval != null && !interval.isReady()) return;
         try {
             this.minecraftClient = MinecraftClient.getInstance();
 
@@ -54,21 +51,8 @@ public class CameraControls {
             if (minecraftClient.currentScreen != null) return; //Prevent running if any screen is opened
 
             loadConfigurations();
+            mainLogic();
 
-            boolean wasAnyKeyPressed = keyListener();
-
-            // Pause the execution of this feature for 250 milliseconds
-            // TODO Remove Timer
-            if (wasAnyKeyPressed) {
-                shouldRun = false;
-                TimerTask timerTask = new TimerTask() {
-                    @Override
-                    public void run() {
-                        shouldRun = true;
-                    }
-                };
-                new Timer().schedule(timerTask, delay);
-            }
         } catch (Exception e) {
             MainClass.errorLog("\nError encountered in Camera Controls feature.");
             e.printStackTrace();
@@ -81,94 +65,81 @@ public class CameraControls {
     private void loadConfigurations() {
         float delta90Degrees = 600f; // 90 / 0.15
 
-        delay = MainClass.config.getConfigMap().getCameraControlsConfigMap().getDelayInMilliseconds();
-        float normalRotatingAngle = MainClass.config.getConfigMap().getCameraControlsConfigMap().getNormalRotatingAngle();
-        float modifiedRotatingAngle = MainClass.config.getConfigMap().getCameraControlsConfigMap().getModifiedRotatingAngle();
+        CameraControlsConfigMap map = MainClass.config.getConfigMap().getCameraControlsConfigMap();
+        interval = TimeUtils.Interval.inMilliseconds(map.getDelayInMilliseconds(), interval);
+        float normalRotatingAngle = map.getNormalRotatingAngle();
+        float modifiedRotatingAngle = map.getModifiedRotatingAngle();
         normalRotatingDeltaAngle = delta90Degrees / (90 / normalRotatingAngle);
         modifiedRotatingDeltaAngle = delta90Degrees / (90 / modifiedRotatingAngle);
     }
 
     /**
      * Handles the key inputs
-     *
-     * @return True if any key is pressed.
      */
-    private boolean keyListener() {
-        // https://minecraft.fandom.com/wiki/Key_codes
-        boolean isLeftAltPressed = InputUtil.isKeyPressed(
-                MinecraftClient.getInstance().getWindow().getHandle(),
-                InputUtil.fromTranslationKey("key.keyboard.left.alt").getCode()
-        );
+    private void mainLogic() {
+        boolean isLeftAltPressed = KeyUtils.isLeftAltPressed();
+        boolean isRightAltPressed = KeyUtils.isRightAltPressed();
 
-        boolean isRightAltPressed = InputUtil.isKeyPressed(
-                MinecraftClient.getInstance().getWindow().getHandle(),
-                InputUtil.fromTranslationKey("key.keyboard.right.alt").getCode()
-        );
+        KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
 
-        boolean isUpKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsUp)
-                || KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateUp);
-        boolean isRightKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsRight)
-                || KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateRight);
-        boolean isDownKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsDown)
-                || KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateDown);
-        boolean isLeftKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsLeft)
-                || KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsAlternateLeft);
-        boolean isNorthKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsNorth)
+        boolean isUpKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsUp, kbh.cameraControlsAlternateUp);
+        boolean isRightKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsRight, kbh.cameraControlsAlternateRight);
+        boolean isDownKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsDown, kbh.cameraControlsAlternateDown);
+        boolean isLeftKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsLeft, kbh.cameraControlsAlternateLeft);
+
+        boolean isNorthKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsNorth)
                 || (isUpKeyPressed && isRightAltPressed && !isLeftAltPressed);
-        boolean isEastKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsEast)
+        boolean isEastKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsEast)
                 || (isRightKeyPressed && isRightAltPressed && !isLeftAltPressed);
-        boolean isWestKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsWest)
+        boolean isWestKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsWest)
                 || (isLeftKeyPressed && isRightAltPressed && !isLeftAltPressed);
-        boolean isSouthKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsSouth)
+        boolean isSouthKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsSouth)
                 || (isDownKeyPressed && isRightAltPressed && !isLeftAltPressed);
-        boolean isCenterCameraKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.cameraControlsCenterCamera);
+        boolean isCenterCameraKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsCenterCamera);
 
         if (isNorthKeyPressed) {
             lookNorth();
-            return true;
+            return;
         }
 
         if (isEastKeyPressed) {
             lookEast();
-            return true;
+            return;
         }
 
         if (isWestKeyPressed) {
             lookWest();
-            return true;
+            return;
         }
 
         if (isSouthKeyPressed) {
             lookSouth();
-            return true;
+            return;
         }
 
         if (isUpKeyPressed) {
             upKeyHandler(isLeftAltPressed);
-            return true;
+            return;
         }
 
         if (isRightKeyPressed) {
             rightKeyHandler(isLeftAltPressed);
-            return true;
+            return;
         }
 
         if (isDownKeyPressed) {
             downKeyHandler(isLeftAltPressed);
-            return true;
+            return;
         }
 
         if (isLeftKeyPressed) {
             leftKeyHandler(isLeftAltPressed);
-            return true;
+            return;
         }
 
         if (isCenterCameraKeyPressed) {
             centerCamera(isLeftAltPressed);
-            return true;
         }
-
-        return false;
     }
 
     /**

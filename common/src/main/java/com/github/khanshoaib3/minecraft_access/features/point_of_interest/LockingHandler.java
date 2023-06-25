@@ -1,8 +1,12 @@
 package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.POILockingConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -18,8 +22,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.Map.Entry;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Locks on to the nearest entity or block.<br><br>
@@ -28,41 +30,37 @@ import java.util.TimerTask;
  * 2. Alt key + Locking Key = Unlocks from the currently locked entity or block<br>
  */
 public class LockingHandler {
+    private static final LockingHandler instance;
     public Entity lockedOnEntity = null;
     public Vec3d lockedOnBlock = null;
     public Vec3d prevEntityPos = null;
     public boolean isLockedOntoLadder = false;
     public boolean isLockedOntoEyeOfEnderTarget = false; // The block where the eye of ender disappears
     public String lockedOnBlockEntries = "";
+    private TimeUtils.Interval interval;
 
-    private boolean shouldRun = true;
     private boolean lockOnBlocks;
     private boolean speakDistance;
     private boolean unlockingSound;
-    private int delayInMilliseconds;
-//    private boolean autoLockEyeOfEnderEntity;
 
-    public LockingHandler() {
-        loadConfigurations();
+    private boolean marking = false;
+
+    static {
+        instance = new LockingHandler();
+    }
+
+    private LockingHandler() {
+    }
+
+    public static LockingHandler getInstance() {
+        return instance;
     }
 
     public void update() {
-        if (!this.shouldRun) return;
+        if (interval != null && !interval.isReady()) return;
         try {
             loadConfigurations();
-
             mainLogic();
-
-            // Pause the execution of this feature for 100 milliseconds
-            // TODO Remove Timer
-            shouldRun = false;
-            TimerTask timerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    shouldRun = true;
-                }
-            };
-            new Timer().schedule(timerTask, this.delayInMilliseconds);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,10 +70,11 @@ public class LockingHandler {
      * Loads the configs from the config.json
      */
     private void loadConfigurations() {
-        this.lockOnBlocks = MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isLockOnBlocks();
-        this.speakDistance = MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isSpeakDistance();
-        this.unlockingSound = MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isUnlockingSound();
-        this.delayInMilliseconds = MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().getDelay();
+        POILockingConfigMap map = MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap();
+        this.lockOnBlocks = map.isLockOnBlocks();
+        this.speakDistance = map.isSpeakDistance();
+        this.unlockingSound = map.isUnlockingSound();
+        this.interval = TimeUtils.Interval.inMilliseconds(map.getDelay(), this.interval);
     }
 
     private void mainLogic() {
@@ -86,7 +85,7 @@ public class LockingHandler {
         if (minecraftClient.world == null) return;
         if (minecraftClient.currentScreen != null) return;
 
-        boolean isLockingKeyPressed = KeyBindingsHandler.isPressed(MainClass.keyBindingsHandler.lockingHandlerKey);
+        boolean isLockingKeyPressed = KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().lockingHandlerKey);
 
         if (lockedOnEntity != null) outer:{
             if (!lockedOnEntity.isAlive()) {
@@ -137,6 +136,8 @@ public class LockingHandler {
         }
 
         if (!isLockingKeyPressed) return;
+        // Control + Locking for POI marking feature
+        if (Screen.hasControlDown()) return;
 
         if (Screen.hasAltDown()) {
             if (lockedOnEntity != null || lockedOnBlock != null) {
@@ -151,41 +152,50 @@ public class LockingHandler {
             return;
         }
 
+        if (!POIEntities.markedEntities.isEmpty()) {
+            Entry<Double, Entity> entry = POIEntities.markedEntities.firstEntry();
+            lockOnEntity(entry);
+            return;
+        }
+
+        if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+            if (POIBlocks.markedBlocks.isEmpty()) {
+                return;
+            } else {
+                // Skip entity locking logic
+                determineClosestEntriesAndLock(minecraftClient);
+            }
+        }
+
         if (!POIEntities.hostileEntity.isEmpty()) {
             Entry<Double, Entity> entry = POIEntities.hostileEntity.firstEntry();
-            Entity entity = entry.getValue();
-
-            String text = entity.getName().getString();
-            lockedOnEntity = entity;
-            lockedOnBlockEntries = "";
-
-            lockedOnBlock = null;
-            isLockedOntoLadder = false;
-
-            if (this.speakDistance) text += " " + PositionUtils.getPositionDifference(entity.getBlockPos());
-            MainClass.speakWithNarrator(text, true);
+            lockOnEntity(entry);
             return;
         }
 
         if (!POIEntities.passiveEntity.isEmpty()) {
             Entry<Double, Entity> entry = POIEntities.passiveEntity.firstEntry();
-            Entity entity = entry.getValue();
-
-            String text = entity.getName().getString();
-            lockedOnEntity = entity;
-            lockedOnBlockEntries = "";
-
-            lockedOnBlock = null;
-            isLockedOntoLadder = false;
-
-            if (this.speakDistance) text += " " + PositionUtils.getPositionDifference(entity.getBlockPos());
-            MainClass.speakWithNarrator(text, true);
+            lockOnEntity(entry);
             return;
         }
 
         if (!this.lockOnBlocks) return;
 
         determineClosestEntriesAndLock(minecraftClient);
+    }
+
+    private void lockOnEntity(Entry<Double, Entity> entry) {
+        Entity entity = entry.getValue();
+
+        String text = entity.getName().getString();
+        lockedOnEntity = entity;
+        lockedOnBlockEntries = "";
+
+        lockedOnBlock = null;
+        isLockedOntoLadder = false;
+
+        if (this.speakDistance) text += " " + PositionUtils.getPositionDifference(entity.getBlockPos());
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", text), true);
     }
 
     private void determineClosestEntriesAndLock(MinecraftClient minecraftClient) {
@@ -255,6 +265,14 @@ public class LockingHandler {
             closest = closestOreBlockDouble;
         }
 
+        Entry<Double, Vec3d> closestMarkedBlockEntry = null;
+        Double closestMarkedBlockDouble = -9999.0;
+        if (!POIBlocks.markedBlocks.isEmpty()) {
+            closestMarkedBlockEntry = POIBlocks.markedBlocks.firstEntry();
+            closestMarkedBlockDouble = closestMarkedBlockEntry.getKey();
+            closest = closestMarkedBlockDouble;
+        }
+
         if (closest == -9999.0) return;
 
         if (closestDoorBlockDouble != -9999.0)
@@ -277,7 +295,8 @@ public class LockingHandler {
                 closestLadderBlockEntry, closestLadderBlockDouble, closestLeverBlockEntry,
                 closestLeverBlockDouble, closestTrapDoorBlockEntry, closestTrapDoorBlockDouble,
                 closestFluidBlockEntry, closestFluidBlockDouble, closestOtherBlockEntry,
-                closestOtherBlockDouble, closestOreBlockEntry, closestOreBlockDouble);
+                closestOtherBlockDouble, closestOreBlockEntry, closestOreBlockDouble,
+                closestMarkedBlockEntry, closestMarkedBlockDouble);
 
         narrateBlockPosAndSetBlockEntries(minecraftClient);
     }
@@ -290,9 +309,16 @@ public class LockingHandler {
                                                Entry<Double, Vec3d> closestTrapDoorBlockEntry, Double closestTrapDoorBlockDouble,
                                                Entry<Double, Vec3d> closestFluidBlockEntry, Double closestFluidBlockDouble,
                                                Entry<Double, Vec3d> closestOtherBlockEntry, Double closestOtherBlockDouble,
-                                               Entry<Double, Vec3d> closestOreBlockEntry, Double closestOreBlockDouble) {
+                                               Entry<Double, Vec3d> closestOreBlockEntry, Double closestOreBlockDouble,
+                                               Entry<Double, Vec3d> closestMarkedBlockEntry, Double closestMarkedBlockDouble) {
 
         if (client.player == null) return;
+
+        if (closest.equals(closestMarkedBlockDouble) && closestMarkedBlockDouble != -9999.0) {
+            lockedOnBlock = closestMarkedBlockEntry.getValue();
+            lockedOnEntity = null;
+            isLockedOntoLadder = false;
+        }
 
         if (closest.equals(closestOreBlockDouble) && closestOreBlockDouble != -9999.0) {
             lockedOnBlock = closestOreBlockEntry.getValue();
@@ -354,5 +380,9 @@ public class LockingHandler {
 
         float volume = 0.4f;
         client.player.playSound(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM.value(), volume, 2f);
+    }
+
+    public void setMarking(boolean marking) {
+        this.marking = marking;
     }
 }

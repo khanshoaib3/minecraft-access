@@ -3,6 +3,8 @@ package com.github.khanshoaib3.minecraft_access.config;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.*;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 public class ConfigMap {
     @SerializedName("Camera Controls")
     private CameraControlsConfigMap cameraControlsConfigMap;
@@ -20,6 +22,23 @@ public class ConfigMap {
     private NarratorMenuConfigMap narratorMenuConfigMap;
     @SerializedName("Other Configurations")
     private OtherConfigsMap otherConfigsMap;
+
+    public static ConfigMap buildDefault() {
+        ConfigMap m = new ConfigMap();
+        m.setDefaultCameraControlsConfigMap();
+        m.setDefaultInventoryControlsConfigMap();
+        m.poiConfigMap = POIConfigMap.buildDefault();
+        m.setDefaultPlayerWarningConfigMap();
+        m.setFallDetectorConfigMap(FallDetectorConfigMap.defaultFallDetectorConfigMap());
+        m.setDefaultReadCrosshairConfigMap();
+        m.setOtherConfigsMap(OtherConfigsMap.getDefaultOtherConfigsMap());
+        m.setNarratorMenuConfigMap(NarratorMenuConfigMap.getDefaultNarratorMenuConfigMap());
+        return m;
+    }
+
+    public static void setInstance(ConfigMap map) {
+        POIConfigMap.setInstance(map.poiConfigMap);
+    }
 
     public CameraControlsConfigMap getCameraControlsConfigMap() {
         return cameraControlsConfigMap;
@@ -59,43 +78,6 @@ public class ConfigMap {
 
     public POIConfigMap getPoiConfigMap() {
         return poiConfigMap;
-    }
-
-    public void setPoiConfigMap(POIConfigMap poiConfigMap) {
-        this.poiConfigMap = poiConfigMap;
-    }
-
-    public void setDefaultPoiConfigMap() {
-        POIConfigMap defaultPoiConfigMap = new POIConfigMap();
-
-        POIBlocksConfigMap defaultPoiBlocksConfigMap = new POIBlocksConfigMap();
-        defaultPoiBlocksConfigMap.setEnabled(true);
-        defaultPoiBlocksConfigMap.setDetectFluidBlocks(true);
-        defaultPoiBlocksConfigMap.setRange(6);
-        defaultPoiBlocksConfigMap.setPlaySound(true);
-        defaultPoiBlocksConfigMap.setVolume(0.25f);
-        defaultPoiBlocksConfigMap.setPlaySoundForOtherBlocks(false);
-        defaultPoiBlocksConfigMap.setDelay(3000);
-        defaultPoiConfigMap.setBlocksConfigMap(defaultPoiBlocksConfigMap);
-
-        POIEntitiesConfigMap defaultPoiEntitiesConfigMap = new POIEntitiesConfigMap();
-        defaultPoiEntitiesConfigMap.setEnabled(true);
-        defaultPoiEntitiesConfigMap.setRange(6);
-        defaultPoiEntitiesConfigMap.setPlaySound(true);
-        defaultPoiEntitiesConfigMap.setVolume(0.25f);
-        defaultPoiEntitiesConfigMap.setDelay(3000);
-        defaultPoiConfigMap.setEntitiesConfigMap(defaultPoiEntitiesConfigMap);
-
-        POILockingConfigMap defaultPoiLockingConfigMap = new POILockingConfigMap();
-        defaultPoiLockingConfigMap.setEnabled(true);
-        defaultPoiLockingConfigMap.setLockOnBlocks(true);
-        defaultPoiLockingConfigMap.setSpeakDistance(false);
-        defaultPoiLockingConfigMap.setUnlockingSound(true);
-        defaultPoiLockingConfigMap.setAutoLockEyeOfEnderEntity(true);
-        defaultPoiLockingConfigMap.setDelay(100);
-        defaultPoiConfigMap.setLockingConfigMap(defaultPoiLockingConfigMap);
-
-        setPoiConfigMap(defaultPoiConfigMap);
     }
 
     public PlayerWarningConfigMap getPlayerWarningConfigMap() {
@@ -167,9 +149,7 @@ public class ConfigMap {
         if (this.getPlayerWarningConfigMap() == null) return false;
         if (this.getOtherConfigsMap() == null) return false;
         if (this.getReadCrosshairConfigMap() == null) return false;
-        if (this.getPoiConfigMap() == null || this.getPoiConfigMap().getEntitiesConfigMap() == null ||
-                this.getPoiConfigMap().getLockingConfigMap() == null || this.getPoiConfigMap().getBlocksConfigMap() == null)
-            return false;
+        if (Objects.isNull(this.poiConfigMap) || !this.poiConfigMap.validate()) return false;
         if (this.getFallDetectorConfigMap() == null) return false;
         if(this.getNarratorMenuConfigMap() == null) return false;
 
