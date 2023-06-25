@@ -210,7 +210,7 @@ public class ReadCrosshair {
     private static String getSignInfo(SignBlockEntity signEntity, String toSpeak) {
         String[] lines = new String[4];
         for (int i = 0; i < 4; i++) {
-            lines[i] = signEntity.getTextOnRow(i, false).getString();
+            lines[i] = signEntity.getText( false).getString();
         }
         String content = String.join(", ", lines);
         return I18n.translate("minecraft_access.read_crosshair.sign_content", toSpeak, content);

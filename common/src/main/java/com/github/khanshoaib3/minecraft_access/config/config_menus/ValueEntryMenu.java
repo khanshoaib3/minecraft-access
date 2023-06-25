@@ -3,10 +3,9 @@ package com.github.khanshoaib3.minecraft_access.config.config_menus;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.ConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.math.MatrixStack;
 import org.lwjgl.glfw.GLFW;
 
 public class ValueEntryMenu extends BaseScreen {
@@ -250,6 +249,16 @@ public class ValueEntryMenu extends BaseScreen {
     }
 
     @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        this.speakValue();
+        this.renderBackground(context);
+        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 15, 16777215);
+        context.drawCenteredTextWithShadow(this.textRenderer, value, this.width / 2, this.height / 2, 16777215);
+        super.render(context, mouseX, mouseY, delta);
+    }
+
+    /* Pre 1.20.x
+    @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.speakValue();
         this.renderBackground(matrices);
@@ -257,6 +266,7 @@ public class ValueEntryMenu extends BaseScreen {
         DrawableHelper.drawCenteredText(matrices, this.textRenderer, value, this.width / 2, this.height / 2, 16777215);
         super.render(matrices, mouseX, mouseY, delta);
     }
+    */
 
     private void speakValue() {
         if (this.previousValue.equals(this.value)) return;
