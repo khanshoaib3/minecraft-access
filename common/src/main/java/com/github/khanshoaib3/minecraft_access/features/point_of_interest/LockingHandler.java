@@ -20,6 +20,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 
 import java.util.Map.Entry;
 
@@ -123,8 +124,8 @@ public class LockingHandler {
         }
 
         if (lockedOnBlock != null) {
-            BlockState blockState = minecraftClient.world.getBlockState(new BlockPos(lockedOnBlock));
-            String entries = blockState.getEntries() + String.valueOf(blockState.getBlock()) + (new BlockPos(lockedOnBlock));
+            BlockState blockState = minecraftClient.world.getBlockState(new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
+            String entries = blockState.getEntries() + String.valueOf(blockState.getBlock()) + (new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
             if (entries.equalsIgnoreCase(lockedOnBlockEntries) || isLockedOntoEyeOfEnderTarget)
                 minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, lockedOnBlock);
             else {
@@ -361,8 +362,8 @@ public class LockingHandler {
         if (client.world == null) return;
         if (lockedOnBlock == null) return;
 
-        BlockState blockState = client.world.getBlockState(new BlockPos(lockedOnBlock));
-        lockedOnBlockEntries = blockState.getEntries() + String.valueOf(blockState.getBlock()) + (new BlockPos(lockedOnBlock));
+        BlockState blockState = client.world.getBlockState(new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
+        lockedOnBlockEntries = blockState.getEntries() + String.valueOf(blockState.getBlock()) + (new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
 
         Block closestBlock = blockState.getBlock();
 
@@ -370,7 +371,7 @@ public class LockingHandler {
 //            MutableText mutableText = (new net.minecraft.text.LiteralText("")).append(closestBlock.getName()); // pre 1.19
         String text = mutableText.getString();
 
-        if (this.speakDistance) text += " " + PositionUtils.getPositionDifference(new BlockPos(lockedOnBlock));
+        if (this.speakDistance) text += " " + PositionUtils.getPositionDifference(new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
         MainClass.speakWithNarrator(text, true);
     }
 

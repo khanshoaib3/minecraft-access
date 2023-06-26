@@ -172,7 +172,7 @@ public class ReadCrosshair {
             if (blockEntity != null) {
                 // in case 1.20 hanging sign won't use SignBlockEntity
                 if (blockState.isIn(BlockTags.SIGNS)) {
-                    toSpeak = getSignInfo((SignBlockEntity) blockEntity, toSpeak);
+                    toSpeak = getSignInfo((SignBlockEntity) blockEntity, blockState, toSpeak);
 
                 } else if (blockEntity instanceof BeehiveBlockEntity beehiveBlockEntity) {
                     Pair<String, String> beehiveInfo = getBeehiveInfo(beehiveBlockEntity, blockState, toSpeak, currentQuery);
@@ -207,10 +207,13 @@ public class ReadCrosshair {
         speakIfFocusChanged(currentQuery, toSpeak);
     }
 
-    private static String getSignInfo(SignBlockEntity signEntity, String toSpeak) {
+    private static String getSignInfo(SignBlockEntity signEntity, BlockState blockState, String toSpeak) {
         String[] lines = new String[4];
+
+        // TODO Make it speak the back side if looking at the
         for (int i = 0; i < 4; i++) {
-            lines[i] = signEntity.getText( false).getString();
+//            lines[i] = signEntity.getText( false).getString();
+            lines[i] = signEntity.getText(true).toString();
         }
         String content = String.join(", ", lines);
         return I18n.translate("minecraft_access.read_crosshair.sign_content", toSpeak, content);

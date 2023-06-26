@@ -15,8 +15,12 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Predicate;
 
 /**
@@ -131,10 +135,10 @@ public class POIBlocks {
 
             MainClass.infoLog("POIBlock started...");
 
-            checkBlock(new BlockPos(new Vec3d(posX, posY, posZ)), 0);
-            checkBlock(new BlockPos(new Vec3d(posX, posY + 3, posZ)), 0);
-            checkBlock(new BlockPos(new Vec3d(posX, posY + 1, posZ)), this.range);
-            checkBlock(new BlockPos(new Vec3d(posX, posY + 2, posZ)), this.range);
+            checkBlock(new BlockPos(new Vec3i(posX, posY, posZ)), 0);
+            checkBlock(new BlockPos(new Vec3i(posX, posY + 3, posZ)), 0);
+            checkBlock(new BlockPos(new Vec3i(posX, posY + 1, posZ)), this.range);
+            checkBlock(new BlockPos(new Vec3i(posX, posY + 2, posZ)), this.range);
 
             MainClass.infoLog("POIBlock ended.");
 
@@ -219,19 +223,19 @@ public class POIBlocks {
             otherBlocks.put(diff, blockVec3dPos);
             soundType = "blocksWithInterface";
         } else if (blockState.isAir() && val - 1 >= 0) {
-            checkBlock(new BlockPos(new Vec3d(posX, posY, posZ - 1)), val - 1); // North Block
-            checkBlock(new BlockPos(new Vec3d(posX, posY, posZ + 1)), val - 1); // South Block
-            checkBlock(new BlockPos(new Vec3d(posX - 1, posY, posZ)), val - 1); // West Block
-            checkBlock(new BlockPos(new Vec3d(posX + 1, posY, posZ)), val - 1); // East Block
-            checkBlock(new BlockPos(new Vec3d(posX, posY + 1, posZ)), val - 1); // Top Block
-            checkBlock(new BlockPos(new Vec3d(posX, posY - 1, posZ)), val - 1); // Bottom Block
+            checkBlock(new BlockPos(new Vec3i((int) posX, (int) posY, (int) (posZ - 1))), val - 1); // North Block
+            checkBlock(new BlockPos(new Vec3i((int) posX, (int) posY, (int) posZ + 1)), val - 1); // South Block
+            checkBlock(new BlockPos(new Vec3i((int) posX - 1, (int) posY, (int) posZ)), val - 1); // West Block
+            checkBlock(new BlockPos(new Vec3i((int) posX + 1, (int) posY, (int) posZ)), val - 1); // East Block
+            checkBlock(new BlockPos(new Vec3i((int) posX, (int) posY + 1, (int) posZ)), val - 1); // Top Block
+            checkBlock(new BlockPos(new Vec3i((int) posX, (int) posY - 1, (int) posZ)), val - 1); // Bottom Block
         }
 
         if (this.playSound && this.volume > 0 && !soundType.isEmpty()) {
 
             if (soundType.equalsIgnoreCase("mark")) {
                 MainClass.infoLog("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
-                minecraftClient.world.playSound(minecraftClient.player, new BlockPos(blockVec3dPos), SoundEvents.ENTITY_ITEM_PICKUP,
+                minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.ENTITY_ITEM_PICKUP,
                         SoundCategory.BLOCKS, volume, -5f);
             }
 
@@ -245,14 +249,13 @@ public class POIBlocks {
             MainClass.infoLog("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
 
             if (soundType.equalsIgnoreCase("ore"))
-                minecraftClient.world.playSound(minecraftClient.player, new BlockPos(blockVec3dPos), SoundEvents.ENTITY_ITEM_PICKUP,
+                minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.ENTITY_ITEM_PICKUP,
                         SoundCategory.BLOCKS, volume, -5f);
             else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocks"))
-                minecraftClient.world.playSound(minecraftClient.player, new BlockPos(blockVec3dPos), SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(),
+                minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(),
                         SoundCategory.BLOCKS, volume, 2f);
-            else //noinspection ConstantValue
-                if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocksWithInterface"))
-                    minecraftClient.world.playSound(minecraftClient.player, new BlockPos(blockVec3dPos), SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(),
+            else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocksWithInterface"))
+                    minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(),
                             SoundCategory.BLOCKS, volume, 0f);
 
         }

@@ -3,10 +3,10 @@ package com.github.khanshoaib3.minecraft_access.mixin;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.BookScreen;
 import net.minecraft.client.gui.widget.PageTurnWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,7 +31,7 @@ public class BookScreenMixin {
     String previousContent = "";
 
     @Inject(at = @At("HEAD"), method = "render")
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo callbackInfo) {
+    public void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
         if (minecraftClient == null) return;
         if (minecraftClient.currentScreen == null) return;
@@ -40,8 +40,8 @@ public class BookScreenMixin {
 
         // Repeat current page content and un-focus next and previous page buttons
         if (Screen.hasAltDown() && isRPressed) {
-            if (this.nextPageButton.isFocused()) this.nextPageButton.changeFocus(false);
-            if (this.previousPageButton.isFocused()) this.previousPageButton.changeFocus(false);
+            if (this.nextPageButton.isFocused()) this.nextPageButton.setFocused(false);
+            if (this.previousPageButton.isFocused()) this.previousPageButton.setFocused(false);
             previousContent = "";
         }
 

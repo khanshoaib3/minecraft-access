@@ -20,7 +20,9 @@ import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.*;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Objects;
 
 /**
  * This features lets us use keyboard in inventory screens. Works with all default minecraft screens.
@@ -108,10 +110,10 @@ public class InventoryControls {
             if (previousScreen != currentScreen) {
                 previousScreen = currentScreen;
                 if (currentScreen instanceof AnvilScreen anvilScreen) {
-                    ((AnvilScreenAccessor) anvilScreen).getNameField().setTextFieldFocused(false);
+                    ((AnvilScreenAccessor) anvilScreen).getNameField().setFocused(false);
                 }
                 if (currentScreen instanceof CreativeInventoryScreen creativeInventoryScreen && ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox().isActive()) {
-                    ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox().setTextFieldFocused(false);
+                    ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox().setFocused(false);
                 }
 
                 //<editor-fold desc="Always open recipe book on screen open">
@@ -124,7 +126,7 @@ public class InventoryControls {
 
                 if (autoOpenRecipeBook && recipeBookWidget != null) {
                     if (!recipeBookWidget.isOpen()) recipeBookWidget.toggleOpen();
-                    ((RecipeBookWidgetAccessor) recipeBookWidget).getSearchField().setTextFieldFocused(false);
+                    ((RecipeBookWidgetAccessor) recipeBookWidget).getSearchField().setFocused(false);
                 }
                 //</editor-fold>
 
@@ -179,7 +181,7 @@ public class InventoryControls {
             disableInputForSearchBox = true;
             if (isEnterPressed) {
                 MainClass.infoLog("Enter key pressed, deselecting the search box.");
-                ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox().setTextFieldFocused(false);
+                ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox().setFocused(false);
                 refreshGroupListAndSelectFirstGroup(true);
                 return;
             }
@@ -189,7 +191,7 @@ public class InventoryControls {
             disableInputForSearchBox = true;
             if (isEnterPressed) {
                 MainClass.infoLog("Enter key pressed, deselecting the search box.");
-                ((AnvilScreenAccessor) anvilScreen).getNameField().setTextFieldFocused(false);
+                ((AnvilScreenAccessor) anvilScreen).getNameField().setFocused(false);
                 previousSlotText = "";
                 return;
             }
@@ -198,7 +200,7 @@ public class InventoryControls {
             disableInputForSearchBox = true;
             if (isEnterPressed) {
                 MainClass.infoLog("Enter key pressed, deselecting the search box.");
-                ((RecipeBookWidgetAccessor) inventoryScreen.getRecipeBookWidget()).getSearchField().setTextFieldFocused(false);
+                ((RecipeBookWidgetAccessor) inventoryScreen.getRecipeBookWidget()).getSearchField().setFocused(false);
                 previousSlotText = "";
                 return;
             }
@@ -207,7 +209,7 @@ public class InventoryControls {
             disableInputForSearchBox = true;
             if (isEnterPressed) {
                 MainClass.infoLog("Enter key pressed, deselecting the search box.");
-                ((RecipeBookWidgetAccessor) craftingScreen.getRecipeBookWidget()).getSearchField().setTextFieldFocused(false);
+                ((RecipeBookWidgetAccessor) craftingScreen.getRecipeBookWidget()).getSearchField().setFocused(false);
                 previousSlotText = "";
                 return;
             }
@@ -314,16 +316,16 @@ public class InventoryControls {
         }
         if (isTPressed) {
             if (CreativeInventoryScreenAccessor.getSelectedTab().getType() == ItemGroup.Type.SEARCH && currentScreen instanceof CreativeInventoryScreen creativeInventoryScreen) {
-                ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox().setTextFieldFocused(true);
+                ((CreativeInventoryScreenAccessor) creativeInventoryScreen).getSearchBox().setFocused(true);
                 MainClass.infoLog("T key pressed, selecting the search box.");
             } else if (currentScreen instanceof AnvilScreen anvilScreen) {
-                ((AnvilScreenAccessor) anvilScreen).getNameField().setTextFieldFocused(true);
+                ((AnvilScreenAccessor) anvilScreen).getNameField().setFocused(true);
                 MainClass.infoLog("T key pressed, selecting the search box.");
             } else if (currentScreen instanceof InventoryScreen inventoryScreen && inventoryScreen.getRecipeBookWidget().isOpen()) {
-                ((RecipeBookWidgetAccessor) inventoryScreen.getRecipeBookWidget()).getSearchField().setTextFieldFocused(true);
+                ((RecipeBookWidgetAccessor) inventoryScreen.getRecipeBookWidget()).getSearchField().setFocused(true);
                 MainClass.infoLog("T key pressed, selecting the search box.");
             } else if (currentScreen instanceof CraftingScreen craftingScreen && craftingScreen.getRecipeBookWidget().isOpen()) {
-                ((RecipeBookWidgetAccessor) craftingScreen.getRecipeBookWidget()).getSearchField().setTextFieldFocused(true);
+                ((RecipeBookWidgetAccessor) craftingScreen.getRecipeBookWidget()).getSearchField().setFocused(true);
                 MainClass.infoLog("T key pressed, selecting the search box.");
             }
             return;

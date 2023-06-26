@@ -12,7 +12,7 @@ import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 
 /**
  * Searches for the closest water/lava source.
@@ -63,7 +63,7 @@ public class FluidDetector {
 
         loadConfigurations();
 
-        BlockPos startingPointPos = new BlockPos(new Vec3d(posX, posY, posZ));
+        BlockPos startingPointPos = new BlockPos(new Vec3i(posX, posY, posZ));
         BlockPos closestFluidPos = findFluid(minecraftClient, startingPointPos, this.range, water);
         if (closestFluidPos == null) {
             MainClass.infoLog("Unable to find closest fluid source");
@@ -108,12 +108,12 @@ public class FluidDetector {
             int posZ = blockPos.getZ();
             int rangeVal = range - 1;
 
-            BlockPos bp1 = findFluid(minecraftClient, new BlockPos(new Vec3d(posX, posY, posZ - 1)), rangeVal, water);
-            BlockPos bp2 = findFluid(minecraftClient, new BlockPos(new Vec3d(posX, posY, posZ + 1)), rangeVal, water);
-            BlockPos bp3 = findFluid(minecraftClient, new BlockPos(new Vec3d(posX - 1, posY, posZ)), rangeVal, water);
-            BlockPos bp4 = findFluid(minecraftClient, new BlockPos(new Vec3d(posX + 1, posY, posZ)), rangeVal, water);
-            BlockPos bp5 = findFluid(minecraftClient, new BlockPos(new Vec3d(posX, posY - 1, posZ)), rangeVal, water);
-            BlockPos bp6 = findFluid(minecraftClient, new BlockPos(new Vec3d(posX, posY + 1, posZ)), rangeVal, water);
+            BlockPos bp1 = findFluid(minecraftClient, new BlockPos(new Vec3i(posX, posY, posZ - 1)), rangeVal, water);
+            BlockPos bp2 = findFluid(minecraftClient, new BlockPos(new Vec3i(posX, posY, posZ + 1)), rangeVal, water);
+            BlockPos bp3 = findFluid(minecraftClient, new BlockPos(new Vec3i(posX - 1, posY, posZ)), rangeVal, water);
+            BlockPos bp4 = findFluid(minecraftClient, new BlockPos(new Vec3i(posX + 1, posY, posZ)), rangeVal, water);
+            BlockPos bp5 = findFluid(minecraftClient, new BlockPos(new Vec3i(posX, posY - 1, posZ)), rangeVal, water);
+            BlockPos bp6 = findFluid(minecraftClient, new BlockPos(new Vec3i(posX, posY + 1, posZ)), rangeVal, water);
 
             if (bp1 != null) return bp1;
             if (bp2 != null) return bp2;
