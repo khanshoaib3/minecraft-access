@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.mixin;
 
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
@@ -26,7 +27,7 @@ public class InGameHudMixin {
     private ItemStack currentStack;
 
     @Inject(at = @At("TAIL"), method = "renderHeldItemTooltip")
-    public void renderHeldItemTooltipMixin(MatrixStack matrixStack, CallbackInfo callbackInfo) {
+    public void renderHeldItemTooltipMixin(DrawContext context, CallbackInfo ci) {
         if (this.heldItemTooltipFade == 38 && !this.currentStack.isEmpty()/*FIXME && Config.get(Config.getHelditemnarratorkey())*/) {
             MutableText mutableText = net.minecraft.text.Text.empty()
                     .append(String.valueOf(this.currentStack.getCount()))
