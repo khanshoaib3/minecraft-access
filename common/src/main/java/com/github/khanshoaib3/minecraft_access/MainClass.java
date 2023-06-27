@@ -8,6 +8,7 @@ import com.github.khanshoaib3.minecraft_access.features.point_of_interest.Lockin
 import com.github.khanshoaib3.minecraft_access.features.point_of_interest.POIMarking;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
+import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.mojang.text2speech.Narrator;
 import dev.architectury.event.events.client.ClientTickEvent;
 import net.minecraft.client.MinecraftClient;
@@ -53,6 +54,13 @@ public class MainClass {
         MainClass.infoLog(msg);
 
         new AutoLibrarySetup().initialize();
+
+        // It seems that Fabric loads classes in mod jars on-demand.
+        // If the KeyBindingsHandler class is not invoked here, the static block of this class will not be executed.
+        // After the game is initialized, invoking (what we did in the constructor of KeyBindingsHandler class) on
+        // dev.architectury.registry.client.keymappings.KeyMappingRegistry.register
+        // would throw an exception and terminate the game.
+        var ignored = KeyBindingsHandler.getInstance();
 
         ScreenReaderController.refreshScreenReader();
         if (MainClass.getScreenReader() != null && MainClass.getScreenReader().isInitialized())
