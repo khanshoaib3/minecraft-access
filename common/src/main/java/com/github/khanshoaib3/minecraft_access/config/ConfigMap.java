@@ -71,7 +71,7 @@ public class ConfigMap {
         defaultInventoryControlsConfigMap.setEnabled(true);
         defaultInventoryControlsConfigMap.setAutoOpenRecipeBook(true);
         defaultInventoryControlsConfigMap.setRowAndColumnFormat("%dx%d");
-        defaultInventoryControlsConfigMap.setDelayInMilliseconds(250);
+        defaultInventoryControlsConfigMap.setDelayInMilliseconds(150);
 
         setInventoryControlsConfigMap(defaultInventoryControlsConfigMap);
     }
