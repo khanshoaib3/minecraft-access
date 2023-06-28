@@ -181,8 +181,7 @@ public class ReadCrosshair {
                 }
             }
 
-            // TODO 1.20 Add pitcher crop and two ancient plants
-            if (block instanceof CropBlock || block instanceof CocoaBlock || block instanceof NetherWartBlock) {
+            if (block instanceof PlantBlock || block instanceof CocoaBlock) {
                 Pair<String, String> cropsInfo = getCropsInfo(block, blockState, toSpeak, currentQuery);
                 toSpeak = cropsInfo.getLeft();
                 currentQuery = cropsInfo.getRight();
@@ -307,17 +306,21 @@ public class ReadCrosshair {
 
     /**
      * Blocks that can be planted and have growing stages (age) and harvestable.<br>
-     * Including wheat, carrot, potato, beetroot, nether wart, cocoa bean.<br>
+     * Including wheat, carrot, potato, beetroot, nether wart, cocoa bean,
+     * torch flower, pitcher crop.<br>
      * Watermelon vein and pumpkin vein are not harvestable so not be included here.
      */
     private static @NotNull Pair<String, String> getCropsInfo(Block block, BlockState blockState, String toSpeak, String currentQuery) {
-        int currentAge = 0, maxAge = 64;
+        int currentAge, maxAge;
 
         if (block instanceof CropBlock) {
             if (block instanceof BeetrootsBlock) {
                 // Beetroots has a different max_age as 3
                 currentAge = blockState.get(BeetrootsBlock.AGE);
                 maxAge = BeetrootsBlock.BEETROOTS_MAX_AGE;
+            } else if (block instanceof TorchflowerBlock) {
+                currentAge = blockState.get(TorchflowerBlock.AGE);
+                maxAge = 2;
             } else {
                 // While wheat, carrots, potatoes has max_age as 7
                 currentAge = blockState.get(CropBlock.AGE);
@@ -330,6 +333,11 @@ public class ReadCrosshair {
             currentAge = blockState.get(NetherWartBlock.AGE);
             // The max_age of NetherWartBlock hasn't been translated, for future compatibility, hard code it.
             maxAge = 3;
+        } else if (block instanceof PitcherCropBlock) {
+            currentAge = blockState.get(PitcherCropBlock.AGE);
+            maxAge = 4;
+        } else {
+            return new Pair<>(toSpeak, currentQuery);
         }
 
         String configKey = checkCropRipeLevel(currentAge, maxAge);
@@ -340,7 +348,7 @@ public class ReadCrosshair {
      * @return corresponding ripe level text config key
      */
     private static String checkCropRipeLevel(Integer current, int max) {
-        if (current == max) {
+        if (current >= max) {
             return "minecraft_access.crop.ripe";
         } else if (current < max / 2) {
             return "minecraft_access.crop.seedling";
