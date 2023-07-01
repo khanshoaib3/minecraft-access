@@ -145,12 +145,15 @@ Adds key bindings to speak the player's position.
 
 This feature scans the area for entities, ore blocks, doors, levers, etc. and plays a sound at their position (only for
 entities and ore blocks).
-We can also lock onto the closest entity or block with a hotkey.
+We can lock onto the closest entity or block with a hotkey.
+We can also "mark" a block/entity so that it only scans for that type of block/entity in the area.
 
 **Keybindings and combinations:-**
 
 1. Locking Key (default: Y) = Locks onto the nearest entity or block
 2. Alt key + Locking Key = Unlocks from the currently locked entity or block
+3. Control Key + Locking Key = Mark the crosshair block/entity 
+4. Control Key + Alt key + Locking Key = Unmark the marked block/entity
 
 **Configuration Options:-**
 
