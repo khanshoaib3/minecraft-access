@@ -4,12 +4,14 @@ public class TimeUtils {
     public static class Interval {
         private long lastRunTime;
         private final long delay;
+        private boolean isRunning;
         private final boolean disabled;
 
         private Interval(long lastRunTime, long delayInNanoTime) {
             this.lastRunTime = lastRunTime;
             this.delay = delayInNanoTime;
             this.disabled = delayInNanoTime == 0;
+            this.isRunning = false;
         }
 
         /**
@@ -45,6 +47,27 @@ public class TimeUtils {
             } else {
                 return false;
             }
+        }
+
+        /**
+         * Check if the delay has cooled down. (This will not auto-reset the timer, that will have to be done by calling the start() method)
+         *
+         * @return true if the delay timer has stopped or cooled down.
+         */
+        public boolean hasEnded() {
+            if (!this.isRunning) return true;
+            if (!this.isReady()) return false;
+
+            this.isRunning = false;
+            return true;
+        }
+
+        /**
+         * Starts or resets the delay timer. This is recommended to be used when there is a key input.
+         */
+        public void start() {
+            this.isRunning = true;
+            reset();
         }
     }
 }

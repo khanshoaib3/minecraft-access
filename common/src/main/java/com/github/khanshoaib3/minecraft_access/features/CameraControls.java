@@ -43,7 +43,7 @@ public class CameraControls {
     }
 
     public void update() {
-        if (interval != null && !interval.isReady()) return;
+        if (interval != null && !interval.hasEnded()) return;
         try {
             this.minecraftClient = MinecraftClient.getInstance();
 
@@ -51,8 +51,8 @@ public class CameraControls {
             if (minecraftClient.currentScreen != null) return; //Prevent running if any screen is opened
 
             loadConfigurations();
-            mainLogic();
-
+            boolean wasAnyKeyPressed = keyListener();
+            if(wasAnyKeyPressed) interval.start();
         } catch (Exception e) {
             MainClass.errorLog("\nError encountered in Camera Controls feature.");
             e.printStackTrace();
@@ -76,7 +76,7 @@ public class CameraControls {
     /**
      * Handles the key inputs
      */
-    private void mainLogic() {
+    private boolean keyListener() {
         boolean isLeftAltPressed = KeyUtils.isLeftAltPressed();
         boolean isRightAltPressed = KeyUtils.isRightAltPressed();
 
@@ -99,47 +99,50 @@ public class CameraControls {
 
         if (isNorthKeyPressed) {
             lookNorth();
-            return;
+            return true;
         }
 
         if (isEastKeyPressed) {
             lookEast();
-            return;
+            return true;
         }
 
         if (isWestKeyPressed) {
             lookWest();
-            return;
+            return true;
         }
 
         if (isSouthKeyPressed) {
             lookSouth();
-            return;
+            return true;
         }
 
         if (isUpKeyPressed) {
             upKeyHandler(isLeftAltPressed);
-            return;
+            return true;
         }
 
         if (isRightKeyPressed) {
             rightKeyHandler(isLeftAltPressed);
-            return;
+            return true;
         }
 
         if (isDownKeyPressed) {
             downKeyHandler(isLeftAltPressed);
-            return;
+            return true;
         }
 
         if (isLeftKeyPressed) {
             leftKeyHandler(isLeftAltPressed);
-            return;
+            return true;
         }
 
         if (isCenterCameraKeyPressed) {
             centerCamera(isLeftAltPressed);
+            return true;
         }
+
+        return false;
     }
 
     /**
