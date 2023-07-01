@@ -4,12 +4,14 @@ public class TimeUtils {
     public static class Interval {
         private long lastRunTime;
         private final long delay;
+        private boolean isRunning;
         private final boolean disabled;
 
         private Interval(long lastRunTime, long delayInNanoTime) {
             this.lastRunTime = lastRunTime;
             this.delay = delayInNanoTime;
             this.disabled = delayInNanoTime == 0;
+            this.isRunning = false;
         }
 
         /**
@@ -19,7 +21,7 @@ public class TimeUtils {
          * @param previous the interval class variable
          */
         public static Interval inMilliseconds(long delay, Interval... previous) {
-            if (previous == null || previous[0] == null) {
+            if (previous == null || previous.length == 0 || previous[0] == null) {
                 // 1 milliseconds = 1*10^6 nanoseconds
                 return new Interval(System.nanoTime(), delay * 1000_000);
             } else {
@@ -45,6 +47,27 @@ public class TimeUtils {
             } else {
                 return false;
             }
+        }
+
+        /**
+         * Check if the delay has cooled down. (This will not auto-reset the timer, that will have to be done by calling the start() method)
+         *
+         * @return true if the delay timer has stopped or cooled down.
+         */
+        public boolean hasEnded() {
+            if (!this.isRunning) return true;
+            if (!this.isReady()) return false;
+
+            this.isRunning = false;
+            return true;
+        }
+
+        /**
+         * Starts or resets the delay timer. This is recommended to be used when there is a key input.
+         */
+        public void start() {
+            this.isRunning = true;
+            reset();
         }
     }
 }
