@@ -146,15 +146,14 @@ Adds key bindings to speak the player's position.
 This feature scans the area for entities, ore blocks, doors, levers, etc. and plays a sound at their position (only for
 entities and ore blocks).
 We can lock onto the closest entity or block with a hotkey.
-And we can add custom entity or block into scan list by marking on it,
-its useful when you want to find something special while in a crowded environment.
+We can also "mark" a block/entity so that it only scans for that type of block/entity in the area.
 
 **Keybindings and combinations:-**
 
-1. Locking Key (default: Y) = Locks onto the nearest entity or block.
-2. Alt key + Locking Key = Unlocks from the currently locked entity or block.
-3. Ctrl key + Locking Key = Mark arbitrary targeted entity or block, so that will be scanned and reported.
-4. Alt key + Ctrl key + Locking Key = Unmark from currently marked entity or block.
+1. Locking Key (default: Y) = Locks onto the nearest entity or block
+2. Alt key + Locking Key = Unlocks from the currently locked entity or block
+3. Control Key + Locking Key = Mark the crosshair block/entity 
+4. Control Key + Alt key + Locking Key = Unmark the marked block/entity
 
 **Configuration Options:-**
 
@@ -182,10 +181,6 @@ its useful when you want to find something special while in a crowded environmen
     - Auto Lock on to Eye of Ender when Used = Enables locking onto the eye of ender when it's used/thrown.
     - Delay (in milliseconds) = Pauses the execution of this feature after each cycle for the given amount of
       milliseconds.
-4. For Entities/Blocks Marking
-    - Enabled = Enables the marking feature.
-    - Suppress Other POI When Marking On = When marking on something,
-      other entities and blocks will not be played sound or can be locked.
 
 ## Narrator Menu
 
