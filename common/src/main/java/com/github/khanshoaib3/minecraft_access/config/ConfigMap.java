@@ -30,7 +30,7 @@ public class ConfigMap {
         m.poiConfigMap = POIConfigMap.buildDefault();
         m.setDefaultPlayerWarningConfigMap();
         m.setFallDetectorConfigMap(FallDetectorConfigMap.defaultFallDetectorConfigMap());
-        m.setDefaultReadCrosshairConfigMap();
+        m.readCrosshairConfigMap = ReadCrosshairConfigMap.buildDefault();
         m.setOtherConfigsMap(OtherConfigsMap.getDefaultOtherConfigsMap());
         m.setNarratorMenuConfigMap(NarratorMenuConfigMap.getDefaultNarratorMenuConfigMap());
         return m;
@@ -38,6 +38,7 @@ public class ConfigMap {
 
     public static void setInstance(ConfigMap map) {
         POIConfigMap.setInstance(map.poiConfigMap);
+        ReadCrosshairConfigMap.setInstance(map.readCrosshairConfigMap);
     }
 
     public CameraControlsConfigMap getCameraControlsConfigMap() {
@@ -110,20 +111,6 @@ public class ConfigMap {
 
     public ReadCrosshairConfigMap getReadCrosshairConfigMap() {
         return readCrosshairConfigMap;
-    }
-
-    public void setReadCrosshairConfigMap(ReadCrosshairConfigMap readCrosshairConfigMap) {
-        this.readCrosshairConfigMap = readCrosshairConfigMap;
-    }
-
-    public void setDefaultReadCrosshairConfigMap() {
-        ReadCrosshairConfigMap defaultReadCrosshairConfigMap = new ReadCrosshairConfigMap();
-        defaultReadCrosshairConfigMap.setEnabled(true);
-        defaultReadCrosshairConfigMap.setSpeakSide(true);
-        defaultReadCrosshairConfigMap.setDisableSpeakingConsecutiveBlocks(true);
-        defaultReadCrosshairConfigMap.setRepeatSpeakingInterval(0L);
-
-        setReadCrosshairConfigMap(defaultReadCrosshairConfigMap);
     }
 
     public OtherConfigsMap getOtherConfigsMap() {

@@ -28,6 +28,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * This feature reads the name of the targeted block or entity.<br>
  * It also gives feedback when a block is powered by a redstone signal or when a door is open similar cases.
@@ -37,6 +39,10 @@ public class ReadCrosshair {
     private boolean speakSide;
     private boolean speakingConsecutiveBlocks;
     private TimeUtils.Interval repeatSpeakingInterval;
+    private boolean enablePartialSpeaking;
+    private boolean partialSpeakingWhitelistMode;
+    private boolean partialSpeakingFuzzyMode;
+    private List<String> partialSpeakingTargets;
 
     public ReadCrosshair() {
         previousQuery = "";
@@ -78,12 +84,16 @@ public class ReadCrosshair {
     }
 
     private void loadConfigurations() {
-        ReadCrosshairConfigMap map = MainClass.config.getConfigMap().getReadCrosshairConfigMap();
+        ReadCrosshairConfigMap map = ReadCrosshairConfigMap.getInstance();
         this.speakSide = map.isSpeakSide();
         // affirmation for easier use
         this.speakingConsecutiveBlocks = !map.isDisableSpeakingConsecutiveBlocks();
         long interval = map.getRepeatSpeakingInterval();
         this.repeatSpeakingInterval = TimeUtils.Interval.inMilliseconds(interval, this.repeatSpeakingInterval);
+        this.enablePartialSpeaking = map.isEnablePartialSpeaking();
+        this.partialSpeakingFuzzyMode = map.isPartialSpeakingFuzzyMode();
+        this.partialSpeakingWhitelistMode = map.isPartialSpeakingWhitelistMode();
+        this.partialSpeakingTargets = map.getPartialSpeakingTargets();
     }
 
     private void checkForBlockAndEntityHit(MinecraftClient minecraftClient, HitResult blockHit) {
