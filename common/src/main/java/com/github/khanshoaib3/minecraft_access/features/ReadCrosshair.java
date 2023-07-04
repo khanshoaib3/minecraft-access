@@ -14,12 +14,15 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -29,6 +32,7 @@ import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * This feature reads the name of the targeted block or entity.<br>
@@ -107,8 +111,12 @@ public class ReadCrosshair {
 
     private void checkForEntities(EntityHitResult hit) {
         try {
-            String currentQuery = hit.getEntity().getName().getString();
-            if (hit.getEntity() instanceof AnimalEntity animalEntity) {
+            Entity entity = hit.getEntity();
+
+            if (checkIfPartialSpeakingFeatureDoNotAllowsSpeakingThis(EntityType.getId(entity.getType()))) return;
+
+            String currentQuery = entity.getName().getString();
+            if (entity instanceof AnimalEntity animalEntity) {
                 if (animalEntity instanceof SheepEntity sheepEntity) {
                     currentQuery = getSheepInfo(sheepEntity, currentQuery);
                 }
@@ -155,6 +163,8 @@ public class ReadCrosshair {
         BlockPos blockPos = hit.getBlockPos();
         BlockState blockState = clientWorld.getBlockState(blockPos);
         Block block = blockState.getBlock();
+
+        if (checkIfPartialSpeakingFeatureDoNotAllowsSpeakingThis(Registries.BLOCK.getId(block))) return;
 
         String name = block.getName().getString();
         String toSpeak = name;
@@ -415,5 +425,22 @@ public class ReadCrosshair {
                 (fluidKey) -> "block." + fluidKey.getValue().getNamespace() + "." + fluidKey.getValue().getPath(),
                 (fluidValue) -> "[unregistered " + fluidValue + "]" // For unregistered fluid
         );
+    }
+
+    private boolean checkIfPartialSpeakingFeatureDoNotAllowsSpeakingThis(Identifier id) {
+        if (id == null) return false;
+        String resourceLocation = id.getNamespace();
+
+        if (enablePartialSpeaking) {
+            Predicate<String> p = partialSpeakingFuzzyMode ?
+                    resourceLocation::contains :
+                    resourceLocation::equals;
+
+            return partialSpeakingWhitelistMode ?
+                    partialSpeakingTargets.stream().noneMatch(p) :
+                    partialSpeakingTargets.stream().anyMatch(p);
+        }
+
+        return false;
     }
 }
