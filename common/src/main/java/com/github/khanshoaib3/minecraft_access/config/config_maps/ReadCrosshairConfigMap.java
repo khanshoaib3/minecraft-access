@@ -33,7 +33,7 @@ public class ReadCrosshairConfigMap {
         m.setEnablePartialSpeaking(false);
         m.setPartialSpeakingWhitelistMode(true);
         m.setPartialSpeakingFuzzyMode(true);
-        m.setPartialSpeakingTargets(List.of("slab", "white_bed", "planks"));
+        m.setPartialSpeakingTargets(List.of("slab", "white_bed", "planks", "block"));
         return m;
     }
 
