@@ -21,8 +21,19 @@ public class ReadCrosshairConfigMap {
     private boolean partialSpeakingWhitelistMode;
     @SerializedName("Partial Speaking Fuzzy Mode")
     private boolean partialSpeakingFuzzyMode;
+    @SerializedName("Partial Speaking Target Mode")
+    private PartialSpeakingTargetMode partialSpeakingTargetMode;
     @SerializedName("Partial Speaking Targets")
     private List<String> partialSpeakingTargets;
+
+    public enum PartialSpeakingTargetMode {
+        @SerializedName("all")
+        ALL,
+        @SerializedName("entity")
+        ENTITY,
+        @SerializedName("block")
+        BLOCK
+    }
 
     public static ReadCrosshairConfigMap buildDefault() {
         ReadCrosshairConfigMap m = new ReadCrosshairConfigMap();
@@ -33,7 +44,8 @@ public class ReadCrosshairConfigMap {
         m.setEnablePartialSpeaking(false);
         m.setPartialSpeakingWhitelistMode(true);
         m.setPartialSpeakingFuzzyMode(true);
-        m.setPartialSpeakingTargets(List.of("slab", "white_bed", "planks", "block"));
+        m.setPartialSpeakingTargets(List.of("slab", "planks", "block", "stone", "sign"));
+        m.setPartialSpeakingTargetMode(PartialSpeakingTargetMode.BLOCK);
         return m;
     }
 
@@ -107,5 +119,13 @@ public class ReadCrosshairConfigMap {
 
     public void setPartialSpeakingFuzzyMode(boolean partialSpeakingFuzzyMode) {
         this.partialSpeakingFuzzyMode = partialSpeakingFuzzyMode;
+    }
+
+    public PartialSpeakingTargetMode getPartialSpeakingTargetMode() {
+        return partialSpeakingTargetMode;
+    }
+
+    public void setPartialSpeakingTargetMode(PartialSpeakingTargetMode partialSpeakingTargetMode) {
+        this.partialSpeakingTargetMode = partialSpeakingTargetMode;
     }
 }
