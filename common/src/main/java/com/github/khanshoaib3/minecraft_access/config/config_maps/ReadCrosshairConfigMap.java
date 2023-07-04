@@ -2,7 +2,11 @@ package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class ReadCrosshairConfigMap {
+    private static ReadCrosshairConfigMap instance;
+
     @SerializedName("Enabled")
     private boolean enabled;
     @SerializedName("Speak Block Sides")
@@ -11,6 +15,35 @@ public class ReadCrosshairConfigMap {
     private boolean disableSpeakingConsecutiveBlocks;
     @SerializedName("Repeat Speaking Interval (in milliseconds) (0 to disable)")
     private long repeatSpeakingInterval;
+    @SerializedName("Enable Partial Speaking")
+    private boolean enablePartialSpeaking;
+    @SerializedName("Partial Speaking White List Mode")
+    private boolean partialSpeakingWhitelistMode;
+    @SerializedName("Partial Speaking Fuzzy Mode")
+    private boolean partialSpeakingFuzzyMode;
+    @SerializedName("Partial Speaking Targets")
+    private List<String> partialSpeakingTargets;
+
+    public static ReadCrosshairConfigMap buildDefault() {
+        ReadCrosshairConfigMap m = new ReadCrosshairConfigMap();
+        m.setEnabled(true);
+        m.setSpeakSide(true);
+        m.setDisableSpeakingConsecutiveBlocks(true);
+        m.setRepeatSpeakingInterval(0L);
+        m.setEnablePartialSpeaking(false);
+        m.setPartialSpeakingWhitelistMode(true);
+        m.setPartialSpeakingFuzzyMode(true);
+        m.setPartialSpeakingTargets(List.of("slab", "white_bed", "planks"));
+        return m;
+    }
+
+    public static ReadCrosshairConfigMap getInstance() {
+        return instance;
+    }
+
+    public static void setInstance(ReadCrosshairConfigMap map) {
+        instance = map;
+    }
 
     public boolean isEnabled() {
         return enabled;
@@ -42,5 +75,37 @@ public class ReadCrosshairConfigMap {
 
     public void setRepeatSpeakingInterval(long repeatSpeakingInterval) {
         this.repeatSpeakingInterval = repeatSpeakingInterval;
+    }
+
+    public boolean isEnablePartialSpeaking() {
+        return enablePartialSpeaking;
+    }
+
+    public void setEnablePartialSpeaking(boolean enablePartialSpeaking) {
+        this.enablePartialSpeaking = enablePartialSpeaking;
+    }
+
+    public boolean isPartialSpeakingWhitelistMode() {
+        return partialSpeakingWhitelistMode;
+    }
+
+    public void setPartialSpeakingWhitelistMode(boolean partialSpeakingWhitelistMode) {
+        this.partialSpeakingWhitelistMode = partialSpeakingWhitelistMode;
+    }
+
+    public List<String> getPartialSpeakingTargets() {
+        return partialSpeakingTargets;
+    }
+
+    public void setPartialSpeakingTargets(List<String> partialSpeakingBlocks) {
+        this.partialSpeakingTargets = partialSpeakingBlocks;
+    }
+
+    public boolean isPartialSpeakingFuzzyMode() {
+        return partialSpeakingFuzzyMode;
+    }
+
+    public void setPartialSpeakingFuzzyMode(boolean partialSpeakingFuzzyMode) {
+        this.partialSpeakingFuzzyMode = partialSpeakingFuzzyMode;
     }
 }
