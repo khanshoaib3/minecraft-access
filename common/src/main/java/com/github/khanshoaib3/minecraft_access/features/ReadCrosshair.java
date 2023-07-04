@@ -47,6 +47,8 @@ public class ReadCrosshair {
     private boolean partialSpeakingWhitelistMode;
     private boolean partialSpeakingFuzzyMode;
     private List<String> partialSpeakingTargets;
+    private boolean partialSpeakingBlock;
+    private boolean partialSpeakingEntity;
 
     public ReadCrosshair() {
         previousQuery = "";
@@ -98,6 +100,20 @@ public class ReadCrosshair {
         this.partialSpeakingFuzzyMode = map.isPartialSpeakingFuzzyMode();
         this.partialSpeakingWhitelistMode = map.isPartialSpeakingWhitelistMode();
         this.partialSpeakingTargets = map.getPartialSpeakingTargets();
+        switch (map.getPartialSpeakingTargetMode()) {
+            case ALL -> {
+                partialSpeakingBlock = true;
+                partialSpeakingEntity = true;
+            }
+            case BLOCK -> {
+                partialSpeakingBlock = true;
+                partialSpeakingEntity = false;
+            }
+            case ENTITY -> {
+                partialSpeakingBlock = false;
+                partialSpeakingEntity = true;
+            }
+        }
     }
 
     private void checkForBlockAndEntityHit(MinecraftClient minecraftClient, HitResult blockHit) {
@@ -113,7 +129,9 @@ public class ReadCrosshair {
         try {
             Entity entity = hit.getEntity();
 
-            if (checkIfPartialSpeakingFeatureDoNotAllowsSpeakingThis(EntityType.getId(entity.getType()))) return;
+            if (enablePartialSpeaking && partialSpeakingEntity) {
+                if (checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(EntityType.getId(entity.getType()))) return;
+            }
 
             String currentQuery = entity.getName().getString();
             if (entity instanceof AnimalEntity animalEntity) {
@@ -164,7 +182,9 @@ public class ReadCrosshair {
         BlockState blockState = clientWorld.getBlockState(blockPos);
         Block block = blockState.getBlock();
 
-        if (checkIfPartialSpeakingFeatureDoNotAllowsSpeakingThis(Registries.BLOCK.getId(block))) return;
+        if (enablePartialSpeaking && partialSpeakingBlock) {
+            if (checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(Registries.BLOCK.getId(block))) return;
+        }
 
         String name = block.getName().getString();
         String toSpeak = name;
@@ -427,20 +447,12 @@ public class ReadCrosshair {
         );
     }
 
-    private boolean checkIfPartialSpeakingFeatureDoNotAllowsSpeakingThis(Identifier id) {
+    private boolean checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(Identifier id) {
         if (id == null) return false;
-        String resourceLocation = id.getNamespace();
-
-        if (enablePartialSpeaking) {
-            Predicate<String> p = partialSpeakingFuzzyMode ?
-                    resourceLocation::contains :
-                    resourceLocation::equals;
-
-            return partialSpeakingWhitelistMode ?
-                    partialSpeakingTargets.stream().noneMatch(p) :
-                    partialSpeakingTargets.stream().anyMatch(p);
-        }
-
-        return false;
+        String name = id.getPath();
+        Predicate<String> p = partialSpeakingFuzzyMode ? name::contains : name::equals;
+        return partialSpeakingWhitelistMode ?
+                partialSpeakingTargets.stream().noneMatch(p) :
+                partialSpeakingTargets.stream().anyMatch(p);
     }
 }
