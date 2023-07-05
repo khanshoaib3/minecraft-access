@@ -3,6 +3,8 @@ package com.github.khanshoaib3.minecraft_access.config.config_maps;
 import com.google.gson.annotations.SerializedName;
 
 public class ReadCrosshairConfigMap {
+    private static ReadCrosshairConfigMap instance;
+
     @SerializedName("Enabled")
     private boolean enabled;
     @SerializedName("Speak Block Sides")
@@ -11,6 +13,28 @@ public class ReadCrosshairConfigMap {
     private boolean disableSpeakingConsecutiveBlocks;
     @SerializedName("Repeat Speaking Interval (in milliseconds) (0 to disable)")
     private long repeatSpeakingInterval;
+
+    @SerializedName("Partial Speaking")
+    private RCPartialSpeakingConfigMap partialSpeakingConfigMap;
+
+    public static ReadCrosshairConfigMap buildDefault() {
+        ReadCrosshairConfigMap m = new ReadCrosshairConfigMap();
+        m.setEnabled(true);
+        m.setSpeakSide(true);
+        m.setDisableSpeakingConsecutiveBlocks(true);
+        m.setRepeatSpeakingInterval(0L);
+        m.setPartialSpeakingConfigMap(RCPartialSpeakingConfigMap.buildDefault());
+        return m;
+    }
+
+    public static ReadCrosshairConfigMap getInstance() {
+        return instance;
+    }
+
+    public static void setInstance(ReadCrosshairConfigMap map) {
+        instance = map;
+        RCPartialSpeakingConfigMap.setInstance(map.partialSpeakingConfigMap);
+    }
 
     public boolean isEnabled() {
         return enabled;
@@ -42,5 +66,13 @@ public class ReadCrosshairConfigMap {
 
     public void setRepeatSpeakingInterval(long repeatSpeakingInterval) {
         this.repeatSpeakingInterval = repeatSpeakingInterval;
+    }
+
+    public RCPartialSpeakingConfigMap getPartialSpeakingConfigMap() {
+        return partialSpeakingConfigMap;
+    }
+
+    public void setPartialSpeakingConfigMap(RCPartialSpeakingConfigMap partialSpeakingConfigMap) {
+        this.partialSpeakingConfigMap = partialSpeakingConfigMap;
     }
 }

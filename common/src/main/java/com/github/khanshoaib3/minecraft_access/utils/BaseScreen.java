@@ -83,15 +83,20 @@ public class BaseScreen extends Screen {
         if (this.client != null) this.client.setScreen(previousScreen);
     }
 
-    protected static String translateFeatureToggleButtonMessage(boolean enabled) {
+    protected static String featureToggleButtonMessage(boolean enabled) {
         return I18n.translate("minecraft_access.gui.common.button.feature_toggle_button." + (enabled ? "enabled" : "disabled"));
     }
 
     /**
      * A reusable function for calculating feature toggle button message.
      */
-    protected static Function<Boolean, String> buildFeatureToggleButtonMessageTranslator(String buttonTranslationKey) {
+    protected static Function<Boolean, String> featureToggleButtonMessageWith(String buttonTranslationKey) {
         return (Boolean b) -> I18n.translate("minecraft_access.gui.common.button.toggle_button." + (b ? "enabled" : "disabled"),
                 I18n.translate(buttonTranslationKey));
+    }
+
+    protected static String floatValueButtonMessageWith(String buttonTranslationKey, double value) {
+        return I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
+                I18n.translate(buttonTranslationKey), value);
     }
 }

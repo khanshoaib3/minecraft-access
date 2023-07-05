@@ -1,11 +1,13 @@
 package com.github.khanshoaib3.minecraft_access.config.config_menus;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.ConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.Config;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeakingConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
+
+import java.util.function.Function;
 
 @SuppressWarnings("DataFlowIssue")
 public class ReadCrosshairConfigMenu extends BaseScreen {
@@ -17,51 +19,88 @@ public class ReadCrosshairConfigMenu extends BaseScreen {
     protected void init() {
         super.init();
 
-        ButtonWidget featureToggleButton = this.buildButtonWidget("minecraft_access.gui.common.button.feature_toggle_button." + (MainClass.config.getConfigMap().getReadCrosshairConfigMap().isEnabled() ? "enabled" : "disabled"),
+        ReadCrosshairConfigMap map = ReadCrosshairConfigMap.getInstance();
+
+        ButtonWidget featureToggleButton = this.buildButtonWidget(featureToggleButtonMessage(map.isEnabled()),
                 (button) -> {
-                    ConfigMap configMap = MainClass.config.getConfigMap();
-                    configMap.getReadCrosshairConfigMap().setEnabled(!configMap.getReadCrosshairConfigMap().isEnabled());
-                    MainClass.config.setConfigMap(configMap);
-                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.feature_toggle_button." + (MainClass.config.getConfigMap().getReadCrosshairConfigMap().isEnabled() ? "enabled" : "disabled"))));
+                    map.setEnabled(!map.isEnabled());
+                    button.setMessage(Text.of(featureToggleButtonMessage(map.isEnabled())));
+                    Config.getInstance().writeJSON();
                 });
         this.addDrawableChild(featureToggleButton);
 
+        Function<Boolean, String> speakBlockSidesText = featureToggleButtonMessageWith("minecraft_access.gui.read_crosshair_config_menu.button.speak_block_sides_button");
         ButtonWidget speakBlockSidesButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getReadCrosshairConfigMap().isSpeakSide() ? "enabled" : "disabled"),
-                        I18n.translate("minecraft_access.gui.read_crosshair_config_menu.button.speak_block_sides_button")
-                ),
+                speakBlockSidesText.apply(map.isSpeakSide()),
                 (button) -> {
-                    ConfigMap configMap = MainClass.config.getConfigMap();
-                    configMap.getReadCrosshairConfigMap().setSpeakSide(!configMap.getReadCrosshairConfigMap().isSpeakSide());
-                    MainClass.config.setConfigMap(configMap);
-                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getReadCrosshairConfigMap().isSpeakSide() ? "enabled" : "disabled"),
-                            I18n.translate("minecraft_access.gui.read_crosshair_config_menu.button.speak_block_sides_button")
-                    )));
+                    map.setSpeakSide(!map.isSpeakSide());
+                    button.setMessage(Text.of(speakBlockSidesText.apply(map.isSpeakSide())));
+                    Config.getInstance().writeJSON();
                 });
         this.addDrawableChild(speakBlockSidesButton);
 
+        Function<Boolean, String> disableConsecutiveBlocksText = featureToggleButtonMessageWith("minecraft_access.gui.read_crosshair_config_menu.button.disable_speaking_consecutive_blocks_button");
         ButtonWidget disableConsecutiveBlocksButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getReadCrosshairConfigMap().isSpeakSide() ? "enabled" : "disabled"),
-                        I18n.translate("minecraft_access.gui.read_crosshair_config_menu.button.disable_speaking_consecutive_blocks_button")
-                ),
+                disableConsecutiveBlocksText.apply(map.isDisableSpeakingConsecutiveBlocks()),
                 (button) -> {
-                    ConfigMap configMap = MainClass.config.getConfigMap();
-                    configMap.getReadCrosshairConfigMap().setSpeakSide(!configMap.getReadCrosshairConfigMap().isSpeakSide());
-                    MainClass.config.setConfigMap(configMap);
-                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getReadCrosshairConfigMap().isSpeakSide() ? "enabled" : "disabled"),
-                            I18n.translate("minecraft_access.gui.read_crosshair_config_menu.button.disable_speaking_consecutive_blocks_button")
-                    )));
+                    map.setDisableSpeakingConsecutiveBlocks(!map.isDisableSpeakingConsecutiveBlocks());
+                    button.setMessage(Text.of(disableConsecutiveBlocksText.apply(map.isDisableSpeakingConsecutiveBlocks())));
+                    Config.getInstance().writeJSON();
                 },
                 true);
         this.addDrawableChild(disableConsecutiveBlocksButton);
 
         ButtonWidget repeatSpeakingIntervalButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
-                        I18n.translate("minecraft_access.gui.read_crosshair_config_menu.button.repeat_speaking_interval_button"),
-                        MainClass.config.getConfigMap().getReadCrosshairConfigMap().getRepeatSpeakingInterval()
-                ),
+                floatValueButtonMessageWith("minecraft_access.gui.read_crosshair_config_menu.button.repeat_speaking_interval_button",
+                        map.getRepeatSpeakingInterval()),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL, this)),
                 true);
         this.addDrawableChild(repeatSpeakingIntervalButton);
+
+        ButtonWidget enablePartialSpeakingButton = this.buildButtonWidget("minecraft_access.gui.read_crosshair_config_menu.button.partial_speaking_menu_button",
+                (button) -> this.client.setScreen(new RCPartialSpeakingConfigMenu("rc_partial_speaking_menu", this)));
+        this.addDrawableChild(enablePartialSpeakingButton);
+    }
+}
+
+class RCPartialSpeakingConfigMenu extends BaseScreen {
+
+    public RCPartialSpeakingConfigMenu(String title, BaseScreen previousScreen) {
+        super(title, previousScreen);
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+
+        RCPartialSpeakingConfigMap map = RCPartialSpeakingConfigMap.getInstance();
+
+        ButtonWidget featureToggleButton = this.buildButtonWidget(featureToggleButtonMessage(map.isEnabled()),
+                (button) -> {
+                    map.setEnabled(!map.isEnabled());
+                    button.setMessage(Text.of(featureToggleButtonMessage(map.isEnabled())));
+                    Config.getInstance().writeJSON();
+                });
+        this.addDrawableChild(featureToggleButton);
+
+        Function<Boolean, String> partialSpeakingWhitelistModeText = featureToggleButtonMessageWith("minecraft_access.gui.rc_partial_speaking_menu.button.partial_speaking_whitelist_mode_button");
+        ButtonWidget partialSpeakingWhitelistModeButton = this.buildButtonWidget(
+                partialSpeakingWhitelistModeText.apply(map.isPartialSpeakingWhitelistMode()),
+                (button) -> {
+                    map.setPartialSpeakingWhitelistMode(!map.isPartialSpeakingWhitelistMode());
+                    button.setMessage(Text.of(partialSpeakingWhitelistModeText.apply(map.isPartialSpeakingWhitelistMode())));
+                    Config.getInstance().writeJSON();
+                });
+        this.addDrawableChild(partialSpeakingWhitelistModeButton);
+
+        Function<Boolean, String> partialSpeakingFuzzyModeText = featureToggleButtonMessageWith("minecraft_access.gui.rc_partial_speaking_menu.button.partial_speaking_fuzzy_mode_button");
+        ButtonWidget partialSpeakingFuzzyModeButton = this.buildButtonWidget(
+                partialSpeakingFuzzyModeText.apply(map.isPartialSpeakingFuzzyMode()),
+                (button) -> {
+                    map.setPartialSpeakingFuzzyMode(!map.isPartialSpeakingFuzzyMode());
+                    button.setMessage(Text.of(partialSpeakingFuzzyModeText.apply(map.isPartialSpeakingFuzzyMode())));
+                    Config.getInstance().writeJSON();
+                });
+        this.addDrawableChild(partialSpeakingFuzzyModeButton);
     }
 }

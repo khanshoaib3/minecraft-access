@@ -9,6 +9,8 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
 
+import java.util.function.Function;
+
 @SuppressWarnings("DataFlowIssue")
 public class POIConfigMenu extends BaseScreen {
     public POIConfigMenu(String title, BaseScreen previousScreen) {
@@ -258,20 +260,20 @@ class POIMarkingConfigMenu extends BaseScreen {
 
         POIMarkingConfigMap map = POIMarkingConfigMap.getInstance();
 
-        ButtonWidget b1 = this.buildButtonWidget(translateFeatureToggleButtonMessage(map.isEnabled()),
+        ButtonWidget b1 = this.buildButtonWidget(featureToggleButtonMessage(map.isEnabled()),
                 (button) -> {
                     map.setEnabled(!map.isEnabled());
-                    button.setMessage(Text.of(translateFeatureToggleButtonMessage(map.isEnabled())));
+                    button.setMessage(Text.of(featureToggleButtonMessage(map.isEnabled())));
                     Config.getInstance().writeJSON();
                 });
         this.addDrawableChild(b1);
 
-        var m2 = buildFeatureToggleButtonMessageTranslator("minecraft_access.gui.poi_marking_config_menu.button.suppress_other_when_enabled_button");
+        Function<Boolean, String> t2 = featureToggleButtonMessageWith("minecraft_access.gui.poi_marking_config_menu.button.suppress_other_when_enabled_button");
         ButtonWidget b2 = this.buildButtonWidget(
-                m2.apply(map.isSuppressOtherWhenEnabled()),
+                t2.apply(map.isSuppressOtherWhenEnabled()),
                 (button) -> {
                     map.setSuppressOtherWhenEnabled(!map.isSuppressOtherWhenEnabled());
-                    button.setMessage(Text.of(m2.apply(map.isSuppressOtherWhenEnabled())));
+                    button.setMessage(Text.of(t2.apply(map.isSuppressOtherWhenEnabled())));
                     Config.getInstance().writeJSON();
                 });
         this.addDrawableChild(b2);
