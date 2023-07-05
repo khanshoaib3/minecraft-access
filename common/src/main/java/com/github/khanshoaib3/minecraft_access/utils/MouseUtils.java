@@ -4,9 +4,11 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.Window;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Contains functions to simulate mouse events.
@@ -21,6 +23,15 @@ public class MouseUtils {
      */
     public static void moveAndLeftClick(int x, int y) {
         move(x, y);
+        // fix the https://github.com/khanshoaib3/minecraft-access/issues/65
+        if (OsUtils.isWindows()) {
+            try {
+                // with a little bit of waiting, everything is ok now.
+                // I've tried to set the value to 10, and it doesn't always work, 20 is fine.
+                TimeUnit.MILLISECONDS.sleep(20);
+            } catch (Exception ignored) {
+            }
+        }
         leftClick();
     }
 
@@ -31,6 +42,15 @@ public class MouseUtils {
      */
     public static void moveAndRightClick(int x, int y) {
         move(x, y);
+        // fix the https://github.com/khanshoaib3/minecraft-access/issues/65
+        if (OsUtils.isWindows()) {
+            try {
+                // with a little bit of waiting, everything is ok now.
+                // I've tried to set the value to 10, and it doesn't always work, 20 is fine.
+                TimeUnit.MILLISECONDS.sleep(20);
+            } catch (Exception ignored) {
+            }
+        }
         rightClick();
     }
 
@@ -188,6 +208,20 @@ public class MouseUtils {
             MainClass.errorLog("\nError encountered on performing scroll up.");
             e.printStackTrace();
         }
+    }
+
+    public record Coordinates(int x, int y) {
+    }
+
+    public static Coordinates calcRealPositionOfWidget(int x, int y) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client == null) return new Coordinates(x, y);
+        Window window = client.getWindow();
+        if (window == null) return new Coordinates(x, y);
+
+        int realX = (int) (window.getX() + (x * window.getScaleFactor()));
+        int realY = (int) (window.getY() + (y * window.getScaleFactor()));
+        return new Coordinates(realX, realY);
     }
 
     /**
