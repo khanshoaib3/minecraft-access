@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeakingConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
@@ -90,17 +91,20 @@ public class ReadCrosshair {
     }
 
     private void loadConfigurations() {
-        ReadCrosshairConfigMap map = ReadCrosshairConfigMap.getInstance();
-        this.speakSide = map.isSpeakSide();
+        ReadCrosshairConfigMap rcMap = ReadCrosshairConfigMap.getInstance();
+        RCPartialSpeakingConfigMap rcpMap = rcMap.getPartialSpeakingConfigMap();
+
+        this.speakSide = rcMap.isSpeakSide();
         // affirmation for easier use
-        this.speakingConsecutiveBlocks = !map.isDisableSpeakingConsecutiveBlocks();
-        long interval = map.getRepeatSpeakingInterval();
+        this.speakingConsecutiveBlocks = !rcMap.isDisableSpeakingConsecutiveBlocks();
+        long interval = rcMap.getRepeatSpeakingInterval();
         this.repeatSpeakingInterval = TimeUtils.Interval.inMilliseconds(interval, this.repeatSpeakingInterval);
-        this.enablePartialSpeaking = map.isEnablePartialSpeaking();
-        this.partialSpeakingFuzzyMode = map.isPartialSpeakingFuzzyMode();
-        this.partialSpeakingWhitelistMode = map.isPartialSpeakingWhitelistMode();
-        this.partialSpeakingTargets = map.getPartialSpeakingTargets();
-        switch (map.getPartialSpeakingTargetMode()) {
+
+        this.enablePartialSpeaking = rcpMap.isEnabled();
+        this.partialSpeakingFuzzyMode = rcpMap.isPartialSpeakingFuzzyMode();
+        this.partialSpeakingWhitelistMode = rcpMap.isPartialSpeakingWhitelistMode();
+        this.partialSpeakingTargets = rcpMap.getPartialSpeakingTargets();
+        switch (rcpMap.getPartialSpeakingTargetMode()) {
             case ALL -> {
                 partialSpeakingBlock = true;
                 partialSpeakingEntity = true;

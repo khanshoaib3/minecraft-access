@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.config.config_menus;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeakingConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -56,19 +57,35 @@ public class ReadCrosshairConfigMenu extends BaseScreen {
                 true);
         this.addDrawableChild(repeatSpeakingIntervalButton);
 
-        Function<Boolean, String> enablePartialSpeakingText = featureToggleButtonMessageWith("minecraft_access.gui.read_crosshair_config_menu.button.partial_speaking_button");
-        ButtonWidget enablePartialSpeakingButton = this.buildButtonWidget(
-                  enablePartialSpeakingText.apply(map.isEnablePartialSpeaking()),
+        ButtonWidget enablePartialSpeakingButton = this.buildButtonWidget("minecraft_access.gui.read_crosshair_config_menu.button.partial_speaking_menu_button",
+                (button) -> this.client.setScreen(new RCPartialSpeakingConfigMenu("rc_partial_speaking_menu", this)));
+        this.addDrawableChild(enablePartialSpeakingButton);
+    }
+}
+
+class RCPartialSpeakingConfigMenu extends BaseScreen {
+
+    public RCPartialSpeakingConfigMenu(String title, BaseScreen previousScreen) {
+        super(title, previousScreen);
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+
+        RCPartialSpeakingConfigMap map = RCPartialSpeakingConfigMap.getInstance();
+
+        ButtonWidget featureToggleButton = this.buildButtonWidget(featureToggleButtonMessage(map.isEnabled()),
                 (button) -> {
-                    map.setEnablePartialSpeaking(!map.isEnablePartialSpeaking());
-                    button.setMessage(Text.of(enablePartialSpeakingText.apply(map.isEnablePartialSpeaking())));
+                    map.setEnabled(!map.isEnabled());
+                    button.setMessage(Text.of(featureToggleButtonMessage(map.isEnabled())));
                     Config.getInstance().writeJSON();
                 });
-        this.addDrawableChild(enablePartialSpeakingButton);
+        this.addDrawableChild(featureToggleButton);
 
-        Function<Boolean, String> partialSpeakingWhitelistModeText = featureToggleButtonMessageWith("minecraft_access.gui.read_crosshair_config_menu.button.partial_speaking_whitelist_mode_button");
+        Function<Boolean, String> partialSpeakingWhitelistModeText = featureToggleButtonMessageWith("minecraft_access.gui.rc_partial_speaking_menu.button.partial_speaking_whitelist_mode_button");
         ButtonWidget partialSpeakingWhitelistModeButton = this.buildButtonWidget(
-                  partialSpeakingWhitelistModeText.apply(map.isPartialSpeakingWhitelistMode()),
+                partialSpeakingWhitelistModeText.apply(map.isPartialSpeakingWhitelistMode()),
                 (button) -> {
                     map.setPartialSpeakingWhitelistMode(!map.isPartialSpeakingWhitelistMode());
                     button.setMessage(Text.of(partialSpeakingWhitelistModeText.apply(map.isPartialSpeakingWhitelistMode())));
@@ -76,9 +93,9 @@ public class ReadCrosshairConfigMenu extends BaseScreen {
                 });
         this.addDrawableChild(partialSpeakingWhitelistModeButton);
 
-        Function<Boolean, String> partialSpeakingFuzzyModeText = featureToggleButtonMessageWith("minecraft_access.gui.read_crosshair_config_menu.button.partial_speaking_fuzzy_mode_button");
+        Function<Boolean, String> partialSpeakingFuzzyModeText = featureToggleButtonMessageWith("minecraft_access.gui.rc_partial_speaking_menu.button.partial_speaking_fuzzy_mode_button");
         ButtonWidget partialSpeakingFuzzyModeButton = this.buildButtonWidget(
-                  partialSpeakingFuzzyModeText.apply(map.isPartialSpeakingFuzzyMode()),
+                partialSpeakingFuzzyModeText.apply(map.isPartialSpeakingFuzzyMode()),
                 (button) -> {
                     map.setPartialSpeakingFuzzyMode(!map.isPartialSpeakingFuzzyMode());
                     button.setMessage(Text.of(partialSpeakingFuzzyModeText.apply(map.isPartialSpeakingFuzzyMode())));
