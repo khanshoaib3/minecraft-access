@@ -9,6 +9,7 @@ import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
 import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.*;
+import net.minecraft.client.gui.screen.recipebook.RecipeBookProvider;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.client.gui.widget.ToggleButtonWidget;
 import net.minecraft.client.item.TooltipContext;
@@ -247,25 +248,9 @@ public class InventoryControls {
             MainClass.infoLog("Up key pressed");
             if (isLeftShiftPressed && currentGroup.isScrollable) {
                 if (currentScreen instanceof InventoryScreen inventoryScreen && inventoryScreen.getRecipeBookWidget().isOpen()) {
-//                    int x = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) inventoryScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().x + 3; // Pre 1.19.3
-//                    int y = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) inventoryScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().y + 3; // Pre 1.19.3
-                    int x = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) inventoryScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().getX() + 3; // From 1.19.3
-                    int y = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) inventoryScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().getY() + 3; // From 1.19.3
-                    int targetX = (int) (minecraftClient.getWindow().getX() + (x * minecraftClient.getWindow().getScaleFactor()));
-                    int targetY = (int) (minecraftClient.getWindow().getY() + (y * minecraftClient.getWindow().getScaleFactor()));
-
-                    MouseUtils.moveAndLeftClick(targetX, targetY);
-                    moveToSlotItem(currentSlotItem, 100);
+                    clickPreviousRecipeBookPage(inventoryScreen);
                 } else if (currentScreen instanceof CraftingScreen craftingScreen && craftingScreen.getRecipeBookWidget().isOpen()) {
-//                    int x = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) craftingScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().x + 3; // Pre 1.19.3
-//                    int y = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) craftingScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().y + 3; // Pre 1.19.3
-                    int x = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) craftingScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().getX() + 3; // From 1.19.3
-                    int y = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) craftingScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().getY() + 3; // From 1.19.3
-                    int targetX = (int) (minecraftClient.getWindow().getX() + (x * minecraftClient.getWindow().getScaleFactor()));
-                    int targetY = (int) (minecraftClient.getWindow().getY() + (y * minecraftClient.getWindow().getScaleFactor()));
-
-                    MouseUtils.moveAndLeftClick(targetX, targetY);
-                    moveToSlotItem(currentSlotItem, 100);
+                    clickPreviousRecipeBookPage(craftingScreen);
                 } else {
                     MouseUtils.scrollUp();
                 }
@@ -283,25 +268,9 @@ public class InventoryControls {
             MainClass.infoLog("Down key pressed");
             if (isLeftShiftPressed && currentGroup.isScrollable) {
                 if (currentScreen instanceof InventoryScreen inventoryScreen && inventoryScreen.getRecipeBookWidget().isOpen()) {
-//                    int x = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) inventoryScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().x + 3; // Pre 1.19.3
-//                    int y = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) inventoryScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().y + 3; // Pre 1.19.3
-                    int x = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) inventoryScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().getX() + 3; // From 1.19.3
-                    int y = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) inventoryScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().getY() + 3; // From 1.19.3
-                    int targetX = (int) (minecraftClient.getWindow().getX() + (x * minecraftClient.getWindow().getScaleFactor()));
-                    int targetY = (int) (minecraftClient.getWindow().getY() + (y * minecraftClient.getWindow().getScaleFactor()));
-
-                    MouseUtils.moveAndLeftClick(targetX, targetY);
-                    moveToSlotItem(currentSlotItem, 100);
+                    clickNextRecipeBookPage(inventoryScreen);
                 } else if (currentScreen instanceof CraftingScreen craftingScreen && craftingScreen.getRecipeBookWidget().isOpen()) {
-//                    int x = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) craftingScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().x + 3; // Pre 1.19.3
-//                    int y = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) craftingScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().y + 3; // Pre 1.19.3
-                    int x = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) craftingScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().getX() + 3; // From 1.19.3
-                    int y = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) craftingScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().getY() + 3; // From 1.19.3
-                    int targetX = (int) (minecraftClient.getWindow().getX() + (x * minecraftClient.getWindow().getScaleFactor()));
-                    int targetY = (int) (minecraftClient.getWindow().getY() + (y * minecraftClient.getWindow().getScaleFactor()));
-
-                    MouseUtils.moveAndLeftClick(targetX, targetY);
-                    moveToSlotItem(currentSlotItem, 100);
+                    clickNextRecipeBookPage(craftingScreen);
                 } else {
                     MouseUtils.scrollDown();
                 }
@@ -349,10 +318,8 @@ public class InventoryControls {
             int x = toggleCraftableButton.getX() + 8;
             int y = toggleCraftableButton.getY() + 4;
 
-            int targetX = (int) (minecraftClient.getWindow().getX() + (x * minecraftClient.getWindow().getScaleFactor()));
-            int targetY = (int) (minecraftClient.getWindow().getY() + (y * minecraftClient.getWindow().getScaleFactor()));
-
-            MouseUtils.moveAndLeftClick(targetX, targetY);
+            MouseUtils.Coordinates p = MouseUtils.calcRealPositionOfWidget(x, y);
+            MouseUtils.moveAndLeftClick(p.x(), p.y());
             moveToSlotItem(currentSlotItem, 100);
 
             MainClass.infoLog("Recipe toggle key pressed, Showing %s".formatted(toggleCraftableButton.isToggled() ? "all" : "craftable only"));
@@ -362,6 +329,28 @@ public class InventoryControls {
         }
 
         return false;
+    }
+
+    private void clickPreviousRecipeBookPage(RecipeBookProvider screen) {
+        // int x = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) craftingScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().x + 3; // Pre 1.19.3
+        // int y = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) craftingScreen.getRecipeBookWidget()).getRecipesArea()).getPrevPageButton().y + 3; // Pre 1.19.3
+        RecipeBookResultsAccessor area = (RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) screen.getRecipeBookWidget()).getRecipesArea();
+        int x = area.getPrevPageButton().getX() + 3; // From 1.19.3
+        int y = area.getPrevPageButton().getY() + 3; // From 1.19.3
+        MouseUtils.Coordinates p = MouseUtils.calcRealPositionOfWidget(x, y);
+        MouseUtils.moveAndLeftClick(p.x(), p.y());
+        moveToSlotItem(currentSlotItem, 100);
+    }
+
+    private void clickNextRecipeBookPage(RecipeBookProvider screen) {
+        // int x = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) craftingScreen.getRecipeBookWidget()).getRecipesArea()).getNextPageButton().x + 3; // Pre 1.19.3
+        // int y = ((RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) craftingScreen.getRecipeBookWidget()).getRecipesArea()).getNextPageButton().y + 3; // Pre 1.19.3
+        RecipeBookResultsAccessor area = (RecipeBookResultsAccessor) ((RecipeBookWidgetAccessor) screen.getRecipeBookWidget()).getRecipesArea();
+        int x = area.getNextPageButton().getX() + 3; // From 1.19.3
+        int y = area.getNextPageButton().getY() + 3; // From 1.19.3
+        MouseUtils.Coordinates p = MouseUtils.calcRealPositionOfWidget(x, y);
+        MouseUtils.moveAndLeftClick(p.x(), p.y());
+        moveToSlotItem(currentSlotItem, 100);
     }
 
     /**
@@ -474,10 +463,8 @@ public class InventoryControls {
         int x = slotItem.x;
         int y = slotItem.y;
 
-        int targetX = (int) (minecraftClient.getWindow().getX() + ((currentScreen.getX() + x) * minecraftClient.getWindow().getScaleFactor()));
-        int targetY = (int) (minecraftClient.getWindow().getY() + ((currentScreen.getY() + y) * minecraftClient.getWindow().getScaleFactor()));
-
-        MouseUtils.move(targetX, targetY);
+        MouseUtils.Coordinates p = MouseUtils.calcRealPositionOfWidget(currentScreen.getX() + x, currentScreen.getY() + y);
+        MouseUtils.move(p.x(), p.y());
     }
 
     /**
@@ -493,10 +480,8 @@ public class InventoryControls {
         int x = slotItem.x;
         int y = slotItem.y;
 
-        int targetX = (int) (minecraftClient.getWindow().getX() + ((currentScreen.getX() + x) * minecraftClient.getWindow().getScaleFactor()));
-        int targetY = (int) (minecraftClient.getWindow().getY() + ((currentScreen.getY() + y) * minecraftClient.getWindow().getScaleFactor()));
-
-        MouseUtils.moveAfterDelay(targetX, targetY, delay);
+        MouseUtils.Coordinates p = MouseUtils.calcRealPositionOfWidget(currentScreen.getX() + x, currentScreen.getY() + y);
+        MouseUtils.moveAfterDelay(p.x(), p.y(), delay);
     }
 
     /**
@@ -617,10 +602,8 @@ public class InventoryControls {
         int x = recipeBookWidgetAccessor.getTabButtons().get(nextTabIndex).getX() + 9;
         int y = recipeBookWidgetAccessor.getTabButtons().get(nextTabIndex).getY() + 9;
 
-        int targetX = (int) (minecraftClient.getWindow().getX() + (x * minecraftClient.getWindow().getScaleFactor()));
-        int targetY = (int) (minecraftClient.getWindow().getY() + (y * minecraftClient.getWindow().getScaleFactor()));
-
-        MouseUtils.moveAndLeftClick(targetX, targetY);
+        MouseUtils.Coordinates p = MouseUtils.calcRealPositionOfWidget(x, y);
+        MouseUtils.moveAndLeftClick(p.x(), p.y());
         moveToSlotItem(currentSlotItem, 100);
 
         MainClass.infoLog("Change tab to %s".formatted(recipeBookWidgetAccessor.getCurrentTab().getCategory().name()));
