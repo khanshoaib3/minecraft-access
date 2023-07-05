@@ -4,6 +4,7 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.Window;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -204,6 +205,20 @@ public class MouseUtils {
             MainClass.errorLog("\nError encountered on performing scroll up.");
             e.printStackTrace();
         }
+    }
+
+    public record Coordinates(int x, int y) {
+    }
+
+    public static Coordinates calcRealPositionOfWidget(int x, int y) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client == null) return new Coordinates(x, y);
+        Window window = client.getWindow();
+        if (window == null) return new Coordinates(x, y);
+
+        int realX = (int) (window.getX() + (x * window.getScaleFactor()));
+        int realY = (int) (window.getY() + (y * window.getScaleFactor()));
+        return new Coordinates(realX, realY);
     }
 
     /**
