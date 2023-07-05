@@ -29,6 +29,7 @@
     "ScreenMixin",
     "SlotAccessor",
     "StonecutterScreenAccessor",
+    "TextFieldWidgetAccessor",
     "TextFieldWidgetMixin"
   ],
   "injectors": {
