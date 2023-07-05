@@ -2,8 +2,6 @@ package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class ReadCrosshairConfigMap {
     private static ReadCrosshairConfigMap instance;
 
@@ -15,25 +13,9 @@ public class ReadCrosshairConfigMap {
     private boolean disableSpeakingConsecutiveBlocks;
     @SerializedName("Repeat Speaking Interval (in milliseconds) (0 to disable)")
     private long repeatSpeakingInterval;
-    @SerializedName("Enable Partial Speaking")
-    private boolean enablePartialSpeaking;
-    @SerializedName("Partial Speaking White List Mode")
-    private boolean partialSpeakingWhitelistMode;
-    @SerializedName("Partial Speaking Fuzzy Mode")
-    private boolean partialSpeakingFuzzyMode;
-    @SerializedName("Partial Speaking Target Mode")
-    private PartialSpeakingTargetMode partialSpeakingTargetMode;
-    @SerializedName("Partial Speaking Targets")
-    private List<String> partialSpeakingTargets;
 
-    public enum PartialSpeakingTargetMode {
-        @SerializedName("all")
-        ALL,
-        @SerializedName("entity")
-        ENTITY,
-        @SerializedName("block")
-        BLOCK
-    }
+    @SerializedName("Partial Speaking")
+    private RCPartialSpeakingConfigMap partialSpeakingConfigMap;
 
     public static ReadCrosshairConfigMap buildDefault() {
         ReadCrosshairConfigMap m = new ReadCrosshairConfigMap();
@@ -41,11 +23,7 @@ public class ReadCrosshairConfigMap {
         m.setSpeakSide(true);
         m.setDisableSpeakingConsecutiveBlocks(true);
         m.setRepeatSpeakingInterval(0L);
-        m.setEnablePartialSpeaking(false);
-        m.setPartialSpeakingWhitelistMode(true);
-        m.setPartialSpeakingFuzzyMode(true);
-        m.setPartialSpeakingTargets(List.of("slab", "planks", "block", "stone", "sign"));
-        m.setPartialSpeakingTargetMode(PartialSpeakingTargetMode.BLOCK);
+        m.setPartialSpeakingConfigMap(RCPartialSpeakingConfigMap.buildDefault());
         return m;
     }
 
@@ -55,6 +33,7 @@ public class ReadCrosshairConfigMap {
 
     public static void setInstance(ReadCrosshairConfigMap map) {
         instance = map;
+        RCPartialSpeakingConfigMap.setInstance(map.partialSpeakingConfigMap);
     }
 
     public boolean isEnabled() {
@@ -89,43 +68,11 @@ public class ReadCrosshairConfigMap {
         this.repeatSpeakingInterval = repeatSpeakingInterval;
     }
 
-    public boolean isEnablePartialSpeaking() {
-        return enablePartialSpeaking;
+    public RCPartialSpeakingConfigMap getPartialSpeakingConfigMap() {
+        return partialSpeakingConfigMap;
     }
 
-    public void setEnablePartialSpeaking(boolean enablePartialSpeaking) {
-        this.enablePartialSpeaking = enablePartialSpeaking;
-    }
-
-    public boolean isPartialSpeakingWhitelistMode() {
-        return partialSpeakingWhitelistMode;
-    }
-
-    public void setPartialSpeakingWhitelistMode(boolean partialSpeakingWhitelistMode) {
-        this.partialSpeakingWhitelistMode = partialSpeakingWhitelistMode;
-    }
-
-    public List<String> getPartialSpeakingTargets() {
-        return partialSpeakingTargets;
-    }
-
-    public void setPartialSpeakingTargets(List<String> partialSpeakingBlocks) {
-        this.partialSpeakingTargets = partialSpeakingBlocks;
-    }
-
-    public boolean isPartialSpeakingFuzzyMode() {
-        return partialSpeakingFuzzyMode;
-    }
-
-    public void setPartialSpeakingFuzzyMode(boolean partialSpeakingFuzzyMode) {
-        this.partialSpeakingFuzzyMode = partialSpeakingFuzzyMode;
-    }
-
-    public PartialSpeakingTargetMode getPartialSpeakingTargetMode() {
-        return partialSpeakingTargetMode;
-    }
-
-    public void setPartialSpeakingTargetMode(PartialSpeakingTargetMode partialSpeakingTargetMode) {
-        this.partialSpeakingTargetMode = partialSpeakingTargetMode;
+    public void setPartialSpeakingConfigMap(RCPartialSpeakingConfigMap partialSpeakingConfigMap) {
+        this.partialSpeakingConfigMap = partialSpeakingConfigMap;
     }
 }
