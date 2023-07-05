@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeakingConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
@@ -13,12 +14,15 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -26,6 +30,9 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * This feature reads the name of the targeted block or entity.<br>
@@ -36,6 +43,12 @@ public class ReadCrosshair {
     private boolean speakSide;
     private boolean speakingConsecutiveBlocks;
     private TimeUtils.Interval repeatSpeakingInterval;
+    private boolean enablePartialSpeaking;
+    private boolean partialSpeakingWhitelistMode;
+    private boolean partialSpeakingFuzzyMode;
+    private List<String> partialSpeakingTargets;
+    private boolean partialSpeakingBlock;
+    private boolean partialSpeakingEntity;
 
     public ReadCrosshair() {
         previousQuery = "";
@@ -77,12 +90,33 @@ public class ReadCrosshair {
     }
 
     private void loadConfigurations() {
-        ReadCrosshairConfigMap map = MainClass.config.getConfigMap().getReadCrosshairConfigMap();
-        this.speakSide = map.isSpeakSide();
+        ReadCrosshairConfigMap rcMap = ReadCrosshairConfigMap.getInstance();
+        RCPartialSpeakingConfigMap rcpMap = rcMap.getPartialSpeakingConfigMap();
+
+        this.speakSide = rcMap.isSpeakSide();
         // affirmation for easier use
-        this.speakingConsecutiveBlocks = !map.isDisableSpeakingConsecutiveBlocks();
-        long interval = map.getRepeatSpeakingInterval();
+        this.speakingConsecutiveBlocks = !rcMap.isDisableSpeakingConsecutiveBlocks();
+        long interval = rcMap.getRepeatSpeakingInterval();
         this.repeatSpeakingInterval = TimeUtils.Interval.inMilliseconds(interval, this.repeatSpeakingInterval);
+
+        this.enablePartialSpeaking = rcpMap.isEnabled();
+        this.partialSpeakingFuzzyMode = rcpMap.isPartialSpeakingFuzzyMode();
+        this.partialSpeakingWhitelistMode = rcpMap.isPartialSpeakingWhitelistMode();
+        this.partialSpeakingTargets = rcpMap.getPartialSpeakingTargets();
+        switch (rcpMap.getPartialSpeakingTargetMode()) {
+            case ALL -> {
+                partialSpeakingBlock = true;
+                partialSpeakingEntity = true;
+            }
+            case BLOCK -> {
+                partialSpeakingBlock = true;
+                partialSpeakingEntity = false;
+            }
+            case ENTITY -> {
+                partialSpeakingBlock = false;
+                partialSpeakingEntity = true;
+            }
+        }
     }
 
     private void checkForBlockAndEntityHit(MinecraftClient minecraftClient, HitResult blockHit) {
@@ -96,8 +130,14 @@ public class ReadCrosshair {
 
     private void checkForEntities(EntityHitResult hit) {
         try {
-            String currentQuery = hit.getEntity().getName().getString();
-            if (hit.getEntity() instanceof AnimalEntity animalEntity) {
+            Entity entity = hit.getEntity();
+
+            if (enablePartialSpeaking && partialSpeakingEntity) {
+                if (checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(EntityType.getId(entity.getType()))) return;
+            }
+
+            String currentQuery = entity.getName().getString();
+            if (entity instanceof AnimalEntity animalEntity) {
                 if (animalEntity instanceof SheepEntity sheepEntity) {
                     currentQuery = getSheepInfo(sheepEntity, currentQuery);
                 }
@@ -145,6 +185,10 @@ public class ReadCrosshair {
         BlockState blockState = clientWorld.getBlockState(blockPos);
         Block block = blockState.getBlock();
 
+        if (enablePartialSpeaking && partialSpeakingBlock) {
+            if (checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(Registries.BLOCK.getId(block))) return;
+        }
+
         String name = block.getName().getString();
         String toSpeak = name;
 
@@ -181,7 +225,6 @@ public class ReadCrosshair {
                 }
             }
 
-            // TODO 1.20 Add pitcher crop and two ancient plants
             if (block instanceof CropBlock || block instanceof CocoaBlock || block instanceof NetherWartBlock) {
                 Pair<String, String> cropsInfo = getCropsInfo(block, blockState, toSpeak, currentQuery);
                 toSpeak = cropsInfo.getLeft();
@@ -395,5 +438,14 @@ public class ReadCrosshair {
                 (fluidKey) -> "block." + fluidKey.getValue().getNamespace() + "." + fluidKey.getValue().getPath(),
                 (fluidValue) -> "[unregistered " + fluidValue + "]" // For unregistered fluid
         );
+    }
+
+    private boolean checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(Identifier id) {
+        if (id == null) return false;
+        String name = id.getPath();
+        Predicate<String> p = partialSpeakingFuzzyMode ? name::contains : name::equals;
+        return partialSpeakingWhitelistMode ?
+                partialSpeakingTargets.stream().noneMatch(p) :
+                partialSpeakingTargets.stream().anyMatch(p);
     }
 }
