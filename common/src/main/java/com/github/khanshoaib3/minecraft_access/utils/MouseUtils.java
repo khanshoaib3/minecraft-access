@@ -7,6 +7,7 @@ import net.minecraft.client.MinecraftClient;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Contains functions to simulate mouse events.
@@ -21,6 +22,15 @@ public class MouseUtils {
      */
     public static void moveAndLeftClick(int x, int y) {
         move(x, y);
+        // fix the https://github.com/khanshoaib3/minecraft-access/issues/65
+        if (OsUtils.isWindows()) {
+            try {
+                // with a little bit of waiting, everything is ok now.
+                // I've tried to set the value to 10, and it doesn't always work, 20 is fine.
+                TimeUnit.MILLISECONDS.sleep(20);
+            } catch (Exception ignored) {
+            }
+        }
         leftClick();
     }
 
@@ -31,6 +41,12 @@ public class MouseUtils {
      */
     public static void moveAndRightClick(int x, int y) {
         move(x, y);
+        if (OsUtils.isWindows()) {
+            try {
+                TimeUnit.MILLISECONDS.sleep(20);
+            } catch (Exception ignored) {
+            }
+        }
         rightClick();
     }
 
