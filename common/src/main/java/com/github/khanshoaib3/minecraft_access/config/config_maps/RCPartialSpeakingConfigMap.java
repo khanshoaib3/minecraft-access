@@ -20,7 +20,7 @@ public class RCPartialSpeakingConfigMap {
 
     public static RCPartialSpeakingConfigMap buildDefault() {
         RCPartialSpeakingConfigMap m = new RCPartialSpeakingConfigMap();
-        m.enabled = true;
+        m.enabled = false;
         m.partialSpeakingWhitelistMode = true;
         m.partialSpeakingFuzzyMode = true;
         m.partialSpeakingTargets = List.of("slab", "planks", "block", "stone", "sign");
