@@ -214,10 +214,9 @@ public class ReadCrosshair {
         try {
             BlockEntity blockEntity = clientWorld.getBlockEntity(blockPos);
             if (blockEntity != null) {
-                // in case 1.20 hanging sign won't use SignBlockEntity
-                if (blockState.isIn(BlockTags.SIGNS)) {
+                // The all signs tag include all types of signs, so it should also work with the hanging signs in 1.20.x
+                if (blockState.isIn(BlockTags.ALL_SIGNS)) {
                     toSpeak = getSignInfo((SignBlockEntity) blockEntity, toSpeak);
-
                 } else if (blockEntity instanceof BeehiveBlockEntity beehiveBlockEntity) {
                     Pair<String, String> beehiveInfo = getBeehiveInfo(beehiveBlockEntity, blockState, toSpeak, currentQuery);
                     toSpeak = beehiveInfo.getLeft();
