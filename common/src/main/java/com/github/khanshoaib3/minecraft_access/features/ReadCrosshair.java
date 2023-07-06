@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeakingConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
@@ -90,7 +91,11 @@ public class ReadCrosshair {
     }
 
     private void loadConfigurations() {
-        ReadCrosshairConfigMap rcMap = ReadCrosshairConfigMap.getInstance();
+        // It is best to get the config map from instance of Config class rather than directly from
+        // the ReadCrosshairConfigMap class because in the case of an error in the config.json,
+        // while it does get reset to default but the mod crashes as well. So to avoid the mod from crashing,
+        // use the instance of Config class to get instances of other config maps.
+        ReadCrosshairConfigMap rcMap = Config.getInstance().getConfigMap().getReadCrosshairConfigMap();
         RCPartialSpeakingConfigMap rcpMap = rcMap.getPartialSpeakingConfigMap();
 
         this.speakSide = rcMap.isSpeakSide();
