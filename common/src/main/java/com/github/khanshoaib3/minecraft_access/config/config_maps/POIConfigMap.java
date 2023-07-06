@@ -45,7 +45,7 @@ public class POIConfigMap {
         m4.setDelay(100);
         m1.setLockingConfigMap(m4);
 
-        m1.poiMarkingConfigMap = (POIMarkingConfigMap.buildDefault());
+        m1.setPoiMarkingConfigMap(POIMarkingConfigMap.buildDefault());
 
         return m1;
     }
