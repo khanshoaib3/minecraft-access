@@ -84,5 +84,13 @@ public class POIConfigMap {
     public void setLockingConfigMap(POILockingConfigMap poiLockingConfigMap) {
         this.poiLockingConfigMap = poiLockingConfigMap;
     }
+
+    public POIMarkingConfigMap getPoiMarkingConfigMap() {
+        return poiMarkingConfigMap;
+    }
+
+    public void setPoiMarkingConfigMap(POIMarkingConfigMap poiMarkingConfigMap) {
+        this.poiMarkingConfigMap = poiMarkingConfigMap;
+    }
 }
 
