@@ -9,6 +9,8 @@ the [libspeechdwrapper](https://github.com/khanshoaib3/libspeechdwrapper).
 
 # Setup
 
+There is [a new detailed tutorial](/doc/SET_UP_ON_WINDOWS.md) for Windows users. 
+
 ## Requirements
 
 1. The mod works with both forge and fabric, so you need to install either one of those. For forge, you can
