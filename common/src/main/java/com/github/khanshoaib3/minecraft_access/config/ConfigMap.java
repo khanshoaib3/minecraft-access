@@ -135,8 +135,8 @@ public class ConfigMap {
         if (this.getInventoryControlsConfigMap() == null) return false;
         if (this.getPlayerWarningConfigMap() == null) return false;
         if (this.getOtherConfigsMap() == null) return false;
-        if (this.getReadCrosshairConfigMap() == null) return false;
-        if (Objects.isNull(this.poiConfigMap) || !this.poiConfigMap.validate()) return false;
+        if (Objects.isNull(this.getReadCrosshairConfigMap()) || !this.getReadCrosshairConfigMap().validate()) return false;
+        if (Objects.isNull(this.getPoiConfigMap()) || !this.getPoiConfigMap().validate()) return false;
         if (this.getFallDetectorConfigMap() == null) return false;
         if(this.getNarratorMenuConfigMap() == null) return false;
 
