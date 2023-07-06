@@ -75,4 +75,8 @@ public class ReadCrosshairConfigMap {
     public void setPartialSpeakingConfigMap(RCPartialSpeakingConfigMap partialSpeakingConfigMap) {
         this.partialSpeakingConfigMap = partialSpeakingConfigMap;
     }
+
+    public boolean validate() {
+        return getPartialSpeakingConfigMap() != null;
+    }
 }
