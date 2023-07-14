@@ -12,6 +12,7 @@ import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -37,8 +38,9 @@ public class BookEditScreenMixin {
     @Shadow private ButtonWidget doneButton;
 
     @Shadow private String title;
-    boolean firstTimeInSignMenu = true;
-    String previousContent = "";
+
+    @Unique boolean minecraft_access$firstTimeInSignMenu = true;
+    @Unique String minecraft_access$previousContent = "";
 
     @Inject(at = @At("HEAD"), method = "render")
     public void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
@@ -48,46 +50,45 @@ public class BookEditScreenMixin {
 
         boolean isSpaceOrEnterPressed = KeyUtils.isEnterPressed() || KeyUtils.isSpacePressed();
 
-        if (this.cancelButton.isFocused() && isSpaceOrEnterPressed) {
-            this.cancelButton.onPress();
-            return;
-        }
-
-        if (this.finalizeButton.isFocused() && isSpaceOrEnterPressed) {
-            this.finalizeButton.onPress();
-            return;
-        }
-
-        if (this.doneButton.isFocused() && isSpaceOrEnterPressed) {
-            this.doneButton.onPress();
-            return;
-        }
-
-        if (this.signButton.isFocused() && isSpaceOrEnterPressed) {
-            this.signButton.onPress();
-            return;
+        if (isSpaceOrEnterPressed) {
+            if (this.cancelButton.isFocused()) {
+                this.cancelButton.onPress();
+                return;
+            }
+            if (this.finalizeButton.isFocused()) {
+                this.finalizeButton.onPress();
+                return;
+            }
+            if (this.doneButton.isFocused()) {
+                this.doneButton.onPress();
+                return;
+            }
+            if (this.signButton.isFocused()) {
+                this.signButton.onPress();
+                return;
+            }
         }
 
         if (this.signing) {
             String currentTitle = this.title.trim();
 
-            if (!previousContent.equals(currentTitle)) {
-                previousContent = currentTitle;
-                if(firstTimeInSignMenu){
-                    firstTimeInSignMenu = false;
+            if (!minecraft_access$previousContent.equals(currentTitle)) {
+                minecraft_access$previousContent = currentTitle;
+                if (minecraft_access$firstTimeInSignMenu) {
+                    minecraft_access$firstTimeInSignMenu = false;
                     currentTitle = FINALIZE_WARNING_TEXT.getString() + "\n" + EDIT_TITLE_TEXT.getString();
                 }
                 MainClass.speakWithNarrator(currentTitle, true);
             }
             return;
         }
-        firstTimeInSignMenu = true;
+        minecraft_access$firstTimeInSignMenu = true;
 
         // Repeat current page content and un-focus next and previous page buttons
         if (Screen.hasAltDown() && Screen.hasControlDown()) {
             if (this.nextPageButton.isFocused()) this.nextPageButton.setFocused(false);
             if (this.previousPageButton.isFocused()) this.previousPageButton.setFocused(false);
-            previousContent = "";
+            minecraft_access$previousContent = "";
         }
 
         if (this.currentPage < 0 || this.currentPage > this.pages.size())
@@ -96,8 +97,8 @@ public class BookEditScreenMixin {
         String currentPageContentString = this.pages.get(this.currentPage).trim();
         currentPageContentString = "%s \n\n %s".formatted(currentPageContentString, this.pageIndicatorText.getString());
 
-        if (!previousContent.equals(currentPageContentString)) {
-            previousContent = currentPageContentString;
+        if (!minecraft_access$previousContent.equals(currentPageContentString)) {
+            minecraft_access$previousContent = currentPageContentString;
             MainClass.speakWithNarrator(currentPageContentString, true);
         }
     }
