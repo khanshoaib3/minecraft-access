@@ -9,6 +9,7 @@ import net.minecraft.client.util.Window;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 /**
  * Contains functions to simulate mouse events.
@@ -40,6 +41,7 @@ public class MouseUtils {
      * @param x the x position of the pixel location
      * @param y the y position of the pixel location
      */
+    @SuppressWarnings("unused")
     public static void moveAndRightClick(int x, int y) {
         move(x, y);
         // fix the https://github.com/khanshoaib3/minecraft-access/issues/65
@@ -224,11 +226,26 @@ public class MouseUtils {
         return new Coordinates(realX, realY);
     }
 
+    public static void move(Coordinates coordinates) {
+        move(coordinates.x(), coordinates.y());
+    }
+
+    /**
+     * Preform a mouse event at the given location
+     *
+     * @param x        x coordinate
+     * @param y        y coordinate
+     * @param consumer event
+     */
+    public static void performAt(int x, int y, Consumer<Coordinates> consumer) {
+        consumer.accept(calcRealPositionOfWidget(x, y));
+    }
+
     /**
      * Initializes the User32.dll for windows
      */
     private static void initializeUser32dll() {
-        if(!OsUtils.isWindows())
+        if (!OsUtils.isWindows())
             return;
 
         try {
