@@ -35,6 +35,7 @@ public class NarratorMenu {
     private static boolean isMenuKeyPressedPreviousTick = false;
     private static boolean isHotKeyPressedPreviousTick = false;
     private static boolean isHotKeySwitchedPreviousTick = false;
+    private static boolean isNarratorMenuJustClosed = false;
     private int hotKeyFunctionIndex = 0;
     private static final boolean[] LAST_RUN_HAS_DONE_FLAG = new boolean[10];
 
@@ -87,8 +88,18 @@ public class NarratorMenu {
             if (minecraftClient == null) return;
             if (minecraftClient.player == null) return;
 
+            KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
+            boolean isNarratorMenuKeyPressed = KeyUtils.isAnyPressed(kbh.narratorMenuKey);
+
             // With Narrator Menu opened, listen to number keys pressing for executing corresponding functions
             if (minecraftClient.currentScreen instanceof NarratorMenuGUI) {
+                // Close the menu if the F4 key is pressed while the menu is opening
+                if (isNarratorMenuKeyPressed) {
+                    isNarratorMenuJustClosed = true;
+                    minecraftClient.currentScreen.close();
+                    return;
+                }
+
                 // for the little performance improvement, will not use KeyUtils here.
                 long handle = minecraftClient.getWindow().getHandle();
                 Stream.of(MENU_FUNCTIONS)
@@ -100,8 +111,6 @@ public class NarratorMenu {
 
             if (minecraftClient.currentScreen != null) return;
 
-            KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
-            boolean isNarratorMenuKeyPressed = KeyUtils.isAnyPressed(kbh.narratorMenuKey);
             boolean isNarratorMenuHotKeyPressed = KeyUtils.isAnyPressed(kbh.narratorMenuHotKey);
 
             // F3 + F4 triggers game mode changing function in vanilla game, will not open the menu under this situation.
@@ -109,7 +118,7 @@ public class NarratorMenu {
 
             // The F4 is pressed before and released at current tick
             // To make the narrator menu open AFTER release the F4 key
-            boolean openTheMenuScreen = !isNarratorMenuKeyPressed && isMenuKeyPressedPreviousTick;
+            boolean openTheMenuScreen = !isNarratorMenuKeyPressed && isMenuKeyPressedPreviousTick && !isNarratorMenuJustClosed;
 
             // Opposite to menu open, executes immediately,
             // but will not execute twice until release and press the key again
@@ -142,8 +151,10 @@ public class NarratorMenu {
             // update the states for next tick
             isMenuKeyPressedPreviousTick = isNarratorMenuKeyPressed;
             isHotKeyPressedPreviousTick = isNarratorMenuHotKeyPressed;
-            // clean the state when F4 is released
+
+            // clean the states when F4 is released
             if (openTheMenuScreen) isHotKeySwitchedPreviousTick = false;
+            if (!isNarratorMenuKeyPressed) isNarratorMenuJustClosed = false;
 
         } catch (Exception e) {
             MainClass.errorLog("An error occurred in NarratorMenu.");
