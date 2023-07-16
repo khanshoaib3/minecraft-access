@@ -19,6 +19,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
+import org.apache.logging.log4j.util.Strings;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
@@ -145,7 +146,9 @@ public class InventoryControls {
 
             if (!previousSlotText.equals(getCurrentSlotNarrationText())) {
                 previousSlotText = getCurrentSlotNarrationText();
-                MainClass.speakWithNarrator(previousSlotText, true);
+                if (Strings.isNotBlank(previousSlotText)) {
+                    MainClass.speakWithNarrator(previousSlotText, true);
+                }
             }
 
             if(wasAnyKeyPressed) interval.start();
