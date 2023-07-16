@@ -266,6 +266,14 @@ Narrates when the player xp level is increased or decreased.
 
 Adds the item durability into the tooltip.
 
+## Book Editing
+
+Press Use key while holding a [Book and Quill](https://minecraft.fandom.com/wiki/Book_and_Quill) item to open the book editing screen.
+Press Tab key to select buttons, while button is focused, press Space key or Left Mouse key to click it (space can be inputted as text when no button is focused).
+Press Page Up and Page Down Key to switch between pages.
+Press "Done" button to save your unfinished work and quit editing screen.
+Press "Sign" button and enter a title for the book to make it permanently non-editable.
+
 # Mod Configuration
 
 The mod can be configured in two ways: using the config menu or directly editing the config.json file.
