@@ -105,8 +105,8 @@ any other key with same key.*
 9. Left Shift + Switch Tab Key = Select previous tab (only for creative inventory screen and inventory/crafting screen).
 10. Toggle Craftable Key (default: R) = Toggle between show all and show only craftable recipes in inventory/crafting
     screen.
-11. Left Shift + Up Key = Select previous page of the Recipe Book. (active when recipe book group is selected).
-12. Left Shift + Down Key = Select next page of the Recipe Book. (active when recipe book group is selected).
+11. Left Shift + Up Key = Select previous page of the Recipe Book. (only for creative inventory screen and inventory/crafting screen).
+12. Left Shift + Down Key = Select next page of the Recipe Book. (only for creative inventory screen and inventory/crafting screen).
 13. Left Mouse Click Sim Key (default: [) = Simulates left mouse click.
 14. Right Mouse Click Sim Key (default: ]) = Simulates right mouse click.
 15. T Key (not re-mappable) = Select the search box.
