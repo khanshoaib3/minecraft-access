@@ -30,8 +30,7 @@ public class AnimatedResultButtonMixin {
             String craftable = ((AnimatedResultButtonAccessor) this).getResultCollection().hasCraftableRecipes() ? "craftable" : "not_craftable";
             craftable = I18n.translate("minecraft_access.other." + craftable);
             String toSpeak = "%s %d %s".formatted(craftable, itemStack.getCount(), itemName);
-            // Let the item speaking not interrupt the "recipe book group selected" speaking
-            MainClass.speakWithNarrator(toSpeak, false);
+            MainClass.speakWithNarrator(toSpeak, true);
             minecraft_access$previousItemName = itemName;
         }
 
