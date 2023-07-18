@@ -30,6 +30,7 @@ public class InGameHudMixin {
         if (this.heldItemTooltipFade == 38 && !this.currentStack.isEmpty()/*FIXME && Config.get(Config.getHelditemnarratorkey())*/) {
             MutableText mutableText = net.minecraft.text.Text.empty()
                     .append(String.valueOf(this.currentStack.getCount()))
+                    .append(" ")
                     .append(this.currentStack.getName())
                     .formatted(this.currentStack.getRarity().formatting);
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.other.hotbar", mutableText.getString()), true);
