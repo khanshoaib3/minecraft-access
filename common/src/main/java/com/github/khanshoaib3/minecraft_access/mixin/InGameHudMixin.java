@@ -5,7 +5,6 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -28,9 +27,10 @@ public class InGameHudMixin {
 
     @Inject(at = @At("TAIL"), method = "renderHeldItemTooltip")
     public void renderHeldItemTooltipMixin(DrawContext context, CallbackInfo ci) {
-        if (this.heldItemTooltipFade == 38 && !this.currentStack.isEmpty()/*FIXME && Config.get(Config.getHelditemnarratorkey())*/) {
+        if (this.heldItemTooltipFade == 38 && !this.currentStack.isEmpty()) {
             MutableText mutableText = net.minecraft.text.Text.empty()
                     .append(String.valueOf(this.currentStack.getCount()))
+                    .append(" ")
                     .append(this.currentStack.getName())
                     .formatted(this.currentStack.getRarity().formatting);
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.other.hotbar", mutableText.getString()), true);
