@@ -86,6 +86,8 @@ This feature adds the following key bindings to control the camera through the k
 ## Inventory Controls
 
 This features lets us use keyboard in inventory screens. Works with all default minecraft screens.
+Please note that item speaking in "Scrollable Recipes Group" under "Crafting Screen" will be delayed about one second,
+wait after press the slot moving key to hear the item name.
 
 *All key binds are re-mappable(except two keys) from the game's controls menu and these key binds do not interrupt with
 any other key with same key.*
@@ -287,5 +289,7 @@ or [Code Beautify Json Online Editor](https://jsonformatter.org/json-editor).
 # Known Issues
 
 1. The default narrator speaks even if the narrator is turned off.
-2. (Linux only) xdotool is not recognised even if it is installed.
-3. (Linux only) Minecraft says not narrator available even if flite is installed.
+2. In "Scrollable Recipes Group" under "Crafting Screen", sometimes you will move into empty slots and the mod won't speak out "Empty Slot" as it does in "Inventory Group", it speaks nothing.
+   In this case, move towards left and up until you hear some items name.
+3. (Linux only) xdotool is not recognised even if it is installed.
+4. (Linux only) Minecraft says not narrator available even if flite is installed.
