@@ -157,6 +157,10 @@ public class MainClass {
         LOGGER.error(msg);
     }
 
+    public static void errorLog(String msg, Throwable e) {
+        LOGGER.error(msg, e);
+    }
+
     public static ScreenReaderInterface getScreenReader() {
         return MainClass.screenReader;
     } //TODO remove this
