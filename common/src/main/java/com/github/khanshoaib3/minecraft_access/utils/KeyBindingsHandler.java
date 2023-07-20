@@ -295,8 +295,9 @@ public class KeyBindingsHandler {
      * Related key binds and combinations:-<br>
      * 1) Left Mouse Sim Key (default: [) = Simulates left mouse key.<br>
      * 2) Right Mouse Sim Key (default: ]) = Simulates right mouse key.<br>
-     * 3) Mouse Wheel Scroll Up (default: ;) = Simulates mouse wheel scroll up<br>
-     * 4) Mouse Wheel Scroll Down (default: ') = Simulates mouse wheel scroll down
+     * 3) Mouse Wheel Scroll Up (default: \) = Simulates middle mouse key.<br>
+     * 4) Mouse Wheel Scroll Up (default: ;) = Simulates mouse wheel scroll up.<br>
+     * 5) Mouse Wheel Scroll Down (default: ') = Simulates mouse wheel scroll down.\
      */
     private void initializeMouseSimulationKeybindings() {
         mouseSimulationLeftMouseKey = new KeyBinding(
