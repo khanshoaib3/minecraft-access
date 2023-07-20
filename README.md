@@ -107,8 +107,8 @@ any other key with same key.*
     screen.
 11. Left Shift + Up Key = Select previous page of the Recipe Book. (active when recipe book group is selected).
 12. Left Shift + Down Key = Select next page of the Recipe Book. (active when recipe book group is selected).
-13. Left Mouse Click Sim Key (default: [) = Simulates left mouse click.
-14. Right Mouse Click Sim Key (default: ]) = Simulates right mouse click.
+13. Left Mouse Click Sim Key (default: `[` (left bracket)) = Simulates left mouse click, picking up and putting down all items in the slot.
+14. Right Mouse Click Sim Key (default: `]` (right bracket)) = Simulates right mouse click, picking up half of the items or putting one item down.
 15. T Key (not re-mappable) = Select the search box.
 16. Enter Key (not re-mappable) = Deselect the search box.
 
@@ -120,6 +120,30 @@ any other key with same key.*
 3. Row and Column Format in Crafting Input Slots = The speaking format of row and column, the first %d
    is for row and second %d is for column.
 4. Delay (in milliseconds) = Pauses the execution of this feature after each cycle for the given amount of milliseconds.
+
+## Mouse Simulation
+
+When you are playing with this mod, most of the time your dominant hand will be fixed on the keyboard instead of the mouse.
+This feature provides customizable keys to simulate mouse operations with the keyboard keys for your convenience.
+
+Please note that:
+
+* The keys in this feature only work when there is no screen open.
+* You need to keep the `Attack/Destroy` key, `Use Item/Place Block` key and `Pick Block` key remain on default mouse keys,
+  so the mouse simulation keys can perform corresponding operations.
+
+**Keybindings and combinations:-**
+
+1. Left Mouse Sim Key (default: `[` (left bracket)) = Simulates left mouse key, the default `Attack/Destroy` key.
+2. Middle Mouse Sim Key (default: `\` (back slash)) = Simulates middle mouse key, the default `Pick Block` key.
+3. Right Mouse Sim Key (default: `]` (right bracket)) = Simulates right mouse key, the default `Use Item/Place Block` key.
+4. Mouse Wheel Scroll Up Key (default: `;` (semicolon)) = Simulates mouse wheel scroll up, switching items in Hotbar forward.
+5. Mouse Wheel Scroll Down Key (default: `'` (apostrophe, prime, single quote)) = Simulates mouse wheel scroll down, switching items in Hotbar backward.
+
+**Configuration Options:-**
+
+1. Enabled = Enables this feature.
+2. Scroll Delay (in milliseconds) = Pauses the execution of mouse scroll operations after each scroll for the given amount of milliseconds.
 
 ## Read Crosshair
 

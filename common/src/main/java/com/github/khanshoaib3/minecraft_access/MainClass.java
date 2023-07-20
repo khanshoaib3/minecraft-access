@@ -145,6 +145,8 @@ public class MainClass {
             lockingHandler.update();
 
         FallDetector.getInstance().update();
+
+        MouseKeySimulation.getInstance().update();
     }
 
     public static void infoLog(String msg) {
