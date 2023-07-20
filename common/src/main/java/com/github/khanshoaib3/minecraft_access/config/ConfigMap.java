@@ -10,6 +10,8 @@ public class ConfigMap {
     private CameraControlsConfigMap cameraControlsConfigMap;
     @SerializedName("Inventory Controls")
     private InventoryControlsConfigMap inventoryControlsConfigMap;
+    @SerializedName("Mouse Simulation")
+    private MouseSimulationConfigMap mouseSimulationConfigMap;
     @SerializedName("Points of Interest")
     private POIConfigMap poiConfigMap;
     @SerializedName("Player Warnings")
@@ -27,6 +29,7 @@ public class ConfigMap {
         ConfigMap m = new ConfigMap();
         m.setDefaultCameraControlsConfigMap();
         m.setDefaultInventoryControlsConfigMap();
+        m.mouseSimulationConfigMap = MouseSimulationConfigMap.buildDefault();
         m.poiConfigMap = POIConfigMap.buildDefault();
         m.setDefaultPlayerWarningConfigMap();
         m.setFallDetectorConfigMap(FallDetectorConfigMap.defaultFallDetectorConfigMap());
@@ -37,6 +40,7 @@ public class ConfigMap {
     }
 
     public static void setInstance(ConfigMap map) {
+        MouseSimulationConfigMap.setInstance(map.mouseSimulationConfigMap);
         POIConfigMap.setInstance(map.poiConfigMap);
         ReadCrosshairConfigMap.setInstance(map.readCrosshairConfigMap);
     }
@@ -75,6 +79,10 @@ public class ConfigMap {
         defaultInventoryControlsConfigMap.setDelayInMilliseconds(150);
 
         setInventoryControlsConfigMap(defaultInventoryControlsConfigMap);
+    }
+
+    public MouseSimulationConfigMap getMouseSimulationConfigMap() {
+        return mouseSimulationConfigMap;
     }
 
     public POIConfigMap getPoiConfigMap() {
@@ -133,6 +141,7 @@ public class ConfigMap {
     public boolean validate() {
         if (this.getCameraControlsConfigMap() == null) return false;
         if (this.getInventoryControlsConfigMap() == null) return false;
+        if (this.getMouseSimulationConfigMap() == null) return false;
         if (this.getPlayerWarningConfigMap() == null) return false;
         if (this.getOtherConfigsMap() == null) return false;
         if (Objects.isNull(this.getReadCrosshairConfigMap()) || !this.getReadCrosshairConfigMap().validate()) return false;
