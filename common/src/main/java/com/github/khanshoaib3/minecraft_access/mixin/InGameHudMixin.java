@@ -10,6 +10,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -25,6 +26,9 @@ public class InGameHudMixin {
     @Shadow
     private ItemStack currentStack;
 
+    @Unique
+    private String minecraft_access$previousContent = "";
+
     @Inject(at = @At("TAIL"), method = "renderHeldItemTooltip")
     public void renderHeldItemTooltipMixin(MatrixStack matrixStack, CallbackInfo callbackInfo) {
         if (this.heldItemTooltipFade == 38 && !this.currentStack.isEmpty()/*FIXME && Config.get(Config.getHelditemnarratorkey())*/) {
@@ -33,7 +37,12 @@ public class InGameHudMixin {
                     .append(" ")
                     .append(this.currentStack.getName())
                     .formatted(this.currentStack.getRarity().formatting);
-            MainClass.speakWithNarrator(I18n.translate("minecraft_access.other.hotbar", mutableText.getString()), true);
+
+            String toSpeak = mutableText.getString();
+            if (!this.minecraft_access$previousContent.equals(toSpeak)) {
+                MainClass.speakWithNarrator(I18n.translate("minecraft_access.other.hotbar", toSpeak), true);
+                this.minecraft_access$previousContent = toSpeak;
+            }
         }
     }
 
