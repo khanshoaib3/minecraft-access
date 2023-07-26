@@ -88,6 +88,8 @@ This feature adds the following key bindings to control the camera through the k
 ## Inventory Controls
 
 This features lets us use keyboard in inventory screens. Works with all default minecraft screens.
+Please note that item speaking in "Scrollable Recipes Group" under "Crafting Screen" will be delayed about one second,
+wait after press the slot moving key to hear the item name.
 
 *All key binds are re-mappable(except two keys) from the game's controls menu and these key binds do not interrupt with
 any other key with same key.*
@@ -292,6 +294,14 @@ Narrates when the player xp level is increased or decreased.
 
 Adds the item durability into the tooltip.
 
+## Book Editing
+
+Press Use key while holding a [Book and Quill](https://minecraft.fandom.com/wiki/Book_and_Quill) item to open the book editing screen.
+Press Tab key to select buttons, while button is focused, press Space key or Left Mouse key to click it (space can be inputted as text when no button is focused).
+Press Page Up and Page Down Key to switch between pages.
+Press "Done" button to save your unfinished work and quit editing screen.
+Press "Sign" button and enter a title for the book to make it permanently non-editable.
+
 # Mod Configuration
 
 The mod can be configured in two ways: using the config menu or directly editing the config.json file.
@@ -305,5 +315,7 @@ or [Code Beautify Json Online Editor](https://jsonformatter.org/json-editor).
 # Known Issues
 
 1. The default narrator speaks even if the narrator is turned off.
-2. (Linux only) xdotool is not recognised even if it is installed.
-3. (Linux only) Minecraft says not narrator available even if flite is installed.
+2. In "Scrollable Recipes Group" under "Crafting Screen", sometimes you will move into empty slots and the mod won't speak out "Empty Slot" as it does in "Inventory Group", it speaks nothing.
+   In this case, move towards left and up until you hear some items name.
+3. (Linux only) xdotool is not recognised even if it is installed.
+4. (Linux only) Minecraft says not narrator available even if flite is installed.

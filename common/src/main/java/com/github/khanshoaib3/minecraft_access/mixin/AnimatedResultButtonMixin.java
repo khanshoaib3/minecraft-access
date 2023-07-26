@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.mixin;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
+import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.screen.recipebook.AnimatedResultButton;
 import net.minecraft.client.resource.language.I18n;
@@ -20,18 +21,27 @@ public class AnimatedResultButtonMixin {
     @Unique
     String minecraft_access$previousItemName = "";
 
+    @Unique
+    private final TimeUtils.Interval minecraft_access$interval = TimeUtils.Interval.inMilliseconds(5000);
+
     //    @Inject(at = @At("HEAD"), method = "appendNarrations", cancellable = true) // Pre 1.19.3
     @Inject(at = @At("HEAD"), method = "appendClickableNarrations", cancellable = true) // From 1.19.3
     private void appendNarrations(NarrationMessageBuilder builder, CallbackInfo callbackInfo) {
         ItemStack itemStack = ((AnimatedResultButtonAccessor) this).callGetResults().get(((AnimatedResultButtonAccessor) this).getCurrentResultIndex()).getOutput();
         String itemName = itemStack.getName().getString();
 
-        if (!itemName.equalsIgnoreCase(minecraft_access$previousItemName)) {
+        boolean sameItem = itemName.equalsIgnoreCase(minecraft_access$previousItemName);
+        if (!sameItem || minecraft_access$interval.isReady()) {
             String craftable = ((AnimatedResultButtonAccessor) this).getResultCollection().hasCraftableRecipes() ? "craftable" : "not_craftable";
             craftable = I18n.translate("minecraft_access.other." + craftable);
             String toSpeak = "%s %d %s".formatted(craftable, itemStack.getCount(), itemName);
             MainClass.speakWithNarrator(toSpeak, true);
+        }
+
+        // update the states
+        if (!sameItem) {
             minecraft_access$previousItemName = itemName;
+            minecraft_access$interval.reset();
         }
 
         minecraft_access$shakeTheMouse();
