@@ -270,7 +270,15 @@ public class ReadCrosshair {
         boolean isEmittingPower = world.isEmittingRedstonePower(blockPos, Direction.DOWN);
         boolean isReceivingPower = world.isReceivingRedstonePower(blockPos);
 
-        if ((block instanceof RedstoneWireBlock || block instanceof PistonBlock || block instanceof GlowLichenBlock || block instanceof RedstoneLampBlock) && (isReceivingPower || isEmittingPower)) {
+        if (block instanceof PistonBlock) {
+            String facing = blockState.get(PistonBlock.FACING).getName();
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.facing", toSpeak, I18n.translate("minecraft_access.direction." + facing));
+            currentQuery += "facing " + facing;
+            if (isReceivingPower) {
+                toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
+                currentQuery += "powered";
+            }
+        } else if ((block instanceof RedstoneWireBlock || block instanceof GlowLichenBlock || block instanceof RedstoneLampBlock) && (isReceivingPower || isEmittingPower)) {
             toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
             currentQuery += "powered";
 //        } else if ((block instanceof RedstoneTorchBlock || block instanceof LeverBlock || block instanceof AbstractButtonBlock) && isEmittingPower) { // pre 1.19.3
