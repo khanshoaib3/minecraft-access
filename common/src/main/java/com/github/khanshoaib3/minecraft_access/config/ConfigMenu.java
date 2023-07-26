@@ -24,6 +24,10 @@ public class ConfigMenu extends BaseScreen {
                 (button) -> this.client.setScreen(new InventoryControlsConfigMenu("inventory_controls_config_menu", this)));
         this.addDrawableChild(inventoryControlsButton);
 
+        ButtonWidget mouseSimulationButton = this.buildButtonWidget("minecraft_access.gui.config_menu.button.mouse_simulation_button",
+                (button) -> this.client.setScreen(new MouseSimulationMenu("mouse_simulation_config_menu", this)));
+        this.addDrawableChild(mouseSimulationButton);
+
         ButtonWidget poiButton = this.buildButtonWidget("minecraft_access.gui.config_menu.button.poi_button",
                 (button) -> this.client.setScreen(new POIConfigMenu("poi_config_menu", this)));
         this.addDrawableChild(poiButton);

@@ -16,6 +16,7 @@ public class ValueEntryMenu extends BaseScreen {
         CAMERA_CONTROLS_DELAY,
         INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT,
         INVENTORY_CONTROLS_DELAY,
+        MOUSE_SIMULATION_SCROLL_DELAY,
         POI_BLOCKS_RANGE,
         POI_BLOCKS_VOLUME,
         POI_BLOCKS_DELAY,
@@ -76,6 +77,10 @@ public class ValueEntryMenu extends BaseScreen {
             }
             case INVENTORY_CONTROLS_DELAY -> {
                 this.value = String.valueOf(MainClass.config.getConfigMap().getInventoryControlsConfigMap().getDelayInMilliseconds());
+                this.valueType = VALUE_TYPE.INT;
+            }
+            case MOUSE_SIMULATION_SCROLL_DELAY -> {
+                this.value = String.valueOf(MainClass.config.getConfigMap().getMouseSimulationConfigMap().getScrollDelayInMilliseconds());
                 this.valueType = VALUE_TYPE.INT;
             }
             case POI_BLOCKS_RANGE -> {
@@ -203,6 +208,8 @@ public class ValueEntryMenu extends BaseScreen {
                         configMap.getInventoryControlsConfigMap().setRowAndColumnFormat(value);
                 case INVENTORY_CONTROLS_DELAY ->
                         configMap.getInventoryControlsConfigMap().setDelayInMilliseconds(Integer.parseInt(value));
+                case MOUSE_SIMULATION_SCROLL_DELAY ->
+                        configMap.getMouseSimulationConfigMap().setScrollDelayInMilliseconds(Integer.parseInt(value));
                 case POI_BLOCKS_RANGE ->
                         configMap.getPoiConfigMap().getBlocksConfigMap().setRange(Integer.parseInt(value));
                 case POI_BLOCKS_VOLUME ->

@@ -128,6 +128,34 @@ public class MouseUtils {
 
 
     /**
+     * Perform middle click at the current pixel location.
+     */
+    public static void middleClick() {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient == null)
+            return;
+
+        try {
+            int x = (int) minecraftClient.mouse.getX(), y = (int) minecraftClient.mouse.getY();
+            MainClass.infoLog("Performing middle click at x:%d y:%d".formatted(x, y));
+
+            if (OsUtils.isLinux()) {
+                Runtime.getRuntime().exec("xdotool click 2");
+            }
+
+            if (OsUtils.isWindows()) {
+                if (mainInterface == null) initializeUser32dll();
+
+                mainInterface.mouse_event(MouseEventFlags.MIDDLEDOWN.getValue(), 0, 0, 0, 0);
+                mainInterface.mouse_event(MouseEventFlags.MIDDLEUP.getValue(), 0, 0, 0, 0);
+            }
+        } catch (Exception e) {
+            MainClass.errorLog("\nError encountered on performing middle mouse click.");
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Perform right click at the current pixel location.
      */
     public static void rightClick() {

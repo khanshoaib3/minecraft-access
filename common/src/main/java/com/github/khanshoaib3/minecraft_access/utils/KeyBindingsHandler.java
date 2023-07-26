@@ -40,9 +40,16 @@ public class KeyBindingsHandler {
     public KeyBinding inventoryControlsSwitchTabKey;
     public KeyBinding inventoryControlsToggleCraftableKey;
 
+    public KeyBinding mouseSimulationLeftMouseKey;
+    public KeyBinding mouseSimulationRightMouseKey;
+    public KeyBinding mouseSimulationMiddleMouseKey;
+    public KeyBinding mouseSimulationScrollUpKey;
+    public KeyBinding mouseSimulationScrollDownKey;
+
     private static final String OTHER_GROUP_TRANSLATION_KEY = "minecraft_access.keys.other.group_name";
     private static final String CAMERA_CONTROLS_TRANSLATION_KEY = "minecraft_access.keys.camera_controls.group_name";
     private static final String INVENTORY_CONTROLS_TRANSLATION_KEY = "minecraft_access.keys.inventory_controls.group_name";
+    private static final String MOUSE_SIMULATION_KEY = "minecraft_access.keys.mouse_simulation.group_name";
 
     private static final KeyBindingsHandler instance;
 
@@ -51,9 +58,8 @@ public class KeyBindingsHandler {
      */
     private KeyBindingsHandler() {
         initializeCameraControlsKeybindings();
-
         initializeInventoryControlsKeybindings();
-
+        initializeMouseSimulationKeybindings();
         initializeOtherKeybindings();
     }
 
@@ -282,6 +288,57 @@ public class KeyBindingsHandler {
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
         KeyMappingRegistry.register(cameraControlsCenterCamera);
+    }
+
+    /**
+     * Initializes all mouse simulation keybindings.<br><br>
+     * Related key binds and combinations:-<br>
+     * 1) Left Mouse Sim Key (default: [) = Simulates left mouse key.<br>
+     * 2) Right Mouse Sim Key (default: ]) = Simulates right mouse key.<br>
+     * 3) Mouse Wheel Scroll Up (default: \) = Simulates middle mouse key.<br>
+     * 4) Mouse Wheel Scroll Up (default: ;) = Simulates mouse wheel scroll up.<br>
+     * 5) Mouse Wheel Scroll Down (default: ') = Simulates mouse wheel scroll down.
+     */
+    private void initializeMouseSimulationKeybindings() {
+        mouseSimulationLeftMouseKey = new KeyBinding(
+                "minecraft_access.keys.mouse_simulation.left_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_LEFT_BRACKET,
+                MOUSE_SIMULATION_KEY
+        );
+        KeyMappingRegistry.register(mouseSimulationLeftMouseKey);
+
+        mouseSimulationRightMouseKey = new KeyBinding(
+                "minecraft_access.keys.mouse_simulation.right_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_RIGHT_BRACKET,
+                MOUSE_SIMULATION_KEY
+        );
+        KeyMappingRegistry.register(mouseSimulationRightMouseKey);
+
+        mouseSimulationMiddleMouseKey = new KeyBinding(
+                "minecraft_access.keys.mouse_simulation.middle_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_BACKSLASH,
+                MOUSE_SIMULATION_KEY
+        );
+        KeyMappingRegistry.register(mouseSimulationMiddleMouseKey);
+
+        mouseSimulationScrollUpKey = new KeyBinding(
+                "minecraft_access.keys.mouse_simulation.scroll_up_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_SEMICOLON,
+                MOUSE_SIMULATION_KEY
+        );
+        KeyMappingRegistry.register(mouseSimulationScrollUpKey);
+
+        mouseSimulationScrollDownKey = new KeyBinding(
+                "minecraft_access.keys.mouse_simulation.scroll_down_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_APOSTROPHE,
+                MOUSE_SIMULATION_KEY
+        );
+        KeyMappingRegistry.register(mouseSimulationScrollDownKey);
     }
 
     /**
