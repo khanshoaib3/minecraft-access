@@ -1,0 +1,73 @@
+name: Build Mod Packages
+on:
+  push:
+    # new commits are pushed onto these branches
+    branches:
+      - default
+      - 1.20.x
+    # OR commits are tagged with version tags
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          server-id: minecraft-access # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2.6.1
+        with:
+          arguments: wrapper
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@064a97fb0b4cef86a65f09898c572382f3af10e0
+
+      - name: Build Fabric with Gradle
+        uses: gradle/gradle-build-action@v2.6.1
+        with:
+          arguments: :fabric:build
+
+      - name: Build Forge with Gradle
+        uses: gradle/gradle-build-action@v2.6.1
+        with:
+          arguments: :forge:build
+
+      - name: Move and Rename Mod Files
+        run: |
+          mkdir -p ./upload
+          pushd .
+          cd ./fabric/build/libs
+          rm minecraft-access-*-dev-shadow.jar minecraft-access-*-sources.jar
+          mv minecraft-access*.jar $(basename -s .jar -a *)-fabric.jar
+          popd
+          pushd .
+          cd ./forge/build/libs
+          rm minecraft-access-*-dev-shadow.jar minecraft-access-*-sources.jar
+          mv minecraft-access*.jar $(basename -s .jar -a *)-forge.jar
+          popd
+          cp ./fabric/build/libs/minecraft-access*-fabric.jar ./upload
+          cp ./forge/build/libs/minecraft-access*-forge.jar ./upload
+
+      - name: Get Current Time
+        run: echo "BUILD_TIME=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
+
+      # Then we can download them from workflow result page
+      - name: Upload Packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: minecraft-access-mod-${{ env.BUILD_TIME }}
+          path: ./upload
