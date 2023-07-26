@@ -145,6 +145,8 @@ public class MainClass {
             lockingHandler.update();
 
         FallDetector.getInstance().update();
+
+        MouseKeySimulation.getInstance().update();
     }
 
     public static void infoLog(String msg) {
@@ -153,6 +155,10 @@ public class MainClass {
 
     public static void errorLog(String msg) {
         LOGGER.error(msg);
+    }
+
+    public static void errorLog(String msg, Throwable e) {
+        LOGGER.error(msg, e);
     }
 
     public static ScreenReaderInterface getScreenReader() {
