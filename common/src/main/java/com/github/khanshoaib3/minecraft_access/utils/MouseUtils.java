@@ -100,10 +100,30 @@ public class MouseUtils {
         );
     }
 
+    /**
+     * Press left mouse key down at the current pixel location.
+     */
+    public static void leftDown() {
+        doNativeMouseAction("left down", true,
+                "xdotool mousedown 1",
+                (i) -> i.mouse_event(MouseEventFlags.LEFTDOWN.getValue(), 0, 0, 0, 0)
+        );
+    }
+
+    /**
+     * Press left mouse key up at the current pixel location.
+     */
+    public static void leftUp() {
+        doNativeMouseAction("left up", true,
+                "xdotool mouseup 1",
+                (i) -> i.mouse_event(MouseEventFlags.LEFTUP.getValue(), 0, 0, 0, 0)
+        );
+    }
 
     /**
      * Perform middle click at the current pixel location.
      */
+    @SuppressWarnings("unused")
     public static void middleClick() {
         doNativeMouseAction("middle click", true,
                 "xdotool click 2",
@@ -111,6 +131,26 @@ public class MouseUtils {
                     i.mouse_event(MouseEventFlags.MIDDLEDOWN.getValue(), 0, 0, 0, 0);
                     i.mouse_event(MouseEventFlags.MIDDLEUP.getValue(), 0, 0, 0, 0);
                 }
+        );
+    }
+
+    /**
+     * Press middle mouse key down at the current pixel location.
+     */
+    public static void middleDown() {
+        doNativeMouseAction("middle down", true,
+                "xdotool mousedown 2",
+                (i) -> i.mouse_event(MouseEventFlags.MIDDLEDOWN.getValue(), 0, 0, 0, 0)
+        );
+    }
+
+    /**
+     * Press middle mouse key up at the current pixel location.
+     */
+    public static void middleUp() {
+        doNativeMouseAction("middle up", true,
+                "xdotool mouseup 2",
+                (i) -> i.mouse_event(MouseEventFlags.MIDDLEUP.getValue(), 0, 0, 0, 0)
         );
     }
 
@@ -124,6 +164,26 @@ public class MouseUtils {
                     i.mouse_event(MouseEventFlags.RIGHTDOWN.getValue(), 0, 0, 0, 0);
                     i.mouse_event(MouseEventFlags.RIGHTUP.getValue(), 0, 0, 0, 0);
                 }
+        );
+    }
+
+    /**
+     * Press right mouse key down at the current pixel location.
+     */
+    public static void rightDown() {
+        doNativeMouseAction("right down", true,
+                "xdotool mousedown 3",
+                (i) -> i.mouse_event(MouseEventFlags.RIGHTDOWN.getValue(), 0, 0, 0, 0)
+        );
+    }
+
+    /**
+     * Press right mouse key up at the current pixel location.
+     */
+    public static void rightUp() {
+        doNativeMouseAction("right up", true,
+                "xdotool mouseup 3",
+                (i) -> i.mouse_event(MouseEventFlags.RIGHTUP.getValue(), 0, 0, 0, 0)
         );
     }
 
