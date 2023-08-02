@@ -4,11 +4,13 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeakingConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
+import com.github.khanshoaib3.minecraft_access.mixin.MobSpawnerLogicAccessor;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BeehiveBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.MobSpawnerBlockEntity;
 import net.minecraft.block.entity.SignBlockEntity;
 import net.minecraft.block.enums.ComparatorMode;
 import net.minecraft.client.MinecraftClient;
@@ -239,6 +241,19 @@ public class ReadCrosshair {
             if (block instanceof FarmlandBlock && blockState.get(FarmlandBlock.MOISTURE) == FarmlandBlock.MAX_MOISTURE) {
                 toSpeak = I18n.translate("minecraft_access.crop.wet_farmland", toSpeak);
                 currentQuery = I18n.translate("minecraft_access.crop.wet_farmland", currentQuery);
+            }
+
+            // Speak monster spawner mob type
+            if (blockEntity instanceof MobSpawnerBlockEntity spawner) {
+                // Will not support non-vanilla custom configured multiple-mob spawner (like generated with command)
+                Entity entity = ((MobSpawnerLogicAccessor) spawner.getLogic()).getRenderedEntity();
+                // Monster spawners that gotten from creative creating screen is empty.
+                String entityName = "Empty";
+                if (entity != null) {
+                    entityName = entity.getDisplayName().getString();
+                }
+                toSpeak = entityName + " " + toSpeak;
+                currentQuery = entityName + currentQuery;
             }
 
             // Redstone related
