@@ -62,23 +62,12 @@ public class MouseUtils {
      * @param y the y position of the pixel location
      */
     public static void move(int x, int y) {
-        try {
-            MainClass.infoLog("Moving mouse to x:%d y:%d".formatted(x, y));
-
-            if (OsUtils.isLinux()) {
-                Runtime.getRuntime().exec("xdotool mousemove %d %d".formatted(x, y));
-            }
-
-            if (OsUtils.isWindows()) {
-                if (mainInterface == null) initializeUser32dll();
-
-                if (!mainInterface.SetCursorPos(x, y))
-                    MainClass.errorLog("\nError encountered on moving mouse.");
-            }
-        } catch (Exception e) {
-            MainClass.errorLog("\nError encountered on moving mouse.");
-            e.printStackTrace();
-        }
+        doNativeMouseAction("mouse moving", true,
+                "xdotool mousemove %d %d".formatted(x, y),
+                (i) -> {
+                    if (!i.SetCursorPos(x, y)) MainClass.errorLog("\nError encountered on moving mouse.");
+                }
+        );
     }
 
     /**
@@ -107,135 +96,144 @@ public class MouseUtils {
      * Perform left click at the current pixel location.
      */
     public static void leftClick() {
-        MinecraftClient minecraftClient = MinecraftClient.getInstance();
-        if (minecraftClient == null)
-            return;
-
-        try {
-            int x = (int) minecraftClient.mouse.getX(), y = (int) minecraftClient.mouse.getY();
-            MainClass.infoLog("Performing left click at x:%d y:%d".formatted(x, y));
-
-            if (OsUtils.isLinux()) {
-                Runtime.getRuntime().exec("xdotool click 1");
-            }
-
-            if (OsUtils.isWindows()) {
-                if (mainInterface == null) initializeUser32dll();
-
-                mainInterface.mouse_event(MouseEventFlags.LEFTDOWN.getValue(), 0, 0, 0, 0);
-                mainInterface.mouse_event(MouseEventFlags.LEFTUP.getValue(), 0, 0, 0, 0);
-            }
-        } catch (Exception e) {
-            MainClass.errorLog("\nError encountered on performing left mouse click.");
-            e.printStackTrace();
-        }
+        doNativeMouseAction("left click", true,
+                "xdotool click 1",
+                (i) -> {
+                    i.mouse_event(MouseEventFlags.LEFTDOWN.getValue(), 0, 0, 0, 0);
+                    i.mouse_event(MouseEventFlags.LEFTUP.getValue(), 0, 0, 0, 0);
+                }
+        );
     }
 
+    /**
+     * Press left mouse key down at the current pixel location.
+     */
+    public static void leftDown() {
+        doNativeMouseAction("left down", true,
+                "xdotool mousedown 1",
+                (i) -> i.mouse_event(MouseEventFlags.LEFTDOWN.getValue(), 0, 0, 0, 0)
+        );
+    }
+
+    /**
+     * Press left mouse key up at the current pixel location.
+     */
+    public static void leftUp() {
+        doNativeMouseAction("left up", true,
+                "xdotool mouseup 1",
+                (i) -> i.mouse_event(MouseEventFlags.LEFTUP.getValue(), 0, 0, 0, 0)
+        );
+    }
 
     /**
      * Perform middle click at the current pixel location.
      */
+    @SuppressWarnings("unused")
     public static void middleClick() {
-        MinecraftClient minecraftClient = MinecraftClient.getInstance();
-        if (minecraftClient == null)
-            return;
+        doNativeMouseAction("middle click", true,
+                "xdotool click 2",
+                (i) -> {
+                    i.mouse_event(MouseEventFlags.MIDDLEDOWN.getValue(), 0, 0, 0, 0);
+                    i.mouse_event(MouseEventFlags.MIDDLEUP.getValue(), 0, 0, 0, 0);
+                }
+        );
+    }
 
-        try {
-            int x = (int) minecraftClient.mouse.getX(), y = (int) minecraftClient.mouse.getY();
-            MainClass.infoLog("Performing middle click at x:%d y:%d".formatted(x, y));
+    /**
+     * Press middle mouse key down at the current pixel location.
+     */
+    public static void middleDown() {
+        doNativeMouseAction("middle down", true,
+                "xdotool mousedown 2",
+                (i) -> i.mouse_event(MouseEventFlags.MIDDLEDOWN.getValue(), 0, 0, 0, 0)
+        );
+    }
 
-            if (OsUtils.isLinux()) {
-                Runtime.getRuntime().exec("xdotool click 2");
-            }
-
-            if (OsUtils.isWindows()) {
-                if (mainInterface == null) initializeUser32dll();
-
-                mainInterface.mouse_event(MouseEventFlags.MIDDLEDOWN.getValue(), 0, 0, 0, 0);
-                mainInterface.mouse_event(MouseEventFlags.MIDDLEUP.getValue(), 0, 0, 0, 0);
-            }
-        } catch (Exception e) {
-            MainClass.errorLog("\nError encountered on performing middle mouse click.");
-            e.printStackTrace();
-        }
+    /**
+     * Press middle mouse key up at the current pixel location.
+     */
+    public static void middleUp() {
+        doNativeMouseAction("middle up", true,
+                "xdotool mouseup 2",
+                (i) -> i.mouse_event(MouseEventFlags.MIDDLEUP.getValue(), 0, 0, 0, 0)
+        );
     }
 
     /**
      * Perform right click at the current pixel location.
      */
     public static void rightClick() {
-        MinecraftClient minecraftClient = MinecraftClient.getInstance();
-        if (minecraftClient == null)
-            return;
+        doNativeMouseAction("right click", true,
+                "xdotool click 3",
+                (i) -> {
+                    i.mouse_event(MouseEventFlags.RIGHTDOWN.getValue(), 0, 0, 0, 0);
+                    i.mouse_event(MouseEventFlags.RIGHTUP.getValue(), 0, 0, 0, 0);
+                }
+        );
+    }
 
-        try {
-            int x = (int) minecraftClient.mouse.getX(), y = (int) minecraftClient.mouse.getY();
-            MainClass.infoLog("Performing right click at x:%d y:%d".formatted(x, y));
+    /**
+     * Press right mouse key down at the current pixel location.
+     */
+    public static void rightDown() {
+        doNativeMouseAction("right down", true,
+                "xdotool mousedown 3",
+                (i) -> i.mouse_event(MouseEventFlags.RIGHTDOWN.getValue(), 0, 0, 0, 0)
+        );
+    }
 
-            if (OsUtils.isLinux()) {
-                Runtime.getRuntime().exec("xdotool click 3");
-            }
-
-            if (OsUtils.isWindows()) {
-                if (mainInterface == null) initializeUser32dll();
-
-                mainInterface.mouse_event(MouseEventFlags.RIGHTDOWN.getValue(), 0, 0, 0, 0);
-                mainInterface.mouse_event(MouseEventFlags.RIGHTUP.getValue(), 0, 0, 0, 0);
-            }
-        } catch (Exception e) {
-            MainClass.errorLog("\nError encountered on performing right mouse click.");
-            e.printStackTrace();
-        }
+    /**
+     * Press right mouse key up at the current pixel location.
+     */
+    public static void rightUp() {
+        doNativeMouseAction("right up", true,
+                "xdotool mouseup 3",
+                (i) -> i.mouse_event(MouseEventFlags.RIGHTUP.getValue(), 0, 0, 0, 0)
+        );
     }
 
     /**
      * Performs mouse scroll up
      */
-    public static void scrollUp(){
-        MinecraftClient minecraftClient = MinecraftClient.getInstance();
-        if (minecraftClient == null)
-            return;
-
-        try {
-            MainClass.infoLog("Performing scroll up");
-
-            if (OsUtils.isLinux()) {
-                Runtime.getRuntime().exec("xdotool click 4");
-            }
-
-            if (OsUtils.isWindows()) {
-                if (mainInterface == null) initializeUser32dll();
-
-                mainInterface.mouse_event(MouseEventFlags.WHEEL.getValue(), 0, 0, 120, 0);
-            }
-        } catch (Exception e) {
-            MainClass.errorLog("\nError encountered on performing scroll up.");
-            e.printStackTrace();
-        }
+    public static void scrollUp() {
+        doNativeMouseAction("scroll up", false,
+                "xdotool click 4",
+                (i) -> i.mouse_event(MouseEventFlags.WHEEL.getValue(), 0, 0, 120, 0)
+        );
     }
 
     /**
      * Performs mouse scroll down
      */
-    public static void scrollDown(){
+    public static void scrollDown() {
+        doNativeMouseAction("scroll down", false,
+                "xdotool click 5",
+                (i) -> i.mouse_event(MouseEventFlags.WHEEL.getValue(), 0, 0, -120, 0));
+    }
+
+    private static void doNativeMouseAction(String name, boolean logCoordinates, String linuxXdotCommand, Consumer<user32dllInterface> windowsAction) {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
         if (minecraftClient == null)
             return;
 
+
         try {
-            MainClass.infoLog("Performing scroll down");
+            String coordinates = "";
+            if (logCoordinates) {
+                int x = (int) minecraftClient.mouse.getX(), y = (int) minecraftClient.mouse.getY();
+                coordinates = " on x:%d y:%d".formatted(x, y);
+            }
+            MainClass.infoLog("Performing " + name + coordinates);
+
 
             if (OsUtils.isLinux()) {
-                Runtime.getRuntime().exec("xdotool click 5");
-            }
-
-            if (OsUtils.isWindows()) {
+                Runtime.getRuntime().exec(linuxXdotCommand);
+            } else if (OsUtils.isWindows()) {
                 if (mainInterface == null) initializeUser32dll();
-
-                mainInterface.mouse_event(MouseEventFlags.WHEEL.getValue(), 0, 0, -120, 0);
+                windowsAction.accept(mainInterface);
             }
         } catch (Exception e) {
-            MainClass.errorLog("\nError encountered on performing scroll up.");
+            MainClass.errorLog("\nError encountered on performing " + name + ".");
             e.printStackTrace();
         }
     }
