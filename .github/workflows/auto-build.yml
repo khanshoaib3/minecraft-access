@@ -20,6 +20,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Fetch latest I18N files
+        uses: actions/checkout@v3
+        with:
+          repository: 'khanshoaib3/minecraft-access-i18n'
+          path: './common/src/main/resources/assets/minecraft_access/lang'
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
