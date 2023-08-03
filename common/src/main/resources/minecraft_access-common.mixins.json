@@ -3,10 +3,6 @@
   "minVersion": "0.8",
   "package": "com.github.khanshoaib3.minecraft_access.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [
-    "ChatHudAccessor",
-    "MobSpawnerLogicAccessor"
-  ],
   "client": [
     "AnimatedResultButtonAccessor",
     "AnimatedResultButtonMixin",
@@ -14,6 +10,7 @@
     "BookEditScreenMixin",
     "BookScreenMixin",
     "ButtonWidgetMixin",
+    "ChatHudAccessor",
     "ChatScreenMixin",
     "ClickableWidgetAccessor",
     "ClientPlayNetworkHandlerMixin",
@@ -24,6 +21,7 @@
     "InGameHudMixin",
     "LoomScreenAccessor",
     "MerchantScreenAccessor",
+    "MobSpawnerLogicAccessor",
     "PageTurnWidgetMixin",
     "RecipeBookResultsAccessor",
     "RecipeBookWidgetAccessor",
