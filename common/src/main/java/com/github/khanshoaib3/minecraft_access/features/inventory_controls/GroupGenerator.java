@@ -383,25 +383,11 @@ public class GroupGenerator {
         }
         //</editor-fold>
 
-        //<editor-fold desc="Add Inventory Groups to foundGroups">
-        if (armourGroup.slotItems.size() > 0) {
-            foundGroups.add(armourGroup);
-        }
+        //<editor-fold desc="Add Groups to foundGroups, in the order of interactive frequency">
 
-        if (offHandGroup.slotItems.size() > 0) {
-            foundGroups.add(offHandGroup);
-        }
-
-        if (playerInventoryGroup.slotItems.size() > 0) {
-            playerInventoryGroup.mapTheGroupList(9);
-            foundGroups.add(playerInventoryGroup);
-        }
-
-        if (hotbarGroup.slotItems.size() > 0) {
-            hotbarGroup.mapTheGroupList(9);
-            foundGroups.add(hotbarGroup);
-        }
-
+        // Inventory groups first, you always start a process with picking up items.
+        //<editor-fold desc="Add Normal Inventory Groups to foundGroups">
+        // Container inventory first (you open a container for items inside it)
         if (blockInventoryGroup.slotItems.size() > 0) {
             if (screen.getHandler() instanceof Generic3x3ContainerScreenHandler)
                 blockInventoryGroup.mapTheGroupList(3);
@@ -411,8 +397,21 @@ public class GroupGenerator {
                 blockInventoryGroup.mapTheGroupList(5);
             foundGroups.add(blockInventoryGroup);
         }
+
+        // Then normal inventory (you open inventory screen for items inside it)
+        if (playerInventoryGroup.slotItems.size() > 0) {
+            playerInventoryGroup.mapTheGroupList(9);
+            foundGroups.add(playerInventoryGroup);
+        }
+
+        // Finally the hotbar (you may want to put picked items on the hotbar (num-key hotkeys are fast, yup))
+        if (hotbarGroup.slotItems.size() > 0) {
+            hotbarGroup.mapTheGroupList(9);
+            foundGroups.add(hotbarGroup);
+        }
         //</editor-fold>
 
+        // Then the input and output groups, you may want to put picked items into the input slots and get the result from output slots.
         //<editor-fold desc="Add Input Groups to foundGroups">
         if (craftingInputGroup.slotItems.size() > 0) {
             craftingInputGroup.setRowColumnPrefixForSlots();
@@ -458,7 +457,23 @@ public class GroupGenerator {
         }
         //</editor-fold>
 
-        //<editor-fold desc="Add Screen Specific Groups to foundGroups">
+        //<editor-fold desc="Add Output Groups to foundGroups">
+        if (craftingOutputGroup.slotItems.size() > 0) {
+            foundGroups.add(craftingOutputGroup);
+        }
+
+        if (itemOutputGroup.slotItems.size() > 0) {
+            itemOutputGroup.mapTheGroupList(4);
+            foundGroups.add(itemOutputGroup);
+        }
+
+        if (unknownGroup.slotItems.size() > 0) {
+            foundGroups.add(unknownGroup);
+        }
+        //</editor-fold>
+
+        // Then the non-item-related groups you want to interact with (after you put items into input slots, enchant for example).
+        //<editor-fold desc="Add Screen Specific Groups">
         if (recipesGroup.slotItems.size() > 0) {
             recipesGroup.isScrollable = true;
             recipesGroup.mapTheGroupList(4);
@@ -492,19 +507,16 @@ public class GroupGenerator {
         }
         //</editor-fold>
 
-        //<editor-fold desc="Add Output Groups to foundGroups">
-        if (craftingOutputGroup.slotItems.size() > 0) {
-            foundGroups.add(craftingOutputGroup);
+        // Finally, the armour groups, low interactive frequency, will only show in inventory screen.
+        //<editor-fold desc="Add Armour Inventory Groups">
+        if (armourGroup.slotItems.size() > 0) {
+            foundGroups.add(armourGroup);
         }
 
-        if (itemOutputGroup.slotItems.size() > 0) {
-            itemOutputGroup.mapTheGroupList(4);
-            foundGroups.add(itemOutputGroup);
+        if (offHandGroup.slotItems.size() > 0) {
+            foundGroups.add(offHandGroup);
         }
-
-        if (unknownGroup.slotItems.size() > 0) {
-            foundGroups.add(unknownGroup);
-        }
+        //</editor-fold>
         //</editor-fold>
 
         return foundGroups;
@@ -554,7 +566,17 @@ public class GroupGenerator {
         if (recipesGroup.slotItems.size() > 0) {
             recipesGroup.isScrollable = true;
             recipesGroup.mapTheGroupList(5);
-            foundGroups.add(foundGroups.size() - 1, recipesGroup); // Add to second last index
+
+            // Put recipe book group behind the crafting output group,
+            // so user can easily access crafting output after clicking on recipe book.
+            if (screen instanceof CraftingScreen) {
+                // player_inventory, hotbar, crafting_input, crafting_output <put here>
+                foundGroups.add(recipesGroup);
+            } else {
+                // screen instanceof InventoryScreen
+                // player_inventory, hotbar, crafting_input, crafting_output, <put here>, armour, off_hand
+                foundGroups.add(foundGroups.size() - 2, recipesGroup);
+            }
         }
 
         return foundGroups;
