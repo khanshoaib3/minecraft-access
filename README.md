@@ -292,6 +292,19 @@ Narrates when the player xp level is increased or decreased.
 
 Adds the item durability into the tooltip.
 
+## Fall Detector
+
+Check the surrounding height difference and warn the user with a drop sound effect at the corresponding position.
+
+**Configuration Options:-**
+
+1. Enabled = Enables this feature.
+2. Range = The player-centered detection range.
+3. Depth Threshold = The threshold for playing the sound effect.
+4. Sound Volume = The volume of the sound.
+5. Delay (in milliseconds) = Pauses the execution of this feature after each cycle for the given amount of
+   milliseconds.
+
 ## Book Editing
 
 Press Use key while holding a [Book and Quill](https://minecraft.fandom.com/wiki/Book_and_Quill) item to open the book editing screen.
@@ -313,7 +326,7 @@ or [Code Beautify Json Online Editor](https://jsonformatter.org/json-editor).
 # Known Issues
 
 1. The default narrator speaks even if the narrator is turned off.
-2. In "Scrollable Recipes Group" under "Crafting Screen", sometimes you will move into empty slots and the mod won't speak out "Empty Slot" as it does in "Inventory Group", it speaks nothing.
-   In this case, move towards left and up until you hear some items name.
+2. In "Scrollable Recipes Group" under "Crafting Screen", except the first page, sometimes you will hear nothing while you moving between slots.
+   It's best to keep items you want to craft within the first page of the recipe book by moving unused resource items out of your inventory.
 3. (Linux only) xdotool is not recognised even if it is installed.
 4. (Linux only) Minecraft says not narrator available even if flite is installed.
