@@ -98,7 +98,8 @@ Keep going after you have logged in, I don't know how to describe the purchase p
 > The launcher we will download is provided by Microsoft, let's call it the official launcher.
 
 At the end of the purchase process there will be a `Download Game` button to download the launcher.
-If you've missed it, [here is the launcher download page](https://www.minecraft.net/download).
+If you've missed it, [here is the launcher direct download link](https://aka.ms/minecraftClientWindows).
+If the link is invalided, [here is the launcher download page](https://www.minecraft.net/download), remember to "Download Windows Legacy Launcher", do not download the new one that "Download Launcher for Windows 10/11" button provided.
 The launcher is a normal executable file, run it and wait for the finish.
 If the installation is successful, you will now have a new application called `Minecraft Launcher`.
 
