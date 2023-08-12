@@ -43,12 +43,13 @@ public class InGameHudMixin {
      */
     @Inject(at = @At("TAIL"), method = "renderHeldItemTooltip")
     public void renderHeldItemTooltipMixin(MatrixStack matrixStack, CallbackInfo callbackInfo) {
-        if (this.heldItemTooltipFade == 0 && this.currentStack.isEmpty()) {
+        boolean currentStackIsEmpty = this.currentStack.isEmpty();
+        if (this.heldItemTooltipFade == 0 && currentStackIsEmpty) {
             // Speak "empty slot" when the selected slot is empty
             minecraft_access$speakIfHeldChanged("", minecraft_access$EmptySlotI18N);
         }
 
-        if (this.heldItemTooltipFade > 0 && !this.currentStack.isEmpty()) {
+        if (!currentStackIsEmpty) {
             // Speak held item's name and count
             MutableText mutableText = net.minecraft.text.Text.empty()
                     .append(String.valueOf(this.currentStack.getCount()))
