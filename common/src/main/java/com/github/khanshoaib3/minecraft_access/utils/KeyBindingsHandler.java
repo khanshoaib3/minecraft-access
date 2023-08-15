@@ -87,8 +87,8 @@ public class KeyBindingsHandler {
      * 7) Switch Tab Key (default: V) = Select next tab (only for creative inventory screen and inventory/crafting screen).<br>
      * 8) Left Shift + Switch Tab Key = Select previous tab (only for creative inventory screen and inventory/crafting screen).<br>
      * 9) Toggle Craftable Key (default: R) = Toggle between show all and show only craftable recipes in inventory/crafting screen.<br>
-     * 10) Left Mouse Click Sim Key (default: [) = Simulates left mouse click.<br>
-     * 11) Right Mouse Click Sim Key (default: ]) = Simulates right mouse click.<br>
+     * 10) Left Mouse Click Sim Key (default: ;) = Simulates left mouse click.<br>
+     * 11) Right Mouse Click Sim Key (default: ') = Simulates right mouse click.<br>
      * 12) T Key (not re-mappable) = Select the search box.<br>
      * 13) Enter Key (not re-mappable) = Deselect the search box.<br>
      */
@@ -104,7 +104,7 @@ public class KeyBindingsHandler {
         inventoryControlsLeftMouseClickKey = new KeyBinding(
                 "minecraft_access.keys.inventory_controls.left_mouse_key_name",
                 InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_LEFT_BRACKET,
+                GLFW.GLFW_KEY_SEMICOLON,
                 INVENTORY_CONTROLS_TRANSLATION_KEY
         );
         KeyMappingRegistry.register(inventoryControlsLeftMouseClickKey);
@@ -112,7 +112,7 @@ public class KeyBindingsHandler {
         inventoryControlsRightMouseClickKey = new KeyBinding(
                 "minecraft_access.keys.inventory_controls.right_mouse_key_name",
                 InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_RIGHT_BRACKET,
+                GLFW.GLFW_KEY_APOSTROPHE,
                 INVENTORY_CONTROLS_TRANSLATION_KEY
         );
         KeyMappingRegistry.register(inventoryControlsRightMouseClickKey);
@@ -293,17 +293,17 @@ public class KeyBindingsHandler {
     /**
      * Initializes all mouse simulation keybindings.<br><br>
      * Related key binds and combinations:-<br>
-     * 1) Left Mouse Sim Key (default: [) = Simulates left mouse key.<br>
-     * 2) Right Mouse Sim Key (default: ]) = Simulates right mouse key.<br>
+     * 1) Left Mouse Sim Key (default: ;) = Simulates left mouse key.<br>
+     * 2) Right Mouse Sim Key (default: ') = Simulates right mouse key.<br>
      * 3) Mouse Wheel Scroll Up (default: \) = Simulates middle mouse key.<br>
-     * 4) Mouse Wheel Scroll Up (default: ;) = Simulates mouse wheel scroll up.<br>
-     * 5) Mouse Wheel Scroll Down (default: ') = Simulates mouse wheel scroll down.\
+     * 4) Mouse Wheel Scroll Up (default: [) = Simulates mouse wheel scroll up.<br>
+     * 5) Mouse Wheel Scroll Down (default: ]) = Simulates mouse wheel scroll down.\
      */
     private void initializeMouseSimulationKeybindings() {
         mouseSimulationLeftMouseKey = new KeyBinding(
                 "minecraft_access.keys.mouse_simulation.left_key_name",
                 InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_LEFT_BRACKET,
+                GLFW.GLFW_KEY_SEMICOLON,
                 MOUSE_SIMULATION_KEY
         );
         KeyMappingRegistry.register(mouseSimulationLeftMouseKey);
@@ -311,7 +311,7 @@ public class KeyBindingsHandler {
         mouseSimulationRightMouseKey = new KeyBinding(
                 "minecraft_access.keys.mouse_simulation.right_key_name",
                 InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_RIGHT_BRACKET,
+                GLFW.GLFW_KEY_APOSTROPHE,
                 MOUSE_SIMULATION_KEY
         );
         KeyMappingRegistry.register(mouseSimulationRightMouseKey);
@@ -327,7 +327,7 @@ public class KeyBindingsHandler {
         mouseSimulationScrollUpKey = new KeyBinding(
                 "minecraft_access.keys.mouse_simulation.scroll_up_key_name",
                 InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_SEMICOLON,
+                GLFW.GLFW_KEY_LEFT_BRACKET,
                 MOUSE_SIMULATION_KEY
         );
         KeyMappingRegistry.register(mouseSimulationScrollUpKey);
@@ -335,7 +335,7 @@ public class KeyBindingsHandler {
         mouseSimulationScrollDownKey = new KeyBinding(
                 "minecraft_access.keys.mouse_simulation.scroll_down_key_name",
                 InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_APOSTROPHE,
+                GLFW.GLFW_KEY_RIGHT_BRACKET,
                 MOUSE_SIMULATION_KEY
         );
         KeyMappingRegistry.register(mouseSimulationScrollDownKey);
