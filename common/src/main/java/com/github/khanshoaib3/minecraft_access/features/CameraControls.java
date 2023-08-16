@@ -52,7 +52,7 @@ public class CameraControls {
 
             loadConfigurations();
             boolean wasAnyKeyPressed = keyListener();
-            if(wasAnyKeyPressed) interval.start();
+            if (wasAnyKeyPressed) interval.start();
         } catch (Exception e) {
             MainClass.errorLog("\nError encountered in Camera Controls feature.");
             e.printStackTrace();
@@ -96,6 +96,9 @@ public class CameraControls {
         boolean isSouthKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsSouth)
                 || (isDownKeyPressed && isRightAltPressed && !isLeftAltPressed);
         boolean isCenterCameraKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsCenterCamera);
+        // TODO Add double click Up/Down, refactor F4 menu
+        boolean isStraightUpKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsStraightUp);
+        boolean isStraightDownKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsStraightDown);
 
         if (isNorthKeyPressed) {
             lookNorth();
@@ -139,6 +142,16 @@ public class CameraControls {
 
         if (isCenterCameraKeyPressed) {
             centerCamera(isLeftAltPressed);
+            return true;
+        }
+
+        if (isStraightUpKeyPressed) {
+            lookAtRelativeBlock(0, 1, 0);
+            return true;
+        }
+
+        if (isStraightDownKeyPressed) {
+            lookAtRelativeBlock(0, -1, 0);
             return true;
         }
 
@@ -201,69 +214,70 @@ public class CameraControls {
      * Snaps the camera to the north block
      */
     private void lookNorth() {
-        lookAtRelativeBlock(0, -1);
+        lookAtRelativeBlock(0, 0, -1);
     }
 
     /**
      * Snaps the camera to the east block
      */
     private void lookEast() {
-        lookAtRelativeBlock(1, 0);
+        lookAtRelativeBlock(1, 0, 0);
     }
 
     /**
      * Snaps the camera to the west block
      */
     private void lookWest() {
-        lookAtRelativeBlock(-1, 0);
+        lookAtRelativeBlock(-1, 0, 0);
     }
 
     /**
      * Snaps the camera to the south block
      */
     private void lookSouth() {
-        lookAtRelativeBlock(0, 1);
+        lookAtRelativeBlock(0, 0, 1);
     }
 
     /**
      * Snaps the camera to the north-east block
      */
     private void lookNorthEast() {
-        lookAtRelativeBlock(1, -1);
+        lookAtRelativeBlock(1, 0, -1);
     }
 
     /**
      * Snaps the camera to the north-west block
      */
     private void lookNorthWest() {
-        lookAtRelativeBlock(-1, -1);
+        lookAtRelativeBlock(-1, 0, -1);
     }
 
     /**
      * Snaps the camera to the south-east block
      */
     private void lookSouthEast() {
-        lookAtRelativeBlock(1, 1);
+        lookAtRelativeBlock(1, 0, 1);
     }
 
     /**
      * Snaps the camera to the south-west block
      */
     private void lookSouthWest() {
-        lookAtRelativeBlock(-1, 1);
+        lookAtRelativeBlock(-1, 0, 1);
     }
 
     /**
      * Snaps the camera at a block relative to the player's position.
      *
      * @param deltaX The relative X position of the block.
+     * @param deltaY The relative Y position of the block.
      * @param deltaZ The relative Z position of the block.
      */
-    private void lookAtRelativeBlock(int deltaX, int deltaZ) {
+    private void lookAtRelativeBlock(int deltaX, int deltaY, int deltaZ) {
         if (minecraftClient.player == null) return;
 
         Vec3d playerBlockPosition = minecraftClient.player.getPos();
-        Vec3d relativeBlockPosition = new Vec3d(playerBlockPosition.x + deltaX, playerBlockPosition.y + 0, playerBlockPosition.z + deltaZ);
+        Vec3d relativeBlockPosition = new Vec3d(playerBlockPosition.x + deltaX, playerBlockPosition.y + deltaY, playerBlockPosition.z + deltaZ);
 
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, relativeBlockPosition);
         MainClass.speakWithNarrator(new PlayerPositionUtils(minecraftClient).getHorizontalFacingDirectionInCardinal(), true);
