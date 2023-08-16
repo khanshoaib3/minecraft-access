@@ -9,35 +9,34 @@ the [libspeechdwrapper](https://github.com/khanshoaib3/libspeechdwrapper).
 
 # Setup
 
-There is [a new detailed tutorial](/doc/SET_UP_ON_WINDOWS.md) for Windows users. 
+There is [a new detailed tutorial](/doc/SET_UP_ON_WINDOWS.md) for Windows users.
 
 ## Requirements
 
 1. The mod works with both forge and fabric, so you need to install either one of those. For forge, you can
-   follow [this](https://thebreakdown.xyz/how-to-download-install-forge-to-play-minecraft-mods/) guide and for fabric
+   follow [this](https://thebreakdown.xyz/how-to-download-install-forge-to-play-minecraft-mods/) guide and for fabric.
    you can follow [this](https://thebreakdown.xyz/how-to-download-install-the-fabric-mod-loader/) guide.
 2. We also need to install the [architectury api](https://www.curseforge.com/minecraft/mc-mods/architectury-api) mod.
-3. Windows specific:-
-   In windows we need to install the [tolk](https://github.com/ndarilek/tolk) library. Here are the steps to install the
-   library:-
-    - Download the latest build
-      zip - [here](https://github.com/ndarilek/tolk/releases/download/refs%2Fheads%2Fmaster/tolk.zip).
-    - Extract the downloaded zip file anywhere you like, the Downloads folder should be fine.
-    - Open the extracted folder and in that folder you'll find a folder called `x64` and another called `x86`.
-    - Based on your operating system, `x64` for 64-bit OS and `x86` for 32-bit OS, copy all the files present in the
-      folder and paste them into the minecraft root folder (the folder containing the mods folder).
-      The default location is -
-      `%appdata%\.minecraft`
-4. Linux specific:-
+3. Windows specific
+    1. In windows we need to install the [tolk](https://github.com/ndarilek/tolk) library.
+       We've implemented the automatic set-up process inside the mod, it will set up the tolk for you at the first time you starting the modded game.
+       Here are the steps to install the library in case you need to adjust the tolk files manually:
+        1. Download the latest build
+           zip - [here](https://github.com/ndarilek/tolk/releases/download/refs%2Fheads%2Fmaster/tolk.zip).
+        2. Extract the downloaded zip file anywhere you like, the Downloads folder should be fine.
+        3. Open the extracted folder and in that folder you'll find a folder called `x64` and another called `x86`.
+        4. Based on your operating system, `x64` for 64-bit OS and `x86` for 32-bit OS, copy all the files present in the
+           folder and paste them into the minecraft root folder (the folder containing the mods folder).
+           The default location is `%appdata%\.minecraft`.
+4. Linux specific
    In linux we need to install the [libspeechdwrapper](https://github.com/khanshoaib3/libspeechdwrapper) as well
    as [xdotool](https://github.com/jordansissel/xdotool) which is used for simulating the mouse actions.
-   Although the mod overrides the library used for tts, minecraft still needs the `flite` library to be installed, so
+   Although the mod overrides the library used for TTS, minecraft still needs the `flite` library to be installed, so
    you can install it using your distro's package manager itself.
    For libspeechdwrapper, download the
    library - [here](https://github.com/khanshoaib3/libspeechdwrapper/raw/main/lib/libspeechdwrapper.so),
    and move it over to the minecraft folder.
-   The default location is -
-   `~/.minecraft`
+   The default location is `~/.minecraft`.
    Follow the [installation instruction](https://github.com/jordansissel/xdotool#installation) in the description to
    install xdotool.
 
@@ -55,7 +54,7 @@ There is [a new detailed tutorial](/doc/SET_UP_ON_WINDOWS.md) for Windows users.
 
 This feature adds the following key bindings to control the camera through the keyboard.
 
-**Key bindings and combinations:-**
+### Keybindings and Combinations
 
 1. Look Up Key (default: I) or Alternate Look Up Key(default: Keypad 8) = Moves the camera vertically up by the normal
    rotating angle (default=22.5).
@@ -76,7 +75,7 @@ This feature adds the following key bindings to control the camera through the k
 13. Center Camera (default: Keypad 5) = Snaps the camera to the closest cardinal direction and centers it.
 14. Left Alt + Center Camera = Snaps the camera to the closest opposite cardinal direction and centers it.
 
-**Configuration Options:-**
+### Configuration Options
 
 1. Enabled = Enables this feature.
 2. Normal Rotating Angle = The rotation angle when we press the keys without holding down the left alt
@@ -94,7 +93,7 @@ wait after press the slot moving key to hear the item name.
 *All key binds are re-mappable(except two keys) from the game's controls menu and these key binds do not interrupt with
 any other key with same key.*
 
-**Keybindings and combinations:-**
+### Keybindings and Combinations
 
 1. Up Key (default: I) = Focus to slot above.
 2. Right Key (default: L) = Focus to slot right.
@@ -112,7 +111,7 @@ any other key with same key.*
 14. T Key (not re-mappable) = Select the search box.
 15. Enter Key (not re-mappable) = Deselect the search box.
 
-**Configuration Options:-**
+### Configuration Options
 
 1. Enabled = Enables this feature.
 2. Auto Open Recipe Book (in creative/survival and crafting inventory) = Automatically opens the recipe
@@ -132,7 +131,7 @@ Please note that:
 * You need to keep the `Attack/Destroy` key, `Use Item/Place Block` key and `Pick Block` key remain on default mouse keys,
   so the mouse simulation keys can perform corresponding operations.
 
-**Keybindings and combinations:-**
+### Keybindings and Combinations
 
 1. Left Mouse Sim Key (default: `;` (semicolon)) = Simulates left mouse key, the default `Attack/Destroy` key.
 2. Middle Mouse Sim Key (default: `\` (back slash)) = Simulates middle mouse key, the default `Pick Block` key.
@@ -140,7 +139,7 @@ Please note that:
 4. Mouse Wheel Scroll Up Key (default: `[` (left bracket)) = Simulates mouse wheel scroll up, switching items in Hotbar forward.
 5. Mouse Wheel Scroll Down Key (default: `]` (right bracket)) = Simulates mouse wheel scroll down, switching items in Hotbar backward.
 
-**Configuration Options:-**
+### Configuration Options
 
 1. Enabled = Enables this feature.
 2. Scroll Delay (in milliseconds) = Pauses the execution of mouse scroll operations after each scroll for the given amount of milliseconds.
@@ -150,7 +149,7 @@ Please note that:
 This feature reads the name of the targeted block, entity or fluid. It also gives feedback when a block is powered by a
 redstone signal or when a door is open and other similar cases.
 
-**Configuration Options:-**
+### Configuration Options
 
 1. Enabled = Enables this feature.
 2. Speak Block Sides = Enables speaking of the side of block as well.
@@ -161,21 +160,21 @@ redstone signal or when a door is open and other similar cases.
 6. Partial Speaking White List Mode = If true, only speak what you've configured, if false for blacklist mode, only not spak what you've configured.
 7. Partial Speaking Fuzzy Mode = Whether to do fuzzy matching, for example "bed" will match all colors of beds, "door" will match all textures of doors.
 8. Partial Speaking Target Mode = Which type would you like to apply this feature to, either "all", "entity" or "block".
-This configuration can only be configured in config.json file.
+   This configuration can only be configured in config.json file.
 9. Partial Speaking Targets = Indicated what to be spoken.
-This configuration can only be configured in config.json file.
-Values are written in Minecraft resource location format,
-the so-called "snake_case", and consists of lowercase letters with underscores.
-For example, the White Bed is written in "white_bed" and pronounced as "white underscore bed".
-There are lots of exceptions, the "Smooth Quartz Block" is written in "smooth_quartz", the "Block of Diamond" is written in "diamond_block", 
-so please check the correct values in this wiki link:
-https://minecraft.fandom.com/wiki/Java_Edition_data_values#Blocks
+   This configuration can only be configured in config.json file.
+   Values are written in Minecraft resource location format,
+   the so-called "snake_case", and consists of lowercase letters with underscores.
+   For example, the White Bed is written in "white_bed" and pronounced as "white underscore bed".
+   There are lots of exceptions, the "Smooth Quartz Block" is written in "smooth_quartz", the "Block of Diamond" is written in "diamond_block",
+   so please check the correct values in this wiki link:
+   https://minecraft.fandom.com/wiki/Java_Edition_data_values#Blocks
 
 ## Position Narrator
 
 Adds key bindings to speak the player's position.
 
-**Keybindings and combinations:-**
+### Keybindings and Combinations
 
 1. Speak Player Position Key (default: G) = Speaks the player's x y and z position.
 2. Left Alt + X = Speaks only the x position.
@@ -189,14 +188,14 @@ entities and ore blocks).
 We can lock onto the closest entity or block with a hotkey.
 We can also "mark" a block/entity so that it only scans for that type of block/entity in the area.
 
-**Keybindings and combinations:-**
+### Keybindings and Combinations
 
-1. Locking Key (default: Y) = Locks onto the nearest entity or block
-2. Alt key + Locking Key = Unlocks from the currently locked entity or block
-3. Control Key + Locking Key = Mark the crosshair block/entity 
-4. Control Key + Alt key + Locking Key = Unmark the marked block/entity
+1. Locking Key (default: Y) = Locks onto the nearest entity or block.
+2. Alt key + Locking Key = Unlocks from the currently locked entity or block.
+3. Control Key + Locking Key = Mark the crosshair block/entity.
+4. Control Key + Alt key + Locking Key = Unmark the marked block/entity.
 
-**Configuration Options:-**
+### Configuration Options
 
 1. For Blocks
     - Enabled = Enables detecting blocks.
@@ -227,7 +226,7 @@ We can also "mark" a block/entity so that it only scans for that type of block/e
 
 A menu that opens up when we press `F4` button.
 
-**Options included in this menu:-**
+### Options included in this menu
 
 1. Block and fluid target information = Speaks the name and information of the targeted block. The range is much more
    than normal crosshair target.
@@ -242,14 +241,14 @@ A menu that opens up when we press `F4` button.
 9. Refresh screen Reader = Refreshes the screen reader.
 10. Open config menu = Opens the config menu which can be used to configure the mod.
 
-**Keybindings and combinations:-**
+### Keybindings and Combinations
 
 1. Narrator Menu Function Hot Key (default: B) = Holding `F4` then press this key to loop switch between functions in Narrator Menu,
    then press this single key for executing selected function.
 2. When Narrator Menu is opened, press the number key corresponding to the function to execute it,
    without pressing `Tab` several times.
 
-**Configuration Options:-**
+### Configuration Options
 
 1. For Find Water and Find Lava, or Fluid Detector:
     - Range = The detection range.
@@ -265,7 +264,7 @@ Adds a key bind to narrate/speak the player's health and hunger.
 
 This feature warns the player when the health, hunger or air bubble is low.
 
-**Configuration Options:-**
+### Configuration Options
 
 1. Enabled = Enables this feature.
 2. Play Sound = Enables playing a sound when the health/hunger/air reaches the threshold.
@@ -296,7 +295,7 @@ Adds the item durability into the tooltip.
 
 Check the surrounding height difference and warn the user with a drop sound effect at the corresponding position.
 
-**Configuration Options:-**
+### Configuration Options
 
 1. Enabled = Enables this feature.
 2. Range = The player-centered detection range.
