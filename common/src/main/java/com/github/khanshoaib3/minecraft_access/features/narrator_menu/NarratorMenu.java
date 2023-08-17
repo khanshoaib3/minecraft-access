@@ -5,10 +5,7 @@ import com.github.khanshoaib3.minecraft_access.config.ConfigMenu;
 import com.github.khanshoaib3.minecraft_access.features.BiomeIndicator;
 import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
-import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
-import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
-import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
-import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -32,6 +29,8 @@ import java.util.stream.Stream;
  */
 public class NarratorMenu {
     private static MinecraftClient minecraftClient;
+    private static final TimeUtils.KeystrokeChecker narratorMenuKeyCondition;
+    private static final TimeUtils.KeystrokeChecker narratorMenuHotKeyCondition;
     private static boolean isMenuKeyPressedPreviousTick = false;
     private static boolean isHotKeyPressedPreviousTick = false;
     private static boolean isHotKeySwitchedPreviousTick = false;
@@ -41,6 +40,11 @@ public class NarratorMenu {
 
     static {
         Arrays.fill(LAST_RUN_HAS_DONE_FLAG, true);
+
+        // config keystroke conditions
+        KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
+        narratorMenuKeyCondition = new TimeUtils.KeystrokeChecker(() -> KeyUtils.isAnyPressed(kbh.narratorMenuKey));
+        narratorMenuHotKeyCondition = new TimeUtils.KeystrokeChecker(() -> KeyUtils.isAnyPressed(kbh.narratorMenuHotKey));
     }
 
     /**
@@ -149,6 +153,8 @@ public class NarratorMenu {
             }
 
             // update the states for next tick
+            narratorMenuKeyCondition.updateStateForNextTick();
+            narratorMenuHotKeyCondition.updateStateForNextTick();
             isMenuKeyPressedPreviousTick = isNarratorMenuKeyPressed;
             isHotKeyPressedPreviousTick = isNarratorMenuHotKeyPressed;
 
