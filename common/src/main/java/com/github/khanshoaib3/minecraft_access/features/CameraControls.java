@@ -244,7 +244,18 @@ public class CameraControls {
                 playerBlockPosition.z + direction.z);
 
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, targetBlockPosition);
-        MainClass.speakWithNarrator(new PlayerPositionUtils(minecraftClient).getHorizontalFacingDirectionInCardinal(), true);
+
+        // log and speak new facing direction
+        MainClass.infoLog("Rotating camera to: %s".formatted(direction.name()));
+
+        PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
+        boolean isRotatingHorizontal = direction.y == 0;
+
+        if (isRotatingHorizontal) {
+            MainClass.speakWithNarrator(pUtil.getHorizontalFacingDirectionInCardinal(), true);
+        } else {
+            MainClass.speakWithNarrator(pUtil.getVerticalFacingDirectionInWords(), true);
+        }
     }
 
     /**
