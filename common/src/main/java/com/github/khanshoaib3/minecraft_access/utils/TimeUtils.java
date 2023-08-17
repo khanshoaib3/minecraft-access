@@ -1,6 +1,11 @@
 package com.github.khanshoaib3.minecraft_access.utils;
 
+import java.util.function.BooleanSupplier;
+
 public class TimeUtils {
+    /**
+     * An auto-refresh countdown timer for controlling interval execution of features.
+     */
     public static class Interval {
         private long lastRunTime;
         private final long delay;
@@ -68,6 +73,52 @@ public class TimeUtils {
         public void start() {
             this.isRunning = true;
             reset();
+        }
+    }
+
+    /**
+     * A state machine that helps with complex keystroke condition checking,
+     * such as "when-the-key-is-released", "only-trigger-once-before-release-key", "double-strike-within-interval".
+     */
+    public static class KeystrokeChecker {
+        /**
+         * Save the state of keystroke at the previous tick.
+         */
+        private boolean hasKeyPressed = false;
+        /**
+         * Expression that checking if the key (combination) is pressed now.
+         */
+        private final BooleanSupplier condition;
+
+        /**
+         * @param condition Expression that checking if the key (combination) is pressed now.
+         */
+        public KeystrokeChecker(BooleanSupplier condition) {
+            this.condition = condition;
+        }
+
+        /**
+         * Update state according to the condition result.
+         * Invoke this method at the end of feature logic.
+         */
+        public void updateStateForNextTick() {
+            hasKeyPressed = isKeyPressing();
+        }
+
+        public boolean isKeyPressing() {
+            return condition.getAsBoolean();
+        }
+
+        public boolean hasKeyPressedPreviousTick() {
+            return hasKeyPressed;
+        }
+
+        public boolean isKeyReleased() {
+            return !isKeyPressing() && hasKeyPressedPreviousTick();
+        }
+
+        public boolean isKeyPressed() {
+            return isKeyPressing() && !hasKeyPressedPreviousTick();
         }
     }
 }
