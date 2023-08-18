@@ -73,8 +73,6 @@ public class MouseKeySimulation {
     }
 
     private void execute() {
-        KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
-
         Set.of(
                 Triple.<Keystroke, Interval, Runnable>of(mouseKeystrokes[3], scrollUpDelay, MouseUtils::scrollUp),
                 Triple.<Keystroke, Interval, Runnable>of(mouseKeystrokes[4], scrollDownDelay, MouseUtils::scrollDown)
