@@ -2,10 +2,9 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.MouseSimulationConfigMap;
-import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
-import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
-import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
-import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
+import com.github.khanshoaib3.minecraft_access.utils.*;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import net.minecraft.client.MinecraftClient;
 import org.apache.commons.lang3.tuple.Triple;
 
@@ -23,9 +22,9 @@ public class MouseKeySimulation {
     private static final MouseKeySimulation instance;
 
     private boolean enabled;
-    private static final TimeUtils.KeystrokeChecker[] mouseKeystrokes = new TimeUtils.KeystrokeChecker[3];
-    private TimeUtils.Interval scrollUpDelay;
-    private TimeUtils.Interval scrollDownDelay;
+    private static final Keystroke[] mouseKeystrokes = new Keystroke[3];
+    private Interval scrollUpDelay;
+    private Interval scrollDownDelay;
 
     static {
         try {
@@ -36,9 +35,9 @@ public class MouseKeySimulation {
 
         // config keystroke conditions
         KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
-        mouseKeystrokes[0] = new TimeUtils.KeystrokeChecker(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationLeftMouseKey));
-        mouseKeystrokes[1] = new TimeUtils.KeystrokeChecker(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationMiddleMouseKey));
-        mouseKeystrokes[2] = new TimeUtils.KeystrokeChecker(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationRightMouseKey));
+        mouseKeystrokes[0] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationLeftMouseKey));
+        mouseKeystrokes[1] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationMiddleMouseKey));
+        mouseKeystrokes[2] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationRightMouseKey));
     }
 
     public static synchronized MouseKeySimulation getInstance() {
@@ -66,16 +65,16 @@ public class MouseKeySimulation {
     private void loadConfigurations() {
         MouseSimulationConfigMap map = MainClass.config.getConfigMap().getMouseSimulationConfigMap();
         this.enabled = map.isEnabled();
-        this.scrollUpDelay = TimeUtils.Interval.inMilliseconds(map.getScrollDelayInMilliseconds(), this.scrollUpDelay);
-        this.scrollDownDelay = TimeUtils.Interval.inMilliseconds(map.getScrollDelayInMilliseconds(), this.scrollDownDelay);
+        this.scrollUpDelay = Interval.inMilliseconds(map.getScrollDelayInMilliseconds(), this.scrollUpDelay);
+        this.scrollDownDelay = Interval.inMilliseconds(map.getScrollDelayInMilliseconds(), this.scrollDownDelay);
     }
 
     private void execute() {
         KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
 
         Set.of(
-                Triple.<Boolean, TimeUtils.Interval, Runnable>of(KeyUtils.isAnyPressed(kbh.mouseSimulationScrollUpKey), scrollUpDelay, MouseUtils::scrollUp),
-                Triple.<Boolean, TimeUtils.Interval, Runnable>of(KeyUtils.isAnyPressed(kbh.mouseSimulationScrollDownKey), scrollDownDelay, MouseUtils::scrollDown)
+                Triple.<Boolean, Interval, Runnable>of(KeyUtils.isAnyPressed(kbh.mouseSimulationScrollUpKey), scrollUpDelay, MouseUtils::scrollUp),
+                Triple.<Boolean, Interval, Runnable>of(KeyUtils.isAnyPressed(kbh.mouseSimulationScrollDownKey), scrollDownDelay, MouseUtils::scrollDown)
         ).forEach(t -> {
             if (t.getLeft() && t.getMiddle().isReady()) {
                 t.getRight().run();
@@ -97,6 +96,6 @@ public class MouseKeySimulation {
         });
     }
 
-    private record MouseKeyDTO(TimeUtils.KeystrokeChecker keystroke, Runnable keyDown, Runnable keyUp) {
+    private record MouseKeyDTO(Keystroke keystroke, Runnable keyDown, Runnable keyUp) {
     }
 }

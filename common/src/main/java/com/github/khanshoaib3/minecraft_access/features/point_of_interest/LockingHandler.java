@@ -3,10 +3,8 @@ package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POILockingConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
-import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
-import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
-import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
-import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
+import com.github.khanshoaib3.minecraft_access.utils.*;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -38,7 +36,7 @@ public class LockingHandler {
     public boolean isLockedOntoLadder = false;
     public boolean isLockedOntoEyeOfEnderTarget = false; // The block where the eye of ender disappears
     public String lockedOnBlockEntries = "";
-    private TimeUtils.Interval interval;
+    private Interval interval;
 
     private boolean lockOnBlocks;
     private boolean speakDistance;
@@ -75,7 +73,7 @@ public class LockingHandler {
         this.lockOnBlocks = map.isLockOnBlocks();
         this.speakDistance = map.isSpeakDistance();
         this.unlockingSound = map.isUnlockingSound();
-        this.interval = TimeUtils.Interval.inMilliseconds(map.getDelay(), this.interval);
+        this.interval = Interval.inMilliseconds(map.getDelay(), this.interval);
     }
 
     private void mainLogic() {

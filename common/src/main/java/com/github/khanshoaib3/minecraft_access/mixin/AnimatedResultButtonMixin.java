@@ -1,8 +1,8 @@
 package com.github.khanshoaib3.minecraft_access.mixin;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
-import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.screen.recipebook.AnimatedResultButton;
 import net.minecraft.client.resource.language.I18n;
@@ -23,7 +23,7 @@ public class AnimatedResultButtonMixin {
     String minecraft_access$previousItemName = "";
 
     @Unique
-    private final TimeUtils.Interval minecraft_access$interval = TimeUtils.Interval.inMilliseconds(5000);
+    private final Interval minecraft_access$interval = Interval.inMilliseconds(5000);
 
     //    @Inject(at = @At("HEAD"), method = "appendNarrations", cancellable = true) // Pre 1.19.3
     @Inject(at = @At("HEAD"), method = "appendClickableNarrations", cancellable = true) // From 1.19.3

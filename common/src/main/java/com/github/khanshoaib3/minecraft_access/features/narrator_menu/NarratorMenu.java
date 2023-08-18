@@ -6,6 +6,7 @@ import com.github.khanshoaib3.minecraft_access.features.BiomeIndicator;
 import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.utils.*;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -29,8 +30,8 @@ import java.util.stream.Stream;
  */
 public class NarratorMenu {
     private static MinecraftClient minecraftClient;
-    private static final TimeUtils.KeystrokeChecker narratorMenuKeyCondition;
-    private static final TimeUtils.KeystrokeChecker narratorMenuHotKeyCondition;
+    private static final Keystroke narratorMenuKeyCondition;
+    private static final Keystroke narratorMenuHotKeyCondition;
     private static boolean isHotKeySwitchedPreviousTick = false;
     private static boolean isNarratorMenuJustClosed = false;
     private int hotKeyFunctionIndex = 0;
@@ -41,8 +42,8 @@ public class NarratorMenu {
 
         // config keystroke conditions
         KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
-        narratorMenuKeyCondition = new TimeUtils.KeystrokeChecker(() -> KeyUtils.isAnyPressed(kbh.narratorMenuKey));
-        narratorMenuHotKeyCondition = new TimeUtils.KeystrokeChecker(() -> KeyUtils.isAnyPressed(kbh.narratorMenuHotKey));
+        narratorMenuKeyCondition = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.narratorMenuKey));
+        narratorMenuHotKeyCondition = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.narratorMenuHotKey));
     }
 
     /**

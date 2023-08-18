@@ -2,10 +2,8 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControlsConfigMap;
-import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
-import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
-import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
-import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
+import com.github.khanshoaib3.minecraft_access.utils.*;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -36,7 +34,7 @@ public class CameraControls {
 
     private float normalRotatingDeltaAngle;
     private float modifiedRotatingDeltaAngle;
-    private TimeUtils.Interval interval;
+    private Interval interval;
 
     public CameraControls() {
         loadConfigurations();
@@ -66,7 +64,7 @@ public class CameraControls {
         float delta90Degrees = 600f; // 90 / 0.15
 
         CameraControlsConfigMap map = MainClass.config.getConfigMap().getCameraControlsConfigMap();
-        interval = TimeUtils.Interval.inMilliseconds(map.getDelayInMilliseconds(), interval);
+        interval = Interval.inMilliseconds(map.getDelayInMilliseconds(), interval);
         float normalRotatingAngle = map.getNormalRotatingAngle();
         float modifiedRotatingAngle = map.getModifiedRotatingAngle();
         normalRotatingDeltaAngle = delta90Degrees / (90 / normalRotatingAngle);
