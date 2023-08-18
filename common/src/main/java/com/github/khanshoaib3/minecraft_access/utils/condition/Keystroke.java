@@ -5,8 +5,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 
 /**
- * A state machine that helps with complex keystroke condition checking,
- * such as "when-the-key-is-released", "only-trigger-once-before-release-key", "double-strike-within-interval".
+ * A state machine that helps with complex keystroke condition checking.
  */
 public class Keystroke {
     /**
@@ -24,6 +23,11 @@ public class Keystroke {
      * like "only-trigger-once-before-release".
      */
     private final TriggeredAt timing;
+
+    /**
+     * Times that logic has been triggered before reset (when opposite state appears).
+     */
+    private int triggeredCount;
 
     /**
      * Use this class as a condition checker.
@@ -45,6 +49,7 @@ public class Keystroke {
     public Keystroke(BooleanSupplier condition, TriggeredAt timing) {
         this.condition = condition;
         this.timing = Optional.ofNullable(timing).orElse(TriggeredAt.PRESSING);
+        this.triggeredCount = 0;
     }
 
     /**
@@ -53,6 +58,7 @@ public class Keystroke {
      */
     public void updateStateForNextTick() {
         hasKeyPressed = isPressing();
+        if (this.timing.aboutToHappen(this)) this.triggeredCount = 0;
     }
 
     public boolean isPressing() {
@@ -76,24 +82,44 @@ public class Keystroke {
     }
 
     public boolean isTriggered() {
-        return this.timing.check(this);
+        boolean happen = this.timing.happen(this);
+        boolean haveNotTriggered = this.triggeredCount == 0;
+
+        if (happen && haveNotTriggered) {
+            this.triggeredCount += 1;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean hasBeenTriggered() {
+        return this.triggeredCount > 0;
     }
 
     public enum TriggeredAt {
-        PRESSING(Keystroke::isPressing),
-        NOT_PRESSING(Keystroke::isNotPressing),
-        PRESSED(Keystroke::isPressed),
-        RELEASED(Keystroke::isReleased),
+        PRESSING(Keystroke::isPressing, Keystroke::isNotPressing),
+        NOT_PRESSING(Keystroke::isNotPressing, Keystroke::isPressing),
+        PRESSED(Keystroke::isPressed, Keystroke::isNotPressing),
+        RELEASED(Keystroke::isReleased, Keystroke::isPressing),
         ;
 
         private final Function<Keystroke, Boolean> triggerCondition;
+        /**
+         * the state ahead of triggering state
+         */
+        private final Function<Keystroke, Boolean> preCondition;
 
-        TriggeredAt(Function<Keystroke, Boolean> condition) {
-            this.triggerCondition = condition;
+        TriggeredAt(Function<Keystroke, Boolean> triggerCondition, Function<Keystroke, Boolean> preCondition) {
+            this.triggerCondition = triggerCondition;
+            this.preCondition = preCondition;
         }
 
-        public boolean check(Keystroke keystroke) {
+        public boolean happen(Keystroke keystroke) {
             return this.triggerCondition.apply(keystroke);
+        }
+
+        public boolean aboutToHappen(Keystroke keystroke) {
+            return this.preCondition.apply(keystroke);
         }
     }
 }
