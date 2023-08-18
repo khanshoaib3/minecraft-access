@@ -47,11 +47,15 @@ class KeystrokeTest {
         @ParameterizedTest
         @MethodSource("provideKeystrokeCheckerTestCases")
         void testIsKeyPressing(MockKeystroke keystroke, boolean expected) {
-            Keystroke checker = new Keystroke(keystroke.supplier);
-            assertThat(checker.isPressing()).isEqualTo(expected);
+            Keystroke checker = new Keystroke(keystroke.supplier, Keystroke.TriggeredAt.PRESSING);
+            assertThat(checker.isPressing())
+                    .isEqualTo(checker.isTriggered())
+                    .isEqualTo(expected);
+
             keystroke.revertKeystrokeResult();
             assertThat(checker.isPressing())
                     .as("keystroke condition should be reverted")
+                    .isEqualTo(checker.isTriggered())
                     .isEqualTo(!expected);
         }
 
@@ -65,37 +69,44 @@ class KeystrokeTest {
         @ParameterizedTest
         @MethodSource("provideKeystrokeCheckerTestCases")
         void testIsKeyNotPressing(MockKeystroke keystroke, boolean expected) {
-            Keystroke checker = new Keystroke(keystroke.supplier);
-            assertThat(checker.isNotPressing()).isEqualTo(!expected);
+            Keystroke checker = new Keystroke(keystroke.supplier, Keystroke.TriggeredAt.NOT_PRESSING);
+            assertThat(checker.isNotPressing())
+                    .isEqualTo(checker.isTriggered())
+                    .isEqualTo(!expected);
+
             keystroke.revertKeystrokeResult();
             assertThat(checker.isNotPressing())
                     .as("keystroke condition should be reverted")
+                    .isEqualTo(checker.isTriggered())
                     .isEqualTo(expected);
         }
 
         @ParameterizedTest
         @MethodSource("provideKeystrokeCheckerTestCases")
         void testHasKeyPressed(MockKeystroke keyStroke, boolean expected) {
-            Keystroke checker = new Keystroke(keyStroke.supplier);
+            Keystroke checker = new Keystroke(keyStroke.supplier, Keystroke.TriggeredAt.PRESSED);
 
             // tick 0
             checker.updateStateForNextTick();
 
             // tick 1
-            assertThat(checker.hasPressedPreviousTick()).isEqualTo(expected);
+            assertThat(checker.hasPressedPreviousTick())
+                    .isEqualTo(checker.isTriggered())
+                    .isEqualTo(expected);
             keyStroke.revertKeystrokeResult();
             checker.updateStateForNextTick();
 
             // tick 2
             assertThat(checker.hasPressedPreviousTick())
                     .as("keystroke condition should be reverted")
+                    .isEqualTo(checker.isTriggered())
                     .isEqualTo(!expected);
         }
 
         @ParameterizedTest
         @MethodSource("provideKeystrokeCheckerTestCases")
         void testIsKeyReleased(MockKeystroke keyStroke, boolean expected) {
-            Keystroke checker = new Keystroke(keyStroke.supplier);
+            Keystroke checker = new Keystroke(keyStroke.supplier, Keystroke.TriggeredAt.RELEASED);
 
             // tick 0
             checker.updateStateForNextTick();
@@ -104,6 +115,7 @@ class KeystrokeTest {
             keyStroke.revertKeystrokeResult();
             assertThat(checker.isReleased())
                     .as("pressed key should be released now, vice versa")
+                    .isEqualTo(checker.isTriggered())
                     .isEqualTo(expected);
         }
 
@@ -119,6 +131,7 @@ class KeystrokeTest {
             keyStroke.revertKeystrokeResult();
             assertThat(checker.isPressed())
                     .as("released key should be pressed now, vice versa")
+                    .isEqualTo(checker.isTriggered())
                     .isEqualTo(!expected);
         }
     }
