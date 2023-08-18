@@ -8,6 +8,7 @@ import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import net.minecraft.client.MinecraftClient;
 import org.apache.commons.lang3.tuple.Triple;
 
+import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -22,7 +23,7 @@ public class MouseKeySimulation {
     private static final MouseKeySimulation instance;
 
     private boolean enabled;
-    private static final Keystroke[] mouseKeystrokes = new Keystroke[3];
+    private static final Keystroke[] mouseKeystrokes = new Keystroke[5];
     private Interval scrollUpDelay;
     private Interval scrollDownDelay;
 
@@ -38,6 +39,8 @@ public class MouseKeySimulation {
         mouseKeystrokes[0] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationLeftMouseKey));
         mouseKeystrokes[1] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationMiddleMouseKey));
         mouseKeystrokes[2] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationRightMouseKey));
+        mouseKeystrokes[3] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationScrollUpKey));
+        mouseKeystrokes[4] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationScrollDownKey));
     }
 
     public static synchronized MouseKeySimulation getInstance() {
@@ -73,10 +76,10 @@ public class MouseKeySimulation {
         KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
 
         Set.of(
-                Triple.<Boolean, Interval, Runnable>of(KeyUtils.isAnyPressed(kbh.mouseSimulationScrollUpKey), scrollUpDelay, MouseUtils::scrollUp),
-                Triple.<Boolean, Interval, Runnable>of(KeyUtils.isAnyPressed(kbh.mouseSimulationScrollDownKey), scrollDownDelay, MouseUtils::scrollDown)
+                Triple.<Keystroke, Interval, Runnable>of(mouseKeystrokes[3], scrollUpDelay, MouseUtils::scrollUp),
+                Triple.<Keystroke, Interval, Runnable>of(mouseKeystrokes[4], scrollDownDelay, MouseUtils::scrollDown)
         ).forEach(t -> {
-            if (t.getLeft() && t.getMiddle().isReady()) {
+            if (t.getLeft().isPressing() && t.getMiddle().isReady()) {
                 t.getRight().run();
             }
         });
@@ -92,8 +95,9 @@ public class MouseKeySimulation {
                 dto.keyUp.run();
             }
 
-            dto.keystroke.updateStateForNextTick();
         });
+
+        Arrays.stream(mouseKeystrokes).forEach(Keystroke::updateStateForNextTick);
     }
 
     private record MouseKeyDTO(Keystroke keystroke, Runnable keyDown, Runnable keyUp) {
