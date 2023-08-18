@@ -38,18 +38,18 @@ class TimeUtilsTest {
         void testMockKeystrokeWorks() {
             var m = new MockKeystroke(true);
             var k = new TimeUtils.KeystrokeChecker(m.supplier);
-            assertThat(k.isKeyPressing()).isEqualTo(true);
+            assertThat(k.isPressing()).isEqualTo(true);
             m.revertKeystrokeResult();
-            assertThat(k.isKeyPressing()).isEqualTo(false);
+            assertThat(k.isPressing()).isEqualTo(false);
         }
 
         @ParameterizedTest
         @MethodSource("provideKeystrokeCheckerTestCases")
         void testIsKeyPressing(MockKeystroke keystroke, boolean expected) {
             TimeUtils.KeystrokeChecker checker = new TimeUtils.KeystrokeChecker(keystroke.supplier);
-            assertThat(checker.isKeyPressing()).isEqualTo(expected);
+            assertThat(checker.isPressing()).isEqualTo(expected);
             keystroke.revertKeystrokeResult();
-            assertThat(checker.isKeyPressing())
+            assertThat(checker.isPressing())
                     .as("keystroke condition should be reverted")
                     .isEqualTo(!expected);
         }
@@ -63,6 +63,17 @@ class TimeUtilsTest {
 
         @ParameterizedTest
         @MethodSource("provideKeystrokeCheckerTestCases")
+        void testIsKeyNotPressing(MockKeystroke keystroke, boolean expected) {
+            TimeUtils.KeystrokeChecker checker = new TimeUtils.KeystrokeChecker(keystroke.supplier);
+            assertThat(checker.isNotPressing()).isEqualTo(!expected);
+            keystroke.revertKeystrokeResult();
+            assertThat(checker.isNotPressing())
+                    .as("keystroke condition should be reverted")
+                    .isEqualTo(expected);
+        }
+
+        @ParameterizedTest
+        @MethodSource("provideKeystrokeCheckerTestCases")
         void testHasKeyPressed(MockKeystroke keyStroke, boolean expected) {
             TimeUtils.KeystrokeChecker checker = new TimeUtils.KeystrokeChecker(keyStroke.supplier);
 
@@ -70,12 +81,12 @@ class TimeUtilsTest {
             checker.updateStateForNextTick();
 
             // tick 1
-            assertThat(checker.hasKeyPressedPreviousTick()).isEqualTo(expected);
+            assertThat(checker.hasPressedPreviousTick()).isEqualTo(expected);
             keyStroke.revertKeystrokeResult();
             checker.updateStateForNextTick();
 
             // tick 2
-            assertThat(checker.hasKeyPressedPreviousTick())
+            assertThat(checker.hasPressedPreviousTick())
                     .as("keystroke condition should be reverted")
                     .isEqualTo(!expected);
         }
@@ -90,7 +101,7 @@ class TimeUtilsTest {
 
             // tick 1
             keyStroke.revertKeystrokeResult();
-            assertThat(checker.isKeyReleased())
+            assertThat(checker.isReleased())
                     .as("pressed key should be released now, vice versa")
                     .isEqualTo(expected);
         }
@@ -105,7 +116,7 @@ class TimeUtilsTest {
 
             // tick 1
             keyStroke.revertKeystrokeResult();
-            assertThat(checker.isKeyPressed())
+            assertThat(checker.isPressed())
                     .as("released key should be pressed now, vice versa")
                     .isEqualTo(!expected);
         }
