@@ -5,8 +5,8 @@ import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeakingConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.mixin.MobSpawnerLogicAccessor;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
-import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BeehiveBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -45,7 +45,7 @@ public class ReadCrosshair {
     private String previousQuery;
     private boolean speakSide;
     private boolean speakingConsecutiveBlocks;
-    private TimeUtils.Interval repeatSpeakingInterval;
+    private Interval repeatSpeakingInterval;
     private boolean enablePartialSpeaking;
     private boolean partialSpeakingWhitelistMode;
     private boolean partialSpeakingFuzzyMode;
@@ -104,7 +104,7 @@ public class ReadCrosshair {
         // affirmation for easier use
         this.speakingConsecutiveBlocks = !rcMap.isDisableSpeakingConsecutiveBlocks();
         long interval = rcMap.getRepeatSpeakingInterval();
-        this.repeatSpeakingInterval = TimeUtils.Interval.inMilliseconds(interval, this.repeatSpeakingInterval);
+        this.repeatSpeakingInterval = Interval.inMilliseconds(interval, this.repeatSpeakingInterval);
 
         this.enablePartialSpeaking = rcpMap.isEnabled();
         this.partialSpeakingFuzzyMode = rcpMap.isPartialSpeakingFuzzyMode();

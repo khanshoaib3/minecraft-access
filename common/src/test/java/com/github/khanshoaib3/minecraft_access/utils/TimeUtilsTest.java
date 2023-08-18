@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.utils;
 
+import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import org.jetbrains.annotations.TestOnly;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -12,10 +13,10 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class TimeUtilsTest {
+class KeystrokeTest {
 
     @Nested
-    class KeystrokeCheckerTest {
+    class OriginalKeystrokeTest {
         /**
          * Combining a changeable boolean variable with supplier.
          */
@@ -37,7 +38,7 @@ class TimeUtilsTest {
         @Test
         void testMockKeystrokeWorks() {
             var m = new MockKeystroke(true);
-            var k = new TimeUtils.KeystrokeChecker(m.supplier);
+            var k = new Keystroke(m.supplier);
             assertThat(k.isPressing()).isEqualTo(true);
             m.revertKeystrokeResult();
             assertThat(k.isPressing()).isEqualTo(false);
@@ -46,7 +47,7 @@ class TimeUtilsTest {
         @ParameterizedTest
         @MethodSource("provideKeystrokeCheckerTestCases")
         void testIsKeyPressing(MockKeystroke keystroke, boolean expected) {
-            TimeUtils.KeystrokeChecker checker = new TimeUtils.KeystrokeChecker(keystroke.supplier);
+            Keystroke checker = new Keystroke(keystroke.supplier);
             assertThat(checker.isPressing()).isEqualTo(expected);
             keystroke.revertKeystrokeResult();
             assertThat(checker.isPressing())
@@ -64,7 +65,7 @@ class TimeUtilsTest {
         @ParameterizedTest
         @MethodSource("provideKeystrokeCheckerTestCases")
         void testIsKeyNotPressing(MockKeystroke keystroke, boolean expected) {
-            TimeUtils.KeystrokeChecker checker = new TimeUtils.KeystrokeChecker(keystroke.supplier);
+            Keystroke checker = new Keystroke(keystroke.supplier);
             assertThat(checker.isNotPressing()).isEqualTo(!expected);
             keystroke.revertKeystrokeResult();
             assertThat(checker.isNotPressing())
@@ -75,7 +76,7 @@ class TimeUtilsTest {
         @ParameterizedTest
         @MethodSource("provideKeystrokeCheckerTestCases")
         void testHasKeyPressed(MockKeystroke keyStroke, boolean expected) {
-            TimeUtils.KeystrokeChecker checker = new TimeUtils.KeystrokeChecker(keyStroke.supplier);
+            Keystroke checker = new Keystroke(keyStroke.supplier);
 
             // tick 0
             checker.updateStateForNextTick();
@@ -94,7 +95,7 @@ class TimeUtilsTest {
         @ParameterizedTest
         @MethodSource("provideKeystrokeCheckerTestCases")
         void testIsKeyReleased(MockKeystroke keyStroke, boolean expected) {
-            TimeUtils.KeystrokeChecker checker = new TimeUtils.KeystrokeChecker(keyStroke.supplier);
+            Keystroke checker = new Keystroke(keyStroke.supplier);
 
             // tick 0
             checker.updateStateForNextTick();
@@ -109,7 +110,7 @@ class TimeUtilsTest {
         @ParameterizedTest
         @MethodSource("provideKeystrokeCheckerTestCases")
         void testIsKeyPressed(MockKeystroke keyStroke, boolean expected) {
-            TimeUtils.KeystrokeChecker checker = new TimeUtils.KeystrokeChecker(keyStroke.supplier);
+            Keystroke checker = new Keystroke(keyStroke.supplier);
 
             // tick 0
             checker.updateStateForNextTick();

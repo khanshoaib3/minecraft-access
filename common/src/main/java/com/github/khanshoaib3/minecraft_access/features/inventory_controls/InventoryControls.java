@@ -3,10 +3,8 @@ package com.github.khanshoaib3.minecraft_access.features.inventory_controls;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.InventoryControlsConfigMap;
 import com.github.khanshoaib3.minecraft_access.mixin.*;
-import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
-import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
-import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
-import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
+import com.github.khanshoaib3.minecraft_access.utils.*;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.*;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookProvider;
@@ -48,7 +46,7 @@ import java.util.Objects;
 public class InventoryControls {
     private boolean autoOpenRecipeBook;
     private String rowAndColumnFormat;
-    private TimeUtils.Interval interval;
+    private Interval interval;
     private MinecraftClient minecraftClient;
 
     private HandledScreenAccessor previousScreen = null;
@@ -158,7 +156,7 @@ public class InventoryControls {
         InventoryControlsConfigMap map = MainClass.config.getConfigMap().getInventoryControlsConfigMap();
         autoOpenRecipeBook = map.isAutoOpenRecipeBook();
         rowAndColumnFormat = map.getRowAndColumnFormat();
-        interval = TimeUtils.Interval.inMilliseconds(map.getDelayInMilliseconds(), interval);
+        interval = Interval.inMilliseconds(map.getDelayInMilliseconds(), interval);
     }
 
     /**
