@@ -23,10 +23,7 @@ public class MouseKeySimulation {
     private static final MouseKeySimulation instance;
 
     private boolean enabled;
-    /**
-     * index 0,1,2 for left, middle, right mouse key
-     */
-    private final boolean[] isMouseKeyPressedPreviousTick = new boolean[]{false, false, false};
+    private static final TimeUtils.KeystrokeChecker[] mouseKeystrokes = new TimeUtils.KeystrokeChecker[3];
     private TimeUtils.Interval scrollUpDelay;
     private TimeUtils.Interval scrollDownDelay;
 
@@ -36,6 +33,12 @@ public class MouseKeySimulation {
         } catch (Exception e) {
             throw new RuntimeException("Exception occurred in creating AttackAndUseSimulation instance");
         }
+
+        // config keystroke conditions
+        KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
+        mouseKeystrokes[0] = new TimeUtils.KeystrokeChecker(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationLeftMouseKey));
+        mouseKeystrokes[1] = new TimeUtils.KeystrokeChecker(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationMiddleMouseKey));
+        mouseKeystrokes[2] = new TimeUtils.KeystrokeChecker(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationRightMouseKey));
     }
 
     public static synchronized MouseKeySimulation getInstance() {
@@ -80,23 +83,20 @@ public class MouseKeySimulation {
         });
 
         Set.of(
-                new MouseKeyDTO(KeyUtils.isAnyPressed(kbh.mouseSimulationLeftMouseKey), 0, MouseUtils::leftDown, MouseUtils::leftUp),
-                new MouseKeyDTO(KeyUtils.isAnyPressed(kbh.mouseSimulationMiddleMouseKey), 1, MouseUtils::middleDown, MouseUtils::middleUp),
-                new MouseKeyDTO(KeyUtils.isAnyPressed(kbh.mouseSimulationRightMouseKey), 2, MouseUtils::rightDown, MouseUtils::rightUp)
+                new MouseKeyDTO(mouseKeystrokes[0], MouseUtils::leftDown, MouseUtils::leftUp),
+                new MouseKeyDTO(mouseKeystrokes[1], MouseUtils::middleDown, MouseUtils::middleUp),
+                new MouseKeyDTO(mouseKeystrokes[2], MouseUtils::rightDown, MouseUtils::rightUp)
         ).forEach(dto -> {
-            if (dto.keyPressed && !isMouseKeyPressedPreviousTick[dto.keyPressedPreviouslyIndex]) {
-                // key pressed
+            if (dto.keystroke.isPressed()) {
                 dto.keyDown.run();
-            } else if (!dto.keyPressed && isMouseKeyPressedPreviousTick[dto.keyPressedPreviouslyIndex]) {
-                // key released
+            } else if (dto.keystroke.isReleased()) {
                 dto.keyUp.run();
             }
 
-            // update state
-            isMouseKeyPressedPreviousTick[dto.keyPressedPreviouslyIndex] = dto.keyPressed;
+            dto.keystroke.updateStateForNextTick();
         });
     }
 
-    private record MouseKeyDTO(Boolean keyPressed, int keyPressedPreviouslyIndex, Runnable keyDown, Runnable keyUp) {
+    private record MouseKeyDTO(TimeUtils.KeystrokeChecker keystroke, Runnable keyDown, Runnable keyUp) {
     }
 }
