@@ -102,23 +102,27 @@ public class TimeUtils {
          * Invoke this method at the end of feature logic.
          */
         public void updateStateForNextTick() {
-            hasKeyPressed = isKeyPressing();
+            hasKeyPressed = isPressing();
         }
 
-        public boolean isKeyPressing() {
+        public boolean isPressing() {
             return condition.getAsBoolean();
         }
 
-        public boolean hasKeyPressedPreviousTick() {
+        public boolean isNotPressing() {
+            return !isPressing();
+        }
+
+        public boolean hasPressedPreviousTick() {
             return hasKeyPressed;
         }
 
-        public boolean isKeyReleased() {
-            return !isKeyPressing() && hasKeyPressedPreviousTick();
+        public boolean isReleased() {
+            return !isPressing() && hasPressedPreviousTick();
         }
 
-        public boolean isKeyPressed() {
-            return isKeyPressing() && !hasKeyPressedPreviousTick();
+        public boolean isPressed() {
+            return isPressing() && !hasPressedPreviousTick();
         }
     }
 }
