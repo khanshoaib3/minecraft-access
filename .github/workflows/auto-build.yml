@@ -42,6 +42,11 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@064a97fb0b4cef86a65f09898c572382f3af10e0
 
+      - name: Run unit test suite
+        uses: gradle/gradle-build-action@v2.6.1
+        with:
+          arguments: :common:test
+
       - name: Build Fabric with Gradle
         uses: gradle/gradle-build-action@v2.6.1
         with:
