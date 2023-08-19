@@ -20,7 +20,7 @@ class KeystrokeTest {
 
     static class InitKeystrokeConditionSameAsExpected implements ArgumentsProvider {
         @Override
-        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
             return Stream.of(
                     Arguments.of(new MockKeystroke(true), true),
                     Arguments.of(new MockKeystroke(false), false)

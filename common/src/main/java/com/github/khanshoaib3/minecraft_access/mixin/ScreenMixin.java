@@ -47,8 +47,8 @@ public abstract class ScreenMixin {
             callbackInfo.cancel();
         }
 
-        ImmutableList<Selectable> immutableList = (ImmutableList)this.selectables.stream().filter(Selectable::isNarratable).collect(ImmutableList.toImmutableList());
-        Screen.SelectedElementNarrationData selectedElementNarrationData = this.findSelectedElementData(immutableList, this.selected);
+        ImmutableList<Selectable> immutableList = this.selectables.stream().filter(Selectable::isNarratable).collect(ImmutableList.toImmutableList());
+        Screen.SelectedElementNarrationData selectedElementNarrationData = findSelectedElementData(immutableList, this.selected);
         if (selectedElementNarrationData != null) {
             if (selectedElementNarrationData.selectType.isFocused()) {
                 this.selected = selectedElementNarrationData.selectable;
