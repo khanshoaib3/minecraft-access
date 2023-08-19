@@ -11,23 +11,23 @@ public class Keystroke {
     /**
      * Save the state of keystroke at the previous tick.
      */
-    private boolean hasKeyPressed = false;
+    protected boolean hasKeyPressed = false;
 
     /**
      * Expression that checking if the key (combination) is pressed now.
      */
-    private final BooleanSupplier condition;
+    protected final BooleanSupplier condition;
 
     /**
      * For checking feature triggering condition,
      * like "only-trigger-once-before-release".
      */
-    private final TriggeredAt timing;
+    protected final TriggeredAt timing;
 
     /**
      * Times that logic has been triggered before reset (when opposite state appears).
      */
-    private int triggeredCount;
+    protected int triggeredCount;
 
     /**
      * Use this class as a condition checker.
@@ -70,7 +70,7 @@ public class Keystroke {
         return !isPressing();
     }
 
-    private boolean hasPressedPreviousTick() {
+    protected boolean hasPressedPreviousTick() {
         return hasKeyPressed;
     }
 
@@ -83,11 +83,20 @@ public class Keystroke {
     }
 
     public boolean canBeTriggered() {
-        boolean happen = this.timing.happen(this);
-        boolean haveNotTriggered = this.triggeredCount == 0;
-        return happen && haveNotTriggered;
+        boolean correctKeystrokeState = this.timing.happen(this);
+        return correctKeystrokeState && otherTriggerConditions();
     }
 
+    protected boolean otherTriggerConditions() {
+        return this.triggeredCount == 0;
+    }
+
+    /**
+     * When the corresponding logic is triggered.<br>
+     *          --- released (short) ---><br>
+     * pressing (long)               not-pressing (long)<br>
+     *          <--- pressed (short) ---
+     */
     public enum TriggeredAt {
         PRESSING(Keystroke::isPressing, Keystroke::isNotPressing),
         NOT_PRESSING(Keystroke::isNotPressing, Keystroke::isPressing),
