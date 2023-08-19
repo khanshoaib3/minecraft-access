@@ -2,7 +2,10 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControlsConfigMap;
-import com.github.khanshoaib3.minecraft_access.utils.*;
+import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
+import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.condition.DoubleClick;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -37,6 +40,16 @@ public class CameraControls {
     private float normalRotatingDeltaAngle;
     private float modifiedRotatingDeltaAngle;
     private Interval interval;
+
+    private static final DoubleClick straightUpDoubleClick;
+    private static final DoubleClick straightDownDoubleClick;
+
+    static {
+        // config keystroke conditions
+        KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
+        straightUpDoubleClick = new DoubleClick(() -> KeyUtils.isAnyPressed(kbh.cameraControlsUp));
+        straightDownDoubleClick = new DoubleClick(() -> KeyUtils.isAnyPressed(kbh.cameraControlsDown));
+    }
 
     public CameraControls() {
         loadConfigurations();
@@ -96,9 +109,23 @@ public class CameraControls {
         boolean isSouthKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsSouth)
                 || (isDownKeyPressed && isRightAltPressed && !isLeftAltPressed);
         boolean isCenterCameraKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsCenterCamera);
-        // TODO Add double click Up/Down, refactor F4 menu
-        boolean isStraightUpKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsStraightUp);
-        boolean isStraightDownKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsStraightDown);
+
+        boolean isStraightUpKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsStraightUp) || straightUpDoubleClick.canBeTriggered();
+        boolean isStraightDownKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsStraightDown) || straightDownDoubleClick.canBeTriggered();
+
+        straightUpDoubleClick.updateStateForNextTick();
+        straightDownDoubleClick.updateStateForNextTick();
+
+        // these two blocks of logic should be ahead of the normal up/down logic
+        if (isStraightUpKeyPressed) {
+            rotateCameraTo(CameraDirection.UP);
+            return true;
+        }
+
+        if (isStraightDownKeyPressed) {
+            rotateCameraTo(CameraDirection.DOWN);
+            return true;
+        }
 
         if (isNorthKeyPressed) {
             rotateCameraTo(CameraDirection.NORTH);
@@ -144,16 +171,6 @@ public class CameraControls {
 
         if (isCenterCameraKeyPressed) {
             centerCamera(isLeftAltPressed);
-            return true;
-        }
-
-        if (isStraightUpKeyPressed) {
-            rotateCameraTo(CameraDirection.UP);
-            return true;
-        }
-
-        if (isStraightDownKeyPressed) {
-            rotateCameraTo(CameraDirection.DOWN);
             return true;
         }
 
