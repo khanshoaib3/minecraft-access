@@ -44,25 +44,6 @@ class KeystrokeTest {
 
         @ParameterizedTest
         @ArgumentsSource(InitKeystrokeConditionSameAsExpected.class)
-        void testHasPressedPreviousTick(MockKeystroke keyStroke, boolean expected) {
-            Keystroke checker = new Keystroke(keyStroke.supplier, Keystroke.TriggeredAt.PRESSED);
-
-            // tick 0
-            checker.updateStateForNextTick();
-
-            // tick 1
-            assertThat(checker.hasPressedPreviousTick()).isEqualTo(expected);
-            keyStroke.revertKeystrokeResult();
-            checker.updateStateForNextTick();
-
-            // tick 2
-            assertThat(checker.hasPressedPreviousTick())
-                    .as("keystroke condition should be reverted")
-                    .isEqualTo(!expected);
-        }
-
-        @ParameterizedTest
-        @ArgumentsSource(InitKeystrokeConditionSameAsExpected.class)
         void testIsReleased(MockKeystroke keyStroke, boolean expected) {
             checkReleased(keyStroke, expected, Keystroke::isReleased);
         }
@@ -79,25 +60,25 @@ class KeystrokeTest {
         @ParameterizedTest
         @ArgumentsSource(InitKeystrokeConditionSameAsExpected.class)
         void testIsPressing(MockKeystroke keystroke, boolean expected) {
-            checkPressing(keystroke, expected, Keystroke::isTriggered);
+            checkPressing(keystroke, expected, Keystroke::canBeTriggered);
         }
 
         @ParameterizedTest
         @ArgumentsSource(InitKeystrokeConditionSameAsExpected.class)
         void testIsNotPressing(MockKeystroke keystroke, boolean expected) {
-            checkNotPressing(keystroke, expected, Keystroke::isTriggered);
+            checkNotPressing(keystroke, expected, Keystroke::canBeTriggered);
         }
 
         @ParameterizedTest
         @ArgumentsSource(InitKeystrokeConditionSameAsExpected.class)
         void testIsReleased(MockKeystroke keyStroke, boolean expected) {
-            checkReleased(keyStroke, expected, Keystroke::isTriggered);
+            checkReleased(keyStroke, expected, Keystroke::canBeTriggered);
         }
 
         @ParameterizedTest
         @ArgumentsSource(InitKeystrokeConditionSameAsExpected.class)
         void testIsPressed(MockKeystroke keyStroke, boolean expected) {
-            checkPressed(keyStroke, expected, Keystroke::isTriggered);
+            checkPressed(keyStroke, expected, Keystroke::canBeTriggered);
         }
     }
 
@@ -108,15 +89,15 @@ class KeystrokeTest {
         void testIsPressing(MockKeystroke keystroke, boolean expected) {
             checkPressing(keystroke,
                     k -> {
-                        assertThat(k.isTriggered()).isEqualTo(expected);
+                        assertThat(k.canBeTriggered()).isEqualTo(expected);
                         if (expected) {
-                            assertThat(k.hasBeenTriggered()).isTrue();
-                            assertThat(k.isTriggered())
+                            k.updateStateForNextTick();
+                            assertThat(k.canBeTriggered())
                                     .as("can be triggered only once")
                                     .isFalse();
                         }
                     },
-                    k -> assertThat(k.isTriggered()).isEqualTo(!expected));
+                    k -> assertThat(k.canBeTriggered()).isEqualTo(!expected));
         }
 
         @ParameterizedTest
@@ -124,15 +105,15 @@ class KeystrokeTest {
         void testIsNotPressing(MockKeystroke keystroke, boolean expected) {
             checkNotPressing(keystroke,
                     k -> {
-                        assertThat(k.isTriggered()).isEqualTo(expected);
+                        assertThat(k.canBeTriggered()).isEqualTo(expected);
                         if (expected) {
-                            assertThat(k.hasBeenTriggered()).isTrue();
-                            assertThat(k.isTriggered())
+                            k.updateStateForNextTick();
+                            assertThat(k.canBeTriggered())
                                     .as("can be triggered only once")
                                     .isFalse();
                         }
                     },
-                    k -> assertThat(k.isTriggered()).isEqualTo(!expected));
+                    k -> assertThat(k.canBeTriggered()).isEqualTo(!expected));
         }
 
         @ParameterizedTest
@@ -140,15 +121,15 @@ class KeystrokeTest {
         void testIsReleased(MockKeystroke keystroke, boolean expected) {
             checkReleased(keystroke,
                     k -> {
-                        assertThat(k.isTriggered()).isEqualTo(expected);
+                        assertThat(k.canBeTriggered()).isEqualTo(expected);
                         if (expected) {
-                            assertThat(k.hasBeenTriggered()).isTrue();
-                            assertThat(k.isTriggered())
+                            k.updateStateForNextTick();
+                            assertThat(k.canBeTriggered())
                                     .as("can be triggered only once")
                                     .isFalse();
                         }
                     },
-                    k -> assertThat(k.isTriggered()).isEqualTo(!expected));
+                    k -> assertThat(k.canBeTriggered()).isEqualTo(!expected));
         }
 
         @ParameterizedTest
@@ -157,17 +138,17 @@ class KeystrokeTest {
             checkPressed(keystroke,
                     k -> {
                         boolean exp = !expected;
-                        assertThat(k.isTriggered())
+                        assertThat(k.canBeTriggered())
                                 .as("originally released key should be pressed now (expected should be true), vice versa")
                                 .isEqualTo(exp);
                         if (exp) {
-                            assertThat(k.hasBeenTriggered()).isTrue();
-                            assertThat(k.isTriggered())
+                            k.updateStateForNextTick();
+                            assertThat(k.canBeTriggered())
                                     .as("can be triggered only once")
                                     .isFalse();
                         }
                     },
-                    k -> assertThat(k.isTriggered()).isEqualTo(expected));
+                    k -> assertThat(k.canBeTriggered()).isEqualTo(expected));
         }
     }
 
