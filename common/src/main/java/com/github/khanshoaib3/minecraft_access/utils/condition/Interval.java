@@ -4,12 +4,12 @@ package com.github.khanshoaib3.minecraft_access.utils.condition;
  * An auto-refresh countdown timer for controlling interval execution of features.
  */
 public class Interval {
-    private long lastRunTime;
+    protected long lastRunTime;
     private final long delay;
     private boolean isRunning;
     private final boolean disabled;
 
-    private Interval(long lastRunTime, long delayInNanoTime) {
+    protected Interval(long lastRunTime, long delayInNanoTime) {
         this.lastRunTime = lastRunTime;
         this.delay = delayInNanoTime;
         this.disabled = delayInNanoTime == 0;

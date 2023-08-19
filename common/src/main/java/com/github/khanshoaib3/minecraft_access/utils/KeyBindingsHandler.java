@@ -185,7 +185,7 @@ public class KeyBindingsHandler {
      * 12) Right Alt + Look Left Key or Look West Key (default=keypad 1): Snaps the camera to the west block.<br>
      * 13) Center Camera Key (default=keypad 5): Snaps the camera to the closest cardinal direction and center it.<br>
      * 14) Left Alt + Center Camera Key : Snaps the camera to the closest opposite cardinal direction and center it.<br>
-     * 15) Right Alt + double Look Up Key or Look Straight Up Key (default: Keypad 0): Snaps the camera to the look above head direction.
+     * 15) Right Alt + double Look Up Key or Look Straight Up Key (default: Keypad 0): Snaps the camera to the look above head direction.<br>
      * 16) Right Alt + double Look Down Key or Look Straight Down Key (default: Keypad .): Snaps the camera to the look down at feet direction.
      */
     private void initializeCameraControlsKeybindings() {
