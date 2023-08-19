@@ -17,7 +17,7 @@ public abstract class KeystrokeTiming extends Keystroke {
      * @param condition Expression that checking if the key (combination) is pressed now.
      */
     public KeystrokeTiming(BooleanSupplier condition) {
-        super(condition);
+        this(condition, TriggeredAt.PRESSING, DEFAULT_INTERVAL.get());
     }
 
     /**
