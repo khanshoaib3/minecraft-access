@@ -98,8 +98,8 @@ any other key with same key.*
 1. Up Key (default: I) = Focus to slot above.
 2. Right Key (default: L) = Focus to slot right.
 3. Down Key (default: K) = Focus to slot down.
-4. Left Mouse Click Sim Key (default: `;` (semicolon)) = Simulates left mouse click, picking up and putting down all items in the slot.
-5. Right Mouse Click Sim Key (default: `'` (apostrophe, prime, single quote)) = Simulates right mouse click, picking up half of the items or putting one item down.
+4. Left Mouse Click Sim Key (default: `[` (left bracket)) = Simulates left mouse click, picking up and putting down all items in the slot.
+5. Right Mouse Click Sim Key (default: `]` (right bracket)) = Simulates right mouse click, picking up half of the items or putting one item down.
 6. Left Key (default: J) = Focus to slot left.
 7. Group Key (default: C) = Select next group.
 8. Left Shift + Group Key = Select previous group.
@@ -133,11 +133,11 @@ Please note that:
 
 ### Keybindings and Combinations
 
-1. Left Mouse Sim Key (default: `;` (semicolon)) = Simulates left mouse key, the default `Attack/Destroy` key.
+1. Left Mouse Sim Key (default: `[` (left bracket)) = Simulates left mouse key, the default `Attack/Destroy` key.
 2. Middle Mouse Sim Key (default: `\` (back slash)) = Simulates middle mouse key, the default `Pick Block` key.
-3. Right Mouse Sim Key (default: `'` (apostrophe, prime, single quote)) = Simulates right mouse key, the default `Use Item/Place Block` key.
-4. Mouse Wheel Scroll Up Key (default: `[` (left bracket)) = Simulates mouse wheel scroll up, switching items in Hotbar forward.
-5. Mouse Wheel Scroll Down Key (default: `]` (right bracket)) = Simulates mouse wheel scroll down, switching items in Hotbar backward.
+3. Right Mouse Sim Key (default: `]` (right bracket)) = Simulates right mouse key, the default `Use Item/Place Block` key.
+4. Mouse Wheel Scroll Up Key (default: `;` (semicolon)) = Simulates mouse wheel scroll up, switching items in Hotbar forward.
+5. Mouse Wheel Scroll Down Key (default: `'` (apostrophe, prime, single quote)) = Simulates mouse wheel scroll down, switching items in Hotbar backward.
 
 ### Configuration Options
 
