@@ -10,31 +10,19 @@ If you know where this tutorial could be improved, please let us know in Discord
 > They do not provide help with the installation, but they can give you a little more insight into things that are relevant.
 > If you don't want to read them, skip and move on, you won't miss anything important.
 
-[//]: # (## Index)
+## Index
 
-[//]: # ()
-
-[//]: # (1. [Purchase the Game and Download the Launcher]&#40;#purchase-the-game-and-download-the-launcher&#41;)
-
-[//]: # (    1. [Purchase the Game]&#40;#purchase-the-game&#41;)
-
-[//]: # (    2. [Download the Launcher]&#40;#download-the-launcher&#41;)
-
-[//]: # (2. [Choose and Install the Mod Loader]&#40;#choose-and-install-the-mod-loader&#41;)
-
-[//]: # (    1. [Install the Fabric]&#40;#install-the-fabric-loader&#41;)
-
-[//]: # (    2. [Install the Forge]&#40;#install-the-forge-loader&#41;)
-
-[//]: # (3. [Install Mods]&#40;#install-mods&#41;)
-
-[//]: # (4. [Additional Installation for Windows]&#40;#additional-installation-for-windows&#41;)
-
-[//]: # (5. [Start the Game]&#40;#start-the-game&#41;)
-
-[//]: # (6. [Upgrade the Game and Mods]&#40;#upgrade-the-game-and-mods&#41;)
-
-[//]: # (7. [Some Helpful Links]&#40;#some-helpful-links&#41;)
+1. [Purchase the Game and Download the Launcher](#purchase-the-game-and-download-the-launcher)
+   1. [Purchase the Game](#purchase-the-game)
+   2. [Download the Launcher](#download-the-launcher)
+2. [Choose and Install the Mod Framework](#choose-and-install-the-mod-framework)
+   1. [Install the Fabric](#install-the-fabric)
+   2. [Install the Forge](#install-the-forge)
+3. [Install Mods](#install-mods)
+4. [Additional Installation for Windows](#additional-installation-for-windows)
+5. [Start the Game](#start-the-game)
+6. [Upgrade the Game and Mods](#upgrade-the-game-and-mods)
+7. [Some Helpful Links](#some-helpful-links)
 
 ## Purchase the Game and Download the Launcher
 
@@ -98,13 +86,16 @@ Keep going after you have logged in, I don't know how to describe the purchase p
 > The launcher we will download is provided by Microsoft, let's call it the official launcher.
 
 At the end of the purchase process there will be a `Download Game` button to download the launcher.
-If you've missed it, [here is the launcher direct download link](https://aka.ms/minecraftClientWindows).
-If the link is invalided, [here is the launcher download page](https://www.minecraft.net/download), remember to "Download Windows Legacy Launcher", do not download the new one that "Download Launcher for Windows 10/11" button provided.
-The launcher is a normal executable file, run it and wait for the finish.
+If you've missed it, [here is the launcher installer download page](https://www.minecraft.net/download).
+Note that Microsoft has replaced old official launcher installer (`MinecraftInstaller.msi`, that "Download Windows Legacy Launcher" button provided) with their new launcher installer for Microsoft store (`MinecraftInstaller.exe`, that "Download Launcher for Windows 10/11" button provided).
+Both two launcher installers installs the (same?) launcher that can run the Java Edition game that this mod required, and subsequent mod installation steps are same.
+The new launcher installer will let you log into Microsoft Store first before installing the launcher.
+So if you have problem with Microsoft Store service, please download the older one (the `MinecraftInstaller.msi`).
+The launcher installer is a normal executable file, run it and wait for the finish.
 If the installation is successful, you will now have a new application called `Minecraft Launcher`.
 
 I'm not sure if the next steps require starting the launcher once first to get it to initialize something.
-So try starting it, there is no need to start the game, just start the launcher.
+So try starting the launcher, then start whatever version of the Java Edition Minecraft (the latest version by default).
 At the first time you start it requires you to sign in with your Microsoft account.
 
 ## Choose and Install the Mod Framework
