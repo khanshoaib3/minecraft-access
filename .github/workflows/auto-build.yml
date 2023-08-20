@@ -5,9 +5,9 @@ on:
     branches:
       - default
       - 1.20.x
-    # OR commits are tagged with version tags
-    tags:
-      - "v*.*.*"
+#    # OR commits are tagged with version tags
+#    tags:
+#      - "v*.*.*"
 
 jobs:
   build:
