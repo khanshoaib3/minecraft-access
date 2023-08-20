@@ -3,7 +3,7 @@ package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIBlocksConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
-import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import net.minecraft.block.*;
@@ -47,7 +47,7 @@ public class POIBlocks {
     private boolean playSound;
     private float volume;
     private boolean playSoundForOtherBlocks;
-    private TimeUtils.Interval interval;
+    private Interval interval;
 
     private static final List<Predicate<BlockState>> blockList = Lists.newArrayList();
     private static final List<Predicate<BlockState>> oreBlockList = Lists.newArrayList();
@@ -156,7 +156,7 @@ public class POIBlocks {
         this.playSound = poiBlocksConfigMap.isPlaySound();
         this.volume = poiBlocksConfigMap.getVolume();
         this.playSoundForOtherBlocks = poiBlocksConfigMap.isPlaySoundForOtherBlocks();
-        this.interval = TimeUtils.Interval.inMilliseconds(poiBlocksConfigMap.getDelay(), this.interval);
+        this.interval = Interval.inMilliseconds(poiBlocksConfigMap.getDelay(), this.interval);
     }
 
     private void checkBlock(BlockPos blockPos, int val) {

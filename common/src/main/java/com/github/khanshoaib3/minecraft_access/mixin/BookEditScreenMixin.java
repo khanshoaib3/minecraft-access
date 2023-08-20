@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.mixin;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -44,9 +45,9 @@ public abstract class BookEditScreenMixin {
 
     @Unique boolean minecraft_access$firstTimeInSignMenu = true;
     @Unique String minecraft_access$previousContent = "";
+    @Unique private static final Keystroke minecraft_access$tabKey = new Keystroke(() -> KeyUtils.isAnyPressed(GLFW.GLFW_KEY_TAB));
+    @Unique private static final Keystroke minecraft_access$spaceKey = new Keystroke(KeyUtils::isSpacePressed);
 
-    @Unique private boolean minecraft_access$isTabPressedPreviousTick = false;
-    @Unique private boolean minecraft_access$isSpacePressedPreviousTick = false;
     @Unique private int minecraft_access$currentFocusedButtonStateCode = 0;
     @Unique private static final int BUTTON_OFFSET = 3;
 
@@ -56,19 +57,16 @@ public abstract class BookEditScreenMixin {
         if (minecraftClient == null) return;
         if (minecraftClient.currentScreen == null) return;
 
-        boolean isSpacePressed = KeyUtils.isSpacePressed();
-        boolean isTabPressed = KeyUtils.isAnyPressed(GLFW.GLFW_KEY_TAB);
-
         // Switch between buttons with Tab key
         // Only switch once until release and press Tab again
-        if (isTabPressed && !minecraft_access$isTabPressedPreviousTick) {
+        if (minecraft_access$tabKey.isPressed()) {
             minecraft_access$switchMouseHoveredButton();
         }
         // update the state
-        minecraft_access$isTabPressedPreviousTick = isTabPressed;
+        minecraft_access$tabKey.updateStateForNextTick();
 
-        if (isSpacePressed && !minecraft_access$isSpacePressedPreviousTick) {
-            minecraft_access$isSpacePressedPreviousTick = true;
+        if (minecraft_access$spaceKey.isPressed()) {
+            minecraft_access$spaceKey.updateStateForNextTick();
             if (this.signing) {
                 if (this.cancelButton.isHovered()) {
                     this.cancelButton.onPress();
@@ -90,7 +88,7 @@ public abstract class BookEditScreenMixin {
             }
         }
         // update the state
-        minecraft_access$isSpacePressedPreviousTick = isSpacePressed;
+        minecraft_access$spaceKey.updateStateForNextTick();
 
         if (this.signing) {
             String currentTitle = this.title.trim();
