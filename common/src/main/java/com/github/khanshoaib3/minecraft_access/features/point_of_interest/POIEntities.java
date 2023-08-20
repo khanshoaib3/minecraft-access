@@ -3,7 +3,7 @@ package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIEntitiesConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
-import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EyeOfEnderEntity;
@@ -34,7 +34,7 @@ public class POIEntities {
     private int range;
     private boolean playSound;
     private float volume;
-    private TimeUtils.Interval interval;
+    private Interval interval;
     private boolean enabled;
 
     private static final POIEntities instance;
@@ -141,7 +141,7 @@ public class POIEntities {
         this.range = map.getRange();
         this.playSound = map.isPlaySound();
         this.volume = map.getVolume();
-        this.interval = TimeUtils.Interval.inMilliseconds(map.getDelay(), this.interval);
+        this.interval = Interval.inMilliseconds(map.getDelay(), this.interval);
     }
 
     public void setMarking(boolean marking) {

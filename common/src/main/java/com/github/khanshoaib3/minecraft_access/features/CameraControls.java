@@ -5,7 +5,8 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControls
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
-import com.github.khanshoaib3.minecraft_access.utils.TimeUtils;
+import com.github.khanshoaib3.minecraft_access.utils.condition.DoubleClick;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -29,6 +30,8 @@ import net.minecraft.util.math.Vec3d;
  * 12) Right Alt + Look Left Key or Look West Key (default=keypad 1): Snaps the camera to the west block.<br>
  * 13) Center Camera Key (default=keypad 5): Snaps the camera to the closest cardinal direction and center it.<br>
  * 14) Left Alt + Center Camera Key : Snaps the camera to the closest opposite cardinal direction and center it.<br>
+ * 15) Right Alt + double Look Up Key or Look Straight Up Key (default: Keypad 0): Snaps the camera to the look above head direction.<br>
+ * 16) Right Alt + double Look Down Key or Look Straight Down Key (default: Keypad .): Snaps the camera to the look down at feet direction.
  */
 @Environment(EnvType.CLIENT)
 public class CameraControls {
@@ -36,7 +39,17 @@ public class CameraControls {
 
     private float normalRotatingDeltaAngle;
     private float modifiedRotatingDeltaAngle;
-    private TimeUtils.Interval interval;
+    private Interval interval;
+
+    private static final DoubleClick straightUpDoubleClick;
+    private static final DoubleClick straightDownDoubleClick;
+
+    static {
+        // config keystroke conditions
+        KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
+        straightUpDoubleClick = new DoubleClick(() -> KeyUtils.isAnyPressed(kbh.cameraControlsUp));
+        straightDownDoubleClick = new DoubleClick(() -> KeyUtils.isAnyPressed(kbh.cameraControlsDown));
+    }
 
     public CameraControls() {
         loadConfigurations();
@@ -52,7 +65,7 @@ public class CameraControls {
 
             loadConfigurations();
             boolean wasAnyKeyPressed = keyListener();
-            if(wasAnyKeyPressed) interval.start();
+            if (wasAnyKeyPressed) interval.start();
         } catch (Exception e) {
             MainClass.errorLog("\nError encountered in Camera Controls feature.");
             e.printStackTrace();
@@ -66,7 +79,7 @@ public class CameraControls {
         float delta90Degrees = 600f; // 90 / 0.15
 
         CameraControlsConfigMap map = MainClass.config.getConfigMap().getCameraControlsConfigMap();
-        interval = TimeUtils.Interval.inMilliseconds(map.getDelayInMilliseconds(), interval);
+        interval = Interval.inMilliseconds(map.getDelayInMilliseconds(), interval);
         float normalRotatingAngle = map.getNormalRotatingAngle();
         float modifiedRotatingAngle = map.getModifiedRotatingAngle();
         normalRotatingDeltaAngle = delta90Degrees / (90 / normalRotatingAngle);
@@ -97,43 +110,62 @@ public class CameraControls {
                 || (isDownKeyPressed && isRightAltPressed && !isLeftAltPressed);
         boolean isCenterCameraKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsCenterCamera);
 
+        boolean isStraightUpKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsStraightUp) || straightUpDoubleClick.canBeTriggered();
+        boolean isStraightDownKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsStraightDown) || straightDownDoubleClick.canBeTriggered();
+
+        straightUpDoubleClick.updateStateForNextTick();
+        straightDownDoubleClick.updateStateForNextTick();
+
+        // these two blocks of logic should be ahead of the normal up/down logic
+        if (isStraightUpKeyPressed) {
+            rotateCameraTo(CameraDirection.UP);
+            return true;
+        }
+
+        if (isStraightDownKeyPressed) {
+            rotateCameraTo(CameraDirection.DOWN);
+            return true;
+        }
+
         if (isNorthKeyPressed) {
-            lookNorth();
+            rotateCameraTo(CameraDirection.NORTH);
             return true;
         }
 
         if (isEastKeyPressed) {
-            lookEast();
+            rotateCameraTo(CameraDirection.EAST);
             return true;
         }
 
         if (isWestKeyPressed) {
-            lookWest();
+            rotateCameraTo(CameraDirection.WEST);
             return true;
         }
 
         if (isSouthKeyPressed) {
-            lookSouth();
+            rotateCameraTo(CameraDirection.SOUTH);
             return true;
         }
 
+        float rotateAngle = isLeftAltPressed ? modifiedRotatingDeltaAngle : normalRotatingDeltaAngle;
+
         if (isUpKeyPressed) {
-            upKeyHandler(isLeftAltPressed);
+            rotateCameraBy(rotateAngle, RotatingDirection.UP);
             return true;
         }
 
         if (isRightKeyPressed) {
-            rightKeyHandler(isLeftAltPressed);
+            rotateCameraBy(rotateAngle, RotatingDirection.RIGHT);
             return true;
         }
 
         if (isDownKeyPressed) {
-            downKeyHandler(isLeftAltPressed);
+            rotateCameraBy(rotateAngle, RotatingDirection.DOWN);
             return true;
         }
 
         if (isLeftKeyPressed) {
-            leftKeyHandler(isLeftAltPressed);
+            rotateCameraBy(rotateAngle, RotatingDirection.LEFT);
             return true;
         }
 
@@ -145,128 +177,102 @@ public class CameraControls {
         return false;
     }
 
-    /**
-     * Executes when up key is pressed.
-     */
-    private void upKeyHandler(boolean isLeftAltPressed) {
-        rotateCamera(0, (isLeftAltPressed) ? -modifiedRotatingDeltaAngle : -normalRotatingDeltaAngle, false);
-    }
+    private enum RotatingDirection {
+        UP(0, -1),
+        DOWN(0, 1),
+        LEFT(-1, 0),
+        RIGHT(1, 0);
 
-    /**
-     * Executes when right key is pressed.
-     */
-    private void rightKeyHandler(boolean isLeftAltPressed) {
-        rotateCamera((isLeftAltPressed) ? modifiedRotatingDeltaAngle : normalRotatingDeltaAngle, 0, true);
-    }
+        final int horizontalWight;
+        final int verticalWight;
+        final boolean isRotatingHorizontal;
 
-    /**
-     * Executes when down key is pressed.
-     */
-    private void downKeyHandler(boolean isLeftAltPressed) {
-        rotateCamera(0, (isLeftAltPressed) ? modifiedRotatingDeltaAngle : normalRotatingDeltaAngle, false);
-    }
-
-    /**
-     * Executes when left key is pressed.
-     */
-    private void leftKeyHandler(boolean isLeftAltPressed) {
-        rotateCamera((isLeftAltPressed) ? -modifiedRotatingDeltaAngle : -normalRotatingDeltaAngle, 0, true);
+        RotatingDirection(int horizontalWight, int verticalWight) {
+            this.horizontalWight = horizontalWight;
+            this.verticalWight = verticalWight;
+            this.isRotatingHorizontal = horizontalWight != 0;
+        }
     }
 
     /**
      * Rotates the player's camera.
      *
-     * @param deltaX               The amount of rotation in X axis (in degrees).
-     * @param deltaY               The amount of rotation in Y axis (in degrees).
-     * @param isRotatingHorizontal Whether the rotation is horizontal or vertical
+     * @param angle     by given angle
+     * @param direction on given direction
      */
-    private void rotateCamera(float deltaX, float deltaY, boolean isRotatingHorizontal) {
+    private void rotateCameraBy(float angle, RotatingDirection direction) {
         if (minecraftClient.player == null) return;
 
-        minecraftClient.player.changeLookDirection(deltaX, deltaY);
+        float horizontalAngleDelta = angle * direction.horizontalWight;
+        float verticalAngleDelta = angle * direction.verticalWight;
 
-        MainClass.infoLog("Rotating camera by x:%d y:%d".formatted((int) deltaX, (int) deltaY));
+        minecraftClient.player.changeLookDirection(horizontalAngleDelta, verticalAngleDelta);
+
+        // log and speak new facing direction
+        MainClass.infoLog("Rotating camera by x:%d y:%d".formatted((int) horizontalAngleDelta, (int) verticalAngleDelta));
 
         PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
         String horizontalDirection = pUtil.getHorizontalFacingDirectionInCardinal();
         String verticalDirection = pUtil.getVerticalFacingDirectionInWords();
 
-        if (isRotatingHorizontal && horizontalDirection != null)
+        if (direction.isRotatingHorizontal && horizontalDirection != null)
             MainClass.speakWithNarrator(horizontalDirection, true);
-        else if (!isRotatingHorizontal && verticalDirection != null)
+        else if (!direction.isRotatingHorizontal && verticalDirection != null)
             MainClass.speakWithNarrator(verticalDirection, true);
     }
 
-    /**
-     * Snaps the camera to the north block
-     */
-    private void lookNorth() {
-        lookAtRelativeBlock(0, -1);
+
+    private enum CameraDirection {
+        NORTH(0, 0, -1),
+        EAST(1, 0, 0),
+        WEST(-1, 0, 0),
+        SOUTH(0, 0, 1),
+        NORTH_EAST(1, 0, -1),
+        NORTH_WEST(-1, 0, -1),
+        SOUTH_EAST(1, 0, 1),
+        SOUTH_WEST(-1, 0, 1),
+        UP(0, 1, 0),
+        DOWN(0, -1, 0),
+        ;
+
+        final int x;
+        final int y;
+        final int z;
+
+        CameraDirection(int x, int y, int z) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
     }
 
     /**
-     * Snaps the camera to the east block
-     */
-    private void lookEast() {
-        lookAtRelativeBlock(1, 0);
-    }
-
-    /**
-     * Snaps the camera to the west block
-     */
-    private void lookWest() {
-        lookAtRelativeBlock(-1, 0);
-    }
-
-    /**
-     * Snaps the camera to the south block
-     */
-    private void lookSouth() {
-        lookAtRelativeBlock(0, 1);
-    }
-
-    /**
-     * Snaps the camera to the north-east block
-     */
-    private void lookNorthEast() {
-        lookAtRelativeBlock(1, -1);
-    }
-
-    /**
-     * Snaps the camera to the north-west block
-     */
-    private void lookNorthWest() {
-        lookAtRelativeBlock(-1, -1);
-    }
-
-    /**
-     * Snaps the camera to the south-east block
-     */
-    private void lookSouthEast() {
-        lookAtRelativeBlock(1, 1);
-    }
-
-    /**
-     * Snaps the camera to the south-west block
-     */
-    private void lookSouthWest() {
-        lookAtRelativeBlock(-1, 1);
-    }
-
-    /**
-     * Snaps the camera at a block relative to the player's position.
+     * Move the camera (player's view).
      *
-     * @param deltaX The relative X position of the block.
-     * @param deltaZ The relative Z position of the block.
+     * @param direction to given direction
      */
-    private void lookAtRelativeBlock(int deltaX, int deltaZ) {
+    private void rotateCameraTo(CameraDirection direction) {
         if (minecraftClient.player == null) return;
 
         Vec3d playerBlockPosition = minecraftClient.player.getPos();
-        Vec3d relativeBlockPosition = new Vec3d(playerBlockPosition.x + deltaX, playerBlockPosition.y + 0, playerBlockPosition.z + deltaZ);
+        Vec3d targetBlockPosition = new Vec3d(
+                playerBlockPosition.x + direction.x,
+                playerBlockPosition.y + direction.y,
+                playerBlockPosition.z + direction.z);
 
-        minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, relativeBlockPosition);
-        MainClass.speakWithNarrator(new PlayerPositionUtils(minecraftClient).getHorizontalFacingDirectionInCardinal(), true);
+        minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, targetBlockPosition);
+
+        // log and speak new facing direction
+        MainClass.infoLog("Rotating camera to: %s".formatted(direction.name()));
+
+        PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
+        boolean isRotatingHorizontal = direction.y == 0;
+
+        if (isRotatingHorizontal) {
+            MainClass.speakWithNarrator(pUtil.getHorizontalFacingDirectionInCardinal(), true);
+        } else {
+            MainClass.speakWithNarrator(pUtil.getVerticalFacingDirectionInWords(), true);
+        }
     }
 
     /**
@@ -280,14 +286,14 @@ public class CameraControls {
         String direction = new PlayerPositionUtils(minecraftClient).getHorizontalFacingDirectionInCardinal(true, lookOpposite);
 
         switch (direction) {
-            case "north" -> lookNorth();
-            case "east" -> lookEast();
-            case "west" -> lookWest();
-            case "south" -> lookSouth();
-            case "north_east" -> lookNorthEast();
-            case "north_west" -> lookNorthWest();
-            case "south_east" -> lookSouthEast();
-            case "south_west" -> lookSouthWest();
+            case "north" -> rotateCameraTo(CameraDirection.NORTH);
+            case "east" -> rotateCameraTo(CameraDirection.EAST);
+            case "west" -> rotateCameraTo(CameraDirection.WEST);
+            case "south" -> rotateCameraTo(CameraDirection.SOUTH);
+            case "north_east" -> rotateCameraTo(CameraDirection.NORTH_EAST);
+            case "north_west" -> rotateCameraTo(CameraDirection.NORTH_WEST);
+            case "south_east" -> rotateCameraTo(CameraDirection.SOUTH_EAST);
+            case "south_west" -> rotateCameraTo(CameraDirection.SOUTH_WEST);
         }
     }
 }

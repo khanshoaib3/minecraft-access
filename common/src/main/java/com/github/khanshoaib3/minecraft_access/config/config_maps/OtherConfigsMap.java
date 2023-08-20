@@ -27,6 +27,15 @@ public class OtherConfigsMap {
     @SerializedName("Debug Mode")
     private boolean debugMode;
 
+    /**
+     * The maximum time interval between two keystrokes in multiple click operations like "double-click", in milliseconds.
+     * According to the UX QA, 500ms is quite a good default time, but I still want to extend it a bit.
+     * <a href="https://ux.stackexchange.com/questions/40364/what-is-the-expected-timeframe-of-a-double-click"></a>
+     * <p>
+     * Can be translated into config item if someone needs it, but not now.
+     */
+    private int multipleClickSpeedInMilliseconds = 750;
+
     public boolean isBiomeIndicatorEnabled() {
         return biomeIndicatorEnabled;
     }
@@ -115,6 +124,14 @@ public class OtherConfigsMap {
         this.fishingHarvestEnabled = fishingHarvestEnabled;
     }
 
+    public int getMultipleClickSpeedInMilliseconds() {
+        return multipleClickSpeedInMilliseconds;
+    }
+
+    public void setMultipleClickSpeedInMilliseconds(int multipleClickSpeedInMilliseconds) {
+        this.multipleClickSpeedInMilliseconds = multipleClickSpeedInMilliseconds;
+    }
+
     public static OtherConfigsMap getDefaultOtherConfigsMap() {
         OtherConfigsMap defaultOtherConfigsMap = new OtherConfigsMap();
         defaultOtherConfigsMap.setBiomeIndicatorEnabled(true);
@@ -128,6 +145,7 @@ public class OtherConfigsMap {
         defaultOtherConfigsMap.setFishingHarvestEnabled(true);
         defaultOtherConfigsMap.setMenuFixEnabled(true);
         defaultOtherConfigsMap.setDebugMode(false);
+        defaultOtherConfigsMap.setMultipleClickSpeedInMilliseconds(750);
 
         return defaultOtherConfigsMap;
     }

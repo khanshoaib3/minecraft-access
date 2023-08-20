@@ -38,3 +38,6 @@ run/
 
 # Ignore Gradle build output directory
 build
+
+# Ignore Gragle test report logs
+/common/logs/

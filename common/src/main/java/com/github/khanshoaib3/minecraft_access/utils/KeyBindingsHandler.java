@@ -29,6 +29,8 @@ public class KeyBindingsHandler {
     public KeyBinding cameraControlsWest;
     public KeyBinding cameraControlsSouth;
     public KeyBinding cameraControlsCenterCamera;
+    public KeyBinding cameraControlsStraightUp;
+    public KeyBinding cameraControlsStraightDown;
 
     public KeyBinding inventoryControlsGroupKey;
     public KeyBinding inventoryControlsUpKey;
@@ -183,6 +185,8 @@ public class KeyBindingsHandler {
      * 12) Right Alt + Look Left Key or Look West Key (default=keypad 1): Snaps the camera to the west block.<br>
      * 13) Center Camera Key (default=keypad 5): Snaps the camera to the closest cardinal direction and center it.<br>
      * 14) Left Alt + Center Camera Key : Snaps the camera to the closest opposite cardinal direction and center it.<br>
+     * 15) Right Alt + double Look Up Key or Look Straight Up Key (default: Keypad 0): Snaps the camera to the look above head direction.<br>
+     * 16) Right Alt + double Look Down Key or Look Straight Down Key (default: Keypad .): Snaps the camera to the look down at feet direction.
      */
     private void initializeCameraControlsKeybindings() {
         cameraControlsUp = new KeyBinding(
@@ -280,6 +284,22 @@ public class KeyBindingsHandler {
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
         KeyMappingRegistry.register(cameraControlsSouth);
+
+        cameraControlsStraightUp = new KeyBinding(
+                "minecraft_access.keys.camera_controls.straight_up_camera_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_0,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsStraightUp);
+
+        cameraControlsStraightDown = new KeyBinding(
+                "minecraft_access.keys.camera_controls.straight_down_camera_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_KP_DECIMAL,
+                CAMERA_CONTROLS_TRANSLATION_KEY
+        );
+        KeyMappingRegistry.register(cameraControlsStraightDown);
 
         cameraControlsCenterCamera = new KeyBinding(
                 "minecraft_access.keys.camera_controls.center_camera_key_name",
