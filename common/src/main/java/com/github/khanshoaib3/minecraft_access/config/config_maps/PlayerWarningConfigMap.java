@@ -20,6 +20,9 @@ public class PlayerWarningConfigMap {
     @SerializedName("Air Threshold")
     private double airThreshold;
 
+    private PlayerWarningConfigMap() {
+    }
+
     public static PlayerWarningConfigMap getInstance() {
         if (instance == null) Config.getInstance().loadConfig();
         return instance;

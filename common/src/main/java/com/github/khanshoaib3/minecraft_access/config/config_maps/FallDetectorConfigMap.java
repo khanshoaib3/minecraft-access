@@ -68,6 +68,9 @@ public class FallDetectorConfigMap {
         this.delay = delay;
     }
 
+    private FallDetectorConfigMap() {
+    }
+
     public static FallDetectorConfigMap getInstance() {
         if (instance == null) Config.getInstance().loadConfig();
         return instance;

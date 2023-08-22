@@ -16,6 +16,9 @@ public class InventoryControlsConfigMap {
     @SerializedName("Delay (in milliseconds)")
     private int delayInMilliseconds;
 
+    private InventoryControlsConfigMap() {
+    }
+
     public static InventoryControlsConfigMap getInstance() {
         if (instance == null) Config.getInstance().loadConfig();
         return instance;

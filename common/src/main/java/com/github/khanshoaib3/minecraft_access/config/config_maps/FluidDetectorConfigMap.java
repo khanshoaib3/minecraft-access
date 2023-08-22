@@ -29,6 +29,9 @@ public class FluidDetectorConfigMap {
         this.range = range;
     }
 
+    private FluidDetectorConfigMap() {
+    }
+
     public static FluidDetectorConfigMap getInstance() {
         if (instance == null) Config.getInstance().loadConfig();
         return instance;

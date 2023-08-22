@@ -40,6 +40,9 @@ public class OtherConfigsMap {
      */
     private int multipleClickSpeedInMilliseconds = 750;
 
+    private OtherConfigsMap() {
+    }
+
     public static OtherConfigsMap getInstance() {
         if (instance == null) Config.getInstance().loadConfig();
         return instance;
