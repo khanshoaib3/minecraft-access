@@ -63,7 +63,7 @@ public class Config {
      * The path for the file is: config/minecraft_access/config.json
      * If the json format is wrong or an error occurs, the config.json is reset to default
      */
-    private void loadConfig() {
+    public void loadConfig() {
         try {
             GsonBuilder builder = new GsonBuilder();
             builder.setPrettyPrinting();
@@ -126,24 +126,5 @@ public class Config {
 
     private ConfigMap readJSON() throws IOException {
         return gson.fromJson(Files.readString(Path.of(CONFIG_FILE_PATH)), ConfigMap.class);
-    }
-
-    public static void refresh() {
-        refresh(false);
-    }
-
-    public static void refresh(boolean closeOpenedScreen) {
-        try {
-            MainClass.config.loadConfig();
-
-            if (!closeOpenedScreen) return;
-            if (MinecraftClient.getInstance() == null) return;
-            if (MinecraftClient.getInstance().player == null) return;
-            MinecraftClient.getInstance().player.closeScreen();
-            MainClass.speakWithNarrator("Mod configurations refreshed", true);
-        } catch (Exception e) {
-            MainClass.errorLog("An error while refreshing mod configurations");
-            e.printStackTrace();
-        }
     }
 }

@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
 
+/**
+ * Pure DTO for mapping structure of config json via Gson.
+ */
 public class ConfigMap {
     @SerializedName("Camera Controls")
     private CameraControlsConfigMap cameraControlsConfigMap;
