@@ -64,9 +64,5 @@ public class POIConfigMap {
     public POILockingConfigMap getLockingConfigMap() {
         return poiLockingConfigMap;
     }
-
-    public POIMarkingConfigMap getPoiMarkingConfigMap() {
-        return poiMarkingConfigMap;
-    }
 }
 
