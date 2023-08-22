@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControlsConfigMap;
 import com.github.khanshoaib3.minecraft_access.features.*;
 import com.github.khanshoaib3.minecraft_access.features.inventory_controls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.narrator_menu.NarratorMenu;
@@ -112,7 +113,7 @@ public class MainClass {
         if (inventoryControls != null && config.getConfigMap().getInventoryControlsConfigMap().isEnabled())
             inventoryControls.update();
 
-        if (cameraControls != null && config.getConfigMap().getCameraControlsConfigMap().isEnabled())
+        if (cameraControls != null && CameraControlsConfigMap.getInstance().isEnabled())
             cameraControls.update();
 
         if (readCrosshair != null && config.getConfigMap().getReadCrosshairConfigMap().isEnabled())

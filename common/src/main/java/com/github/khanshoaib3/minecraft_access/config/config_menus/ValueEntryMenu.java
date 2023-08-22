@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.config.config_menus;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.ConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControlsConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
@@ -57,17 +58,19 @@ public class ValueEntryMenu extends BaseScreen {
     protected void init() {
         super.init();
 
+        final CameraControlsConfigMap cameraControlsConfigMap = CameraControlsConfigMap.getInstance();
+
         switch (configType) {
             case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getCameraControlsConfigMap().getNormalRotatingAngle());
+                this.value = String.valueOf(cameraControlsConfigMap.getNormalRotatingAngle());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case CAMERA_CONTROLS_MODIFIED_ROTATING_ANGLE -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getCameraControlsConfigMap().getModifiedRotatingAngle());
+                this.value = String.valueOf(cameraControlsConfigMap.getModifiedRotatingAngle());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case CAMERA_CONTROLS_DELAY -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getCameraControlsConfigMap().getDelayInMilliseconds());
+                this.value = String.valueOf(cameraControlsConfigMap.getDelayInMilliseconds());
                 this.valueType = VALUE_TYPE.INT;
             }
             case INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT -> {
@@ -196,13 +199,15 @@ public class ValueEntryMenu extends BaseScreen {
     private void updateConfig() {
         try {
             ConfigMap configMap = MainClass.config.getConfigMap();
+            final CameraControlsConfigMap cameraControlsConfigMap = CameraControlsConfigMap.getInstance();
+
             switch (configType) {
                 case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE ->
-                        configMap.getCameraControlsConfigMap().setNormalRotatingAngle(Float.parseFloat(value));
+                        cameraControlsConfigMap.setNormalRotatingAngle(Float.parseFloat(value));
                 case CAMERA_CONTROLS_MODIFIED_ROTATING_ANGLE ->
-                        configMap.getCameraControlsConfigMap().setModifiedRotatingAngle(Float.parseFloat(value));
+                        cameraControlsConfigMap.setModifiedRotatingAngle(Float.parseFloat(value));
                 case CAMERA_CONTROLS_DELAY ->
-                        configMap.getCameraControlsConfigMap().setDelayInMilliseconds(Integer.parseInt(value));
+                        cameraControlsConfigMap.setDelayInMilliseconds(Integer.parseInt(value));
                 case INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT ->
                         configMap.getInventoryControlsConfigMap().setRowAndColumnFormat(value);
                 case INVENTORY_CONTROLS_DELAY ->
