@@ -22,15 +22,7 @@ public class POIConfigMap {
     public static POIConfigMap buildDefault() {
         POIConfigMap m1 = new POIConfigMap();
 
-        POIBlocksConfigMap m2 = new POIBlocksConfigMap();
-        m2.setEnabled(true);
-        m2.setDetectFluidBlocks(true);
-        m2.setRange(6);
-        m2.setPlaySound(true);
-        m2.setVolume(0.25f);
-        m2.setPlaySoundForOtherBlocks(false);
-        m2.setDelay(3000);
-        m1.setBlocksConfigMap(m2);
+        m1.poiBlocksConfigMap = POIBlocksConfigMap.buildDefault();
 
         POIEntitiesConfigMap m3 = new POIEntitiesConfigMap();
         m3.setEnabled(true);
@@ -64,6 +56,7 @@ public class POIConfigMap {
         // Only leaf config maps (those will be directly used in feature classes)
         // has real singleton static class variable.
         // Parent config maps has responsibility for maintaining child maps' singleton instances.
+        POIBlocksConfigMap.setInstance(map.poiBlocksConfigMap);
         POIMarkingConfigMap.setInstance(map.poiMarkingConfigMap);
         instance = map;
     }
