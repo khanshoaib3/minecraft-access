@@ -18,6 +18,9 @@ public class ReadCrosshairConfigMap {
     @SerializedName("Partial Speaking")
     private RCPartialSpeakingConfigMap partialSpeakingConfigMap;
 
+    private ReadCrosshairConfigMap() {
+    }
+
     public static ReadCrosshairConfigMap buildDefault() {
         ReadCrosshairConfigMap m = new ReadCrosshairConfigMap();
         m.setEnabled(true);
