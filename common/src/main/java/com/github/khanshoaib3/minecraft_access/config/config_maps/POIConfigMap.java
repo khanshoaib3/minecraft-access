@@ -23,14 +23,7 @@ public class POIConfigMap {
         POIConfigMap m1 = new POIConfigMap();
 
         m1.poiBlocksConfigMap = POIBlocksConfigMap.buildDefault();
-
-        POIEntitiesConfigMap m3 = new POIEntitiesConfigMap();
-        m3.setEnabled(true);
-        m3.setRange(6);
-        m3.setPlaySound(true);
-        m3.setVolume(0.25f);
-        m3.setDelay(3000);
-        m1.setEntitiesConfigMap(m3);
+        m1.poiEntitiesConfigMap = POIEntitiesConfigMap.buildDefault();
 
         POILockingConfigMap m4 = new POILockingConfigMap();
         m4.setEnabled(true);
@@ -57,6 +50,7 @@ public class POIConfigMap {
         // has real singleton static class variable.
         // Parent config maps has responsibility for maintaining child maps' singleton instances.
         POIBlocksConfigMap.setInstance(map.poiBlocksConfigMap);
+        POIEntitiesConfigMap.setInstance(map.poiEntitiesConfigMap);
         POIMarkingConfigMap.setInstance(map.poiMarkingConfigMap);
         instance = map;
     }
