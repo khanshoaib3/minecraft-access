@@ -16,6 +16,9 @@ public class CameraControlsConfigMap {
     @SerializedName("Delay (in milliseconds)")
     private int delayInMilliseconds;
 
+    private CameraControlsConfigMap() {
+    }
+
     public static CameraControlsConfigMap getInstance() {
         if (instance == null) Config.getInstance().loadConfig();
         return instance;

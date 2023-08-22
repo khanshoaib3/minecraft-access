@@ -24,6 +24,9 @@ public class NarratorMenuConfigMap {
         return fluidDetectorConfigMap;
     }
 
+    private NarratorMenuConfigMap() {
+    }
+
     public static NarratorMenuConfigMap getInstance() {
         if (instance == null) Config.getInstance().loadConfig();
         return instance;

@@ -22,6 +22,9 @@ public class POIBlocksConfigMap {
     @SerializedName("Delay (in milliseconds)")
     private int delay;
 
+    private POIBlocksConfigMap() {
+    }
+
     public static POIBlocksConfigMap getInstance() {
         if (instance == null) Config.getInstance().loadConfig();
         return instance;

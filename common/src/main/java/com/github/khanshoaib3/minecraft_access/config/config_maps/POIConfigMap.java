@@ -19,6 +19,9 @@ public class POIConfigMap {
     @SerializedName("Entities/Blocks Marking")
     private POIMarkingConfigMap poiMarkingConfigMap;
 
+    private POIConfigMap() {
+    }
+
     public static POIConfigMap buildDefault() {
         POIConfigMap m1 = new POIConfigMap();
 

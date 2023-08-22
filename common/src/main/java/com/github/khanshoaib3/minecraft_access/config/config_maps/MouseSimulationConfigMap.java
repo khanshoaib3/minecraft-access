@@ -12,6 +12,9 @@ public class MouseSimulationConfigMap {
     @SerializedName("Scroll Delay (in milliseconds)")
     private int scrollDelayInMilliseconds;
 
+    private MouseSimulationConfigMap() {
+    }
+
     public static MouseSimulationConfigMap buildDefault() {
         MouseSimulationConfigMap m = new MouseSimulationConfigMap();
         m.enabled = true;
