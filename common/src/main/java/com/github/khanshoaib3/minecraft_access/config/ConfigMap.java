@@ -79,10 +79,6 @@ public class ConfigMap {
         return playerWarningConfigMap;
     }
 
-    public FallDetectorConfigMap getFallDetectorConfigMap() {
-        return fallDetectorConfigMap;
-    }
-
     public ReadCrosshairConfigMap getReadCrosshairConfigMap() {
         return readCrosshairConfigMap;
     }
@@ -104,7 +100,7 @@ public class ConfigMap {
         if (this.getOtherConfigsMap() == null) return false;
         if (Objects.isNull(this.getReadCrosshairConfigMap()) || !this.getReadCrosshairConfigMap().validate()) return false;
         if (Objects.isNull(this.getPoiConfigMap()) || !this.getPoiConfigMap().validate()) return false;
-        if (this.getFallDetectorConfigMap() == null) return false;
+        if (this.fallDetectorConfigMap == null) return false;
         if (this.getNarratorMenuConfigMap() == null) return false;
 
         return true;

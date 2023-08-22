@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.config.config_menus;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.ConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControlsConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.FallDetectorConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
@@ -59,6 +60,7 @@ public class ValueEntryMenu extends BaseScreen {
         super.init();
 
         final CameraControlsConfigMap cameraControlsConfigMap = CameraControlsConfigMap.getInstance();
+        final FallDetectorConfigMap fallDetectorConfigMap = FallDetectorConfigMap.getInstance();
 
         switch (configType) {
             case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE -> {
@@ -130,19 +132,19 @@ public class ValueEntryMenu extends BaseScreen {
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case FALL_DETECTOR_RANGE -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getFallDetectorConfigMap().getRange());
+                this.value = String.valueOf(fallDetectorConfigMap.getRange());
                 this.valueType = VALUE_TYPE.INT;
             }
             case FALL_DETECTOR_DEPTH_THRESHOLD -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getFallDetectorConfigMap().getDepth());
+                this.value = String.valueOf(fallDetectorConfigMap.getDepth());
                 this.valueType = VALUE_TYPE.INT;
             }
             case FALL_DETECTOR_VOLUME -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getFallDetectorConfigMap().getVolume());
+                this.value = String.valueOf(fallDetectorConfigMap.getVolume());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case FALL_DETECTOR_DELAY -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getFallDetectorConfigMap().getDelay());
+                this.value = String.valueOf(fallDetectorConfigMap.getDelay());
                 this.valueType = VALUE_TYPE.INT;
             }
             case READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL -> {
@@ -200,6 +202,7 @@ public class ValueEntryMenu extends BaseScreen {
         try {
             ConfigMap configMap = MainClass.config.getConfigMap();
             final CameraControlsConfigMap cameraControlsConfigMap = CameraControlsConfigMap.getInstance();
+            final FallDetectorConfigMap fallDetectorConfigMap = FallDetectorConfigMap.getInstance();
 
             switch (configType) {
                 case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE ->
@@ -236,14 +239,10 @@ public class ValueEntryMenu extends BaseScreen {
                         configMap.getPlayerWarningConfigMap().setHungerThreshold(Double.parseDouble(value));
                 case PLAYER_WARNINGS_AIR_THRESHOLD ->
                         configMap.getPlayerWarningConfigMap().setAirThreshold(Double.parseDouble(value));
-                case FALL_DETECTOR_RANGE ->
-                        configMap.getFallDetectorConfigMap().setRange(Integer.parseInt(value));
-                case FALL_DETECTOR_DEPTH_THRESHOLD ->
-                        configMap.getFallDetectorConfigMap().setDepth(Integer.parseInt(value));
-                case FALL_DETECTOR_VOLUME ->
-                        configMap.getFallDetectorConfigMap().setVolume(Float.parseFloat(value));
-                case FALL_DETECTOR_DELAY ->
-                        configMap.getFallDetectorConfigMap().setDelay(Integer.parseInt(value));
+                case FALL_DETECTOR_RANGE -> fallDetectorConfigMap.setRange(Integer.parseInt(value));
+                case FALL_DETECTOR_DEPTH_THRESHOLD -> fallDetectorConfigMap.setDepth(Integer.parseInt(value));
+                case FALL_DETECTOR_VOLUME -> fallDetectorConfigMap.setVolume(Float.parseFloat(value));
+                case FALL_DETECTOR_DELAY -> fallDetectorConfigMap.setDelay(Integer.parseInt(value));
                 case READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL ->
                         configMap.getReadCrosshairConfigMap().setRepeatSpeakingInterval(Long.parseLong(value));
                 case NARRATOR_MENU_VOLUME ->
