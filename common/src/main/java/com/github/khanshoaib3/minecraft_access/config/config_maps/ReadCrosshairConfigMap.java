@@ -32,8 +32,8 @@ public class ReadCrosshairConfigMap {
     }
 
     public static void setInstance(ReadCrosshairConfigMap map) {
-        instance = map;
         RCPartialSpeakingConfigMap.setInstance(map.partialSpeakingConfigMap);
+        instance = map;
     }
 
     public boolean isEnabled() {
