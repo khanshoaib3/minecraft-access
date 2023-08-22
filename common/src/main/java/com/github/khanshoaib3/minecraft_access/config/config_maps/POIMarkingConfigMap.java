@@ -12,6 +12,9 @@ public class POIMarkingConfigMap {
     @SerializedName("Suppress Other POI When Marking On")
     private boolean suppressOtherWhenEnabled;
 
+    private POIMarkingConfigMap() {
+    }
+
     public static POIMarkingConfigMap buildDefault() {
         POIMarkingConfigMap m = new POIMarkingConfigMap();
         m.enabled = true;

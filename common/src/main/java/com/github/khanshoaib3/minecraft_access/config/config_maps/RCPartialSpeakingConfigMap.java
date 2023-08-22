@@ -19,6 +19,9 @@ public class RCPartialSpeakingConfigMap {
     @SerializedName("Targets")
     private List<String> partialSpeakingTargets;
 
+    private RCPartialSpeakingConfigMap() {
+    }
+
     public static RCPartialSpeakingConfigMap buildDefault() {
         RCPartialSpeakingConfigMap m = new RCPartialSpeakingConfigMap();
         m.enabled = false;
