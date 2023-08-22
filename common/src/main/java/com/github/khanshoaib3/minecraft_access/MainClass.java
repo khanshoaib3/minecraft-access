@@ -47,7 +47,7 @@ public class MainClass {
      */
     public static void init() {
         config = Config.getInstance();
-        Config.refresh();
+        config.loadConfig();
         debugMode = config.getConfigMap().getOtherConfigsMap().isDebugMode();
 
         String msg = "Initializing Minecraft Access";
