@@ -4,6 +4,7 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.ConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControlsConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.FallDetectorConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
@@ -148,7 +149,7 @@ public class ValueEntryMenu extends BaseScreen {
                 this.valueType = VALUE_TYPE.INT;
             }
             case READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getReadCrosshairConfigMap().getRepeatSpeakingInterval());
+                this.value = String.valueOf(ReadCrosshairConfigMap.getInstance().getRepeatSpeakingInterval());
                 this.valueType = VALUE_TYPE.INT;
             }
             case NARRATOR_MENU_VOLUME -> {
@@ -244,7 +245,7 @@ public class ValueEntryMenu extends BaseScreen {
                 case FALL_DETECTOR_VOLUME -> fallDetectorConfigMap.setVolume(Float.parseFloat(value));
                 case FALL_DETECTOR_DELAY -> fallDetectorConfigMap.setDelay(Integer.parseInt(value));
                 case READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL ->
-                        configMap.getReadCrosshairConfigMap().setRepeatSpeakingInterval(Long.parseLong(value));
+                        ReadCrosshairConfigMap.getInstance().setRepeatSpeakingInterval(Long.parseLong(value));
                 case NARRATOR_MENU_VOLUME ->
                         configMap.getNarratorMenuConfigMap().getFluidDetectorConfigMap().setVolume(Float.parseFloat(value));
                 case NARRATOR_MENU_RANGE ->
