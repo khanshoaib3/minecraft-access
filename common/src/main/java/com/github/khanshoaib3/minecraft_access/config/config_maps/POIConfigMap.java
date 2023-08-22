@@ -27,7 +27,7 @@ public class POIConfigMap {
         m1.poiBlocksConfigMap = POIBlocksConfigMap.buildDefault();
         m1.poiEntitiesConfigMap = POIEntitiesConfigMap.buildDefault();
         m1.poiLockingConfigMap = POILockingConfigMap.buildDefault();
-        m1.setPoiMarkingConfigMap(POIMarkingConfigMap.buildDefault());
+        m1.poiMarkingConfigMap = POIMarkingConfigMap.buildDefault();
 
         setInstance(m1);
         return m1;
