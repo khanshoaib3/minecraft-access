@@ -258,10 +258,11 @@ class POIMarkingConfigMenu extends BaseScreen {
     protected void init() {
         super.init();
 
-        POIMarkingConfigMap map = POIMarkingConfigMap.getInstance();
+        POIMarkingConfigMap initMap = POIMarkingConfigMap.getInstance();
 
-        ButtonWidget b1 = this.buildButtonWidget(featureToggleButtonMessage(map.isEnabled()),
+        ButtonWidget b1 = this.buildButtonWidget(featureToggleButtonMessage(initMap.isEnabled()),
                 (button) -> {
+                    POIMarkingConfigMap map = POIMarkingConfigMap.getInstance();
                     map.setEnabled(!map.isEnabled());
                     button.setMessage(Text.of(featureToggleButtonMessage(map.isEnabled())));
                     Config.getInstance().writeJSON();
@@ -270,8 +271,9 @@ class POIMarkingConfigMenu extends BaseScreen {
 
         Function<Boolean, String> t2 = featureToggleButtonMessageWith("minecraft_access.gui.poi_marking_config_menu.button.suppress_other_when_enabled_button");
         ButtonWidget b2 = this.buildButtonWidget(
-                t2.apply(map.isSuppressOtherWhenEnabled()),
+                t2.apply(initMap.isSuppressOtherWhenEnabled()),
                 (button) -> {
+                    POIMarkingConfigMap map = POIMarkingConfigMap.getInstance();
                     map.setSuppressOtherWhenEnabled(!map.isSuppressOtherWhenEnabled());
                     button.setMessage(Text.of(t2.apply(map.isSuppressOtherWhenEnabled())));
                     Config.getInstance().writeJSON();
