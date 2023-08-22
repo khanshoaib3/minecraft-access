@@ -6,6 +6,7 @@ public class NarratorMenuConfigMap {
     @SerializedName("Enabled")
     private boolean enabled;
     @SerializedName("Fluid Detector")
+    private FluidDetectorConfigMap fluidDetectorConfigMap;
 
     public boolean isEnabled() {
         return enabled;
@@ -15,20 +16,14 @@ public class NarratorMenuConfigMap {
         this.enabled = enabled;
     }
 
-    private FluidDetectorConfigMap fluidDetectorConfigMap;
-
     public FluidDetectorConfigMap getFluidDetectorConfigMap() {
         return fluidDetectorConfigMap;
-    }
-
-    public void setFluidDetectorConfigMap(FluidDetectorConfigMap fluidDetectorConfigMap) {
-        this.fluidDetectorConfigMap = fluidDetectorConfigMap;
     }
 
     public static NarratorMenuConfigMap getDefaultNarratorMenuConfigMap() {
         NarratorMenuConfigMap defaultNarratorMenuConfigMap = new NarratorMenuConfigMap();
         defaultNarratorMenuConfigMap.setEnabled(true);
-        defaultNarratorMenuConfigMap.setFluidDetectorConfigMap(FluidDetectorConfigMap.getDefaultFluidDetectorConfigMap());
+        defaultNarratorMenuConfigMap.fluidDetectorConfigMap = FluidDetectorConfigMap.buildDefault();
         return defaultNarratorMenuConfigMap;
     }
 }
