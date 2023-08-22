@@ -19,10 +19,11 @@ public class ReadCrosshairConfigMenu extends BaseScreen {
     protected void init() {
         super.init();
 
-        ReadCrosshairConfigMap map = ReadCrosshairConfigMap.getInstance();
+        ReadCrosshairConfigMap initMap = ReadCrosshairConfigMap.getInstance();
 
-        ButtonWidget featureToggleButton = this.buildButtonWidget(featureToggleButtonMessage(map.isEnabled()),
+        ButtonWidget featureToggleButton = this.buildButtonWidget(featureToggleButtonMessage(initMap.isEnabled()),
                 (button) -> {
+                    ReadCrosshairConfigMap map = ReadCrosshairConfigMap.getInstance();
                     map.setEnabled(!map.isEnabled());
                     button.setMessage(Text.of(featureToggleButtonMessage(map.isEnabled())));
                     Config.getInstance().writeJSON();
@@ -31,8 +32,9 @@ public class ReadCrosshairConfigMenu extends BaseScreen {
 
         Function<Boolean, String> speakBlockSidesText = featureToggleButtonMessageWith("minecraft_access.gui.read_crosshair_config_menu.button.speak_block_sides_button");
         ButtonWidget speakBlockSidesButton = this.buildButtonWidget(
-                speakBlockSidesText.apply(map.isSpeakSide()),
+                speakBlockSidesText.apply(initMap.isSpeakSide()),
                 (button) -> {
+                    ReadCrosshairConfigMap map = ReadCrosshairConfigMap.getInstance();
                     map.setSpeakSide(!map.isSpeakSide());
                     button.setMessage(Text.of(speakBlockSidesText.apply(map.isSpeakSide())));
                     Config.getInstance().writeJSON();
@@ -41,8 +43,9 @@ public class ReadCrosshairConfigMenu extends BaseScreen {
 
         Function<Boolean, String> disableConsecutiveBlocksText = featureToggleButtonMessageWith("minecraft_access.gui.read_crosshair_config_menu.button.disable_speaking_consecutive_blocks_button");
         ButtonWidget disableConsecutiveBlocksButton = this.buildButtonWidget(
-                disableConsecutiveBlocksText.apply(map.isDisableSpeakingConsecutiveBlocks()),
+                disableConsecutiveBlocksText.apply(initMap.isDisableSpeakingConsecutiveBlocks()),
                 (button) -> {
+                    ReadCrosshairConfigMap map = ReadCrosshairConfigMap.getInstance();
                     map.setDisableSpeakingConsecutiveBlocks(!map.isDisableSpeakingConsecutiveBlocks());
                     button.setMessage(Text.of(disableConsecutiveBlocksText.apply(map.isDisableSpeakingConsecutiveBlocks())));
                     Config.getInstance().writeJSON();
@@ -52,7 +55,7 @@ public class ReadCrosshairConfigMenu extends BaseScreen {
 
         ButtonWidget repeatSpeakingIntervalButton = this.buildButtonWidget(
                 floatValueButtonMessageWith("minecraft_access.gui.read_crosshair_config_menu.button.repeat_speaking_interval_button",
-                        map.getRepeatSpeakingInterval()),
+                        initMap.getRepeatSpeakingInterval()),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL, this)),
                 true);
         this.addDrawableChild(repeatSpeakingIntervalButton);

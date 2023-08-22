@@ -79,10 +79,6 @@ public class ConfigMap {
         return playerWarningConfigMap;
     }
 
-    public ReadCrosshairConfigMap getReadCrosshairConfigMap() {
-        return readCrosshairConfigMap;
-    }
-
     public OtherConfigsMap getOtherConfigsMap() {
         return otherConfigsMap;
     }
@@ -98,7 +94,7 @@ public class ConfigMap {
         if (this.getMouseSimulationConfigMap() == null) return false;
         if (this.getPlayerWarningConfigMap() == null) return false;
         if (this.getOtherConfigsMap() == null) return false;
-        if (Objects.isNull(this.getReadCrosshairConfigMap()) || !this.getReadCrosshairConfigMap().validate()) return false;
+        if (Objects.isNull(this.readCrosshairConfigMap) || !this.readCrosshairConfigMap.validate()) return false;
         if (Objects.isNull(this.getPoiConfigMap()) || !this.getPoiConfigMap().validate()) return false;
         if (this.fallDetectorConfigMap == null) return false;
         if (this.getNarratorMenuConfigMap() == null) return false;

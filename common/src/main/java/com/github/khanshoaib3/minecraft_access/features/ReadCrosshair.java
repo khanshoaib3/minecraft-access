@@ -97,7 +97,7 @@ public class ReadCrosshair {
         // the ReadCrosshairConfigMap class because in the case of an error in the config.json,
         // while it does get reset to default but the mod crashes as well. So to avoid the mod from crashing,
         // use the instance of Config class to get instances of other config maps.
-        ReadCrosshairConfigMap rcMap = Config.getInstance().getConfigMap().getReadCrosshairConfigMap();
+        ReadCrosshairConfigMap rcMap = ReadCrosshairConfigMap.getInstance();
         RCPartialSpeakingConfigMap rcpMap = RCPartialSpeakingConfigMap.getInstance();
 
         this.speakSide = rcMap.isSpeakSide();
