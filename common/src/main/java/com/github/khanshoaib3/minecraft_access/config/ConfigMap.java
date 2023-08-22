@@ -30,7 +30,7 @@ public class ConfigMap {
 
     public static ConfigMap buildDefault() {
         ConfigMap m = new ConfigMap();
-        m.setDefaultCameraControlsConfigMap();
+        m.cameraControlsConfigMap = CameraControlsConfigMap.buildDefault();
         m.setDefaultInventoryControlsConfigMap();
         m.mouseSimulationConfigMap = MouseSimulationConfigMap.buildDefault();
         m.poiConfigMap = POIConfigMap.buildDefault();
@@ -43,6 +43,7 @@ public class ConfigMap {
     }
 
     public static void setInstance(ConfigMap map) {
+        CameraControlsConfigMap.setInstance(map.cameraControlsConfigMap);
         MouseSimulationConfigMap.setInstance(map.mouseSimulationConfigMap);
         POIConfigMap.setInstance(map.poiConfigMap);
         ReadCrosshairConfigMap.setInstance(map.readCrosshairConfigMap);
@@ -50,20 +51,6 @@ public class ConfigMap {
 
     public CameraControlsConfigMap getCameraControlsConfigMap() {
         return cameraControlsConfigMap;
-    }
-
-    public void setCameraControlsConfigMap(CameraControlsConfigMap cameraControlsConfigMap) {
-        this.cameraControlsConfigMap = cameraControlsConfigMap;
-    }
-
-    public void setDefaultCameraControlsConfigMap() {
-        CameraControlsConfigMap defaultCameraControlsConfigMap = new CameraControlsConfigMap();
-        defaultCameraControlsConfigMap.setEnabled(true);
-        defaultCameraControlsConfigMap.setNormalRotatingAngle(22.5f);
-        defaultCameraControlsConfigMap.setModifiedRotatingAngle(11.25f);
-        defaultCameraControlsConfigMap.setDelayInMilliseconds(250);
-
-        setCameraControlsConfigMap(defaultCameraControlsConfigMap);
     }
 
     public InventoryControlsConfigMap getInventoryControlsConfigMap() {
