@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
+import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
 
 public class ReadCrosshairConfigMap {
@@ -24,10 +25,13 @@ public class ReadCrosshairConfigMap {
         m.setDisableSpeakingConsecutiveBlocks(true);
         m.setRepeatSpeakingInterval(0L);
         m.setPartialSpeakingConfigMap(RCPartialSpeakingConfigMap.buildDefault());
+
+        setInstance(m);
         return m;
     }
 
     public static ReadCrosshairConfigMap getInstance() {
+        if (instance == null) Config.getInstance().loadConfig();
         return instance;
     }
 
