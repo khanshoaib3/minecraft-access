@@ -99,7 +99,7 @@ public class ReadCrosshair {
         // while it does get reset to default but the mod crashes as well. So to avoid the mod from crashing,
         // use the instance of Config class to get instances of other config maps.
         ReadCrosshairConfigMap rcMap = Config.getInstance().getConfigMap().getReadCrosshairConfigMap();
-        RCPartialSpeakingConfigMap rcpMap = rcMap.getPartialSpeakingConfigMap();
+        RCPartialSpeakingConfigMap rcpMap = RCPartialSpeakingConfigMap.getInstance();
 
         this.speakSide = rcMap.isSpeakSide();
         // affirmation for easier use

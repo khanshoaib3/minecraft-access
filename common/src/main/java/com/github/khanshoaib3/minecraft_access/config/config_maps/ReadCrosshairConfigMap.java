@@ -75,15 +75,11 @@ public class ReadCrosshairConfigMap {
         this.repeatSpeakingInterval = repeatSpeakingInterval;
     }
 
-    public RCPartialSpeakingConfigMap getPartialSpeakingConfigMap() {
-        return partialSpeakingConfigMap;
-    }
-
     public void setPartialSpeakingConfigMap(RCPartialSpeakingConfigMap partialSpeakingConfigMap) {
         this.partialSpeakingConfigMap = partialSpeakingConfigMap;
     }
 
     public boolean validate() {
-        return getPartialSpeakingConfigMap() != null;
+        return this.partialSpeakingConfigMap != null;
     }
 }

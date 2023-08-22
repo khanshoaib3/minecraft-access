@@ -73,10 +73,11 @@ class RCPartialSpeakingConfigMenu extends BaseScreen {
     protected void init() {
         super.init();
 
-        RCPartialSpeakingConfigMap map = RCPartialSpeakingConfigMap.getInstance();
+        RCPartialSpeakingConfigMap initMap = RCPartialSpeakingConfigMap.getInstance();
 
-        ButtonWidget featureToggleButton = this.buildButtonWidget(featureToggleButtonMessage(map.isEnabled()),
+        ButtonWidget featureToggleButton = this.buildButtonWidget(featureToggleButtonMessage(initMap.isEnabled()),
                 (button) -> {
+                    RCPartialSpeakingConfigMap map = RCPartialSpeakingConfigMap.getInstance();
                     map.setEnabled(!map.isEnabled());
                     button.setMessage(Text.of(featureToggleButtonMessage(map.isEnabled())));
                     Config.getInstance().writeJSON();
@@ -85,8 +86,9 @@ class RCPartialSpeakingConfigMenu extends BaseScreen {
 
         Function<Boolean, String> partialSpeakingWhitelistModeText = featureToggleButtonMessageWith("minecraft_access.gui.rc_partial_speaking_menu.button.partial_speaking_whitelist_mode_button");
         ButtonWidget partialSpeakingWhitelistModeButton = this.buildButtonWidget(
-                partialSpeakingWhitelistModeText.apply(map.isPartialSpeakingWhitelistMode()),
+                partialSpeakingWhitelistModeText.apply(initMap.isPartialSpeakingWhitelistMode()),
                 (button) -> {
+                    RCPartialSpeakingConfigMap map = RCPartialSpeakingConfigMap.getInstance();
                     map.setPartialSpeakingWhitelistMode(!map.isPartialSpeakingWhitelistMode());
                     button.setMessage(Text.of(partialSpeakingWhitelistModeText.apply(map.isPartialSpeakingWhitelistMode())));
                     Config.getInstance().writeJSON();
@@ -95,8 +97,9 @@ class RCPartialSpeakingConfigMenu extends BaseScreen {
 
         Function<Boolean, String> partialSpeakingFuzzyModeText = featureToggleButtonMessageWith("minecraft_access.gui.rc_partial_speaking_menu.button.partial_speaking_fuzzy_mode_button");
         ButtonWidget partialSpeakingFuzzyModeButton = this.buildButtonWidget(
-                partialSpeakingFuzzyModeText.apply(map.isPartialSpeakingFuzzyMode()),
+                partialSpeakingFuzzyModeText.apply(initMap.isPartialSpeakingFuzzyMode()),
                 (button) -> {
+                    RCPartialSpeakingConfigMap map = RCPartialSpeakingConfigMap.getInstance();
                     map.setPartialSpeakingFuzzyMode(!map.isPartialSpeakingFuzzyMode());
                     button.setMessage(Text.of(partialSpeakingFuzzyModeText.apply(map.isPartialSpeakingFuzzyMode())));
                     Config.getInstance().writeJSON();
