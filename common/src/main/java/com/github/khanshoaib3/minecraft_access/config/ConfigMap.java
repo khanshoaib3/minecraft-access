@@ -9,6 +9,9 @@ import java.util.Objects;
  * Pure DTO for mapping structure of config json via Gson.
  */
 public class ConfigMap {
+
+    private static ConfigMap instance;
+
     @SerializedName("Camera Controls")
     private CameraControlsConfigMap cameraControlsConfigMap;
     @SerializedName("Inventory Controls")
@@ -52,6 +55,12 @@ public class ConfigMap {
         PlayerWarningConfigMap.setInstance(map.playerWarningConfigMap);
         POIConfigMap.setInstance(map.poiConfigMap);
         ReadCrosshairConfigMap.setInstance(map.readCrosshairConfigMap);
+        instance = map;
+    }
+
+    public static ConfigMap getInstance() {
+        if (instance == null) Config.getInstance().loadConfig();
+        return instance;
     }
 
     public CameraControlsConfigMap getCameraControlsConfigMap() {
@@ -84,10 +93,6 @@ public class ConfigMap {
 
     public OtherConfigsMap getOtherConfigsMap() {
         return otherConfigsMap;
-    }
-
-    public void setOtherConfigsMap(OtherConfigsMap otherConfigsMap) {
-        this.otherConfigsMap = otherConfigsMap;
     }
 
     public NarratorMenuConfigMap getNarratorMenuConfigMap() {
