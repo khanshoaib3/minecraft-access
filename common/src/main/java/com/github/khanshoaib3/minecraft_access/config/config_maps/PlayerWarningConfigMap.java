@@ -1,8 +1,12 @@
 package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
+import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
 
 public class PlayerWarningConfigMap {
+
+    private static PlayerWarningConfigMap instance;
+
     @SerializedName("Enabled")
     private boolean enabled;
     @SerializedName("Play Sound")
@@ -15,6 +19,28 @@ public class PlayerWarningConfigMap {
     private double hungerThreshold;
     @SerializedName("Air Threshold")
     private double airThreshold;
+
+    public static PlayerWarningConfigMap getInstance() {
+        if (instance == null) Config.getInstance().loadConfig();
+        return instance;
+    }
+
+    public static void setInstance(PlayerWarningConfigMap map) {
+        instance = map;
+    }
+
+    public static PlayerWarningConfigMap buildDefault() {
+        PlayerWarningConfigMap defaultPlayerWarningConfigMap = new PlayerWarningConfigMap();
+        defaultPlayerWarningConfigMap.setEnabled(true);
+        defaultPlayerWarningConfigMap.setPlaySound(true);
+        defaultPlayerWarningConfigMap.setFirstHealthThreshold(6.0);
+        defaultPlayerWarningConfigMap.setSecondHealthThreshold(3.0);
+        defaultPlayerWarningConfigMap.setHungerThreshold(3.0);
+        defaultPlayerWarningConfigMap.setAirThreshold(3.0);
+
+        setInstance(defaultPlayerWarningConfigMap);
+        return defaultPlayerWarningConfigMap;
+    }
 
     public boolean isEnabled() {
         return enabled;

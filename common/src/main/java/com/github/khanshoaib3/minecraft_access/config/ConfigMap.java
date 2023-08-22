@@ -34,7 +34,7 @@ public class ConfigMap {
         m.inventoryControlsConfigMap = InventoryControlsConfigMap.buildDefault();
         m.mouseSimulationConfigMap = MouseSimulationConfigMap.buildDefault();
         m.poiConfigMap = POIConfigMap.buildDefault();
-        m.setDefaultPlayerWarningConfigMap();
+        m.playerWarningConfigMap = PlayerWarningConfigMap.buildDefault();
         m.fallDetectorConfigMap = FallDetectorConfigMap.buildDefault();
         m.readCrosshairConfigMap = ReadCrosshairConfigMap.buildDefault();
         m.otherConfigsMap = OtherConfigsMap.buildDefault();
@@ -49,6 +49,7 @@ public class ConfigMap {
         MouseSimulationConfigMap.setInstance(map.mouseSimulationConfigMap);
         NarratorMenuConfigMap.setInstance(map.narratorMenuConfigMap);
         OtherConfigsMap.setInstance(map.otherConfigsMap);
+        PlayerWarningConfigMap.setInstance(map.playerWarningConfigMap);
         POIConfigMap.setInstance(map.poiConfigMap);
         ReadCrosshairConfigMap.setInstance(map.readCrosshairConfigMap);
     }
@@ -71,22 +72,6 @@ public class ConfigMap {
 
     public PlayerWarningConfigMap getPlayerWarningConfigMap() {
         return playerWarningConfigMap;
-    }
-
-    public void setPlayerWarningConfigMap(PlayerWarningConfigMap playerWarningConfigMap) {
-        this.playerWarningConfigMap = playerWarningConfigMap;
-    }
-
-    public void setDefaultPlayerWarningConfigMap() {
-        PlayerWarningConfigMap defaultPlayerWarningConfigMap = new PlayerWarningConfigMap();
-        defaultPlayerWarningConfigMap.setEnabled(true);
-        defaultPlayerWarningConfigMap.setPlaySound(true);
-        defaultPlayerWarningConfigMap.setFirstHealthThreshold(6.0);
-        defaultPlayerWarningConfigMap.setSecondHealthThreshold(3.0);
-        defaultPlayerWarningConfigMap.setHungerThreshold(3.0);
-        defaultPlayerWarningConfigMap.setAirThreshold(3.0);
-
-        setPlayerWarningConfigMap(defaultPlayerWarningConfigMap);
     }
 
     public FallDetectorConfigMap getFallDetectorConfigMap() {
