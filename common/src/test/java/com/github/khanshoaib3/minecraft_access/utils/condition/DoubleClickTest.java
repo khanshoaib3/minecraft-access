@@ -15,7 +15,7 @@ class DoubleClickTest {
     @BeforeAll
     static void beforeAll() {
         ConfigMap mockConfigMap = mock(ConfigMap.class);
-        when(mockConfigMap.getOtherConfigsMap()).thenReturn(OtherConfigsMap.getDefaultOtherConfigsMap());
+        when(mockConfigMap.getOtherConfigsMap()).thenReturn(OtherConfigsMap.buildDefault());
         Config mockConfig = mock(Config.class);
         when(mockConfig.getConfigMap()).thenReturn(mockConfigMap);
         MainClass.config = mockConfig;

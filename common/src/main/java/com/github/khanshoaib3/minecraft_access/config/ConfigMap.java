@@ -37,7 +37,7 @@ public class ConfigMap {
         m.setDefaultPlayerWarningConfigMap();
         m.fallDetectorConfigMap = FallDetectorConfigMap.buildDefault();
         m.readCrosshairConfigMap = ReadCrosshairConfigMap.buildDefault();
-        m.setOtherConfigsMap(OtherConfigsMap.getDefaultOtherConfigsMap());
+        m.otherConfigsMap = OtherConfigsMap.buildDefault();
         m.narratorMenuConfigMap = NarratorMenuConfigMap.buildDefault();
         return m;
     }
@@ -48,6 +48,7 @@ public class ConfigMap {
         InventoryControlsConfigMap.setInstance(map.inventoryControlsConfigMap);
         MouseSimulationConfigMap.setInstance(map.mouseSimulationConfigMap);
         NarratorMenuConfigMap.setInstance(map.narratorMenuConfigMap);
+        OtherConfigsMap.setInstance(map.otherConfigsMap);
         POIConfigMap.setInstance(map.poiConfigMap);
         ReadCrosshairConfigMap.setInstance(map.readCrosshairConfigMap);
     }
