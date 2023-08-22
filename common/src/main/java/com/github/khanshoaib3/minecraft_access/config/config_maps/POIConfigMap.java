@@ -23,14 +23,14 @@ public class POIConfigMap {
     }
 
     public static POIConfigMap buildDefault() {
-        POIConfigMap m1 = new POIConfigMap();
-        m1.poiBlocksConfigMap = POIBlocksConfigMap.buildDefault();
-        m1.poiEntitiesConfigMap = POIEntitiesConfigMap.buildDefault();
-        m1.poiLockingConfigMap = POILockingConfigMap.buildDefault();
-        m1.poiMarkingConfigMap = POIMarkingConfigMap.buildDefault();
+        POIConfigMap m = new POIConfigMap();
+        m.poiBlocksConfigMap = POIBlocksConfigMap.buildDefault();
+        m.poiEntitiesConfigMap = POIEntitiesConfigMap.buildDefault();
+        m.poiLockingConfigMap = POILockingConfigMap.buildDefault();
+        m.poiMarkingConfigMap = POIMarkingConfigMap.buildDefault();
 
-        setInstance(m1);
-        return m1;
+        setInstance(m);
+        return m;
     }
 
     public static POIConfigMap getInstance() {
@@ -57,32 +57,16 @@ public class POIConfigMap {
         return poiBlocksConfigMap;
     }
 
-    public void setBlocksConfigMap(POIBlocksConfigMap poiBlocksConfigMap) {
-        this.poiBlocksConfigMap = poiBlocksConfigMap;
-    }
-
     public POIEntitiesConfigMap getEntitiesConfigMap() {
         return poiEntitiesConfigMap;
-    }
-
-    public void setEntitiesConfigMap(POIEntitiesConfigMap poiEntitiesConfigMap) {
-        this.poiEntitiesConfigMap = poiEntitiesConfigMap;
     }
 
     public POILockingConfigMap getLockingConfigMap() {
         return poiLockingConfigMap;
     }
 
-    public void setLockingConfigMap(POILockingConfigMap poiLockingConfigMap) {
-        this.poiLockingConfigMap = poiLockingConfigMap;
-    }
-
     public POIMarkingConfigMap getPoiMarkingConfigMap() {
         return poiMarkingConfigMap;
-    }
-
-    public void setPoiMarkingConfigMap(POIMarkingConfigMap poiMarkingConfigMap) {
-        this.poiMarkingConfigMap = poiMarkingConfigMap;
     }
 }
 
