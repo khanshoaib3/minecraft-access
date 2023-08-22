@@ -1,11 +1,15 @@
 package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
+import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
 import java.util.stream.Stream;
 
 public class POIConfigMap {
+
+    private static POIConfigMap instance;
+
     @SerializedName("Blocks")
     private POIBlocksConfigMap poiBlocksConfigMap;
     @SerializedName("Entities")
@@ -47,7 +51,13 @@ public class POIConfigMap {
 
         m1.setPoiMarkingConfigMap(POIMarkingConfigMap.buildDefault());
 
+        setInstance(m1);
         return m1;
+    }
+
+    public static POIConfigMap getInstance() {
+        if (instance == null) Config.getInstance().loadConfig();
+        return instance;
     }
 
     public static void setInstance(POIConfigMap map) {
@@ -55,6 +65,7 @@ public class POIConfigMap {
         // has real singleton static class variable.
         // Parent config maps has responsibility for maintaining child maps' singleton instances.
         POIMarkingConfigMap.setInstance(map.poiMarkingConfigMap);
+        instance = map;
     }
 
     public boolean validate() {
