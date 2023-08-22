@@ -24,19 +24,9 @@ public class POIConfigMap {
 
     public static POIConfigMap buildDefault() {
         POIConfigMap m1 = new POIConfigMap();
-
         m1.poiBlocksConfigMap = POIBlocksConfigMap.buildDefault();
         m1.poiEntitiesConfigMap = POIEntitiesConfigMap.buildDefault();
-
-        POILockingConfigMap m4 = new POILockingConfigMap();
-        m4.setEnabled(true);
-        m4.setLockOnBlocks(true);
-        m4.setSpeakDistance(false);
-        m4.setUnlockingSound(true);
-        m4.setAutoLockEyeOfEnderEntity(true);
-        m4.setDelay(100);
-        m1.setLockingConfigMap(m4);
-
+        m1.poiLockingConfigMap = POILockingConfigMap.buildDefault();
         m1.setPoiMarkingConfigMap(POIMarkingConfigMap.buildDefault());
 
         setInstance(m1);
@@ -54,6 +44,7 @@ public class POIConfigMap {
         // Parent config maps has responsibility for maintaining child maps' singleton instances.
         POIBlocksConfigMap.setInstance(map.poiBlocksConfigMap);
         POIEntitiesConfigMap.setInstance(map.poiEntitiesConfigMap);
+        POILockingConfigMap.setInstance(map.poiLockingConfigMap);
         POIMarkingConfigMap.setInstance(map.poiMarkingConfigMap);
         instance = map;
     }
