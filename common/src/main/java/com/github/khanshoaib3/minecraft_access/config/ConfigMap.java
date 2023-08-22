@@ -31,7 +31,7 @@ public class ConfigMap {
     public static ConfigMap buildDefault() {
         ConfigMap m = new ConfigMap();
         m.cameraControlsConfigMap = CameraControlsConfigMap.buildDefault();
-        m.setDefaultInventoryControlsConfigMap();
+        m.inventoryControlsConfigMap = InventoryControlsConfigMap.buildDefault();
         m.mouseSimulationConfigMap = MouseSimulationConfigMap.buildDefault();
         m.poiConfigMap = POIConfigMap.buildDefault();
         m.setDefaultPlayerWarningConfigMap();
@@ -45,6 +45,7 @@ public class ConfigMap {
     public static void setInstance(ConfigMap map) {
         CameraControlsConfigMap.setInstance(map.cameraControlsConfigMap);
         FallDetectorConfigMap.setInstance(map.fallDetectorConfigMap);
+        InventoryControlsConfigMap.setInstance(map.inventoryControlsConfigMap);
         MouseSimulationConfigMap.setInstance(map.mouseSimulationConfigMap);
         NarratorMenuConfigMap.setInstance(map.narratorMenuConfigMap);
         POIConfigMap.setInstance(map.poiConfigMap);
@@ -57,20 +58,6 @@ public class ConfigMap {
 
     public InventoryControlsConfigMap getInventoryControlsConfigMap() {
         return inventoryControlsConfigMap;
-    }
-
-    public void setInventoryControlsConfigMap(InventoryControlsConfigMap inventoryControlsConfigMap) {
-        this.inventoryControlsConfigMap = inventoryControlsConfigMap;
-    }
-
-    public void setDefaultInventoryControlsConfigMap() {
-        InventoryControlsConfigMap defaultInventoryControlsConfigMap = new InventoryControlsConfigMap();
-        defaultInventoryControlsConfigMap.setEnabled(true);
-        defaultInventoryControlsConfigMap.setAutoOpenRecipeBook(true);
-        defaultInventoryControlsConfigMap.setRowAndColumnFormat("%dx%d");
-        defaultInventoryControlsConfigMap.setDelayInMilliseconds(150);
-
-        setInventoryControlsConfigMap(defaultInventoryControlsConfigMap);
     }
 
     public MouseSimulationConfigMap getMouseSimulationConfigMap() {
@@ -119,10 +106,6 @@ public class ConfigMap {
 
     public NarratorMenuConfigMap getNarratorMenuConfigMap() {
         return narratorMenuConfigMap;
-    }
-
-    public void setNarratorMenuConfigMap(NarratorMenuConfigMap narratorMenuConfigMap) {
-        this.narratorMenuConfigMap = narratorMenuConfigMap;
     }
 
     @SuppressWarnings("RedundantIfStatement")
