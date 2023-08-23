@@ -4,6 +4,7 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.ConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControlsConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.FallDetectorConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.MouseSimulationConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.DrawableHelper;
@@ -86,7 +87,7 @@ public class ValueEntryMenu extends BaseScreen {
                 this.valueType = VALUE_TYPE.INT;
             }
             case MOUSE_SIMULATION_SCROLL_DELAY -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getMouseSimulationConfigMap().getScrollDelayInMilliseconds());
+                this.value = String.valueOf(MouseSimulationConfigMap.getInstance().getScrollDelayInMilliseconds());
                 this.valueType = VALUE_TYPE.INT;
             }
             case POI_BLOCKS_RANGE -> {
@@ -218,7 +219,7 @@ public class ValueEntryMenu extends BaseScreen {
                 case INVENTORY_CONTROLS_DELAY ->
                         configMap.getInventoryControlsConfigMap().setDelayInMilliseconds(Integer.parseInt(value));
                 case MOUSE_SIMULATION_SCROLL_DELAY ->
-                        configMap.getMouseSimulationConfigMap().setScrollDelayInMilliseconds(Integer.parseInt(value));
+                        MouseSimulationConfigMap.getInstance().setScrollDelayInMilliseconds(Integer.parseInt(value));
                 case POI_BLOCKS_RANGE ->
                         configMap.getPoiConfigMap().getBlocksConfigMap().setRange(Integer.parseInt(value));
                 case POI_BLOCKS_VOLUME ->
