@@ -2,10 +2,14 @@ package com.github.khanshoaib3.minecraft_access.features.narrator_menu;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.ConfigMenu;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import com.github.khanshoaib3.minecraft_access.features.BiomeIndicator;
 import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
-import com.github.khanshoaib3.minecraft_access.utils.*;
+import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
+import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
+import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -335,7 +339,7 @@ public class NarratorMenu {
             int minutes = (int) ((daytime % 1000) * 60 / 1000);
 
             String translationKey = "minecraft_access.narrator_menu.time_of_day";
-            if (MainClass.config.getConfigMap().getOtherConfigsMap().isUse12HourTimeFormat()) {
+            if (OtherConfigsMap.getInstance().isUse12HourTimeFormat()) {
                 if (hours > 12) {
                     hours -= 12;
                     translationKey += "_pm";

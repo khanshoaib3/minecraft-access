@@ -1,6 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.utils.condition;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
@@ -11,7 +11,7 @@ import java.util.function.Supplier;
  */
 public abstract class KeystrokeTiming extends Keystroke {
     protected Interval interval;
-    public static final Supplier<Interval> DEFAULT_INTERVAL = () -> Interval.inMilliseconds(MainClass.config.getConfigMap().getOtherConfigsMap().getMultipleClickSpeedInMilliseconds());
+    public static final Supplier<Interval> DEFAULT_INTERVAL = () -> Interval.inMilliseconds(OtherConfigsMap.getInstance().getMultipleClickSpeedInMilliseconds());
 
     /**
      * @param condition Expression that checking if the key (combination) is pressed now.

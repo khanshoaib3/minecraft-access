@@ -71,10 +71,6 @@ public class ConfigMap {
         return playerWarningConfigMap;
     }
 
-    public OtherConfigsMap getOtherConfigsMap() {
-        return otherConfigsMap;
-    }
-
     public NarratorMenuConfigMap getNarratorMenuConfigMap() {
         return narratorMenuConfigMap;
     }
@@ -85,7 +81,7 @@ public class ConfigMap {
         if (this.inventoryControlsConfigMap == null) return false;
         if (this.mouseSimulationConfigMap == null) return false;
         if (this.getPlayerWarningConfigMap() == null) return false;
-        if (this.getOtherConfigsMap() == null) return false;
+        if (this.otherConfigsMap == null) return false;
         if (Objects.isNull(this.readCrosshairConfigMap) || !this.readCrosshairConfigMap.validate()) return false;
         if (Objects.isNull(this.getPoiConfigMap()) || !this.getPoiConfigMap().validate()) return false;
         if (this.fallDetectorConfigMap == null) return false;

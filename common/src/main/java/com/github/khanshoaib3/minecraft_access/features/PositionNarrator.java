@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
@@ -64,7 +65,7 @@ public class PositionNarrator {
     }
 
     private String getNarrationText(String posX, String posY, String posZ) {
-        String format = MainClass.config.getConfigMap().getOtherConfigsMap().getPositionNarratorFormat();
+        String format = OtherConfigsMap.getInstance().getPositionNarratorFormat();
 
         if (!format.contains("{x}") || !format.contains("{y}") || !format.contains("{z}")) format = defaultFormat;
 
