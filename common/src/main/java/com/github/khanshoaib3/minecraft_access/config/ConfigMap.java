@@ -65,15 +65,15 @@ public class ConfigMap {
 
     @SuppressWarnings("RedundantIfStatement")
     public boolean validate() {
-        if (this.cameraControlsConfigMap == null) return false;
-        if (this.inventoryControlsConfigMap == null) return false;
-        if (this.mouseSimulationConfigMap == null) return false;
-        if (this.playerWarningConfigMap == null) return false;
-        if (this.otherConfigsMap == null) return false;
+        if (Objects.isNull(this.cameraControlsConfigMap)) return false;
+        if (Objects.isNull(this.inventoryControlsConfigMap)) return false;
+        if (Objects.isNull(this.mouseSimulationConfigMap)) return false;
+        if (Objects.isNull(this.playerWarningConfigMap)) return false;
+        if (Objects.isNull(this.otherConfigsMap)) return false;
         if (Objects.isNull(this.readCrosshairConfigMap) || !this.readCrosshairConfigMap.validate()) return false;
         if (Objects.isNull(this.poiConfigMap) || !this.poiConfigMap.validate()) return false;
-        if (this.fallDetectorConfigMap == null) return false;
-        if (this.narratorMenuConfigMap == null) return false;
+        if (Objects.isNull(this.fallDetectorConfigMap)) return false;
+        if (Objects.isNull(this.narratorMenuConfigMap) || !this.narratorMenuConfigMap.validate()) return false;
 
         return true;
     }
