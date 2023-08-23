@@ -127,7 +127,7 @@ public class FluidDetector {
     }
 
     private void loadConfigurations() {
-        FluidDetectorConfigMap map = MainClass.config.getConfigMap().getNarratorMenuConfigMap().getFluidDetectorConfigMap();
+        FluidDetectorConfigMap map = FluidDetectorConfigMap.getInstance();
         this.range = map.getRange();
         this.volume = map.getVolume();
     }

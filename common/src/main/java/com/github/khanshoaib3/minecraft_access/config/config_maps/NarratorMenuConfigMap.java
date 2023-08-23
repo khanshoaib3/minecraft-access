@@ -20,10 +20,6 @@ public class NarratorMenuConfigMap {
         this.enabled = enabled;
     }
 
-    public FluidDetectorConfigMap getFluidDetectorConfigMap() {
-        return fluidDetectorConfigMap;
-    }
-
     private NarratorMenuConfigMap() {
     }
 
