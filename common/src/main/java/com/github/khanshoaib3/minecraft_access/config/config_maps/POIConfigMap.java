@@ -52,9 +52,5 @@ public class POIConfigMap {
     public boolean validate() {
         return Stream.of(poiBlocksConfigMap, poiEntitiesConfigMap, poiLockingConfigMap, poiMarkingConfigMap).allMatch(Objects::nonNull);
     }
-
-    public POILockingConfigMap getLockingConfigMap() {
-        return poiLockingConfigMap;
-    }
 }
 
