@@ -1,10 +1,7 @@
 package com.github.khanshoaib3.minecraft_access;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControlsConfigMap;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.InventoryControlsConfigMap;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.*;
 import com.github.khanshoaib3.minecraft_access.features.*;
 import com.github.khanshoaib3.minecraft_access.features.inventory_controls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.narrator_menu.NarratorMenu;
@@ -138,7 +135,7 @@ public class MainClass {
         if (healthNHunger != null && otherConfigsMap.isHealthNHungerEnabled())
             healthNHunger.update();
 
-        if (playerWarnings != null && config.getConfigMap().getPlayerWarningConfigMap().isEnabled())
+        if (playerWarnings != null && PlayerWarningConfigMap.getInstance().isEnabled())
             playerWarnings.update();
 
         if (narratorMenu != null && config.getConfigMap().getNarratorMenuConfigMap().isEnabled())
