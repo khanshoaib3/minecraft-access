@@ -22,8 +22,6 @@ public class MainClass {
     private static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     private static ScreenReaderInterface screenReader = null;
 
-    public static Config config = null;
-
     public static CameraControls cameraControls = null;
     public static InventoryControls inventoryControls = null;
     public static ReadCrosshair readCrosshair = null;
@@ -47,8 +45,7 @@ public class MainClass {
      * Initializes the mod
      */
     public static void init() {
-        config = Config.getInstance();
-        config.loadConfig();
+        Config.getInstance().loadConfig();
         debugMode = OtherConfigsMap.getInstance().isDebugMode();
 
         String msg = "Initializing Minecraft Access";
