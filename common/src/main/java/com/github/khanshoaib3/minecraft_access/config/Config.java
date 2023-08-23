@@ -46,10 +46,12 @@ public class Config {
 
             createDefaultConfigFileIfNotExist();
             configMap = readJSON();
-            // update config maps' singleton instances
+
+            if (isConfigMapNotValid(configMap)) resetToDefault();
+
+            // update config map singleton instances reference
             ConfigMap.setInstance(configMap);
 
-            if (!isConfigMapValid(configMap)) resetToDefault();
         } catch (Exception e) {
             MainClass.errorLog("An error occurred while reading config.json file, resetting to default");
             e.printStackTrace();
@@ -59,10 +61,9 @@ public class Config {
         }
     }
 
-    private boolean isConfigMapValid(ConfigMap configMap) {
+    private boolean isConfigMapNotValid(ConfigMap configMap) {
         if (configMap == null) return false;
-
-        return configMap.validate();
+        return !configMap.validate();
     }
 
     /**
