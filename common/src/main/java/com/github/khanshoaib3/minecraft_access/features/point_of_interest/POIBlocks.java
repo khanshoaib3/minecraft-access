@@ -145,7 +145,7 @@ public class POIBlocks {
     }
 
     private void loadConfigurations() {
-        POIBlocksConfigMap poiBlocksConfigMap = MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap();
+        POIBlocksConfigMap poiBlocksConfigMap = POIBlocksConfigMap.getInstance();
         this.enabled = poiBlocksConfigMap.isEnabled();
         this.detectFluidBlocks = poiBlocksConfigMap.isDetectFluidBlocks();
         this.range = poiBlocksConfigMap.getRange();

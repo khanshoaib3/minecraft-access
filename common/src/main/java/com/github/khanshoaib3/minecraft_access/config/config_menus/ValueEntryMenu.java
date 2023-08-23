@@ -64,6 +64,7 @@ public class ValueEntryMenu extends BaseScreen {
         final InventoryControlsConfigMap inventoryControlsConfigMap = InventoryControlsConfigMap.getInstance();
         final PlayerWarningConfigMap playerWarningConfigMap = PlayerWarningConfigMap.getInstance();
         final FluidDetectorConfigMap fluidDetectorConfigMap = FluidDetectorConfigMap.getInstance();
+        final POIBlocksConfigMap poiBlocksConfigMap = POIBlocksConfigMap.getInstance();
 
         switch (configType) {
             case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE -> {
@@ -91,15 +92,15 @@ public class ValueEntryMenu extends BaseScreen {
                 this.valueType = VALUE_TYPE.INT;
             }
             case POI_BLOCKS_RANGE -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getRange());
+                this.value = String.valueOf(poiBlocksConfigMap.getRange());
                 this.valueType = VALUE_TYPE.INT;
             }
             case POI_BLOCKS_VOLUME -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getVolume());
+                this.value = String.valueOf(poiBlocksConfigMap.getVolume());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case POI_BLOCKS_DELAY -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getDelay());
+                this.value = String.valueOf(poiBlocksConfigMap.getDelay());
                 this.valueType = VALUE_TYPE.INT;
             }
             case POI_ENTITIES_RANGE -> {
@@ -209,6 +210,7 @@ public class ValueEntryMenu extends BaseScreen {
             final InventoryControlsConfigMap inventoryControlsConfigMap = InventoryControlsConfigMap.getInstance();
             final PlayerWarningConfigMap playerWarningConfigMap = PlayerWarningConfigMap.getInstance();
             final FluidDetectorConfigMap fluidDetectorConfigMap = FluidDetectorConfigMap.getInstance();
+            final POIBlocksConfigMap poibBlocksConfigMap = POIBlocksConfigMap.getInstance();
 
             switch (configType) {
                 case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE ->
@@ -224,11 +226,11 @@ public class ValueEntryMenu extends BaseScreen {
                 case MOUSE_SIMULATION_SCROLL_DELAY ->
                         MouseSimulationConfigMap.getInstance().setScrollDelayInMilliseconds(Integer.parseInt(value));
                 case POI_BLOCKS_RANGE ->
-                        configMap.getPoiConfigMap().getBlocksConfigMap().setRange(Integer.parseInt(value));
+                        poibBlocksConfigMap.setRange(Integer.parseInt(value));
                 case POI_BLOCKS_VOLUME ->
-                        configMap.getPoiConfigMap().getBlocksConfigMap().setVolume(Float.parseFloat(value));
+                        poibBlocksConfigMap.setVolume(Float.parseFloat(value));
                 case POI_BLOCKS_DELAY ->
-                        configMap.getPoiConfigMap().getBlocksConfigMap().setDelay(Integer.parseInt(value));
+                        poibBlocksConfigMap.setDelay(Integer.parseInt(value));
                 case POI_ENTITIES_RANGE ->
                         configMap.getPoiConfigMap().getEntitiesConfigMap().setRange(Integer.parseInt(value));
                 case POI_ENTITIES_VOLUME ->
