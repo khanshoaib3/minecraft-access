@@ -3,6 +3,8 @@ package com.github.khanshoaib3.minecraft_access.config.config_maps;
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 public class ReadCrosshairConfigMap {
     private static ReadCrosshairConfigMap instance;
 
@@ -79,7 +81,9 @@ public class ReadCrosshairConfigMap {
         this.partialSpeakingConfigMap = partialSpeakingConfigMap;
     }
 
-    public boolean validate() {
-        return this.partialSpeakingConfigMap != null;
+    public void resetMissingSectionsToDefault() {
+        if (Objects.isNull(this.partialSpeakingConfigMap)) {
+            this.partialSpeakingConfigMap = RCPartialSpeakingConfigMap.buildDefault();
+        }
     }
 }
