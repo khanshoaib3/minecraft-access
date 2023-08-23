@@ -35,11 +35,11 @@ public class RCPartialSpeakingConfigMap {
     }
 
     public static void setInstance(RCPartialSpeakingConfigMap map) {
-        if (instance == null) Config.getInstance().loadConfig();
         instance = map;
     }
 
     public static RCPartialSpeakingConfigMap getInstance() {
+        if (instance == null) Config.getInstance().loadConfig();
         return instance;
     }
 
