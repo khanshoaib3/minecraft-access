@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.config.config_menus;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.ConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.*;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.DrawableHelper;
@@ -205,7 +205,6 @@ public class ValueEntryMenu extends BaseScreen {
 
     private void updateConfig() {
         try {
-            ConfigMap configMap = MainClass.config.getConfigMap();
             final CameraControlsConfigMap cameraControlsConfigMap = CameraControlsConfigMap.getInstance();
             final FallDetectorConfigMap fallDetectorConfigMap = FallDetectorConfigMap.getInstance();
             final InventoryControlsConfigMap inventoryControlsConfigMap = InventoryControlsConfigMap.getInstance();
@@ -252,7 +251,9 @@ public class ValueEntryMenu extends BaseScreen {
                 case NARRATOR_MENU_RANGE -> fluidDetectorConfigMap.setRange(Integer.parseInt(value));
                 case OTHER_POSITION_NARRATOR_FORMAT -> OtherConfigsMap.getInstance().setPositionNarratorFormat(value);
             }
-            MainClass.config.setConfigMap(configMap);
+
+            Config.getInstance().writeJSON();
+
         } catch (Exception e) {
             MainClass.errorLog("Error occurred while updating the config. The user possibly entered wrong value type.");
             e.printStackTrace();
