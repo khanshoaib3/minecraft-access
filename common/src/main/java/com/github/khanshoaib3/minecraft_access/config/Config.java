@@ -26,7 +26,6 @@ public class Config {
      * To prevent constructing other instances.
      */
     private Config() {
-        
     }
 
     public static Config getInstance() {
@@ -47,7 +46,7 @@ public class Config {
             createDefaultConfigFileIfNotExist();
             configMap = readJSON();
 
-            if (isConfigMapNotValid(configMap)) resetToDefault();
+            resetConfigToDefaultIfNotValid();
 
             // update config map singleton instances reference
             ConfigMap.setInstance(configMap);
@@ -55,21 +54,25 @@ public class Config {
         } catch (Exception e) {
             MainClass.errorLog("An error occurred while reading config.json file, resetting to default");
             e.printStackTrace();
-            resetToDefault();
+            resetConfigToDefault();
         } finally {
             MainClass.infoLog("Loaded configurations from config.json");
         }
     }
 
-    private boolean isConfigMapNotValid(ConfigMap configMap) {
-        if (configMap == null) return false;
-        return !configMap.validate();
+    private void resetConfigToDefaultIfNotValid() {
+        if (this.configMap == null) {
+            resetConfigToDefault();
+        } else {
+            this.configMap.resetMissingSectionsToDefault();
+            writeJSON();
+        }
     }
 
     /**
      * Resets the config.json to default
      */
-    protected void resetToDefault() {
+    protected void resetConfigToDefault() {
         try {
             this.configMap = ConfigMap.buildDefault();
             writeJSON();
@@ -88,7 +91,7 @@ public class Config {
         configFile.createNewFile();
         MainClass.infoLog("Created an empty config.json file at: %s".formatted(configFile.getAbsolutePath()));
 
-        resetToDefault();
+        resetConfigToDefault();
     }
 
     public void writeJSON() {

@@ -44,7 +44,9 @@ public class NarratorMenuConfigMap {
         return defaultNarratorMenuConfigMap;
     }
 
-    public boolean validate() {
-        return Objects.nonNull(this.fluidDetectorConfigMap);
+    public void resetMissingSectionsToDefault() {
+        if (Objects.isNull(this.fluidDetectorConfigMap)) {
+            this.fluidDetectorConfigMap = FluidDetectorConfigMap.buildDefault();
+        }
     }
 }

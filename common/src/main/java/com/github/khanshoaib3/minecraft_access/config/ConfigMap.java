@@ -63,18 +63,43 @@ public class ConfigMap {
         return instance;
     }
 
-    @SuppressWarnings("RedundantIfStatement")
-    public boolean validate() {
-        if (Objects.isNull(this.cameraControlsConfigMap)) return false;
-        if (Objects.isNull(this.inventoryControlsConfigMap)) return false;
-        if (Objects.isNull(this.mouseSimulationConfigMap)) return false;
-        if (Objects.isNull(this.playerWarningConfigMap)) return false;
-        if (Objects.isNull(this.otherConfigsMap)) return false;
-        if (Objects.isNull(this.readCrosshairConfigMap) || !this.readCrosshairConfigMap.validate()) return false;
-        if (Objects.isNull(this.poiConfigMap) || !this.poiConfigMap.validate()) return false;
-        if (Objects.isNull(this.fallDetectorConfigMap)) return false;
-        if (Objects.isNull(this.narratorMenuConfigMap) || !this.narratorMenuConfigMap.validate()) return false;
-
-        return true;
+    /**
+     * Some XxxConfigMap class variable may be missing duo to new features released with new config section or so.
+     * Only reset these missing sections to reduce the burden on users whenever new config section is introduced.
+     */
+    public void resetMissingSectionsToDefault() {
+        if (Objects.isNull(this.cameraControlsConfigMap)) {
+            this.cameraControlsConfigMap = CameraControlsConfigMap.buildDefault();
+        }
+        if (Objects.isNull(this.inventoryControlsConfigMap)) {
+            this.inventoryControlsConfigMap = InventoryControlsConfigMap.buildDefault();
+        }
+        if (Objects.isNull(this.mouseSimulationConfigMap)) {
+            this.mouseSimulationConfigMap = MouseSimulationConfigMap.buildDefault();
+        }
+        if (Objects.isNull(this.playerWarningConfigMap)) {
+            this.playerWarningConfigMap = PlayerWarningConfigMap.buildDefault();
+        }
+        if (Objects.isNull(this.otherConfigsMap)) {
+            this.otherConfigsMap = OtherConfigsMap.buildDefault();
+        }
+        if (Objects.isNull(this.readCrosshairConfigMap)) {
+            this.readCrosshairConfigMap = ReadCrosshairConfigMap.buildDefault();
+        } else {
+            this.readCrosshairConfigMap.resetMissingSectionsToDefault();
+        }
+        if (Objects.isNull(this.poiConfigMap)) {
+            this.poiConfigMap = POIConfigMap.buildDefault();
+        } else {
+            this.poiConfigMap.resetMissingSectionsToDefault();
+        }
+        if (Objects.isNull(this.fallDetectorConfigMap)) {
+            this.fallDetectorConfigMap = FallDetectorConfigMap.buildDefault();
+        }
+        if (Objects.isNull(this.narratorMenuConfigMap)) {
+            this.narratorMenuConfigMap = NarratorMenuConfigMap.buildDefault();
+        } else {
+            this.narratorMenuConfigMap.resetMissingSectionsToDefault();
+        }
     }
 }

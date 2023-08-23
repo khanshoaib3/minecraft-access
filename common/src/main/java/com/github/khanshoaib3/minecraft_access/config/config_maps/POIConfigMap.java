@@ -4,7 +4,6 @@ import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
-import java.util.stream.Stream;
 
 public class POIConfigMap {
 
@@ -49,8 +48,19 @@ public class POIConfigMap {
         instance = map;
     }
 
-    public boolean validate() {
-        return Stream.of(poiBlocksConfigMap, poiEntitiesConfigMap, poiLockingConfigMap, poiMarkingConfigMap).allMatch(Objects::nonNull);
+    public void resetMissingSectionsToDefault() {
+        if (Objects.isNull(this.poiBlocksConfigMap)) {
+            this.poiBlocksConfigMap = POIBlocksConfigMap.buildDefault();
+        }
+        if (Objects.isNull(this.poiEntitiesConfigMap)) {
+            this.poiEntitiesConfigMap = POIEntitiesConfigMap.buildDefault();
+        }
+        if (Objects.isNull(this.poiLockingConfigMap)) {
+            this.poiLockingConfigMap = POILockingConfigMap.buildDefault();
+        }
+        if (Objects.isNull(this.poiMarkingConfigMap)) {
+            this.poiMarkingConfigMap = POIMarkingConfigMap.buildDefault();
+        }
     }
 }
 
