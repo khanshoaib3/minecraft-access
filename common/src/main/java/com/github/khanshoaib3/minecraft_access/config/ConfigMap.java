@@ -63,10 +63,6 @@ public class ConfigMap {
         return instance;
     }
 
-    public POIConfigMap getPoiConfigMap() {
-        return poiConfigMap;
-    }
-
     @SuppressWarnings("RedundantIfStatement")
     public boolean validate() {
         if (this.cameraControlsConfigMap == null) return false;
@@ -75,7 +71,7 @@ public class ConfigMap {
         if (this.playerWarningConfigMap == null) return false;
         if (this.otherConfigsMap == null) return false;
         if (Objects.isNull(this.readCrosshairConfigMap) || !this.readCrosshairConfigMap.validate()) return false;
-        if (Objects.isNull(this.getPoiConfigMap()) || !this.getPoiConfigMap().validate()) return false;
+        if (Objects.isNull(this.poiConfigMap) || !this.poiConfigMap.validate()) return false;
         if (this.fallDetectorConfigMap == null) return false;
         if (this.narratorMenuConfigMap == null) return false;
 
