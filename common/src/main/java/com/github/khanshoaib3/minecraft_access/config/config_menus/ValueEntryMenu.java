@@ -2,10 +2,7 @@ package com.github.khanshoaib3.minecraft_access.config.config_menus;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.ConfigMap;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControlsConfigMap;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.FallDetectorConfigMap;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.MouseSimulationConfigMap;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.*;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
@@ -63,6 +60,7 @@ public class ValueEntryMenu extends BaseScreen {
 
         final CameraControlsConfigMap cameraControlsConfigMap = CameraControlsConfigMap.getInstance();
         final FallDetectorConfigMap fallDetectorConfigMap = FallDetectorConfigMap.getInstance();
+        final InventoryControlsConfigMap inventoryControlsConfigMap = InventoryControlsConfigMap.getInstance();
 
         switch (configType) {
             case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE -> {
@@ -78,11 +76,11 @@ public class ValueEntryMenu extends BaseScreen {
                 this.valueType = VALUE_TYPE.INT;
             }
             case INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT -> {
-                this.value = MainClass.config.getConfigMap().getInventoryControlsConfigMap().getRowAndColumnFormat();
+                this.value = inventoryControlsConfigMap.getRowAndColumnFormat();
                 this.valueType = VALUE_TYPE.STRING;
             }
             case INVENTORY_CONTROLS_DELAY -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getInventoryControlsConfigMap().getDelayInMilliseconds());
+                this.value = String.valueOf(inventoryControlsConfigMap.getDelayInMilliseconds());
                 this.valueType = VALUE_TYPE.INT;
             }
             case MOUSE_SIMULATION_SCROLL_DELAY -> {
@@ -205,6 +203,7 @@ public class ValueEntryMenu extends BaseScreen {
             ConfigMap configMap = MainClass.config.getConfigMap();
             final CameraControlsConfigMap cameraControlsConfigMap = CameraControlsConfigMap.getInstance();
             final FallDetectorConfigMap fallDetectorConfigMap = FallDetectorConfigMap.getInstance();
+            final InventoryControlsConfigMap inventoryControlsConfigMap = InventoryControlsConfigMap.getInstance();
 
             switch (configType) {
                 case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE ->
@@ -214,9 +213,9 @@ public class ValueEntryMenu extends BaseScreen {
                 case CAMERA_CONTROLS_DELAY ->
                         cameraControlsConfigMap.setDelayInMilliseconds(Integer.parseInt(value));
                 case INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT ->
-                        configMap.getInventoryControlsConfigMap().setRowAndColumnFormat(value);
+                        inventoryControlsConfigMap.setRowAndColumnFormat(value);
                 case INVENTORY_CONTROLS_DELAY ->
-                        configMap.getInventoryControlsConfigMap().setDelayInMilliseconds(Integer.parseInt(value));
+                        inventoryControlsConfigMap.setDelayInMilliseconds(Integer.parseInt(value));
                 case MOUSE_SIMULATION_SCROLL_DELAY ->
                         MouseSimulationConfigMap.getInstance().setScrollDelayInMilliseconds(Integer.parseInt(value));
                 case POI_BLOCKS_RANGE ->

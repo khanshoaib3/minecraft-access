@@ -63,10 +63,6 @@ public class ConfigMap {
         return instance;
     }
 
-    public InventoryControlsConfigMap getInventoryControlsConfigMap() {
-        return inventoryControlsConfigMap;
-    }
-
     public POIConfigMap getPoiConfigMap() {
         return poiConfigMap;
     }
@@ -86,7 +82,7 @@ public class ConfigMap {
     @SuppressWarnings("RedundantIfStatement")
     public boolean validate() {
         if (this.cameraControlsConfigMap == null) return false;
-        if (this.getInventoryControlsConfigMap() == null) return false;
+        if (this.inventoryControlsConfigMap == null) return false;
         if (this.mouseSimulationConfigMap == null) return false;
         if (this.getPlayerWarningConfigMap() == null) return false;
         if (this.getOtherConfigsMap() == null) return false;
