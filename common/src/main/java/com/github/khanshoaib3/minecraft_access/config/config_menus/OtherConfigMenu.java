@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.config.config_menus;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.ConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
@@ -92,7 +93,7 @@ public class OtherConfigMenu extends BaseScreen {
         ButtonWidget positionNarratorFormatButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.button_with_string_value",
                         I18n.translate("minecraft_access.gui.other_config_menu.button.position_narrator_format_button"),
-                        MainClass.config.getConfigMap().getInventoryControlsConfigMap().getRowAndColumnFormat()
+                        OtherConfigsMap.getInstance().getPositionNarratorFormat()
                 ),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.OTHER_POSITION_NARRATOR_FORMAT, this)));
         positionNarratorFormatButton.active = false;

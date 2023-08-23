@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControlsConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.InventoryControlsConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.features.*;
 import com.github.khanshoaib3.minecraft_access.features.inventory_controls.InventoryControls;
@@ -111,7 +112,7 @@ public class MainClass {
         }
 
         // TODO Update these to singleton design pattern
-        if (inventoryControls != null && config.getConfigMap().getInventoryControlsConfigMap().isEnabled())
+        if (inventoryControls != null && InventoryControlsConfigMap.getInstance().isEnabled())
             inventoryControls.update();
 
         if (cameraControls != null && CameraControlsConfigMap.getInstance().isEnabled())
