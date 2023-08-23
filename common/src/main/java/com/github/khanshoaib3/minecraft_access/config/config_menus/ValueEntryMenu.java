@@ -65,6 +65,7 @@ public class ValueEntryMenu extends BaseScreen {
         final PlayerWarningConfigMap playerWarningConfigMap = PlayerWarningConfigMap.getInstance();
         final FluidDetectorConfigMap fluidDetectorConfigMap = FluidDetectorConfigMap.getInstance();
         final POIBlocksConfigMap poiBlocksConfigMap = POIBlocksConfigMap.getInstance();
+        final POIEntitiesConfigMap entitiesConfigMap = POIEntitiesConfigMap.getInstance();
 
         switch (configType) {
             case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE -> {
@@ -104,15 +105,15 @@ public class ValueEntryMenu extends BaseScreen {
                 this.valueType = VALUE_TYPE.INT;
             }
             case POI_ENTITIES_RANGE -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getRange());
+                this.value = String.valueOf(entitiesConfigMap.getRange());
                 this.valueType = VALUE_TYPE.INT;
             }
             case POI_ENTITIES_VOLUME -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getVolume());
+                this.value = String.valueOf(entitiesConfigMap.getVolume());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case POI_ENTITIES_DELAY -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getDelay());
+                this.value = String.valueOf(entitiesConfigMap.getDelay());
                 this.valueType = VALUE_TYPE.INT;
             }
             case POI_LOCKING_DELAY -> {
@@ -211,6 +212,7 @@ public class ValueEntryMenu extends BaseScreen {
             final PlayerWarningConfigMap playerWarningConfigMap = PlayerWarningConfigMap.getInstance();
             final FluidDetectorConfigMap fluidDetectorConfigMap = FluidDetectorConfigMap.getInstance();
             final POIBlocksConfigMap poibBlocksConfigMap = POIBlocksConfigMap.getInstance();
+            final POIEntitiesConfigMap poiEntitiesConfigMap = POIEntitiesConfigMap.getInstance();
 
             switch (configType) {
                 case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE ->
@@ -225,18 +227,12 @@ public class ValueEntryMenu extends BaseScreen {
                         inventoryControlsConfigMap.setDelayInMilliseconds(Integer.parseInt(value));
                 case MOUSE_SIMULATION_SCROLL_DELAY ->
                         MouseSimulationConfigMap.getInstance().setScrollDelayInMilliseconds(Integer.parseInt(value));
-                case POI_BLOCKS_RANGE ->
-                        poibBlocksConfigMap.setRange(Integer.parseInt(value));
-                case POI_BLOCKS_VOLUME ->
-                        poibBlocksConfigMap.setVolume(Float.parseFloat(value));
-                case POI_BLOCKS_DELAY ->
-                        poibBlocksConfigMap.setDelay(Integer.parseInt(value));
-                case POI_ENTITIES_RANGE ->
-                        configMap.getPoiConfigMap().getEntitiesConfigMap().setRange(Integer.parseInt(value));
-                case POI_ENTITIES_VOLUME ->
-                        configMap.getPoiConfigMap().getEntitiesConfigMap().setVolume(Float.parseFloat(value));
-                case POI_ENTITIES_DELAY ->
-                        configMap.getPoiConfigMap().getEntitiesConfigMap().setDelay(Integer.parseInt(value));
+                case POI_BLOCKS_RANGE -> poibBlocksConfigMap.setRange(Integer.parseInt(value));
+                case POI_BLOCKS_VOLUME -> poibBlocksConfigMap.setVolume(Float.parseFloat(value));
+                case POI_BLOCKS_DELAY -> poibBlocksConfigMap.setDelay(Integer.parseInt(value));
+                case POI_ENTITIES_RANGE -> poiEntitiesConfigMap.setRange(Integer.parseInt(value));
+                case POI_ENTITIES_VOLUME -> poiEntitiesConfigMap.setVolume(Float.parseFloat(value));
+                case POI_ENTITIES_DELAY -> poiEntitiesConfigMap.setDelay(Integer.parseInt(value));
                 case POI_LOCKING_DELAY ->
                         configMap.getPoiConfigMap().getLockingConfigMap().setDelay(Integer.parseInt(value));
                 case PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD ->
