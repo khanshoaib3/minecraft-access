@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.PlayerWarningConfigMap;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.sound.SoundCategory;
@@ -61,11 +62,12 @@ public class PlayerWarnings {
     }
 
     private void loadConfigurations() {
-        this.playSound = MainClass.config.getConfigMap().getPlayerWarningConfigMap().isPlaySound();
-        this.firstHealthThreshold = MainClass.config.getConfigMap().getPlayerWarningConfigMap().getFirstHealthThreshold();
-        this.secondHealthThreshold = MainClass.config.getConfigMap().getPlayerWarningConfigMap().getSecondHealthThreshold();
-        this.hungerThreshold = MainClass.config.getConfigMap().getPlayerWarningConfigMap().getHungerThreshold();
-        this.airThreshold = MainClass.config.getConfigMap().getPlayerWarningConfigMap().getAirThreshold();
+        PlayerWarningConfigMap map = PlayerWarningConfigMap.getInstance();
+        this.playSound = map.isPlaySound();
+        this.firstHealthThreshold = map.getFirstHealthThreshold();
+        this.secondHealthThreshold = map.getSecondHealthThreshold();
+        this.hungerThreshold = map.getHungerThreshold();
+        this.airThreshold = map.getAirThreshold();
     }
 
     private void healthWarning(double health) {

@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.config.config_menus;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.ConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.Config;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.PlayerWarningConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
@@ -17,28 +17,30 @@ public class PlayerWarningsConfigMenu extends BaseScreen {
     protected void init() {
         super.init();
 
-        ButtonWidget featureToggleButton = this.buildButtonWidget("minecraft_access.gui.common.button.feature_toggle_button." + (MainClass.config.getConfigMap().getPlayerWarningConfigMap().isEnabled() ? "enabled" : "disabled"),
+        PlayerWarningConfigMap initMap = PlayerWarningConfigMap.getInstance();
+
+        ButtonWidget featureToggleButton = this.buildButtonWidget("minecraft_access.gui.common.button.feature_toggle_button." + (initMap.isEnabled() ? "enabled" : "disabled"),
                 (button) -> {
-                    ConfigMap configMap = MainClass.config.getConfigMap();
-                    configMap.getPlayerWarningConfigMap().setEnabled(!configMap.getPlayerWarningConfigMap().isEnabled());
-                    MainClass.config.setConfigMap(configMap);
-                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.feature_toggle_button." + (MainClass.config.getConfigMap().getPlayerWarningConfigMap().isEnabled() ? "enabled" : "disabled"))));
+                    PlayerWarningConfigMap map = PlayerWarningConfigMap.getInstance();
+                    map.setEnabled(!map.isEnabled());
+                    Config.getInstance().writeJSON();
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.feature_toggle_button." + (map.isEnabled() ? "enabled" : "disabled"))));
                 });
         this.addDrawableChild(featureToggleButton);
 
-        ButtonWidget playSoundButton = this.buildButtonWidget("minecraft_access.gui.common.button.play_sound_toggle_button." + (MainClass.config.getConfigMap().getPlayerWarningConfigMap().isPlaySound() ? "enabled" : "disabled"),
+        ButtonWidget playSoundButton = this.buildButtonWidget("minecraft_access.gui.common.button.play_sound_toggle_button." + (initMap.isPlaySound() ? "enabled" : "disabled"),
                 (button) -> {
-                    ConfigMap configMap = MainClass.config.getConfigMap();
-                    configMap.getPlayerWarningConfigMap().setPlaySound(!configMap.getPlayerWarningConfigMap().isPlaySound());
-                    MainClass.config.setConfigMap(configMap);
-                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.play_sound_toggle_button." + (MainClass.config.getConfigMap().getPlayerWarningConfigMap().isPlaySound() ? "enabled" : "disabled"))));
+                    PlayerWarningConfigMap map = PlayerWarningConfigMap.getInstance();
+                    map.setPlaySound(!map.isPlaySound());
+                    Config.getInstance().writeJSON();
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.play_sound_toggle_button." + (map.isPlaySound() ? "enabled" : "disabled"))));
                 });
         this.addDrawableChild(playSoundButton);
 
         ButtonWidget firstHealthThresholdButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
                         I18n.translate("minecraft_access.gui.player_warnings_config_menu.button.first_health_threshold_button"),
-                        MainClass.config.getConfigMap().getPlayerWarningConfigMap().getFirstHealthThreshold()
+                        initMap.getFirstHealthThreshold()
                 ),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD, this)));
         this.addDrawableChild(firstHealthThresholdButton);
@@ -46,7 +48,7 @@ public class PlayerWarningsConfigMenu extends BaseScreen {
         ButtonWidget secondHealthThresholdButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
                         I18n.translate("minecraft_access.gui.player_warnings_config_menu.button.second_health_threshold_button"),
-                        MainClass.config.getConfigMap().getPlayerWarningConfigMap().getSecondHealthThreshold()
+                        initMap.getSecondHealthThreshold()
                 ),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.PLAYER_WARNINGS_SECOND_HEALTH_THRESHOLD, this)));
         this.addDrawableChild(secondHealthThresholdButton);
@@ -54,7 +56,7 @@ public class PlayerWarningsConfigMenu extends BaseScreen {
         ButtonWidget hungerThresholdButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
                         I18n.translate("minecraft_access.gui.player_warnings_config_menu.button.hunger_threshold_button"),
-                        MainClass.config.getConfigMap().getPlayerWarningConfigMap().getHungerThreshold()
+                        initMap.getHungerThreshold()
                 ),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.PLAYER_WARNINGS_HUNGER_THRESHOLD, this)));
         this.addDrawableChild(hungerThresholdButton);
@@ -62,7 +64,7 @@ public class PlayerWarningsConfigMenu extends BaseScreen {
         ButtonWidget airThresholdButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
                         I18n.translate("minecraft_access.gui.player_warnings_config_menu.button.air_threshold_button"),
-                        MainClass.config.getConfigMap().getPlayerWarningConfigMap().getAirThreshold()
+                        initMap.getAirThreshold()
                 ),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.PLAYER_WARNINGS_AIR_THRESHOLD, this)));
         this.addDrawableChild(airThresholdButton);

@@ -61,6 +61,7 @@ public class ValueEntryMenu extends BaseScreen {
         final CameraControlsConfigMap cameraControlsConfigMap = CameraControlsConfigMap.getInstance();
         final FallDetectorConfigMap fallDetectorConfigMap = FallDetectorConfigMap.getInstance();
         final InventoryControlsConfigMap inventoryControlsConfigMap = InventoryControlsConfigMap.getInstance();
+        final PlayerWarningConfigMap playerWarningConfigMap = PlayerWarningConfigMap.getInstance();
 
         switch (configType) {
             case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE -> {
@@ -116,19 +117,19 @@ public class ValueEntryMenu extends BaseScreen {
                 this.valueType = VALUE_TYPE.INT;
             }
             case PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPlayerWarningConfigMap().getFirstHealthThreshold());
+                this.value = String.valueOf(playerWarningConfigMap.getFirstHealthThreshold());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case PLAYER_WARNINGS_SECOND_HEALTH_THRESHOLD -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPlayerWarningConfigMap().getSecondHealthThreshold());
+                this.value = String.valueOf(playerWarningConfigMap.getSecondHealthThreshold());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case PLAYER_WARNINGS_HUNGER_THRESHOLD -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPlayerWarningConfigMap().getHungerThreshold());
+                this.value = String.valueOf(playerWarningConfigMap.getHungerThreshold());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case PLAYER_WARNINGS_AIR_THRESHOLD -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPlayerWarningConfigMap().getAirThreshold());
+                this.value = String.valueOf(playerWarningConfigMap.getAirThreshold());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case FALL_DETECTOR_RANGE -> {
@@ -204,6 +205,7 @@ public class ValueEntryMenu extends BaseScreen {
             final CameraControlsConfigMap cameraControlsConfigMap = CameraControlsConfigMap.getInstance();
             final FallDetectorConfigMap fallDetectorConfigMap = FallDetectorConfigMap.getInstance();
             final InventoryControlsConfigMap inventoryControlsConfigMap = InventoryControlsConfigMap.getInstance();
+            final PlayerWarningConfigMap playerWarningConfigMap = PlayerWarningConfigMap.getInstance();
 
             switch (configType) {
                 case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE ->
@@ -233,13 +235,13 @@ public class ValueEntryMenu extends BaseScreen {
                 case POI_LOCKING_DELAY ->
                         configMap.getPoiConfigMap().getLockingConfigMap().setDelay(Integer.parseInt(value));
                 case PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD ->
-                        configMap.getPlayerWarningConfigMap().setFirstHealthThreshold(Double.parseDouble(value));
+                        playerWarningConfigMap.setFirstHealthThreshold(Double.parseDouble(value));
                 case PLAYER_WARNINGS_SECOND_HEALTH_THRESHOLD ->
-                        configMap.getPlayerWarningConfigMap().setSecondHealthThreshold(Double.parseDouble(value));
+                        playerWarningConfigMap.setSecondHealthThreshold(Double.parseDouble(value));
                 case PLAYER_WARNINGS_HUNGER_THRESHOLD ->
-                        configMap.getPlayerWarningConfigMap().setHungerThreshold(Double.parseDouble(value));
+                        playerWarningConfigMap.setHungerThreshold(Double.parseDouble(value));
                 case PLAYER_WARNINGS_AIR_THRESHOLD ->
-                        configMap.getPlayerWarningConfigMap().setAirThreshold(Double.parseDouble(value));
+                        playerWarningConfigMap.setAirThreshold(Double.parseDouble(value));
                 case FALL_DETECTOR_RANGE -> fallDetectorConfigMap.setRange(Integer.parseInt(value));
                 case FALL_DETECTOR_DEPTH_THRESHOLD -> fallDetectorConfigMap.setDepth(Integer.parseInt(value));
                 case FALL_DETECTOR_VOLUME -> fallDetectorConfigMap.setVolume(Float.parseFloat(value));
