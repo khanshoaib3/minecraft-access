@@ -54,7 +54,7 @@ public class ConfigMenu extends BaseScreen {
 
         ButtonWidget resetConfigButton = this.buildButtonWidget("minecraft_access.gui.config_menu.button.reset_config_button",
                 (button) -> {
-                    MainClass.config.resetToDefault();
+                    Config.getInstance().resetToDefault();
                     MainClass.speakWithNarrator(I18n.translate("minecraft_access.gui.config_menu.info.reset_config_text"), true);
                     this.client.setScreen(null);
                 },

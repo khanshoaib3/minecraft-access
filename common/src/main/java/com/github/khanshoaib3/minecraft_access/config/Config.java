@@ -3,7 +3,6 @@ package com.github.khanshoaib3.minecraft_access.config;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.minecraft.client.MinecraftClient;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -32,30 +31,6 @@ public class Config {
 
     public static Config getInstance() {
         return instance;
-    }
-    
-    /**
-     * Returns the main config map, if not already initialized, initializes it.
-     *
-     * @return The main config map
-     */
-    public ConfigMap getConfigMap() {
-        if (configMap == null) loadConfig();
-        return configMap;
-    }
-
-    /**
-     * Updates the config.json with the new config map
-     * @param configMap The new config map to update to.
-     */
-    public void setConfigMap(ConfigMap configMap) {
-        try {
-            this.configMap = configMap;
-            writeJSON();
-        } catch (Exception e) {
-            MainClass.errorLog("An error occurred while updating config.");
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -95,7 +70,6 @@ public class Config {
      */
     protected void resetToDefault() {
         try {
-            // TODO Update these
             this.configMap = ConfigMap.buildDefault();
             writeJSON();
         } catch (Exception e) {
