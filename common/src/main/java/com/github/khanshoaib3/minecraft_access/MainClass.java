@@ -138,7 +138,7 @@ public class MainClass {
         if (playerWarnings != null && PlayerWarningConfigMap.getInstance().isEnabled())
             playerWarnings.update();
 
-        if (narratorMenu != null && config.getConfigMap().getNarratorMenuConfigMap().isEnabled())
+        if (narratorMenu != null && NarratorMenuConfigMap.getInstance().isEnabled())
             narratorMenu.update();
 
         POIMarking.getInstance().update();
