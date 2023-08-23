@@ -38,7 +38,7 @@ class DoubleClickTest {
     }
 
     @Test
-    void testCanCleanStaleCountIfTimeOut() throws InterruptedException {
+    void testCanCleanStaleCountIfTimeOut() {
         MockKeystrokeAction m = new MockKeystrokeAction(true);
         MockInterval i = new MockInterval(0, 0);
         DoubleClick k = new DoubleClick(m.supplier, Keystroke.TriggeredAt.PRESSING, i);
