@@ -136,7 +136,7 @@ public class POIEntities {
      * Loads the configs from config.json
      */
     private void loadConfigurations() {
-        POIEntitiesConfigMap map = MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap();
+        POIEntitiesConfigMap map = POIEntitiesConfigMap.getInstance();
         this.enabled = map.isEnabled();
         this.range = map.getRange();
         this.playSound = map.isPlaySound();

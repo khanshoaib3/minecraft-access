@@ -4,6 +4,7 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.config.ConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIBlocksConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.POIEntitiesConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -126,39 +127,38 @@ class POIEntitiesConfigMenu extends BaseScreen {
     protected void init() {
         super.init();
 
-        ButtonWidget featureToggleButton = this.buildButtonWidget("minecraft_access.gui.common.button.feature_toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isEnabled() ? "enabled" : "disabled"),
+        POIEntitiesConfigMap initMap = POIEntitiesConfigMap.getInstance();
+
+        ButtonWidget featureToggleButton = this.buildButtonWidget("minecraft_access.gui.common.button.feature_toggle_button." + (initMap.isEnabled() ? "enabled" : "disabled"),
                 (button) -> {
-                    ConfigMap configMap = MainClass.config.getConfigMap();
-                    configMap.getPoiConfigMap().getEntitiesConfigMap().setEnabled(!configMap.getPoiConfigMap().getEntitiesConfigMap().isEnabled());
-                    MainClass.config.setConfigMap(configMap);
-                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.feature_toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isEnabled() ? "enabled" : "disabled"))));
+                    POIEntitiesConfigMap map = POIEntitiesConfigMap.getInstance();
+                    map.setEnabled(!map.isEnabled());
+                    Config.getInstance().writeJSON();
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.feature_toggle_button." + (map.isEnabled() ? "enabled" : "disabled"))));
                 });
         this.addDrawableChild(featureToggleButton);
 
         ButtonWidget rangeButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.range",
-                        MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getRange()),
+                I18n.translate("minecraft_access.gui.common.button.range", initMap.getRange()),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_ENTITIES_RANGE, this)));
         this.addDrawableChild(rangeButton);
 
-        ButtonWidget playSoundButton = this.buildButtonWidget("minecraft_access.gui.common.button.play_sound_toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isPlaySound() ? "enabled" : "disabled"),
+        ButtonWidget playSoundButton = this.buildButtonWidget("minecraft_access.gui.common.button.play_sound_toggle_button." + (initMap.isPlaySound() ? "enabled" : "disabled"),
                 (button) -> {
-                    ConfigMap configMap = MainClass.config.getConfigMap();
-                    configMap.getPoiConfigMap().getEntitiesConfigMap().setPlaySound(!configMap.getPoiConfigMap().getEntitiesConfigMap().isPlaySound());
-                    MainClass.config.setConfigMap(configMap);
-                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.play_sound_toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().isPlaySound() ? "enabled" : "disabled"))));
+                    POIEntitiesConfigMap map = POIEntitiesConfigMap.getInstance();
+                    map.setPlaySound(!map.isPlaySound());
+                    Config.getInstance().writeJSON();
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.play_sound_toggle_button." + (map.isPlaySound() ? "enabled" : "disabled"))));
                 });
         this.addDrawableChild(playSoundButton);
 
         ButtonWidget volumeButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.volume",
-                        MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getVolume()),
+                I18n.translate("minecraft_access.gui.common.button.volume", initMap.getVolume()),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_ENTITIES_VOLUME, this)));
         this.addDrawableChild(volumeButton);
 
         ButtonWidget delayButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.delay",
-                        MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getDelay()),
+                I18n.translate("minecraft_access.gui.common.button.delay", initMap.getDelay()),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_ENTITIES_DELAY, this)));
         this.addDrawableChild(delayButton);
     }

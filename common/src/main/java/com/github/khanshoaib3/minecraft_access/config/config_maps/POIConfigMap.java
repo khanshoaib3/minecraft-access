@@ -53,10 +53,6 @@ public class POIConfigMap {
         return Stream.of(poiBlocksConfigMap, poiEntitiesConfigMap, poiLockingConfigMap, poiMarkingConfigMap).allMatch(Objects::nonNull);
     }
 
-    public POIEntitiesConfigMap getEntitiesConfigMap() {
-        return poiEntitiesConfigMap;
-    }
-
     public POILockingConfigMap getLockingConfigMap() {
         return poiLockingConfigMap;
     }
