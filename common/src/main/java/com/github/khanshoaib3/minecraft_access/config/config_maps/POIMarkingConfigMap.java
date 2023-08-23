@@ -26,11 +26,11 @@ public class POIMarkingConfigMap {
     }
 
     public static void setInstance(POIMarkingConfigMap map) {
-        if (instance == null) Config.getInstance().loadConfig();
         instance = map;
     }
 
     public static POIMarkingConfigMap getInstance() {
+        if (instance == null) Config.getInstance().loadConfig();
         return instance;
     }
 
