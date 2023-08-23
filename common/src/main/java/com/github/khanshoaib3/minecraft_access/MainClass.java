@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access;
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControlsConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.InventoryControlsConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.features.*;
 import com.github.khanshoaib3.minecraft_access.features.inventory_controls.InventoryControls;
@@ -51,7 +52,7 @@ public class MainClass {
     public static void init() {
         config = Config.getInstance();
         config.loadConfig();
-        debugMode = config.getConfigMap().getOtherConfigsMap().isDebugMode();
+        debugMode = OtherConfigsMap.getInstance().isDebugMode();
 
         String msg = "Initializing Minecraft Access";
         MainClass.infoLog(msg);
@@ -98,7 +99,8 @@ public class MainClass {
      */
     public static void clientTickEventsMethod(MinecraftClient minecraftClient) {
         // update debug mode config
-        debugMode = config.getConfigMap().getOtherConfigsMap().isDebugMode();
+        OtherConfigsMap otherConfigsMap = OtherConfigsMap.getInstance();
+        debugMode = otherConfigsMap.isDebugMode();
 
         // TODO change attack and use keys on startup and add startup features to config.json
         if (!MainClass.alreadyDisabledAdvancementKey && minecraftClient.options != null) {
@@ -107,7 +109,7 @@ public class MainClass {
             infoLog("Unbound advancements key");
         }
 
-        if (config.getConfigMap().getOtherConfigsMap().isMenuFixEnabled()) {
+        if (otherConfigsMap.isMenuFixEnabled()) {
             MenuFix.update(minecraftClient);
         }
 
@@ -121,19 +123,19 @@ public class MainClass {
         if (readCrosshair != null && ReadCrosshairConfigMap.getInstance().isEnabled())
             readCrosshair.update();
 
-        if (biomeIndicator != null && config.getConfigMap().getOtherConfigsMap().isBiomeIndicatorEnabled())
+        if (biomeIndicator != null && otherConfigsMap.isBiomeIndicatorEnabled())
             biomeIndicator.update();
 
-        if (xpIndicator != null && config.getConfigMap().getOtherConfigsMap().isXpIndicatorEnabled())
+        if (xpIndicator != null && otherConfigsMap.isXpIndicatorEnabled())
             xpIndicator.update();
 
-        if (facingDirection != null && config.getConfigMap().getOtherConfigsMap().isFacingDirectionEnabled())
+        if (facingDirection != null && otherConfigsMap.isFacingDirectionEnabled())
             facingDirection.update();
 
-        if (positionNarrator != null && config.getConfigMap().getOtherConfigsMap().isPositionNarratorEnabled())
+        if (positionNarrator != null && otherConfigsMap.isPositionNarratorEnabled())
             positionNarrator.update();
 
-        if (healthNHunger != null && config.getConfigMap().getOtherConfigsMap().isHealthNHungerEnabled())
+        if (healthNHunger != null && otherConfigsMap.isHealthNHungerEnabled())
             healthNHunger.update();
 
         if (playerWarnings != null && config.getConfigMap().getPlayerWarningConfigMap().isEnabled())

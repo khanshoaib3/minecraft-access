@@ -161,7 +161,7 @@ public class ValueEntryMenu extends BaseScreen {
                 this.valueType = VALUE_TYPE.INT;
             }
             case OTHER_POSITION_NARRATOR_FORMAT -> {
-                this.value = MainClass.config.getConfigMap().getOtherConfigsMap().getPositionNarratorFormat();
+                this.value = OtherConfigsMap.getInstance().getPositionNarratorFormat();
                 this.valueType = VALUE_TYPE.STRING;
             }
         }
@@ -251,8 +251,7 @@ public class ValueEntryMenu extends BaseScreen {
                         configMap.getNarratorMenuConfigMap().getFluidDetectorConfigMap().setVolume(Float.parseFloat(value));
                 case NARRATOR_MENU_RANGE ->
                         configMap.getNarratorMenuConfigMap().getFluidDetectorConfigMap().setRange(Integer.parseInt(value));
-                case OTHER_POSITION_NARRATOR_FORMAT ->
-                        configMap.getOtherConfigsMap().setPositionNarratorFormat(value);
+                case OTHER_POSITION_NARRATOR_FORMAT -> OtherConfigsMap.getInstance().setPositionNarratorFormat(value);
             }
             MainClass.config.setConfigMap(configMap);
         } catch (Exception e) {
