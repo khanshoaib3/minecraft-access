@@ -3,7 +3,9 @@ package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POILockingConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
-import com.github.khanshoaib3.minecraft_access.utils.*;
+import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
+import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -69,7 +71,7 @@ public class LockingHandler {
      * Loads the configs from the config.json
      */
     private void loadConfigurations() {
-        POILockingConfigMap map = MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap();
+        POILockingConfigMap map = POILockingConfigMap.getInstance();
         this.lockOnBlocks = map.isLockOnBlocks();
         this.speakDistance = map.isSpeakDistance();
         this.unlockingSound = map.isUnlockingSound();

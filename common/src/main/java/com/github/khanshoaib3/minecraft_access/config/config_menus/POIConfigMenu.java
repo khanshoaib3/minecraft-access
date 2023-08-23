@@ -1,10 +1,9 @@
 package com.github.khanshoaib3.minecraft_access.config.config_menus;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.Config;
-import com.github.khanshoaib3.minecraft_access.config.ConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIBlocksConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIEntitiesConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.POILockingConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -174,38 +173,40 @@ class POILockingConfigMenu extends BaseScreen {
     protected void init() {
         super.init();
 
-        ButtonWidget featureToggleButton = this.buildButtonWidget("minecraft_access.gui.common.button.feature_toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isEnabled() ? "enabled" : "disabled"),
+        POILockingConfigMap initMap = POILockingConfigMap.getInstance();
+
+        ButtonWidget featureToggleButton = this.buildButtonWidget("minecraft_access.gui.common.button.feature_toggle_button." + (initMap.isEnabled() ? "enabled" : "disabled"),
                 (button) -> {
-                    ConfigMap configMap = MainClass.config.getConfigMap();
-                    configMap.getPoiConfigMap().getLockingConfigMap().setEnabled(!configMap.getPoiConfigMap().getLockingConfigMap().isEnabled());
-                    MainClass.config.setConfigMap(configMap);
-                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.feature_toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isEnabled() ? "enabled" : "disabled"))));
+                    POILockingConfigMap map = POILockingConfigMap.getInstance();
+                    map.setEnabled(!map.isEnabled());
+                    Config.getInstance().writeJSON();
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.feature_toggle_button." + (map.isEnabled() ? "enabled" : "disabled"))));
                 });
         this.addDrawableChild(featureToggleButton);
 
         ButtonWidget lockOnBlocksButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isLockOnBlocks() ? "enabled" : "disabled"),
+                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (initMap.isLockOnBlocks() ? "enabled" : "disabled"),
                         I18n.translate("minecraft_access.gui.poi_locking_config_menu.button.lock_on_blocks_button")
                 ),
                 (button) -> {
-                    ConfigMap configMap = MainClass.config.getConfigMap();
-                    configMap.getPoiConfigMap().getLockingConfigMap().setLockOnBlocks(!configMap.getPoiConfigMap().getLockingConfigMap().isLockOnBlocks());
-                    MainClass.config.setConfigMap(configMap);
-                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isLockOnBlocks() ? "enabled" : "disabled"),
+                    POILockingConfigMap map = POILockingConfigMap.getInstance();
+                    map.setLockOnBlocks(!map.isLockOnBlocks());
+                    Config.getInstance().writeJSON();
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (map.isLockOnBlocks() ? "enabled" : "disabled"),
                             I18n.translate("minecraft_access.gui.poi_locking_config_menu.button.lock_on_blocks_button")
                     )));
                 });
         this.addDrawableChild(lockOnBlocksButton);
 
         ButtonWidget speakDistanceButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isSpeakDistance() ? "enabled" : "disabled"),
+                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (initMap.isSpeakDistance() ? "enabled" : "disabled"),
                         I18n.translate("minecraft_access.gui.poi_locking_config_menu.button.speak_distance_button")
                 ),
                 (button) -> {
-                    ConfigMap configMap = MainClass.config.getConfigMap();
-                    configMap.getPoiConfigMap().getLockingConfigMap().setSpeakDistance(!configMap.getPoiConfigMap().getLockingConfigMap().isSpeakDistance());
-                    MainClass.config.setConfigMap(configMap);
-                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isSpeakDistance() ? "enabled" : "disabled"),
+                    POILockingConfigMap map = POILockingConfigMap.getInstance();
+                    map.setSpeakDistance(!map.isSpeakDistance());
+                    Config.getInstance().writeJSON();
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (map.isSpeakDistance() ? "enabled" : "disabled"),
                             I18n.translate("minecraft_access.gui.poi_locking_config_menu.button.speak_distance_button")
                     )));
                 },
@@ -213,14 +214,14 @@ class POILockingConfigMenu extends BaseScreen {
         this.addDrawableChild(speakDistanceButton);
 
         ButtonWidget autoLockEyeOfEnderButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isAutoLockEyeOfEnderEntity() ? "enabled" : "disabled"),
+                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (initMap.isAutoLockEyeOfEnderEntity() ? "enabled" : "disabled"),
                         I18n.translate("minecraft_access.gui.poi_locking_config_menu.button.auto_lock_eye_of_ender_button")
                 ),
                 (button) -> {
-                    ConfigMap configMap = MainClass.config.getConfigMap();
-                    configMap.getPoiConfigMap().getLockingConfigMap().setAutoLockEyeOfEnderEntity(!configMap.getPoiConfigMap().getLockingConfigMap().isAutoLockEyeOfEnderEntity());
-                    MainClass.config.setConfigMap(configMap);
-                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isAutoLockEyeOfEnderEntity() ? "enabled" : "disabled"),
+                    POILockingConfigMap map = POILockingConfigMap.getInstance();
+                    map.setAutoLockEyeOfEnderEntity(!map.isAutoLockEyeOfEnderEntity());
+                    Config.getInstance().writeJSON();
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (map.isAutoLockEyeOfEnderEntity() ? "enabled" : "disabled"),
                             I18n.translate("minecraft_access.gui.poi_locking_config_menu.button.auto_lock_eye_of_ender_button")
                     )));
                 },
@@ -228,22 +229,21 @@ class POILockingConfigMenu extends BaseScreen {
         this.addDrawableChild(autoLockEyeOfEnderButton);
 
         ButtonWidget unlockingSoundButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isUnlockingSound() ? "enabled" : "disabled"),
+                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (initMap.isUnlockingSound() ? "enabled" : "disabled"),
                         I18n.translate("minecraft_access.gui.poi_locking_config_menu.button.unlocking_sound_button")
                 ),
                 (button) -> {
-                    ConfigMap configMap = MainClass.config.getConfigMap();
-                    configMap.getPoiConfigMap().getLockingConfigMap().setUnlockingSound(!configMap.getPoiConfigMap().getLockingConfigMap().isUnlockingSound());
-                    MainClass.config.setConfigMap(configMap);
-                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isUnlockingSound() ? "enabled" : "disabled"),
+                    POILockingConfigMap map = POILockingConfigMap.getInstance();
+                    map.setUnlockingSound(!map.isUnlockingSound());
+                    Config.getInstance().writeJSON();
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (map.isUnlockingSound() ? "enabled" : "disabled"),
                             I18n.translate("minecraft_access.gui.poi_locking_config_menu.button.unlocking_sound_button")
                     )));
                 });
         this.addDrawableChild(unlockingSoundButton);
 
         ButtonWidget delayButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.delay",
-                        MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().getDelay()),
+                I18n.translate("minecraft_access.gui.common.button.delay", initMap.getDelay()),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_LOCKING_DELAY, this)));
         this.addDrawableChild(delayButton);
     }

@@ -143,7 +143,7 @@ public class MainClass {
 
         POIMarking.getInstance().update();
 
-        if (lockingHandler != null && config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isEnabled())
+        if (lockingHandler != null && POILockingConfigMap.getInstance().isEnabled())
             lockingHandler.update();
 
         FallDetector.getInstance().update();

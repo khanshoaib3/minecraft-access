@@ -116,7 +116,7 @@ public class ValueEntryMenu extends BaseScreen {
                 this.valueType = VALUE_TYPE.INT;
             }
             case POI_LOCKING_DELAY -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().getDelay());
+                this.value = String.valueOf(POILockingConfigMap.getInstance().getDelay());
                 this.valueType = VALUE_TYPE.INT;
             }
             case PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD -> {
@@ -232,8 +232,7 @@ public class ValueEntryMenu extends BaseScreen {
                 case POI_ENTITIES_RANGE -> poiEntitiesConfigMap.setRange(Integer.parseInt(value));
                 case POI_ENTITIES_VOLUME -> poiEntitiesConfigMap.setVolume(Float.parseFloat(value));
                 case POI_ENTITIES_DELAY -> poiEntitiesConfigMap.setDelay(Integer.parseInt(value));
-                case POI_LOCKING_DELAY ->
-                        configMap.getPoiConfigMap().getLockingConfigMap().setDelay(Integer.parseInt(value));
+                case POI_LOCKING_DELAY -> POILockingConfigMap.getInstance().setDelay(Integer.parseInt(value));
                 case PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD ->
                         playerWarningConfigMap.setFirstHealthThreshold(Double.parseDouble(value));
                 case PLAYER_WARNINGS_SECOND_HEALTH_THRESHOLD ->
