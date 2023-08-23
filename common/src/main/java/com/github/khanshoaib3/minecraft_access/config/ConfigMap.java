@@ -67,10 +67,6 @@ public class ConfigMap {
         return inventoryControlsConfigMap;
     }
 
-    public MouseSimulationConfigMap getMouseSimulationConfigMap() {
-        return mouseSimulationConfigMap;
-    }
-
     public POIConfigMap getPoiConfigMap() {
         return poiConfigMap;
     }
@@ -91,7 +87,7 @@ public class ConfigMap {
     public boolean validate() {
         if (this.cameraControlsConfigMap == null) return false;
         if (this.getInventoryControlsConfigMap() == null) return false;
-        if (this.getMouseSimulationConfigMap() == null) return false;
+        if (this.mouseSimulationConfigMap == null) return false;
         if (this.getPlayerWarningConfigMap() == null) return false;
         if (this.getOtherConfigsMap() == null) return false;
         if (Objects.isNull(this.readCrosshairConfigMap) || !this.readCrosshairConfigMap.validate()) return false;

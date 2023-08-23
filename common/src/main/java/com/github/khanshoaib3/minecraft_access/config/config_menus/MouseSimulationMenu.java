@@ -17,10 +17,11 @@ public class MouseSimulationMenu extends BaseScreen {
     protected void init() {
         super.init();
 
-        MouseSimulationConfigMap map = MouseSimulationConfigMap.getInstance();
+        MouseSimulationConfigMap initMap = MouseSimulationConfigMap.getInstance();
 
-        ButtonWidget featureToggleButton = this.buildButtonWidget(featureToggleButtonMessage(map.isEnabled()),
+        ButtonWidget featureToggleButton = this.buildButtonWidget(featureToggleButtonMessage(initMap.isEnabled()),
                 (button) -> {
+                    MouseSimulationConfigMap map = MouseSimulationConfigMap.getInstance();
                     map.setEnabled(!map.isEnabled());
                     button.setMessage(Text.of(featureToggleButtonMessage(map.isEnabled())));
                     Config.getInstance().writeJSON();
@@ -29,7 +30,7 @@ public class MouseSimulationMenu extends BaseScreen {
 
         ButtonWidget delayButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.delay",
-                        map.getScrollDelayInMilliseconds()),
+                        initMap.getScrollDelayInMilliseconds()),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.MOUSE_SIMULATION_SCROLL_DELAY, this)));
         this.addDrawableChild(delayButton);
     }
