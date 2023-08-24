@@ -1,6 +1,9 @@
 package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
+import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.Objects;
 
 public class ReadCrosshairConfigMap {
     private static ReadCrosshairConfigMap instance;
@@ -17,6 +20,9 @@ public class ReadCrosshairConfigMap {
     @SerializedName("Partial Speaking")
     private RCPartialSpeakingConfigMap partialSpeakingConfigMap;
 
+    private ReadCrosshairConfigMap() {
+    }
+
     public static ReadCrosshairConfigMap buildDefault() {
         ReadCrosshairConfigMap m = new ReadCrosshairConfigMap();
         m.setEnabled(true);
@@ -24,16 +30,19 @@ public class ReadCrosshairConfigMap {
         m.setDisableSpeakingConsecutiveBlocks(true);
         m.setRepeatSpeakingInterval(0L);
         m.setPartialSpeakingConfigMap(RCPartialSpeakingConfigMap.buildDefault());
+
+        setInstance(m);
         return m;
     }
 
     public static ReadCrosshairConfigMap getInstance() {
+        if (instance == null) Config.getInstance().loadConfig();
         return instance;
     }
 
     public static void setInstance(ReadCrosshairConfigMap map) {
-        instance = map;
         RCPartialSpeakingConfigMap.setInstance(map.partialSpeakingConfigMap);
+        instance = map;
     }
 
     public boolean isEnabled() {
@@ -68,15 +77,13 @@ public class ReadCrosshairConfigMap {
         this.repeatSpeakingInterval = repeatSpeakingInterval;
     }
 
-    public RCPartialSpeakingConfigMap getPartialSpeakingConfigMap() {
-        return partialSpeakingConfigMap;
-    }
-
     public void setPartialSpeakingConfigMap(RCPartialSpeakingConfigMap partialSpeakingConfigMap) {
         this.partialSpeakingConfigMap = partialSpeakingConfigMap;
     }
 
-    public boolean validate() {
-        return getPartialSpeakingConfigMap() != null;
+    public void resetMissingSectionsToDefault() {
+        if (Objects.isNull(this.partialSpeakingConfigMap)) {
+            this.partialSpeakingConfigMap = RCPartialSpeakingConfigMap.buildDefault();
+        }
     }
 }

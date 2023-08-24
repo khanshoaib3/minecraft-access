@@ -1,7 +1,8 @@
 package com.github.khanshoaib3.minecraft_access.config.config_menus;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.ConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.Config;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.*;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
@@ -58,105 +59,113 @@ public class ValueEntryMenu extends BaseScreen {
     protected void init() {
         super.init();
 
+        final CameraControlsConfigMap cameraControlsConfigMap = CameraControlsConfigMap.getInstance();
+        final FallDetectorConfigMap fallDetectorConfigMap = FallDetectorConfigMap.getInstance();
+        final InventoryControlsConfigMap inventoryControlsConfigMap = InventoryControlsConfigMap.getInstance();
+        final PlayerWarningConfigMap playerWarningConfigMap = PlayerWarningConfigMap.getInstance();
+        final FluidDetectorConfigMap fluidDetectorConfigMap = FluidDetectorConfigMap.getInstance();
+        final POIBlocksConfigMap poiBlocksConfigMap = POIBlocksConfigMap.getInstance();
+        final POIEntitiesConfigMap entitiesConfigMap = POIEntitiesConfigMap.getInstance();
+
         switch (configType) {
             case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getCameraControlsConfigMap().getNormalRotatingAngle());
+                this.value = String.valueOf(cameraControlsConfigMap.getNormalRotatingAngle());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case CAMERA_CONTROLS_MODIFIED_ROTATING_ANGLE -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getCameraControlsConfigMap().getModifiedRotatingAngle());
+                this.value = String.valueOf(cameraControlsConfigMap.getModifiedRotatingAngle());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case CAMERA_CONTROLS_DELAY -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getCameraControlsConfigMap().getDelayInMilliseconds());
+                this.value = String.valueOf(cameraControlsConfigMap.getDelayInMilliseconds());
                 this.valueType = VALUE_TYPE.INT;
             }
             case INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT -> {
-                this.value = MainClass.config.getConfigMap().getInventoryControlsConfigMap().getRowAndColumnFormat();
+                this.value = inventoryControlsConfigMap.getRowAndColumnFormat();
                 this.valueType = VALUE_TYPE.STRING;
             }
             case INVENTORY_CONTROLS_DELAY -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getInventoryControlsConfigMap().getDelayInMilliseconds());
+                this.value = String.valueOf(inventoryControlsConfigMap.getDelayInMilliseconds());
                 this.valueType = VALUE_TYPE.INT;
             }
             case MOUSE_SIMULATION_SCROLL_DELAY -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getMouseSimulationConfigMap().getScrollDelayInMilliseconds());
+                this.value = String.valueOf(MouseSimulationConfigMap.getInstance().getScrollDelayInMilliseconds());
                 this.valueType = VALUE_TYPE.INT;
             }
             case POI_BLOCKS_RANGE -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getRange());
+                this.value = String.valueOf(poiBlocksConfigMap.getRange());
                 this.valueType = VALUE_TYPE.INT;
             }
             case POI_BLOCKS_VOLUME -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getVolume());
+                this.value = String.valueOf(poiBlocksConfigMap.getVolume());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case POI_BLOCKS_DELAY -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getBlocksConfigMap().getDelay());
+                this.value = String.valueOf(poiBlocksConfigMap.getDelay());
                 this.valueType = VALUE_TYPE.INT;
             }
             case POI_ENTITIES_RANGE -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getRange());
+                this.value = String.valueOf(entitiesConfigMap.getRange());
                 this.valueType = VALUE_TYPE.INT;
             }
             case POI_ENTITIES_VOLUME -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getVolume());
+                this.value = String.valueOf(entitiesConfigMap.getVolume());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case POI_ENTITIES_DELAY -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getEntitiesConfigMap().getDelay());
+                this.value = String.valueOf(entitiesConfigMap.getDelay());
                 this.valueType = VALUE_TYPE.INT;
             }
             case POI_LOCKING_DELAY -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().getDelay());
+                this.value = String.valueOf(POILockingConfigMap.getInstance().getDelay());
                 this.valueType = VALUE_TYPE.INT;
             }
             case PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPlayerWarningConfigMap().getFirstHealthThreshold());
+                this.value = String.valueOf(playerWarningConfigMap.getFirstHealthThreshold());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case PLAYER_WARNINGS_SECOND_HEALTH_THRESHOLD -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPlayerWarningConfigMap().getSecondHealthThreshold());
+                this.value = String.valueOf(playerWarningConfigMap.getSecondHealthThreshold());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case PLAYER_WARNINGS_HUNGER_THRESHOLD -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPlayerWarningConfigMap().getHungerThreshold());
+                this.value = String.valueOf(playerWarningConfigMap.getHungerThreshold());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case PLAYER_WARNINGS_AIR_THRESHOLD -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getPlayerWarningConfigMap().getAirThreshold());
+                this.value = String.valueOf(playerWarningConfigMap.getAirThreshold());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case FALL_DETECTOR_RANGE -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getFallDetectorConfigMap().getRange());
+                this.value = String.valueOf(fallDetectorConfigMap.getRange());
                 this.valueType = VALUE_TYPE.INT;
             }
             case FALL_DETECTOR_DEPTH_THRESHOLD -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getFallDetectorConfigMap().getDepth());
+                this.value = String.valueOf(fallDetectorConfigMap.getDepth());
                 this.valueType = VALUE_TYPE.INT;
             }
             case FALL_DETECTOR_VOLUME -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getFallDetectorConfigMap().getVolume());
+                this.value = String.valueOf(fallDetectorConfigMap.getVolume());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case FALL_DETECTOR_DELAY -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getFallDetectorConfigMap().getDelay());
+                this.value = String.valueOf(fallDetectorConfigMap.getDelay());
                 this.valueType = VALUE_TYPE.INT;
             }
             case READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getReadCrosshairConfigMap().getRepeatSpeakingInterval());
+                this.value = String.valueOf(ReadCrosshairConfigMap.getInstance().getRepeatSpeakingInterval());
                 this.valueType = VALUE_TYPE.INT;
             }
             case NARRATOR_MENU_VOLUME -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getNarratorMenuConfigMap().getFluidDetectorConfigMap().getVolume());
+                this.value = String.valueOf(fluidDetectorConfigMap.getVolume());
                 this.valueType = VALUE_TYPE.FLOAT;
             }
             case NARRATOR_MENU_RANGE -> {
-                this.value = String.valueOf(MainClass.config.getConfigMap().getNarratorMenuConfigMap().getFluidDetectorConfigMap().getRange());
+                this.value = String.valueOf(fluidDetectorConfigMap.getRange());
                 this.valueType = VALUE_TYPE.INT;
             }
             case OTHER_POSITION_NARRATOR_FORMAT -> {
-                this.value = MainClass.config.getConfigMap().getOtherConfigsMap().getPositionNarratorFormat();
+                this.value = OtherConfigsMap.getInstance().getPositionNarratorFormat();
                 this.valueType = VALUE_TYPE.STRING;
             }
         }
@@ -196,60 +205,55 @@ public class ValueEntryMenu extends BaseScreen {
 
     private void updateConfig() {
         try {
-            ConfigMap configMap = MainClass.config.getConfigMap();
+            final CameraControlsConfigMap cameraControlsConfigMap = CameraControlsConfigMap.getInstance();
+            final FallDetectorConfigMap fallDetectorConfigMap = FallDetectorConfigMap.getInstance();
+            final InventoryControlsConfigMap inventoryControlsConfigMap = InventoryControlsConfigMap.getInstance();
+            final PlayerWarningConfigMap playerWarningConfigMap = PlayerWarningConfigMap.getInstance();
+            final FluidDetectorConfigMap fluidDetectorConfigMap = FluidDetectorConfigMap.getInstance();
+            final POIBlocksConfigMap poibBlocksConfigMap = POIBlocksConfigMap.getInstance();
+            final POIEntitiesConfigMap poiEntitiesConfigMap = POIEntitiesConfigMap.getInstance();
+
             switch (configType) {
                 case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE ->
-                        configMap.getCameraControlsConfigMap().setNormalRotatingAngle(Float.parseFloat(value));
+                        cameraControlsConfigMap.setNormalRotatingAngle(Float.parseFloat(value));
                 case CAMERA_CONTROLS_MODIFIED_ROTATING_ANGLE ->
-                        configMap.getCameraControlsConfigMap().setModifiedRotatingAngle(Float.parseFloat(value));
+                        cameraControlsConfigMap.setModifiedRotatingAngle(Float.parseFloat(value));
                 case CAMERA_CONTROLS_DELAY ->
-                        configMap.getCameraControlsConfigMap().setDelayInMilliseconds(Integer.parseInt(value));
+                        cameraControlsConfigMap.setDelayInMilliseconds(Integer.parseInt(value));
                 case INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT ->
-                        configMap.getInventoryControlsConfigMap().setRowAndColumnFormat(value);
+                        inventoryControlsConfigMap.setRowAndColumnFormat(value);
                 case INVENTORY_CONTROLS_DELAY ->
-                        configMap.getInventoryControlsConfigMap().setDelayInMilliseconds(Integer.parseInt(value));
+                        inventoryControlsConfigMap.setDelayInMilliseconds(Integer.parseInt(value));
                 case MOUSE_SIMULATION_SCROLL_DELAY ->
-                        configMap.getMouseSimulationConfigMap().setScrollDelayInMilliseconds(Integer.parseInt(value));
-                case POI_BLOCKS_RANGE ->
-                        configMap.getPoiConfigMap().getBlocksConfigMap().setRange(Integer.parseInt(value));
-                case POI_BLOCKS_VOLUME ->
-                        configMap.getPoiConfigMap().getBlocksConfigMap().setVolume(Float.parseFloat(value));
-                case POI_BLOCKS_DELAY ->
-                        configMap.getPoiConfigMap().getBlocksConfigMap().setDelay(Integer.parseInt(value));
-                case POI_ENTITIES_RANGE ->
-                        configMap.getPoiConfigMap().getEntitiesConfigMap().setRange(Integer.parseInt(value));
-                case POI_ENTITIES_VOLUME ->
-                        configMap.getPoiConfigMap().getEntitiesConfigMap().setVolume(Float.parseFloat(value));
-                case POI_ENTITIES_DELAY ->
-                        configMap.getPoiConfigMap().getEntitiesConfigMap().setDelay(Integer.parseInt(value));
-                case POI_LOCKING_DELAY ->
-                        configMap.getPoiConfigMap().getLockingConfigMap().setDelay(Integer.parseInt(value));
+                        MouseSimulationConfigMap.getInstance().setScrollDelayInMilliseconds(Integer.parseInt(value));
+                case POI_BLOCKS_RANGE -> poibBlocksConfigMap.setRange(Integer.parseInt(value));
+                case POI_BLOCKS_VOLUME -> poibBlocksConfigMap.setVolume(Float.parseFloat(value));
+                case POI_BLOCKS_DELAY -> poibBlocksConfigMap.setDelay(Integer.parseInt(value));
+                case POI_ENTITIES_RANGE -> poiEntitiesConfigMap.setRange(Integer.parseInt(value));
+                case POI_ENTITIES_VOLUME -> poiEntitiesConfigMap.setVolume(Float.parseFloat(value));
+                case POI_ENTITIES_DELAY -> poiEntitiesConfigMap.setDelay(Integer.parseInt(value));
+                case POI_LOCKING_DELAY -> POILockingConfigMap.getInstance().setDelay(Integer.parseInt(value));
                 case PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD ->
-                        configMap.getPlayerWarningConfigMap().setFirstHealthThreshold(Double.parseDouble(value));
+                        playerWarningConfigMap.setFirstHealthThreshold(Double.parseDouble(value));
                 case PLAYER_WARNINGS_SECOND_HEALTH_THRESHOLD ->
-                        configMap.getPlayerWarningConfigMap().setSecondHealthThreshold(Double.parseDouble(value));
+                        playerWarningConfigMap.setSecondHealthThreshold(Double.parseDouble(value));
                 case PLAYER_WARNINGS_HUNGER_THRESHOLD ->
-                        configMap.getPlayerWarningConfigMap().setHungerThreshold(Double.parseDouble(value));
+                        playerWarningConfigMap.setHungerThreshold(Double.parseDouble(value));
                 case PLAYER_WARNINGS_AIR_THRESHOLD ->
-                        configMap.getPlayerWarningConfigMap().setAirThreshold(Double.parseDouble(value));
-                case FALL_DETECTOR_RANGE ->
-                        configMap.getFallDetectorConfigMap().setRange(Integer.parseInt(value));
-                case FALL_DETECTOR_DEPTH_THRESHOLD ->
-                        configMap.getFallDetectorConfigMap().setDepth(Integer.parseInt(value));
-                case FALL_DETECTOR_VOLUME ->
-                        configMap.getFallDetectorConfigMap().setVolume(Float.parseFloat(value));
-                case FALL_DETECTOR_DELAY ->
-                        configMap.getFallDetectorConfigMap().setDelay(Integer.parseInt(value));
+                        playerWarningConfigMap.setAirThreshold(Double.parseDouble(value));
+                case FALL_DETECTOR_RANGE -> fallDetectorConfigMap.setRange(Integer.parseInt(value));
+                case FALL_DETECTOR_DEPTH_THRESHOLD -> fallDetectorConfigMap.setDepth(Integer.parseInt(value));
+                case FALL_DETECTOR_VOLUME -> fallDetectorConfigMap.setVolume(Float.parseFloat(value));
+                case FALL_DETECTOR_DELAY -> fallDetectorConfigMap.setDelay(Integer.parseInt(value));
                 case READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL ->
-                        configMap.getReadCrosshairConfigMap().setRepeatSpeakingInterval(Long.parseLong(value));
-                case NARRATOR_MENU_VOLUME ->
-                        configMap.getNarratorMenuConfigMap().getFluidDetectorConfigMap().setVolume(Float.parseFloat(value));
-                case NARRATOR_MENU_RANGE ->
-                        configMap.getNarratorMenuConfigMap().getFluidDetectorConfigMap().setRange(Integer.parseInt(value));
-                case OTHER_POSITION_NARRATOR_FORMAT ->
-                        configMap.getOtherConfigsMap().setPositionNarratorFormat(value);
+                        ReadCrosshairConfigMap.getInstance().setRepeatSpeakingInterval(Long.parseLong(value));
+                case NARRATOR_MENU_VOLUME -> fluidDetectorConfigMap.setVolume(Float.parseFloat(value));
+                case NARRATOR_MENU_RANGE -> fluidDetectorConfigMap.setRange(Integer.parseInt(value));
+                case OTHER_POSITION_NARRATOR_FORMAT -> OtherConfigsMap.getInstance().setPositionNarratorFormat(value);
             }
-            MainClass.config.setConfigMap(configMap);
+
+            Config.getInstance().writeJSON();
+
         } catch (Exception e) {
             MainClass.errorLog("Error occurred while updating the config. The user possibly entered wrong value type.");
             e.printStackTrace();

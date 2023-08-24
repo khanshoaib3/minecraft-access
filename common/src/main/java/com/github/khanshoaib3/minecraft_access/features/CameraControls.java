@@ -78,7 +78,7 @@ public class CameraControls {
     private void loadConfigurations() {
         float delta90Degrees = 600f; // 90 / 0.15
 
-        CameraControlsConfigMap map = MainClass.config.getConfigMap().getCameraControlsConfigMap();
+        CameraControlsConfigMap map = CameraControlsConfigMap.getInstance();
         interval = Interval.inMilliseconds(map.getDelayInMilliseconds(), interval);
         float normalRotatingAngle = map.getNormalRotatingAngle();
         float modifiedRotatingAngle = map.getModifiedRotatingAngle();

@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
+import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
 
 public class MouseSimulationConfigMap {
@@ -10,6 +11,9 @@ public class MouseSimulationConfigMap {
 
     @SerializedName("Scroll Delay (in milliseconds)")
     private int scrollDelayInMilliseconds;
+
+    private MouseSimulationConfigMap() {
+    }
 
     public static MouseSimulationConfigMap buildDefault() {
         MouseSimulationConfigMap m = new MouseSimulationConfigMap();
@@ -25,6 +29,7 @@ public class MouseSimulationConfigMap {
     }
 
     public static MouseSimulationConfigMap getInstance() {
+        if (instance == null) Config.getInstance().loadConfig();
         return instance;
     }
 

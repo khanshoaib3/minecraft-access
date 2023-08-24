@@ -5,7 +5,13 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
 
+/**
+ * Pure DTO for mapping structure of config json via Gson.
+ */
 public class ConfigMap {
+
+    private static ConfigMap instance;
+
     @SerializedName("Camera Controls")
     private CameraControlsConfigMap cameraControlsConfigMap;
     @SerializedName("Inventory Controls")
@@ -27,128 +33,73 @@ public class ConfigMap {
 
     public static ConfigMap buildDefault() {
         ConfigMap m = new ConfigMap();
-        m.setDefaultCameraControlsConfigMap();
-        m.setDefaultInventoryControlsConfigMap();
+        m.cameraControlsConfigMap = CameraControlsConfigMap.buildDefault();
+        m.inventoryControlsConfigMap = InventoryControlsConfigMap.buildDefault();
         m.mouseSimulationConfigMap = MouseSimulationConfigMap.buildDefault();
         m.poiConfigMap = POIConfigMap.buildDefault();
-        m.setDefaultPlayerWarningConfigMap();
-        m.setFallDetectorConfigMap(FallDetectorConfigMap.defaultFallDetectorConfigMap());
+        m.playerWarningConfigMap = PlayerWarningConfigMap.buildDefault();
+        m.fallDetectorConfigMap = FallDetectorConfigMap.buildDefault();
         m.readCrosshairConfigMap = ReadCrosshairConfigMap.buildDefault();
-        m.setOtherConfigsMap(OtherConfigsMap.getDefaultOtherConfigsMap());
-        m.setNarratorMenuConfigMap(NarratorMenuConfigMap.getDefaultNarratorMenuConfigMap());
+        m.otherConfigsMap = OtherConfigsMap.buildDefault();
+        m.narratorMenuConfigMap = NarratorMenuConfigMap.buildDefault();
         return m;
     }
 
     public static void setInstance(ConfigMap map) {
+        CameraControlsConfigMap.setInstance(map.cameraControlsConfigMap);
+        FallDetectorConfigMap.setInstance(map.fallDetectorConfigMap);
+        InventoryControlsConfigMap.setInstance(map.inventoryControlsConfigMap);
         MouseSimulationConfigMap.setInstance(map.mouseSimulationConfigMap);
+        NarratorMenuConfigMap.setInstance(map.narratorMenuConfigMap);
+        OtherConfigsMap.setInstance(map.otherConfigsMap);
+        PlayerWarningConfigMap.setInstance(map.playerWarningConfigMap);
         POIConfigMap.setInstance(map.poiConfigMap);
         ReadCrosshairConfigMap.setInstance(map.readCrosshairConfigMap);
+        instance = map;
     }
 
-    public CameraControlsConfigMap getCameraControlsConfigMap() {
-        return cameraControlsConfigMap;
+    public static ConfigMap getInstance() {
+        if (instance == null) Config.getInstance().loadConfig();
+        return instance;
     }
 
-    public void setCameraControlsConfigMap(CameraControlsConfigMap cameraControlsConfigMap) {
-        this.cameraControlsConfigMap = cameraControlsConfigMap;
-    }
-
-    public void setDefaultCameraControlsConfigMap() {
-        CameraControlsConfigMap defaultCameraControlsConfigMap = new CameraControlsConfigMap();
-        defaultCameraControlsConfigMap.setEnabled(true);
-        defaultCameraControlsConfigMap.setNormalRotatingAngle(22.5f);
-        defaultCameraControlsConfigMap.setModifiedRotatingAngle(11.25f);
-        defaultCameraControlsConfigMap.setDelayInMilliseconds(250);
-
-        setCameraControlsConfigMap(defaultCameraControlsConfigMap);
-    }
-
-    public InventoryControlsConfigMap getInventoryControlsConfigMap() {
-        return inventoryControlsConfigMap;
-    }
-
-    public void setInventoryControlsConfigMap(InventoryControlsConfigMap inventoryControlsConfigMap) {
-        this.inventoryControlsConfigMap = inventoryControlsConfigMap;
-    }
-
-    public void setDefaultInventoryControlsConfigMap() {
-        InventoryControlsConfigMap defaultInventoryControlsConfigMap = new InventoryControlsConfigMap();
-        defaultInventoryControlsConfigMap.setEnabled(true);
-        defaultInventoryControlsConfigMap.setAutoOpenRecipeBook(true);
-        defaultInventoryControlsConfigMap.setRowAndColumnFormat("%dx%d");
-        defaultInventoryControlsConfigMap.setDelayInMilliseconds(250);
-
-        setInventoryControlsConfigMap(defaultInventoryControlsConfigMap);
-    }
-
-    public MouseSimulationConfigMap getMouseSimulationConfigMap() {
-        return mouseSimulationConfigMap;
-    }
-
-    public POIConfigMap getPoiConfigMap() {
-        return poiConfigMap;
-    }
-
-    public PlayerWarningConfigMap getPlayerWarningConfigMap() {
-        return playerWarningConfigMap;
-    }
-
-    public void setPlayerWarningConfigMap(PlayerWarningConfigMap playerWarningConfigMap) {
-        this.playerWarningConfigMap = playerWarningConfigMap;
-    }
-
-    public void setDefaultPlayerWarningConfigMap() {
-        PlayerWarningConfigMap defaultPlayerWarningConfigMap = new PlayerWarningConfigMap();
-        defaultPlayerWarningConfigMap.setEnabled(true);
-        defaultPlayerWarningConfigMap.setPlaySound(true);
-        defaultPlayerWarningConfigMap.setFirstHealthThreshold(6.0);
-        defaultPlayerWarningConfigMap.setSecondHealthThreshold(3.0);
-        defaultPlayerWarningConfigMap.setHungerThreshold(3.0);
-        defaultPlayerWarningConfigMap.setAirThreshold(3.0);
-
-        setPlayerWarningConfigMap(defaultPlayerWarningConfigMap);
-    }
-
-    public FallDetectorConfigMap getFallDetectorConfigMap() {
-        return fallDetectorConfigMap;
-    }
-
-    public void setFallDetectorConfigMap(FallDetectorConfigMap fallDetectorConfigMap) {
-        this.fallDetectorConfigMap = fallDetectorConfigMap;
-    }
-
-    public ReadCrosshairConfigMap getReadCrosshairConfigMap() {
-        return readCrosshairConfigMap;
-    }
-
-    public OtherConfigsMap getOtherConfigsMap() {
-        return otherConfigsMap;
-    }
-
-    public void setOtherConfigsMap(OtherConfigsMap otherConfigsMap) {
-        this.otherConfigsMap = otherConfigsMap;
-    }
-
-    public NarratorMenuConfigMap getNarratorMenuConfigMap() {
-        return narratorMenuConfigMap;
-    }
-
-    public void setNarratorMenuConfigMap(NarratorMenuConfigMap narratorMenuConfigMap) {
-        this.narratorMenuConfigMap = narratorMenuConfigMap;
-    }
-
-    @SuppressWarnings("RedundantIfStatement")
-    public boolean validate() {
-        if (this.getCameraControlsConfigMap() == null) return false;
-        if (this.getInventoryControlsConfigMap() == null) return false;
-        if (this.getMouseSimulationConfigMap() == null) return false;
-        if (this.getPlayerWarningConfigMap() == null) return false;
-        if (this.getOtherConfigsMap() == null) return false;
-        if (Objects.isNull(this.getReadCrosshairConfigMap()) || !this.getReadCrosshairConfigMap().validate()) return false;
-        if (Objects.isNull(this.getPoiConfigMap()) || !this.getPoiConfigMap().validate()) return false;
-        if (this.getFallDetectorConfigMap() == null) return false;
-        if (this.getNarratorMenuConfigMap() == null) return false;
-
-        return true;
+    /**
+     * Some XxxConfigMap class variable may be missing duo to new features released with new config section or so.
+     * Only reset these missing sections to reduce the burden on users whenever new config section is introduced.
+     */
+    public void resetMissingSectionsToDefault() {
+        if (Objects.isNull(this.cameraControlsConfigMap)) {
+            this.cameraControlsConfigMap = CameraControlsConfigMap.buildDefault();
+        }
+        if (Objects.isNull(this.inventoryControlsConfigMap)) {
+            this.inventoryControlsConfigMap = InventoryControlsConfigMap.buildDefault();
+        }
+        if (Objects.isNull(this.mouseSimulationConfigMap)) {
+            this.mouseSimulationConfigMap = MouseSimulationConfigMap.buildDefault();
+        }
+        if (Objects.isNull(this.playerWarningConfigMap)) {
+            this.playerWarningConfigMap = PlayerWarningConfigMap.buildDefault();
+        }
+        if (Objects.isNull(this.otherConfigsMap)) {
+            this.otherConfigsMap = OtherConfigsMap.buildDefault();
+        }
+        if (Objects.isNull(this.readCrosshairConfigMap)) {
+            this.readCrosshairConfigMap = ReadCrosshairConfigMap.buildDefault();
+        } else {
+            this.readCrosshairConfigMap.resetMissingSectionsToDefault();
+        }
+        if (Objects.isNull(this.poiConfigMap)) {
+            this.poiConfigMap = POIConfigMap.buildDefault();
+        } else {
+            this.poiConfigMap.resetMissingSectionsToDefault();
+        }
+        if (Objects.isNull(this.fallDetectorConfigMap)) {
+            this.fallDetectorConfigMap = FallDetectorConfigMap.buildDefault();
+        }
+        if (Objects.isNull(this.narratorMenuConfigMap)) {
+            this.narratorMenuConfigMap = NarratorMenuConfigMap.buildDefault();
+        } else {
+            this.narratorMenuConfigMap.resetMissingSectionsToDefault();
+        }
     }
 }

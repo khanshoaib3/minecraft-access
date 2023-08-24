@@ -139,7 +139,7 @@ public class FallDetector {
     }
 
     private void loadConfigurations() {
-        FallDetectorConfigMap fallDetectorConfigMap = MainClass.config.getConfigMap().getFallDetectorConfigMap();
+        FallDetectorConfigMap fallDetectorConfigMap = FallDetectorConfigMap.getInstance();
         enabled = fallDetectorConfigMap.isEnabled();
         range = fallDetectorConfigMap.getRange();
         depth = fallDetectorConfigMap.getDepth();

@@ -153,7 +153,7 @@ public class InventoryControls {
      * Load configs from config.json
      */
     private void loadConfigurations() {
-        InventoryControlsConfigMap map = MainClass.config.getConfigMap().getInventoryControlsConfigMap();
+        InventoryControlsConfigMap map = InventoryControlsConfigMap.getInstance();
         autoOpenRecipeBook = map.isAutoOpenRecipeBook();
         rowAndColumnFormat = map.getRowAndColumnFormat();
         interval = Interval.inMilliseconds(map.getDelayInMilliseconds(), interval);

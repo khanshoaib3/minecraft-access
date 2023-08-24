@@ -1,7 +1,8 @@
 package com.github.khanshoaib3.minecraft_access.config.config_menus;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.ConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.Config;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.FluidDetectorConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.NarratorMenuConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
@@ -17,12 +18,14 @@ public class NarratorMenuConfigMenu extends BaseScreen {
     protected void init() {
         super.init();
 
-        ButtonWidget featureToggleButton = this.buildButtonWidget("minecraft_access.gui.common.button.feature_toggle_button." + (MainClass.config.getConfigMap().getNarratorMenuConfigMap().isEnabled() ? "enabled" : "disabled"),
+        NarratorMenuConfigMap initMap = NarratorMenuConfigMap.getInstance();
+
+        ButtonWidget featureToggleButton = this.buildButtonWidget("minecraft_access.gui.common.button.feature_toggle_button." + (initMap.isEnabled() ? "enabled" : "disabled"),
                 (button) -> {
-                    ConfigMap configMap = MainClass.config.getConfigMap();
-                    configMap.getNarratorMenuConfigMap().setEnabled(!configMap.getNarratorMenuConfigMap().isEnabled());
-                    MainClass.config.setConfigMap(configMap);
-                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.feature_toggle_button." + (MainClass.config.getConfigMap().getNarratorMenuConfigMap().isEnabled() ? "enabled" : "disabled"))));
+                    NarratorMenuConfigMap map = NarratorMenuConfigMap.getInstance();
+                    map.setEnabled(!map.isEnabled());
+                    Config.getInstance().writeJSON();
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.feature_toggle_button." + (map.isEnabled() ? "enabled" : "disabled"))));
                 });
         this.addDrawableChild(featureToggleButton);
 
@@ -42,15 +45,15 @@ class FluidDetectorConfigMenu extends BaseScreen {
     protected void init() {
         super.init();
 
+        FluidDetectorConfigMap initMap = FluidDetectorConfigMap.getInstance();
+
         ButtonWidget volumeButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.volume",
-                        MainClass.config.getConfigMap().getNarratorMenuConfigMap().getFluidDetectorConfigMap().getVolume()),
+                I18n.translate("minecraft_access.gui.common.button.volume", initMap.getVolume()),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.NARRATOR_MENU_VOLUME, this)));
         this.addDrawableChild(volumeButton);
 
         ButtonWidget rangeButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.range",
-                        MainClass.config.getConfigMap().getNarratorMenuConfigMap().getFluidDetectorConfigMap().getRange()),
+                I18n.translate("minecraft_access.gui.common.button.range", initMap.getRange()),
                 (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.NARRATOR_MENU_RANGE, this)));
         this.addDrawableChild(rangeButton);
     }

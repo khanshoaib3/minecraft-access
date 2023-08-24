@@ -66,7 +66,7 @@ public class MouseKeySimulation {
     }
 
     private void loadConfigurations() {
-        MouseSimulationConfigMap map = MainClass.config.getConfigMap().getMouseSimulationConfigMap();
+        MouseSimulationConfigMap map = MouseSimulationConfigMap.getInstance();
         this.enabled = map.isEnabled();
         this.scrollUpDelay = Interval.inMilliseconds(map.getScrollDelayInMilliseconds(), this.scrollUpDelay);
         this.scrollDownDelay = Interval.inMilliseconds(map.getScrollDelayInMilliseconds(), this.scrollDownDelay);

@@ -1,9 +1,13 @@
 package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
+import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.features.PositionNarrator;
 import com.google.gson.annotations.SerializedName;
 
 public class OtherConfigsMap {
+
+    private static OtherConfigsMap instance;
+
     @SerializedName("Enable Biome Indicator")
     private boolean biomeIndicatorEnabled;
     @SerializedName("Enable XP Indicator")
@@ -35,6 +39,18 @@ public class OtherConfigsMap {
      * Can be translated into config item if someone needs it, but not now.
      */
     private int multipleClickSpeedInMilliseconds = 750;
+
+    private OtherConfigsMap() {
+    }
+
+    public static OtherConfigsMap getInstance() {
+        if (instance == null) Config.getInstance().loadConfig();
+        return instance;
+    }
+
+    public static void setInstance(OtherConfigsMap map) {
+        instance = map;
+    }
 
     public boolean isBiomeIndicatorEnabled() {
         return biomeIndicatorEnabled;
@@ -132,7 +148,7 @@ public class OtherConfigsMap {
         this.multipleClickSpeedInMilliseconds = multipleClickSpeedInMilliseconds;
     }
 
-    public static OtherConfigsMap getDefaultOtherConfigsMap() {
+    public static OtherConfigsMap buildDefault() {
         OtherConfigsMap defaultOtherConfigsMap = new OtherConfigsMap();
         defaultOtherConfigsMap.setBiomeIndicatorEnabled(true);
         defaultOtherConfigsMap.setXpIndicatorEnabled(true);
@@ -147,6 +163,7 @@ public class OtherConfigsMap {
         defaultOtherConfigsMap.setDebugMode(false);
         defaultOtherConfigsMap.setMultipleClickSpeedInMilliseconds(750);
 
+        setInstance(defaultOtherConfigsMap);
         return defaultOtherConfigsMap;
     }
 }

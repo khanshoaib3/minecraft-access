@@ -1,11 +1,18 @@
 package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
+import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 public class NarratorMenuConfigMap {
+
+    private static NarratorMenuConfigMap instance;
+
     @SerializedName("Enabled")
     private boolean enabled;
     @SerializedName("Fluid Detector")
+    private FluidDetectorConfigMap fluidDetectorConfigMap;
 
     public boolean isEnabled() {
         return enabled;
@@ -15,20 +22,31 @@ public class NarratorMenuConfigMap {
         this.enabled = enabled;
     }
 
-    private FluidDetectorConfigMap fluidDetectorConfigMap;
-
-    public FluidDetectorConfigMap getFluidDetectorConfigMap() {
-        return fluidDetectorConfigMap;
+    private NarratorMenuConfigMap() {
     }
 
-    public void setFluidDetectorConfigMap(FluidDetectorConfigMap fluidDetectorConfigMap) {
-        this.fluidDetectorConfigMap = fluidDetectorConfigMap;
+    public static NarratorMenuConfigMap getInstance() {
+        if (instance == null) Config.getInstance().loadConfig();
+        return instance;
     }
 
-    public static NarratorMenuConfigMap getDefaultNarratorMenuConfigMap() {
+    public static void setInstance(NarratorMenuConfigMap map) {
+        FluidDetectorConfigMap.setInstance(map.fluidDetectorConfigMap);
+        instance = map;
+    }
+
+    public static NarratorMenuConfigMap buildDefault() {
         NarratorMenuConfigMap defaultNarratorMenuConfigMap = new NarratorMenuConfigMap();
         defaultNarratorMenuConfigMap.setEnabled(true);
-        defaultNarratorMenuConfigMap.setFluidDetectorConfigMap(FluidDetectorConfigMap.getDefaultFluidDetectorConfigMap());
+        defaultNarratorMenuConfigMap.fluidDetectorConfigMap = FluidDetectorConfigMap.buildDefault();
+
+        setInstance(defaultNarratorMenuConfigMap);
         return defaultNarratorMenuConfigMap;
+    }
+
+    public void resetMissingSectionsToDefault() {
+        if (Objects.isNull(this.fluidDetectorConfigMap)) {
+            this.fluidDetectorConfigMap = FluidDetectorConfigMap.buildDefault();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
+import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
 
 public class POIMarkingConfigMap {
@@ -10,6 +11,9 @@ public class POIMarkingConfigMap {
 
     @SerializedName("Suppress Other POI When Marking On")
     private boolean suppressOtherWhenEnabled;
+
+    private POIMarkingConfigMap() {
+    }
 
     public static POIMarkingConfigMap buildDefault() {
         POIMarkingConfigMap m = new POIMarkingConfigMap();
@@ -26,6 +30,7 @@ public class POIMarkingConfigMap {
     }
 
     public static POIMarkingConfigMap getInstance() {
+        if (instance == null) Config.getInstance().loadConfig();
         return instance;
     }
 
