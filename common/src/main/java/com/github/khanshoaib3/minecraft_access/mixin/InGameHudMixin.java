@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.mixin;
 
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.resource.language.I18n;
@@ -76,7 +77,7 @@ public class InGameHudMixin {
 
     @Inject(at = @At("HEAD"), method = "setOverlayMessage(Lnet/minecraft/text/Text;Z)V")
     public void speakActionbar(Text message, boolean tinted, CallbackInfo ci) {
-        if (MainClass.config.getConfigMap().getOtherConfigsMap().isActionBarEnabled())
+        if (OtherConfigsMap.getInstance().isActionBarEnabled())
             MainClass.speakWithNarrator(message.getString(), true);
     }
 }

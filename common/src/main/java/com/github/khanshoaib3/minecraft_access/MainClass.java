@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.*;
 import com.github.khanshoaib3.minecraft_access.features.*;
 import com.github.khanshoaib3.minecraft_access.features.inventory_controls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.narrator_menu.NarratorMenu;
@@ -20,8 +21,6 @@ public class MainClass {
     public static final String MOD_ID = "minecraft_access";
     private static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     private static ScreenReaderInterface screenReader = null;
-
-    public static Config config = null;
 
     public static CameraControls cameraControls = null;
     public static InventoryControls inventoryControls = null;
@@ -46,9 +45,8 @@ public class MainClass {
      * Initializes the mod
      */
     public static void init() {
-        config = Config.getInstance();
-        Config.refresh();
-        debugMode = config.getConfigMap().getOtherConfigsMap().isDebugMode();
+        Config.getInstance().loadConfig();
+        debugMode = OtherConfigsMap.getInstance().isDebugMode();
 
         String msg = "Initializing Minecraft Access";
         MainClass.infoLog(msg);
@@ -95,7 +93,8 @@ public class MainClass {
      */
     public static void clientTickEventsMethod(MinecraftClient minecraftClient) {
         // update debug mode config
-        debugMode = config.getConfigMap().getOtherConfigsMap().isDebugMode();
+        OtherConfigsMap otherConfigsMap = OtherConfigsMap.getInstance();
+        debugMode = otherConfigsMap.isDebugMode();
 
         // TODO change attack and use keys on startup and add startup features to config.json
         if (!MainClass.alreadyDisabledAdvancementKey && minecraftClient.options != null) {
@@ -104,44 +103,44 @@ public class MainClass {
             infoLog("Unbound advancements key");
         }
 
-        if (config.getConfigMap().getOtherConfigsMap().isMenuFixEnabled()) {
+        if (otherConfigsMap.isMenuFixEnabled()) {
             MenuFix.update(minecraftClient);
         }
 
         // TODO Update these to singleton design pattern
-        if (inventoryControls != null && config.getConfigMap().getInventoryControlsConfigMap().isEnabled())
+        if (inventoryControls != null && InventoryControlsConfigMap.getInstance().isEnabled())
             inventoryControls.update();
 
-        if (cameraControls != null && config.getConfigMap().getCameraControlsConfigMap().isEnabled())
+        if (cameraControls != null && CameraControlsConfigMap.getInstance().isEnabled())
             cameraControls.update();
 
-        if (readCrosshair != null && config.getConfigMap().getReadCrosshairConfigMap().isEnabled())
+        if (readCrosshair != null && ReadCrosshairConfigMap.getInstance().isEnabled())
             readCrosshair.update();
 
-        if (biomeIndicator != null && config.getConfigMap().getOtherConfigsMap().isBiomeIndicatorEnabled())
+        if (biomeIndicator != null && otherConfigsMap.isBiomeIndicatorEnabled())
             biomeIndicator.update();
 
-        if (xpIndicator != null && config.getConfigMap().getOtherConfigsMap().isXpIndicatorEnabled())
+        if (xpIndicator != null && otherConfigsMap.isXpIndicatorEnabled())
             xpIndicator.update();
 
-        if (facingDirection != null && config.getConfigMap().getOtherConfigsMap().isFacingDirectionEnabled())
+        if (facingDirection != null && otherConfigsMap.isFacingDirectionEnabled())
             facingDirection.update();
 
-        if (positionNarrator != null && config.getConfigMap().getOtherConfigsMap().isPositionNarratorEnabled())
+        if (positionNarrator != null && otherConfigsMap.isPositionNarratorEnabled())
             positionNarrator.update();
 
-        if (healthNHunger != null && config.getConfigMap().getOtherConfigsMap().isHealthNHungerEnabled())
+        if (healthNHunger != null && otherConfigsMap.isHealthNHungerEnabled())
             healthNHunger.update();
 
-        if (playerWarnings != null && config.getConfigMap().getPlayerWarningConfigMap().isEnabled())
+        if (playerWarnings != null && PlayerWarningConfigMap.getInstance().isEnabled())
             playerWarnings.update();
 
-        if (narratorMenu != null && config.getConfigMap().getNarratorMenuConfigMap().isEnabled())
+        if (narratorMenu != null && NarratorMenuConfigMap.getInstance().isEnabled())
             narratorMenu.update();
 
         POIMarking.getInstance().update();
 
-        if (lockingHandler != null && config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isEnabled())
+        if (lockingHandler != null && POILockingConfigMap.getInstance().isEnabled())
             lockingHandler.update();
 
         FallDetector.getInstance().update();

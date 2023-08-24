@@ -1,8 +1,12 @@
 package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
+import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
 
 public class POILockingConfigMap {
+
+    private static POILockingConfigMap instance;
+
     @SerializedName("Enabled")
     private boolean enabled;
     @SerializedName("Lock on Blocks")
@@ -15,6 +19,31 @@ public class POILockingConfigMap {
     private boolean autoLockEyeOfEnderEntity;
     @SerializedName("Delay (in milliseconds)")
     private int delay;
+
+    private POILockingConfigMap() {
+    }
+
+    public static POILockingConfigMap getInstance() {
+        if (instance == null) Config.getInstance().loadConfig();
+        return instance;
+    }
+
+    public static void setInstance(POILockingConfigMap map) {
+        instance = map;
+    }
+
+    public static POILockingConfigMap buildDefault() {
+        POILockingConfigMap m = new POILockingConfigMap();
+        m.setEnabled(true);
+        m.setLockOnBlocks(true);
+        m.setSpeakDistance(false);
+        m.setUnlockingSound(true);
+        m.setAutoLockEyeOfEnderEntity(true);
+        m.setDelay(100);
+
+        setInstance(m);
+        return m;
+    }
 
     public boolean isEnabled() {
         return enabled;

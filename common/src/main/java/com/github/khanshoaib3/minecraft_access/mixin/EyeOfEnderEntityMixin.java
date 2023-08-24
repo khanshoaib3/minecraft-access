@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.mixin;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.POILockingConfigMap;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -28,7 +29,7 @@ public abstract class EyeOfEnderEntityMixin extends Entity implements FlyingItem
     @Inject(at = @At("HEAD"), method = "tick")
     private void tick(CallbackInfo callbackInfo) {
         if (this.lifespan != 1) return;
-        if (!MainClass.config.getConfigMap().getPoiConfigMap().getLockingConfigMap().isAutoLockEyeOfEnderEntity())
+        if (!POILockingConfigMap.getInstance().isAutoLockEyeOfEnderEntity())
             return;
 
         MainClass.infoLog("Auto locking to eye of ender entity");
