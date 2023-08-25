@@ -33,11 +33,13 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import org.apache.logging.log4j.util.Strings;
+import net.minecraft.util.math.Vec3i;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -46,6 +48,13 @@ import java.util.stream.Collectors;
  * It also gives feedback when a block is powered by a redstone signal or when a door is open similar cases.
  */
 public class ReadCrosshair {
+    /**
+     * One redstone wire must be connected with another wire at one of three positions: [side, side down, side up],
+     * since we are checking if the wire is connecting with ALL directions, only take one sample position (x+1) is enough.
+     */
+    public static final Set<Vec3i> THREE_SAMPLE_POSITIONS = Set.of(new Vec3i(1, 0, 0), new Vec3i(1, -1, 0), new Vec3i(1, 1, 0));
+    public static final Predicate<BlockState> IS_REDSTONE_WIRE = (BlockState state) -> state.getBlock() instanceof RedstoneWireBlock;
+
     private String previousQuery;
     private boolean speakSide;
     private boolean speakingConsecutiveBlocks;
@@ -368,7 +377,7 @@ public class ReadCrosshair {
             currentQuery += "power level " + powerLevel;
         }
 
-        String connectedDirections = Direction.Type.HORIZONTAL.stream()
+        List<String> connectedDirections = Direction.Type.HORIZONTAL.stream()
                 .map(direction -> {
                     String directionName = I18n.translate("minecraft_access.direction." + direction.getName());
 
@@ -385,12 +394,21 @@ public class ReadCrosshair {
                     }
                 })
                 .filter(Objects::nonNull)
-                .collect(Collectors.joining(I18n.translate("minecraft_access.other.words_connection")));
+                .collect(Collectors.toList());
 
-        if (Strings.isNotBlank(connectedDirections)) {
-            toSpeak = I18n.translate("minecraft_access.read_crosshair.redstone_wire_connection", toSpeak, connectedDirections);
-            currentQuery += "connected to " + connectedDirections;
+        // Unconnected redstone dust now has all direction block states set to "side" since 20w18a (before 1.16)
+        // https://minecraft.fandom.com/wiki/Redstone_Dust
+        // So here is an additional check to see if the redstone wire is really connected to all directions
+        if (connectedDirections.size() == 4) {
+            Optional<Boolean> result = WorldUtils.checkAnyOfSurroundingBlocks(pos, THREE_SAMPLE_POSITIONS, IS_REDSTONE_WIRE);
+            if (result.isEmpty()) return new Pair<>(toSpeak, currentQuery);
+            // return early if we find out that this wire is not connected to all directions
+            if (Boolean.FALSE.equals(result.get())) return new Pair<>(toSpeak, currentQuery);
         }
+
+        String directionsToSpeak = String.join(I18n.translate("minecraft_access.other.words_connection"), connectedDirections);
+        toSpeak = I18n.translate("minecraft_access.read_crosshair.redstone_wire_connection", toSpeak, directionsToSpeak);
+        currentQuery += "connected to " + connectedDirections;
 
         return new Pair<>(toSpeak, currentQuery);
     }
