@@ -5,6 +5,7 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeak
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.mixin.MobSpawnerLogicAccessor;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BeehiveBlockEntity;
@@ -32,10 +33,13 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import org.apache.logging.log4j.util.Strings;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * This feature reads the name of the targeted block or entity.<br>
@@ -362,6 +366,30 @@ public class ReadCrosshair {
         if (powerLevel > 0) {
             toSpeak = I18n.translate("minecraft_access.read_crosshair.redstone_wire_power", toSpeak, powerLevel);
             currentQuery += "power level " + powerLevel;
+        }
+
+        String connectedDirections = Direction.Type.HORIZONTAL.stream()
+                .map(direction -> {
+                    String directionName = I18n.translate("minecraft_access.direction." + direction.getName());
+
+                    switch (blockState.get(RedstoneWireBlock.DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction))) {
+                        case UP -> {
+                            return directionName + " " + I18n.translate("minecraft_access.direction.up");
+                        }
+                        case SIDE -> {
+                            return directionName;
+                        }
+                        default -> {
+                            return null;
+                        }
+                    }
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.joining(I18n.translate("minecraft_access.other.words_connection")));
+
+        if (Strings.isNotBlank(connectedDirections)) {
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.redstone_wire_connection", toSpeak, connectedDirections);
+            currentQuery += "connected to " + connectedDirections;
         }
 
         return new Pair<>(toSpeak, currentQuery);
