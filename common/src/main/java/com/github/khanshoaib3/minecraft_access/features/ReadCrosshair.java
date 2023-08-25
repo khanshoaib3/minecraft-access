@@ -4,8 +4,8 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeakingConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.mixin.MobSpawnerLogicAccessor;
-import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BeehiveBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -292,10 +292,14 @@ public class ReadCrosshair {
                 toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
                 currentQuery += "powered";
             }
-        } else if ((block instanceof RedstoneWireBlock || block instanceof GlowLichenBlock || block instanceof RedstoneLampBlock) && (isReceivingPower || isEmittingPower)) {
+        } else if ((block instanceof GlowLichenBlock || block instanceof RedstoneLampBlock) && (isReceivingPower || isEmittingPower)) {
             toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
             currentQuery += "powered";
 //        } else if ((block instanceof RedstoneTorchBlock || block instanceof LeverBlock || block instanceof AbstractButtonBlock) && isEmittingPower) { // pre 1.19.3
+        } else if (block instanceof RedstoneWireBlock) {
+            Pair<String, String> p = getRedstoneWireInfo(blockState, blockPos, toSpeak, currentQuery);
+            toSpeak = p.getLeft();
+            currentQuery = p.getRight();
         } else if ((block instanceof RedstoneTorchBlock || block instanceof LeverBlock || block instanceof ButtonBlock) && isEmittingPower) { // From 1.19.3
             toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
             currentQuery += "powered";
@@ -348,6 +352,16 @@ public class ReadCrosshair {
         } else if (isReceivingPower) { // For all the other blocks
             toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
             currentQuery += "powered";
+        }
+
+        return new Pair<>(toSpeak, currentQuery);
+    }
+
+    private static @NotNull Pair<String, String> getRedstoneWireInfo(BlockState blockState, BlockPos pos, String toSpeak, String currentQuery) {
+        int powerLevel = blockState.get(RedstoneWireBlock.POWER);
+        if (powerLevel > 0) {
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.redstone_wire_power", toSpeak, powerLevel);
+            currentQuery += "power level " + powerLevel;
         }
 
         return new Pair<>(toSpeak, currentQuery);
