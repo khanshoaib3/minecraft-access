@@ -4,8 +4,9 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeakingConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.mixin.MobSpawnerLogicAccessor;
-import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BeehiveBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -32,16 +33,28 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3i;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * This feature reads the name of the targeted block or entity.<br>
  * It also gives feedback when a block is powered by a redstone signal or when a door is open similar cases.
  */
 public class ReadCrosshair {
+    /**
+     * One redstone wire must be connected with another wire at one of three positions: [side, side down, side up],
+     * since we are checking if the wire is connecting with ALL directions, only take one sample position (x+1) is enough.
+     */
+    public static final Set<Vec3i> THREE_SAMPLE_POSITIONS = Set.of(new Vec3i(1, 0, 0), new Vec3i(1, -1, 0), new Vec3i(1, 1, 0));
+    public static final Predicate<BlockState> IS_REDSTONE_WIRE = (BlockState state) -> state.getBlock() instanceof RedstoneWireBlock;
+
     private String previousQuery;
     private boolean speakSide;
     private boolean speakingConsecutiveBlocks;
@@ -292,10 +305,14 @@ public class ReadCrosshair {
                 toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
                 currentQuery += "powered";
             }
-        } else if ((block instanceof RedstoneWireBlock || block instanceof GlowLichenBlock || block instanceof RedstoneLampBlock) && (isReceivingPower || isEmittingPower)) {
+        } else if ((block instanceof GlowLichenBlock || block instanceof RedstoneLampBlock) && (isReceivingPower || isEmittingPower)) {
             toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
             currentQuery += "powered";
 //        } else if ((block instanceof RedstoneTorchBlock || block instanceof LeverBlock || block instanceof AbstractButtonBlock) && isEmittingPower) { // pre 1.19.3
+        } else if (block instanceof RedstoneWireBlock) {
+            Pair<String, String> p = getRedstoneWireInfo(blockState, blockPos, toSpeak, currentQuery);
+            toSpeak = p.getLeft();
+            currentQuery = p.getRight();
         } else if ((block instanceof RedstoneTorchBlock || block instanceof LeverBlock || block instanceof ButtonBlock) && isEmittingPower) { // From 1.19.3
             toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
             currentQuery += "powered";
@@ -349,6 +366,49 @@ public class ReadCrosshair {
             toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
             currentQuery += "powered";
         }
+
+        return new Pair<>(toSpeak, currentQuery);
+    }
+
+    private static @NotNull Pair<String, String> getRedstoneWireInfo(BlockState blockState, BlockPos pos, String toSpeak, String currentQuery) {
+        int powerLevel = blockState.get(RedstoneWireBlock.POWER);
+        if (powerLevel > 0) {
+            toSpeak = I18n.translate("minecraft_access.read_crosshair.redstone_wire_power", toSpeak, powerLevel);
+            currentQuery += "power level " + powerLevel;
+        }
+
+        List<String> connectedDirections = Direction.Type.HORIZONTAL.stream()
+                .map(direction -> {
+                    String directionName = I18n.translate("minecraft_access.direction." + direction.getName());
+
+                    switch (blockState.get(RedstoneWireBlock.DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction))) {
+                        case UP -> {
+                            return directionName + " " + I18n.translate("minecraft_access.direction.up");
+                        }
+                        case SIDE -> {
+                            return directionName;
+                        }
+                        default -> {
+                            return null;
+                        }
+                    }
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        // Unconnected redstone dust now has all direction block states set to "side" since 20w18a (before 1.16)
+        // https://minecraft.fandom.com/wiki/Redstone_Dust
+        // So here is an additional check to see if the redstone wire is really connected to all directions
+        if (connectedDirections.size() == 4) {
+            Optional<Boolean> result = WorldUtils.checkAnyOfSurroundingBlocks(pos, THREE_SAMPLE_POSITIONS, IS_REDSTONE_WIRE);
+            if (result.isEmpty()) return new Pair<>(toSpeak, currentQuery);
+            // return early if we find out that this wire is not connected to all directions
+            if (Boolean.FALSE.equals(result.get())) return new Pair<>(toSpeak, currentQuery);
+        }
+
+        String directionsToSpeak = String.join(I18n.translate("minecraft_access.other.words_connection"), connectedDirections);
+        toSpeak = I18n.translate("minecraft_access.read_crosshair.redstone_wire_connection", toSpeak, directionsToSpeak);
+        currentQuery += "connected to " + connectedDirections;
 
         return new Pair<>(toSpeak, currentQuery);
     }
