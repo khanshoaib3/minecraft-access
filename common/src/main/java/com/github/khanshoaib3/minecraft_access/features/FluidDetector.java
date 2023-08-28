@@ -100,7 +100,9 @@ public class FluidDetector {
             return null;
 
         FluidState fluidState = minecraftClient.world.getFluidState(blockPos);
-        if ((fluidState.isIn(FluidTags.LAVA) && !water) || (fluidState.isIn(FluidTags.WATER) && water) && fluidState.getLevel() == 8) {
+        boolean rightTarget = (fluidState.isIn(FluidTags.LAVA) && !water) || (fluidState.isIn(FluidTags.WATER) && water);
+
+        if (rightTarget && fluidState.isStill()) {
             return blockPos;
         } else if (range - 1 >= 0 && blockState.isAir()) {
             int posX = blockPos.getX();
