@@ -32,8 +32,6 @@ public class InGameHudMixin {
     @Unique
     private String minecraft_access$previousContent = "";
     @Unique
-    private int minecraft_access$previousStackObjectId = 0;
-    @Unique
     private static final Function<String, String> minecraft_access$HotbarI18N = toSpeak -> I18n.translate("minecraft_access.other.hotbar", toSpeak);
     @Unique
     private static final Function<String, String> minecraft_access$EmptySlotI18N = toSpeak -> I18n.translate("minecraft_access.inventory_controls.empty_slot", toSpeak);
@@ -64,14 +62,10 @@ public class InGameHudMixin {
     }
 
     @Unique private void minecraft_access$speakIfHeldChanged(String toSpeak, Function<String, String> i18n) {
-        int currentStackHash = System.identityHashCode(this.currentStack);
-        boolean stackChanged = this.minecraft_access$previousStackObjectId != currentStackHash;
         boolean contentChanged = !this.minecraft_access$previousContent.equals(toSpeak);
-
-        if (stackChanged || contentChanged) {
+        if (contentChanged) {
             MainClass.speakWithNarrator(i18n.apply(toSpeak), true);
             this.minecraft_access$previousContent = toSpeak;
-            this.minecraft_access$previousStackObjectId = currentStackHash;
         }
     }
 
