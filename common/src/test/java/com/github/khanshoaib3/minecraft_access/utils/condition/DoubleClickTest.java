@@ -1,6 +1,8 @@
 package com.github.khanshoaib3.minecraft_access.utils.condition;
 
-import com.github.khanshoaib3.minecraft_access.TestFixtures;
+import com.github.khanshoaib3.minecraft_access.test_utils.MockInterval;
+import com.github.khanshoaib3.minecraft_access.test_utils.MockKeystrokeAction;
+import com.github.khanshoaib3.minecraft_access.test_utils.TestFixtures;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

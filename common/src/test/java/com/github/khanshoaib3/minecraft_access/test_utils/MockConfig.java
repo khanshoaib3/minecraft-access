@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.utils;
+package com.github.khanshoaib3.minecraft_access.test_utils;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
 

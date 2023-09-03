@@ -1,7 +1,6 @@
-package com.github.khanshoaib3.minecraft_access;
+package com.github.khanshoaib3.minecraft_access.test_utils;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
-import com.github.khanshoaib3.minecraft_access.utils.MockConfig;
 import org.mockito.Mockito;
 
 public class TestFixtures {

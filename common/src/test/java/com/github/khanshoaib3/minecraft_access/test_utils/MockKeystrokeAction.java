@@ -1,13 +1,13 @@
-package com.github.khanshoaib3.minecraft_access.utils.condition;
+package com.github.khanshoaib3.minecraft_access.test_utils;
 
 import java.util.function.BooleanSupplier;
 
 /**
  * Combining a changeable boolean variable with supplier.
  */
-class MockKeystrokeAction {
+public class MockKeystrokeAction {
     Boolean pressed;
-    BooleanSupplier supplier;
+    public BooleanSupplier supplier;
 
     public void revertKeystrokeResult() {
         this.pressed = !this.pressed;

@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.utils.condition;
 
+import com.github.khanshoaib3.minecraft_access.test_utils.MockKeystrokeAction;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;

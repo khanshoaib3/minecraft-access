@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.utils.condition;
 
+import com.github.khanshoaib3.minecraft_access.test_utils.MockKeystrokeAction;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import org.junit.jupiter.api.Test;
