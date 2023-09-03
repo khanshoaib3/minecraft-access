@@ -1,10 +1,13 @@
-package com.github.khanshoaib3.minecraft_access.utils;
+package com.github.khanshoaib3.minecraft_access.utils.position;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 /**
  * Functions about getting player entity's position, facing direction etc.
@@ -46,6 +49,18 @@ public class PlayerPositionUtils {
         tempPosZ = tempPosZ.substring(0, tempPosZ.indexOf(".") + 2);
 
         return Double.parseDouble(tempPosZ);
+    }
+
+    public static Optional<Vec3d> getPlayerPosition() {
+        MinecraftClient client = MinecraftClient.getInstance();
+        return client.player == null ? java.util.Optional.empty() : Optional.of(client.player.getPos());
+    }
+
+    public static Optional<BlockPos> getPlayerBlockPosition() {
+        Optional<Vec3d> op = getPlayerPosition();
+        if (op.isEmpty()) return Optional.empty();
+        Vec3d p = op.get();
+        return Optional.of(new BlockPos(p));
     }
 
     public String getNarratableXPos() {
@@ -144,16 +159,6 @@ public class PlayerPositionUtils {
     }
 
     public static String getOppositeDirectionKey(String originalDirectionKey) {
-        return switch (originalDirectionKey) {
-            case "north" -> "south";
-            case "east" -> "west";
-            case "west" -> "east";
-            case "south" -> "north";
-            case "north_east" -> "south_west";
-            case "north_west" -> "south_east";
-            case "south_east" -> "north_west";
-            case "south_west" -> "north_east";
-            default -> "unknown";
-        };
+        return  Orientation.of(originalDirectionKey).getOpposite().toString();
     }
 }

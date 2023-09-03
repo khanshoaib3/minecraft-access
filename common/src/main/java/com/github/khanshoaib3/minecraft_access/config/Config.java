@@ -25,9 +25,13 @@ public class Config {
     /**
      * To prevent constructing other instances.
      */
-    private Config() {
+    protected Config() {
     }
 
+    /**
+     * Returns the singleton instance.
+     * It's what we'll call when we want to operate on the config
+     */
     public static Config getInstance() {
         return instance;
     }

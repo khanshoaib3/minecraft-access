@@ -48,10 +48,19 @@ public class KeyBindingsHandler {
     public KeyBinding mouseSimulationScrollUpKey;
     public KeyBinding mouseSimulationScrollDownKey;
 
+    public KeyBinding areaMapMenuKey;
+    public KeyBinding areaMapNorthKey;
+    public KeyBinding areaMapSouthKey;
+    public KeyBinding areaMapWestKey;
+    public KeyBinding areaMapEastKey;
+    public KeyBinding areaMapUpKey;
+    public KeyBinding areaMapDownKey;
+
     private static final String OTHER_GROUP_TRANSLATION_KEY = "minecraft_access.keys.other.group_name";
     private static final String CAMERA_CONTROLS_TRANSLATION_KEY = "minecraft_access.keys.camera_controls.group_name";
     private static final String INVENTORY_CONTROLS_TRANSLATION_KEY = "minecraft_access.keys.inventory_controls.group_name";
     private static final String MOUSE_SIMULATION_KEY = "minecraft_access.keys.mouse_simulation.group_name";
+    private static final String AREA_MAP_GROUP_KEY = "minecraft_access.keys.area_map.group_name";
 
     private static final KeyBindingsHandler instance;
 
@@ -62,6 +71,7 @@ public class KeyBindingsHandler {
         initializeCameraControlsKeybindings();
         initializeInventoryControlsKeybindings();
         initializeMouseSimulationKeybindings();
+        initializeAreaMapKeybindings();
         initializeOtherKeybindings();
     }
 
@@ -359,6 +369,73 @@ public class KeyBindingsHandler {
                 MOUSE_SIMULATION_KEY
         );
         KeyMappingRegistry.register(mouseSimulationScrollDownKey);
+    }
+
+    /**
+     * 1. Open Area Map Menu Key (default: F6) = Opens the area map menu.
+     * 2. Cursor North Key (default: I) = Move the map cursor one block north.
+     * 3. Cursor South Key (default: K) = Move the map cursor one block south.
+     * 4. Cursor West Key (default: J) = Moves the map cursor one block west.
+     * 5. Cursor East Key (default: L) = Moves the map cursor one block east.
+     * 6. Cursor Up Key (default: U) = Moves the map cursor one block up.
+     * 7. Cursor Down Key (default: O) = Moves the map cursor one block down.
+     */
+    private void initializeAreaMapKeybindings() {
+        areaMapMenuKey = new KeyBinding(
+                "minecraft_access.keys.area_map.menu_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_F6,
+                AREA_MAP_GROUP_KEY
+        );
+        KeyMappingRegistry.register(areaMapMenuKey);
+
+        areaMapNorthKey = new KeyBinding(
+                "minecraft_access.keys.area_map.north_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_I,
+                AREA_MAP_GROUP_KEY
+        );
+        KeyMappingRegistry.register(areaMapNorthKey);
+
+        areaMapSouthKey = new KeyBinding(
+                "minecraft_access.keys.area_map.south_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_K,
+                AREA_MAP_GROUP_KEY
+        );
+        KeyMappingRegistry.register(areaMapSouthKey);
+
+        areaMapWestKey = new KeyBinding(
+                "minecraft_access.keys.area_map.west_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_J,
+                AREA_MAP_GROUP_KEY
+        );
+        KeyMappingRegistry.register(areaMapWestKey);
+
+        areaMapEastKey = new KeyBinding(
+                "minecraft_access.keys.area_map.east_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_L,
+                AREA_MAP_GROUP_KEY
+        );
+        KeyMappingRegistry.register(areaMapEastKey);
+
+        areaMapUpKey = new KeyBinding(
+                "minecraft_access.keys.area_map.up_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_U,
+                AREA_MAP_GROUP_KEY
+        );
+        KeyMappingRegistry.register(areaMapUpKey);
+
+        areaMapDownKey = new KeyBinding(
+                "minecraft_access.keys.area_map.down_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_O,
+                AREA_MAP_GROUP_KEY
+        );
+        KeyMappingRegistry.register(areaMapDownKey);
     }
 
     /**

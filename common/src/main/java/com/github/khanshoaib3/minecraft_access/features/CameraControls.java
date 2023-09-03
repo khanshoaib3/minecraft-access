@@ -3,10 +3,11 @@ package com.github.khanshoaib3.minecraft_access.features;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControlsConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
-import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
-import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.DoubleClick;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
+import com.github.khanshoaib3.minecraft_access.utils.position.Orientation;
+import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -117,33 +118,33 @@ public class CameraControls {
         straightDownDoubleClick.updateStateForNextTick();
 
         // these two blocks of logic should be ahead of the normal up/down logic
-        if (isStraightUpKeyPressed && isRightAltPressed) {
-            rotateCameraTo(CameraDirection.UP);
+        if (isStraightUpKeyPressed) {
+            rotateCameraTo(Orientation.UP);
             return true;
         }
 
-        if (isStraightDownKeyPressed && isRightAltPressed) {
-            rotateCameraTo(CameraDirection.DOWN);
+        if (isStraightDownKeyPressed) {
+            rotateCameraTo(Orientation.DOWN);
             return true;
         }
 
         if (isNorthKeyPressed) {
-            rotateCameraTo(CameraDirection.NORTH);
+            rotateCameraTo(Orientation.NORTH);
             return true;
         }
 
         if (isEastKeyPressed) {
-            rotateCameraTo(CameraDirection.EAST);
+            rotateCameraTo(Orientation.EAST);
             return true;
         }
 
         if (isWestKeyPressed) {
-            rotateCameraTo(CameraDirection.WEST);
+            rotateCameraTo(Orientation.WEST);
             return true;
         }
 
         if (isSouthKeyPressed) {
-            rotateCameraTo(CameraDirection.SOUTH);
+            rotateCameraTo(Orientation.SOUTH);
             return true;
         }
 
@@ -221,44 +222,16 @@ public class CameraControls {
             MainClass.speakWithNarrator(verticalDirection, true);
     }
 
-
-    private enum CameraDirection {
-        NORTH(0, 0, -1),
-        EAST(1, 0, 0),
-        WEST(-1, 0, 0),
-        SOUTH(0, 0, 1),
-        NORTH_EAST(1, 0, -1),
-        NORTH_WEST(-1, 0, -1),
-        SOUTH_EAST(1, 0, 1),
-        SOUTH_WEST(-1, 0, 1),
-        UP(0, 1, 0),
-        DOWN(0, -1, 0),
-        ;
-
-        final int x;
-        final int y;
-        final int z;
-
-        CameraDirection(int x, int y, int z) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
-    }
-
     /**
      * Move the camera (player's view).
      *
      * @param direction to given direction
      */
-    private void rotateCameraTo(CameraDirection direction) {
+    private void rotateCameraTo(Orientation direction) {
         if (minecraftClient.player == null) return;
 
         Vec3d playerBlockPosition = minecraftClient.player.getPos();
-        Vec3d targetBlockPosition = new Vec3d(
-                playerBlockPosition.x + direction.x,
-                playerBlockPosition.y + direction.y,
-                playerBlockPosition.z + direction.z);
+        Vec3d targetBlockPosition = playerBlockPosition.add(Vec3d.of(direction.vector));
 
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, targetBlockPosition);
 
@@ -266,9 +239,8 @@ public class CameraControls {
         MainClass.infoLog("Rotating camera to: %s".formatted(direction.name()));
 
         PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
-        boolean isRotatingHorizontal = direction.y == 0;
 
-        if (isRotatingHorizontal) {
+        if (direction.in(Orientation.LAYER.MIDDLE)) {
             MainClass.speakWithNarrator(pUtil.getHorizontalFacingDirectionInCardinal(), true);
         } else {
             MainClass.speakWithNarrator(pUtil.getVerticalFacingDirectionInWords(), true);
@@ -276,24 +248,13 @@ public class CameraControls {
     }
 
     /**
-     * Snaps the camera to the closest cardinal direction and centers it.
+     * Snaps the camera to the closest cardinal direction and centers it vertically.
      *
      * @param lookOpposite Whether to snap the opposite cardinal direction or not and centers it.
      */
     private void centerCamera(boolean lookOpposite) {
         if (minecraftClient.player == null) return;
-
         String direction = new PlayerPositionUtils(minecraftClient).getHorizontalFacingDirectionInCardinal(true, lookOpposite);
-
-        switch (direction) {
-            case "north" -> rotateCameraTo(CameraDirection.NORTH);
-            case "east" -> rotateCameraTo(CameraDirection.EAST);
-            case "west" -> rotateCameraTo(CameraDirection.WEST);
-            case "south" -> rotateCameraTo(CameraDirection.SOUTH);
-            case "north_east" -> rotateCameraTo(CameraDirection.NORTH_EAST);
-            case "north_west" -> rotateCameraTo(CameraDirection.NORTH_WEST);
-            case "south_east" -> rotateCameraTo(CameraDirection.SOUTH_EAST);
-            case "south_west" -> rotateCameraTo(CameraDirection.SOUTH_WEST);
-        }
+        rotateCameraTo(Orientation.of(direction));
     }
 }
