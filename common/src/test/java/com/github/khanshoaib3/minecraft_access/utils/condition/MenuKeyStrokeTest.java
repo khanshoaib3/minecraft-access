@@ -1,14 +1,29 @@
 package com.github.khanshoaib3.minecraft_access.utils.condition;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class MenuKeyStrokeTest {
+    @Mock
+    MinecraftClient mockClient;
+    @Mock
+    Screen mockScreen;
+
     @Test
     void test() {
         MockKeystrokeAction m = new MockKeystrokeAction(true);
         MenuKeyStroke k = new MenuKeyStroke(m.supplier);
+        mockStatic(MinecraftClient.class).when(MinecraftClient::getInstance).thenReturn(mockClient);
+        mockClient.currentScreen = mockScreen;
 
         k.updateStateForNextTick();
         m.revertKeystrokeResult();
@@ -16,7 +31,8 @@ class MenuKeyStrokeTest {
 
         // press down
         m.revertKeystrokeResult();
-        assertTrue(k.canCloseMenu(), "is pressed, the menu should be closed");
+        assertTrue(k.closeMenuIfMenuKeyPressing(), "is pressed, the menu should be closed");
+        verify(mockScreen).close();
         k.updateStateForNextTick();
 
         // release

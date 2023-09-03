@@ -6,8 +6,6 @@ import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeyStroke;
 import net.minecraft.client.MinecraftClient;
 
-import java.util.Objects;
-
 /**
  * This menu gives user a bird eye view of surrounding area.
  * It plays the role of the Map function in other games.
@@ -39,10 +37,7 @@ public class AreaMapMenu {
             if (client.player == null) return;
 
             if (client.currentScreen instanceof AreaMapMenuGUI) {
-                if (menuKey.canCloseMenu()) {
-                    closeAreaMapMenu();
-                    return;
-                }
+                if (menuKey.closeMenuIfMenuKeyPressing()) return;
                 handleInMenuActions();
             }
 
@@ -61,10 +56,6 @@ public class AreaMapMenu {
 
     private void openAreaMapMenu() {
         MinecraftClient.getInstance().setScreen(new AreaMapMenuGUI());
-    }
-
-    private void closeAreaMapMenu() {
-        Objects.requireNonNull(MinecraftClient.getInstance().currentScreen).close();
     }
 
     private void handleInMenuActions() {

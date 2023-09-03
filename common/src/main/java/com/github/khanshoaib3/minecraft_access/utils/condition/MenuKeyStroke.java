@@ -1,5 +1,8 @@
 package com.github.khanshoaib3.minecraft_access.utils.condition;
 
+import net.minecraft.client.MinecraftClient;
+
+import java.util.Objects;
 import java.util.function.BooleanSupplier;
 
 /**
@@ -25,9 +28,13 @@ public class MenuKeyStroke extends Keystroke {
         return isReleased() && !isMenuJustClosed;
     }
 
-    public boolean canCloseMenu() {
+    /**
+     * @return true if the menu is closed
+     */
+    public boolean closeMenuIfMenuKeyPressing() {
         if (isPressing()) {
             isMenuJustClosed = true;
+            Objects.requireNonNull(MinecraftClient.getInstance().currentScreen).close();
             return true;
         } else {
             return false;

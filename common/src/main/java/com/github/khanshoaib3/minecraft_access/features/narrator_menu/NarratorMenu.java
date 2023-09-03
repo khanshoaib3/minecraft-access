@@ -102,12 +102,7 @@ public class NarratorMenu {
             if (minecraftClient.player == null) return;
 
             if (minecraftClient.currentScreen instanceof NarratorMenuGUI) {
-                // Close the menu if the F4 key is pressed while the menu is opening
-                if (menuKey.canCloseMenu()) {
-                    closeNarratorMenu();
-                    return;
-                }
-
+                if (menuKey.closeMenuIfMenuKeyPressing()) return;
                 handleInMenuActions();
             }
 
