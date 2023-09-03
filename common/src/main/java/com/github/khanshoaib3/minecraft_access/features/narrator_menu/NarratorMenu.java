@@ -107,7 +107,13 @@ public class NarratorMenu {
             if (minecraftClient.player == null) return;
 
             if (minecraftClient.currentScreen instanceof NarratorMenuGUI) {
-                if (handleInMenuActions()) return;
+                // Close the menu if the F4 key is pressed while the menu is opening
+                if (menuKey.isPressing()) {
+                    closeNarratorMenu();
+                    return;
+                }
+
+                handleInMenuActions();
             }
 
             // other menus is opened
@@ -142,17 +148,7 @@ public class NarratorMenu {
         }
     }
 
-    /**
-     * @return return early if the menu is closed.
-     */
-    private static boolean handleInMenuActions() {
-        // Close the menu if the F4 key is pressed while the menu is opening
-        if (menuKey.isPressing()) {
-            isMenuJustClosed = true;
-            Objects.requireNonNull(minecraftClient.currentScreen).close();
-            return true;
-        }
-
+    private static void handleInMenuActions() {
         // With Narrator Menu opened, listen to number keys pressing for executing corresponding functions
         // for the little performance improvement, will not use KeyUtils here.
         long handle = minecraftClient.getWindow().getHandle();
@@ -161,7 +157,6 @@ public class NarratorMenu {
                         || InputUtil.isKeyPressed(handle, f.keyPadKeyCode()))
                 .findFirst()
                 .ifPresent(f -> f.func().run());
-        return false;
     }
 
     private void switchHotKeyFunction() {
@@ -184,6 +179,11 @@ public class NarratorMenu {
         Screen screen = new NarratorMenuGUI("f4_menu");
         minecraftClient.setScreen(screen); // post 1.18
 //                minecraftClient.openScreen(screen); // pre 1.18
+    }
+
+    private static void closeNarratorMenu() {
+        isMenuJustClosed = true;
+        Objects.requireNonNull(minecraftClient.currentScreen).close();
     }
 
     public static void getBlockAndFluidTargetInformation() {
