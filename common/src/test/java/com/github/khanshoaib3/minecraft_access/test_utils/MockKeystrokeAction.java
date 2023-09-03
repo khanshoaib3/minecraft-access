@@ -17,4 +17,20 @@ public class MockKeystrokeAction {
         this.pressed = initPressed;
         this.supplier = () -> this.pressed;
     }
+
+    public void setPress() {
+        this.pressed = true;
+    }
+
+    public void setRelease() {
+        this.pressed = false;
+    }
+
+    public static MockKeystrokeAction pressed() {
+        return new MockKeystrokeAction(true);
+    }
+
+    public static MockKeystrokeAction released() {
+        return new MockKeystrokeAction(false);
+    }
 }

@@ -17,7 +17,7 @@ class DoubleClickTest {
 
     @Test
     void testCanCountTrigger() {
-        MockKeystrokeAction m = new MockKeystrokeAction(true);
+        MockKeystrokeAction m = MockKeystrokeAction.pressed();
         DoubleClick k = new DoubleClick(m.supplier, Keystroke.TriggeredAt.PRESSING);
 
         k.updateStateForNextTick();
@@ -29,7 +29,7 @@ class DoubleClickTest {
 
     @Test
     void testCanCleanStaleCountIfTimeOut() {
-        MockKeystrokeAction m = new MockKeystrokeAction(true);
+        MockKeystrokeAction m = MockKeystrokeAction.pressed();
         MockInterval i = new MockInterval(0, 0);
         DoubleClick k = new DoubleClick(m.supplier, Keystroke.TriggeredAt.PRESSING, i);
 
@@ -44,7 +44,7 @@ class DoubleClickTest {
 
     @Test
     void testCanTriggerIfProperlyTriggerAgain() {
-        MockKeystrokeAction m = new MockKeystrokeAction(true);
+        MockKeystrokeAction m = MockKeystrokeAction.pressed();
         MockInterval i = new MockInterval(0, 0);
         DoubleClick k = new DoubleClick(m.supplier, Keystroke.TriggeredAt.PRESSING, i);
 

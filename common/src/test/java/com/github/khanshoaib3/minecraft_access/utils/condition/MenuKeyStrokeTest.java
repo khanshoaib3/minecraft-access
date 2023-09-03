@@ -22,32 +22,28 @@ class MenuKeyStrokeTest {
 
     @Test
     void test() {
-        MockKeystrokeAction m = new MockKeystrokeAction(true);
+        MockKeystrokeAction m = MockKeystrokeAction.pressed();
         MenuKeyStroke k = new MenuKeyStroke(m.supplier);
         mockStatic(MinecraftClient.class).when(MinecraftClient::getInstance).thenReturn(mockClient);
         mockClient.currentScreen = mockScreen;
 
         k.updateStateForNextTick();
-        m.revertKeystrokeResult();
+        m.setRelease();
         assertTrue(k.canOpenMenu(), "from pressed to released, the menu should be opened");
 
-        // press down
-        m.revertKeystrokeResult();
+        m.setPress();
         assertTrue(k.closeMenuIfMenuKeyPressing(), "is pressed, the menu should be closed");
         verify(mockScreen).close();
         k.updateStateForNextTick();
 
-        // release
-        m.revertKeystrokeResult();
+        m.setRelease();
         assertFalse(k.canOpenMenu(), "is released, but since the menu is just closed, it should not be opened again");
         // will clean the inner flag
         k.updateStateForNextTick();
 
-        // press down
-        m.revertKeystrokeResult();
+        m.setPress();
         k.updateStateForNextTick();
-        // release
-        m.revertKeystrokeResult();
+        m.setRelease();
         assertTrue(k.canOpenMenu(), "now the menu can be opened again");
     }
 }
