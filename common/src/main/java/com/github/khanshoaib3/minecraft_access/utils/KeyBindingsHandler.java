@@ -48,10 +48,13 @@ public class KeyBindingsHandler {
     public KeyBinding mouseSimulationScrollUpKey;
     public KeyBinding mouseSimulationScrollDownKey;
 
+    public KeyBinding areaMapMenuKey;
+
     private static final String OTHER_GROUP_TRANSLATION_KEY = "minecraft_access.keys.other.group_name";
     private static final String CAMERA_CONTROLS_TRANSLATION_KEY = "minecraft_access.keys.camera_controls.group_name";
     private static final String INVENTORY_CONTROLS_TRANSLATION_KEY = "minecraft_access.keys.inventory_controls.group_name";
     private static final String MOUSE_SIMULATION_KEY = "minecraft_access.keys.mouse_simulation.group_name";
+    private static final String AREA_MAP_GROUP_KEY = "minecraft_access.keys.area_map.group_name";
 
     private static final KeyBindingsHandler instance;
 
@@ -62,6 +65,7 @@ public class KeyBindingsHandler {
         initializeCameraControlsKeybindings();
         initializeInventoryControlsKeybindings();
         initializeMouseSimulationKeybindings();
+        initializeAreaMapKeybindings();
         initializeOtherKeybindings();
     }
 
@@ -359,6 +363,19 @@ public class KeyBindingsHandler {
                 MOUSE_SIMULATION_KEY
         );
         KeyMappingRegistry.register(mouseSimulationScrollDownKey);
+    }
+
+    /**
+     * 1. Open the AreaMap menu (default: F6)
+     */
+    private void initializeAreaMapKeybindings() {
+        areaMapMenuKey = new KeyBinding(
+                "minecraft_access.keys.area_map.menu_key",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_F6,
+                AREA_MAP_GROUP_KEY
+        );
+        KeyMappingRegistry.register(areaMapMenuKey);
     }
 
     /**
