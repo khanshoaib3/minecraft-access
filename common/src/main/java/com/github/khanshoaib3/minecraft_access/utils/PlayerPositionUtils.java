@@ -3,8 +3,11 @@ package com.github.khanshoaib3.minecraft_access.utils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 /**
  * Functions about getting player entity's position, facing direction etc.
@@ -46,6 +49,19 @@ public class PlayerPositionUtils {
         tempPosZ = tempPosZ.substring(0, tempPosZ.indexOf(".") + 2);
 
         return Double.parseDouble(tempPosZ);
+    }
+
+    public static Optional<Vec3d> getPlayerPosition() {
+        MinecraftClient client = MinecraftClient.getInstance();
+        return client.player == null ? java.util.Optional.empty() : Optional.of(client.player.getPos());
+    }
+
+    @SuppressWarnings("unused")
+    public static Optional<BlockPos> getPlayerBlockPosition() {
+        Optional<Vec3d> op = getPlayerPosition();
+        if (op.isEmpty()) return Optional.empty();
+        Vec3d p = op.get();
+        return Optional.of(BlockPos.ofFloored(p.x, p.y, p.z));
     }
 
     public String getNarratableXPos() {
