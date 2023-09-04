@@ -5,6 +5,7 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,8 +22,10 @@ public class DurabilityMixin {
         if (MinecraftClient.getInstance().world == null) return;
         List<Text> list = info.getReturnValue();
         ItemStack itemStack = (ItemStack) ((Object) this);
-        if (!itemStack.getItem().isDamageable()) return;
 
+        list.set(0, Text.of(itemStack.getCount() + " " + list.get(0).getString()) );
+
+        if (!itemStack.getItem().isDamageable()) return;
 
         int totalDurability = itemStack.getItem().getMaxDamage();
         int remainingDurability = totalDurability - itemStack.getDamage();
