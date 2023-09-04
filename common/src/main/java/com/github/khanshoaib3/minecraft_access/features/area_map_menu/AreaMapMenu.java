@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features.area_map_menu;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.AreaMapConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeyStroke;
@@ -17,6 +18,7 @@ public class AreaMapMenu {
     private static final AreaMapMenu instance;
 
     private static final MenuKeyStroke menuKey;
+    private boolean enabled;
 
     static {
         instance = new AreaMapMenu();
@@ -32,7 +34,8 @@ public class AreaMapMenu {
 
     public void update() {
         try {
-            // TODO add enable config as feature flag, then PR current work.
+            updateConfigs();
+            if (!enabled) return;
 
             MinecraftClient client = MinecraftClient.getInstance();
             if (client == null) return;
@@ -54,6 +57,12 @@ public class AreaMapMenu {
             MainClass.errorLog("An error occurred in AreaMapMenu.");
             e.printStackTrace();
         }
+    }
+
+    private void updateConfigs() {
+        AreaMapConfigMap map = AreaMapConfigMap.getInstance();
+        // TODO remove feature flag after complete
+        this.enabled = false;
     }
 
     private void openAreaMapMenu() {
