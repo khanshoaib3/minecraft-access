@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.mixin;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.InventoryControlsConfigMap;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -23,21 +24,24 @@ public class DrawContextMixin {
     private void speakDrawnTooltip1(TextRenderer textRenderer, Text text, int x, int y, CallbackInfo ci) {
         if (MinecraftClient.getInstance() == null) return;
         if (MinecraftClient.getInstance().currentScreen == null) return;
+        if (InventoryControlsConfigMap.getInstance().isEnabled()) return;
 
         checkAndSpeak(text.getString());
     }
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @Inject(at = @At("HEAD"), method = "drawTooltip(Lnet/minecraft/client/font/TextRenderer;Ljava/util/List;Ljava/util/Optional;II)V")
     private void speakDrawnTooltip2(TextRenderer textRenderer, List<Text> text, Optional<TooltipData> data, int x, int y, CallbackInfo ci) {
         if (MinecraftClient.getInstance() == null) return;
         if (MinecraftClient.getInstance().currentScreen == null) return;
+        if (InventoryControlsConfigMap.getInstance().isEnabled()) return;
 
-        String toSpeak = "";
+        StringBuilder toSpeak = new StringBuilder();
         for (Text t: text) {
-            toSpeak += t.getString() + "\n";
+            toSpeak.append(t.getString()).append("\n");
         }
 
-        checkAndSpeak(toSpeak);
+        checkAndSpeak(toSpeak.toString());
     }
 
     @Unique
@@ -46,6 +50,6 @@ public class DrawContextMixin {
         if (toSpeak.isBlank()) return;
 
         previousToooltipText = toSpeak;
-        MainClass.getScreenReader().say(previousToooltipText, true);
+        MainClass.speakWithNarrator(previousToooltipText, true);
     }
 }
