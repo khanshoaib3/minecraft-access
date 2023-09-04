@@ -140,7 +140,7 @@ public class InventoryControls {
                 refreshGroupListAndSelectFirstGroup(false); // Interrupt is false to let it speak the screen's name
             }
 
-            if (currentSlotsGroupList.size() == 0) return;
+            if (currentSlotsGroupList.isEmpty()) return;
 
             if (!previousSlotText.equals(getCurrentSlotNarrationText())) {
                 previousSlotText = getCurrentSlotNarrationText();
@@ -526,11 +526,11 @@ public class InventoryControls {
             return I18n.translate("minecraft_access.inventory_controls.empty_slot", currentGroup.getSlotPrefix(currentSlotItem.slot));
         }
 
-        String info = "%s %d".formatted(currentGroup.getSlotPrefix(currentSlotItem.slot), currentSlotItem.slot.getStack().getCount());
+        String info = currentGroup.getSlotPrefix(currentSlotItem.slot);
         StringBuilder toolTipString = new StringBuilder();
         List<Text> toolTipList = currentSlotItem.slot.getStack().getTooltip(minecraftClient.player, TooltipContext.Default.BASIC);
         for (Text line : toolTipList) {
-            toolTipString.append(line.getString());
+            toolTipString.append(line.getString() + "\n");
         }
 
         return "%s %s".formatted(info, toolTipString.toString());
