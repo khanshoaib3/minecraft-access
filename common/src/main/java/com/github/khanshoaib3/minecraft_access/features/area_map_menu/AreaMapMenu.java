@@ -32,6 +32,8 @@ public class AreaMapMenu {
 
     public void update() {
         try {
+            // TODO add enable config as feature flag, then PR current work.
+
             MinecraftClient client = MinecraftClient.getInstance();
             if (client == null) return;
             if (client.player == null) return;

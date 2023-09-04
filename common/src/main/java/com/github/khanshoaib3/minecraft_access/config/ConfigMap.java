@@ -30,6 +30,8 @@ public class ConfigMap {
     private NarratorMenuConfigMap narratorMenuConfigMap;
     @SerializedName("Other Configurations")
     private OtherConfigsMap otherConfigsMap;
+    @SerializedName("Area Map")
+    private AreaMapConfigMap areaMapConfigMap;
 
     public static ConfigMap buildDefault() {
         ConfigMap m = new ConfigMap();
@@ -42,6 +44,7 @@ public class ConfigMap {
         m.readCrosshairConfigMap = ReadCrosshairConfigMap.buildDefault();
         m.otherConfigsMap = OtherConfigsMap.buildDefault();
         m.narratorMenuConfigMap = NarratorMenuConfigMap.buildDefault();
+        m.areaMapConfigMap = AreaMapConfigMap.buildDefault();
         return m;
     }
 
@@ -55,6 +58,7 @@ public class ConfigMap {
         PlayerWarningConfigMap.setInstance(map.playerWarningConfigMap);
         POIConfigMap.setInstance(map.poiConfigMap);
         ReadCrosshairConfigMap.setInstance(map.readCrosshairConfigMap);
+        AreaMapConfigMap.setInstance(map.areaMapConfigMap);
         instance = map;
     }
 
@@ -100,6 +104,9 @@ public class ConfigMap {
             this.narratorMenuConfigMap = NarratorMenuConfigMap.buildDefault();
         } else {
             this.narratorMenuConfigMap.resetMissingSectionsToDefault();
+        }
+        if (Objects.isNull(this.areaMapConfigMap)) {
+            this.areaMapConfigMap = AreaMapConfigMap.buildDefault();
         }
     }
 }
