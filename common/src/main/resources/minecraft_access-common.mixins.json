@@ -15,6 +15,7 @@
     "ClickableWidgetAccessor",
     "ClientPlayNetworkHandlerMixin",
     "CreativeInventoryScreenAccessor",
+    "DrawContextMixin",
     "DurabilityMixin",
     "EyeOfEnderEntityMixin",
     "HandledScreenAccessor",
