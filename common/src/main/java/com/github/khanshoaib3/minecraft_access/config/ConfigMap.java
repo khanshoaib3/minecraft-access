@@ -28,10 +28,10 @@ public class ConfigMap {
     private ReadCrosshairConfigMap readCrosshairConfigMap;
     @SerializedName("Narrator Menu")
     private NarratorMenuConfigMap narratorMenuConfigMap;
-    @SerializedName("Other Configurations")
-    private OtherConfigsMap otherConfigsMap;
     @SerializedName("Area Map")
     private AreaMapConfigMap areaMapConfigMap;
+    @SerializedName("Other Configurations")
+    private OtherConfigsMap otherConfigsMap;
 
     public static ConfigMap buildDefault() {
         ConfigMap m = new ConfigMap();
