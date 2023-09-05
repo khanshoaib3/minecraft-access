@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access;
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.*;
 import com.github.khanshoaib3.minecraft_access.features.*;
+import com.github.khanshoaib3.minecraft_access.features.area_map_menu.AreaMapMenu;
 import com.github.khanshoaib3.minecraft_access.features.inventory_controls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.narrator_menu.NarratorMenu;
 import com.github.khanshoaib3.minecraft_access.features.point_of_interest.LockingHandler;
@@ -146,6 +147,8 @@ public class MainClass {
         FallDetector.getInstance().update();
 
         MouseKeySimulation.getInstance().update();
+
+        AreaMapMenu.getInstance().update();
     }
 
     public static void infoLog(String msg) {

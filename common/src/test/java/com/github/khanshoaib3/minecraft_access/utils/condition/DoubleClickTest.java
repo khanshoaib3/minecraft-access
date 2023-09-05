@@ -1,33 +1,23 @@
 package com.github.khanshoaib3.minecraft_access.utils.condition;
 
-import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
-import org.junit.jupiter.api.AfterAll;
+import com.github.khanshoaib3.minecraft_access.test_utils.MockInterval;
+import com.github.khanshoaib3.minecraft_access.test_utils.MockKeystrokeAction;
+import com.github.khanshoaib3.minecraft_access.test_utils.TestFixtures;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mockStatic;
 
 class DoubleClickTest {
 
-    static MockedStatic<OtherConfigsMap> otherConfigsMapMockedStatic;
-
     @BeforeAll
     static void beforeAll() {
-        OtherConfigsMap m = OtherConfigsMap.buildDefault();
-        otherConfigsMapMockedStatic = mockStatic(OtherConfigsMap.class);
-        otherConfigsMapMockedStatic.when(OtherConfigsMap::getInstance).thenReturn(m);
-    }
-
-    @AfterAll
-    static void afterAll() {
-        otherConfigsMapMockedStatic.close();
+        TestFixtures.mockConfigFileAsDefaultValues();
     }
 
     @Test
     void testCanCountTrigger() {
-        MockKeystrokeAction m = new MockKeystrokeAction(true);
+        MockKeystrokeAction m = MockKeystrokeAction.pressed();
         DoubleClick k = new DoubleClick(m.supplier, Keystroke.TriggeredAt.PRESSING);
 
         k.updateStateForNextTick();
@@ -39,7 +29,7 @@ class DoubleClickTest {
 
     @Test
     void testCanCleanStaleCountIfTimeOut() {
-        MockKeystrokeAction m = new MockKeystrokeAction(true);
+        MockKeystrokeAction m = MockKeystrokeAction.pressed();
         MockInterval i = new MockInterval(0, 0);
         DoubleClick k = new DoubleClick(m.supplier, Keystroke.TriggeredAt.PRESSING, i);
 
@@ -54,7 +44,7 @@ class DoubleClickTest {
 
     @Test
     void testCanTriggerIfProperlyTriggerAgain() {
-        MockKeystrokeAction m = new MockKeystrokeAction(true);
+        MockKeystrokeAction m = MockKeystrokeAction.pressed();
         MockInterval i = new MockInterval(0, 0);
         DoubleClick k = new DoubleClick(m.supplier, Keystroke.TriggeredAt.PRESSING, i);
 

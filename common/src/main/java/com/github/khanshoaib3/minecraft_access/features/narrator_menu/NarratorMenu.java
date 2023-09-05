@@ -11,6 +11,7 @@ import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
+import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeyStroke;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -35,7 +36,7 @@ import java.util.stream.Stream;
  */
 public class NarratorMenu {
     private static MinecraftClient minecraftClient;
-    private static final Keystroke menuKey;
+    private static final MenuKeyStroke menuKey;
     private static final Keystroke hotKey;
     /**
      * Prevent the f4 menu open in this situation:
@@ -43,12 +44,6 @@ public class NarratorMenu {
      * The user intend to switch the function, not open the menu.
      */
     private static boolean hasFunctionSwitchedBeforeF4Released = false;
-    /**
-     * Prevent the f4 menu open again after f4 menu is just closed by pressing f4.
-     * The menu is closed by pressing the f4, and is opened by releasing the f4,
-     * so if you slowly press down the f4 while menu is opening, the menu will be opened again when you release the f4.
-     */
-    private static boolean isMenuJustClosed = false;
     private int hotKeyFunctionIndex = 0;
     private static final boolean[] LAST_RUN_HAS_DONE_FLAG = new boolean[10];
 
@@ -57,7 +52,7 @@ public class NarratorMenu {
 
         // config keystroke conditions
         KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
-        menuKey = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.narratorMenuKey));
+        menuKey = new MenuKeyStroke(() -> KeyUtils.isAnyPressed(kbh.narratorMenuKey));
         hotKey = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.narratorMenuHotKey), Keystroke.TriggeredAt.PRESSED);
     }
 
@@ -107,7 +102,8 @@ public class NarratorMenu {
             if (minecraftClient.player == null) return;
 
             if (minecraftClient.currentScreen instanceof NarratorMenuGUI) {
-                if (handleInMenuActions()) return;
+                if (menuKey.closeMenuIfMenuKeyPressing()) return;
+                handleInMenuActions();
             }
 
             // other menus is opened
@@ -123,7 +119,7 @@ public class NarratorMenu {
                 switchHotKeyFunction();
             } else if (hotKey.canBeTriggered()) {
                 executeHotKeyFunction();
-            } else if (menuKey.isReleased() && !isMenuJustClosed && isF3KeyNotPressed && !hasFunctionSwitchedBeforeF4Released) {
+            } else if (menuKey.canOpenMenu() && isF3KeyNotPressed && !hasFunctionSwitchedBeforeF4Released) {
                 // The F4 is pressed before and released at current tick
                 // To make the narrator menu open AFTER release the F4 key
                 openNarratorMenu();
@@ -131,7 +127,6 @@ public class NarratorMenu {
 
             if (menuKey.isReleased()) {
                 hasFunctionSwitchedBeforeF4Released = false;
-                isMenuJustClosed = false;
             }
 
             menuKey.updateStateForNextTick();
@@ -142,17 +137,7 @@ public class NarratorMenu {
         }
     }
 
-    /**
-     * @return return early if the menu is closed.
-     */
-    private static boolean handleInMenuActions() {
-        // Close the menu if the F4 key is pressed while the menu is opening
-        if (menuKey.isPressing()) {
-            isMenuJustClosed = true;
-            Objects.requireNonNull(minecraftClient.currentScreen).close();
-            return true;
-        }
-
+    private static void handleInMenuActions() {
         // With Narrator Menu opened, listen to number keys pressing for executing corresponding functions
         // for the little performance improvement, will not use KeyUtils here.
         long handle = minecraftClient.getWindow().getHandle();
@@ -161,7 +146,6 @@ public class NarratorMenu {
                         || InputUtil.isKeyPressed(handle, f.keyPadKeyCode()))
                 .findFirst()
                 .ifPresent(f -> f.func().run());
-        return false;
     }
 
     private void switchHotKeyFunction() {
@@ -184,6 +168,10 @@ public class NarratorMenu {
         Screen screen = new NarratorMenuGUI("f4_menu");
         minecraftClient.setScreen(screen); // post 1.18
 //                minecraftClient.openScreen(screen); // pre 1.18
+    }
+
+    private static void closeNarratorMenu() {
+        Objects.requireNonNull(minecraftClient.currentScreen).close();
     }
 
     public static void getBlockAndFluidTargetInformation() {
