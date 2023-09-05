@@ -1,3 +1,20 @@
+Please read [this issue for guide for modifying this document](https://github.com/khanshoaib3/minecraft-access/pull/155)
+
+Unreleased Changes
+---------------------------
+
+### New Features
+
+### Feature Changes
+
+### Bug Fixes
+
+### Dependencies Changes
+
+### Refactoring, Documentation and Chores
+
+* Add `CHANGELOG.md` for persistent change log and `PULL_REQUEST_TEMPLATE.md` for reminding PR submitters.
+
 Release v1.2.1 (2023-08-31)
 ---------------------------
 
