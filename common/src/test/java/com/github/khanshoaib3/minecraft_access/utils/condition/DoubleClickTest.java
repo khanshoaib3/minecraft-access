@@ -12,7 +12,7 @@ class DoubleClickTest {
 
     @BeforeAll
     static void beforeAll() {
-        TestFixtures.mockConfigFileAsDefaultValues();
+        TestFixtures.mockConfigAsDefaultValues();
     }
 
     @Test
