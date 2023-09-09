@@ -1,6 +1,8 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.features.area_map_menu.AreaMapMenu;
+import com.github.khanshoaib3.minecraft_access.features.area_map_menu.AreaMapMenuGUI;
+import com.github.khanshoaib3.minecraft_access.test_utils.MockKeystrokeAction;
 import com.github.khanshoaib3.minecraft_access.test_utils.MockMinecraftClient;
 import com.github.khanshoaib3.minecraft_access.test_utils.TestFixtures;
 import net.minecraft.client.MinecraftClient;
@@ -15,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class AreaMapMenuTest {
     private static MockMinecraftClient mockClient;
     private static MockedStatic<MinecraftClient> mockedStaticClient;
+    private static MockKeystrokeAction menuKeyAction;
 
     @BeforeAll
     static void beforeAll() {
@@ -22,6 +25,13 @@ class AreaMapMenuTest {
         mockClient = MockMinecraftClient.buildMockMinecraftClient();
         mockedStaticClient = TestFixtures.mockMinecraftClientWith(mockClient);
         TestFixtures.mockKeyMappingRegistry();
+
+        mockKeyStrokes();
+    }
+
+    private static void mockKeyStrokes() {
+        menuKeyAction = MockKeystrokeAction.pressed();
+        menuKeyAction.mockKeystrokeOf(AreaMapMenu.class, "menuKey");
     }
 
     @AfterAll
@@ -31,6 +41,14 @@ class AreaMapMenuTest {
 
     @Test
     void testOpenMenuWithMenuKey() {
+        menuKeyAction.press();
+        oneTickForward();
+        menuKeyAction.release();
+        oneTickForward();
+        mockClient.verifyOpeningMenuOf(AreaMapMenuGUI.class);
+    }
+
+    private static void oneTickForward() {
         AreaMapMenu.getInstance().execute(mockClient.mockito());
     }
 }

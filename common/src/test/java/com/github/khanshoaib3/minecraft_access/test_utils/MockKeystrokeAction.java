@@ -1,5 +1,9 @@
 package com.github.khanshoaib3.minecraft_access.test_utils;
 
+import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
+import org.junit.platform.commons.util.ReflectionUtils;
+
+import java.lang.reflect.Field;
 import java.util.function.BooleanSupplier;
 
 /**
@@ -30,7 +34,25 @@ public class MockKeystrokeAction {
         return new MockKeystrokeAction(true);
     }
 
+    @SuppressWarnings("unused")
     public static MockKeystrokeAction released() {
         return new MockKeystrokeAction(false);
+    }
+
+    /**
+     * Replace given KeyStroke field's condition with its supplier
+     */
+    public void mockKeystrokeOf(Class<?> clazz, String keyFieldName) {
+        try {
+            Field keyField = clazz.getDeclaredField(keyFieldName);
+            Keystroke keyInstance = (Keystroke) ReflectionUtils.tryToReadFieldValue(keyField).get();
+
+            Field conditionField = Keystroke.class.getDeclaredField("condition");
+            conditionField.setAccessible(true);
+            conditionField.set(keyInstance, this.supplier);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
