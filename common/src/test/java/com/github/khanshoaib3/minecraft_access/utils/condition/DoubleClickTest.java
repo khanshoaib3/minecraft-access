@@ -2,18 +2,14 @@ package com.github.khanshoaib3.minecraft_access.utils.condition;
 
 import com.github.khanshoaib3.minecraft_access.test_utils.MockInterval;
 import com.github.khanshoaib3.minecraft_access.test_utils.MockKeystrokeAction;
-import com.github.khanshoaib3.minecraft_access.test_utils.TestFixtures;
-import org.junit.jupiter.api.BeforeAll;
+import com.github.khanshoaib3.minecraft_access.test_utils.extensions.MockConfigExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ExtendWith(MockConfigExtension.class)
 class DoubleClickTest {
-
-    @BeforeAll
-    static void beforeAll() {
-        TestFixtures.mockConfigAsDefaultValues();
-    }
 
     @Test
     void testCanCountTrigger() {

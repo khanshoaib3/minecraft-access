@@ -11,16 +11,12 @@ import static org.mockito.ArgumentMatchers.any;
  * Based on Mockito, we can make use of Mockito's techniques,
  * but with this additional layer of wrap, we can easily write and reuse our own custom logic.
  */
-public class MockMinecraftClient {
+public class MockMinecraftClientWrapper {
 
     private final MinecraftClient mockitoClient;
 
-    private MockMinecraftClient() {
+    public MockMinecraftClientWrapper() {
         mockitoClient = Mockito.mock(MinecraftClient.class);
-    }
-
-    public static MockMinecraftClient buildMockMinecraftClient() {
-        return new MockMinecraftClient();
     }
 
     public MinecraftClient mockito() {
@@ -29,5 +25,15 @@ public class MockMinecraftClient {
 
     public void verifyOpeningMenuOf(Class<? extends Screen> screenClass) {
         Mockito.verify(mockitoClient, Mockito.times(1).description("the menu should be opened")).setScreen(any(screenClass));
+    }
+
+    public Screen setScreen(Class<? extends Screen> screenClass) {
+        Screen screen = Mockito.mock(screenClass);
+        mockitoClient.currentScreen = screen;
+        return screen;
+    }
+
+    public void verifyClosingMenu() {
+        Mockito.verify(mockitoClient.currentScreen, Mockito.times(1).description("the menu should be closed")).close();
     }
 }
