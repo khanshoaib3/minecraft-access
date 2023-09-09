@@ -50,6 +50,7 @@ public class KeyUtils {
         }
     }
 
+    @SuppressWarnings("unused")
     public static boolean isAllPressed(KeyBinding... keyBindings) {
         int[] array = Arrays.stream(keyBindings)
                 .mapToInt(b -> InputUtil.fromTranslationKey(b.getBoundKeyTranslationKey()).getCode())

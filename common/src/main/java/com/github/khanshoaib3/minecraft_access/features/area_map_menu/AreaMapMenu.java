@@ -34,35 +34,40 @@ public class AreaMapMenu {
 
     public void update() {
         try {
-            updateConfigs();
-            if (!enabled) return;
-
             MinecraftClient client = MinecraftClient.getInstance();
             if (client == null) return;
             if (client.player == null) return;
 
-            if (client.currentScreen instanceof AreaMapMenuGUI) {
-                if (menuKey.closeMenuIfMenuKeyPressing()) return;
-                handleInMenuActions();
-            }
-
-            // other menus is opened
-            if (client.currentScreen != null) return;
-
-            if (menuKey.canOpenMenu()) openAreaMapMenu();
-
-            menuKey.updateStateForNextTick();
-
+            // functional core, imperative shell, for easier testing
+            execute(client);
         } catch (Exception e) {
             MainClass.errorLog("An error occurred in AreaMapMenu.");
             e.printStackTrace();
         }
     }
 
+    public void execute(MinecraftClient client) {
+        updateConfigs();
+        if (!enabled) return;
+
+        if (client.currentScreen == null) {
+            if (menuKey.canOpenMenu()) openAreaMapMenu();
+        } else {
+            if (client.currentScreen instanceof AreaMapMenuGUI) {
+                if (menuKey.closeMenuIfMenuKeyPressing()) return;
+                handleInMenuActions();
+            } else {
+                // other menus is opened currently, won't open the menu
+                return;
+            }
+        }
+
+        menuKey.updateStateForNextTick();
+    }
+
     private void updateConfigs() {
         AreaMapConfigMap map = AreaMapConfigMap.getInstance();
-        // TODO remove feature flag after complete
-        this.enabled = false;
+        this.enabled = map.isEnabled();
     }
 
     private void openAreaMapMenu() {
