@@ -4,8 +4,10 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.AreaMapConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
+import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeyStroke;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.util.math.BlockPos;
 
 /**
  * This menu gives user a bird eye view of surrounding area.
@@ -19,6 +21,8 @@ public class AreaMapMenu {
 
     private static final MenuKeyStroke menuKey;
     private boolean enabled;
+    private BlockPos cachedPlayerPos;
+    private BlockPos cursor;
 
     static {
         instance = new AreaMapMenu();
@@ -51,7 +55,10 @@ public class AreaMapMenu {
         if (!enabled) return;
 
         if (client.currentScreen == null) {
-            if (menuKey.canOpenMenu()) openAreaMapMenu();
+            if (menuKey.canOpenMenu()) {
+                openAreaMapMenu();
+                updateMapStates();
+            }
         } else {
             if (client.currentScreen instanceof AreaMapMenuGUI) {
                 if (menuKey.closeMenuIfMenuKeyPressing()) return;
@@ -72,6 +79,15 @@ public class AreaMapMenu {
 
     private void openAreaMapMenu() {
         MinecraftClient.getInstance().setScreen(new AreaMapMenuGUI());
+    }
+
+    private void updateMapStates() {
+        BlockPos currentPlayerPos = PlayerPositionUtils.getPlayerBlockPosition().orElseThrow();
+        // player haven't moved since last menu opening, no need to update
+        if(currentPlayerPos.equals(cachedPlayerPos)) return;
+
+        cachedPlayerPos = currentPlayerPos;
+        cursor = currentPlayerPos;
     }
 
     private void handleInMenuActions() {

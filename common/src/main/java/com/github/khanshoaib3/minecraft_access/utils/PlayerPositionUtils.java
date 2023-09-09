@@ -56,7 +56,6 @@ public class PlayerPositionUtils {
         return client.player == null ? java.util.Optional.empty() : Optional.of(client.player.getPos());
     }
 
-    @SuppressWarnings("unused")
     public static Optional<BlockPos> getPlayerBlockPosition() {
         Optional<Vec3d> op = getPlayerPosition();
         if (op.isEmpty()) return Optional.empty();
