@@ -28,22 +28,22 @@ class MenuKeyStrokeTest {
         mockClient.currentScreen = mockScreen;
 
         k.updateStateForNextTick();
-        m.setRelease();
+        m.release();
         assertTrue(k.canOpenMenu(), "from pressed to released, the menu should be opened");
 
-        m.setPress();
+        m.press();
         assertTrue(k.closeMenuIfMenuKeyPressing(), "is pressed, the menu should be closed");
         verify(mockScreen).close();
         k.updateStateForNextTick();
 
-        m.setRelease();
+        m.release();
         assertFalse(k.canOpenMenu(), "is released, but since the menu is just closed, it should not be opened again");
         // will clean the inner flag
         k.updateStateForNextTick();
 
-        m.setPress();
+        m.press();
         k.updateStateForNextTick();
-        m.setRelease();
+        m.release();
         assertTrue(k.canOpenMenu(), "now the menu can be opened again");
     }
 }
