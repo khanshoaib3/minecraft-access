@@ -28,7 +28,6 @@ import net.minecraft.world.biome.Biome;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
@@ -168,10 +167,6 @@ public class NarratorMenu {
         Screen screen = new NarratorMenuGUI("f4_menu");
         minecraftClient.setScreen(screen); // post 1.18
 //                minecraftClient.openScreen(screen); // pre 1.18
-    }
-
-    private static void closeNarratorMenu() {
-        Objects.requireNonNull(minecraftClient.currentScreen).close();
     }
 
     public static void getBlockAndFluidTargetInformation() {
