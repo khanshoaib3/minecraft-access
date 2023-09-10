@@ -49,6 +49,12 @@ public class KeyBindingsHandler {
     public KeyBinding mouseSimulationScrollDownKey;
 
     public KeyBinding areaMapMenuKey;
+    public KeyBinding areaMapForwardKey;
+    public KeyBinding areaMapBackwardKey;
+    public KeyBinding areaMapLeftKey;
+    public KeyBinding areaMapRightKey;
+    public KeyBinding areaMapUpKey;
+    public KeyBinding areaMapDownKey;
 
     private static final String OTHER_GROUP_TRANSLATION_KEY = "minecraft_access.keys.other.group_name";
     private static final String CAMERA_CONTROLS_TRANSLATION_KEY = "minecraft_access.keys.camera_controls.group_name";
@@ -366,16 +372,70 @@ public class KeyBindingsHandler {
     }
 
     /**
-     * 1. Open the AreaMap menu (default: F6)
+     * 1. Open Area Map Menu Key (default: F6) = Opens the area map menu
+     * 2. Cursor Forward Key (default: I) = Moves the cursor forward
+     * 3. Cursor Backward Key (default: K) = Moves the cursor backward
+     * 4. Cursor Left Key (default: J) = Moves the cursor left
+     * 5. Cursor Right Key (default: L) = Moves the cursor right
+     * 6. Cursor Up Key (default: U) = Moves the cursor up (to upper layer)
+     * 7. Cursor Down Key (default: O) = Moves the cursor down (to lower layer)
      */
     private void initializeAreaMapKeybindings() {
         areaMapMenuKey = new KeyBinding(
-                "minecraft_access.keys.area_map.menu_key",
+                "minecraft_access.keys.area_map.menu_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_F6,
                 AREA_MAP_GROUP_KEY
         );
         KeyMappingRegistry.register(areaMapMenuKey);
+
+        areaMapForwardKey = new KeyBinding(
+                "minecraft_access.keys.area_map.forward_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_I,
+                AREA_MAP_GROUP_KEY
+        );
+        KeyMappingRegistry.register(areaMapForwardKey);
+
+        areaMapBackwardKey = new KeyBinding(
+                "minecraft_access.keys.area_map.backward_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_K,
+                AREA_MAP_GROUP_KEY
+        );
+        KeyMappingRegistry.register(areaMapBackwardKey);
+
+        areaMapLeftKey = new KeyBinding(
+                "minecraft_access.keys.area_map.left_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_J,
+                AREA_MAP_GROUP_KEY
+        );
+        KeyMappingRegistry.register(areaMapLeftKey);
+
+        areaMapRightKey = new KeyBinding(
+                "minecraft_access.keys.area_map.right_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_L,
+                AREA_MAP_GROUP_KEY
+        );
+        KeyMappingRegistry.register(areaMapRightKey);
+
+        areaMapUpKey = new KeyBinding(
+                "minecraft_access.keys.area_map.up_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_U,
+                AREA_MAP_GROUP_KEY
+        );
+        KeyMappingRegistry.register(areaMapUpKey);
+
+        areaMapDownKey = new KeyBinding(
+                "minecraft_access.keys.area_map.down_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_O,
+                AREA_MAP_GROUP_KEY
+        );
+        KeyMappingRegistry.register(areaMapDownKey);
     }
 
     /**
