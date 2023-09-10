@@ -159,6 +159,6 @@ public class PlayerPositionUtils {
     }
 
     public static String getOppositeDirectionKey(String originalDirectionKey) {
-        return  Orientation.parse(originalDirectionKey).getOpposite().toString();
+        return  Orientation.of(originalDirectionKey).getOpposite().toString();
     }
 }

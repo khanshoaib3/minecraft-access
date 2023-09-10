@@ -231,10 +231,7 @@ public class CameraControls {
         if (minecraftClient.player == null) return;
 
         Vec3d playerBlockPosition = minecraftClient.player.getPos();
-        Vec3d targetBlockPosition = new Vec3d(
-                playerBlockPosition.x + direction.x,
-                playerBlockPosition.y + direction.y,
-                playerBlockPosition.z + direction.z);
+        Vec3d targetBlockPosition = playerBlockPosition.add(Vec3d.of(direction.vector));
 
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, targetBlockPosition);
 
@@ -242,9 +239,8 @@ public class CameraControls {
         MainClass.infoLog("Rotating camera to: %s".formatted(direction.name()));
 
         PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
-        boolean isRotatingHorizontal = direction.y == 0;
 
-        if (isRotatingHorizontal) {
+        if (direction.isHorizontal) {
             MainClass.speakWithNarrator(pUtil.getHorizontalFacingDirectionInCardinal(), true);
         } else {
             MainClass.speakWithNarrator(pUtil.getVerticalFacingDirectionInWords(), true);
@@ -259,6 +255,6 @@ public class CameraControls {
     private void centerCamera(boolean lookOpposite) {
         if (minecraftClient.player == null) return;
         String direction = new PlayerPositionUtils(minecraftClient).getHorizontalFacingDirectionInCardinal(true, lookOpposite);
-        rotateCameraTo(Orientation.parse(direction));
+        rotateCameraTo(Orientation.of(direction));
     }
 }
