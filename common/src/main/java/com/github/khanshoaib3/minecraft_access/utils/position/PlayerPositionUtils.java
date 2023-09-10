@@ -159,16 +159,6 @@ public class PlayerPositionUtils {
     }
 
     public static String getOppositeDirectionKey(String originalDirectionKey) {
-        return switch (originalDirectionKey) {
-            case "north" -> "south";
-            case "east" -> "west";
-            case "west" -> "east";
-            case "south" -> "north";
-            case "north_east" -> "south_west";
-            case "north_west" -> "south_east";
-            case "south_east" -> "north_west";
-            case "south_west" -> "north_east";
-            default -> "unknown";
-        };
+        return  Orientation.parse(originalDirectionKey).getOpposite().toString();
     }
 }
