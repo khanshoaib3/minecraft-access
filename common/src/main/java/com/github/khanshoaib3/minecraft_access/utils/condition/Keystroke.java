@@ -59,6 +59,7 @@ public class Keystroke {
     public void updateStateForNextTick() {
         hasKeyPressed = isPressing();
         if (this.timing.happen(this)) this.triggeredCount += 1;
+        // reset triggeredCount
         if (this.timing.aboutToHappen(this)) this.triggeredCount = 0;
     }
 
@@ -82,11 +83,17 @@ public class Keystroke {
         return isPressing() && !hasPressedPreviousTick();
     }
 
+    /**
+     * Check if the timing condition is met.
+     */
     public boolean canBeTriggered() {
         boolean correctKeystrokeState = this.timing.happen(this);
         return correctKeystrokeState && otherTriggerConditions();
     }
 
+    /**
+     * Additional conditions for subclasses to extend.
+     */
     protected boolean otherTriggerConditions() {
         return this.triggeredCount == 0;
     }

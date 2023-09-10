@@ -4,10 +4,12 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.MouseSimulationConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
+import com.github.khanshoaib3.minecraft_access.utils.condition.IntervalKeystroke;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.MouseUtils;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.util.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 
 import java.util.Arrays;
@@ -25,9 +27,10 @@ public class MouseKeySimulation {
     private static final MouseKeySimulation instance;
 
     private boolean enabled;
-    private static final Keystroke[] mouseKeystrokes = new Keystroke[5];
-    private Interval scrollUpDelay;
-    private Interval scrollDownDelay;
+    private static final Keystroke[] mouseClicks = new Keystroke[3];
+    public static final Set<Triple<Keystroke, Runnable, Runnable>> MOUSE_CLICK_ACTIONS;
+    private static final IntervalKeystroke[] mouseScrolls = new IntervalKeystroke[2];
+    public static final Set<Pair<IntervalKeystroke, Runnable>> MOUSE_SCROLL_ACTIONS;
 
     static {
         try {
@@ -38,11 +41,22 @@ public class MouseKeySimulation {
 
         // config keystroke conditions
         KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
-        mouseKeystrokes[0] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationLeftMouseKey));
-        mouseKeystrokes[1] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationMiddleMouseKey));
-        mouseKeystrokes[2] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationRightMouseKey));
-        mouseKeystrokes[3] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationScrollUpKey));
-        mouseKeystrokes[4] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationScrollDownKey));
+        mouseClicks[0] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationLeftMouseKey));
+        mouseClicks[1] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationMiddleMouseKey));
+        mouseClicks[2] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationRightMouseKey));
+        mouseScrolls[0] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationScrollUpKey), Keystroke.TriggeredAt.PRESSING);
+        mouseScrolls[1] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationScrollDownKey), Keystroke.TriggeredAt.PRESSING);
+
+        MOUSE_SCROLL_ACTIONS = Set.of(
+                new Pair<IntervalKeystroke, Runnable>(mouseScrolls[0], MouseUtils::scrollUp),
+                new Pair<IntervalKeystroke, Runnable>(mouseScrolls[1], MouseUtils::scrollDown)
+        );
+
+        MOUSE_CLICK_ACTIONS = Set.of(
+                Triple.of(mouseClicks[0], MouseUtils::leftDown, MouseUtils::leftUp),
+                Triple.of(mouseClicks[1], MouseUtils::middleDown, MouseUtils::middleUp),
+                Triple.of(mouseClicks[2], MouseUtils::rightDown, MouseUtils::rightUp)
+        );
     }
 
     public static synchronized MouseKeySimulation getInstance() {
@@ -70,36 +84,26 @@ public class MouseKeySimulation {
     private void loadConfigurations() {
         MouseSimulationConfigMap map = MouseSimulationConfigMap.getInstance();
         this.enabled = map.isEnabled();
-        this.scrollUpDelay = Interval.inMilliseconds(map.getScrollDelayInMilliseconds(), this.scrollUpDelay);
-        this.scrollDownDelay = Interval.inMilliseconds(map.getScrollDelayInMilliseconds(), this.scrollDownDelay);
+        mouseScrolls[0].setInterval(Interval.inMilliseconds(map.getScrollDelayInMilliseconds(), mouseScrolls[0].interval()));
+        mouseScrolls[1].setInterval(Interval.inMilliseconds(map.getScrollDelayInMilliseconds(), mouseScrolls[1].interval()));
     }
 
     private void execute() {
-        Set.of(
-                Triple.<Keystroke, Interval, Runnable>of(mouseKeystrokes[3], scrollUpDelay, MouseUtils::scrollUp),
-                Triple.<Keystroke, Interval, Runnable>of(mouseKeystrokes[4], scrollDownDelay, MouseUtils::scrollDown)
-        ).forEach(t -> {
-            if (t.getLeft().isPressing() && t.getMiddle().isReady()) {
+        MOUSE_SCROLL_ACTIONS.forEach(t -> {
+            if (t.getLeft().isCooledDownAndTriggered()) {
                 t.getRight().run();
             }
         });
 
-        Set.of(
-                new MouseKeyDTO(mouseKeystrokes[0], MouseUtils::leftDown, MouseUtils::leftUp),
-                new MouseKeyDTO(mouseKeystrokes[1], MouseUtils::middleDown, MouseUtils::middleUp),
-                new MouseKeyDTO(mouseKeystrokes[2], MouseUtils::rightDown, MouseUtils::rightUp)
-        ).forEach(dto -> {
-            if (dto.keystroke.isPressed()) {
-                dto.keyDown.run();
-            } else if (dto.keystroke.isReleased()) {
-                dto.keyUp.run();
+        MOUSE_CLICK_ACTIONS.forEach(t -> {
+            if (t.getLeft().isPressed()) {
+                t.getMiddle().run();
+            } else if (t.getLeft().isReleased()) {
+                t.getRight().run();
             }
-
         });
 
-        Arrays.stream(mouseKeystrokes).forEach(Keystroke::updateStateForNextTick);
-    }
-
-    private record MouseKeyDTO(Keystroke keystroke, Runnable keyDown, Runnable keyUp) {
+        Arrays.stream(mouseClicks).forEach(Keystroke::updateStateForNextTick);
+        Arrays.stream(mouseScrolls).forEach(IntervalKeystroke::updateStateForNextTick);
     }
 }
