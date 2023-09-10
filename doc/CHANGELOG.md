@@ -17,6 +17,8 @@ Unreleased Changes
 * Move `PlayerPositionUtils`, `PositionUtils` into `utils.position` subpackage.
 * Move `MouseUtils`, `OSUtils`, `KeyUtils` into `utils.system` subpackage.
 * Add several reusable junit `*Extension` for testing.
+* Add `Orientation` enum for representing directions, refactor related code to apply it.
+* Add `IntervalKeystroke` for interval executed keystrokes.
 
 Release v1.2.1 (2023-08-31)
 ---------------------------
