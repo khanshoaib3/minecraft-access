@@ -4,6 +4,7 @@ package com.github.khanshoaib3.minecraft_access.utils.position;
  * {@link net.minecraft.util.math.Direction} is not enough for this mod,
  * we need additional four horizontal directions (list north-east).
  */
+@SuppressWarnings("unused")
 public enum Orientation {
     NORTH(0, 0, -1),
     EAST(1, 0, 0),
@@ -25,5 +26,12 @@ public enum Orientation {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    /**
+     * Convert direction strings like "north", "up" to enum.
+     */
+    public static Orientation parse(String s) {
+        return Orientation.valueOf(s.toUpperCase());
     }
 }

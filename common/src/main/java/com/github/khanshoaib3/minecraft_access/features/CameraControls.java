@@ -252,24 +252,13 @@ public class CameraControls {
     }
 
     /**
-     * Snaps the camera to the closest cardinal direction and centers it.
+     * Snaps the camera to the closest cardinal direction and centers it vertically.
      *
      * @param lookOpposite Whether to snap the opposite cardinal direction or not and centers it.
      */
     private void centerCamera(boolean lookOpposite) {
         if (minecraftClient.player == null) return;
-
         String direction = new PlayerPositionUtils(minecraftClient).getHorizontalFacingDirectionInCardinal(true, lookOpposite);
-
-        switch (direction) {
-            case "north" -> rotateCameraTo(Orientation.NORTH);
-            case "east" -> rotateCameraTo(Orientation.EAST);
-            case "west" -> rotateCameraTo(Orientation.WEST);
-            case "south" -> rotateCameraTo(Orientation.SOUTH);
-            case "north_east" -> rotateCameraTo(Orientation.NORTH_EAST);
-            case "north_west" -> rotateCameraTo(Orientation.NORTH_WEST);
-            case "south_east" -> rotateCameraTo(Orientation.SOUTH_EAST);
-            case "south_west" -> rotateCameraTo(Orientation.SOUTH_WEST);
-        }
+        rotateCameraTo(Orientation.parse(direction));
     }
 }
