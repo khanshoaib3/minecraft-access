@@ -10,10 +10,6 @@ import java.util.Comparator;
  */
 @SuppressWarnings("unused")
 public enum Orientation {
-    /**
-     * It's opposite direction is itself
-     */
-    UNKNOWN(-1, -1, new Vec3i(0, 0, 0)),
     NORTH(0, 1, new Vec3i(0, 0, -1)),
     SOUTH(1, 0, new Vec3i(0, 0, 1)),
     EAST(2, 3, new Vec3i(1, 0, 0)),
@@ -24,22 +20,18 @@ public enum Orientation {
     SOUTH_WEST(7, 4, new Vec3i(-1, 0, 1)),
     UP(8, 9, new Vec3i(0, 1, 0)),
     DOWN(9, 8, new Vec3i(0, -1, 0)),
+    CENTER(10, 10, new Vec3i(0, 0, 0)),
     ;
 
     private final int id;
     private final int idOpposite;
 
-    /**
-     * Remove the UNKNOWN since it's not a valid direction
-     */
-    private static final Orientation[] ALL = Arrays.stream(values())
-            .filter((orientation) -> orientation != UNKNOWN)
-            .toArray(Orientation[]::new);
+    private static final Orientation[] ALL = Arrays.stream(values()).toArray(Orientation[]::new);
     private static final Orientation[] VALUES = Arrays.stream(ALL)
             .sorted(Comparator.comparingInt((direction) -> direction.id))
             .toArray(Orientation[]::new);
     private static final Orientation[] HORIZONTAL = Arrays.stream(ALL)
-            .filter((direction) -> direction.isHorizontal)
+            .filter((direction) -> direction.isHorizontal && !Orientation.CENTER.equals(direction))
             .toArray(Orientation[]::new);
     private static final Orientation[] VERTICAL = Arrays.stream(ALL)
             .filter((direction) -> !direction.isHorizontal)
@@ -59,7 +51,7 @@ public enum Orientation {
         try {
             return Orientation.valueOf(s.toUpperCase());
         } catch (IllegalArgumentException e) {
-            return UNKNOWN;
+            return CENTER;
         }
     }
 
@@ -73,7 +65,6 @@ public enum Orientation {
     }
 
     public static Orientation byId(int id) {
-        if (id == UNKNOWN.id) return UNKNOWN;
         return VALUES[Math.abs(id % VALUES.length)];
     }
 }
