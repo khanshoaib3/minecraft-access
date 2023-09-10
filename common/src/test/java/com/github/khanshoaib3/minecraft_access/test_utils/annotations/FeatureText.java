@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.test_utils.annotations;
 import com.github.khanshoaib3.minecraft_access.test_utils.extensions.MockConfigExtension;
 import com.github.khanshoaib3.minecraft_access.test_utils.extensions.MockKeyMappingRegistryExtension;
 import com.github.khanshoaib3.minecraft_access.test_utils.extensions.MockMinecraftClientExtension;
+import com.github.khanshoaib3.minecraft_access.test_utils.extensions.MockPlayerPositionUtilsExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -19,7 +20,8 @@ import java.lang.annotation.Target;
 @ExtendWith({MockitoExtension.class,
         MockConfigExtension.class,
         MockKeyMappingRegistryExtension.class,
-        MockMinecraftClientExtension.class})
+        MockMinecraftClientExtension.class,
+        MockPlayerPositionUtilsExtension.class})
 public @interface FeatureText {
 
 }

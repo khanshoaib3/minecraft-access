@@ -24,7 +24,9 @@ public class MockMinecraftClientWrapper {
     }
 
     public void verifyOpeningMenuOf(Class<? extends Screen> screenClass) {
-        Mockito.verify(mockitoClient, Mockito.times(1).description("the menu should be opened")).setScreen(any(screenClass));
+        Mockito.verify(mockitoClient, Mockito.times(1)
+                .description("the menu should be opened"))
+                .setScreen(any(screenClass));
     }
 
     public Screen setScreen(Class<? extends Screen> screenClass) {
@@ -34,6 +36,8 @@ public class MockMinecraftClientWrapper {
     }
 
     public void verifyClosingMenu() {
-        Mockito.verify(mockitoClient.currentScreen, Mockito.times(1).description("the menu should be closed")).close();
+        Mockito.verify(mockitoClient.currentScreen, Mockito.times(1)
+                .description("the menu should be closed"))
+                .close();
     }
 }

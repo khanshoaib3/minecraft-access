@@ -10,9 +10,10 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
- * At {@link BeforeTestExecutionCallback} phase, assign new {@link MockMinecraftClientWrapper} instances to all fields that tagged with {@link MockMinecraftClient}.
+ * At {@link BeforeTestExecutionCallback} phase, assign new {@link MockMinecraftClientWrapper} instances to first field that tagged with {@link MockMinecraftClient}.
  */
 public class MockMinecraftClientExtension implements BeforeTestExecutionCallback, AfterTestExecutionCallback {
     private MockedStatic<MinecraftClient> ms;
@@ -38,6 +39,6 @@ public class MockMinecraftClientExtension implements BeforeTestExecutionCallback
     }
 
     @Override public void afterTestExecution(ExtensionContext extensionContext) {
-        this.ms.close();
+        if (Objects.nonNull(this.ms)) this.ms.close();
     }
 }
