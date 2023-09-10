@@ -5,6 +5,7 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControls
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.condition.DoubleClick;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
+import com.github.khanshoaib3.minecraft_access.utils.position.Orientation;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import net.fabricmc.api.EnvType;
@@ -118,32 +119,32 @@ public class CameraControls {
 
         // these two blocks of logic should be ahead of the normal up/down logic
         if (isStraightUpKeyPressed) {
-            rotateCameraTo(CameraDirection.UP);
+            rotateCameraTo(Orientation.UP);
             return true;
         }
 
         if (isStraightDownKeyPressed) {
-            rotateCameraTo(CameraDirection.DOWN);
+            rotateCameraTo(Orientation.DOWN);
             return true;
         }
 
         if (isNorthKeyPressed) {
-            rotateCameraTo(CameraDirection.NORTH);
+            rotateCameraTo(Orientation.NORTH);
             return true;
         }
 
         if (isEastKeyPressed) {
-            rotateCameraTo(CameraDirection.EAST);
+            rotateCameraTo(Orientation.EAST);
             return true;
         }
 
         if (isWestKeyPressed) {
-            rotateCameraTo(CameraDirection.WEST);
+            rotateCameraTo(Orientation.WEST);
             return true;
         }
 
         if (isSouthKeyPressed) {
-            rotateCameraTo(CameraDirection.SOUTH);
+            rotateCameraTo(Orientation.SOUTH);
             return true;
         }
 
@@ -221,37 +222,12 @@ public class CameraControls {
             MainClass.speakWithNarrator(verticalDirection, true);
     }
 
-
-    private enum CameraDirection {
-        NORTH(0, 0, -1),
-        EAST(1, 0, 0),
-        WEST(-1, 0, 0),
-        SOUTH(0, 0, 1),
-        NORTH_EAST(1, 0, -1),
-        NORTH_WEST(-1, 0, -1),
-        SOUTH_EAST(1, 0, 1),
-        SOUTH_WEST(-1, 0, 1),
-        UP(0, 1, 0),
-        DOWN(0, -1, 0),
-        ;
-
-        final int x;
-        final int y;
-        final int z;
-
-        CameraDirection(int x, int y, int z) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
-    }
-
     /**
      * Move the camera (player's view).
      *
      * @param direction to given direction
      */
-    private void rotateCameraTo(CameraDirection direction) {
+    private void rotateCameraTo(Orientation direction) {
         if (minecraftClient.player == null) return;
 
         Vec3d playerBlockPosition = minecraftClient.player.getPos();
@@ -286,14 +262,14 @@ public class CameraControls {
         String direction = new PlayerPositionUtils(minecraftClient).getHorizontalFacingDirectionInCardinal(true, lookOpposite);
 
         switch (direction) {
-            case "north" -> rotateCameraTo(CameraDirection.NORTH);
-            case "east" -> rotateCameraTo(CameraDirection.EAST);
-            case "west" -> rotateCameraTo(CameraDirection.WEST);
-            case "south" -> rotateCameraTo(CameraDirection.SOUTH);
-            case "north_east" -> rotateCameraTo(CameraDirection.NORTH_EAST);
-            case "north_west" -> rotateCameraTo(CameraDirection.NORTH_WEST);
-            case "south_east" -> rotateCameraTo(CameraDirection.SOUTH_EAST);
-            case "south_west" -> rotateCameraTo(CameraDirection.SOUTH_WEST);
+            case "north" -> rotateCameraTo(Orientation.NORTH);
+            case "east" -> rotateCameraTo(Orientation.EAST);
+            case "west" -> rotateCameraTo(Orientation.WEST);
+            case "south" -> rotateCameraTo(Orientation.SOUTH);
+            case "north_east" -> rotateCameraTo(Orientation.NORTH_EAST);
+            case "north_west" -> rotateCameraTo(Orientation.NORTH_WEST);
+            case "south_east" -> rotateCameraTo(Orientation.SOUTH_EAST);
+            case "south_west" -> rotateCameraTo(Orientation.SOUTH_WEST);
         }
     }
 }
