@@ -2,9 +2,11 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.MouseSimulationConfigMap;
-import com.github.khanshoaib3.minecraft_access.utils.*;
+import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
+import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
+import com.github.khanshoaib3.minecraft_access.utils.system.MouseUtils;
 import net.minecraft.client.MinecraftClient;
 import org.apache.commons.lang3.tuple.Triple;
 

@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.utils;
+package com.github.khanshoaib3.minecraft_access.utils.system;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
