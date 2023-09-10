@@ -240,7 +240,7 @@ public class CameraControls {
 
         PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
 
-        if (Orientation.LAYER.MIDDLE.equals(direction.layer)) {
+        if (direction.in(Orientation.LAYER.MIDDLE)) {
             MainClass.speakWithNarrator(pUtil.getHorizontalFacingDirectionInCardinal(), true);
         } else {
             MainClass.speakWithNarrator(pUtil.getVerticalFacingDirectionInWords(), true);

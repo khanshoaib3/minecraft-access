@@ -73,6 +73,10 @@ public enum Orientation {
         return byId(this.idOpposite);
     }
 
+    public boolean in(LAYER layer) {
+        return this.layer.equals(layer);
+    }
+
     public static Orientation byId(int id) {
         return ALL[Math.abs(id % ALL.length)];
     }
