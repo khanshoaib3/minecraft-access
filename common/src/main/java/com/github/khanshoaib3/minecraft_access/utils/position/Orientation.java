@@ -10,17 +10,33 @@ import java.util.Comparator;
  */
 @SuppressWarnings("unused")
 public enum Orientation {
-    NORTH(0, 1, LAYER.MIDDLE, new Vec3i(0, 0, -1)),
-    SOUTH(1, 0, LAYER.MIDDLE, new Vec3i(0, 0, 1)),
-    EAST(2, 3, LAYER.MIDDLE, new Vec3i(1, 0, 0)),
-    WEST(3, 2, LAYER.MIDDLE, new Vec3i(-1, 0, 0)),
-    NORTH_EAST(4, 7, LAYER.MIDDLE, new Vec3i(1, 0, -1)),
-    NORTH_WEST(5, 6, LAYER.MIDDLE, new Vec3i(-1, 0, -1)),
-    SOUTH_EAST(6, 5, LAYER.MIDDLE, new Vec3i(1, 0, 1)),
-    SOUTH_WEST(7, 4, LAYER.MIDDLE, new Vec3i(-1, 0, 1)),
-    UP(8, 9, LAYER.UPPER, new Vec3i(0, 1, 0)),
-    DOWN(9, 8, LAYER.LOWER, new Vec3i(0, -1, 0)),
-    CENTER(10, 10, LAYER.MIDDLE, new Vec3i(0, 0, 0)),
+    CENTER(0, 0, LAYER.MIDDLE, new Vec3i(0, 0, 0)),
+    NORTH(1, 2, LAYER.MIDDLE, new Vec3i(0, 0, -1)),
+    SOUTH(2, 1, LAYER.MIDDLE, new Vec3i(0, 0, 1)),
+    EAST(3, 4, LAYER.MIDDLE, new Vec3i(1, 0, 0)),
+    WEST(4, 3, LAYER.MIDDLE, new Vec3i(-1, 0, 0)),
+    NORTH_EAST(5, 7, LAYER.MIDDLE, new Vec3i(1, 0, -1)),
+    NORTH_WEST(6, 7, LAYER.MIDDLE, new Vec3i(-1, 0, -1)),
+    SOUTH_EAST(7, 6, LAYER.MIDDLE, new Vec3i(1, 0, 1)),
+    SOUTH_WEST(8, 5, LAYER.MIDDLE, new Vec3i(-1, 0, 1)),
+    UP(9, 10, LAYER.UPPER, new Vec3i(0, 1, 0)),
+    DOWN(10, 9, LAYER.LOWER, new Vec3i(0, -1, 0)),
+    UPPER_NORTH(11, 20, LAYER.UPPER, new Vec3i(0, 1, -1)),
+    UPPER_SOUTH(12, 19, LAYER.UPPER, new Vec3i(0, 1, 1)),
+    UPPER_EAST(13, 22, LAYER.UPPER, new Vec3i(1, 1, 0)),
+    UPPER_WEST(14, 21, LAYER.UPPER, new Vec3i(-1, 1, 0)),
+    UPPER_NORTH_EAST(15, 26, LAYER.UPPER, new Vec3i(1, 1, -1)),
+    UPPER_NORTH_WEST(16, 25, LAYER.UPPER, new Vec3i(-1, 1, -1)),
+    UPPER_SOUTH_EAST(17, 24, LAYER.UPPER, new Vec3i(1, 1, 1)),
+    UPPER_SOUTH_WEST(18, 23, LAYER.UPPER, new Vec3i(-1, 1, 1)),
+    LOWER_NORTH(19, 12, LAYER.LOWER, new Vec3i(0, -1, -1)),
+    LOWER_SOUTH(20, 11, LAYER.LOWER, new Vec3i(0, -1, 1)),
+    LOWER_EAST(21, 14, LAYER.LOWER, new Vec3i(1, -1, 0)),
+    LOWER_WEST(22, 13, LAYER.LOWER, new Vec3i(-1, -1, 0)),
+    LOWER_NORTH_EAST(23, 18, LAYER.LOWER, new Vec3i(1, -1, -1)),
+    LOWER_NORTH_WEST(24, 17, LAYER.LOWER, new Vec3i(-1, -1, -1)),
+    LOWER_SOUTH_EAST(25, 16, LAYER.LOWER, new Vec3i(1, -1, 1)),
+    LOWER_SOUTH_WEST(26, 15, LAYER.LOWER, new Vec3i(-1, -1, 1)),
     ;
 
     private final int id;
@@ -63,6 +79,6 @@ public enum Orientation {
     }
 
     public enum LAYER {
-        UPPER, MIDDLE, LOWER;
+        UPPER, MIDDLE, LOWER
     }
 }
