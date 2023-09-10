@@ -15,7 +15,7 @@ public enum Orientation {
     SOUTH(2, 1, LAYER.MIDDLE, new Vec3i(0, 0, 1)),
     EAST(3, 4, LAYER.MIDDLE, new Vec3i(1, 0, 0)),
     WEST(4, 3, LAYER.MIDDLE, new Vec3i(-1, 0, 0)),
-    NORTH_EAST(5, 7, LAYER.MIDDLE, new Vec3i(1, 0, -1)),
+    NORTH_EAST(5, 8, LAYER.MIDDLE, new Vec3i(1, 0, -1)),
     NORTH_WEST(6, 7, LAYER.MIDDLE, new Vec3i(-1, 0, -1)),
     SOUTH_EAST(7, 6, LAYER.MIDDLE, new Vec3i(1, 0, 1)),
     SOUTH_WEST(8, 5, LAYER.MIDDLE, new Vec3i(-1, 0, 1)),
@@ -42,8 +42,7 @@ public enum Orientation {
     private final int id;
     private final int idOpposite;
 
-    private static final Orientation[] ALL = Arrays.stream(values()).toArray(Orientation[]::new);
-    private static final Orientation[] VALUES = Arrays.stream(ALL)
+    private static final Orientation[] ALL = Arrays.stream(values())
             .sorted(Comparator.comparingInt((direction) -> direction.id))
             .toArray(Orientation[]::new);
 
@@ -75,7 +74,7 @@ public enum Orientation {
     }
 
     public static Orientation byId(int id) {
-        return VALUES[Math.abs(id % VALUES.length)];
+        return ALL[Math.abs(id % ALL.length)];
     }
 
     public enum LAYER {
