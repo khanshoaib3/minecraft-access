@@ -10,17 +10,17 @@ import java.util.Comparator;
  */
 @SuppressWarnings("unused")
 public enum Orientation {
-    NORTH(0, 1, new Vec3i(0, 0, -1)),
-    SOUTH(1, 0, new Vec3i(0, 0, 1)),
-    EAST(2, 3, new Vec3i(1, 0, 0)),
-    WEST(3, 2, new Vec3i(-1, 0, 0)),
-    NORTH_EAST(4, 7, new Vec3i(1, 0, -1)),
-    NORTH_WEST(5, 6, new Vec3i(-1, 0, -1)),
-    SOUTH_EAST(6, 5, new Vec3i(1, 0, 1)),
-    SOUTH_WEST(7, 4, new Vec3i(-1, 0, 1)),
-    UP(8, 9, new Vec3i(0, 1, 0)),
-    DOWN(9, 8, new Vec3i(0, -1, 0)),
-    CENTER(10, 10, new Vec3i(0, 0, 0)),
+    NORTH(0, 1, LAYER.MIDDLE, new Vec3i(0, 0, -1)),
+    SOUTH(1, 0, LAYER.MIDDLE, new Vec3i(0, 0, 1)),
+    EAST(2, 3, LAYER.MIDDLE, new Vec3i(1, 0, 0)),
+    WEST(3, 2, LAYER.MIDDLE, new Vec3i(-1, 0, 0)),
+    NORTH_EAST(4, 7, LAYER.MIDDLE, new Vec3i(1, 0, -1)),
+    NORTH_WEST(5, 6, LAYER.MIDDLE, new Vec3i(-1, 0, -1)),
+    SOUTH_EAST(6, 5, LAYER.MIDDLE, new Vec3i(1, 0, 1)),
+    SOUTH_WEST(7, 4, LAYER.MIDDLE, new Vec3i(-1, 0, 1)),
+    UP(8, 9, LAYER.UPPER, new Vec3i(0, 1, 0)),
+    DOWN(9, 8, LAYER.LOWER, new Vec3i(0, -1, 0)),
+    CENTER(10, 10, LAYER.MIDDLE, new Vec3i(0, 0, 0)),
     ;
 
     private final int id;
@@ -30,21 +30,15 @@ public enum Orientation {
     private static final Orientation[] VALUES = Arrays.stream(ALL)
             .sorted(Comparator.comparingInt((direction) -> direction.id))
             .toArray(Orientation[]::new);
-    private static final Orientation[] HORIZONTAL = Arrays.stream(ALL)
-            .filter((direction) -> direction.isHorizontal && !Orientation.CENTER.equals(direction))
-            .toArray(Orientation[]::new);
-    private static final Orientation[] VERTICAL = Arrays.stream(ALL)
-            .filter((direction) -> !direction.isHorizontal)
-            .toArray(Orientation[]::new);
 
     public final Vec3i vector;
-    public final boolean isHorizontal;
+    public final LAYER layer;
 
-    Orientation(int id, int idOpposite, Vec3i vector) {
+    Orientation(int id, int idOpposite, Orientation.LAYER layer, Vec3i vector) {
         this.id = id;
         this.idOpposite = idOpposite;
+        this.layer = layer;
         this.vector = vector;
-        this.isHorizontal = vector.getY() == 0;
     }
 
     public static Orientation of(String s) {
@@ -66,5 +60,9 @@ public enum Orientation {
 
     public static Orientation byId(int id) {
         return VALUES[Math.abs(id % VALUES.length)];
+    }
+
+    public enum LAYER {
+        UPPER, MIDDLE, LOWER;
     }
 }
