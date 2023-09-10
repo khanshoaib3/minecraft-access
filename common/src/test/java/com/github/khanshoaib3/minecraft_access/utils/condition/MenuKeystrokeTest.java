@@ -13,14 +13,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockMinecraftClientExtension.class)
-class MenuKeyStrokeTest {
+class MenuKeystrokeTest {
     @MockMinecraftClient
     MockMinecraftClientWrapper mockClient;
 
     @Test
     void test() {
         MockKeystrokeAction m = MockKeystrokeAction.pressed();
-        MenuKeyStroke k = new MenuKeyStroke(m.supplier);
+        MenuKeystroke k = new MenuKeystroke(m.supplier);
         Screen mockScreen = mockClient.setScreen(Screen.class);
 
         k.updateStateForNextTick();

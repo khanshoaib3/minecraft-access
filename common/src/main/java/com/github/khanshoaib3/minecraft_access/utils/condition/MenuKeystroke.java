@@ -12,7 +12,7 @@ import java.util.function.BooleanSupplier;
  * <p>
  * So here is an encapsulation of this knowledge.
  */
-public class MenuKeyStroke extends Keystroke {
+public class MenuKeystroke extends Keystroke {
     /**
      * Prevent the menu open again after menu is just closed by pressing MENU KEY.
      * The menu is closed by pressing the MENU KEY, and is opened by releasing the MENU KEY,
@@ -20,7 +20,7 @@ public class MenuKeyStroke extends Keystroke {
      */
     boolean isMenuJustClosed = false;
 
-    public MenuKeyStroke(BooleanSupplier condition) {
+    public MenuKeystroke(BooleanSupplier condition) {
         super(condition);
     }
 

@@ -3,7 +3,7 @@ package com.github.khanshoaib3.minecraft_access.features.area_map_menu;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.AreaMapConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
-import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeyStroke;
+import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import net.minecraft.client.MinecraftClient;
@@ -19,7 +19,7 @@ import net.minecraft.util.math.BlockPos;
 public class AreaMapMenu {
     private static final AreaMapMenu instance;
 
-    private static final MenuKeyStroke menuKey;
+    private static final MenuKeystroke menuKey;
     private boolean enabled;
     private BlockPos cachedPlayerPos;
     private BlockPos cursor;
@@ -29,7 +29,7 @@ public class AreaMapMenu {
 
         // config keystroke conditions
         KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
-        menuKey = new MenuKeyStroke(() -> KeyUtils.isAnyPressed(kbh.areaMapMenuKey));
+        menuKey = new MenuKeystroke(() -> KeyUtils.isAnyPressed(kbh.areaMapMenuKey));
     }
 
     public static AreaMapMenu getInstance() {

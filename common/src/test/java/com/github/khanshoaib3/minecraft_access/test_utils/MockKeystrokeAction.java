@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.test_utils;
 
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
-import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeyStroke;
+import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
 import org.junit.platform.commons.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -63,8 +63,8 @@ public class MockKeystrokeAction {
      */
     public void resetTargetInnerState() {
         try {
-            if (this.mockTarget instanceof MenuKeyStroke) {
-                Field justClosed = MenuKeyStroke.class.getDeclaredField("isMenuJustClosed");
+            if (this.mockTarget instanceof MenuKeystroke) {
+                Field justClosed = MenuKeystroke.class.getDeclaredField("isMenuJustClosed");
                 justClosed.setAccessible(true);
                 justClosed.set(this.mockTarget, false);
             }
