@@ -49,10 +49,10 @@ public class KeyBindingsHandler {
     public KeyBinding mouseSimulationScrollDownKey;
 
     public KeyBinding areaMapMenuKey;
-    public KeyBinding areaMapForwardKey;
-    public KeyBinding areaMapBackwardKey;
-    public KeyBinding areaMapLeftKey;
-    public KeyBinding areaMapRightKey;
+    public KeyBinding areaMapNorthKey;
+    public KeyBinding areaMapSouthKey;
+    public KeyBinding areaMapWestKey;
+    public KeyBinding areaMapEastKey;
     public KeyBinding areaMapUpKey;
     public KeyBinding areaMapDownKey;
 
@@ -372,13 +372,13 @@ public class KeyBindingsHandler {
     }
 
     /**
-     * 1. Open Area Map Menu Key (default: F6) = Opens the area map menu
-     * 2. Cursor Forward Key (default: I) = Moves the cursor forward
-     * 3. Cursor Backward Key (default: K) = Moves the cursor backward
-     * 4. Cursor Left Key (default: J) = Moves the cursor left
-     * 5. Cursor Right Key (default: L) = Moves the cursor right
-     * 6. Cursor Up Key (default: U) = Moves the cursor up (to upper layer)
-     * 7. Cursor Down Key (default: O) = Moves the cursor down (to lower layer)
+     * 1. Open Area Map Menu Key (default: F6) = Opens the area map menu.
+     * 2. Cursor North Key (default: I) = Move the map cursor one block north.
+     * 3. Cursor South Key (default: K) = Move the map cursor one block south.
+     * 4. Cursor West Key (default: J) = Moves the map cursor one block west.
+     * 5. Cursor East Key (default: L) = Moves the map cursor one block east.
+     * 6. Cursor Up Key (default: U) = Moves the map cursor one block up.
+     * 7. Cursor Down Key (default: O) = Moves the map cursor one block down.
      */
     private void initializeAreaMapKeybindings() {
         areaMapMenuKey = new KeyBinding(
@@ -389,37 +389,37 @@ public class KeyBindingsHandler {
         );
         KeyMappingRegistry.register(areaMapMenuKey);
 
-        areaMapForwardKey = new KeyBinding(
-                "minecraft_access.keys.area_map.forward_key_name",
+        areaMapNorthKey = new KeyBinding(
+                "minecraft_access.keys.area_map.north_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_I,
                 AREA_MAP_GROUP_KEY
         );
-        KeyMappingRegistry.register(areaMapForwardKey);
+        KeyMappingRegistry.register(areaMapNorthKey);
 
-        areaMapBackwardKey = new KeyBinding(
-                "minecraft_access.keys.area_map.backward_key_name",
+        areaMapSouthKey = new KeyBinding(
+                "minecraft_access.keys.area_map.south_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_K,
                 AREA_MAP_GROUP_KEY
         );
-        KeyMappingRegistry.register(areaMapBackwardKey);
+        KeyMappingRegistry.register(areaMapSouthKey);
 
-        areaMapLeftKey = new KeyBinding(
-                "minecraft_access.keys.area_map.left_key_name",
+        areaMapWestKey = new KeyBinding(
+                "minecraft_access.keys.area_map.west_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_J,
                 AREA_MAP_GROUP_KEY
         );
-        KeyMappingRegistry.register(areaMapLeftKey);
+        KeyMappingRegistry.register(areaMapWestKey);
 
-        areaMapRightKey = new KeyBinding(
-                "minecraft_access.keys.area_map.right_key_name",
+        areaMapEastKey = new KeyBinding(
+                "minecraft_access.keys.area_map.east_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_L,
                 AREA_MAP_GROUP_KEY
         );
-        KeyMappingRegistry.register(areaMapRightKey);
+        KeyMappingRegistry.register(areaMapEastKey);
 
         areaMapUpKey = new KeyBinding(
                 "minecraft_access.keys.area_map.up_key_name",
