@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.utils;
+package com.github.khanshoaib3.minecraft_access.utils.position;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
@@ -56,7 +56,6 @@ public class PlayerPositionUtils {
         return client.player == null ? java.util.Optional.empty() : Optional.of(client.player.getPos());
     }
 
-    @SuppressWarnings("unused")
     public static Optional<BlockPos> getPlayerBlockPosition() {
         Optional<Vec3d> op = getPlayerPosition();
         if (op.isEmpty()) return Optional.empty();
@@ -160,16 +159,6 @@ public class PlayerPositionUtils {
     }
 
     public static String getOppositeDirectionKey(String originalDirectionKey) {
-        return switch (originalDirectionKey) {
-            case "north" -> "south";
-            case "east" -> "west";
-            case "west" -> "east";
-            case "south" -> "north";
-            case "north_east" -> "south_west";
-            case "north_west" -> "south_east";
-            case "south_east" -> "north_west";
-            case "south_west" -> "north_east";
-            default -> "unknown";
-        };
+        return  Orientation.of(originalDirectionKey).getOpposite().toString();
     }
 }

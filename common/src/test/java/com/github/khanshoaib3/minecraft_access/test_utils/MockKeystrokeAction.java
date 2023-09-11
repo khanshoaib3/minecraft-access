@@ -1,5 +1,12 @@
 package com.github.khanshoaib3.minecraft_access.test_utils;
 
+import com.github.khanshoaib3.minecraft_access.utils.condition.IntervalKeystroke;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
+import com.github.khanshoaib3.minecraft_access.utils.condition.KeystrokeTiming;
+import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
+import org.junit.platform.commons.util.ReflectionUtils;
+
+import java.lang.reflect.Field;
 import java.util.function.BooleanSupplier;
 
 /**
@@ -8,6 +15,7 @@ import java.util.function.BooleanSupplier;
 public class MockKeystrokeAction {
     Boolean pressed;
     public BooleanSupplier supplier;
+    public Keystroke mockTarget;
 
     public void revertKeystrokeResult() {
         this.pressed = !this.pressed;
@@ -18,11 +26,11 @@ public class MockKeystrokeAction {
         this.supplier = () -> this.pressed;
     }
 
-    public void setPress() {
+    public void press() {
         this.pressed = true;
     }
 
-    public void setRelease() {
+    public void release() {
         this.pressed = false;
     }
 
@@ -32,5 +40,56 @@ public class MockKeystrokeAction {
 
     public static MockKeystrokeAction released() {
         return new MockKeystrokeAction(false);
+    }
+
+    /**
+     * Replace given KeyStroke field's condition with new MockKeystrokeAction instance's supplier
+     *
+     * @return generated MockKeystrokeAction instance
+     */
+    public static MockKeystrokeAction mock(Class<?> clazz, String keyFieldName) {
+        try {
+            Field keyField = clazz.getDeclaredField(keyFieldName);
+            return MockKeystrokeAction.mock((Keystroke) ReflectionUtils.tryToReadFieldValue(keyField).get());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Replace given KeyStroke field's condition with new MockKeystrokeAction instance's supplier
+     *
+     * @return generated MockKeystrokeAction instance
+     */
+    public static MockKeystrokeAction mock(Keystroke fieldValue) {
+        try {
+            MockKeystrokeAction action = MockKeystrokeAction.released();
+            action.mockTarget = fieldValue;
+            Field conditionField = Keystroke.class.getDeclaredField("condition");
+            conditionField.setAccessible(true);
+            conditionField.set(action.mockTarget, action.supplier);
+            return action;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Reset target field's inner state to avoid test cases from affecting each other.
+     */
+    public void resetTargetInnerState() {
+        try {
+            if (this.mockTarget instanceof MenuKeystroke) {
+                Field justClosed = MenuKeystroke.class.getDeclaredField("isMenuJustClosed");
+                justClosed.setAccessible(true);
+                justClosed.set(this.mockTarget, false);
+            } else if (this.mockTarget instanceof IntervalKeystroke) {
+                Field intervalField = KeystrokeTiming.class.getDeclaredField("interval");
+                intervalField.setAccessible(true);
+                intervalField.set(this.mockTarget, MockInterval.ALWAYS_READY);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

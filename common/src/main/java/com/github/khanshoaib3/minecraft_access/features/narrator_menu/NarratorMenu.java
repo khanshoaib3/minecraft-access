@@ -8,10 +8,10 @@ import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
-import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
-import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
-import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeyStroke;
+import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
+import com.github.khanshoaib3.minecraft_access.utils.position.PositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -28,7 +28,6 @@ import net.minecraft.world.biome.Biome;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
@@ -36,7 +35,7 @@ import java.util.stream.Stream;
  */
 public class NarratorMenu {
     private static MinecraftClient minecraftClient;
-    private static final MenuKeyStroke menuKey;
+    private static final MenuKeystroke menuKey;
     private static final Keystroke hotKey;
     /**
      * Prevent the f4 menu open in this situation:
@@ -52,7 +51,7 @@ public class NarratorMenu {
 
         // config keystroke conditions
         KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
-        menuKey = new MenuKeyStroke(() -> KeyUtils.isAnyPressed(kbh.narratorMenuKey));
+        menuKey = new MenuKeystroke(() -> KeyUtils.isAnyPressed(kbh.narratorMenuKey));
         hotKey = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.narratorMenuHotKey), Keystroke.TriggeredAt.PRESSED);
     }
 
@@ -168,10 +167,6 @@ public class NarratorMenu {
         Screen screen = new NarratorMenuGUI("f4_menu");
         minecraftClient.setScreen(screen); // post 1.18
 //                minecraftClient.openScreen(screen); // pre 1.18
-    }
-
-    private static void closeNarratorMenu() {
-        Objects.requireNonNull(minecraftClient.currentScreen).close();
     }
 
     public static void getBlockAndFluidTargetInformation() {

@@ -12,15 +12,15 @@ import java.util.function.BooleanSupplier;
  * <p>
  * So here is an encapsulation of this knowledge.
  */
-public class MenuKeyStroke extends Keystroke {
+public class MenuKeystroke extends Keystroke {
     /**
-     * Prevent the f4 menu open again after f4 menu is just closed by pressing f4.
-     * The menu is closed by pressing the f4, and is opened by releasing the f4,
-     * so if you slowly press down the f4 while menu is opening, the menu will be opened again when you release the f4.
+     * Prevent the menu open again after menu is just closed by pressing MENU KEY.
+     * The menu is closed by pressing the MENU KEY, and is opened by releasing the MENU KEY,
+     * so if you slowly press down the MENU KEY while menu is opening, the menu will be opened again when you release the MENU KEY.
      */
     boolean isMenuJustClosed = false;
 
-    public MenuKeyStroke(BooleanSupplier condition) {
+    public MenuKeystroke(BooleanSupplier condition) {
         super(condition);
     }
 

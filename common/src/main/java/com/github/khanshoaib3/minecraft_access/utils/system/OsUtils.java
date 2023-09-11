@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.utils;
+package com.github.khanshoaib3.minecraft_access.utils.system;
 
 public class OsUtils {
     private static String OS = null;
