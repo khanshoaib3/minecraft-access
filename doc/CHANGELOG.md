@@ -13,6 +13,11 @@ Unreleased Changes
 
 ### Refactoring, Documentation and Chores
 
+Release v1.2.2 (2023-09)
+---------------------------
+
+### Refactoring, Documentation and Chores
+
 * Add `CHANGELOG.md` for persistent change log and `PULL_REQUEST_TEMPLATE.md` for reminding PR submitters.
 * Move `PlayerPositionUtils`, `PositionUtils` into `utils.position` subpackage.
 * Move `MouseUtils`, `OSUtils`, `KeyUtils` into `utils.system` subpackage.
