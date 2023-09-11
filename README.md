@@ -14,6 +14,9 @@ This mod supports:
 ## Other Pages
 
 * [Set Up](/doc/SET_UP.md)
+* [Features](/doc/FEATURES.md)
+* [Keybindings](/doc/KEYBINDINGS.md)
+* [Configuration](/doc/CONFIG.md)
 * [FAQ](/doc/FAQ.md)
 
 ## Useful Links
@@ -23,3 +26,11 @@ This mod supports:
 * [Playability Discord server](https://discord.gg/yQjjsDqWQX) - Join our Discord server if you want to chat with other this mod's users and developers.
 * [Twitter](https://twitter.com/shoaib_mk0) - You can follow the developer on Twitter to get notification when a new update drops.
 * [Patreon](https://www.patreon.com/shoaibkhan)
+
+## Known Issues
+
+1. The default narrator speaks even if the narrator is turned off.
+2. In "Scrollable Recipes Group" under "Crafting Screen", except the first page, sometimes you will hear nothing while you moving between slots.
+   It's best to keep items you want to craft within the first page of the recipe book by moving unused resource items out of your inventory.
+3. (Linux only) xdotool is not recognised even if it is installed.
+4. (Linux only) Minecraft says not narrator available even if flite is installed.

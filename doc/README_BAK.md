@@ -20,10 +20,12 @@ This feature adds the following key bindings to control the camera through the k
    normal rotating angle (default=22.5).
 4. Look Left Key (default: J) or Alternate Look Up Key(default: Keypad 4) = Moves the camera vertically left by the
    normal rotating angle (default=22.5).
+
 5. Left Alt + Look Up Key = Moves the camera vertically up by the modified rotating angle (default=11.25).
 6. Left Alt + Look Right Key = Moves the camera vertically right by the modified rotating angle (default=11.25).
 7. Left Alt + Look Down Key = Moves the camera vertically down by the modified rotating angle (default=11.25).
 8. Left Alt + Look Left Key = Moves the camera vertically left by the modified rotating angle (default=11.25).
+
 9. Right Alt + Look Up Key or Look North Key (default: Keypad 7) = Snaps the camera to the north block.
 10. Right Alt + Look Right Key or Look East Key (default: Keypad 9) = Snaps the camera to the east block.
 11. Right Alt + Look Down Key or Look South Key (default: Keypad 3) = Snaps the camera to the south block.
@@ -280,10 +282,3 @@ You can use notepad or any text editor to edit the file. You can also use online
 [Json Editor Online](https://jsoneditoronline.org/), [Json Formatter](https://jsonformatter.org/json-editor)
 or [Code Beautify Json Online Editor](https://jsonformatter.org/json-editor).
 
-# Known Issues
-
-1. The default narrator speaks even if the narrator is turned off.
-2. In "Scrollable Recipes Group" under "Crafting Screen", except the first page, sometimes you will hear nothing while you moving between slots.
-   It's best to keep items you want to craft within the first page of the recipe book by moving unused resource items out of your inventory.
-3. (Linux only) xdotool is not recognised even if it is installed.
-4. (Linux only) Minecraft says not narrator available even if flite is installed.

@@ -25,3 +25,10 @@ Download the library from [its GitHub repository](https://github.com/khanshoaib3
 
 3. We also need to install [xdotool](https://github.com/jordansissel/xdotool) which is used for simulating the mouse actions.
 Follow the [instruction](https://github.com/jordansissel/xdotool#installation) to install it.
+
+## Other Pages
+
+* [Features](/doc/FEATURES.md)
+* [Keybindings](/doc/KEYBINDINGS.md)
+* [Configuration](/doc/CONFIG.md)
+* [FAQ](/doc/FAQ.md)
