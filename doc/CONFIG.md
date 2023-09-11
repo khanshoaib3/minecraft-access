@@ -6,6 +6,15 @@
 
 ## Camera Controls
 
+| Configuration           | Default Value | Description                                                                                   |
+|-------------------------|---------------|-----------------------------------------------------------------------------------------------|
+| Enabled                 | true          | Enables this feature                                                                          |
+| Normal Rotating Angle   | 22.5          | The rotation angle when we press the camera moving keys                                       |
+| Modified Rotating Angle | 11.25         | The rotation angle when we press the camera moving keys while holding down the `Left Alt` key |
+| Delay                   | 250           | Cooldown between two function executions, in milliseconds                                     |
+
+* [Feature Description](/doc/FEATURES.md#camera-controls)
+* [Keybindings](/doc/KEYBINDINGS.md#camera-controls)
 
 ## Other Pages
 

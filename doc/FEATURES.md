@@ -10,6 +10,7 @@ If you have any suggestion on improvements existing features or about a new feat
 ## Camera Controls
 
 This feature allows you to control the camera (your in-game facing direction and crosshair) through the keyboard.
+The mod will automatically report the current direction as the camera moves, such as "North" "South East" "Up" "Down" "Straight".
 
 * [Keybindings](/doc/KEYBINDINGS.md#camera-controls)
 * [Configuration](/doc/CONFIG.md#camera-controls)
