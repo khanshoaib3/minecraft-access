@@ -15,6 +15,8 @@ Unreleased Changes
 
 ### Refactoring, Documentation and Chores
 
+* Rewrite big README into [manual structure](https://github.com/khanshoaib3/minecraft-access/blob/1.20/README.md) for better readability.
+
 Release v1.2.2 (2023-09)
 ---------------------------
 
