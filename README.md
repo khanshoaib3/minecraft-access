@@ -5,3 +5,21 @@ It is an integration and replacement for [a series of previous mods](https://git
 This mod primarily borrows the help of a screen reader to describe (narrate) the game interface, and incorporates sound cues to provide orientation perception in this 3D world.
 Currently this mod [has enough features](doc/FAQ.md#is-the-mod-enough-to-play-the-game-normally) to help the visually impaired people play the game normally.
 
+This mod supports:
+
+* Game version `1.19.3`, and subsequent versions start from `1.20.1`
+* On [Fabric](https://fabricmc.net/use/installer/) and [Forge](https://files.minecraftforge.net/net/minecraftforge/forge/) modding platform
+* On Windows and Linux operating system ([Help us on macOS porting](https://github.com/khanshoaib3/minecraft-access/issues/22))
+
+## Other Pages
+
+* [Set Up](/doc/SET_UP.md)
+* [FAQ](/doc/FAQ.md)
+
+## Useful Links
+
+* [Minecraft Wiki](https://minecraft.fandom.com/wiki/Minecraft_Wiki) - Has details and guides on everything about Minecraft.
+* [Minecraft Survival Guide (Season 3)](https://www.youtube.com/watch?v=VfpHTJsn9I4&list=PLgENJ0iY3XBjmydGuzYTtDwfxuR6lN8KC) - A great series by Pixlriffs, highly recommend for beginners.
+* [Playability Discord server](https://discord.gg/yQjjsDqWQX) - Join our Discord server if you want to chat with other this mod's users and developers.
+* [Twitter](https://twitter.com/shoaib_mk0) - You can follow the developer on Twitter to get notification when a new update drops.
+* [Patreon](https://www.patreon.com/shoaibkhan)

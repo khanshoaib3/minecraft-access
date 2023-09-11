@@ -1,52 +1,8 @@
 # Minecraft Access
 
-Minecraft Access is a replacement of the other accessibility [mods.](https://github.com/accessible-minecraft) Just like
-the previous mods, this mod also supports screen readers for windows, but now it also supports additional screen readers
-thanks to [tolk](https://github.com/ndarilek/tolk) library. Additionally, the mod also supports linux using
-the [libspeechdwrapper](https://github.com/khanshoaib3/libspeechdwrapper).
 
 *Note that you may have to enable the narrator from within minecraft, in the first sartup, the mod speaks "Initializing minecraft access" but does not speak anything else, then you'll have to use `control + b` to enable the narrator. And for fabric users, you will have to manually un-bound or re-bound the advancement key from l to something else as that is also used by the camera controls feature.*
 
-# Setup
-
-There is [a new detailed tutorial](/doc/SET_UP_ON_WINDOWS.md) for Windows users.
-
-## Requirements
-
-1. The mod works with both forge and fabric, so you need to install either one of those. For forge, you can
-   follow [this](https://thebreakdown.xyz/how-to-download-install-forge-to-play-minecraft-mods/) guide and for fabric.
-   you can follow [this](https://thebreakdown.xyz/how-to-download-install-the-fabric-mod-loader/) guide.
-2. We also need to install the [architectury api](https://www.curseforge.com/minecraft/mc-mods/architectury-api) mod.
-3. Windows specific
-    1. In windows we need to install the [tolk](https://github.com/ndarilek/tolk) library.
-       We've implemented the automatic set-up process inside the mod, it will set up the tolk for you at the first time you starting the modded game.
-       Here are the steps to install the library in case you need to adjust the tolk files manually:
-        1. Download the latest build
-           zip - [here](https://github.com/ndarilek/tolk/releases/download/refs%2Fheads%2Fmaster/tolk.zip).
-        2. Extract the downloaded zip file anywhere you like, the Downloads folder should be fine.
-        3. Open the extracted folder and in that folder you'll find a folder called `x64` and another called `x86`.
-        4. Based on your operating system, `x64` for 64-bit OS and `x86` for 32-bit OS, copy all the files present in the
-           folder and paste them into the minecraft root folder (the folder containing the mods folder).
-           The default location is `%appdata%\.minecraft`.
-4. Linux specific
-   In linux we need to install the [libspeechdwrapper](https://github.com/khanshoaib3/libspeechdwrapper) as well
-   as [xdotool](https://github.com/jordansissel/xdotool) which is used for simulating the mouse actions.
-   Although the mod overrides the library used for TTS, minecraft still needs the `flite` library to be installed, so
-   you can install it using your distro's package manager itself.
-   For libspeechdwrapper, download the
-   library - [here](https://github.com/khanshoaib3/libspeechdwrapper/raw/main/lib/libspeechdwrapper.so),
-   and move it over to the minecraft folder.
-   The default location is `~/.minecraft`.
-   Follow the [installation instruction](https://github.com/jordansissel/xdotool#installation) in the description to
-   install xdotool.
-
-## Mod Installation
-
-- Download the mod file according to the loader installed from
-  the latest release page - [here](https://github.com/khanshoaib3/minecraft-access/releases).
-- Move the downloaded jar file over to the mods folder.
-  For windows the default location is - `%appdata%\.minecraft\mods`
-  And for linux it is - `~/.minecraft/mods`
 
 # Features
 
