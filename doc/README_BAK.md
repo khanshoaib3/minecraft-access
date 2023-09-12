@@ -210,13 +210,4 @@ Press Page Up and Page Down Key to switch between pages.
 Press "Done" button to save your unfinished work and quit editing screen.
 Press "Sign" button and enter a title for the book to make it permanently non-editable.
 
-# Mod Configuration
-
-The mod can be configured in two ways: using the config menu or directly editing the config.json file.
-The config menu can be opened via the `Open Config Menu` option in the Narrator/F4 Menu.
-Currently, we do not have a command to open the config menu so don't disable the narrator menu or you won't be able to open the config menu.
-As for the other method, the config.json file can be found in the `config/minecraft_access/` directory.
-You can use notepad or any text editor to edit the file. You can also use online json editor like
-[Json Editor Online](https://jsoneditoronline.org/), [Json Formatter](https://jsonformatter.org/json-editor)
-or [Code Beautify Json Online Editor](https://jsonformatter.org/json-editor).
 

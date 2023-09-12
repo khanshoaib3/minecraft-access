@@ -1,5 +1,15 @@
 # Minecraft Access Configuration
 
+This page contains all the configuration that controls the features on-off and behavior.
+
+The mod configuration can be modified in two ways: via the config menu or directly editing the configuration file.
+The `Config Menu` can be opened via opening the `Narrator Menu` (press F4) then click `Open Config Menu` button.
+The configuration file (named as `config.json`) can be found in the `{minecraft directory}/config/minecraft_access/` directory.
+You can use notepad or any text editor to edit the file.
+You can also use online json editor like [Json Editor Online](https://jsoneditoronline.org/), [Json Formatter](https://jsonformatter.org/json-editor) or [Code Beautify Json Online Editor](https://jsonformatter.org/json-editor).
+
+If you want to reset the config back to default values, simply delete the configuration file while the game is not running, or click `Reset Config` button in the `Config Menu`.
+
 ## Table Of Contents
 
 * [Camera Controls](#camera-controls)
