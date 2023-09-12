@@ -387,7 +387,7 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_F6,
                 AREA_MAP_GROUP_KEY
         );
-        KeyMappingRegistry.register(areaMapMenuKey);
+//        KeyMappingRegistry.register(areaMapMenuKey);
 
         areaMapNorthKey = new KeyBinding(
                 "minecraft_access.keys.area_map.north_key_name",
@@ -395,7 +395,7 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_I,
                 AREA_MAP_GROUP_KEY
         );
-        KeyMappingRegistry.register(areaMapNorthKey);
+//        KeyMappingRegistry.register(areaMapNorthKey);
 
         areaMapSouthKey = new KeyBinding(
                 "minecraft_access.keys.area_map.south_key_name",
@@ -403,7 +403,7 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_K,
                 AREA_MAP_GROUP_KEY
         );
-        KeyMappingRegistry.register(areaMapSouthKey);
+//        KeyMappingRegistry.register(areaMapSouthKey);
 
         areaMapWestKey = new KeyBinding(
                 "minecraft_access.keys.area_map.west_key_name",
@@ -411,7 +411,7 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_J,
                 AREA_MAP_GROUP_KEY
         );
-        KeyMappingRegistry.register(areaMapWestKey);
+//        KeyMappingRegistry.register(areaMapWestKey);
 
         areaMapEastKey = new KeyBinding(
                 "minecraft_access.keys.area_map.east_key_name",
@@ -419,7 +419,7 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_L,
                 AREA_MAP_GROUP_KEY
         );
-        KeyMappingRegistry.register(areaMapEastKey);
+//        KeyMappingRegistry.register(areaMapEastKey);
 
         areaMapUpKey = new KeyBinding(
                 "minecraft_access.keys.area_map.up_key_name",
@@ -427,7 +427,7 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_U,
                 AREA_MAP_GROUP_KEY
         );
-        KeyMappingRegistry.register(areaMapUpKey);
+//        KeyMappingRegistry.register(areaMapUpKey);
 
         areaMapDownKey = new KeyBinding(
                 "minecraft_access.keys.area_map.down_key_name",
@@ -435,7 +435,7 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_O,
                 AREA_MAP_GROUP_KEY
         );
-        KeyMappingRegistry.register(areaMapDownKey);
+//        KeyMappingRegistry.register(areaMapDownKey);
     }
 
     /**
