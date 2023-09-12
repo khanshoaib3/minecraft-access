@@ -171,12 +171,6 @@ This feature warns the player when the health, hunger or air bubble is low.
 5. Hunger Threshold = The threshold for hunger/food.
 6. Air Threshold = The threshold for air when submerged in water.
 
-## Facing Direction
-
-Adds key binding to speak the player's facing direction.
-
-- Speak Facing Direction Key (default: H) = Speaks the player facing direction.
-
 ## Biome Indicator
 
 Narrates the name of the biome when entering a different biome.

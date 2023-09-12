@@ -11,23 +11,24 @@ You may want to save this page as a bookmark, it'll be something you'll consult 
 
 ## Camera Controls
 
-| Single Key                 | Default Keybinding | Description                                                                                                                          |
-|----------------------------|--------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| `Look Up Key`              | I                  | Move the camera vertically up by the `Normal Rotating Angle` config value                                                            |
-| `Alternate Look Up Key`    | Number Pad 8       | Same as `Look Up Key`, move the camera vertically up                                                                                 |
-| `Look Right Key`           | L                  | Move the camera horizontally right by the `Normal Rotating Angle` config value                                                       |
-| `Alternate Look Right Key` | Number Pad 6       | Same as `Look Right Key`, move the camera horizontally right                                                                         |
-| `Look Down Key`            | K                  | Move the camera vertically down by the `Normal Rotating Angle` config value                                                          |
-| `Alternate Look Down Key`  | Number Pad 2       | Same as `Look Down Key`, Move the camera vertically down                                                                             |
-| `Look Left Key`            | J                  | Move the camera horizontally left by the `Normal Rotating Angle` config value                                                        |
-| `Alternate Look Left Key`  | Number Pad 4       | Same as `Look Left Key`, move the camera horizontally left                                                                           |
-| `Look North Key`           | Number Pad 7       | Turn the camera to the north                                                                                                         |
-| `Look East Key`            | Number Pad 9       | Turn the camera to the east                                                                                                          |
-| `Look South Key`           | Number Pad 3       | Turn the camera to the south                                                                                                         |
-| `Look West Key`            | Number Pad 1       | Turn the camera to the west                                                                                                          |
-| `Center Camera Key`        | Number Pad 5       | Look straight ahead: Turn the camera to the closest of the eight cardinal directions and reset vertical angle to horizontal position |
-| `Look Straight Up Key`     | Number Pad 0       | Turn the camera to the look above head direction                                                                                     |
-| `Look Straight Down Key`   | Number Pad .       | Turn the camera to the look down at feet direction                                                                                   |
+| Single Key                   | Default Keybinding | Description                                                                                                                          |
+|------------------------------|--------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `Look Up Key`                | I                  | Move the camera vertically up by the `Normal Rotating Angle` config value                                                            |
+| `Alternate Look Up Key`      | Number Pad 8       | Same as `Look Up Key`, move the camera vertically up                                                                                 |
+| `Look Right Key`             | L                  | Move the camera horizontally right by the `Normal Rotating Angle` config value                                                       |
+| `Alternate Look Right Key`   | Number Pad 6       | Same as `Look Right Key`, move the camera horizontally right                                                                         |
+| `Look Down Key`              | K                  | Move the camera vertically down by the `Normal Rotating Angle` config value                                                          |
+| `Alternate Look Down Key`    | Number Pad 2       | Same as `Look Down Key`, Move the camera vertically down                                                                             |
+| `Look Left Key`              | J                  | Move the camera horizontally left by the `Normal Rotating Angle` config value                                                        |
+| `Alternate Look Left Key`    | Number Pad 4       | Same as `Look Left Key`, move the camera horizontally left                                                                           |
+| `Look North Key`             | Number Pad 7       | Turn the camera to the north                                                                                                         |
+| `Look East Key`              | Number Pad 9       | Turn the camera to the east                                                                                                          |
+| `Look South Key`             | Number Pad 3       | Turn the camera to the south                                                                                                         |
+| `Look West Key`              | Number Pad 1       | Turn the camera to the west                                                                                                          |
+| `Center Camera Key`          | Number Pad 5       | Look straight ahead: Turn the camera to the closest of the eight cardinal directions and reset vertical angle to horizontal position |
+| `Look Straight Up Key`       | Number Pad 0       | Turn the camera to the look above head direction                                                                                     |
+| `Look Straight Down Key`     | Number Pad .       | Turn the camera to the look down at feet direction                                                                                   |
+| `Speak Facing Direction Key` | H                  | Speak the currently facing direction                                                                                                 |
 
 | Key Combination                                                           | Description                                                                                                                                         |
 |---------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
