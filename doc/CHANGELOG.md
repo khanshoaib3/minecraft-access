@@ -16,6 +16,10 @@ Unreleased Changes
 Release v1.2.2 (2023-09)
 ---------------------------
 
+### Bug Fixes
+
+* Fix camera straight up down without right alt [#159](https://github.com/khanshoaib3/minecraft-access/pull/159) [#160](https://github.com/khanshoaib3/minecraft-access/pull/160)
+
 ### Refactoring, Documentation and Chores
 
 * Add `CHANGELOG.md` for persistent change log and `PULL_REQUEST_TEMPLATE.md` for reminding PR submitters.
