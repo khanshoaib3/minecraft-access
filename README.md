@@ -30,7 +30,5 @@ This mod supports:
 ## Known Issues
 
 1. The default narrator speaks even if the narrator is turned off.
-2. In "Scrollable Recipes Group" under "Crafting Screen", except the first page, sometimes you will hear nothing while you moving between slots.
-   It's best to keep items you want to craft within the first page of the recipe book by moving unused resource items out of your inventory.
-3. (Linux only) xdotool is not recognised even if it is installed.
-4. (Linux only) Minecraft says not narrator available even if flite is installed.
+2. (Linux only) xdotool is not recognised even if it is installed.
+3. (Linux only) Minecraft says not narrator available even if flite is installed.

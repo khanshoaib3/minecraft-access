@@ -16,6 +16,8 @@ If you want to reset the config back to default values, simply delete the config
 2. [Mouse Simulation](#mouse-simulation)
 3. [Read Crosshair](#read-crosshair)
     * [Partial Speaking](#partial-speaking)
+4. [Inventory Controls](#inventory-controls)
+
 
 ## Camera Controls
 
@@ -24,7 +26,7 @@ If you want to reset the config back to default values, simply delete the config
 | Enabled                 | true          | Whether to enable this feature                                                                |
 | Normal Rotating Angle   | 22.5          | The rotation angle when we press the camera moving keys                                       |
 | Modified Rotating Angle | 11.25         | The rotation angle when we press the camera moving keys while holding down the `Left Alt` key |
-| Delay (in milliseconds) | 250           | Cooldown between two function executions                                                      |
+| Delay (in milliseconds) | 250           | Cooldown between two feature executions                                                       |
 
 See also: [Feature Description](/doc/FEATURES.md#camera-controls), [Keybindings](/doc/KEYBINDINGS.md#camera-controls)
 
@@ -66,6 +68,18 @@ For example, the White Bed is written in "white_bed".
 There are lots of exceptions, the "Smooth Quartz Block" is written in "smooth_quartz", the "Block of Diamond" is written in "diamond_block", so please check the correct values in [this wiki link](https://minecraft.fandom.com/wiki/Java_Edition_data_values#Blocks) (expand to show the list by clicking "Blocks[show]" then "Item form's ID[show]").
 
 See also: [Feature Description](/doc/FEATURES.md#partial-speaking)
+
+## Inventory Controls
+
+| Configuration                                                                             | Default Value | Description                                                                                 |
+|-------------------------------------------------------------------------------------------|---------------|---------------------------------------------------------------------------------------------|
+| Enabled                                                                                   | true          | Whether to enable this feature                                                              |
+| Auto Open Recipe Book                                                                     | true          | Automatically opens the recipe                                                              |
+| book on opening the inventory (in creative/survival inventory screen and crafting screen) |               |                                                                                             |
+| Row and Column Format in Crafting Input Slots                                             | "%dx%d"       | The speaking format of row and column, two "%d" are representing position of row and column |
+| Delay (in milliseconds)                                                                   | 250           | Cooldown between two feature executions                                                     |
+
+See also: [Feature Description](/doc/FEATURES.md#inventory-controls), [Keybindings](/doc/KEYBINDINGS.md#inventory-controls)
 
 ## Other Pages
 

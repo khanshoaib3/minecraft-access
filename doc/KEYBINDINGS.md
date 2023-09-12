@@ -2,12 +2,17 @@
 
 This page contains all of keybindings added by the mod, and key combinations for all features.
 You can change these keybindings in the settings (open `Options...` then `Controls..` then `Key Binds..`).
+
+You may find that some features have duplicate keys, such as I, J, K, L as the arrow keys in various features.
+It's ok since the same key takes effect in different interfaces for different functions.
+
 You may want to save this page as a bookmark, it'll be something you'll consult frequently.
 
 ## Table Of Contents
 
 1. [Camera Controls](#camera-controls)
 2. [Mouse Simulation](#mouse-simulation)
+3. [Inventory Controls](#inventory-controls)
 
 ## Camera Controls
 
@@ -55,6 +60,33 @@ See also: [Feature Description](/doc/FEATURES.md#camera-controls), [Configuratio
 | `Mouse Wheel Scroll Down Key` | '                  | Simulates mouse wheel scroll down, switching items in Hotbar backward |
 
 See also: [Feature Description](/doc/FEATURES.md#mouse-simulation), [Configuration](/doc/CONFIG.md#mouse-simulation)
+
+## Inventory Controls
+
+| Single Key                | Default Keybinding | Description                                                                      |
+|---------------------------|--------------------|----------------------------------------------------------------------------------|
+| Up Key                    | I                  | Focus to slot above                                                              |
+| Right Key                 | L                  | Focus to slot right                                                              |
+| Down Key                  | K                  | Focus to slot below                                                              |
+| Left Key                  | J                  | Focus to slot left                                                               |
+| Left Mouse Click Sim Key  | [                  | Simulate left mouse click, pick up and put down full number of items in the slot |
+| Right Mouse Click Sim Key | ]                  | Simulates right mouse click, pick up half number of items or put one item down   |
+| Group Key                 | C                  | Select next slot group                                                           |
+| Switch Tab Key            | V                  | Select next tab                                                                  |
+| Toggle Craftable Key      | R                  | Switch between "show all" and "show only" craftable recipes in recipe book group |
+| T                         | not re-mappable    | Select the search box or text box                                                |
+| Enter                     | not re-mappable    | Deselect the search box or text box                                              |
+
+| Key Combination                 | Description                             |
+|---------------------------------|-----------------------------------------|
+| `Left Shift` + `Group Key`      | Select previous slot group              |
+| `Left Shift` + `Switch Tab Key` | Select previous tab                     |
+| `Left Shift` + `Up Key`         | Select previous page of the Recipe Book |
+| `Left Shift` + `Down Key`       | Select next page of the Recipe Book     |
+
+`Switch Tab Key`, `Toggle Craftable Key`, `T` key and `Enter` key only works when there is a corresponding component in the opened screen. Recipe Book page turning only works when "Recipe Book Group" is selected.
+
+See also: [Feature Description](/doc/FEATURES.md#inventory-controls), [Configuration](/doc/CONFIG.md#inventory-controls)
 
 ## Other Pages
 

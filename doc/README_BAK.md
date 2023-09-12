@@ -6,42 +6,6 @@
 
 # Features
 
-## Inventory Controls
-
-This features lets us use keyboard in inventory screens. Works with all default minecraft screens.
-Please note that item speaking in "Scrollable Recipes Group" under "Crafting Screen" will be delayed about one second,
-wait after press the slot moving key to hear the item name.
-
-*All key binds are re-mappable(except two keys) from the game's controls menu and these key binds do not interrupt with
-any other key with same key.*
-
-### Keybindings and Combinations
-
-1. Up Key (default: I) = Focus to slot above.
-2. Right Key (default: L) = Focus to slot right.
-3. Down Key (default: K) = Focus to slot down.
-4. Left Mouse Click Sim Key (default: `[` (left bracket)) = Simulates left mouse click, picking up and putting down all items in the slot.
-5. Right Mouse Click Sim Key (default: `]` (right bracket)) = Simulates right mouse click, picking up half of the items or putting one item down.
-6. Left Key (default: J) = Focus to slot left.
-7. Group Key (default: C) = Select next group.
-8. Left Shift + Group Key = Select previous group.
-9. Switch Tab Key (default: V) = Select next tab (only for creative inventory screen and inventory/crafting screen).
-10. Left Shift + Switch Tab Key = Select previous tab (only for creative inventory screen and inventory/crafting screen).
-11. Toggle Craftable Key (default: R) = Toggle between show all and show only craftable recipes in inventory/crafting screen.
-12. Left Shift + Up Key = Select previous page of the Recipe Book. (active when recipe book group is selected).
-13. Left Shift + Down Key = Select next page of the Recipe Book. (active when recipe book group is selected).
-14. T Key (not re-mappable) = Select the search box.
-15. Enter Key (not re-mappable) = Deselect the search box.
-
-### Configuration Options
-
-1. Enabled = Enables this feature.
-2. Auto Open Recipe Book (in creative/survival and crafting inventory) = Automatically opens the recipe
-   book on opening the inventory.
-3. Row and Column Format in Crafting Input Slots = The speaking format of row and column, the first %d
-   is for row and second %d is for column.
-4. Delay (in milliseconds) = Pauses the execution of this feature after each cycle for the given amount of milliseconds.
-
 ## Position Narrator
 
 Adds key bindings to speak the player's position.
