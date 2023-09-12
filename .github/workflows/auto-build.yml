@@ -3,8 +3,7 @@ on:
   push:
     # new commits are pushed onto these branches
     branches:
-      - default
-      - 1.20.x
+      - 1.*
 #    # OR commits are tagged with version tags
 #    tags:
 #      - "v*.*.*"
