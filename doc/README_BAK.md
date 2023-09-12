@@ -42,32 +42,6 @@ any other key with same key.*
    is for row and second %d is for column.
 4. Delay (in milliseconds) = Pauses the execution of this feature after each cycle for the given amount of milliseconds.
 
-## Read Crosshair
-
-This feature reads the name of the targeted block, entity or fluid. It also gives feedback when a block is powered by a
-redstone signal or when a door is open and other similar cases.
-
-### Configuration Options
-
-1. Enabled = Enables this feature.
-2. Speak Block Sides = Enables speaking of the side of block as well.
-3. Disable Speaking Consecutive Blocks With Same Name = Disables speaking the block if the previous block was also same.
-4. Repeat Speaking Interval (in milliseconds) = Repeat speaking the block you are facing for the given amount of time, even you haven't moved the camera.
-   Zero for tuning it off, default: 5000.
-5. Enable Partial Speaking = Let the mod only speak entities/blocks that you've configured.
-6. Partial Speaking White List Mode = If true, only speak what you've configured, if false for blacklist mode, only not spak what you've configured.
-7. Partial Speaking Fuzzy Mode = Whether to do fuzzy matching, for example "bed" will match all colors of beds, "door" will match all textures of doors.
-8. Partial Speaking Target Mode = Which type would you like to apply this feature to, either "all", "entity" or "block".
-   This configuration can only be configured in config.json file.
-9. Partial Speaking Targets = Indicated what to be spoken.
-   This configuration can only be configured in config.json file.
-   Values are written in Minecraft resource location format,
-   the so-called "snake_case", and consists of lowercase letters with underscores.
-   For example, the White Bed is written in "white_bed" and pronounced as "white underscore bed".
-   There are lots of exceptions, the "Smooth Quartz Block" is written in "smooth_quartz", the "Block of Diamond" is written in "diamond_block",
-   so please check the correct values in this wiki link:
-   https://minecraft.fandom.com/wiki/Java_Edition_data_values#Blocks
-
 ## Position Narrator
 
 Adds key bindings to speak the player's position.

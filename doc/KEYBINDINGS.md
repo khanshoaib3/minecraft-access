@@ -6,8 +6,8 @@ You may want to save this page as a bookmark, it'll be something you'll consult 
 
 ## Table Of Contents
 
-* [Camera Controls](#camera-controls)
-* [Mouse Simulation](#mouse-simulation)
+1. [Camera Controls](#camera-controls)
+2. [Mouse Simulation](#mouse-simulation)
 
 ## Camera Controls
 
