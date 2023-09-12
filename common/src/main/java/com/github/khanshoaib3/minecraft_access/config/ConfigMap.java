@@ -105,8 +105,8 @@ public class ConfigMap {
         } else {
             this.narratorMenuConfigMap.resetMissingSectionsToDefault();
         }
-        if (Objects.isNull(this.areaMapConfigMap)) {
-            this.areaMapConfigMap = AreaMapConfigMap.buildDefault();
-        }
+//        if (Objects.isNull(this.areaMapConfigMap)) {
+//            this.areaMapConfigMap = AreaMapConfigMap.buildDefault();
+//        }
     }
 }
