@@ -9,6 +9,8 @@ Unreleased Changes
 
 ### Bug Fixes
 
+* Fix `PositionNarrator` speaks multiple times with single keystroke.
+
 ### Dependencies Changes
 
 ### Refactoring, Documentation and Chores
