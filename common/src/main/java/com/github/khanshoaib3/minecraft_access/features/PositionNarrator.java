@@ -6,8 +6,11 @@ import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import net.minecraft.client.MinecraftClient;
 import org.lwjgl.glfw.GLFW;
+
+import java.util.stream.Stream;
 
 /**
  * Adds key bindings to speak the player's position.<br><br>
@@ -20,9 +23,15 @@ import org.lwjgl.glfw.GLFW;
 public class PositionNarrator {
     private static final PositionNarrator instance;
     public static String defaultFormat = "{x}x, {y}y, {z}z";
+    public static Keystroke KeyX = new Keystroke(() -> KeyUtils.isAnyPressed(GLFW.GLFW_KEY_X));
+    public static Keystroke KeyC = new Keystroke(() -> KeyUtils.isAnyPressed(GLFW.GLFW_KEY_C));
+    public static Keystroke KeyZ = new Keystroke(() -> KeyUtils.isAnyPressed(GLFW.GLFW_KEY_Z));
+    public static Keystroke positionNarrationKey;
 
     static {
         instance = new PositionNarrator();
+        KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
+        positionNarrationKey = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.positionNarrationKey));
     }
 
     private PositionNarrator() {
@@ -42,36 +51,28 @@ public class PositionNarrator {
             if (minecraftClient.currentScreen != null) return;
 
             boolean isLeftAltPressed = KeyUtils.isLeftAltPressed();
-            boolean isXPressed = KeyUtils.isAnyPressed(GLFW.GLFW_KEY_X);
-            boolean isCPressed = KeyUtils.isAnyPressed(GLFW.GLFW_KEY_C);
-            boolean isZPressed = KeyUtils.isAnyPressed(GLFW.GLFW_KEY_Z);
-
             if (isLeftAltPressed) {
-                if (isXPressed) {
+                if (KeyX.canBeTriggered()) {
                     MainClass.speakWithNarrator(new PlayerPositionUtils(minecraftClient).getNarratableXPos(), true);
-                    return;
-                }
-
-                if (isCPressed) {
+                } else if (KeyC.canBeTriggered()) {
                     MainClass.speakWithNarrator(new PlayerPositionUtils(minecraftClient).getNarratableYPos(), true);
-                    return;
-                }
-
-                if (isZPressed) {
+                } else if (KeyZ.canBeTriggered()) {
                     MainClass.speakWithNarrator(new PlayerPositionUtils(minecraftClient).getNarratableZPos(), true);
-                    return;
                 }
             }
 
-            boolean isPositionNarrationKeyPressed = KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().positionNarrationKey);
-
-            if (isPositionNarrationKeyPressed) {
+            if (positionNarrationKey.canBeTriggered()) {
                 String posX = PositionUtils.getNarratableNumber(new PlayerPositionUtils(minecraftClient).getX());
                 String posY = PositionUtils.getNarratableNumber(new PlayerPositionUtils(minecraftClient).getY());
                 String posZ = PositionUtils.getNarratableNumber(new PlayerPositionUtils(minecraftClient).getZ());
-
                 MainClass.speakWithNarrator(getNarrationText(posX, posY, posZ), true);
             }
+
+            KeyX.updateStateForNextTick();
+            KeyC.updateStateForNextTick();
+            KeyZ.updateStateForNextTick();
+            positionNarrationKey.updateStateForNextTick();
+
         } catch (Exception e) {
             MainClass.errorLog("An error occurred in PositionNarrator.", e);
         }
@@ -80,12 +81,11 @@ public class PositionNarrator {
     private String getNarrationText(String posX, String posY, String posZ) {
         String format = OtherConfigsMap.getInstance().getPositionNarratorFormat();
 
-        if (!format.contains("{x}") || !format.contains("{y}") || !format.contains("{z}")) format = defaultFormat;
+        // check if configured format is valid
+        if (!Stream.of("{x}", "{y}", "{z}").allMatch(format::contains)) {
+            format = defaultFormat;
+        }
 
-        format = format.replace("{x}", posX);
-        format = format.replace("{y}", posY);
-        format = format.replace("{z}", posZ);
-
-        return format;
+        return format.replace("{x}", posX).replace("{y}", posY).replace("{z}", posZ);
     }
 }
