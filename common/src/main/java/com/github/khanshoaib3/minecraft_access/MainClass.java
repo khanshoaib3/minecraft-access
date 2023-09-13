@@ -28,7 +28,6 @@ public class MainClass {
     public static BiomeIndicator biomeIndicator = null;
     public static XPIndicator xpIndicator = null;
     public static FacingDirection facingDirection = null;
-    public static PositionNarrator positionNarrator = null;
     public static HealthNHunger healthNHunger = null;
     public static PlayerWarnings playerWarnings = null;
     public static NarratorMenu narratorMenu = null;
@@ -70,7 +69,6 @@ public class MainClass {
         MainClass.biomeIndicator = new BiomeIndicator();
         MainClass.xpIndicator = new XPIndicator();
         MainClass.facingDirection = new FacingDirection();
-        MainClass.positionNarrator = new PositionNarrator();
         MainClass.healthNHunger = new HealthNHunger();
         MainClass.playerWarnings = new PlayerWarnings();
         MainClass.narratorMenu = new NarratorMenu();
@@ -126,8 +124,7 @@ public class MainClass {
         if (facingDirection != null && otherConfigsMap.isFacingDirectionEnabled())
             facingDirection.update();
 
-        if (positionNarrator != null && otherConfigsMap.isPositionNarratorEnabled())
-            positionNarrator.update();
+        PositionNarrator.getInstance().update();
 
         if (healthNHunger != null && otherConfigsMap.isHealthNHungerEnabled())
             healthNHunger.update();
