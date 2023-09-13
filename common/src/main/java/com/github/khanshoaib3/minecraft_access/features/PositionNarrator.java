@@ -18,10 +18,24 @@ import org.lwjgl.glfw.GLFW;
  * 4. Left Alt + Z = Speaks only the z position.<br>
  */
 public class PositionNarrator {
+    private static final PositionNarrator instance;
     public static String defaultFormat = "{x}x, {y}y, {z}z";
+
+    static {
+        instance = new PositionNarrator();
+    }
+
+    private PositionNarrator() {
+    }
+
+    public static PositionNarrator getInstance() {
+        return instance;
+    }
 
     public void update() {
         try {
+            if (!OtherConfigsMap.getInstance().isPositionNarratorEnabled()) return;
+
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
             if (minecraftClient == null) return;
             if (minecraftClient.player == null) return;
@@ -59,8 +73,7 @@ public class PositionNarrator {
                 MainClass.speakWithNarrator(getNarrationText(posX, posY, posZ), true);
             }
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred in PositionNarrator.");
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred in PositionNarrator.", e);
         }
     }
 
