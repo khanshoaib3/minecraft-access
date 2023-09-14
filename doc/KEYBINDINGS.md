@@ -13,6 +13,7 @@ You may want to save this page as a bookmark, it'll be something you'll consult 
 1. [Camera Controls](#camera-controls)
 2. [Mouse Simulation](#mouse-simulation)
 3. [Inventory Controls](#inventory-controls)
+4. [Point of Interest](#point-of-interest)
 
 ## Camera Controls
 
@@ -87,6 +88,20 @@ See also: [Feature Description](/doc/FEATURES.md#mouse-simulation), [Configurati
 `Switch Tab Key`, `Toggle Craftable Key`, `T` key and `Enter` key only works when there is a corresponding component in the opened screen. Recipe Book page turning only works when "Recipe Book Group" is selected.
 
 See also: [Feature Description](/doc/FEATURES.md#inventory-controls), [Configuration](/doc/CONFIG.md#inventory-controls)
+
+## Point of Interest
+
+| Single Key  | Default Keybinding | Description                               |
+|-------------|--------------------|-------------------------------------------|
+| Locking Key | Y                  | Lock onto the closest POI block or entity |
+
+| Key Combination                   | Description                                                |
+|-----------------------------------|------------------------------------------------------------|
+| `Alt` + `Locking Key`             | Unlock from the currently locked entity or block           |
+| `Control` + `Locking Key`         | Mark the block or entity currently targeted with crosshair |
+| `Control` + `Alt` + `Locking Key` | Unmark from the target                                     |
+
+See also: [Feature Description](/doc/FEATURES.md#point-of-interest), [Configuration](/doc/CONFIG.md#point-of-interest)
 
 ## Other Pages
 

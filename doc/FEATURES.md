@@ -10,6 +10,9 @@ If you have any suggestion on improvements existing features or about a new feat
 3. [Read Crosshair](#read-crosshair)
     * [Partial Speaking](#partial-speaking)
 4. [Inventory Controls](#inventory-controls)
+5. [Point of Interest](#point-of-interest)
+   * [POI Marking](#poi-marking)
+
 
 ## Camera Controls
 
@@ -68,7 +71,31 @@ Please note that:
 1. Item speaking in "Scrollable Recipes Group" under "Crafting Screen" will be delayed about one second, please wait after press the slot moving key to hear the item name.
 2. In "Scrollable Recipes Group" under "Crafting Screen", except the first page, sometimes you will hear nothing while you moving between slots. It's best to keep items you want to craft within the first page of the recipe book by moving unused resource items out of your inventory.
 
-See also: [Feature Description](/doc/FEATURES.md#inventory-controls), [Configuration](/doc/CONFIG.md#inventory-controls), [Keybindings](/doc/KEYBINDINGS.md#inventory-controls)
+See also: [Configuration](/doc/CONFIG.md#inventory-controls), [Keybindings](/doc/KEYBINDINGS.md#inventory-controls)
+
+## Point of Interest
+
+This feature will scan and notify (with sound cues) you of (pre-configured) special blocks and entities around you.
+You can lock onto the closest target with a key, then your camera will follow the target as it moves, so you can approach it more easily.
+
+What blocks are considered special? Those you tend to miss.
+In Minecraft, not every block takes up the entire space of a block.
+Buttons are tiny and ladders is only a thin layer attached to the wall.
+You'll find it difficult to point precisely at these blocks.
+Precious blocks like raw ores can be seen at a glance by sighted players, but visually impaired players will need to point at them to know their existence.
+
+By the same token, entities are movable, so scanning and locking onto them helps you get close to them.
+For example when you want to capture an animal or fight a monster.
+
+TODO: Describe or link to sound effects: scan lock unlock
+
+See also: [Configuration](/doc/CONFIG.md#point-of-interest), [Keybindings](/doc/KEYBINDINGS.md#point-of-interest)
+
+### POI Marking
+
+Sometimes you may need to search for a special type of block or entity that is not in the pre-configured list, here is the feature you want.
+You can mark one type while you are pointing at one of them (with your crosshair).
+You can set the mod to only scan and notify on marked type, suppress scanning and notifying on pre-configured ones.
 
 ## Other Pages
 

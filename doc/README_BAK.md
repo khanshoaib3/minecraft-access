@@ -17,47 +17,6 @@ Adds key bindings to speak the player's position.
 3. Left Alt + C = Speaks only the y position.
 4. Left Alt + Z = Speaks only the z position.
 
-## Points of Interest
-
-This feature scans the area for entities, ore blocks, doors, levers, etc. and plays a sound at their position (only for
-entities and ore blocks).
-We can lock onto the closest entity or block with a hotkey.
-We can also "mark" a block/entity so that it only scans for that type of block/entity in the area.
-
-### Keybindings and Combinations
-
-1. Locking Key (default: Y) = Locks onto the nearest entity or block.
-2. Alt key + Locking Key = Unlocks from the currently locked entity or block.
-3. Control Key + Locking Key = Mark the crosshair block/entity.
-4. Control Key + Alt key + Locking Key = Unmark the marked block/entity.
-
-### Configuration Options
-
-1. For Blocks
-    - Enabled = Enables detecting blocks.
-    - Detect Fluid Blocks = Enables detecting fluids.
-    - Range = The detection range.
-    - Play Sound = Enables playing a sound at ore blocks
-    - Sound Volume = The volume of the sound.
-    - Play Sound for Other Blocks as well = Enables playing sound for other interactive blocks
-    - Delay (in milliseconds) = Pauses the execution of this feature after each cycle for the given amount of
-      milliseconds.
-2. For Entities
-    - Enabled = Enables detecting entities.
-    - Range = The detection range.
-    - Play Sound = Enables playing a sound at entities
-    - Sound Volume = The volume of the sound.
-    - Delay (in milliseconds) = Pauses the execution of this feature after each cycle for the given amount of
-      milliseconds.
-3. For Entities/Blocks Locking
-    - Enabled = Enables the locking feature.
-    - Lock on Blocks = Enables locking on to the closest block,
-    - Speak Relative Distance to Entity/Block = Speaks the distance to the entity/block on locking.
-    - Play Unlocking Sound = Enables playing a sound on unlock.
-    - Auto Lock on to Eye of Ender when Used = Enables locking onto the eye of ender when it's used/thrown.
-    - Delay (in milliseconds) = Pauses the execution of this feature after each cycle for the given amount of
-      milliseconds.
-
 ## Narrator Menu
 
 A menu that opens up when we press `F4` button.

@@ -17,7 +17,7 @@ If you want to reset the config back to default values, simply delete the config
 3. [Read Crosshair](#read-crosshair)
     * [Partial Speaking](#partial-speaking)
 4. [Inventory Controls](#inventory-controls)
-
+5. [Point of Interest](#point-of-interest)
 
 ## Camera Controls
 
@@ -80,6 +80,51 @@ See also: [Feature Description](/doc/FEATURES.md#partial-speaking)
 | Delay (in milliseconds)                                                                   | 250           | Cooldown between two feature executions                                                     |
 
 See also: [Feature Description](/doc/FEATURES.md#inventory-controls), [Keybindings](/doc/KEYBINDINGS.md#inventory-controls)
+
+## Point of Interest
+
+See also: [Feature Description](/doc/FEATURES.md#point-of-interest), [Keybindings](/doc/KEYBINDINGS.md#point-of-interest)
+
+### Blocks
+
+| Configuration                       | Default Value | Description                                                 |
+|-------------------------------------|---------------|-------------------------------------------------------------|
+| Enabled                             | true          | Whether to enable scanning blocks                           |
+| Detect Fluid Blocks                 | true          | Enable detecting fluid blocks (water and lava)              |
+| Range                               | 6             | Range of blocks to scan                                     |
+| Play Sound                          | true          | Play a sound cue at positions of detected blocks            |
+| Sound Volume                        | 0.25          | Volume of the sound cue                                     |
+| Play Sound for Other Blocks as well | false         | Play sound cue for other blocks other than the ores as well |
+| Delay (in milliseconds)             | 3000          | Execute at set intervals                                    |
+
+### Entities
+
+| Configuration                       | Default Value | Description                                                 |
+|-------------------------------------|---------------|-------------------------------------------------------------|
+| Enabled                             | true          | Whether to enable scanning entities                         |
+| Range                               | 6             | Range of entities to scan                                   |
+| Play Sound                          | true          | Play a sound cue at positions of detected entities          |
+| Sound Volume                        | 0.25          | Volume of the sound cue                                     |
+| Delay (in milliseconds)             | 3000          | Execute at set intervals                                    |
+
+### Entities/Blocks Locking
+
+| Configuration                           | Default Value | Description                                                                                           |
+|-----------------------------------------|---------------|-------------------------------------------------------------------------------------------------------|
+| Enabled                                 | true          | Whether to enable this feature                                                                        |
+| Lock on Blocks                          | true          | Enable lock on POI blocks as well, if false, only entities can be locked                              |
+| Play Sound                              | true          | Play a sound cue at positions of detected entities                                                    |
+| Speak Relative Distance to Entity/Block | false         | Speak relative distance to the target when locking on                                                 |
+| Play Unlocking Sound                    | true          | Play a sound cue on unlock                                                                            |
+| Auto Lock on to Eye of Ender when Used  | true          | Automatically lock on to the [Eye of Ender](https://minecraft.fandom.com/wiki/Eye_of_Ender) when used |
+| Delay (in milliseconds)                 | 100           | Cooldown between two feature executions                                                               |
+
+### Entities/Blocks Marking
+
+| Configuration                      | Default Value | Description                                                             |
+|------------------------------------|---------------|-------------------------------------------------------------------------|
+| Enabled                            | true          | Whether to enable this feature                                          |
+| Suppress Other POI When Marking On | true          | When marking on, suppress scanning and notifying on pre-configured ones |
 
 ## Other Pages
 
