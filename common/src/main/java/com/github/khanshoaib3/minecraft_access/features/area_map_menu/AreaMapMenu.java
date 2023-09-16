@@ -37,14 +37,13 @@ public class AreaMapMenu {
         instance = new AreaMapMenu();
 
         // config keystroke conditions
-        KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
-        menuKey = new MenuKeystroke(() -> KeyUtils.isAnyPressed(kbh.areaMapMenuKey));
-        cursorMovingKeys[0] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(kbh.areaMapNorthKey));
-        cursorMovingKeys[1] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(kbh.areaMapSouthKey));
-        cursorMovingKeys[2] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(kbh.areaMapWestKey));
-        cursorMovingKeys[3] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(kbh.areaMapEastKey));
-        cursorMovingKeys[4] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(kbh.areaMapUpKey));
-        cursorMovingKeys[5] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(kbh.areaMapDownKey));
+        menuKey = new MenuKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapMenuKey));
+        cursorMovingKeys[0] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapNorthKey));
+        cursorMovingKeys[1] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapSouthKey));
+        cursorMovingKeys[2] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapWestKey));
+        cursorMovingKeys[3] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapEastKey));
+        cursorMovingKeys[4] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapUpKey));
+        cursorMovingKeys[5] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapDownKey));
 
         CURSOR_MOVING_DIRECTIONS = Set.of(
                 new Pair<>(cursorMovingKeys[0], Orientation.NORTH),
@@ -116,7 +115,6 @@ public class AreaMapMenu {
     }
 
     private void handleInMenuActions() {
-        KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
         CURSOR_MOVING_DIRECTIONS.forEach(p -> {
             if (p.getLeft().isCooledDownAndTriggered()) moveCursorTowards(p.getRight());
         });
