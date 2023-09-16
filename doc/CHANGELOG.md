@@ -23,8 +23,9 @@ Release v1.3.0 (2023-09)
 ### Bug Fixes
 
 * Fix a bug that `PositionNarrator` speaks multiple times with single keystroke. [#164](https://github.com/khanshoaib3/minecraft-access/issues/164)
-* Fix a bug that custom keybindings will not take effect immediately until restart the game. [#167](https://github.com/khanshoaib3/minecraft-access/issues/167)
+* Fix a bug that custom keybindings can not take effect immediately until restart the game. [#167](https://github.com/khanshoaib3/minecraft-access/issues/167)
 * Fix a bug that all vanilla keys rebinding are invalid. [#171](https://github.com/khanshoaib3/minecraft-access/issues/171)
+* Fix a bug that POI Entity config can not take effect immediately until restart the game.
 
 Release v1.2.2 (2023-09-12)
 ---------------------------
