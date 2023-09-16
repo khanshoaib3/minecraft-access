@@ -37,8 +37,6 @@ public class KeyBindingsHandler {
     public KeyBinding inventoryControlsRightKey;
     public KeyBinding inventoryControlsDownKey;
     public KeyBinding inventoryControlsLeftKey;
-    public KeyBinding inventoryControlsLeftMouseClickKey;
-    public KeyBinding inventoryControlsRightMouseClickKey;
     public KeyBinding inventoryControlsSwitchTabKey;
     public KeyBinding inventoryControlsToggleCraftableKey;
 
@@ -99,10 +97,8 @@ public class KeyBindingsHandler {
      * 7) Switch Tab Key (default: V) = Select next tab (only for creative inventory screen and inventory/crafting screen).<br>
      * 8) Left Shift + Switch Tab Key = Select previous tab (only for creative inventory screen and inventory/crafting screen).<br>
      * 9) Toggle Craftable Key (default: R) = Toggle between show all and show only craftable recipes in inventory/crafting screen.<br>
-     * 10) Left Mouse Click Sim Key (default: [) = Simulates left mouse click.<br>
-     * 11) Right Mouse Click Sim Key (default: ]) = Simulates right mouse click.<br>
-     * 12) T Key (not re-mappable) = Select the search box.<br>
-     * 13) Enter Key (not re-mappable) = Deselect the search box.<br>
+     * 10) T Key (not re-mappable) = Select the search box.<br>
+     * 11) Enter Key (not re-mappable) = Deselect the search box.<br>
      */
     private void initializeInventoryControlsKeybindings() {
         inventoryControlsGroupKey = new KeyBinding(
@@ -112,22 +108,6 @@ public class KeyBindingsHandler {
                 INVENTORY_CONTROLS_TRANSLATION_KEY
         );
         KeyMappingRegistry.register(inventoryControlsGroupKey);
-
-        inventoryControlsLeftMouseClickKey = new KeyBinding(
-                "minecraft_access.keys.inventory_controls.left_mouse_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_LEFT_BRACKET,
-                INVENTORY_CONTROLS_TRANSLATION_KEY
-        );
-        KeyMappingRegistry.register(inventoryControlsLeftMouseClickKey);
-
-        inventoryControlsRightMouseClickKey = new KeyBinding(
-                "minecraft_access.keys.inventory_controls.right_mouse_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_RIGHT_BRACKET,
-                INVENTORY_CONTROLS_TRANSLATION_KEY
-        );
-        KeyMappingRegistry.register(inventoryControlsRightMouseClickKey);
 
         inventoryControlsUpKey = new KeyBinding(
                 "minecraft_access.keys.inventory_controls.up_key_name",

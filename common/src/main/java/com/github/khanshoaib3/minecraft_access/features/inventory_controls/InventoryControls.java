@@ -39,10 +39,8 @@ import java.util.Objects;
  * 7) Switch Tab Key (default: V) = Select next tab (only for creative inventory screen and inventory/crafting screen).<br>
  * 8) Left Shift + Switch Tab Key = Select previous tab (only for creative inventory screen and inventory/crafting screen).<br>
  * 9) Toggle Craftable Key (default: R) = Toggle between show all and show only craftable recipes in inventory/crafting screen.<br>
- * 10) Left Mouse Click Sim Key (default: [) = Simulates left mouse click.<br>
- * 11) Right Mouse Click Sim Key (default: ]) = Simulates right mouse click.<br>
- * 12) T Key (not re-mappable) = Select the search box.<br>
- * 13) Enter Key (not re-mappable) = Deselect the search box.<br>
+ * 10) T Key (not re-mappable) = Select the search box.<br>
+ * 11) Enter Key (not re-mappable) = Deselect the search box.<br>
  * </p>
  */
 public class InventoryControls {
@@ -168,8 +166,6 @@ public class InventoryControls {
     private boolean keyListener() {
         KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
         boolean isGroupKeyPressed = KeyUtils.isAnyPressed(kbh.inventoryControlsGroupKey);
-        boolean isLeftClickKeyPressed = KeyUtils.isAnyPressed(kbh.inventoryControlsLeftMouseClickKey);
-        boolean isRightCLickKeyPressed = KeyUtils.isAnyPressed(kbh.inventoryControlsRightMouseClickKey);
         boolean isUpKeyPressed = KeyUtils.isAnyPressed(kbh.inventoryControlsUpKey);
         boolean isRightKeyPressed = KeyUtils.isAnyPressed(kbh.inventoryControlsRightKey);
         boolean isDownKeyPressed = KeyUtils.isAnyPressed(kbh.inventoryControlsDownKey);
@@ -235,16 +231,6 @@ public class InventoryControls {
             else if (currentScreen instanceof CreativeInventoryScreen)
                 changeCreativeInventoryTab(!isLeftShiftPressed);
 
-            return true;
-        }
-        if (isLeftClickKeyPressed) {
-            MainClass.infoLog("Left click key pressed");
-            MouseUtils.leftClick();
-            return true;
-        }
-        if (isRightCLickKeyPressed) {
-            MainClass.infoLog("Right click key pressed");
-            MouseUtils.rightClick();
             return true;
         }
         if (isUpKeyPressed) {

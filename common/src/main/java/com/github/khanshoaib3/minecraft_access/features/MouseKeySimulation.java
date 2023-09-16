@@ -70,9 +70,6 @@ public class MouseKeySimulation {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
             if (minecraftClient == null) return;
             if (minecraftClient.player == null) return;
-            // this feature only works when there is no screen open.
-            if (minecraftClient.currentScreen != null) return;
-
             execute();
 
         } catch (Exception e) {
