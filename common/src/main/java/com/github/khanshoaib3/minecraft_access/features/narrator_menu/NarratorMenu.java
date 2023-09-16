@@ -50,9 +50,8 @@ public class NarratorMenu {
         Arrays.fill(LAST_RUN_HAS_DONE_FLAG, true);
 
         // config keystroke conditions
-        KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
-        menuKey = new MenuKeystroke(() -> KeyUtils.isAnyPressed(kbh.narratorMenuKey));
-        hotKey = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.narratorMenuHotKey), Keystroke.TriggeredAt.PRESSED);
+        menuKey = new MenuKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().narratorMenuKey));
+        hotKey = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().narratorMenuHotKey), Keystroke.TriggeredAt.PRESSED);
     }
 
     /**

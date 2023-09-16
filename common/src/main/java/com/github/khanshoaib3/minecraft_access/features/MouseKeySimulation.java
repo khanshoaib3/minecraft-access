@@ -40,12 +40,11 @@ public class MouseKeySimulation {
         }
 
         // config keystroke conditions
-        KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
-        mouseClicks[0] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationLeftMouseKey));
-        mouseClicks[1] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationMiddleMouseKey));
-        mouseClicks[2] = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationRightMouseKey));
-        mouseScrolls[0] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationScrollUpKey), Keystroke.TriggeredAt.PRESSING);
-        mouseScrolls[1] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(kbh.mouseSimulationScrollDownKey), Keystroke.TriggeredAt.PRESSING);
+        mouseClicks[0] = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().mouseSimulationLeftMouseKey));
+        mouseClicks[1] = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().mouseSimulationMiddleMouseKey));
+        mouseClicks[2] = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().mouseSimulationRightMouseKey));
+        mouseScrolls[0] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().mouseSimulationScrollUpKey), Keystroke.TriggeredAt.PRESSING);
+        mouseScrolls[1] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().mouseSimulationScrollDownKey), Keystroke.TriggeredAt.PRESSING);
 
         MOUSE_SCROLL_ACTIONS = Set.of(
                 new Pair<IntervalKeystroke, Runnable>(mouseScrolls[0], MouseUtils::scrollUp),
