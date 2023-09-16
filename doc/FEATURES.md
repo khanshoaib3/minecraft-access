@@ -15,6 +15,7 @@ If you have any suggestion on improvements existing features or about a new feat
    * [POI Marking](#poi-marking)
 6. [Position Narrator](#position-narrator)
 7. [Fall Detector](#fall-detector)
+8. [Narrator Menu](#narrator-menu)
 
 ## Camera Controls
 
@@ -131,6 +132,26 @@ It will play a sound effect at every location meets the set threshold, the loude
 |           | [Breaking the Anvil](https://minecraft.fandom.com/wiki/Anvil#Generic), same sound as destroying blocks, like the sound of footstep |  
 
 See also: [Configuration](/doc/CONFIG.md#fall-detector)
+
+## Narrator Menu
+
+We also call it the `F4 Menu` because it requires pressing the `F4` key to open.
+This menu integrates a number of helper functions, and you can execute them by opening the menu or by using the hotkey directly.
+
+| Function                              | Description                                                                                                                                                                                                    |
+|---------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1. Block and fluid target information | Speak the name and information of the targeted block, the range (20 blocks) is much more than the `Read Crosshair` triggering distance (6 blocks).                                                             |
+| 2. Block and fluid target position    | Speak the x y z position of the targeted block                                                                                                                                                                 |
+| 3. Light level                        | Speak the [light](https://minecraft.fandom.com/wiki/Light) level of the player's position                                                                                                                      |
+| 4. Find Closest Water Source          | Find the closest [water](https://minecraft.fandom.com/wiki/Water) source block in the set range, play a [Item plops](https://minecraft.fandom.com/wiki/Item_(entity)#Sounds) bubbling sound at target position |
+| 5. Find Closest Lava Source           | Find the closest [lava](https://minecraft.fandom.com/wiki/Lava) source block in the set range,  play a [Item plops](https://minecraft.fandom.com/wiki/Item_(entity)#Sounds) bubbling sound at target position  |
+| 6. Biome                              | Speak the name of [biome](https://minecraft.fandom.com/wiki/Biome) the player is currently in                                                                                                                  |
+| 7. Time of Day                        | Speak current time of the in-game [Daylight Cycle](https://minecraft.fandom.com/wiki/Daylight_cycle)                                                                                                           |
+| 8. XP                                 | Speak the player's current [experience](https://minecraft.fandom.com/wiki/Experience) level and progress                                                                                                       |
+| 9. Refresh screen Reader              | Refresh the screen Reader                                                                                                                                                                                      |
+| 0. Open Config Menu                   | Opens the Config Menu which can be used to change the configs of this mod that take effect immediately                                                                                                         |
+
+See also: [Configuration](/doc/CONFIG.md#narrator-menu), [Keybindings](/doc/KEYBINDINGS.md#narrator-menu)
 
 ## Other Pages
 

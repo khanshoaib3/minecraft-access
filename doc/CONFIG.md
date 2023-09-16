@@ -19,6 +19,8 @@ If you want to reset the config back to default values, simply delete the config
 4. [Inventory Controls](#inventory-controls)
 5. [Point of Interest](#point-of-interest)
 6. [Fall Detector](#fall-detector)
+7. [Narrator Menu](#narrator-menu)
+   * [Fluid Detector](#fluid-detector)
 
 ## Camera Controls
 
@@ -142,6 +144,21 @@ See also: [Feature Description](/doc/FEATURES.md#point-of-interest), [Keybinding
 | Delay (in milliseconds) | 2500          | Execute at set intervals            |
 
 See also: [Feature Description](/doc/FEATURES.md#fall-detector)
+
+## Narrator Menu
+
+| Configuration           | Default Value | Description                         |
+|-------------------------|---------------|-------------------------------------|
+| Enabled                 | true          | Whether to enable this feature      |
+
+See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Keybindings](/doc/KEYBINDINGS.md#narrator-menu)
+
+### Fluid Detector
+
+| Configuration           | Default Value | Description                                                                                                  |
+|-------------------------|---------------|--------------------------------------------------------------------------------------------------------------|
+| Range                   | 10            | Range of fluid to scan, be careful, the default 10 blocks will already make the game lag for a second or two |
+| Sound Volume            | 0.25          | Volume of the sound cue                                                                                      |
 
 ## Other Pages
 

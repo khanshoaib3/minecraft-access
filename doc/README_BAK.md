@@ -3,38 +3,6 @@
 
 # Features
 
-## Narrator Menu
-
-A menu that opens up when we press `F4` button.
-
-### Options included in this menu
-
-1. Block and fluid target information = Speaks the name and information of the targeted block. The range is much more
-   than normal crosshair target.
-2. Block and fluid target position = Speaks the name and position of the targeted block. The range is much more than
-   normal crosshair target.
-3. Light level = Speaks the light level at the player's current position.
-4. Find water = Finds the closest water source block.
-5. Find lava = Finds the closest lava source block.
-6. Biome = Speaks the name of biome the player is currently in.
-7. Time of Day = Speaks the current time of day.
-8. XP = Speaks the experience level and progress of the player.
-9. Refresh screen Reader = Refreshes the screen reader.
-10. Open config menu = Opens the config menu which can be used to configure the mod.
-
-### Keybindings and Combinations
-
-1. Narrator Menu Function Hot Key (default: B) = Holding `F4` then press this key to loop switch between functions in Narrator Menu,
-   then press this single key for executing selected function.
-2. When Narrator Menu is opened, press the number key corresponding to the function to execute it,
-   without pressing `Tab` several times.
-
-### Configuration Options
-
-1. For Find Water and Find Lava, or Fluid Detector:
-    - Range = The detection range.
-    - Sound Volume = The volume of the sound.
-
 ## Health n Hunger
 
 Adds a key bind to narrate/speak the player's health and hunger.

@@ -16,6 +16,7 @@ You may want to save this page as a bookmark, it'll be something you'll consult 
 3. [Inventory Controls](#inventory-controls)
 4. [Point of Interest](#point-of-interest)
 5. [Position Narrator](#position-narrator)
+6. [Narrator Menu](#narrator-menu)
 
 ## Camera Controls
 
@@ -116,6 +117,20 @@ See also: [Feature Description](/doc/FEATURES.md#point-of-interest), [Configurat
 | `Left Alt` + `C` | Speak the player's y-axis |
 
 See also: [Feature Description](/doc/FEATURES.md#position-narrator)
+
+## Narrator Menu
+
+| Single Key                     | Default Keybinding | Description                                                                                                                                |
+|--------------------------------|--------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| F4                             | not re-mappable    | Open or close the Narrator Menu                                                                                                            |
+| Narrator Menu Function Hot Key | B                  | Execute the selected function                                                                                                              |
+| Number Keys                    | not re-mappable    | When Narrator Menu is opened, press number keys to execute corresponding desired functions, without pressing `Tab` several times to select |
+
+| Key Combination                                       | Description                               |
+|-------------------------------------------------------|-------------------------------------------|
+| hold `F4` then press `Narrator Menu Function Hot Key` | Loop selecting functions in Narrator Menu |
+
+See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Configuration](/doc/CONFIG.md#narrator-menu)
 
 ## Other Pages
 
