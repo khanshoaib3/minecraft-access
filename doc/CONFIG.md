@@ -18,6 +18,7 @@ If you want to reset the config back to default values, simply delete the config
     * [Partial Speaking](#partial-speaking)
 4. [Inventory Controls](#inventory-controls)
 5. [Point of Interest](#point-of-interest)
+6. [Fall Detector](#fall-detector)
 
 ## Camera Controls
 
@@ -128,6 +129,19 @@ See also: [Feature Description](/doc/FEATURES.md#point-of-interest), [Keybinding
 |------------------------------------|---------------|-------------------------------------------------------------------------|
 | Enabled                            | true          | Whether to enable this feature                                          |
 | Suppress Other POI When Marking On | true          | When marking on, suppress scanning and notifying on pre-configured ones |
+
+## Fall Detector
+
+| Configuration           | Default Value | Description                         |
+|-------------------------|---------------|-------------------------------------|
+| Enabled                 | true          | Whether to enable this feature      |
+| Range                   | 6             | Range of drop to scan               |
+| Depth Threshold         | 4             | The threshold for playing the sound |
+| Play Alternate Sound    | true          | Unused                              |
+| Sound Volume            | 0.25          | Volume of the sound cue             |
+| Delay (in milliseconds) | 2500          | Execute at set intervals            |
+
+See also: [Feature Description](/doc/FEATURES.md#fall-detector)
 
 ## Other Pages
 

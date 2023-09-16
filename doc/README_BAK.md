@@ -66,19 +66,6 @@ Narrates when the player xp level is increased or decreased.
 
 Adds the item durability into the tooltip.
 
-## Fall Detector
-
-Check the surrounding height difference and warn the user with a drop sound effect at the corresponding position.
-
-### Configuration Options
-
-1. Enabled = Enables this feature.
-2. Range = The player-centered detection range.
-3. Depth Threshold = The threshold for playing the sound effect.
-4. Sound Volume = The volume of the sound.
-5. Delay (in milliseconds) = Pauses the execution of this feature after each cycle for the given amount of
-   milliseconds.
-
 ## Book Editing
 
 Press Use key while holding a [Book and Quill](https://minecraft.fandom.com/wiki/Book_and_Quill) item to open the book editing screen.

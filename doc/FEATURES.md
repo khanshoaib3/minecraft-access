@@ -14,6 +14,7 @@ If you have any suggestion on improvements existing features or about a new feat
    * [POI Locking](#poi-locking)
    * [POI Marking](#poi-marking)
 6. [Position Narrator](#position-narrator)
+7. [Fall Detector](#fall-detector)
 
 ## Camera Controls
 
@@ -119,6 +120,17 @@ See also: [Configuration](/doc/CONFIG.md#entitiesblocks-marking), [Keybindings](
 Minecraft has a built-in [absolute coordinate system](https://minecraft.fandom.com/wiki/Coordinates), x-axis for the longitude, z for the latitude, and y for the elevation. This feature provides keystrokes to read out coordinates.
 
 See also: [Keybindings](/doc/KEYBINDINGS.md#position-narrator)
+
+## Fall Detector
+
+This feature alerts you with a sound cue when you're near the edge of a big drop.
+It will play a sound effect at every location meets the set threshold, the louder the sound, the closer you are to the edge.
+
+| Sound Cue | Description                                                                                                                        |
+|-----------|------------------------------------------------------------------------------------------------------------------------------------|
+|           | [Breaking the Anvil](https://minecraft.fandom.com/wiki/Anvil#Generic), same sound as destroying blocks, like the sound of footstep |  
+
+See also: [Configuration](/doc/CONFIG.md#fall-detector)
 
 ## Other Pages
 
