@@ -11,6 +11,7 @@ If you have any suggestion on improvements existing features or about a new feat
     * [Partial Speaking](#partial-speaking)
 4. [Inventory Controls](#inventory-controls)
 5. [Point of Interest](#point-of-interest)
+   * [POI Locking](#poi-locking)
    * [POI Marking](#poi-marking)
 
 
@@ -76,8 +77,7 @@ See also: [Configuration](/doc/CONFIG.md#inventory-controls), [Keybindings](/doc
 
 ## Point of Interest
 
-This feature will scan and notify (with sound cues) you of (pre-configured) special blocks and entities around you.
-You can lock onto the closest target with a key, then your camera will follow the target as it moves, so you can approach it more easily.
+This feature will scan and notify (with sound cues) you of (pre-configured) special blocks and all types of entity around you.
 
 What blocks are considered special? Those you tend to miss.
 In Minecraft, not every block takes up the entire space of a block.
@@ -85,18 +85,34 @@ Buttons are tiny and ladders is only a thin layer attached to the wall.
 You'll find it difficult to point precisely at these blocks.
 Precious blocks like raw ores can be seen at a glance by sighted players, but visually impaired players will need to point at them to know their existence.
 
-By the same token, entities are movable, so scanning and locking onto them helps you get close to them.
-For example when you want to capture an animal or fight a monster.
+By the same token, entities are movable, so scanning and locking onto them helps you get close to and interact with them.
 
-TODO: Describe or link to sound effects: scan lock unlock
+| Sound Cue                                                                                             | Description                                                                                                                                                                                             |
+|-------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Functional blocks without screens (like door, ladder)                                                 | ["Bit" (Square wave) of Note Block](https://minecraft.fandom.com/wiki/Note_Block#Notes), a beeping electronic sound                                                                                     |
+| Functional blocks that have screens (like crafting table)                                             | [Banjo of Note Block](https://minecraft.fandom.com/wiki/Note_Block#Notes), a string instrument sound                                                                                                    |
+| [Ore blocks](https://minecraft.fandom.com/wiki/Ore)                                                   | [Item plops](https://minecraft.fandom.com/wiki/Item_(entity)#Sounds), bubbling sound, like the sound of pulling out a toilet plunger                                                                    |
+| [Item (entity)](https://minecraft.fandom.com/wiki/Item_(entity))                                      | [Pressure Plate clicks](https://minecraft.fandom.com/wiki/Pressure_Plate#Unique), crisp clacking sound, like sound of a lighter, or clicking on buttons                                                 |
+| [Passive mobs, Neutral mobs or Players](https://minecraft.fandom.com/wiki/Mob?so=search#Passive_mobs) | [Bells (Glockenspiel) of Note Block](https://minecraft.fandom.com/wiki/Note_Block#Notes), with the lowest pitch, like the sound of a little bell                                                        |
+| [Hostile mobs](https://minecraft.fandom.com/wiki/Mob?so=search#Hostile_mobs)                          | [Bells (Glockenspiel) of Note Block](https://minecraft.fandom.com/wiki/Note_Block#Notes) again, with the highest pitch, brief and sharp, like the sound of a time bomb, and you can hear their low roar |
+| Unlocking                                                                                             | [Bass Drum (Kick) of Note Block](https://minecraft.fandom.com/wiki/Note_Block#Notes) with the highest pitch, but it's still pretty low                                                                  |
 
 See also: [Configuration](/doc/CONFIG.md#point-of-interest), [Keybindings](/doc/KEYBINDINGS.md#point-of-interest)
+
+### POI Locking
+
+You can lock onto the closest target with a key, then your camera will follow the target as it moves, so you can approach it more easily.
+For example when you want to mine an ore, capture an animal or fight a monster.
+
+See also: [Configuration](/doc/CONFIG.md#entitiesblocks-locking), [Keybindings](/doc/KEYBINDINGS.md#point-of-interest)
 
 ### POI Marking
 
 Sometimes you may need to search for a special type of block or entity that is not in the pre-configured list, here is the feature you want.
 You can mark one type while you are pointing at one of them (with your crosshair).
 You can set the mod to only scan and notify on marked type, suppress scanning and notifying on pre-configured ones.
+
+See also: [Configuration](/doc/CONFIG.md#entitiesblocks-marking), [Keybindings](/doc/KEYBINDINGS.md#point-of-interest)
 
 ## Other Pages
 
