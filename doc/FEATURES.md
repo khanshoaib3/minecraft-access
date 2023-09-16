@@ -13,7 +13,7 @@ If you have any suggestion on improvements existing features or about a new feat
 5. [Point of Interest](#point-of-interest)
    * [POI Locking](#poi-locking)
    * [POI Marking](#poi-marking)
-
+6. [Position Narrator](#position-narrator)
 
 ## Camera Controls
 
@@ -113,6 +113,12 @@ You can mark one type while you are pointing at one of them (with your crosshair
 You can set the mod to only scan and notify on marked type, suppress scanning and notifying on pre-configured ones.
 
 See also: [Configuration](/doc/CONFIG.md#entitiesblocks-marking), [Keybindings](/doc/KEYBINDINGS.md#point-of-interest)
+
+## Position Narrator
+
+Minecraft has a built-in [absolute coordinate system](https://minecraft.fandom.com/wiki/Coordinates), x-axis for the longitude, z for the latitude, and y for the elevation. This feature provides keystrokes to read out coordinates.
+
+See also: [Keybindings](/doc/KEYBINDINGS.md#position-narrator)
 
 ## Other Pages
 

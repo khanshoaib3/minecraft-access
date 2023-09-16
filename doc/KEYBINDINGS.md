@@ -15,6 +15,7 @@ You may want to save this page as a bookmark, it'll be something you'll consult 
 2. [Mouse Simulation](#mouse-simulation)
 3. [Inventory Controls](#inventory-controls)
 4. [Point of Interest](#point-of-interest)
+5. [Position Narrator](#position-narrator)
 
 ## Camera Controls
 
@@ -53,13 +54,13 @@ See also: [Feature Description](/doc/FEATURES.md#camera-controls), [Configuratio
 
 ## Mouse Simulation
 
-| Single Key                    | Default Keybinding | Description                                                           |
-|-------------------------------|--------------------|-----------------------------------------------------------------------|
-| `Left Mouse Sim Key`          | [                  | Simulates left mouse key, the original `Attack/Destroy` key           |
-| `Middle Mouse Sim Key`        | \                  | Simulates middle mouse key, the original `Pick Block` key             |
-| `Right Mouse Sim Key`         | ]                  | Simulates right mouse key, the original `Use Item/Place Block` key    |
-| `Mouse Wheel Scroll Up Key`   | ;                  | Simulates mouse wheel scroll up, switching items in Hotbar forward    |
-| `Mouse Wheel Scroll Down Key` | '                  | Simulates mouse wheel scroll down, switching items in Hotbar backward |
+| Single Key                    | Default Keybinding | Description                                                          |
+|-------------------------------|--------------------|----------------------------------------------------------------------|
+| `Left Mouse Sim Key`          | [                  | Simulate left mouse key, the original `Attack/Destroy` key           |
+| `Middle Mouse Sim Key`        | \                  | Simulate middle mouse key, the original `Pick Block` key             |
+| `Right Mouse Sim Key`         | ]                  | Simulate right mouse key, the original `Use Item/Place Block` key    |
+| `Mouse Wheel Scroll Up Key`   | ;                  | Simulate mouse wheel scroll up, switching items in Hotbar forward    |
+| `Mouse Wheel Scroll Down Key` | '                  | Simulate mouse wheel scroll down, switching items in Hotbar backward |
 
 See also: [Feature Description](/doc/FEATURES.md#mouse-simulation), [Configuration](/doc/CONFIG.md#mouse-simulation)
 
@@ -101,6 +102,20 @@ See also: [Feature Description](/doc/FEATURES.md#inventory-controls), [Configura
 | `Control` + `Alt` + `Locking Key` | Unmark from the target                                     |
 
 See also: [Feature Description](/doc/FEATURES.md#point-of-interest), [Configuration](/doc/CONFIG.md#point-of-interest)
+
+## Position Narrator
+
+| Single Key                | Default Keybinding | Description                       |
+|---------------------------|--------------------|-----------------------------------|
+| Speak Player Position Key | G                  | Speak the player's x y z position |
+
+| Key Combination  | Description               |
+|------------------|---------------------------|
+| `Left Alt` + `Z` | Speak the player's z-axis |
+| `Left Alt` + `X` | Speak the player's x-axis |
+| `Left Alt` + `C` | Speak the player's y-axis |
+
+See also: [Feature Description](/doc/FEATURES.md#position-narrator)
 
 ## Other Pages
 

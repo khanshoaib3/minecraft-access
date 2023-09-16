@@ -3,17 +3,6 @@
 
 # Features
 
-## Position Narrator
-
-Adds key bindings to speak the player's position.
-
-### Keybindings and Combinations
-
-1. Speak Player Position Key (default: G) = Speaks the player's x y and z position.
-2. Left Alt + X = Speaks only the x position.
-3. Left Alt + C = Speaks only the y position.
-4. Left Alt + Z = Speaks only the z position.
-
 ## Narrator Menu
 
 A menu that opens up when we press `F4` button.
