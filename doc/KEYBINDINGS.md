@@ -84,8 +84,6 @@ See also: [Feature Description](/doc/FEATURES.md#mouse-simulation), [Configurati
 | `Left Shift` + `Up Key`         | Select previous page of the Recipe Book |
 | `Left Shift` + `Down Key`       | Select next page of the Recipe Book     |
 
-Use mouse simulation keys in [`Mouse Simulation`](#mouse-simulation) to preform item picking and button clicking operations. `Left Mouse Sim Key` will pick up and put down full number of items in the slot. `Right Mouse Sim Key` will pick up half number of items or put one item down. `Middle Mouse Sim Key` can be used in creative mode to pick up a full stack of item from the item list.
-
 `Switch Tab Key`, `Toggle Craftable Key`, `T` key and `Enter` key only works when there is a corresponding component in the opened screen. Recipe Book page turning only works when "Recipe Book Group" is selected.
 
 See also: [Feature Description](/doc/FEATURES.md#inventory-controls), [Configuration](/doc/CONFIG.md#inventory-controls)

@@ -26,8 +26,7 @@ See also: [Keybindings](/doc/KEYBINDINGS.md#camera-controls), [Configuration](/d
 This feature allows you to simulate five mouse operations (left middle right click, scroll up and down) through the keyboard, while keep original mouse input still working.
 This feature supports continuous key pressing, e.g. destroying a block requires continuous press of the left mouse button against that block.
 
-You MUST keep the vanilla `Attack/Destroy` key, `Use Item/Place Block` key and `Pick Block` key remain on default mouse keys. Somehow this mod will [cause](https://github.com/khanshoaib3/minecraft-access/issues/171) the original attack/place key rebinding invalid.
-We haven't found the cause or solution yet, thankfully this doesn't affect normal usage since we have this feature.
+You MUST keep the vanilla `Attack/Destroy` key, `Use Item/Place Block` key and `Pick Block` key remain on default mouse keys. This feature will only simulate mouse operations, not directly execute the attack or place operation, it needs mouse key bindings as a medium.
 
 See also: [Keybindings](/doc/KEYBINDINGS.md#mouse-simulation), [Configuration](/doc/CONFIG.md#mouse-simulation)
 
@@ -54,12 +53,15 @@ See also: [Configuration](/doc/CONFIG.md#partial-speaking)
 This feature allows you to operate various screens using the keyboard instead of the mouse.
 In fact this is a feature makes almost all screens accessible, not just for the inventory screen.
 The vast majority of screens contain operations for transferring and using items, so it's appropriate to call this feature `Inventory Controls`.
-This feature has independent keybindings for simulating mouse buttons and wheel, not same as the `Mouse Simulation` feature.
 
 We divide the various parts of screens into different slot groups, following the original design of screens.
 One slot group contains one to more slots, arranged in a grid shape, each of which may be empty or contain one type of items (one stack at max).
 You can switch focusing group, move to different slots within a group, or pick up items from slots in one group and place them into slots in another group (to transfer or use them).
 
+Use mouse simulation keys in [`Mouse Simulation`](#mouse-simulation) feature to preform operations such as item transferring and button clicking.
+Left mouse key will pick up and put down full number of items in the slot.
+Right mouse key will pick up half number of items or put one item down. 
+Middle mouse key can be used in creative mode to pick up a full stack of item from the item list.
 The mod will speak what is currently in the slot, such as "Empty Slot" or "64 Stone".
 When you pick up full number of items in a slot, the mod will speak "Empty Slot" to represent current state of the slot.
 When you put down grabbing items in a occupied slot, items in the slot will switch with what in your hand, now you're grabbing the items originally in that slot.
