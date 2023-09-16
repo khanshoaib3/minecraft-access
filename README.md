@@ -100,18 +100,16 @@ any other key with same key.*
 1. Up Key (default: I) = Focus to slot above.
 2. Right Key (default: L) = Focus to slot right.
 3. Down Key (default: K) = Focus to slot down.
-4. Left Mouse Click Sim Key (default: `[` (left bracket)) = Simulates left mouse click, picking up and putting down all items in the slot.
-5. Right Mouse Click Sim Key (default: `]` (right bracket)) = Simulates right mouse click, picking up half of the items or putting one item down.
-6. Left Key (default: J) = Focus to slot left.
-7. Group Key (default: C) = Select next group.
-8. Left Shift + Group Key = Select previous group.
-9. Switch Tab Key (default: V) = Select next tab (only for creative inventory screen and inventory/crafting screen).
-10. Left Shift + Switch Tab Key = Select previous tab (only for creative inventory screen and inventory/crafting screen).
-11. Toggle Craftable Key (default: R) = Toggle between show all and show only craftable recipes in inventory/crafting screen.
-12. Left Shift + Up Key = Select previous page of the Recipe Book. (active when recipe book group is selected).
-13. Left Shift + Down Key = Select next page of the Recipe Book. (active when recipe book group is selected).
-14. T Key (not re-mappable) = Select the search box.
-15. Enter Key (not re-mappable) = Deselect the search box.
+4. Left Key (default: J) = Focus to slot left.
+5. Group Key (default: C) = Select next group.
+6. Left Shift + Group Key = Select previous group.
+7. Switch Tab Key (default: V) = Select next tab (only for creative inventory screen and inventory/crafting screen).
+8. Left Shift + Switch Tab Key = Select previous tab (only for creative inventory screen and inventory/crafting screen).
+9. Toggle Craftable Key (default: R) = Toggle between show all and show only craftable recipes in inventory/crafting screen.
+10. Left Shift + Up Key = Select previous page of the Recipe Book. (active when recipe book group is selected).
+11. Left Shift + Down Key = Select next page of the Recipe Book. (active when recipe book group is selected).
+12. T Key (not re-mappable) = Select the search box.
+13. Enter Key (not re-mappable) = Deselect the search box.
 
 ### Configuration Options
 

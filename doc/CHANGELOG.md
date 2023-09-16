@@ -7,9 +7,12 @@ Unreleased Changes
 
 ### Feature Changes
 
+* BREAKING CHANGE: Remove left and right mouse simulation keys in `Inventory Controls` and have the `Mouse Simulation` feature replace their functions. [#168](https://github.com/khanshoaib3/minecraft-access/issues/168)
+
 ### Bug Fixes
 
-* Fix `PositionNarrator` speaks multiple times with single keystroke.
+* Fix `PositionNarrator` speaks multiple times with single keystroke. [#164](https://github.com/khanshoaib3/minecraft-access/issues/164)
+* Fix  a bug about custom keybindings will not work immediately until game restart. [#167](https://github.com/khanshoaib3/minecraft-access/issues/167)
 
 ### Dependencies Changes
 
