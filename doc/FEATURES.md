@@ -26,10 +26,8 @@ See also: [Keybindings](/doc/KEYBINDINGS.md#camera-controls), [Configuration](/d
 This feature allows you to simulate five mouse operations (left middle right click, scroll up and down) through the keyboard, while keep original mouse input still working.
 This feature supports continuous key pressing, e.g. destroying a block requires continuous press of the left mouse button against that block.
 
-Please note that:
-
-1. This feature only works when no screen is opened.
-2. You need to keep the vanilla `Attack/Destroy` key, `Use Item/Place Block` key and `Pick Block` key remain on default mouse keys.
+You MUST keep the vanilla `Attack/Destroy` key, `Use Item/Place Block` key and `Pick Block` key remain on default mouse keys. Somehow this mod will [cause](https://github.com/khanshoaib3/minecraft-access/issues/171) the original attack/place key rebinding invalid.
+We haven't found the cause or solution yet, thankfully this doesn't affect normal usage since we have this feature.
 
 See also: [Keybindings](/doc/KEYBINDINGS.md#mouse-simulation), [Configuration](/doc/CONFIG.md#mouse-simulation)
 
@@ -54,12 +52,12 @@ See also: [Configuration](/doc/CONFIG.md#partial-speaking)
 ## Inventory Controls
 
 This feature allows you to operate various screens using the keyboard instead of the mouse.
-In fact this is a feature makes all screens accessible, not just for the inventory screen.
+In fact this is a feature makes almost all screens accessible, not just for the inventory screen.
 The vast majority of screens contain operations for transferring and using items, so it's appropriate to call this feature `Inventory Controls`.
 This feature has independent keybindings for simulating mouse buttons and wheel, not same as the `Mouse Simulation` feature.
 
 We divide the various parts of screens into different slot groups, following the original design of screens.
-One slot group contains one to more slots, arranged in a table shape, each of which may be empty or contain one type of items (one stack at max).
+One slot group contains one to more slots, arranged in a grid shape, each of which may be empty or contain one type of items (one stack at max).
 You can switch focusing group, move to different slots within a group, or pick up items from slots in one group and place them into slots in another group (to transfer or use them).
 
 The mod will speak what is currently in the slot, such as "Empty Slot" or "64 Stone".
@@ -69,6 +67,7 @@ When you put down grabbing items in a occupied slot, items in the slot will swit
 Please note that:
 
 1. Item speaking in "Scrollable Recipes Group" under "Crafting Screen" will be delayed about one second, please wait after press the slot moving key to hear the item name.
+
 2. In "Scrollable Recipes Group" under "Crafting Screen", except the first page, sometimes you will hear nothing while you moving between slots. It's best to keep items you want to craft within the first page of the recipe book by moving unused resource items out of your inventory.
 
 See also: [Configuration](/doc/CONFIG.md#inventory-controls), [Keybindings](/doc/KEYBINDINGS.md#inventory-controls)

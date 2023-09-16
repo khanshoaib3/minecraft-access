@@ -1,7 +1,8 @@
 # Minecraft Access Keybindings
 
 This page contains all of keybindings added by the mod, and key combinations for all features.
-You can change these keybindings in the settings (open `Options...` then `Controls..` then `Key Binds..`).
+
+You can change these keybindings in the settings (open `Options...` then `Controls..` then `Key Binds..`), all keybinding setting groups that provided by this mod have a `Minecraft Access:` prefix to differentiate them from the original keybinding settings.
 
 You may find that some features have duplicate keys, such as I, J, K, L as the arrow keys in various features.
 It's ok since the same key takes effect in different interfaces for different functions.
@@ -70,8 +71,6 @@ See also: [Feature Description](/doc/FEATURES.md#mouse-simulation), [Configurati
 | Right Key                 | L                  | Focus to slot right                                                              |
 | Down Key                  | K                  | Focus to slot below                                                              |
 | Left Key                  | J                  | Focus to slot left                                                               |
-| Left Mouse Click Sim Key  | [                  | Simulate left mouse click, pick up and put down full number of items in the slot |
-| Right Mouse Click Sim Key | ]                  | Simulates right mouse click, pick up half number of items or put one item down   |
 | Group Key                 | C                  | Select next slot group                                                           |
 | Switch Tab Key            | V                  | Select next tab                                                                  |
 | Toggle Craftable Key      | R                  | Switch between "show all" and "show only" craftable recipes in recipe book group |
@@ -84,6 +83,8 @@ See also: [Feature Description](/doc/FEATURES.md#mouse-simulation), [Configurati
 | `Left Shift` + `Switch Tab Key` | Select previous tab                     |
 | `Left Shift` + `Up Key`         | Select previous page of the Recipe Book |
 | `Left Shift` + `Down Key`       | Select next page of the Recipe Book     |
+
+Use mouse simulation keys in [`Mouse Simulation`](#mouse-simulation) to preform item picking and button clicking operations. `Left Mouse Sim Key` will pick up and put down full number of items in the slot. `Right Mouse Sim Key` will pick up half number of items or put one item down. `Middle Mouse Sim Key` can be used in creative mode to pick up a full stack of item from the item list.
 
 `Switch Tab Key`, `Toggle Craftable Key`, `T` key and `Enter` key only works when there is a corresponding component in the opened screen. Recipe Book page turning only works when "Recipe Book Group" is selected.
 
