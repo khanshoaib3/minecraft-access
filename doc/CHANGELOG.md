@@ -1,18 +1,5 @@
 Please read [this issue for guide for modifying this document](https://github.com/khanshoaib3/minecraft-access/pull/155)
 
-Unreleased Changes
----------------------------
-
-### New Features
-
-### Feature Changes
-
-### Bug Fixes
-
-### Dependencies Changes
-
-### Refactoring, Documentation and Chores
-
 Release v1.3.0 (2023-09)
 ---------------------------
 
@@ -26,6 +13,10 @@ Release v1.3.0 (2023-09)
 * Fix a bug that custom keybindings can not take effect immediately until restart the game. [#167](https://github.com/khanshoaib3/minecraft-access/issues/167)
 * Fix a bug that all vanilla keys rebinding are invalid. [#171](https://github.com/khanshoaib3/minecraft-access/issues/171)
 * Fix a bug that POI Entity config can not take effect immediately until restart the game.
+
+### Refactoring, Documentation and Chores
+
+* Rewrite big README into [manual structure](https://github.com/khanshoaib3/minecraft-access/blob/1.20/README.md) for better readability.
 
 Release v1.2.2 (2023-09-12)
 ---------------------------
