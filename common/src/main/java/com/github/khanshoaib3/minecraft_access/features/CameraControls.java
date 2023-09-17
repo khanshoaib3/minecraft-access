@@ -47,9 +47,8 @@ public class CameraControls {
 
     static {
         // config keystroke conditions
-        KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
-        straightUpDoubleClick = new DoubleClick(() -> KeyUtils.isAnyPressed(kbh.cameraControlsUp));
-        straightDownDoubleClick = new DoubleClick(() -> KeyUtils.isAnyPressed(kbh.cameraControlsDown));
+        straightUpDoubleClick = new DoubleClick(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().cameraControlsUp));
+        straightDownDoubleClick = new DoubleClick(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().cameraControlsDown));
     }
 
     public CameraControls() {

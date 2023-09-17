@@ -30,8 +30,7 @@ public class PositionNarrator {
 
     static {
         instance = new PositionNarrator();
-        KeyBindingsHandler kbh = KeyBindingsHandler.getInstance();
-        positionNarrationKey = new Keystroke(() -> KeyUtils.isAnyPressed(kbh.positionNarrationKey));
+        positionNarrationKey = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().positionNarrationKey));
     }
 
     private PositionNarrator() {

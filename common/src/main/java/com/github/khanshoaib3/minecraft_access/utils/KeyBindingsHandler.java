@@ -5,6 +5,8 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.Set;
+
 /**
  * Initializes all the keybindings used in the mod.
  */
@@ -37,8 +39,6 @@ public class KeyBindingsHandler {
     public KeyBinding inventoryControlsRightKey;
     public KeyBinding inventoryControlsDownKey;
     public KeyBinding inventoryControlsLeftKey;
-    public KeyBinding inventoryControlsLeftMouseClickKey;
-    public KeyBinding inventoryControlsRightMouseClickKey;
     public KeyBinding inventoryControlsSwitchTabKey;
     public KeyBinding inventoryControlsToggleCraftableKey;
 
@@ -99,10 +99,8 @@ public class KeyBindingsHandler {
      * 7) Switch Tab Key (default: V) = Select next tab (only for creative inventory screen and inventory/crafting screen).<br>
      * 8) Left Shift + Switch Tab Key = Select previous tab (only for creative inventory screen and inventory/crafting screen).<br>
      * 9) Toggle Craftable Key (default: R) = Toggle between show all and show only craftable recipes in inventory/crafting screen.<br>
-     * 10) Left Mouse Click Sim Key (default: [) = Simulates left mouse click.<br>
-     * 11) Right Mouse Click Sim Key (default: ]) = Simulates right mouse click.<br>
-     * 12) T Key (not re-mappable) = Select the search box.<br>
-     * 13) Enter Key (not re-mappable) = Deselect the search box.<br>
+     * 10) T Key (not re-mappable) = Select the search box.<br>
+     * 11) Enter Key (not re-mappable) = Deselect the search box.<br>
      */
     private void initializeInventoryControlsKeybindings() {
         inventoryControlsGroupKey = new KeyBinding(
@@ -111,23 +109,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_C,
                 INVENTORY_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(inventoryControlsGroupKey);
-
-        inventoryControlsLeftMouseClickKey = new KeyBinding(
-                "minecraft_access.keys.inventory_controls.left_mouse_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_LEFT_BRACKET,
-                INVENTORY_CONTROLS_TRANSLATION_KEY
-        );
-        KeyMappingRegistry.register(inventoryControlsLeftMouseClickKey);
-
-        inventoryControlsRightMouseClickKey = new KeyBinding(
-                "minecraft_access.keys.inventory_controls.right_mouse_key_name",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_RIGHT_BRACKET,
-                INVENTORY_CONTROLS_TRANSLATION_KEY
-        );
-        KeyMappingRegistry.register(inventoryControlsRightMouseClickKey);
 
         inventoryControlsUpKey = new KeyBinding(
                 "minecraft_access.keys.inventory_controls.up_key_name",
@@ -135,7 +116,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_I,
                 INVENTORY_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(inventoryControlsUpKey);
 
         inventoryControlsRightKey = new KeyBinding(
                 "minecraft_access.keys.inventory_controls.right_key_name",
@@ -143,7 +123,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_L,
                 INVENTORY_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(inventoryControlsRightKey);
 
         inventoryControlsDownKey = new KeyBinding(
                 "minecraft_access.keys.inventory_controls.down_key_name",
@@ -151,7 +130,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_K,
                 INVENTORY_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(inventoryControlsDownKey);
 
         inventoryControlsLeftKey = new KeyBinding(
                 "minecraft_access.keys.inventory_controls.left_key_name",
@@ -159,7 +137,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_J,
                 INVENTORY_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(inventoryControlsLeftKey);
 
         inventoryControlsSwitchTabKey = new KeyBinding(
                 "minecraft_access.keys.inventory_controls.switch_tabs_key_name",
@@ -167,7 +144,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_V,
                 INVENTORY_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(inventoryControlsSwitchTabKey);
 
         inventoryControlsToggleCraftableKey = new KeyBinding(
                 "minecraft_access.keys.inventory_controls.toggle_craftable_key_name",
@@ -175,7 +151,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_R,
                 INVENTORY_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(inventoryControlsToggleCraftableKey);
     }
 
     /**
@@ -205,7 +180,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_I,
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(cameraControlsUp);
 
         cameraControlsRight = new KeyBinding(
                 "minecraft_access.keys.camera_controls.right_key_name",
@@ -213,7 +187,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_L,
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(cameraControlsRight);
 
         cameraControlsDown = new KeyBinding(
                 "minecraft_access.keys.camera_controls.down_key_name",
@@ -221,7 +194,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_K,
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(cameraControlsDown);
 
         cameraControlsLeft = new KeyBinding(
                 "minecraft_access.keys.camera_controls.left_key_name",
@@ -229,7 +201,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_J,
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(cameraControlsLeft);
 
         cameraControlsAlternateUp = new KeyBinding(
                 "minecraft_access.keys.camera_controls.alternate_up_key_name",
@@ -237,7 +208,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_KP_8,
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(cameraControlsAlternateUp);
 
         cameraControlsAlternateRight = new KeyBinding(
                 "minecraft_access.keys.camera_controls.alternate_right_key_name",
@@ -245,7 +215,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_KP_6,
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(cameraControlsAlternateRight);
 
         cameraControlsAlternateDown = new KeyBinding(
                 "minecraft_access.keys.camera_controls.alternate_down_key_name",
@@ -253,7 +222,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_KP_2,
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(cameraControlsAlternateDown);
 
         cameraControlsAlternateLeft = new KeyBinding(
                 "minecraft_access.keys.camera_controls.alternate_left_key_name",
@@ -261,7 +229,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_KP_4,
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(cameraControlsAlternateLeft);
 
         cameraControlsNorth = new KeyBinding(
                 "minecraft_access.keys.camera_controls.north_key_name",
@@ -269,7 +236,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_KP_7,
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(cameraControlsNorth);
 
         cameraControlsEast = new KeyBinding(
                 "minecraft_access.keys.camera_controls.east_key_name",
@@ -277,7 +243,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_KP_9,
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(cameraControlsEast);
 
         cameraControlsWest = new KeyBinding(
                 "minecraft_access.keys.camera_controls.west_key_name",
@@ -285,7 +250,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_KP_1,
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(cameraControlsWest);
 
         cameraControlsSouth = new KeyBinding(
                 "minecraft_access.keys.camera_controls.south_key_name",
@@ -293,7 +257,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_KP_3,
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(cameraControlsSouth);
 
         cameraControlsStraightUp = new KeyBinding(
                 "minecraft_access.keys.camera_controls.straight_up_camera_key_name",
@@ -301,7 +264,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_KP_0,
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(cameraControlsStraightUp);
 
         cameraControlsStraightDown = new KeyBinding(
                 "minecraft_access.keys.camera_controls.straight_down_camera_key_name",
@@ -309,7 +271,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_KP_DECIMAL,
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(cameraControlsStraightDown);
 
         cameraControlsCenterCamera = new KeyBinding(
                 "minecraft_access.keys.camera_controls.center_camera_key_name",
@@ -317,7 +278,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_KP_5,
                 CAMERA_CONTROLS_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(cameraControlsCenterCamera);
     }
 
     /**
@@ -336,7 +296,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_LEFT_BRACKET,
                 MOUSE_SIMULATION_KEY
         );
-        KeyMappingRegistry.register(mouseSimulationLeftMouseKey);
 
         mouseSimulationRightMouseKey = new KeyBinding(
                 "minecraft_access.keys.mouse_simulation.right_key_name",
@@ -344,7 +303,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_RIGHT_BRACKET,
                 MOUSE_SIMULATION_KEY
         );
-        KeyMappingRegistry.register(mouseSimulationRightMouseKey);
 
         mouseSimulationMiddleMouseKey = new KeyBinding(
                 "minecraft_access.keys.mouse_simulation.middle_key_name",
@@ -352,7 +310,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_BACKSLASH,
                 MOUSE_SIMULATION_KEY
         );
-        KeyMappingRegistry.register(mouseSimulationMiddleMouseKey);
 
         mouseSimulationScrollUpKey = new KeyBinding(
                 "minecraft_access.keys.mouse_simulation.scroll_up_key_name",
@@ -360,7 +317,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_SEMICOLON,
                 MOUSE_SIMULATION_KEY
         );
-        KeyMappingRegistry.register(mouseSimulationScrollUpKey);
 
         mouseSimulationScrollDownKey = new KeyBinding(
                 "minecraft_access.keys.mouse_simulation.scroll_down_key_name",
@@ -368,7 +324,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_APOSTROPHE,
                 MOUSE_SIMULATION_KEY
         );
-        KeyMappingRegistry.register(mouseSimulationScrollDownKey);
     }
 
     /**
@@ -387,7 +342,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_F6,
                 AREA_MAP_GROUP_KEY
         );
-//        KeyMappingRegistry.register(areaMapMenuKey);
 
         areaMapNorthKey = new KeyBinding(
                 "minecraft_access.keys.area_map.north_key_name",
@@ -395,7 +349,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_I,
                 AREA_MAP_GROUP_KEY
         );
-//        KeyMappingRegistry.register(areaMapNorthKey);
 
         areaMapSouthKey = new KeyBinding(
                 "minecraft_access.keys.area_map.south_key_name",
@@ -403,7 +356,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_K,
                 AREA_MAP_GROUP_KEY
         );
-//        KeyMappingRegistry.register(areaMapSouthKey);
 
         areaMapWestKey = new KeyBinding(
                 "minecraft_access.keys.area_map.west_key_name",
@@ -411,7 +363,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_J,
                 AREA_MAP_GROUP_KEY
         );
-//        KeyMappingRegistry.register(areaMapWestKey);
 
         areaMapEastKey = new KeyBinding(
                 "minecraft_access.keys.area_map.east_key_name",
@@ -419,7 +370,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_L,
                 AREA_MAP_GROUP_KEY
         );
-//        KeyMappingRegistry.register(areaMapEastKey);
 
         areaMapUpKey = new KeyBinding(
                 "minecraft_access.keys.area_map.up_key_name",
@@ -427,7 +377,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_U,
                 AREA_MAP_GROUP_KEY
         );
-//        KeyMappingRegistry.register(areaMapUpKey);
 
         areaMapDownKey = new KeyBinding(
                 "minecraft_access.keys.area_map.down_key_name",
@@ -435,7 +384,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_O,
                 AREA_MAP_GROUP_KEY
         );
-//        KeyMappingRegistry.register(areaMapDownKey);
     }
 
     /**
@@ -458,7 +406,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_R,
                 OTHER_GROUP_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(healthNHungerNarrationKey);
 
         lockingHandlerKey = new KeyBinding(
                 "minecraft_access.keys.other.locking_handler_key_name",
@@ -466,7 +413,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_Y,
                 OTHER_GROUP_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(lockingHandlerKey);
 
         positionNarrationKey = new KeyBinding(
                 "minecraft_access.keys.other.player_position_key_name",
@@ -474,7 +420,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_G,
                 OTHER_GROUP_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(positionNarrationKey);
 
         narratorMenuKey = new KeyBinding(
                 "minecraft_access.keys.other.narrator_menu_key_name",
@@ -482,7 +427,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_F4,
                 OTHER_GROUP_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(narratorMenuKey);
 
         narratorMenuHotKey = new KeyBinding(
                 "minecraft_access.keys.other.narrator_menu_hot_key_name",
@@ -490,7 +434,6 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_B,
                 OTHER_GROUP_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(narratorMenuHotKey);
 
         directionNarrationKey = new KeyBinding(
                 "minecraft_access.keys.other.facing_direction_key_name",
@@ -498,7 +441,49 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_H,
                 OTHER_GROUP_TRANSLATION_KEY
         );
-        KeyMappingRegistry.register(directionNarrationKey);
     }
 
+    public void registerAllKeys() {
+        Set.of(inventoryControlsGroupKey,
+                        inventoryControlsUpKey,
+                        inventoryControlsRightKey,
+                        inventoryControlsDownKey,
+                        inventoryControlsLeftKey,
+                        inventoryControlsSwitchTabKey,
+                        inventoryControlsToggleCraftableKey,
+                        cameraControlsUp,
+                        cameraControlsRight,
+                        cameraControlsDown,
+                        cameraControlsLeft,
+                        cameraControlsAlternateUp,
+                        cameraControlsAlternateRight,
+                        cameraControlsAlternateDown,
+                        cameraControlsAlternateLeft,
+                        cameraControlsNorth,
+                        cameraControlsEast,
+                        cameraControlsWest,
+                        cameraControlsSouth,
+                        cameraControlsStraightUp,
+                        cameraControlsStraightDown,
+                        cameraControlsCenterCamera,
+                        mouseSimulationLeftMouseKey,
+                        mouseSimulationRightMouseKey,
+                        mouseSimulationMiddleMouseKey,
+                        mouseSimulationScrollUpKey,
+                        mouseSimulationScrollDownKey,
+//                        areaMapMenuKey,
+//                        areaMapNorthKey,
+//                        areaMapSouthKey,
+//                        areaMapWestKey,
+//                        areaMapEastKey,
+//                        areaMapUpKey,
+//                        areaMapDownKey,
+                        healthNHungerNarrationKey,
+                        lockingHandlerKey,
+                        positionNarrationKey,
+                        narratorMenuKey,
+                        narratorMenuHotKey,
+                        directionNarrationKey)
+                .forEach(KeyMappingRegistry::register);
+    }
 }
