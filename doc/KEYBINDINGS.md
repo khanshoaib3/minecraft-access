@@ -7,6 +7,8 @@ You can change these keybindings in the settings (open `Options...` then `Contro
 You may find that some features have duplicate keys, such as I, J, K, L as the arrow keys in various features.
 It's ok since the same key takes effect in different interfaces for different functions.
 
+You may want to take a look at [all the original controls](https://minecraft.fandom.com/wiki/Controls#Java_Edition) as well.
+
 ## Table Of Contents
 
 1. [Camera Controls](#camera-controls)
@@ -55,29 +57,29 @@ See also: [Feature Description](/doc/FEATURES.md#camera-controls), [Configuratio
 
 ## Mouse Simulation
 
-| Single Key                    | Default Keybinding | Description                                                          |
-|-------------------------------|--------------------|----------------------------------------------------------------------|
-| `Left Mouse Sim Key`          | [                  | Simulate left mouse key, the original `Attack/Destroy` key           |
-| `Middle Mouse Sim Key`        | \                  | Simulate middle mouse key, the original `Pick Block` key             |
-| `Right Mouse Sim Key`         | ]                  | Simulate right mouse key, the original `Use Item/Place Block` key    |
-| `Mouse Wheel Scroll Up Key`   | ;                  | Simulate mouse wheel scroll up, switching items in Hotbar forward    |
-| `Mouse Wheel Scroll Down Key` | '                  | Simulate mouse wheel scroll down, switching items in Hotbar backward |
+| Single Key                    | Default Keybinding | Description                                                                        |
+|-------------------------------|--------------------|------------------------------------------------------------------------------------|
+| `Left Mouse Sim Key`          | [                  | Simulate left mouse key, default value of the original `Attack/Destroy` key        |
+| `Middle Mouse Sim Key`        | \                  | Simulate middle mouse key, default value of the original `Pick Block` key          |
+| `Right Mouse Sim Key`         | ]                  | Simulate right mouse key, default value of the original `Use Item/Place Block` key |
+| `Mouse Wheel Scroll Up Key`   | ;                  | Simulate mouse wheel scroll up, switching items in Hotbar forward                  |
+| `Mouse Wheel Scroll Down Key` | '                  | Simulate mouse wheel scroll down, switching items in Hotbar backward               |
 
 See also: [Feature Description](/doc/FEATURES.md#mouse-simulation), [Configuration](/doc/CONFIG.md#mouse-simulation)
 
 ## Inventory Controls
 
-| Single Key                | Default Keybinding | Description                                                                      |
-|---------------------------|--------------------|----------------------------------------------------------------------------------|
-| Up Key                    | I                  | Focus to slot above                                                              |
-| Right Key                 | L                  | Focus to slot right                                                              |
-| Down Key                  | K                  | Focus to slot below                                                              |
-| Left Key                  | J                  | Focus to slot left                                                               |
-| Group Key                 | C                  | Select next slot group                                                           |
-| Switch Tab Key            | V                  | Select next tab                                                                  |
-| Toggle Craftable Key      | R                  | Switch between "show all" and "show only" craftable recipes in recipe book group |
-| T                         | not re-mappable    | Select the search box or text box                                                |
-| Enter                     | not re-mappable    | Deselect the search box or text box                                              |
+| Single Key             | Default Keybinding | Description                                                                      |
+|------------------------|--------------------|----------------------------------------------------------------------------------|
+| `Up Key`               | I                  | Focus to the slot above                                                          |
+| `Right Key`            | L                  | Focus to the slot right                                                          |
+| `Down Key`             | K                  | Focus to the slot below                                                          |
+| `Left Key`             | J                  | Focus to the slot left                                                           |
+| `Group Key`            | C                  | Select next slot group                                                           |
+| `Switch Tab Key`       | V                  | Select next tab                                                                  |
+| `Toggle Craftable Key` | R                  | Switch between "show all" and "show only" craftable recipes in recipe book group |
+| T                      | not re-mappable    | Select the search box or text box                                                |
+| Enter                  | not re-mappable    | Deselect the search box or text box                                              |
 
 | Key Combination                 | Description                             |
 |---------------------------------|-----------------------------------------|
@@ -86,15 +88,17 @@ See also: [Feature Description](/doc/FEATURES.md#mouse-simulation), [Configurati
 | `Left Shift` + `Up Key`         | Select previous page of the Recipe Book |
 | `Left Shift` + `Down Key`       | Select next page of the Recipe Book     |
 
-`Switch Tab Key`, `Toggle Craftable Key`, `T` key and `Enter` key only works when there is a corresponding component in the opened screen. Recipe Book page turning only works when "Recipe Book Group" is selected.
+`Switch Tab Key`, `Toggle Craftable Key`, `T` key and `Enter` key only works when there is a corresponding component in the opened screen.
+Recipe Book page turning only works when "Recipe Book Group" is selected.
+Search on the [wiki](https://minecraft.fandom.com/wiki/Special:Search?scope=internal) for the description of screens if you're not familiar with them.
 
 See also: [Feature Description](/doc/FEATURES.md#inventory-controls), [Configuration](/doc/CONFIG.md#inventory-controls)
 
 ## Point of Interest
 
-| Single Key  | Default Keybinding | Description                               |
-|-------------|--------------------|-------------------------------------------|
-| Locking Key | Y                  | Lock onto the closest POI block or entity |
+| Single Key    | Default Keybinding | Description                               |
+|---------------|--------------------|-------------------------------------------|
+| `Locking Key` | Y                  | Lock onto the closest POI block or entity |
 
 | Key Combination                   | Description                                                |
 |-----------------------------------|------------------------------------------------------------|
@@ -106,9 +110,9 @@ See also: [Feature Description](/doc/FEATURES.md#point-of-interest), [Configurat
 
 ## Position Narrator
 
-| Single Key                | Default Keybinding | Description                       |
-|---------------------------|--------------------|-----------------------------------|
-| Speak Player Position Key | G                  | Speak the player's x y z position |
+| Single Key                  | Default Keybinding | Description                       |
+|-----------------------------|--------------------|-----------------------------------|
+| `Speak Player Position Key` | G                  | Speak the player's x y z position |
 
 | Key Combination  | Description               |
 |------------------|---------------------------|
@@ -120,19 +124,19 @@ See also: [Feature Description](/doc/FEATURES.md#position-narrator), [Configurat
 
 ## Health n Hunger
 
-| Single Key                         | Default Keybinding | Description                                  |
-|------------------------------------|--------------------|----------------------------------------------|
-| Speak Player Health and Hunger Key | R                  | Speak the player's current health and hunger |
+| Single Key                           | Default Keybinding | Description                                  |
+|--------------------------------------|--------------------|----------------------------------------------|
+| `Speak Player Health and Hunger Key` | R                  | Speak the player's current health and hunger |
 
 See also: [Feature Description](/doc/FEATURES.md#health-n-hunger), [Configuration](/doc/CONFIG.md#health-n-hunger)
 
 ## Narrator Menu
 
-| Single Key                     | Default Keybinding | Description                                                                                                                                |
-|--------------------------------|--------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| F4                             | not re-mappable    | Open or close the Narrator Menu                                                                                                            |
-| Narrator Menu Function Hot Key | B                  | Execute the selected function                                                                                                              |
-| Number Keys                    | not re-mappable    | When Narrator Menu is opened, press number keys to execute corresponding desired functions, without pressing `Tab` several times to select |
+| Single Key                       | Default Keybinding | Description                                                                                                                                |
+|----------------------------------|--------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| F4                               | not re-mappable    | Open or close the Narrator Menu                                                                                                            |
+| `Narrator Menu Function Hot Key` | B                  | Execute the selected function                                                                                                              |
+| Number Keys                      | not re-mappable    | When Narrator Menu is opened, press number keys to execute corresponding desired functions, without pressing `Tab` several times to select |
 
 | Key Combination                                       | Description                               |
 |-------------------------------------------------------|-------------------------------------------|
@@ -142,16 +146,16 @@ See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Configuration]
 
 ## Book Editing
 
-| Single Key                                   | Default Keybinding | Description                                                                                                          |
-|----------------------------------------------|--------------------|----------------------------------------------------------------------------------------------------------------------|
-| Use Item Key (the original keybinding)       | right mouse key    | Open the book editing screen while holding a [Book and Quill](https://minecraft.fandom.com/wiki/Book_and_Quill) item |
-| Tab                                          | not re-mappable    | Select buttons                                                                                                       |
-| Space                                        | not re-mappable    | Click selected button                                                                                                |
-| Attack/Destroy Key (the original keybinding) | left mouse key     | Same as `Space` key, click selected button                                                                           |
-| Page Up                                      | not re-mappable    | Switch to previous page                                                                                              |
-| Page Down                                    | not re-mappable    | Switch to next page                                                                                                  |
-| "Done" button                                | not re-mappable    | Save your unfinished work and quit editing screen                                                                    |
-| "Sign" button                                | not re-mappable    | And enter a title for the book to make it permanently non-editable                                                   |
+| Single Key                                       | Default Keybinding | Description                                                                                                          |
+|--------------------------------------------------|--------------------|----------------------------------------------------------------------------------------------------------------------|
+| `Use Item/Place Block` (the original keybinding) | right mouse key    | Open the book editing screen while holding a [Book and Quill](https://minecraft.fandom.com/wiki/Book_and_Quill) item |
+| Tab                                              | not re-mappable    | Select buttons                                                                                                       |
+| Space                                            | not re-mappable    | Click selected button                                                                                                |
+| `Attack/Destroy` (the original keybinding)       | left mouse key     | Same as `Space` key, click selected button                                                                           |
+| Page Up                                          | not re-mappable    | Switch to previous page                                                                                              |
+| Page Down                                        | not re-mappable    | Switch to next page                                                                                                  |
+| "Done" button                                    | not re-mappable    | Save your unfinished work and quit editing screen                                                                    |
+| "Sign" button                                    | not re-mappable    | And enter a title for the book to make it permanently non-editable                                                   |
 
 See also: [Feature Description](/doc/FEATURES.md#book-editing)
 

@@ -1,6 +1,7 @@
 # Minecraft Access Features
 
 This page contains details of all the features that are currently in the mod.
+If you have any question about original game functions, please search on the [wiki](https://minecraft.fandom.com/wiki/Special:Search?scope=internal) first before asking for help.
 If you have any suggestion on improvements existing features or about a new feature, you can [join the discord server](https://discord.gg/yQjjsDqWQX) or [post an issue](https://github.com/khanshoaib3/minecraft-access/issues).
 
 ## Table Of Contents
@@ -21,11 +22,11 @@ If you have any suggestion on improvements existing features or about a new feat
    * [Player Warnings](#player-warnings)
 9. [Book Editing](#book-editing)
 10. [Other Small Features](#other-small-features)
-   * [Speak held item](#speak-held-item)
-   * [Biome Indicator](#biome-indicator)
-   * [XP Indicator](#xp-indicator)
-   * [Speak Harvest Of Fishing](#speak-harvest-of-fishing)
-   * [Speak Chat Messages and Action Bar Updates](#speak-chat-messages-and-action-bar-updates)
+    * [Speak held item](#speak-held-item)
+    * [Biome Indicator](#biome-indicator)
+    * [XP Indicator](#xp-indicator)
+    * [Speak Harvest Of Fishing](#speak-harvest-of-fishing)
+    * [Speak Chat Messages and Action Bar Updates](#speak-chat-messages-and-action-bar-updates)
 
 ## Camera Controls
 

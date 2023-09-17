@@ -3,7 +3,7 @@
 Minecraft Access is a [Minecraft](https://www.minecraft.net) mod that specifically helps visually impaired players play Minecraft.
 It is an integration and replacement for [a series of previous mods](https://github.com/accessible-minecraft).
 This mod primarily borrows the help of a screen reader to describe (narrate) the game interface, and incorporates sound cues to provide orientation perception in this 3D world.
-Currently this mod [has enough features](doc/FAQ.md#is-the-mod-enough-to-play-the-game-normally) to help the visually impaired people play the game normally.
+Currently, this mod [has enough features](doc/FAQ.md#is-the-mod-enough-to-play-the-game-normally) to help the visually impaired people play the game normally.
 
 This mod supports:
 
@@ -32,3 +32,7 @@ This mod supports:
 1. The default narrator speaks even if the narrator is turned off.
 2. (Linux only) xdotool is not recognised even if it is installed.
 3. (Linux only) Minecraft says not narrator available even if flite is installed.
+
+## Contribution
+
+Any type of contribution is welcome, please go to the [issues page](https://github.com/khanshoaib3/minecraft-access/issues) for more details. ❤

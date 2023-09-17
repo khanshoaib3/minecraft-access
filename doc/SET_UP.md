@@ -1,5 +1,6 @@
 # Mod Setup
 
+Currently, this mod supports Windows and Linux operating system ([help us on macOS porting](https://github.com/khanshoaib3/minecraft-access/issues/22)).
 The latest version of this mod (as well as other mod dependencies) can be downloaded at [release page](https://github.com/khanshoaib3/minecraft-access/releases).
 
 ## For Windows
@@ -8,7 +9,7 @@ There is [a detailed tutorial](/doc/SET_UP_ON_WINDOWS.md) for Windows, from purc
 
 ## For Linux
 
-Currently there is no corresponding independent tutorial for Linux.
+Currently, there is no corresponding independent tutorial for Linux.
 You can refer to [the Windows installation tutorial](/doc/SET_UP_ON_WINDOWS.md) to purchase, download, and install the game.
 I'm not sure how to install Fabric on Linux (but I'm sure it's easier than choosing to install Forge), so you need to [google it](https://www.google.com/search?q=install+minecraft+fabric+on+linux) by yourself, sorry.
 Next you can download the required mod files by referring to the tutorial and put them into mod directory.

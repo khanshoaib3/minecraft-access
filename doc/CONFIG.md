@@ -213,7 +213,7 @@ See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Keybindings](/
 | Use 12 Hour Time Format                | false         | Whether to use 12 hour time format when speaking the time                                                                                                 | 
 | Speak Action Bar Updates               | true          | Whether to speak the messages updated in [action bar](https://minecraft.fandom.com/wiki/Commands/title), useful when you're in modded multiplayer servers |
 | Speak Harvest Of Fishing               | true          | Whether to speak the harvest of fishing                                                                                                                   |
-| Enable Menu Fix                        | true          | Developer config, whether to reset the cursor position when opening a menu (to prevent speak out unnecessary content)                                     |
+| Enable Menu Fix                        | true          | Whether to reset the cursor position when opening a menu (to prevent speak out unnecessary content)                                                       |
 | Debug Mode                             | true          | Developer config, whether to print debug messages into log                                                                                                |
 | Multiple Click Speed (in milliseconds) | 750           | The maximum time interval between two keystrokes in multiple click operations like "double-click"                                                         |
 
