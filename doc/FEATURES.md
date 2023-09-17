@@ -17,6 +17,7 @@ If you have any suggestion on improvements existing features or about a new feat
 7. [Fall Detector](#fall-detector)
 8. [Narrator Menu](#narrator-menu)
 9. [Player Warnings](#player-warnings)
+10. [Book Editing](#book-editing)
 
 ## Camera Controls
 
@@ -159,12 +160,21 @@ See also: [Configuration](/doc/CONFIG.md#narrator-menu), [Keybindings](/doc/KEYB
 This feature warns you when your [health](https://minecraft.fandom.com/wiki/Health), [hunger](https://minecraft.fandom.com/wiki/Hunger) and [air](https://minecraft.fandom.com/wiki/Damage#Drowning) (when you're submerged in water) below the set thresholds.
 You'll hear something like "Warning, Health is {current health}".
 If you enable the `Play Sound` config, you'll also hear a sound cue along with the warning words.
+You may want to learn about [the various damage types](https://minecraft.fandom.com/wiki/Damage) in the game.
 
 | Sound Cue                  | Description                                                                           |
 |----------------------------|---------------------------------------------------------------------------------------|
 | Status reach the threshold | [Anvil landing](https://minecraft.fandom.com/wiki/Anvil#Unique), crisp metallic sound |
 
 See also: [Configuration](/doc/CONFIG.md#player-warnings)
+
+## Book Editing
+
+The [Book Editing Screen](https://minecraft.fandom.com/wiki/Book_and_Quill#Writing) is special in that it has nothing to do with item management and has no slot groups.
+Almost all keys in this screen are provided by the original game.
+This section as a brief guide on how to use this screen, listing the keys corresponding to the functions.
+
+See also: [Keybindings](/doc/KEYBINDINGS.md#book-editing)
 
 ## Other Pages
 

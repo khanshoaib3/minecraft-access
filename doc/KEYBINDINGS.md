@@ -15,6 +15,7 @@ It's ok since the same key takes effect in different interfaces for different fu
 4. [Point of Interest](#point-of-interest)
 5. [Position Narrator](#position-narrator)
 6. [Narrator Menu](#narrator-menu)
+7. [Book Editing](#book-editing)
 
 ## Camera Controls
 
@@ -129,6 +130,21 @@ See also: [Feature Description](/doc/FEATURES.md#position-narrator)
 | hold `F4` then press `Narrator Menu Function Hot Key` | Loop selecting functions in Narrator Menu |
 
 See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Configuration](/doc/CONFIG.md#narrator-menu)
+
+## Book Editing
+
+| Single Key                                   | Default Keybinding | Description                                                                                                          |
+|----------------------------------------------|--------------------|----------------------------------------------------------------------------------------------------------------------|
+| Use Item Key (the original keybinding)       | right mouse key    | Open the book editing screen while holding a [Book and Quill](https://minecraft.fandom.com/wiki/Book_and_Quill) item |
+| Tab                                          | not re-mappable    | Select buttons                                                                                                       |
+| Space                                        | not re-mappable    | Click selected button                                                                                                |
+| Attack/Destroy Key (the original keybinding) | left mouse key     | Same as `Space` key, click selected button                                                                           |
+| Page Up                                      | not re-mappable    | Switch to previous page                                                                                              |
+| Page Down                                    | not re-mappable    | Switch to next page                                                                                                  |
+| "Done" button                                | not re-mappable    | Save your unfinished work and quit editing screen                                                                    |
+| "Sign" button                                | not re-mappable    | And enter a title for the book to make it permanently non-editable                                                   |
+
+See also: [Feature Description](/doc/FEATURES.md#book-editing)
 
 ## Other Pages
 
