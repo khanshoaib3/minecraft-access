@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.screen_reader;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.utils.OsUtils;
+import com.github.khanshoaib3.minecraft_access.utils.system.OsUtils;
 import net.minecraft.client.MinecraftClient;
 
 public class ScreenReaderController {

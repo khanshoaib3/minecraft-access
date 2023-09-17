@@ -1,11 +1,10 @@
-package com.github.khanshoaib3.minecraft_access.utils.condition;
+package com.github.khanshoaib3.minecraft_access.test_utils;
 
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class MockInterval extends Interval {
-    boolean ready = false;
+public class MockInterval extends Interval {
+    public static final MockInterval ALWAYS_READY = new MockInterval(0, 0);
+    boolean ready = true;
 
     public MockInterval(long lastRunTime, long delayInNanoTime) {
         super(lastRunTime, delayInNanoTime);
