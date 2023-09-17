@@ -24,6 +24,8 @@ If you have any suggestion on improvements existing features or about a new feat
    * [Speak held item](#speak-held-item)
    * [Biome Indicator](#biome-indicator)
    * [XP Indicator](#xp-indicator)
+   * [Speak Harvest Of Fishing](#speak-harvest-of-fishing)
+   * [Speak Chat Messages and Action Bar Updates](#speak-chat-messages-and-action-bar-updates)
 
 ## Camera Controls
 
@@ -187,7 +189,7 @@ See also: [Configuration](/doc/CONFIG.md#player-warnings)
 ## Book Editing
 
 The [Book Editing Screen](https://minecraft.fandom.com/wiki/Book_and_Quill#Writing) is special in that it has nothing to do with item management and has no slot groups.
-Almost all keys in this screen are provided by the original game.
+We've added some not re-mappable keys and narration cues to make it 100% accessible.
 This section as a brief guide on how to use this screen, listing the keys corresponding to the functions.
 
 See also: [Keybindings](/doc/KEYBINDINGS.md#book-editing)
@@ -210,6 +212,16 @@ Speak the name of the [biome](https://minecraft.fandom.com/wiki/Biome) when you'
 ### XP Indicator
 
 Speak when your [experience](https://minecraft.fandom.com/wiki/Experience) level is increased or decreased.
+
+### Speak Harvest Of Fishing
+
+In fact this feature will speak the items you pick up while you're holding the rod, whether you're actually fishing or not.
+
+### Speak Chat Messages and Action Bar Updates
+
+Speak [chat](https://minecraft.fandom.com/wiki/Chat) messages, so you won't miss your friends' conversation.
+If you feel that too many chat messages are making you feel noisy, you can turn off showing chat messages in the original `Chat Settings...` options.
+Messages updated by the [action bar](https://minecraft.fandom.com/wiki/Commands/title) are common in modded multiplayer servers, usually they are used as announcements.
 
 ## Other Pages
 
