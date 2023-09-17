@@ -38,7 +38,8 @@ public class OtherConfigsMap {
      * <p>
      * Can be translated into config item if someone needs it, but not now.
      */
-    private int multipleClickSpeedInMilliseconds = 750;
+    @SerializedName("Multiple Click Speed (in milliseconds)")
+    private int multipleClickSpeedInMilliseconds;
 
     private OtherConfigsMap() {
     }
