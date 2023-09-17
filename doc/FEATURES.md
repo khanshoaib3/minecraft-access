@@ -20,6 +20,10 @@ If you have any suggestion on improvements existing features or about a new feat
    * [Health n Hunger](#health-n-hunger)
    * [Player Warnings](#player-warnings)
 9. [Book Editing](#book-editing)
+10. [Other Small Features](#other-small-features)
+   * [Speak held item](#speak-held-item)
+   * [Biome Indicator](#biome-indicator)
+   * [XP Indicator](#xp-indicator)
 
 ## Camera Controls
 
@@ -187,6 +191,25 @@ Almost all keys in this screen are provided by the original game.
 This section as a brief guide on how to use this screen, listing the keys corresponding to the functions.
 
 See also: [Keybindings](/doc/KEYBINDINGS.md#book-editing)
+
+## Other Small Features
+
+Some small features that are automatically triggered based on your actions.
+
+See also: [Configuration](/doc/CONFIG.md#other-configurations)
+
+### Speak Held Item
+
+When you switch held items, speak the name and number of items in your hand (main hand only).
+The item [durability](https://minecraft.fandom.com/wiki/Durability) information is included.
+
+### Biome Indicator
+
+Speak the name of the [biome](https://minecraft.fandom.com/wiki/Biome) when you're entering one.
+
+### XP Indicator
+
+Speak when your [experience](https://minecraft.fandom.com/wiki/Experience) level is increased or decreased.
 
 ## Other Pages
 

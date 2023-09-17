@@ -23,7 +23,8 @@ If you want to reset the config back to default values, simply delete the config
 8. [Player Warnings](#player-warnings)
 9. [Fall Detector](#fall-detector)
 10. [Narrator Menu](#narrator-menu)
-   * [Fluid Detector](#fluid-detector)
+    * [Fluid Detector](#fluid-detector)
+11. [Other Configurations](#other-configurations)
 
 ## Camera Controls
 
@@ -33,6 +34,12 @@ If you want to reset the config back to default values, simply delete the config
 | Normal Rotating Angle   | 22.5          | The rotation angle when we press the camera moving keys                                       |
 | Modified Rotating Angle | 11.25         | The rotation angle when we press the camera moving keys while holding down the `Left Alt` key |
 | Delay (in milliseconds) | 250           | Cooldown between two feature executions                                                       |
+
+This config is under "Other Configurations" section in the config file and config menu.
+
+| Configuration           | Default Value | Description                                                              |
+|-------------------------|---------------|--------------------------------------------------------------------------|
+| Enable Facing Direction | true          | Whether to automatically speak the current direction as the camera moves |
 
 See also: [Feature Description](/doc/FEATURES.md#camera-controls), [Keybindings](/doc/KEYBINDINGS.md#camera-controls)
 
@@ -192,10 +199,25 @@ See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Keybindings](/
 
 ### Fluid Detector
 
-| Configuration           | Default Value | Description                                                                                                  |
-|-------------------------|---------------|--------------------------------------------------------------------------------------------------------------|
-| Range                   | 10            | Range of fluid to scan, be careful, the default 10 blocks will already make the game lag for a second or two |
-| Sound Volume            | 0.25          | Volume of the sound cue                                                                                      |
+| Configuration | Default Value | Description                                                                                                  |
+|---------------|---------------|--------------------------------------------------------------------------------------------------------------|
+| Range         | 10            | Range of fluid to scan, be careful, the default 10 blocks will already make the game lag for a second or two |
+| Sound Volume  | 0.25          | Volume of the sound cue                                                                                      |
+
+## Other Configurations
+
+| Configuration                    | Default Value | Description                                                                                                                                               |
+|----------------------------------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Enable Biome Indicator           | true          | Whether to enable [`Biome Indicator`](/doc/FEATURES.md#biome-indicator) feature                                                                           |
+| Enable XP Indicator              | true          | Whether to enable [`XP Indicator`](/doc/FEATURES.md#xp-indicator) feature                                                                                 |
+| Use 12 Hour Time Format          | false         | Whether to use 12 hour time format when speaking the time                                                                                                 | 
+| Speak Action Bar Updates         | true          | Whether to speak the messages updated in [action bar](https://minecraft.fandom.com/wiki/Commands/title), useful when you're in modded multiplayer servers |
+| Speak Harvest Of Fishing         | true          | Whether to speak the harvest of fishing                                                                                                                   |
+| Enable Menu Fix                  | true          | Developer config, whether to reset the cursor position when opening a menu (to prevent speak out unnecessary content)                                     |
+| Debug Mode                       | true          | Developer config, whether to print debug messages into log                                                                                                |
+| multipleClickSpeedInMilliseconds | 750           | The maximum time interval between two keystrokes in multiple click operations like "double-click", in milliseconds                                        |
+
+See also: [Feature Description](/doc/FEATURES.md#other-small-features)
 
 ## Other Pages
 
