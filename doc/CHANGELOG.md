@@ -1,5 +1,3 @@
-Please read [this issue for guide for modifying this document](https://github.com/khanshoaib3/minecraft-access/pull/155)
-
 Release v1.3.0 (2023-09)
 ---------------------------
 
@@ -16,7 +14,7 @@ Release v1.3.0 (2023-09)
 
 ### Refactoring, Documentation and Chores
 
-* Rewrite big README into [manual structure](https://github.com/khanshoaib3/minecraft-access/blob/1.20/README.md) for better readability.
+* Rewrite big README into [manual structure](https://github.com/khanshoaib3/minecraft-access/blob/1.20/README.md) for better readability. [#134](https://github.com/khanshoaib3/minecraft-access/issues/134)
 
 Release v1.2.2 (2023-09-12)
 ---------------------------
