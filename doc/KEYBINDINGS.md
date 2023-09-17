@@ -7,8 +7,6 @@ You can change these keybindings in the settings (open `Options...` then `Contro
 You may find that some features have duplicate keys, such as I, J, K, L as the arrow keys in various features.
 It's ok since the same key takes effect in different interfaces for different functions.
 
-You may want to save this page as a bookmark, it'll be something you'll consult frequently.
-
 ## Table Of Contents
 
 1. [Camera Controls](#camera-controls)

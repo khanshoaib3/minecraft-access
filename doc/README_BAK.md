@@ -9,19 +9,6 @@ Adds a key bind to narrate/speak the player's health and hunger.
 
 - Speak Player Health and Hunger Key (default: R) = Speaks the health and hunger.
 
-## Player Warnings
-
-This feature warns the player when the health, hunger or air bubble is low.
-
-### Configuration Options
-
-1. Enabled = Enables this feature.
-2. Play Sound = Enables playing a sound when the health/hunger/air reaches the threshold.
-3. Health Threshold First = The first health threshold.
-4. Health Threshold Second = The seconds health threshold.
-5. Hunger Threshold = The threshold for hunger/food.
-6. Air Threshold = The threshold for air when submerged in water.
-
 ## Biome Indicator
 
 Narrates the name of the biome when entering a different biome.

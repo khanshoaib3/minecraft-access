@@ -21,6 +21,7 @@ If you want to reset the config back to default values, simply delete the config
 6. [Fall Detector](#fall-detector)
 7. [Narrator Menu](#narrator-menu)
    * [Fluid Detector](#fluid-detector)
+8. [Player Warnings](#player-warnings)
 
 ## Camera Controls
 
@@ -159,6 +160,18 @@ See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Keybindings](/
 |-------------------------|---------------|--------------------------------------------------------------------------------------------------------------|
 | Range                   | 10            | Range of fluid to scan, be careful, the default 10 blocks will already make the game lag for a second or two |
 | Sound Volume            | 0.25          | Volume of the sound cue                                                                                      |
+## Player Warnings
+
+| Configuration           | Default Value | Description                                                 |
+|-------------------------|---------------|-------------------------------------------------------------|
+| Enabled                 | true          | Whether to enable this feature                              |
+| Play Sound              | true          | Play a sound cue when any of the status reach the threshold |
+| Health Threshold First  | 6             | The first threshold for health                              |
+| Health Threshold Second | 3             | The seconds threshold for health                            |
+| Hunger Threshold        | 3             | The threshold for hunger/food                               |
+| Air Threshold           | 3             | The threshold for air when you're submerged in water        |
+
+See also: [Feature Description](/doc/FEATURES.md#player-warnings)
 
 ## Other Pages
 

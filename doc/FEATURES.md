@@ -16,6 +16,7 @@ If you have any suggestion on improvements existing features or about a new feat
 6. [Position Narrator](#position-narrator)
 7. [Fall Detector](#fall-detector)
 8. [Narrator Menu](#narrator-menu)
+9. [Player Warnings](#player-warnings)
 
 ## Camera Controls
 
@@ -127,9 +128,9 @@ See also: [Keybindings](/doc/KEYBINDINGS.md#position-narrator)
 This feature alerts you with a sound cue when you're near the edge of a big drop.
 It will play a sound effect at every location meets the set threshold, the louder the sound, the closer you are to the edge.
 
-| Sound Cue | Description                                                                                                                        |
-|-----------|------------------------------------------------------------------------------------------------------------------------------------|
-|           | [Breaking the Anvil](https://minecraft.fandom.com/wiki/Anvil#Generic), same sound as destroying blocks, like the sound of footstep |  
+| Sound Cue                   | Description                                                                                                                        |
+|-----------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| Position with high drop-off | [Breaking the Anvil](https://minecraft.fandom.com/wiki/Anvil#Generic), same sound as destroying blocks, like the sound of footstep |
 
 See also: [Configuration](/doc/CONFIG.md#fall-detector)
 
@@ -152,6 +153,18 @@ This menu integrates a number of helper functions, and you can execute them by o
 | 0. Open Config Menu                   | Opens the Config Menu which can be used to change the configs of this mod that take effect immediately                                                                                                         |
 
 See also: [Configuration](/doc/CONFIG.md#narrator-menu), [Keybindings](/doc/KEYBINDINGS.md#narrator-menu)
+
+## Player Warnings
+
+This feature warns you when your [health](https://minecraft.fandom.com/wiki/Health), [hunger](https://minecraft.fandom.com/wiki/Hunger) and [air](https://minecraft.fandom.com/wiki/Damage#Drowning) (when you're submerged in water) below the set thresholds.
+You'll hear something like "Warning, Health is {current health}".
+If you enable the `Play Sound` config, you'll also hear a sound cue along with the warning words.
+
+| Sound Cue                  | Description                                                                           |
+|----------------------------|---------------------------------------------------------------------------------------|
+| Status reach the threshold | [Anvil landing](https://minecraft.fandom.com/wiki/Anvil#Unique), crisp metallic sound |
+
+See also: [Configuration](/doc/CONFIG.md#player-warnings)
 
 ## Other Pages
 
