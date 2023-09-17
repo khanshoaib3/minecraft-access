@@ -115,7 +115,7 @@ See also: [Feature Description](/doc/FEATURES.md#point-of-interest), [Configurat
 | `Left Alt` + `X` | Speak the player's x-axis |
 | `Left Alt` + `C` | Speak the player's y-axis |
 
-See also: [Feature Description](/doc/FEATURES.md#position-narrator)
+See also: [Feature Description](/doc/FEATURES.md#position-narrator), [Configuration](/doc/CONFIG.md#position-narrator)
 
 ## Narrator Menu
 

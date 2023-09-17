@@ -122,7 +122,7 @@ See also: [Configuration](/doc/CONFIG.md#entitiesblocks-marking), [Keybindings](
 
 Minecraft has a built-in [absolute coordinate system](https://minecraft.fandom.com/wiki/Coordinates), x-axis for the longitude, z for the latitude, and y for the elevation. This feature provides keystrokes to read out coordinates.
 
-See also: [Keybindings](/doc/KEYBINDINGS.md#position-narrator)
+See also: [Configuration](/doc/CONFIG.md#position-narrator), [Keybindings](/doc/KEYBINDINGS.md#position-narrator)
 
 ## Fall Detector
 

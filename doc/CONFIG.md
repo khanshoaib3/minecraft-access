@@ -18,10 +18,11 @@ If you want to reset the config back to default values, simply delete the config
     * [Partial Speaking](#partial-speaking)
 4. [Inventory Controls](#inventory-controls)
 5. [Point of Interest](#point-of-interest)
-6. [Fall Detector](#fall-detector)
-7. [Narrator Menu](#narrator-menu)
+6. [Position Narrator](#position-narrator) 
+7. [Fall Detector](#fall-detector)
+8. [Narrator Menu](#narrator-menu)
    * [Fluid Detector](#fluid-detector)
-8. [Player Warnings](#player-warnings)
+9. [Player Warnings](#player-warnings)
 
 ## Camera Controls
 
@@ -132,6 +133,17 @@ See also: [Feature Description](/doc/FEATURES.md#point-of-interest), [Keybinding
 |------------------------------------|---------------|-------------------------------------------------------------------------|
 | Enabled                            | true          | Whether to enable this feature                                          |
 | Suppress Other POI When Marking On | true          | When marking on, suppress scanning and notifying on pre-configured ones |
+
+## Position Narrator
+
+These configs are under "Other Configurations" section in the config file and config menu.
+
+| Configuration            | Default Value      | Description                                                                                          |
+|--------------------------|--------------------|------------------------------------------------------------------------------------------------------|
+| Enable Position Narrator | true               | Whether to enable this feature                                                                       |
+| Position Narrator Format | "{x}x, {y}y, {z}z" | The speaking format of the position, "{x}", "{y}", "{z}" represent the corresponding axis's position |
+
+See also: [Feature Description](/doc/FEATURES.md#position-narrator), [Keybindings](/doc/KEYBINDINGS.md#position-narrator)
 
 ## Fall Detector
 
