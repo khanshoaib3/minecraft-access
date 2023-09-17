@@ -1,9 +1,10 @@
 ## Pull Request Checklist
 
-(Use `~~ -[ ] ... ~~` markdown deletion syntax to cross out unrelated entries.)
+[//]: # (Use `~~ -[ ] ... ~~` markdown deletion syntax to cross out unrelated entries)
 
-- [ ] A new entry is added in `CHANGELOG.md` that describes what is changed.
+- [ ] A new fragment is added in `./doc/news` that describes what is new (refer to issue #174).
 - [ ] The unit test suite passes at the latest commit of this PR branch.
 
 ## Describe what you have changed in this PR
 
+[//]: # (See commit messages.)
