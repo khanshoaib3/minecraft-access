@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.utils;
+package com.github.khanshoaib3.minecraft_access.utils.system;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.sun.jna.Library;

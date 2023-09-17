@@ -54,6 +54,8 @@ public class POIEntities {
     }
 
     public void update() {
+        loadConfigurations();
+
         if (!enabled) return;
         if (interval != null && !interval.isReady()) return;
 
@@ -64,8 +66,6 @@ public class POIEntities {
             if (minecraftClient.player == null) return;
             if (minecraftClient.world == null) return;
             if (minecraftClient.currentScreen != null) return; //Prevent running if any screen is opened
-
-            loadConfigurations();
 
             passiveEntity = new TreeMap<>();
             hostileEntity = new TreeMap<>();
@@ -119,7 +119,7 @@ public class POIEntities {
             MainClass.infoLog("POIEntities end.");
 
         } catch (Exception e) {
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred while executing POIEntities", e);
         }
     }
 

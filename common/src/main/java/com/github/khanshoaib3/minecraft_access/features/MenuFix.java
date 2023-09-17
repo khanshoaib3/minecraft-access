@@ -1,8 +1,8 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.utils.KeyUtils;
-import com.github.khanshoaib3.minecraft_access.utils.MouseUtils;
+import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
+import com.github.khanshoaib3.minecraft_access.utils.system.MouseUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;

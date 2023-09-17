@@ -19,6 +19,9 @@
   "entrypoints": {
     "main": [
       "com.github.khanshoaib3.minecraft_access.fabric.MainClassFabric"
+    ],
+    "client": [
+      "com.github.khanshoaib3.minecraft_access.fabric.MinecraftAccessClient"
     ]
   },
   "mixins": [
