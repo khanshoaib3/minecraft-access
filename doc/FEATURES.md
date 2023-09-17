@@ -13,11 +13,13 @@ If you have any suggestion on improvements existing features or about a new feat
 5. [Point of Interest](#point-of-interest)
    * [POI Locking](#poi-locking)
    * [POI Marking](#poi-marking)
-6. [Position Narrator](#position-narrator)
-7. [Fall Detector](#fall-detector)
-8. [Narrator Menu](#narrator-menu)
-9. [Player Warnings](#player-warnings)
-10. [Book Editing](#book-editing)
+6. [Fall Detector](#fall-detector)
+7. [Narrator Menu](#narrator-menu)
+8. [Play Status](#player-status)
+   * [Position Narrator](#position-narrator)
+   * [Health n Hunger](#health-n-hunger)
+   * [Player Warnings](#player-warnings)
+9. [Book Editing](#book-editing)
 
 ## Camera Controls
 
@@ -118,12 +120,6 @@ You can set the mod to only scan and notify on marked type, suppress scanning an
 
 See also: [Configuration](/doc/CONFIG.md#entitiesblocks-marking), [Keybindings](/doc/KEYBINDINGS.md#point-of-interest)
 
-## Position Narrator
-
-Minecraft has a built-in [absolute coordinate system](https://minecraft.fandom.com/wiki/Coordinates), x-axis for the longitude, z for the latitude, and y for the elevation. This feature provides keystrokes to read out coordinates.
-
-See also: [Configuration](/doc/CONFIG.md#position-narrator), [Keybindings](/doc/KEYBINDINGS.md#position-narrator)
-
 ## Fall Detector
 
 This feature alerts you with a sound cue when you're near the edge of a big drop.
@@ -155,7 +151,23 @@ This menu integrates a number of helper functions, and you can execute them by o
 
 See also: [Configuration](/doc/CONFIG.md#narrator-menu), [Keybindings](/doc/KEYBINDINGS.md#narrator-menu)
 
-## Player Warnings
+## Player Status
+
+Some features that help you understand the status of the character you control.
+
+### Position Narrator
+
+Minecraft has a built-in [absolute coordinate system](https://minecraft.fandom.com/wiki/Coordinates), x-axis for the longitude, z for the latitude, and y for the elevation. This feature provides keystrokes to read out coordinates.
+
+See also: [Configuration](/doc/CONFIG.md#position-narrator), [Keybindings](/doc/KEYBINDINGS.md#position-narrator)
+
+### Health n Hunger
+
+This feature adds a key to speak your health and hunger.
+
+See also: [Configuration](/doc/CONFIG.md#health-n-hunger), [Keybindings](/doc/KEYBINDINGS.md#health-n-hunger)
+
+### Player Warnings
 
 This feature warns you when your [health](https://minecraft.fandom.com/wiki/Health), [hunger](https://minecraft.fandom.com/wiki/Hunger) and [air](https://minecraft.fandom.com/wiki/Damage#Drowning) (when you're submerged in water) below the set thresholds.
 You'll hear something like "Warning, Health is {current health}".

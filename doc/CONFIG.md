@@ -18,11 +18,12 @@ If you want to reset the config back to default values, simply delete the config
     * [Partial Speaking](#partial-speaking)
 4. [Inventory Controls](#inventory-controls)
 5. [Point of Interest](#point-of-interest)
-6. [Position Narrator](#position-narrator) 
-7. [Fall Detector](#fall-detector)
-8. [Narrator Menu](#narrator-menu)
+6. [Position Narrator](#position-narrator)
+7. [Health n Hunger](#health-n-hunger)
+8. [Player Warnings](#player-warnings)
+9. [Fall Detector](#fall-detector)
+10. [Narrator Menu](#narrator-menu)
    * [Fluid Detector](#fluid-detector)
-9. [Player Warnings](#player-warnings)
 
 ## Camera Controls
 
@@ -145,6 +146,29 @@ These configs are under "Other Configurations" section in the config file and co
 
 See also: [Feature Description](/doc/FEATURES.md#position-narrator), [Keybindings](/doc/KEYBINDINGS.md#position-narrator)
 
+## Health n Hunger
+
+This config is under "Other Configurations" section in the config file and config menu.
+
+| Configuration          | Default Value | Description                    |
+|------------------------|---------------|--------------------------------|
+| Enable Health n Hunger | true          | Whether to enable this feature |
+
+See also: [Feature Description](/doc/FEATURES.md#health-n-hunger), [Keybindings](/doc/KEYBINDINGS.md#health-n-hunger)
+
+## Player Warnings
+
+| Configuration           | Default Value | Description                                                 |
+|-------------------------|---------------|-------------------------------------------------------------|
+| Enabled                 | true          | Whether to enable this feature                              |
+| Play Sound              | true          | Play a sound cue when any of the status reach the threshold |
+| Health Threshold First  | 6             | The first threshold for health                              |
+| Health Threshold Second | 3             | The seconds threshold for health                            |
+| Hunger Threshold        | 3             | The threshold for hunger/food                               |
+| Air Threshold           | 3             | The threshold for air when you're submerged in water        |
+
+See also: [Feature Description](/doc/FEATURES.md#player-warnings)
+
 ## Fall Detector
 
 | Configuration           | Default Value | Description                         |
@@ -172,18 +196,6 @@ See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Keybindings](/
 |-------------------------|---------------|--------------------------------------------------------------------------------------------------------------|
 | Range                   | 10            | Range of fluid to scan, be careful, the default 10 blocks will already make the game lag for a second or two |
 | Sound Volume            | 0.25          | Volume of the sound cue                                                                                      |
-## Player Warnings
-
-| Configuration           | Default Value | Description                                                 |
-|-------------------------|---------------|-------------------------------------------------------------|
-| Enabled                 | true          | Whether to enable this feature                              |
-| Play Sound              | true          | Play a sound cue when any of the status reach the threshold |
-| Health Threshold First  | 6             | The first threshold for health                              |
-| Health Threshold Second | 3             | The seconds threshold for health                            |
-| Hunger Threshold        | 3             | The threshold for hunger/food                               |
-| Air Threshold           | 3             | The threshold for air when you're submerged in water        |
-
-See also: [Feature Description](/doc/FEATURES.md#player-warnings)
 
 ## Other Pages
 

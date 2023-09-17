@@ -14,8 +14,9 @@ It's ok since the same key takes effect in different interfaces for different fu
 3. [Inventory Controls](#inventory-controls)
 4. [Point of Interest](#point-of-interest)
 5. [Position Narrator](#position-narrator)
-6. [Narrator Menu](#narrator-menu)
-7. [Book Editing](#book-editing)
+6. [Health n Hunger](#health-n-hunger)
+7. [Narrator Menu](#narrator-menu)
+8. [Book Editing](#book-editing)
 
 ## Camera Controls
 
@@ -116,6 +117,14 @@ See also: [Feature Description](/doc/FEATURES.md#point-of-interest), [Configurat
 | `Left Alt` + `C` | Speak the player's y-axis |
 
 See also: [Feature Description](/doc/FEATURES.md#position-narrator), [Configuration](/doc/CONFIG.md#position-narrator)
+
+## Health n Hunger
+
+| Single Key                         | Default Keybinding | Description                                  |
+|------------------------------------|--------------------|----------------------------------------------|
+| Speak Player Health and Hunger Key | R                  | Speak the player's current health and hunger |
+
+See also: [Feature Description](/doc/FEATURES.md#health-n-hunger), [Configuration](/doc/CONFIG.md#health-n-hunger)
 
 ## Narrator Menu
 
