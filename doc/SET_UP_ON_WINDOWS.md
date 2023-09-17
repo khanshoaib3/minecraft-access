@@ -1,7 +1,6 @@
 # Tutorial for Windows: From Purchasing Game To Installing This Mod
 
-This tutorial tries to guide you step by step on how to set the whole thing up.
-This tutorial is for Windows system, currently there is no corresponding tutorial for Linux, and this mod hasn't ready for macOS yet.
+This tutorial tries to guide you step by step on how to set the whole thing up. This tutorial is for Windows system.
 
 If you want to chat with other this mod's users and developers, please join [our Discord server](https://discord.gg/yQjjsDqWQX).
 If you know where this tutorial could be improved, please let us know in Discord as well.
@@ -96,6 +95,8 @@ If the installation is successful, you will now have a new application called `M
 
 I'm not sure if the next steps require starting the launcher once first to get it to initialize something.
 So try starting the launcher, then start whatever version of the Java Edition Minecraft (the latest version by default).
+Something may need to be prepared every time the launcher starts, especially at the first time the whole game need to be downloaded.
+This may take a few minutes, and you can listen to the screen reader's progress bar sound effect to know the progress.
 At the first time you start it requires you to sign in with your Microsoft account.
 
 ## Choose and Install the Mod Framework
@@ -207,9 +208,17 @@ Mod developers will release mod files that are compatible with different game ve
 Please always keep this in mind when downloading mods, as incompatible mods will crash the game at startup.
 It is worth mentioning that some mods can support multiple versions with one same mod file, and generally this will be reflected in the mod file name.
 
-For downloading this mod and the dependencies of this mod, I recommend you download them at the [release page](https://github.com/khanshoaib3/minecraft-access/releases), where we'll prepare download links of suitable version of mods, under `Links` section of `Version Compatibility` section of each release.
-For Fabric, you'll need three mods: this mod as `minecraft-access`, and two dependencies, `Fabric Api` and `Architectury Api for fabric`.
-For Forge, you'll need two mods: this mod as `minecraft-access`, and `Architectury Api for forge`.
+For downloading this mod and the dependencies of this mod, I recommend you download them at the [release page](https://github.com/khanshoaib3/minecraft-access/releases), where we'll prepare download links of suitable version of mods, under `Mod Version Compatibility` section of each release.
+For Fabric, you'll need three mods: 
+
+1. this mod as `minecraft-access`, and two dependencies,
+2. `Fabric Api`
+3. `Architectury Api` for fabric
+
+For Forge, you'll need two mods:
+
+1. this mod as `minecraft-access`, and one dependency,
+2. `Architectury Api` for forge
 
 By the way, you may be interested in the mods [provided at the end of this tutorial](#quality-of-life-mods), they are good mods that our visually impaired users have found and tested through practice.
 
