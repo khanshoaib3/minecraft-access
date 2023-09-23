@@ -3,7 +3,9 @@ package com.github.khanshoaib3.minecraft_access.features.area_map_menu;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.AreaMapConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.condition.IntervalKeystroke;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
 import com.github.khanshoaib3.minecraft_access.utils.position.Orientation;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
@@ -35,15 +37,34 @@ public class AreaMapMenu {
 
     static {
         instance = new AreaMapMenu();
-
         // config keystroke conditions
         menuKey = new MenuKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapMenuKey));
-        cursorMovingKeys[0] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapNorthKey));
-        cursorMovingKeys[1] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapSouthKey));
-        cursorMovingKeys[2] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapWestKey));
-        cursorMovingKeys[3] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapEastKey));
-        cursorMovingKeys[4] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapUpKey));
-        cursorMovingKeys[5] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapDownKey));
+
+        int keyInterval = AreaMapConfigMap.getInstance().getDelayInMilliseconds();
+        cursorMovingKeys[0] = new IntervalKeystroke(
+                () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapNorthKey),
+                Keystroke.TriggeredAt.PRESSING,
+                Interval.inMilliseconds(keyInterval));
+        cursorMovingKeys[1] = new IntervalKeystroke(
+                () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapSouthKey),
+                Keystroke.TriggeredAt.PRESSING,
+                Interval.inMilliseconds(keyInterval));
+        cursorMovingKeys[2] = new IntervalKeystroke(
+                () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapWestKey),
+                Keystroke.TriggeredAt.PRESSING,
+                Interval.inMilliseconds(keyInterval));
+        cursorMovingKeys[3] = new IntervalKeystroke(
+                () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapEastKey),
+                Keystroke.TriggeredAt.PRESSING,
+                Interval.inMilliseconds(keyInterval));
+        cursorMovingKeys[4] = new IntervalKeystroke(
+                () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapUpKey),
+                Keystroke.TriggeredAt.PRESSING,
+                Interval.inMilliseconds(keyInterval));
+        cursorMovingKeys[5] = new IntervalKeystroke(
+                () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapDownKey),
+                Keystroke.TriggeredAt.PRESSING,
+                Interval.inMilliseconds(keyInterval));
 
         CURSOR_MOVING_DIRECTIONS = Set.of(
                 new Pair<>(cursorMovingKeys[0], Orientation.NORTH),
@@ -68,8 +89,7 @@ public class AreaMapMenu {
             // functional core, imperative shell, for easier testing
             execute(client);
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred in AreaMapMenu.");
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred in AreaMapMenu.", e);
         }
     }
 
@@ -99,6 +119,7 @@ public class AreaMapMenu {
     private void updateConfigs() {
         AreaMapConfigMap map = AreaMapConfigMap.getInstance();
         this.enabled = map.isEnabled();
+        Arrays.stream(cursorMovingKeys).forEach(k -> k.setInterval(Interval.inMilliseconds(map.getDelayInMilliseconds(), k.interval())));
     }
 
     private void openAreaMapMenu() {
@@ -116,7 +137,11 @@ public class AreaMapMenu {
 
     private void handleInMenuActions() {
         CURSOR_MOVING_DIRECTIONS.forEach(p -> {
-            if (p.getLeft().isCooledDownAndTriggered()) moveCursorTowards(p.getRight());
+            if (p.getLeft().isCooledDownAndTriggered()) {
+                Orientation direction = p.getRight();
+                moveCursorTowards(direction);
+                MainClass.infoLog("Cursor moving " + direction + ": " + cursor);
+            }
         });
     }
 

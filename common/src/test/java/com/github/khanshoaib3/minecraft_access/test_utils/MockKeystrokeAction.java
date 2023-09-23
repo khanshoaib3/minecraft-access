@@ -86,7 +86,6 @@ public class MockKeystrokeAction {
             } else if (this.mockTarget instanceof IntervalKeystroke) {
                 Field intervalField = KeystrokeTiming.class.getDeclaredField("interval");
                 intervalField.setAccessible(true);
-                intervalField.set(this.mockTarget, MockInterval.ALWAYS_READY);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
