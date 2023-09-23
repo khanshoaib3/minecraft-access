@@ -37,6 +37,7 @@ public class ValueEntryMenu extends BaseScreen {
         NARRATOR_MENU_VOLUME,
         NARRATOR_MENU_RANGE,
         OTHER_POSITION_NARRATOR_FORMAT,
+        AREA_MAP_DELAY
     }
 
     public enum VALUE_TYPE {
@@ -66,6 +67,7 @@ public class ValueEntryMenu extends BaseScreen {
         final FluidDetectorConfigMap fluidDetectorConfigMap = FluidDetectorConfigMap.getInstance();
         final POIBlocksConfigMap poiBlocksConfigMap = POIBlocksConfigMap.getInstance();
         final POIEntitiesConfigMap entitiesConfigMap = POIEntitiesConfigMap.getInstance();
+        final AreaMapConfigMap areaMapConfigMap = AreaMapConfigMap.getInstance();
 
         switch (configType) {
             case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE -> {
@@ -168,6 +170,10 @@ public class ValueEntryMenu extends BaseScreen {
                 this.value = OtherConfigsMap.getInstance().getPositionNarratorFormat();
                 this.valueType = VALUE_TYPE.STRING;
             }
+            case AREA_MAP_DELAY -> {
+                this.value = String.valueOf(areaMapConfigMap.getDelayInMilliseconds());
+                this.valueType = VALUE_TYPE.INT;
+            }
         }
 
         this.previousValue = this.value;
@@ -212,6 +218,7 @@ public class ValueEntryMenu extends BaseScreen {
             final FluidDetectorConfigMap fluidDetectorConfigMap = FluidDetectorConfigMap.getInstance();
             final POIBlocksConfigMap poibBlocksConfigMap = POIBlocksConfigMap.getInstance();
             final POIEntitiesConfigMap poiEntitiesConfigMap = POIEntitiesConfigMap.getInstance();
+            final AreaMapConfigMap areaMapConfigMap = AreaMapConfigMap.getInstance();
 
             switch (configType) {
                 case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE ->
@@ -250,6 +257,7 @@ public class ValueEntryMenu extends BaseScreen {
                 case NARRATOR_MENU_VOLUME -> fluidDetectorConfigMap.setVolume(Float.parseFloat(value));
                 case NARRATOR_MENU_RANGE -> fluidDetectorConfigMap.setRange(Integer.parseInt(value));
                 case OTHER_POSITION_NARRATOR_FORMAT -> OtherConfigsMap.getInstance().setPositionNarratorFormat(value);
+                case AREA_MAP_DELAY -> areaMapConfigMap.setDelayInMilliseconds(Integer.parseInt(value));
             }
 
             Config.getInstance().writeJSON();
