@@ -235,6 +235,7 @@ public class ReadCrosshair {
         BlockPos blockPos = blockInfo.pos();
         BlockState blockState = blockInfo.state();
         Block block = blockInfo.type();
+        BlockEntity blockEntity = blockInfo.entity();
 
         if (enablePartialSpeaking && partialSpeakingBlock) {
             if (checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(Registries.BLOCK.getId(block))) return;
@@ -255,7 +256,6 @@ public class ReadCrosshair {
 
         // Different special narration (toSpeak) about different type of blocks
         try {
-            BlockEntity blockEntity = clientWorld.getBlockEntity(blockPos);
             if (blockEntity != null) {
                 // The all signs tag include all types of signs, so it should also work with the hanging signs in 1.20.x
                 if (blockState.isIn(BlockTags.ALL_SIGNS)) {
