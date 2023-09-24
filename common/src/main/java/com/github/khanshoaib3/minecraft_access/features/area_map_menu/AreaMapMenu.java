@@ -35,7 +35,6 @@ public class AreaMapMenu {
     public static final Set<Pair<IntervalKeystroke, Orientation>> CURSOR_MOVING_DIRECTIONS;
 
     private boolean enabled;
-    private BlockPos cachedPlayerPos;
     private BlockPos cursor;
 
     static {
@@ -140,11 +139,6 @@ public class AreaMapMenu {
     }
 
     private void updateMapStates() {
-        BlockPos currentPlayerPos = PlayerPositionUtils.getPlayerBlockPosition().orElseThrow();
-        // player haven't moved since last menu opening, no need to update
-        if (currentPlayerPos.equals(this.cachedPlayerPos)) return;
-        this.cachedPlayerPos = currentPlayerPos;
-
         resetCursorToPlayerPosition();
     }
 

@@ -17,6 +17,7 @@ import org.apache.logging.log4j.core.util.ReflectionUtil;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -25,6 +26,7 @@ import org.junit.platform.commons.util.ReflectionUtils;
 import org.mockito.MockedStatic;
 
 import java.lang.reflect.Field;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -56,11 +58,17 @@ class AreaMapMenuTest {
 
     @Test
     void testOpenMenuWithMenuKey() {
-        openAreaMapMenu();
+        openOrCloseAreaMapMenu();
         mockClient.verifyOpeningMenuOf(AreaMapMenuGUI.class);
+        assertThat(valueOfMapCursor())
+                .as("Cursor should be reset to player position (zero)")
+                .isEqualTo(new BlockPos(Vec3i.ZERO));
     }
 
-    private void openAreaMapMenu() {
+    /**
+     * By pressing and releasing the menu key
+     */
+    private void openOrCloseAreaMapMenu() {
         menuKeyAction.press();
         oneTickForward();
         menuKeyAction.release();
@@ -73,16 +81,19 @@ class AreaMapMenuTest {
 
     @Test
     void testCloseMenuWithMenuKey() {
-        menuKeyAction.press();
-        mockClient.setScreen(AreaMapMenuGUI.class);
-        oneTickForward();
+        setAreaMapMenuAsOpened();
+        openOrCloseAreaMapMenu();
         mockClient.verifyClosingMenu();
+    }
+
+    private void setAreaMapMenuAsOpened() {
+        mockClient.setScreen(AreaMapMenuGUI.class);
     }
 
     @ParameterizedTest
     @MethodSource
-    void testCursorMoving(@NotNull Orientation directionUnderTest, int index) {
-        mockClient.setScreen(AreaMapMenuGUI.class);
+    void testCursorMovingWithKeys(@NotNull Orientation directionUnderTest, int index) {
+        setAreaMapMenuAsOpened();
         cursorMovingKeyActions.get(index).press();
         setMapCursorTo(new BlockPos(Vec3i.ZERO));
 
@@ -92,7 +103,7 @@ class AreaMapMenuTest {
         assertThat(valueOfMapCursor()).as(msg).isEqualTo(directionUnderTest.vector);
     }
 
-    static Stream<Arguments> testCursorMoving() {
+    static Stream<Arguments> testCursorMovingWithKeys() {
         return Stream.of(
                 arguments(Orientation.NORTH, 0),
                 arguments(Orientation.SOUTH, 1),
@@ -104,8 +115,8 @@ class AreaMapMenuTest {
     }
 
     @Test
-    void testCursorReset() {
-        mockClient.setScreen(AreaMapMenuGUI.class);
+    void testCursorResetWithKey() {
+        setAreaMapMenuAsOpened();
         BlockPos zeroPos = new BlockPos(Vec3i.ZERO);
         setMapCursorTo(zeroPos.offset(Direction.NORTH));
         cursorResetKeyAction.press();
@@ -115,6 +126,28 @@ class AreaMapMenuTest {
         assertThat(valueOfMapCursor())
                 .as("Cursor should be reset to player position (zero)")
                 .isEqualTo(zeroPos);
+    }
+
+    @Test
+    @DisplayName("test cursor reset when player position changed when reopen the menu")
+    void testCursorResetWhenReopenTheMenu() {
+        // open the menu, set cursor from null to 0,0,0
+        openOrCloseAreaMapMenu();
+        assertThat(valueOfMapCursor())
+                .as("Cursor should be reset to player position (zero)")
+                .isEqualTo(new BlockPos(Vec3i.ZERO));
+
+        // close the menu
+        openOrCloseAreaMapMenu();
+        BlockPos newPlayerPosition = new BlockPos(new Vec3i(1, 1, 1));
+        mockPlayerPositionUtils.when(PlayerPositionUtils::getPlayerBlockPosition).thenReturn(Optional.of(newPlayerPosition));
+
+        // open the menu again
+        openOrCloseAreaMapMenu();
+
+        assertThat(valueOfMapCursor())
+                .as("Cursor should be reset to player position (1,1,1)")
+                .isEqualTo(newPlayerPosition);
     }
 
     private static void setMapCursorTo(BlockPos pos) {
