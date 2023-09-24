@@ -16,7 +16,10 @@ import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 import java.util.stream.Stream;
 
 /**
@@ -32,50 +35,30 @@ public class AreaMapMenu {
     private static final MenuKeystroke menuKey;
     private static final IntervalKeystroke[] cursorMovingKeys = new IntervalKeystroke[6];
     private static final IntervalKeystroke cursorResetKey;
-    public static final Set<Pair<IntervalKeystroke, Orientation>> CURSOR_MOVING_DIRECTIONS;
+    public static final Set<Pair<IntervalKeystroke, Orientation>> CURSOR_MOVING_DIRECTIONS = new HashSet<>(6);
 
     private boolean enabled;
     private BlockPos cursor;
 
     static {
         instance = new AreaMapMenu();
-        // config keystroke conditions
+
         menuKey = new MenuKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapMenuKey));
 
         int keyInterval = AreaMapConfigMap.getInstance().getDelayInMilliseconds();
-        cursorMovingKeys[0] = new IntervalKeystroke(
-                () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapNorthKey),
-                Keystroke.TriggeredAt.PRESSING,
-                Interval.inMilliseconds(keyInterval));
-        cursorMovingKeys[1] = new IntervalKeystroke(
-                () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapSouthKey),
-                Keystroke.TriggeredAt.PRESSING,
-                Interval.inMilliseconds(keyInterval));
-        cursorMovingKeys[2] = new IntervalKeystroke(
-                () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapWestKey),
-                Keystroke.TriggeredAt.PRESSING,
-                Interval.inMilliseconds(keyInterval));
-        cursorMovingKeys[3] = new IntervalKeystroke(
-                () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapEastKey),
-                Keystroke.TriggeredAt.PRESSING,
-                Interval.inMilliseconds(keyInterval));
-        cursorMovingKeys[4] = new IntervalKeystroke(
-                () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapUpKey),
-                Keystroke.TriggeredAt.PRESSING,
-                Interval.inMilliseconds(keyInterval));
-        cursorMovingKeys[5] = new IntervalKeystroke(
-                () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapDownKey),
-                Keystroke.TriggeredAt.PRESSING,
-                Interval.inMilliseconds(keyInterval));
-
-        CURSOR_MOVING_DIRECTIONS = Set.of(
-                new Pair<>(cursorMovingKeys[0], Orientation.NORTH),
-                new Pair<>(cursorMovingKeys[1], Orientation.SOUTH),
-                new Pair<>(cursorMovingKeys[2], Orientation.WEST),
-                new Pair<>(cursorMovingKeys[3], Orientation.EAST),
-                new Pair<>(cursorMovingKeys[4], Orientation.UP),
-                new Pair<>(cursorMovingKeys[5], Orientation.DOWN)
-        );
+        int cursorMovingKeyIndex = 0;
+        for (var p : List.<Pair<Orientation, BooleanSupplier>>of(
+                new Pair<>(Orientation.NORTH, () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapNorthKey)),
+                new Pair<>(Orientation.SOUTH, () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapSouthKey)),
+                new Pair<>(Orientation.WEST, () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapWestKey)),
+                new Pair<>(Orientation.EAST, () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapEastKey)),
+                new Pair<>(Orientation.UP, () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapUpKey)),
+                new Pair<>(Orientation.DOWN, () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapDownKey))
+        )) {
+            cursorMovingKeys[cursorMovingKeyIndex] = new IntervalKeystroke(p.getRight(), Keystroke.TriggeredAt.PRESSING, Interval.inMilliseconds(keyInterval));
+            CURSOR_MOVING_DIRECTIONS.add(new Pair<>(cursorMovingKeys[cursorMovingKeyIndex], p.getLeft()));
+            cursorMovingKeyIndex += 1;
+        }
 
         cursorResetKey = new IntervalKeystroke(
                 () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapCursorResetKey),
