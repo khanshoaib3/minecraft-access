@@ -219,14 +219,20 @@ public class ReadCrosshair {
             Direction d = hit.getSide();
             side = I18n.translate("minecraft_access.direction." + d.getName());
         }
-        describeBlock(hit.getBlockPos(), side);
+        Pair<String, String> toSpeakAndCurrentQuery = describeBlock(hit.getBlockPos(), side);
+        speakIfFocusChanged(toSpeakAndCurrentQuery.getRight(), toSpeakAndCurrentQuery.getLeft());
     }
 
-    public void describeBlock(BlockPos pos, String side) {
+    /**
+     * @param pos  block position (in the client world)
+     * @param side if side is provided, then the invoker is ReadCrosshair
+     * @return toSpeak, currentQuery
+     */
+    public Pair<String, String> describeBlock(BlockPos pos, String side) {
         MinecraftClient client = MinecraftClient.getInstance();
-        if (Objects.isNull(client)) return;
+        if (Objects.isNull(client)) return new Pair<>("", "");
         ClientWorld clientWorld = client.world;
-        if (clientWorld == null) return;
+        if (clientWorld == null) return new Pair<>("", "");
 
         // Since Minecraft uses flyweight pattern for blocks and entities,
         // All same type of blocks share one singleton Block instance,
@@ -238,7 +244,7 @@ public class ReadCrosshair {
         BlockEntity blockEntity = blockInfo.entity();
 
         if (enablePartialSpeaking && partialSpeakingBlock) {
-            if (checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(Registries.BLOCK.getId(block))) return;
+            if (checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(Registries.BLOCK.getId(block))) return new Pair<>("", "");
         }
 
         // Difference between toSpeak and currentQuery:
@@ -301,7 +307,7 @@ public class ReadCrosshair {
             MainClass.errorLog("An error occurred while adding narration text for special blocks", e);
         }
 
-        speakIfFocusChanged(currentQuery, toSpeak);
+        return new Pair<>(toSpeak, currentQuery);
     }
 
     private static String getSignInfo(SignBlockEntity signEntity, ClientPlayerEntity player, String toSpeak) {

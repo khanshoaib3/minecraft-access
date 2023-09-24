@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.features.area_map_menu;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.AreaMapConfigMap;
+import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.condition.IntervalKeystroke;
@@ -143,6 +144,10 @@ public class AreaMapMenu {
     private void moveCursorTowards(Orientation direction) {
         this.cursor = this.cursor.add(direction.vector);
         MainClass.infoLog("Cursor moves " + direction + ": " + cursor);
+        Pair<String, String> blockDescription = ReadCrosshair.getInstance().describeBlock(this.cursor, "");
+        MainClass.speakWithNarrator(blockDescription.getLeft(), true);
+        // TODO Alt + speak position key
+//        MainClass.speakWithNarrator(blockDescription.getLeft() + I18n.translate("minecraft_access.other.words_connection") + PlayerPositionUtils.getI18NPosition(), true);
     }
 
     private void resetCursorToPlayerPosition() {
