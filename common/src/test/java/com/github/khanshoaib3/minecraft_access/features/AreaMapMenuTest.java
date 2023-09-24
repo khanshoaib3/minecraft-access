@@ -11,6 +11,7 @@ import com.github.khanshoaib3.minecraft_access.test_utils.annotations.MockedStat
 import com.github.khanshoaib3.minecraft_access.utils.position.Orientation;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import org.apache.logging.log4j.core.util.ReflectionUtil;
 import org.jetbrains.annotations.NotNull;
@@ -37,17 +38,20 @@ class AreaMapMenuTest {
     MockedStatic<PlayerPositionUtils> mockPlayerPositionUtils;
     static MockKeystrokeAction menuKeyAction;
     static MockKeystrokeActionArray cursorMovingKeyActions;
+    static MockKeystrokeAction cursorResetKeyAction;
 
     @BeforeAll
     static void beforeAll() {
         menuKeyAction = MockKeystrokeAction.mock(AreaMapMenu.class, "menuKey");
         cursorMovingKeyActions = new MockKeystrokeActionArray(AreaMapMenu.class, "cursorMovingKeys");
+        cursorResetKeyAction = MockKeystrokeAction.mock(AreaMapMenu.class, "cursorResetKey");
     }
 
     @BeforeEach
     void setUp() {
         menuKeyAction.resetTargetInnerState();
         cursorMovingKeyActions.resetTargetInnerState();
+        cursorResetKeyAction.resetTargetInnerState();
     }
 
     @Test
@@ -79,9 +83,8 @@ class AreaMapMenuTest {
     @MethodSource
     void testCursorMoving(@NotNull Orientation directionUnderTest, int index) {
         mockClient.setScreen(AreaMapMenuGUI.class);
-        menuKeyAction.release();
         cursorMovingKeyActions.get(index).press();
-        resetMapCursorToZeroPosition();
+        setMapCursorTo(new BlockPos(Vec3i.ZERO));
 
         oneTickForward();
 
@@ -100,11 +103,25 @@ class AreaMapMenuTest {
         );
     }
 
-    private void resetMapCursorToZeroPosition() {
+    @Test
+    void testCursorReset() {
+        mockClient.setScreen(AreaMapMenuGUI.class);
+        BlockPos zeroPos = new BlockPos(Vec3i.ZERO);
+        setMapCursorTo(zeroPos.offset(Direction.NORTH));
+        cursorResetKeyAction.press();
+
+        oneTickForward();
+
+        assertThat(valueOfMapCursor())
+                .as("Cursor should be reset to zero position")
+                .isEqualTo(zeroPos);
+    }
+
+    private static void setMapCursorTo(BlockPos pos) {
         try {
             Field cursorField = AreaMapMenu.class.getDeclaredField("cursor");
             cursorField.setAccessible(true);
-            ReflectionUtil.setFieldValue(cursorField, AreaMapMenu.getInstance(), new BlockPos(Vec3i.ZERO));
+            ReflectionUtil.setFieldValue(cursorField, AreaMapMenu.getInstance(), pos);
         } catch (NoSuchFieldException e) {
             throw new RuntimeException(e);
         }

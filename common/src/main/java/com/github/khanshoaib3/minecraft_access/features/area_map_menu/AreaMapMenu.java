@@ -16,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 
 import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * This menu gives user a bird eye view of surrounding area.
@@ -29,6 +30,7 @@ public class AreaMapMenu {
 
     private static final MenuKeystroke menuKey;
     private static final IntervalKeystroke[] cursorMovingKeys = new IntervalKeystroke[6];
+    private static final IntervalKeystroke cursorResetKey;
     public static final Set<Pair<IntervalKeystroke, Orientation>> CURSOR_MOVING_DIRECTIONS;
 
     private boolean enabled;
@@ -74,6 +76,11 @@ public class AreaMapMenu {
                 new Pair<>(cursorMovingKeys[4], Orientation.UP),
                 new Pair<>(cursorMovingKeys[5], Orientation.DOWN)
         );
+
+        cursorResetKey = new IntervalKeystroke(
+                () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapCursorResetKey),
+                Keystroke.TriggeredAt.PRESSING,
+                Interval.inMilliseconds(keyInterval));
     }
 
     public static AreaMapMenu getInstance() {
@@ -119,7 +126,12 @@ public class AreaMapMenu {
     private void updateConfigs() {
         AreaMapConfigMap map = AreaMapConfigMap.getInstance();
         this.enabled = map.isEnabled();
-        Arrays.stream(cursorMovingKeys).forEach(k -> k.setInterval(Interval.inMilliseconds(map.getDelayInMilliseconds(), k.interval())));
+
+        // set key intervals
+        Stream.of(Arrays.stream(cursorMovingKeys),
+                        Stream.of(cursorResetKey))
+                .flatMap(i -> i)
+                .forEach(k -> k.setInterval(Interval.inMilliseconds(map.getDelayInMilliseconds(), k.interval())));
     }
 
     private void openAreaMapMenu() {
@@ -136,13 +148,21 @@ public class AreaMapMenu {
     }
 
     private void handleInMenuActions() {
-        CURSOR_MOVING_DIRECTIONS.forEach(p -> {
+        // move cursor
+        for (Pair<IntervalKeystroke, Orientation> p : CURSOR_MOVING_DIRECTIONS) {
             if (p.getLeft().isCooledDownAndTriggered()) {
                 Orientation direction = p.getRight();
                 moveCursorTowards(direction);
                 MainClass.infoLog("Cursor moving " + direction + ": " + cursor);
+                return;
             }
-        });
+        }
+
+        // reset cursor
+        if (cursorResetKey.isCooledDownAndTriggered()) {
+            cursor = PlayerPositionUtils.getPlayerBlockPosition().orElseThrow();
+            MainClass.infoLog("Cursor reset to:" + cursor);
+        }
     }
 
     private void moveCursorTowards(Orientation direction) {

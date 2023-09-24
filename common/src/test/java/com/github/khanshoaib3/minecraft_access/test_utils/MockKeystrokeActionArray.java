@@ -35,9 +35,6 @@ public class MockKeystrokeActionArray {
      * Reset target key array field's elements inner states to avoid test cases from affecting each other.
      */
     public void resetTargetInnerState() {
-        Arrays.stream(actions).forEach(a -> {
-            a.release();
-            a.resetTargetInnerState();
-        });
+        Arrays.stream(actions).forEach(MockKeystrokeAction::resetTargetInnerState);
     }
 }

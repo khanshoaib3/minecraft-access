@@ -78,6 +78,7 @@ public class MockKeystrokeAction {
      * Reset target field's inner state to avoid test cases from affecting each other.
      */
     public void resetTargetInnerState() {
+        this.pressed = false;
         try {
             if (this.mockTarget instanceof MenuKeystroke) {
                 Field justClosed = MenuKeystroke.class.getDeclaredField("isMenuJustClosed");
