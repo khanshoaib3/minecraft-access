@@ -11,6 +11,7 @@ import com.github.khanshoaib3.minecraft_access.utils.position.Orientation;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 
@@ -144,7 +145,7 @@ public class AreaMapMenu {
         if (currentPlayerPos.equals(this.cachedPlayerPos)) return;
         this.cachedPlayerPos = currentPlayerPos;
 
-        this.cursor = currentPlayerPos;
+        resetCursorToPlayerPosition();
     }
 
     private void handleInMenuActions() {
@@ -153,19 +154,22 @@ public class AreaMapMenu {
             if (p.getLeft().isCooledDownAndTriggered()) {
                 Orientation direction = p.getRight();
                 moveCursorTowards(direction);
-                MainClass.infoLog("Cursor moving " + direction + ": " + cursor);
                 return;
             }
         }
 
-        // reset cursor
         if (cursorResetKey.isCooledDownAndTriggered()) {
-            cursor = PlayerPositionUtils.getPlayerBlockPosition().orElseThrow();
-            MainClass.infoLog("Cursor reset to:" + cursor);
+            resetCursorToPlayerPosition();
         }
     }
 
     private void moveCursorTowards(Orientation direction) {
         this.cursor = this.cursor.add(direction.vector);
+        MainClass.infoLog("Cursor moves " + direction + ": " + cursor);
+    }
+
+    private void resetCursorToPlayerPosition() {
+        cursor = PlayerPositionUtils.getPlayerBlockPosition().orElseThrow();
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.cursor_reset", PlayerPositionUtils.getI18NPosition()), true);
     }
 }

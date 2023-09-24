@@ -113,7 +113,7 @@ class AreaMapMenuTest {
         oneTickForward();
 
         assertThat(valueOfMapCursor())
-                .as("Cursor should be reset to zero position")
+                .as("Cursor should be reset to player position (zero)")
                 .isEqualTo(zeroPos);
     }
 
