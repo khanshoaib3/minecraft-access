@@ -49,6 +49,8 @@ import java.util.stream.Collectors;
  * It also gives feedback when a block is powered by a redstone signal or when a door is open similar cases.
  */
 public class ReadCrosshair {
+    private static ReadCrosshair instance;
+
     /**
      * One redstone wire must be connected with another wire at one of three positions: [side, side down, side up],
      * since we are checking if the wire is connecting with ALL directions, only take one sample position (x+1) is enough.
@@ -56,6 +58,7 @@ public class ReadCrosshair {
     public static final Set<Vec3i> THREE_SAMPLE_POSITIONS = Set.of(new Vec3i(1, 0, 0), new Vec3i(1, -1, 0), new Vec3i(1, 1, 0));
     public static final Predicate<BlockState> IS_REDSTONE_WIRE = (BlockState state) -> state.getBlock() instanceof RedstoneWireBlock;
 
+    private boolean enabled;
     private String previousQuery;
     private boolean speakSide;
     private boolean speakingConsecutiveBlocks;
@@ -67,9 +70,16 @@ public class ReadCrosshair {
     private boolean partialSpeakingBlock;
     private boolean partialSpeakingEntity;
 
-    public ReadCrosshair() {
+    private ReadCrosshair() {
         previousQuery = "";
         loadConfigurations();
+    }
+
+    public static ReadCrosshair getInstance() {
+        if (Objects.isNull(instance)) {
+            instance = new ReadCrosshair();
+        }
+        return instance;
     }
 
     public String getPreviousQuery() {
@@ -88,6 +98,7 @@ public class ReadCrosshair {
             if (minecraftClient.currentScreen != null) return;
 
             loadConfigurations();
+            if (!enabled) return;
 
             Entity entity = minecraftClient.getCameraEntity();
             if (entity == null) return;
@@ -120,6 +131,7 @@ public class ReadCrosshair {
         ReadCrosshairConfigMap rcMap = ReadCrosshairConfigMap.getInstance();
         RCPartialSpeakingConfigMap rcpMap = RCPartialSpeakingConfigMap.getInstance();
 
+        this.enabled = rcMap.isEnabled();
         this.speakSide = rcMap.isSpeakSide();
         // affirmation for easier use
         this.speakingConsecutiveBlocks = !rcMap.isDisableSpeakingConsecutiveBlocks();
