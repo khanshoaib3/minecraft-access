@@ -21,7 +21,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
-import java.util.stream.Stream;
 
 /**
  * This menu gives user a bird eye view of surrounding area.
@@ -35,11 +34,13 @@ public class AreaMapMenu {
 
     private static final MenuKeystroke menuKey;
     private static final IntervalKeystroke[] cursorMovingKeys = new IntervalKeystroke[6];
-    private static final IntervalKeystroke cursorResetKey;
+    private static final Keystroke cursorResetKey;
+    private static final Keystroke mapLockKey;
     public static final Set<Pair<IntervalKeystroke, Orientation>> CURSOR_MOVING_DIRECTIONS = new HashSet<>(6);
 
     private boolean enabled;
     private BlockPos cursor;
+    private boolean mapLocked = false;
 
     static {
         instance = new AreaMapMenu();
@@ -61,10 +62,13 @@ public class AreaMapMenu {
             cursorMovingKeyIndex += 1;
         }
 
-        cursorResetKey = new IntervalKeystroke(
+        cursorResetKey = new Keystroke(
                 () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapCursorResetKey),
-                Keystroke.TriggeredAt.PRESSING,
-                Interval.inMilliseconds(keyInterval));
+                Keystroke.TriggeredAt.PRESSING);
+
+        mapLockKey = new Keystroke(
+                () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapMapLockKey),
+                Keystroke.TriggeredAt.PRESSING);
     }
 
     public static AreaMapMenu getInstance() {
@@ -91,7 +95,7 @@ public class AreaMapMenu {
         if (client.currentScreen == null) {
             if (menuKey.canOpenMenu()) {
                 openAreaMapMenu();
-                updateMapStates();
+                updateMapStatesOnMenuOpening();
             }
         } else {
             if (client.currentScreen instanceof AreaMapMenuGUI) {
@@ -104,6 +108,8 @@ public class AreaMapMenu {
         }
 
         menuKey.updateStateForNextTick();
+        cursorResetKey.updateStateForNextTick();
+        mapLockKey.updateStateForNextTick();
         Arrays.stream(cursorMovingKeys).forEach(IntervalKeystroke::updateStateForNextTick);
     }
 
@@ -112,17 +118,15 @@ public class AreaMapMenu {
         this.enabled = map.isEnabled();
 
         // set key intervals
-        Stream.of(Arrays.stream(cursorMovingKeys),
-                        Stream.of(cursorResetKey))
-                .flatMap(i -> i)
-                .forEach(k -> k.setInterval(Interval.inMilliseconds(map.getDelayInMilliseconds(), k.interval())));
+        Arrays.stream(cursorMovingKeys).forEach(k -> k.setInterval(Interval.inMilliseconds(map.getDelayInMilliseconds(), k.interval())));
     }
 
     private void openAreaMapMenu() {
         MinecraftClient.getInstance().setScreen(new AreaMapMenuGUI());
     }
 
-    private void updateMapStates() {
+    private void updateMapStatesOnMenuOpening() {
+        if (mapLocked) return;
         resetCursorToPlayerPosition();
     }
 
@@ -136,8 +140,18 @@ public class AreaMapMenu {
             }
         }
 
-        if (cursorResetKey.isCooledDownAndTriggered()) {
+        if (cursorResetKey.canBeTriggered()) {
             resetCursorToPlayerPosition();
+            return;
+        }
+
+        if (mapLockKey.canBeTriggered()) {
+            mapLocked = !mapLocked;
+            if (mapLocked) {
+                MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.map_lock"), true);
+            } else {
+                MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.map_unlock"), true);
+            }
         }
     }
 
