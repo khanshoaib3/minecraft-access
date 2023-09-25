@@ -36,10 +36,12 @@ public class AreaMapMenu {
     private static final MenuKeystroke menuKey;
     private static final IntervalKeystroke[] cursorMovingKeys = new IntervalKeystroke[6];
     private static final IntervalKeystroke cursorResetKey;
+    private static final IntervalKeystroke mapLockKey;
     public static final Set<Pair<IntervalKeystroke, Orientation>> CURSOR_MOVING_DIRECTIONS = new HashSet<>(6);
 
     private boolean enabled;
     private BlockPos cursor;
+    private boolean mapLocked;
 
     static {
         instance = new AreaMapMenu();
@@ -63,6 +65,11 @@ public class AreaMapMenu {
 
         cursorResetKey = new IntervalKeystroke(
                 () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapCursorResetKey),
+                Keystroke.TriggeredAt.PRESSING,
+                Interval.inMilliseconds(keyInterval));
+
+        mapLockKey = new IntervalKeystroke(
+                () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapMapLockKey),
                 Keystroke.TriggeredAt.PRESSING,
                 Interval.inMilliseconds(keyInterval));
     }
@@ -113,7 +120,7 @@ public class AreaMapMenu {
 
         // set key intervals
         Stream.of(Arrays.stream(cursorMovingKeys),
-                        Stream.of(cursorResetKey))
+                        Stream.of(cursorResetKey, mapLockKey))
                 .flatMap(i -> i)
                 .forEach(k -> k.setInterval(Interval.inMilliseconds(map.getDelayInMilliseconds(), k.interval())));
     }

@@ -56,6 +56,7 @@ public class KeyBindingsHandler {
     public KeyBinding areaMapUpKey;
     public KeyBinding areaMapDownKey;
     public KeyBinding areaMapCursorResetKey;
+    public KeyBinding areaMapMapLockKey;
 
     private static final String OTHER_GROUP_TRANSLATION_KEY = "minecraft_access.keys.other.group_name";
     private static final String CAMERA_CONTROLS_TRANSLATION_KEY = "minecraft_access.keys.camera_controls.group_name";
@@ -392,6 +393,13 @@ public class KeyBindingsHandler {
                 GLFW.GLFW_KEY_R,
                 AREA_MAP_GROUP_KEY
         );
+
+        areaMapMapLockKey = new KeyBinding(
+                "minecraft_access.keys.area_map.map_lock_key_name",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_Y,
+                AREA_MAP_GROUP_KEY
+        );
     }
 
     /**
@@ -487,6 +495,7 @@ public class KeyBindingsHandler {
 //                        areaMapUpKey,
 //                        areaMapDownKey,
 //                        areaMapResetCursorKey,
+//                        areaMapMapLockKey,
                         healthNHungerNarrationKey,
                         lockingHandlerKey,
                         positionNarrationKey,
