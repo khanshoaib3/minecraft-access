@@ -2,6 +2,9 @@ package com.github.khanshoaib3.minecraft_access.utils.condition;
 
 import java.util.function.BooleanSupplier;
 
+/**
+ * For keys that you can keep pressing and the function executes at intervals.
+ */
 public class IntervalKeystroke extends KeystrokeTiming {
     /**
      * @param condition Expression that checking if the key (combination) is pressed now.

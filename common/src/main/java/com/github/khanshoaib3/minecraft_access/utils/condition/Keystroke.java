@@ -6,6 +6,7 @@ import java.util.function.Function;
 
 /**
  * A state machine that helps with complex keystroke condition checking.
+ * For keys that only execute once until released and pressed again.
  */
 public class Keystroke {
     /**

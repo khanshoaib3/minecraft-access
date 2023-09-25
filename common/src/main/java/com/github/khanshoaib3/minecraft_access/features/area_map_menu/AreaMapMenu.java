@@ -35,8 +35,8 @@ public class AreaMapMenu {
 
     private static final MenuKeystroke menuKey;
     private static final IntervalKeystroke[] cursorMovingKeys = new IntervalKeystroke[6];
-    private static final IntervalKeystroke cursorResetKey;
-    private static final IntervalKeystroke mapLockKey;
+    private static final Keystroke cursorResetKey;
+    private static final Keystroke mapLockKey;
     public static final Set<Pair<IntervalKeystroke, Orientation>> CURSOR_MOVING_DIRECTIONS = new HashSet<>(6);
 
     private boolean enabled;
@@ -63,15 +63,13 @@ public class AreaMapMenu {
             cursorMovingKeyIndex += 1;
         }
 
-        cursorResetKey = new IntervalKeystroke(
+        cursorResetKey = new Keystroke(
                 () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapCursorResetKey),
-                Keystroke.TriggeredAt.PRESSING,
-                Interval.inMilliseconds(keyInterval));
+                Keystroke.TriggeredAt.PRESSING);
 
-        mapLockKey = new IntervalKeystroke(
+        mapLockKey = new Keystroke(
                 () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapMapLockKey),
-                Keystroke.TriggeredAt.PRESSING,
-                Interval.inMilliseconds(keyInterval));
+                Keystroke.TriggeredAt.PRESSING);
     }
 
     public static AreaMapMenu getInstance() {
@@ -111,6 +109,8 @@ public class AreaMapMenu {
         }
 
         menuKey.updateStateForNextTick();
+        cursorResetKey.updateStateForNextTick();
+        mapLockKey.updateStateForNextTick();
         Arrays.stream(cursorMovingKeys).forEach(IntervalKeystroke::updateStateForNextTick);
     }
 
@@ -119,10 +119,7 @@ public class AreaMapMenu {
         this.enabled = map.isEnabled();
 
         // set key intervals
-        Stream.of(Arrays.stream(cursorMovingKeys),
-                        Stream.of(cursorResetKey, mapLockKey))
-                .flatMap(i -> i)
-                .forEach(k -> k.setInterval(Interval.inMilliseconds(map.getDelayInMilliseconds(), k.interval())));
+        Arrays.stream(cursorMovingKeys).forEach(k -> k.setInterval(Interval.inMilliseconds(map.getDelayInMilliseconds(), k.interval())));
     }
 
     private void openAreaMapMenu() {
@@ -143,7 +140,7 @@ public class AreaMapMenu {
             }
         }
 
-        if (cursorResetKey.isCooledDownAndTriggered()) {
+        if (cursorResetKey.canBeTriggered()) {
             resetCursorToPlayerPosition();
         }
     }

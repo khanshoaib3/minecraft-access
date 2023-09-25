@@ -27,6 +27,7 @@ import org.mockito.MockedStatic;
 
 import java.lang.reflect.Field;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,19 +42,20 @@ class AreaMapMenuTest {
     static MockKeystrokeAction menuKeyAction;
     static MockKeystrokeActionArray cursorMovingKeyActions;
     static MockKeystrokeAction cursorResetKeyAction;
+    static MockKeystrokeAction mapLockKeyAction;
 
     @BeforeAll
     static void beforeAll() {
         menuKeyAction = MockKeystrokeAction.mock(AreaMapMenu.class, "menuKey");
         cursorMovingKeyActions = new MockKeystrokeActionArray(AreaMapMenu.class, "cursorMovingKeys");
         cursorResetKeyAction = MockKeystrokeAction.mock(AreaMapMenu.class, "cursorResetKey");
+        mapLockKeyAction = MockKeystrokeAction.mock(AreaMapMenu.class, "mapLockKey");
     }
 
     @BeforeEach
     void setUp() {
-        menuKeyAction.resetTargetInnerState();
+        Set.of(menuKeyAction, cursorResetKeyAction, mapLockKeyAction).forEach(MockKeystrokeAction::resetTargetInnerState);
         cursorMovingKeyActions.resetTargetInnerState();
-        cursorResetKeyAction.resetTargetInnerState();
     }
 
     @Test
