@@ -71,9 +71,13 @@ class AreaMapMenuTest {
      * By pressing and releasing the menu key
      */
     private void openOrCloseAreaMapMenu() {
-        menuKeyAction.press();
+        pressAndRelease(menuKeyAction);
+    }
+
+    private void pressAndRelease(MockKeystrokeAction keystrokeAction) {
+        keystrokeAction.press();
         oneTickForward();
-        menuKeyAction.release();
+        keystrokeAction.release();
         oneTickForward();
     }
 
@@ -96,10 +100,8 @@ class AreaMapMenuTest {
     @MethodSource
     void testCursorMovingWithKeys(@NotNull Orientation directionUnderTest, int index) {
         setAreaMapMenuAsOpened();
-        cursorMovingKeyActions.get(index).press();
         setMapCursorTo(new BlockPos(Vec3i.ZERO));
-
-        oneTickForward();
+        pressAndRelease(cursorMovingKeyActions.get(index));
 
         String msg = "Cursor should be same as vector of " + directionUnderTest + " since init position is zero";
         assertThat(valueOfMapCursor()).as(msg).isEqualTo(directionUnderTest.vector);
@@ -121,9 +123,7 @@ class AreaMapMenuTest {
         setAreaMapMenuAsOpened();
         BlockPos zeroPos = new BlockPos(Vec3i.ZERO);
         setMapCursorTo(zeroPos.offset(Direction.NORTH));
-        cursorResetKeyAction.press();
-
-        oneTickForward();
+        pressAndRelease(cursorResetKeyAction);
 
         assertThat(valueOfMapCursor())
                 .as("Cursor should be reset to player position (zero)")
@@ -141,6 +141,8 @@ class AreaMapMenuTest {
 
         // close the menu
         openOrCloseAreaMapMenu();
+
+        // mock player moving
         BlockPos newPlayerPosition = new BlockPos(new Vec3i(1, 1, 1));
         mockPlayerPositionUtils.when(PlayerPositionUtils::getPlayerBlockPosition).thenReturn(Optional.of(newPlayerPosition));
 
@@ -149,6 +151,41 @@ class AreaMapMenuTest {
 
         assertThat(valueOfMapCursor())
                 .as("Cursor should be reset to player position (1,1,1)")
+                .isEqualTo(newPlayerPosition);
+    }
+
+    @Test
+    void testMapLockingUnlockingWithKey() {
+        // open the menu, set cursor from null to 0,0,0
+        openOrCloseAreaMapMenu();
+        assertThat(valueOfMapCursor())
+                .as("Cursor should be reset to player position (zero)")
+                .isEqualTo(new BlockPos(Vec3i.ZERO));
+
+        // lock the map
+        pressAndRelease(mapLockKeyAction);
+
+        // close the menu
+        openOrCloseAreaMapMenu();
+
+        // mock player moving
+        BlockPos newPlayerPosition = new BlockPos(new Vec3i(1, 1, 1));
+        mockPlayerPositionUtils.when(PlayerPositionUtils::getPlayerBlockPosition).thenReturn(Optional.of(newPlayerPosition));
+
+        // open the menu
+        openOrCloseAreaMapMenu();
+        assertThat(valueOfMapCursor())
+                .as("Cursor should still be (0,0,0) since map is locked")
+                .isEqualTo(newPlayerPosition);
+
+        // unlock the map
+        pressAndRelease(mapLockKeyAction);
+
+        // close the menu and open it again
+        openOrCloseAreaMapMenu();
+        openOrCloseAreaMapMenu();
+        assertThat(valueOfMapCursor())
+                .as("Cursor should be reset to player position (1,1,1) since map is unlocked")
                 .isEqualTo(newPlayerPosition);
     }
 

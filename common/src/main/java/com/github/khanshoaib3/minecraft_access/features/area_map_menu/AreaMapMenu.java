@@ -21,7 +21,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
-import java.util.stream.Stream;
 
 /**
  * This menu gives user a bird eye view of surrounding area.
@@ -41,7 +40,7 @@ public class AreaMapMenu {
 
     private boolean enabled;
     private BlockPos cursor;
-    private boolean mapLocked;
+    private boolean mapLocked = false;
 
     static {
         instance = new AreaMapMenu();
@@ -96,7 +95,7 @@ public class AreaMapMenu {
         if (client.currentScreen == null) {
             if (menuKey.canOpenMenu()) {
                 openAreaMapMenu();
-                updateMapStates();
+                updateMapStatesOnMenuOpening();
             }
         } else {
             if (client.currentScreen instanceof AreaMapMenuGUI) {
@@ -126,7 +125,8 @@ public class AreaMapMenu {
         MinecraftClient.getInstance().setScreen(new AreaMapMenuGUI());
     }
 
-    private void updateMapStates() {
+    private void updateMapStatesOnMenuOpening() {
+        if (mapLocked) return;
         resetCursorToPlayerPosition();
     }
 
@@ -142,6 +142,16 @@ public class AreaMapMenu {
 
         if (cursorResetKey.canBeTriggered()) {
             resetCursorToPlayerPosition();
+            return;
+        }
+
+        if (mapLockKey.canBeTriggered()) {
+            mapLocked = !mapLocked;
+            if (mapLocked) {
+                MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.map_lock"), true);
+            } else {
+                MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.map_unlock"), true);
+            }
         }
     }
 
