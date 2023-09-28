@@ -1,7 +1,7 @@
 # Minecraft Access Features
 
 This page contains details of all the features that are currently in the mod.
-If you have any question about original game functions, please search on the [wiki](https://minecraft.fandom.com/wiki/Special:Search?scope=internal) first before asking for help.
+If you have any question about original game functions, please search on the [wiki](https://minecraft.wiki/w/Special:Search?scope=internal) first before asking for help.
 If you have any suggestion on improvements existing features or about a new feature, you can [join the discord server](https://discord.gg/yQjjsDqWQX) or [post an issue](https://github.com/khanshoaib3/minecraft-access/issues).
 
 ## Table Of Contents
@@ -102,13 +102,13 @@ By the same token, entities are movable, so scanning and locking onto them helps
 
 | Sound Cue                                                                                             | Description                                                                                                                                                                                             |
 |-------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Functional blocks without screens (like door, ladder)                                                 | ["Bit" (Square wave) of Note Block](https://minecraft.fandom.com/wiki/Note_Block#Notes), a beeping electronic sound                                                                                     |
-| Functional blocks that have screens (like crafting table)                                             | [Banjo of Note Block](https://minecraft.fandom.com/wiki/Note_Block#Notes), a string instrument sound                                                                                                    |
-| [Ore blocks](https://minecraft.fandom.com/wiki/Ore)                                                   | [Item plops](https://minecraft.fandom.com/wiki/Item_(entity)#Sounds), bubbling sound, like the sound of pulling out a toilet plunger                                                                    |
-| [Item (entity)](https://minecraft.fandom.com/wiki/Item_(entity))                                      | [Pressure Plate clicks](https://minecraft.fandom.com/wiki/Pressure_Plate#Unique), crisp clacking sound, like sound of a lighter, or clicking on buttons                                                 |
-| [Passive mobs, Neutral mobs or Players](https://minecraft.fandom.com/wiki/Mob?so=search#Passive_mobs) | [Bells (Glockenspiel) of Note Block](https://minecraft.fandom.com/wiki/Note_Block#Notes), with the lowest pitch, like the sound of a little bell                                                        |
-| [Hostile mobs](https://minecraft.fandom.com/wiki/Mob?so=search#Hostile_mobs)                          | [Bells (Glockenspiel) of Note Block](https://minecraft.fandom.com/wiki/Note_Block#Notes) again, with the highest pitch, brief and sharp, like the sound of a time bomb, and you can hear their low roar |
-| Unlocking                                                                                             | [Bass Drum (Kick) of Note Block](https://minecraft.fandom.com/wiki/Note_Block#Notes) with the highest pitch, but it's still pretty low                                                                  |
+| Functional blocks without screens (like door, ladder)                                                 | ["Bit" (Square wave) of Note Block](https://minecraft.wiki/w/Note_Block#Notes), a beeping electronic sound                                                                                     |
+| Functional blocks that have screens (like crafting table)                                             | [Banjo of Note Block](https://minecraft.wiki/w/Note_Block#Notes), a string instrument sound                                                                                                    |
+| [Ore blocks](https://minecraft.wiki/w/Ore)                                                   | [Item plops](https://minecraft.wiki/w/Item_(entity)#Sounds), bubbling sound, like the sound of pulling out a toilet plunger                                                                    |
+| [Item (entity)](https://minecraft.wiki/w/Item_(entity))                                      | [Pressure Plate clicks](https://minecraft.wiki/w/Pressure_Plate#Unique), crisp clacking sound, like sound of a lighter, or clicking on buttons                                                 |
+| [Passive mobs, Neutral mobs or Players](https://minecraft.wiki/w/Mob?so=search#Passive_mobs) | [Bells (Glockenspiel) of Note Block](https://minecraft.wiki/w/Note_Block#Notes), with the lowest pitch, like the sound of a little bell                                                        |
+| [Hostile mobs](https://minecraft.wiki/w/Mob?so=search#Hostile_mobs)                          | [Bells (Glockenspiel) of Note Block](https://minecraft.wiki/w/Note_Block#Notes) again, with the highest pitch, brief and sharp, like the sound of a time bomb, and you can hear their low roar |
+| Unlocking                                                                                             | [Bass Drum (Kick) of Note Block](https://minecraft.wiki/w/Note_Block#Notes) with the highest pitch, but it's still pretty low                                                                  |
 
 See also: [Configuration](/doc/CONFIG.md#point-of-interest), [Keybindings](/doc/KEYBINDINGS.md#point-of-interest)
 
@@ -134,7 +134,7 @@ It will play a sound effect at every location meets the set threshold, the loude
 
 | Sound Cue                   | Description                                                                                                                        |
 |-----------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| Position with high drop-off | [Breaking the Anvil](https://minecraft.fandom.com/wiki/Anvil#Generic), same sound as destroying blocks, like the sound of footstep |
+| Position with high drop-off | [Breaking the Anvil](https://minecraft.wiki/w/Anvil#Generic), same sound as destroying blocks, like the sound of footstep |
 
 See also: [Configuration](/doc/CONFIG.md#fall-detector)
 
@@ -147,12 +147,12 @@ This menu integrates a number of helper functions, and you can execute them by o
 |---------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 1. Block and fluid target information | Speak the name and information of the targeted block, the range (20 blocks) is much more than the `Read Crosshair` triggering distance (6 blocks).                                                             |
 | 2. Block and fluid target position    | Speak the x y z position of the targeted block                                                                                                                                                                 |
-| 3. Light level                        | Speak the [light](https://minecraft.fandom.com/wiki/Light) level of the player's position                                                                                                                      |
-| 4. Find Closest Water Source          | Find the closest [water](https://minecraft.fandom.com/wiki/Water) source block in the set range, play a [Item plops](https://minecraft.fandom.com/wiki/Item_(entity)#Sounds) bubbling sound at target position |
-| 5. Find Closest Lava Source           | Find the closest [lava](https://minecraft.fandom.com/wiki/Lava) source block in the set range,  play a [Item plops](https://minecraft.fandom.com/wiki/Item_(entity)#Sounds) bubbling sound at target position  |
-| 6. Biome                              | Speak the name of [biome](https://minecraft.fandom.com/wiki/Biome) the player is currently in                                                                                                                  |
-| 7. Time of Day                        | Speak current time of the in-game [Daylight Cycle](https://minecraft.fandom.com/wiki/Daylight_cycle)                                                                                                           |
-| 8. XP                                 | Speak the player's current [experience](https://minecraft.fandom.com/wiki/Experience) level and progress                                                                                                       |
+| 3. Light level                        | Speak the [light](https://minecraft.wiki/w/Light) level of the player's position                                                                                                                      |
+| 4. Find Closest Water Source          | Find the closest [water](https://minecraft.wiki/w/Water) source block in the set range, play a [Item plops](https://minecraft.wiki/w/Item_(entity)#Sounds) bubbling sound at target position |
+| 5. Find Closest Lava Source           | Find the closest [lava](https://minecraft.wiki/w/Lava) source block in the set range,  play a [Item plops](https://minecraft.wiki/w/Item_(entity)#Sounds) bubbling sound at target position  |
+| 6. Biome                              | Speak the name of [biome](https://minecraft.wiki/w/Biome) the player is currently in                                                                                                                  |
+| 7. Time of Day                        | Speak current time of the in-game [Daylight Cycle](https://minecraft.wiki/w/Daylight_cycle)                                                                                                           |
+| 8. XP                                 | Speak the player's current [experience](https://minecraft.wiki/w/Experience) level and progress                                                                                                       |
 | 9. Refresh screen Reader              | Refresh the screen Reader                                                                                                                                                                                      |
 | 0. Open Config Menu                   | Opens the Config Menu which can be used to change the configs of this mod that take effect immediately                                                                                                         |
 
@@ -164,7 +164,7 @@ Some features that help you understand the status of the character you control.
 
 ### Position Narrator
 
-Minecraft has a built-in [absolute coordinate system](https://minecraft.fandom.com/wiki/Coordinates), x-axis for the longitude, z for the latitude, and y for the elevation. This feature provides keystrokes to read out coordinates.
+Minecraft has a built-in [absolute coordinate system](https://minecraft.wiki/w/Coordinates), x-axis for the longitude, z for the latitude, and y for the elevation. This feature provides keystrokes to read out coordinates.
 
 See also: [Configuration](/doc/CONFIG.md#position-narrator), [Keybindings](/doc/KEYBINDINGS.md#position-narrator)
 
@@ -176,20 +176,20 @@ See also: [Configuration](/doc/CONFIG.md#health-n-hunger), [Keybindings](/doc/KE
 
 ### Player Warnings
 
-This feature warns you when your [health](https://minecraft.fandom.com/wiki/Health), [hunger](https://minecraft.fandom.com/wiki/Hunger) and [air](https://minecraft.fandom.com/wiki/Damage#Drowning) (when you're submerged in water) below the set thresholds.
+This feature warns you when your [health](https://minecraft.wiki/w/Health), [hunger](https://minecraft.wiki/w/Hunger) and [air](https://minecraft.wiki/w/Damage#Drowning) (when you're submerged in water) below the set thresholds.
 You'll hear something like "Warning, Health is {current health}".
 If you enable the `Play Sound` config, you'll also hear a sound cue along with the warning words.
-You may want to learn about [the various damage types](https://minecraft.fandom.com/wiki/Damage) in the game.
+You may want to learn about [the various damage types](https://minecraft.wiki/w/Damage) in the game.
 
 | Sound Cue                  | Description                                                                           |
 |----------------------------|---------------------------------------------------------------------------------------|
-| Status reach the threshold | [Anvil landing](https://minecraft.fandom.com/wiki/Anvil#Unique), crisp metallic sound |
+| Status reach the threshold | [Anvil landing](https://minecraft.wiki/w/Anvil#Unique), crisp metallic sound |
 
 See also: [Configuration](/doc/CONFIG.md#player-warnings)
 
 ## Book Editing
 
-The [Book Editing Screen](https://minecraft.fandom.com/wiki/Book_and_Quill#Writing) is special in that it has nothing to do with item management and has no slot groups.
+The [Book Editing Screen](https://minecraft.wiki/w/Book_and_Quill#Writing) is special in that it has nothing to do with item management and has no slot groups.
 We've added some not re-mappable keys and narration cues to make it 100% accessible.
 This section as a brief guide on how to use this screen, listing the keys corresponding to the functions.
 
@@ -204,15 +204,15 @@ See also: [Configuration](/doc/CONFIG.md#other-configurations)
 ### Speak Held Item
 
 When you switch held items, speak the name and number of items in your hand (main hand only).
-The item [durability](https://minecraft.fandom.com/wiki/Durability) information is included.
+The item [durability](https://minecraft.wiki/w/Durability) information is included.
 
 ### Biome Indicator
 
-Speak the name of the [biome](https://minecraft.fandom.com/wiki/Biome) when you're entering one.
+Speak the name of the [biome](https://minecraft.wiki/w/Biome) when you're entering one.
 
 ### XP Indicator
 
-Speak when your [experience](https://minecraft.fandom.com/wiki/Experience) level is increased or decreased.
+Speak when your [experience](https://minecraft.wiki/w/Experience) level is increased or decreased.
 
 ### Speak Harvest Of Fishing
 
@@ -220,9 +220,9 @@ In fact this feature will speak the items you pick up while you're holding the r
 
 ### Speak Chat Messages and Action Bar Updates
 
-Speak [chat](https://minecraft.fandom.com/wiki/Chat) messages, so you won't miss your friends' conversation.
+Speak [chat](https://minecraft.wiki/w/Chat) messages, so you won't miss your friends' conversation.
 If you feel that too many chat messages are making you feel noisy, you can turn off showing chat messages in the original `Chat Settings...` options.
-Messages updated by the [action bar](https://minecraft.fandom.com/wiki/Commands/title) are common in modded multiplayer servers, usually they are used as announcements.
+Messages updated by the [action bar](https://minecraft.wiki/w/Commands/title) are common in modded multiplayer servers, usually they are used as announcements.
 
 ## Other Pages
 

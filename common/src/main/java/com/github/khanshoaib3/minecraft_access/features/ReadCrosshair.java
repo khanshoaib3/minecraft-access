@@ -394,7 +394,7 @@ public class ReadCrosshair {
                 .collect(Collectors.toList());
 
         // Unconnected redstone dust now has all direction block states set to "side" since 20w18a (before 1.16)
-        // https://minecraft.fandom.com/wiki/Redstone_Dust
+        // https://minecraft.wiki/w/Redstone_Dust
         // So here is an additional check to see if the redstone wire is really connected to all directions
         if (connectedDirections.size() == 4) {
             Optional<Boolean> result = WorldUtils.checkAnyOfSurroundingBlocks(pos, THREE_SAMPLE_POSITIONS, IS_REDSTONE_WIRE);
