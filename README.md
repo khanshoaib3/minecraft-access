@@ -170,7 +170,7 @@ redstone signal or when a door is open and other similar cases.
    For example, the White Bed is written in "white_bed" and pronounced as "white underscore bed".
    There are lots of exceptions, the "Smooth Quartz Block" is written in "smooth_quartz", the "Block of Diamond" is written in "diamond_block",
    so please check the correct values in this wiki link:
-   https://minecraft.fandom.com/wiki/Java_Edition_data_values#Blocks
+   https://minecraft.wiki/w/Java_Edition_data_values#Blocks
 
 ## Position Narrator
 
@@ -308,7 +308,7 @@ Check the surrounding height difference and warn the user with a drop sound effe
 
 ## Book Editing
 
-Press Use key while holding a [Book and Quill](https://minecraft.fandom.com/wiki/Book_and_Quill) item to open the book editing screen.
+Press Use key while holding a [Book and Quill](https://minecraft.wiki/w/Book_and_Quill) item to open the book editing screen.
 Press Tab key to select buttons, while button is focused, press Space key or Left Mouse key to click it (space can be inputted as text when no button is focused).
 Press Page Up and Page Down Key to switch between pages.
 Press "Done" button to save your unfinished work and quit editing screen.
