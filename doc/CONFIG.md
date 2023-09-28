@@ -78,7 +78,7 @@ See also: [Feature Description](/doc/FEATURES.md#read-crosshair)
 The `Targets` config can only be configured in `config.json` file.
 Values are written in Minecraft resource location format, the so-called "snake_case" (consists of lowercase letters with underscores).
 For example, the White Bed is written in "white_bed".
-There are lots of exceptions, the "Smooth Quartz Block" is written in "smooth_quartz", the "Block of Diamond" is written in "diamond_block", so please check the correct values in [this wiki link](https://minecraft.fandom.com/wiki/Java_Edition_data_values#Blocks) (expand to show the list by clicking "Blocks[show]" then "Item form's ID[show]").
+There are lots of exceptions, the "Smooth Quartz Block" is written in "smooth_quartz", the "Block of Diamond" is written in "diamond_block", so please check the correct values in [this wiki link](https://minecraft.wiki/w/Java_Edition_data_values#Blocks) (expand to show the list by clicking "Blocks[show]" then "Item form's ID[show]").
 
 See also: [Feature Description](/doc/FEATURES.md#partial-speaking)
 
@@ -92,7 +92,7 @@ See also: [Feature Description](/doc/FEATURES.md#partial-speaking)
 | Row and Column Format in Crafting Input Slots                                             | "%dx%d"       | The speaking format of row and column prefix, two "%d" are representing the position of row and column |
 | Delay (in milliseconds)                                                                   | 250           | Cooldown between two feature executions                                                                |
 
-Most recipes [require](https://minecraft.fandom.com/wiki/Crafting) their ingredients to be arranged in a specific way on the crafting grid (a.k.a. our crafting input group).
+Most recipes [require](https://minecraft.wiki/w/Crafting) their ingredients to be arranged in a specific way on the crafting grid (a.k.a. our crafting input group).
 That's how `Row and Column Format in Crafting Input Slots` config can help you, you'll hear something like "1x2 Empty Slot" which represent you're locating at row one and column two slot inside the crafting input group, and it contains nothing.
 
 See also: [Feature Description](/doc/FEATURES.md#inventory-controls), [Keybindings](/doc/KEYBINDINGS.md#inventory-controls)
@@ -125,15 +125,15 @@ See also: [Feature Description](/doc/FEATURES.md#point-of-interest), [Keybinding
 
 ### Entities/Blocks Locking
 
-| Configuration                           | Default Value | Description                                                                                           |
-|-----------------------------------------|---------------|-------------------------------------------------------------------------------------------------------|
-| Enabled                                 | true          | Whether to enable this feature                                                                        |
-| Lock on Blocks                          | true          | Enable lock on POI blocks as well, if false, only entities can be locked                              |
-| Play Sound                              | true          | Play a sound cue at positions of detected entities                                                    |
-| Speak Relative Distance to Entity/Block | false         | Speak relative distance to the target when locking on                                                 |
-| Play Unlocking Sound                    | true          | Play a sound cue on unlock                                                                            |
-| Auto Lock on to Eye of Ender when Used  | true          | Automatically lock on to the [Eye of Ender](https://minecraft.fandom.com/wiki/Eye_of_Ender) when used |
-| Delay (in milliseconds)                 | 100           | Cooldown between two feature executions                                                               |
+| Configuration                           | Default Value | Description                                                                                  |
+|-----------------------------------------|---------------|----------------------------------------------------------------------------------------------|
+| Enabled                                 | true          | Whether to enable this feature                                                               |
+| Lock on Blocks                          | true          | Enable lock on POI blocks as well, if false, only entities can be locked                     |
+| Play Sound                              | true          | Play a sound cue at positions of detected entities                                           |
+| Speak Relative Distance to Entity/Block | false         | Speak relative distance to the target when locking on                                        |
+| Play Unlocking Sound                    | true          | Play a sound cue on unlock                                                                   |
+| Auto Lock on to Eye of Ender when Used  | true          | Automatically lock on to the [Eye of Ender](https://minecraft.wiki/w/Eye_of_Ender) when used |
+| Delay (in milliseconds)                 | 100           | Cooldown between two feature executions                                                      |
 
 ### Entities/Blocks Marking
 
@@ -206,16 +206,16 @@ See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Keybindings](/
 
 ## Other Configurations
 
-| Configuration                          | Default Value | Description                                                                                                                                               |
-|----------------------------------------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Enable Biome Indicator                 | true          | Whether to enable [`Biome Indicator`](/doc/FEATURES.md#biome-indicator) feature                                                                           |
-| Enable XP Indicator                    | true          | Whether to enable [`XP Indicator`](/doc/FEATURES.md#xp-indicator) feature                                                                                 |
-| Use 12 Hour Time Format                | false         | Whether to use 12 hour time format when speaking the time                                                                                                 | 
-| Speak Action Bar Updates               | true          | Whether to speak the messages updated in [action bar](https://minecraft.fandom.com/wiki/Commands/title), useful when you're in modded multiplayer servers |
-| Speak Harvest Of Fishing               | true          | Whether to speak the harvest of fishing                                                                                                                   |
-| Enable Menu Fix                        | true          | Whether to reset the cursor position when opening a menu (to prevent speak out unnecessary content)                                                       |
-| Debug Mode                             | true          | Developer config, whether to print debug messages into log                                                                                                |
-| Multiple Click Speed (in milliseconds) | 750           | The maximum time interval between two keystrokes in multiple click operations like "double-click"                                                         |
+| Configuration                          | Default Value | Description                                                                                                                                      |
+|----------------------------------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| Enable Biome Indicator                 | true          | Whether to enable [`Biome Indicator`](/doc/FEATURES.md#biome-indicator) feature                                                                  |
+| Enable XP Indicator                    | true          | Whether to enable [`XP Indicator`](/doc/FEATURES.md#xp-indicator) feature                                                                        |
+| Use 12 Hour Time Format                | false         | Whether to use 12 hour time format when speaking the time                                                                                        | 
+| Speak Action Bar Updates               | true          | Whether to speak the messages updated in [action bar](https://minecraft.wiki/w/Commands/title), useful when you're in modded multiplayer servers |
+| Speak Harvest Of Fishing               | true          | Whether to speak the harvest of fishing                                                                                                          |
+| Enable Menu Fix                        | true          | Whether to reset the cursor position when opening a menu (to prevent speak out unnecessary content)                                              |
+| Debug Mode                             | true          | Developer config, whether to print debug messages into log                                                                                       |
+| Multiple Click Speed (in milliseconds) | 750           | The maximum time interval between two keystrokes in multiple click operations like "double-click"                                                |
 
 See also: [Feature Description](/doc/FEATURES.md#other-small-features)
 

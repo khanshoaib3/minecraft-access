@@ -293,7 +293,7 @@ For this type of error, there is a simple, common, cumbersome, no-better-choice 
 ## Some Helpful Links
 
 * [The manual of this mod](https://github.com/khanshoaib3/minecraft-access) - Check what features this mod provides.
-* [Minecraft Wiki](https://minecraft.fandom.com/wiki/Minecraft_Wiki) - Has details and guides on everything about Minecraft.
+* [Minecraft Wiki](https://minecraft.wiki) - Has details and guides on everything about Minecraft.
 * [Minecraft Survival Guide (Season 3)](https://www.youtube.com/watch?v=VfpHTJsn9I4&list=PLgENJ0iY3XBjmydGuzYTtDwfxuR6lN8KC) - A great series by Pixlriffs, highly recommend for beginners.
 * [Playability Discord server](https://discord.gg/yQjjsDqWQX) - Again, you can join our Discord server if you need help in setting up the mod or any issue related to Minecraft Java.
 * [Twitter](https://twitter.com/shoaib_mk0) - You can follow the developer on Twitter to get notification when a new update drops.

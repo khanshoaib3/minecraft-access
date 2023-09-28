@@ -36,7 +36,7 @@ public class KeyUtils {
 
     /**
      * This works even if the keybinding is duplicate i.e. another keybinding has the same key bound to it.<br>
-     * <a href="https://minecraft.fandom.com/wiki/Key_codes">Vanilla Keybinding instance translation keys in Minecraft</a><br>
+     * <a href="https://minecraft.wiki/w/Key_codes">Vanilla Keybinding instance translation keys in Minecraft</a><br>
      * Get these instances via InputUtil.fromTranslationKey({key})
      */
     public static boolean isAnyPressed(KeyBinding... keyBindings) {

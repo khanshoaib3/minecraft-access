@@ -7,7 +7,7 @@ You can change these keybindings in the settings (open `Options...` then `Contro
 You may find that some features have duplicate keys, such as I, J, K, L as the arrow keys in various features.
 It's ok since the same key takes effect in different interfaces for different functions.
 
-You may want to take a look at [all the original controls](https://minecraft.fandom.com/wiki/Controls#Java_Edition) as well.
+You may want to take a look at [all the original controls](https://minecraft.wiki/w/Controls#Java_Edition) as well.
 
 ## Table Of Contents
 
@@ -90,7 +90,7 @@ See also: [Feature Description](/doc/FEATURES.md#mouse-simulation), [Configurati
 
 `Switch Tab Key`, `Toggle Craftable Key`, `T` key and `Enter` key only works when there is a corresponding component in the opened screen.
 Recipe Book page turning only works when "Recipe Book Group" is selected.
-Search on the [wiki](https://minecraft.fandom.com/wiki/Special:Search?scope=internal) for the description of screens if you're not familiar with them.
+Search on the [wiki](https://minecraft.wiki/?search) for the description of screens if you're not familiar with them.
 
 See also: [Feature Description](/doc/FEATURES.md#inventory-controls), [Configuration](/doc/CONFIG.md#inventory-controls)
 
@@ -148,7 +148,7 @@ See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Configuration]
 
 | Single Key                                       | Default Keybinding | Description                                                                                                          |
 |--------------------------------------------------|--------------------|----------------------------------------------------------------------------------------------------------------------|
-| `Use Item/Place Block` (the original keybinding) | right mouse key    | Open the book editing screen while holding a [Book and Quill](https://minecraft.fandom.com/wiki/Book_and_Quill) item |
+| `Use Item/Place Block` (the original keybinding) | right mouse key    | Open the book editing screen while holding a [Book and Quill](https://minecraft.wiki/w/Book_and_Quill) item |
 | Tab                                              | not re-mappable    | Select buttons                                                                                                       |
 | Space                                            | not re-mappable    | Click selected button                                                                                                |
 | `Attack/Destroy` (the original keybinding)       | left mouse key     | Same as `Space` key, click selected button                                                                           |
