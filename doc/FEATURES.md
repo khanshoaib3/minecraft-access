@@ -30,6 +30,7 @@ If you have any suggestion on improvements existing features or about a new feat
 
 ## Camera Controls
 
+Like most 3D games, you can rotate the camera 360 degrees freely in the Minecraft with mouse, and the direction you look is the direction to go forward while your press the W key.
 This feature allows you to control the camera (your in-game facing direction and crosshair) through the keyboard.
 The mod will automatically report the current direction as the camera moves, such as "North" "South East" "Up" "Down" "Straight".
 
@@ -48,11 +49,15 @@ See also: [Keybindings](/doc/KEYBINDINGS.md#mouse-simulation), [Configuration](/
 
 This mod will automatically speak the information of the block and entity (i.e., living creatures and moving objects) you are targeting with your crosshair (i.e., what you're looking at).
 The crosshair is in the center of the screen.
-This mod has no corresponding keybinding.
 
-Additionally, if you're looking at a block, the mod will speak which side of that block you are looking at, it's useful for recognizing directions and placing blocks accurately.
+If you're looking at a block, the mod will speak which side of that block you are looking at, it's useful for recognizing directions and placing blocks accurately.
+For example if the mod says "Stone North", it means you're looking at the north side of a stone block, this indicates that you are within 180 degrees of where this side is facing, not necessarily directly in front of it.
+You can determine your current location with the help of your relative position to the static block.
+
 For simple targets, the mod will only speak the name (and side if it's a block), such as "Pig", "Cow", "Grass Block Up", "Stone North".
 For functional blocks or entities with multiple forms, the mod will also speak current state of the block, such as "Ripe Wheat Crops Up", "White Sheep Shearable", "Opened Oak Door South", "Powered Dispenser West Facing East".
+
+According to [wiki](https://minecraft.wiki/w/Breaking#Basics_of_breaking), the breaking distance in survival mode is 4.5 blocks (in Java Edition), but this `ReadCrosshair` feature will speak targets at most 6 blocks away. So if the mod says something but you can't interact with it, move forward a little closer to it.
 
 See also: [Configuration](/doc/CONFIG.md#read-crosshair)
 
