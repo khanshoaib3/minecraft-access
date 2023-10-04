@@ -7,7 +7,9 @@ public class AreaMapConfigMap {
     private static AreaMapConfigMap instance;
 
     @SerializedName("Enabled")
-    private boolean enabled;
+    private boolean enabled = true;
+    @SerializedName("Delay (in milliseconds)")
+    private int delayInMilliseconds = 150;
 
     private AreaMapConfigMap() {
     }
@@ -24,6 +26,7 @@ public class AreaMapConfigMap {
     public static AreaMapConfigMap buildDefault() {
         AreaMapConfigMap m = new AreaMapConfigMap();
         m.enabled = true;
+        m.delayInMilliseconds = 150;
 
         setInstance(m);
         return m;
@@ -33,8 +36,15 @@ public class AreaMapConfigMap {
         return enabled;
     }
 
-    public AreaMapConfigMap setEnabled(boolean enabled) {
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-        return this;
+    }
+
+    public int getDelayInMilliseconds() {
+        return delayInMilliseconds;
+    }
+
+    public void setDelayInMilliseconds(int delayInMilliseconds) {
+        this.delayInMilliseconds = delayInMilliseconds;
     }
 }

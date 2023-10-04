@@ -23,7 +23,6 @@ public class MainClass {
 
     public static CameraControls cameraControls = null;
     public static InventoryControls inventoryControls = null;
-    public static ReadCrosshair readCrosshair = null;
     public static BiomeIndicator biomeIndicator = null;
     public static XPIndicator xpIndicator = null;
     public static FacingDirection facingDirection = null;
@@ -57,7 +56,6 @@ public class MainClass {
 
         MainClass.cameraControls = new CameraControls();
         MainClass.inventoryControls = new InventoryControls();
-        MainClass.readCrosshair = new ReadCrosshair();
         MainClass.biomeIndicator = new BiomeIndicator();
         MainClass.xpIndicator = new XPIndicator();
         MainClass.facingDirection = new FacingDirection();
@@ -104,8 +102,7 @@ public class MainClass {
         if (cameraControls != null && CameraControlsConfigMap.getInstance().isEnabled())
             cameraControls.update();
 
-        if (readCrosshair != null && ReadCrosshairConfigMap.getInstance().isEnabled())
-            readCrosshair.update();
+        ReadCrosshair.getInstance().update();
 
         if (biomeIndicator != null && otherConfigsMap.isBiomeIndicatorEnabled())
             biomeIndicator.update();

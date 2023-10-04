@@ -78,6 +78,7 @@ public class MockKeystrokeAction {
      * Reset target field's inner state to avoid test cases from affecting each other.
      */
     public void resetTargetInnerState() {
+        this.pressed = false;
         try {
             if (this.mockTarget instanceof MenuKeystroke) {
                 Field justClosed = MenuKeystroke.class.getDeclaredField("isMenuJustClosed");
@@ -86,7 +87,6 @@ public class MockKeystrokeAction {
             } else if (this.mockTarget instanceof IntervalKeystroke) {
                 Field intervalField = KeystrokeTiming.class.getDeclaredField("interval");
                 intervalField.setAccessible(true);
-                intervalField.set(this.mockTarget, MockInterval.ALWAYS_READY);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

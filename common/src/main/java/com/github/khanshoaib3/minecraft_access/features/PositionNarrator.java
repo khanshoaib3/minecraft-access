@@ -5,12 +5,9 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMa
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
-import com.github.khanshoaib3.minecraft_access.utils.position.PositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import net.minecraft.client.MinecraftClient;
 import org.lwjgl.glfw.GLFW;
-
-import java.util.stream.Stream;
 
 /**
  * Adds key bindings to speak the player's position.<br><br>
@@ -22,7 +19,6 @@ import java.util.stream.Stream;
  */
 public class PositionNarrator {
     private static final PositionNarrator instance;
-    public static String defaultFormat = "{x}x, {y}y, {z}z";
     public static Keystroke KeyX = new Keystroke(() -> KeyUtils.isAnyPressed(GLFW.GLFW_KEY_X));
     public static Keystroke KeyC = new Keystroke(() -> KeyUtils.isAnyPressed(GLFW.GLFW_KEY_C));
     public static Keystroke KeyZ = new Keystroke(() -> KeyUtils.isAnyPressed(GLFW.GLFW_KEY_Z));
@@ -52,19 +48,16 @@ public class PositionNarrator {
             boolean isLeftAltPressed = KeyUtils.isLeftAltPressed();
             if (isLeftAltPressed) {
                 if (KeyX.canBeTriggered()) {
-                    MainClass.speakWithNarrator(new PlayerPositionUtils(minecraftClient).getNarratableXPos(), true);
+                    MainClass.speakWithNarrator(PlayerPositionUtils.getNarratableXPos(), true);
                 } else if (KeyC.canBeTriggered()) {
-                    MainClass.speakWithNarrator(new PlayerPositionUtils(minecraftClient).getNarratableYPos(), true);
+                    MainClass.speakWithNarrator(PlayerPositionUtils.getNarratableYPos(), true);
                 } else if (KeyZ.canBeTriggered()) {
-                    MainClass.speakWithNarrator(new PlayerPositionUtils(minecraftClient).getNarratableZPos(), true);
+                    MainClass.speakWithNarrator(PlayerPositionUtils.getNarratableZPos(), true);
                 }
             }
 
             if (positionNarrationKey.canBeTriggered()) {
-                String posX = PositionUtils.getNarratableNumber(new PlayerPositionUtils(minecraftClient).getX());
-                String posY = PositionUtils.getNarratableNumber(new PlayerPositionUtils(minecraftClient).getY());
-                String posZ = PositionUtils.getNarratableNumber(new PlayerPositionUtils(minecraftClient).getZ());
-                MainClass.speakWithNarrator(getNarrationText(posX, posY, posZ), true);
+                MainClass.speakWithNarrator(PlayerPositionUtils.getI18NPosition(), true);
             }
 
             KeyX.updateStateForNextTick();
@@ -77,14 +70,5 @@ public class PositionNarrator {
         }
     }
 
-    private String getNarrationText(String posX, String posY, String posZ) {
-        String format = OtherConfigsMap.getInstance().getPositionNarratorFormat();
 
-        // check if configured format is valid
-        if (!Stream.of("{x}", "{y}", "{z}").allMatch(format::contains)) {
-            format = defaultFormat;
-        }
-
-        return format.replace("{x}", posX).replace("{y}", posY).replace("{z}", posZ);
-    }
 }

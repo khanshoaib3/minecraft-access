@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.utils;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.BlockPos;
@@ -13,7 +14,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class WorldUtils {
-    public record BlockInfo(BlockPos pos, BlockState state, Block type) {
+    public record BlockInfo(BlockPos pos, BlockState state, Block type, BlockEntity entity) {
     }
 
     public static Optional<BlockInfo> getBlockInfo(BlockPos pos) {
@@ -26,8 +27,9 @@ public class WorldUtils {
         // While every block keep their states with a BlockState instance.
         BlockState state = world.getBlockState(pos);
         Block block = state.getBlock();
+        BlockEntity entity = world.getBlockEntity(pos);
 
-        return Optional.of(new BlockInfo(pos, state, block));
+        return Optional.of(new BlockInfo(pos, state, block, entity));
     }
 
     public static Optional<ClientWorld> getClientWorld() {
