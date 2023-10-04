@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.utils.position;
 
+import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
@@ -7,7 +8,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Functions about getting player entity's position, facing direction etc.
@@ -19,33 +22,24 @@ public class PlayerPositionUtils {
         this.player = client.player;
     }
 
-    public double getX() {
-        assert player != null;
-        Vec3d pos = player.getPos();
-
-        String tempPosX = String.valueOf(pos.x);
+    public static double getX() {
+        String tempPosX = String.valueOf(getPlayerPosition().orElseThrow().x);
         tempPosX = tempPosX.substring(0, tempPosX.indexOf(".") + 2);
 
         return Double.parseDouble(tempPosX);
     }
 
-    public double getY() {
-        assert player != null;
-        Vec3d pos = player.getPos();
-
+    public static double getY() {
         String tempPosY;
-        tempPosY = String.valueOf(pos.y);
+        tempPosY = String.valueOf(getPlayerPosition().orElseThrow().y);
         tempPosY = tempPosY.substring(0, tempPosY.indexOf(".") + 2);
 
         return Double.parseDouble(tempPosY);
     }
 
-    public double getZ() {
-        assert player != null;
-        Vec3d pos = player.getPos();
-
+    public static double getZ() {
         String tempPosZ;
-        tempPosZ = String.valueOf(pos.z);
+        tempPosZ = String.valueOf(getPlayerPosition().orElseThrow().z);
         tempPosZ = tempPosZ.substring(0, tempPosZ.indexOf(".") + 2);
 
         return Double.parseDouble(tempPosZ);
@@ -63,15 +57,30 @@ public class PlayerPositionUtils {
         return Optional.of(BlockPos.ofFloored(p.x, p.y, p.z));
     }
 
-    public String getNarratableXPos() {
+    public static String getI18NPosition() {
+        String format = OtherConfigsMap.getInstance().getPositionNarratorFormat();
+
+        // check if configured format is valid
+        if (Objects.isNull(format) || !Stream.of("{x}", "{y}", "{z}").allMatch(format::contains)) {
+            format = OtherConfigsMap.DEFAULT_POSITION_FORMAT;
+        }
+
+        String posX = PositionUtils.getNarratableNumber(getX());
+        String posY = PositionUtils.getNarratableNumber(getY());
+        String posZ = PositionUtils.getNarratableNumber(getZ());
+
+        return format.replace("{x}", posX).replace("{y}", posY).replace("{z}", posZ);
+    }
+
+    public static String getNarratableXPos() {
         return PositionUtils.getNarratableNumber(getX()) + "x";
     }
 
-    public String getNarratableYPos() {
+    public static String getNarratableYPos() {
         return PositionUtils.getNarratableNumber(getY()) + "y";
     }
 
-    public String getNarratableZPos() {
+    public static String getNarratableZPos() {
         return PositionUtils.getNarratableNumber(getZ()) + "z";
     }
 

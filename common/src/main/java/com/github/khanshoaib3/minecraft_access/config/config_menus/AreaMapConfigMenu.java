@@ -4,7 +4,10 @@ import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.AreaMapConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
+
+import java.util.Objects;
 
 public class AreaMapConfigMenu extends BaseScreen {
     public AreaMapConfigMenu(String title, BaseScreen previousScreen) {
@@ -25,5 +28,10 @@ public class AreaMapConfigMenu extends BaseScreen {
                     Config.getInstance().writeJSON();
                 });
         this.addDrawableChild(featureToggleButton);
+
+        ButtonWidget delayButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.delay", initMap.getDelayInMilliseconds()),
+                (button) -> Objects.requireNonNull(this.client).setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.AREA_MAP_DELAY, this)));
+        this.addDrawableChild(delayButton);
     }
 }

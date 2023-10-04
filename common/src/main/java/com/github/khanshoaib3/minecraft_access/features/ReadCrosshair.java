@@ -34,6 +34,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
+import org.apache.logging.log4j.util.Strings;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -48,6 +49,8 @@ import java.util.stream.Collectors;
  * It also gives feedback when a block is powered by a redstone signal or when a door is open similar cases.
  */
 public class ReadCrosshair {
+    private static ReadCrosshair instance;
+
     /**
      * One redstone wire must be connected with another wire at one of three positions: [side, side down, side up],
      * since we are checking if the wire is connecting with ALL directions, only take one sample position (x+1) is enough.
@@ -55,6 +58,7 @@ public class ReadCrosshair {
     public static final Set<Vec3i> THREE_SAMPLE_POSITIONS = Set.of(new Vec3i(1, 0, 0), new Vec3i(1, -1, 0), new Vec3i(1, 1, 0));
     public static final Predicate<BlockState> IS_REDSTONE_WIRE = (BlockState state) -> state.getBlock() instanceof RedstoneWireBlock;
 
+    private boolean enabled;
     private String previousQuery;
     private boolean speakSide;
     private boolean speakingConsecutiveBlocks;
@@ -66,9 +70,16 @@ public class ReadCrosshair {
     private boolean partialSpeakingBlock;
     private boolean partialSpeakingEntity;
 
-    public ReadCrosshair() {
+    private ReadCrosshair() {
         previousQuery = "";
         loadConfigurations();
+    }
+
+    public static ReadCrosshair getInstance() {
+        if (Objects.isNull(instance)) {
+            instance = new ReadCrosshair();
+        }
+        return instance;
     }
 
     public String getPreviousQuery() {
@@ -87,6 +98,7 @@ public class ReadCrosshair {
             if (minecraftClient.currentScreen != null) return;
 
             loadConfigurations();
+            if (!enabled) return;
 
             Entity entity = minecraftClient.getCameraEntity();
             if (entity == null) return;
@@ -96,10 +108,16 @@ public class ReadCrosshair {
 
             if (blockHit == null) return;
 
-            if (!minecraftClient.player.isSwimming() && !minecraftClient.player.isSubmergedInWater() && !minecraftClient.player.isInsideWaterOrBubbleColumn() && !minecraftClient.player.isInLava() && checkForFluidHit(minecraftClient, fluidHit))
-                return;
+            boolean playerIsNotInFluid = !minecraftClient.player.isSwimming()
+                    && !minecraftClient.player.isSubmergedInWater()
+                    && !minecraftClient.player.isInsideWaterOrBubbleColumn()
+                    && !minecraftClient.player.isInLava();
 
-            checkForBlockAndEntityHit(minecraftClient, blockHit);
+            boolean playerLooksAtFluid = checkForFluidHit(minecraftClient, fluidHit);
+
+            if (playerIsNotInFluid && playerLooksAtFluid) return;
+
+            checkForBlockAndEntityHit(blockHit);
         } catch (Exception e) {
             MainClass.errorLog("Error occurred in read block feature.\n%s".formatted(e.getMessage()));
         }
@@ -113,6 +131,7 @@ public class ReadCrosshair {
         ReadCrosshairConfigMap rcMap = ReadCrosshairConfigMap.getInstance();
         RCPartialSpeakingConfigMap rcpMap = RCPartialSpeakingConfigMap.getInstance();
 
+        this.enabled = rcMap.isEnabled();
         this.speakSide = rcMap.isSpeakSide();
         // affirmation for easier use
         this.speakingConsecutiveBlocks = !rcMap.isDisableSpeakingConsecutiveBlocks();
@@ -139,11 +158,11 @@ public class ReadCrosshair {
         }
     }
 
-    private void checkForBlockAndEntityHit(MinecraftClient minecraftClient, HitResult blockHit) {
+    private void checkForBlockAndEntityHit(HitResult blockHit) {
         switch (blockHit.getType()) {
             case MISS -> {
             }
-            case BLOCK -> checkForBlocks(minecraftClient, (BlockHitResult) blockHit);
+            case BLOCK -> checkForBlocks((BlockHitResult) blockHit);
             case ENTITY -> checkForEntities((EntityHitResult) blockHit);
         }
     }
@@ -169,7 +188,7 @@ public class ReadCrosshair {
 
             speakIfFocusChanged(currentQuery, currentQuery);
         } catch (Exception e) {
-            e.printStackTrace();
+            MainClass.errorLog("Error occurred in ReadCrosshair, reading entity", e);
         }
     }
 
@@ -194,34 +213,45 @@ public class ReadCrosshair {
         }
     }
 
-    private void checkForBlocks(MinecraftClient minecraftClient, BlockHitResult hit) {
-        ClientWorld clientWorld = minecraftClient.world;
-        if (clientWorld == null) return;
-
-        // Since Minecraft uses flyweight pattern for blocks and entities,
-        // All same type of blocks share one singleton Block instance,
-        // While every block keep their states with a BlockState instance.
-        BlockPos blockPos = hit.getBlockPos();
-        BlockState blockState = clientWorld.getBlockState(blockPos);
-        Block block = blockState.getBlock();
-
-        if (enablePartialSpeaking && partialSpeakingBlock) {
-            if (checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(Registries.BLOCK.getId(block))) return;
-        }
-
-        String name = block.getName().getString();
-        String toSpeak = name;
-
+    private void checkForBlocks(BlockHitResult hit) {
         String side = "";
         if (this.speakSide) {
             Direction d = hit.getSide();
             side = I18n.translate("minecraft_access.direction." + d.getName());
         }
-        toSpeak += " " + side;
+        Pair<String, String> toSpeakAndCurrentQuery = describeBlock(hit.getBlockPos(), side);
+        speakIfFocusChanged(toSpeakAndCurrentQuery.getRight(), toSpeakAndCurrentQuery.getLeft());
+    }
+
+    /**
+     * @param pos  block position (in the client world)
+     * @param side if side is provided, then the invoker is ReadCrosshair
+     * @return toSpeak, currentQuery
+     */
+    public Pair<String, String> describeBlock(BlockPos pos, String side) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (Objects.isNull(client)) return new Pair<>("", "");
+        ClientWorld clientWorld = client.world;
+        if (clientWorld == null) return new Pair<>("", "");
+
+        // Since Minecraft uses flyweight pattern for blocks and entities,
+        // All same type of blocks share one singleton Block instance,
+        // While every block keep their states with a BlockState instance.
+        WorldUtils.BlockInfo blockInfo = WorldUtils.getBlockInfo(pos).orElseThrow();
+        BlockPos blockPos = blockInfo.pos();
+        BlockState blockState = blockInfo.state();
+        Block block = blockInfo.type();
+        BlockEntity blockEntity = blockInfo.entity();
+
+        if (enablePartialSpeaking && partialSpeakingBlock) {
+            if (checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(Registries.BLOCK.getId(block))) return new Pair<>("", "");
+        }
 
         // Difference between toSpeak and currentQuery:
         // currentQuery is used for checking condition, toSpeak is actually the one to be spoken.
         // currentQuery is checked to not speak the same block repeatedly, two blocks can have same name.
+        String name = block.getName().getString();
+        String toSpeak = Strings.isBlank(side) ? name : name + " " + side;
         String currentQuery = name + side;
 
         // If this config is enabled, add position info to currentQuery,
@@ -232,11 +262,10 @@ public class ReadCrosshair {
 
         // Different special narration (toSpeak) about different type of blocks
         try {
-            BlockEntity blockEntity = clientWorld.getBlockEntity(blockPos);
             if (blockEntity != null) {
                 // The all signs tag include all types of signs, so it should also work with the hanging signs in 1.20.x
                 if (blockState.isIn(BlockTags.ALL_SIGNS)) {
-                    toSpeak = getSignInfo((SignBlockEntity) blockEntity, minecraftClient.player, toSpeak);
+                    toSpeak = getSignInfo((SignBlockEntity) blockEntity, client.player, toSpeak);
                 } else if (blockEntity instanceof BeehiveBlockEntity beehiveBlockEntity) {
                     Pair<String, String> beehiveInfo = getBeehiveInfo(beehiveBlockEntity, blockState, toSpeak, currentQuery);
                     toSpeak = beehiveInfo.getLeft();
@@ -275,11 +304,10 @@ public class ReadCrosshair {
             currentQuery = redstoneRelatedInfo.getRight();
 
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred while adding narration text for special blocks");
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred while adding narration text for special blocks", e);
         }
 
-        speakIfFocusChanged(currentQuery, toSpeak);
+        return new Pair<>(toSpeak, currentQuery);
     }
 
     private static String getSignInfo(SignBlockEntity signEntity, ClientPlayerEntity player, String toSpeak) {

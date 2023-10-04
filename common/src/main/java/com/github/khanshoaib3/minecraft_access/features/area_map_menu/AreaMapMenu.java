@@ -2,18 +2,25 @@ package com.github.khanshoaib3.minecraft_access.features.area_map_menu;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.AreaMapConfigMap;
+import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.condition.IntervalKeystroke;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
 import com.github.khanshoaib3.minecraft_access.utils.position.Orientation;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 
 /**
  * This menu gives user a bird eye view of surrounding area.
@@ -27,32 +34,41 @@ public class AreaMapMenu {
 
     private static final MenuKeystroke menuKey;
     private static final IntervalKeystroke[] cursorMovingKeys = new IntervalKeystroke[6];
-    public static final Set<Pair<IntervalKeystroke, Orientation>> CURSOR_MOVING_DIRECTIONS;
+    private static final Keystroke cursorResetKey;
+    private static final Keystroke mapLockKey;
+    public static final Set<Pair<IntervalKeystroke, Orientation>> CURSOR_MOVING_DIRECTIONS = new HashSet<>(6);
 
     private boolean enabled;
-    private BlockPos cachedPlayerPos;
     private BlockPos cursor;
+    private boolean mapLocked = false;
 
     static {
         instance = new AreaMapMenu();
 
-        // config keystroke conditions
         menuKey = new MenuKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapMenuKey));
-        cursorMovingKeys[0] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapNorthKey));
-        cursorMovingKeys[1] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapSouthKey));
-        cursorMovingKeys[2] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapWestKey));
-        cursorMovingKeys[3] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapEastKey));
-        cursorMovingKeys[4] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapUpKey));
-        cursorMovingKeys[5] = new IntervalKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapDownKey));
 
-        CURSOR_MOVING_DIRECTIONS = Set.of(
-                new Pair<>(cursorMovingKeys[0], Orientation.NORTH),
-                new Pair<>(cursorMovingKeys[1], Orientation.SOUTH),
-                new Pair<>(cursorMovingKeys[2], Orientation.WEST),
-                new Pair<>(cursorMovingKeys[3], Orientation.EAST),
-                new Pair<>(cursorMovingKeys[4], Orientation.UP),
-                new Pair<>(cursorMovingKeys[5], Orientation.DOWN)
-        );
+        int keyInterval = AreaMapConfigMap.getInstance().getDelayInMilliseconds();
+        int cursorMovingKeyIndex = 0;
+        for (var p : List.<Pair<Orientation, BooleanSupplier>>of(
+                new Pair<>(Orientation.NORTH, () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapNorthKey)),
+                new Pair<>(Orientation.SOUTH, () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapSouthKey)),
+                new Pair<>(Orientation.WEST, () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapWestKey)),
+                new Pair<>(Orientation.EAST, () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapEastKey)),
+                new Pair<>(Orientation.UP, () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapUpKey)),
+                new Pair<>(Orientation.DOWN, () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapDownKey))
+        )) {
+            cursorMovingKeys[cursorMovingKeyIndex] = new IntervalKeystroke(p.getRight(), Keystroke.TriggeredAt.PRESSING, Interval.inMilliseconds(keyInterval));
+            CURSOR_MOVING_DIRECTIONS.add(new Pair<>(cursorMovingKeys[cursorMovingKeyIndex], p.getLeft()));
+            cursorMovingKeyIndex += 1;
+        }
+
+        cursorResetKey = new Keystroke(
+                () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapCursorResetKey),
+                Keystroke.TriggeredAt.PRESSING);
+
+        mapLockKey = new Keystroke(
+                () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapMapLockKey),
+                Keystroke.TriggeredAt.PRESSING);
     }
 
     public static AreaMapMenu getInstance() {
@@ -68,8 +84,7 @@ public class AreaMapMenu {
             // functional core, imperative shell, for easier testing
             execute(client);
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred in AreaMapMenu.");
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred in AreaMapMenu.", e);
         }
     }
 
@@ -80,7 +95,7 @@ public class AreaMapMenu {
         if (client.currentScreen == null) {
             if (menuKey.canOpenMenu()) {
                 openAreaMapMenu();
-                updateMapStates();
+                updateMapStatesOnMenuOpening();
             }
         } else {
             if (client.currentScreen instanceof AreaMapMenuGUI) {
@@ -93,34 +108,64 @@ public class AreaMapMenu {
         }
 
         menuKey.updateStateForNextTick();
+        cursorResetKey.updateStateForNextTick();
+        mapLockKey.updateStateForNextTick();
         Arrays.stream(cursorMovingKeys).forEach(IntervalKeystroke::updateStateForNextTick);
     }
 
     private void updateConfigs() {
         AreaMapConfigMap map = AreaMapConfigMap.getInstance();
         this.enabled = map.isEnabled();
+
+        // set key intervals
+        Arrays.stream(cursorMovingKeys).forEach(k -> k.setInterval(Interval.inMilliseconds(map.getDelayInMilliseconds(), k.interval())));
     }
 
     private void openAreaMapMenu() {
         MinecraftClient.getInstance().setScreen(new AreaMapMenuGUI());
     }
 
-    private void updateMapStates() {
-        BlockPos currentPlayerPos = PlayerPositionUtils.getPlayerBlockPosition().orElseThrow();
-        // player haven't moved since last menu opening, no need to update
-        if (currentPlayerPos.equals(this.cachedPlayerPos)) return;
-        this.cachedPlayerPos = currentPlayerPos;
-
-        this.cursor = currentPlayerPos;
+    private void updateMapStatesOnMenuOpening() {
+        if (mapLocked) return;
+        resetCursorToPlayerPosition();
     }
 
     private void handleInMenuActions() {
-        CURSOR_MOVING_DIRECTIONS.forEach(p -> {
-            if (p.getLeft().isCooledDownAndTriggered()) moveCursorTowards(p.getRight());
-        });
+        // move cursor
+        for (Pair<IntervalKeystroke, Orientation> p : CURSOR_MOVING_DIRECTIONS) {
+            if (p.getLeft().isCooledDownAndTriggered()) {
+                Orientation direction = p.getRight();
+                moveCursorTowards(direction);
+                return;
+            }
+        }
+
+        if (cursorResetKey.canBeTriggered()) {
+            resetCursorToPlayerPosition();
+            return;
+        }
+
+        if (mapLockKey.canBeTriggered()) {
+            mapLocked = !mapLocked;
+            if (mapLocked) {
+                MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.map_lock"), true);
+            } else {
+                MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.map_unlock"), true);
+            }
+        }
     }
 
     private void moveCursorTowards(Orientation direction) {
         this.cursor = this.cursor.add(direction.vector);
+        MainClass.infoLog("Cursor moves " + direction + ": " + cursor);
+        Pair<String, String> blockDescription = ReadCrosshair.getInstance().describeBlock(this.cursor, "");
+        MainClass.speakWithNarrator(blockDescription.getLeft(), true);
+        // TODO Alt + speak position key
+//        MainClass.speakWithNarrator(blockDescription.getLeft() + I18n.translate("minecraft_access.other.words_connection") + PlayerPositionUtils.getI18NPosition(), true);
+    }
+
+    private void resetCursorToPlayerPosition() {
+        cursor = PlayerPositionUtils.getPlayerBlockPosition().orElseThrow();
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.cursor_reset", PlayerPositionUtils.getI18NPosition()), true);
     }
 }

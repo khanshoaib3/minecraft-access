@@ -90,7 +90,7 @@ See also: [Feature Description](/doc/FEATURES.md#mouse-simulation), [Configurati
 
 `Switch Tab Key`, `Toggle Craftable Key`, `T` key and `Enter` key only works when there is a corresponding component in the opened screen.
 Recipe Book page turning only works when "Recipe Book Group" is selected.
-Search on the [wiki](https://minecraft.wiki/w/Special:Search?scope=internal) for the description of screens if you're not familiar with them.
+Search on the [wiki](https://minecraft.wiki/?search) for the description of screens if you're not familiar with them.
 
 See also: [Feature Description](/doc/FEATURES.md#inventory-controls), [Configuration](/doc/CONFIG.md#inventory-controls)
 

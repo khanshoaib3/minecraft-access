@@ -11,11 +11,13 @@ import com.github.khanshoaib3.minecraft_access.test_utils.annotations.MockedStat
 import com.github.khanshoaib3.minecraft_access.utils.position.Orientation;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import org.apache.logging.log4j.core.util.ReflectionUtil;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -24,6 +26,8 @@ import org.junit.platform.commons.util.ReflectionUtils;
 import org.mockito.MockedStatic;
 
 import java.lang.reflect.Field;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,29 +41,43 @@ class AreaMapMenuTest {
     MockedStatic<PlayerPositionUtils> mockPlayerPositionUtils;
     static MockKeystrokeAction menuKeyAction;
     static MockKeystrokeActionArray cursorMovingKeyActions;
+    static MockKeystrokeAction cursorResetKeyAction;
+    static MockKeystrokeAction mapLockKeyAction;
 
     @BeforeAll
     static void beforeAll() {
         menuKeyAction = MockKeystrokeAction.mock(AreaMapMenu.class, "menuKey");
         cursorMovingKeyActions = new MockKeystrokeActionArray(AreaMapMenu.class, "cursorMovingKeys");
+        cursorResetKeyAction = MockKeystrokeAction.mock(AreaMapMenu.class, "cursorResetKey");
+        mapLockKeyAction = MockKeystrokeAction.mock(AreaMapMenu.class, "mapLockKey");
     }
 
     @BeforeEach
     void setUp() {
-        menuKeyAction.resetTargetInnerState();
+        Set.of(menuKeyAction, cursorResetKeyAction, mapLockKeyAction).forEach(MockKeystrokeAction::resetTargetInnerState);
         cursorMovingKeyActions.resetTargetInnerState();
     }
 
     @Test
     void testOpenMenuWithMenuKey() {
-        openAreaMapMenu();
+        openOrCloseAreaMapMenu();
         mockClient.verifyOpeningMenuOf(AreaMapMenuGUI.class);
+        assertThat(valueOfMapCursor())
+                .as("Cursor should be reset to player position (zero)")
+                .isEqualTo(new BlockPos(Vec3i.ZERO));
     }
 
-    private void openAreaMapMenu() {
-        menuKeyAction.press();
+    /**
+     * By pressing and releasing the menu key
+     */
+    private void openOrCloseAreaMapMenu() {
+        pressAndRelease(menuKeyAction);
+    }
+
+    private void pressAndRelease(MockKeystrokeAction keystrokeAction) {
+        keystrokeAction.press();
         oneTickForward();
-        menuKeyAction.release();
+        keystrokeAction.release();
         oneTickForward();
     }
 
@@ -69,27 +87,27 @@ class AreaMapMenuTest {
 
     @Test
     void testCloseMenuWithMenuKey() {
-        menuKeyAction.press();
-        mockClient.setScreen(AreaMapMenuGUI.class);
-        oneTickForward();
+        setAreaMapMenuAsOpened();
+        openOrCloseAreaMapMenu();
         mockClient.verifyClosingMenu();
+    }
+
+    private void setAreaMapMenuAsOpened() {
+        mockClient.setScreen(AreaMapMenuGUI.class);
     }
 
     @ParameterizedTest
     @MethodSource
-    void testCursorMoving(@NotNull Orientation directionUnderTest, int index) {
-        mockClient.setScreen(AreaMapMenuGUI.class);
-        menuKeyAction.release();
-        cursorMovingKeyActions.get(index).press();
-        resetMapCursorToZeroPosition();
-
-        oneTickForward();
+    void testCursorMovingWithKeys(@NotNull Orientation directionUnderTest, int index) {
+        setAreaMapMenuAsOpened();
+        setMapCursorTo(new BlockPos(Vec3i.ZERO));
+        pressAndRelease(cursorMovingKeyActions.get(index));
 
         String msg = "Cursor should be same as vector of " + directionUnderTest + " since init position is zero";
         assertThat(valueOfMapCursor()).as(msg).isEqualTo(directionUnderTest.vector);
     }
 
-    static Stream<Arguments> testCursorMoving() {
+    static Stream<Arguments> testCursorMovingWithKeys() {
         return Stream.of(
                 arguments(Orientation.NORTH, 0),
                 arguments(Orientation.SOUTH, 1),
@@ -100,11 +118,82 @@ class AreaMapMenuTest {
         );
     }
 
-    private void resetMapCursorToZeroPosition() {
+    @Test
+    void testCursorResetWithKey() {
+        setAreaMapMenuAsOpened();
+        BlockPos zeroPos = new BlockPos(Vec3i.ZERO);
+        setMapCursorTo(zeroPos.offset(Direction.NORTH));
+        pressAndRelease(cursorResetKeyAction);
+
+        assertThat(valueOfMapCursor())
+                .as("Cursor should be reset to player position (zero)")
+                .isEqualTo(zeroPos);
+    }
+
+    @Test
+    @DisplayName("test cursor reset when player position changed when reopen the menu")
+    void testCursorResetWhenReopenTheMenu() {
+        // open the menu, set cursor from null to 0,0,0
+        openOrCloseAreaMapMenu();
+        assertThat(valueOfMapCursor())
+                .as("Cursor should be reset to player position (zero)")
+                .isEqualTo(new BlockPos(Vec3i.ZERO));
+
+        // close the menu
+        openOrCloseAreaMapMenu();
+
+        // mock player moving
+        BlockPos newPlayerPosition = new BlockPos(new Vec3i(1, 1, 1));
+        mockPlayerPositionUtils.when(PlayerPositionUtils::getPlayerBlockPosition).thenReturn(Optional.of(newPlayerPosition));
+
+        // open the menu again
+        openOrCloseAreaMapMenu();
+
+        assertThat(valueOfMapCursor())
+                .as("Cursor should be reset to player position (1,1,1)")
+                .isEqualTo(newPlayerPosition);
+    }
+
+    @Test
+    void testMapLockingUnlockingWithKey() {
+        // open the menu, set cursor from null to 0,0,0
+        openOrCloseAreaMapMenu();
+        assertThat(valueOfMapCursor())
+                .as("Cursor should be reset to player position (zero)")
+                .isEqualTo(new BlockPos(Vec3i.ZERO));
+
+        // lock the map
+        pressAndRelease(mapLockKeyAction);
+
+        // close the menu
+        openOrCloseAreaMapMenu();
+
+        // mock player moving
+        BlockPos newPlayerPosition = new BlockPos(new Vec3i(1, 1, 1));
+        mockPlayerPositionUtils.when(PlayerPositionUtils::getPlayerBlockPosition).thenReturn(Optional.of(newPlayerPosition));
+
+        // open the menu
+        openOrCloseAreaMapMenu();
+        assertThat(valueOfMapCursor())
+                .as("Cursor should still be (0,0,0) since map is locked")
+                .isEqualTo(newPlayerPosition);
+
+        // unlock the map
+        pressAndRelease(mapLockKeyAction);
+
+        // close the menu and open it again
+        openOrCloseAreaMapMenu();
+        openOrCloseAreaMapMenu();
+        assertThat(valueOfMapCursor())
+                .as("Cursor should be reset to player position (1,1,1) since map is unlocked")
+                .isEqualTo(newPlayerPosition);
+    }
+
+    private static void setMapCursorTo(BlockPos pos) {
         try {
             Field cursorField = AreaMapMenu.class.getDeclaredField("cursor");
             cursorField.setAccessible(true);
-            ReflectionUtil.setFieldValue(cursorField, AreaMapMenu.getInstance(), new BlockPos(Vec3i.ZERO));
+            ReflectionUtil.setFieldValue(cursorField, AreaMapMenu.getInstance(), pos);
         } catch (NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
