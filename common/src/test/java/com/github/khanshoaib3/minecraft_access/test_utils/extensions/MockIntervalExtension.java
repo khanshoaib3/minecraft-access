@@ -11,7 +11,9 @@ import org.mockito.Mockito;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 
-
+/**
+ * Make all {@link Interval} always be ready while testing, to avoid unnecessary waiting.
+ */
 public class MockIntervalExtension implements BeforeAllCallback, AfterAllCallback {
     private MockedStatic<Interval> ms;
 

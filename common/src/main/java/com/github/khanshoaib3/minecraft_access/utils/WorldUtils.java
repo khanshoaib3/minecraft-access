@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
@@ -36,8 +37,14 @@ public class WorldUtils {
         MinecraftClient c = MinecraftClient.getInstance();
         if (c == null) return Optional.empty();
         ClientWorld world = c.world;
-        if (world == null) return Optional.empty();
-        return Optional.of(world);
+        return world == null ? Optional.empty() : Optional.of(world);
+    }
+
+    public static Optional<ClientPlayerEntity> getClientPlayer() {
+        MinecraftClient c = MinecraftClient.getInstance();
+        if (c == null) return Optional.empty();
+        ClientPlayerEntity p = c.player;
+        return p == null ? Optional.empty() : Optional.of(p);
     }
 
     @SuppressWarnings("unused")
