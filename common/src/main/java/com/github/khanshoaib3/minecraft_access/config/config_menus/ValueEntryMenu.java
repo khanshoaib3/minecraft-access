@@ -36,7 +36,9 @@ public class ValueEntryMenu extends BaseScreen {
         NARRATOR_MENU_VOLUME,
         NARRATOR_MENU_RANGE,
         OTHER_POSITION_NARRATOR_FORMAT,
-        AREA_MAP_DELAY
+        AREA_MAP_DELAY,
+        AREA_MAP_VERTICAL_BOUND,
+        AREA_MAP_HORIZONTAL_BOUND
     }
 
     public enum VALUE_TYPE {
@@ -173,6 +175,14 @@ public class ValueEntryMenu extends BaseScreen {
                 this.value = String.valueOf(areaMapConfigMap.getDelayInMilliseconds());
                 this.valueType = VALUE_TYPE.INT;
             }
+            case AREA_MAP_VERTICAL_BOUND -> {
+                this.value = String.valueOf(areaMapConfigMap.getVerticalBound());
+                this.valueType = VALUE_TYPE.INT;
+            }
+            case AREA_MAP_HORIZONTAL_BOUND -> {
+                this.value = String.valueOf(areaMapConfigMap.getHorizontalBound());
+                this.valueType = VALUE_TYPE.INT;
+            }
         }
 
         this.previousValue = this.value;
@@ -257,6 +267,8 @@ public class ValueEntryMenu extends BaseScreen {
                 case NARRATOR_MENU_RANGE -> fluidDetectorConfigMap.setRange(Integer.parseInt(value));
                 case OTHER_POSITION_NARRATOR_FORMAT -> OtherConfigsMap.getInstance().setPositionNarratorFormat(value);
                 case AREA_MAP_DELAY -> areaMapConfigMap.setDelayInMilliseconds(Integer.parseInt(value));
+                case AREA_MAP_VERTICAL_BOUND -> areaMapConfigMap.setVerticalBound(Integer.parseInt(value));
+                case AREA_MAP_HORIZONTAL_BOUND -> areaMapConfigMap.setHorizontalBound(Integer.parseInt(value));
             }
 
             Config.getInstance().writeJSON();

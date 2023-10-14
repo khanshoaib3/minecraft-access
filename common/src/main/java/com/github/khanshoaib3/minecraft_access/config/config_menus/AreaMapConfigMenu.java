@@ -33,5 +33,21 @@ public class AreaMapConfigMenu extends BaseScreen {
                 I18n.translate("minecraft_access.gui.common.button.delay", initMap.getDelayInMilliseconds()),
                 (button) -> Objects.requireNonNull(this.client).setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.AREA_MAP_DELAY, this)));
         this.addDrawableChild(delayButton);
+
+        ButtonWidget verticalLimitButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
+                        I18n.translate("minecraft_access.gui.area_map_config_menu.button.vertical_bound"),
+                        initMap.getVerticalBound()
+                ),
+                (button) -> Objects.requireNonNull(this.client).setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.AREA_MAP_VERTICAL_BOUND, this)));
+        this.addDrawableChild(verticalLimitButton);
+
+        ButtonWidget horizontalLimitButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
+                        I18n.translate("minecraft_access.gui.area_map_config_menu.button.horizontal_bound"),
+                        initMap.getHorizontalBound()
+                ),
+                (button) -> Objects.requireNonNull(this.client).setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.AREA_MAP_HORIZONTAL_BOUND, this)));
+        this.addDrawableChild(horizontalLimitButton);
     }
 }
