@@ -34,20 +34,16 @@ public class AreaMapConfigMenu extends BaseScreen {
                 (button) -> Objects.requireNonNull(this.client).setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.AREA_MAP_DELAY, this)));
         this.addDrawableChild(delayButton);
 
-        ButtonWidget verticalLimitButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
-                        I18n.translate("minecraft_access.gui.area_map_config_menu.button.vertical_bound"),
-                        initMap.getVerticalBound()
-                ),
-                (button) -> Objects.requireNonNull(this.client).setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.AREA_MAP_VERTICAL_BOUND, this)));
-        this.addDrawableChild(verticalLimitButton);
+        ValueEntryMenu.CONFIG_TYPE verticalBound = ValueEntryMenu.CONFIG_TYPE.AREA_MAP_VERTICAL_BOUND;
+        ButtonWidget verticalBoundButton = this.buildButtonWidget(
+                verticalBound.buildButtonText("minecraft_access.gui.area_map_config_menu.button.vertical_bound"),
+                (button) -> Objects.requireNonNull(this.client).setScreen(new ValueEntryMenu("value_entry_menu", verticalBound, this)));
+        this.addDrawableChild(verticalBoundButton);
 
-        ButtonWidget horizontalLimitButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
-                        I18n.translate("minecraft_access.gui.area_map_config_menu.button.horizontal_bound"),
-                        initMap.getHorizontalBound()
-                ),
-                (button) -> Objects.requireNonNull(this.client).setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.AREA_MAP_HORIZONTAL_BOUND, this)));
-        this.addDrawableChild(horizontalLimitButton);
+        ValueEntryMenu.CONFIG_TYPE horizontalBound = ValueEntryMenu.CONFIG_TYPE.AREA_MAP_HORIZONTAL_BOUND;
+        ButtonWidget horizontalBoundButton = this.buildButtonWidget(
+                horizontalBound.buildButtonText("minecraft_access.gui.area_map_config_menu.button.horizontal_bound"),
+                (button) -> Objects.requireNonNull(this.client).setScreen(new ValueEntryMenu("value_entry_menu", horizontalBound, this)));
+        this.addDrawableChild(horizontalBoundButton);
     }
 }
