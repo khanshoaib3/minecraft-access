@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
+import com.github.khanshoaib3.minecraft_access.config.config_maps.AreaMapConfigMap;
 import com.github.khanshoaib3.minecraft_access.features.area_map_menu.AreaMapMenu;
 import com.github.khanshoaib3.minecraft_access.features.area_map_menu.AreaMapMenuGUI;
 import com.github.khanshoaib3.minecraft_access.test_utils.MockKeystrokeAction;
@@ -187,6 +188,34 @@ class AreaMapMenuTest {
         assertThat(valueOfMapCursor())
                 .as("Cursor should be reset to player position (1,1,1) since map is unlocked")
                 .isEqualTo(newPlayerPosition);
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void testDistanceBoundCheckingWhileCursorMoving(int keyIndex, BlockPos position) {
+        setAreaMapMenuAsOpened();
+        setMapCursorTo(position);
+        pressAndRelease(cursorMovingKeyActions.get(keyIndex));
+
+        String msg = "Cursor should stay at original position since reaches distance bounds";
+        assertThat(valueOfMapCursor()).as(msg).isEqualTo(position);
+    }
+
+    static Stream<Arguments> testDistanceBoundCheckingWhileCursorMoving() {
+        var map = AreaMapConfigMap.getInstance();
+        int vb = map.getVerticalBound();
+        int hb = map.getHorizontalBound();
+        // https://minecraft.wiki/w/Coordinates
+        // North = -Z, Up = +Y, East = +X
+        // set init position as edge of bounds
+        return Stream.of(
+                arguments(0, new BlockPos(0, 0, -hb)),
+                arguments(1, new BlockPos(0, 0, hb)),
+                arguments(2, new BlockPos(-hb, 0, 0)),
+                arguments(3, new BlockPos(hb, 0, 0)),
+                arguments(4, new BlockPos(0, vb, 0)),
+                arguments(5, new BlockPos(0, -vb, 0))
+        );
     }
 
     private static void setMapCursorTo(BlockPos pos) {

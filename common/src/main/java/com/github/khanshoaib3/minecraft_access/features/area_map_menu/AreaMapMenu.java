@@ -13,13 +13,11 @@ import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtil
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BooleanSupplier;
 
 /**
@@ -39,6 +37,8 @@ public class AreaMapMenu {
     public static final Set<Pair<IntervalKeystroke, Orientation>> CURSOR_MOVING_DIRECTIONS = new HashSet<>(6);
 
     private boolean enabled;
+    private int verticalBound = 2;
+    private int horizontalBound = 96;
     private BlockPos cursor;
     private boolean mapLocked = false;
 
@@ -116,6 +116,8 @@ public class AreaMapMenu {
     private void updateConfigs() {
         AreaMapConfigMap map = AreaMapConfigMap.getInstance();
         this.enabled = map.isEnabled();
+        this.verticalBound = map.getVerticalBound();
+        this.horizontalBound = map.getHorizontalBound();
 
         // set key intervals
         Arrays.stream(cursorMovingKeys).forEach(k -> k.setInterval(Interval.inMilliseconds(map.getDelayInMilliseconds(), k.interval())));
@@ -126,6 +128,7 @@ public class AreaMapMenu {
     }
 
     private void updateMapStatesOnMenuOpening() {
+        // TODO reset if out of distance bound
         if (mapLocked) return;
         resetCursorToPlayerPosition();
     }
@@ -151,17 +154,34 @@ public class AreaMapMenu {
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.map_lock"), true);
             } else {
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.map_unlock"), true);
+                // Play the same unlock sound as POI Unlocking
+                Objects.requireNonNull(MinecraftClient.getInstance().player).playSound(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM.value(), 0.4f, 2f);
             }
         }
     }
 
     private void moveCursorTowards(Orientation direction) {
-        this.cursor = this.cursor.add(direction.vector);
+        BlockPos nextStep = cursor.add(direction.vector);
+        if (!checkDistanceBound(nextStep)) return;
+
+        this.cursor = nextStep;
         MainClass.infoLog("Cursor moves " + direction + ": " + cursor);
         Pair<String, String> blockDescription = ReadCrosshair.getInstance().describeBlock(this.cursor, "");
         MainClass.speakWithNarrator(blockDescription.getLeft(), true);
         // TODO Alt + speak position key
 //        MainClass.speakWithNarrator(blockDescription.getLeft() + I18n.translate("minecraft_access.other.words_connection") + PlayerPositionUtils.getI18NPosition(), true);
+    }
+
+    private boolean checkDistanceBound(BlockPos nextStep) {
+        BlockPos playerPos = PlayerPositionUtils.getPlayerBlockPosition().orElseThrow();
+        int distanceOnX = Math.abs(playerPos.getX() - nextStep.getX());
+        int distanceOnY = Math.abs(playerPos.getY() - nextStep.getY());
+        int distanceOnZ = Math.abs(playerPos.getZ() - nextStep.getZ());
+        if(distanceOnX > horizontalBound || distanceOnZ > horizontalBound || distanceOnY > verticalBound) {
+            MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.cursor_reach_bound"), true);
+            return false;
+        }
+        return true;
     }
 
     private void resetCursorToPlayerPosition() {
