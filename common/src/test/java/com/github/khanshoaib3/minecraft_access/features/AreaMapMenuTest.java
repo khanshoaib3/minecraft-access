@@ -218,6 +218,32 @@ class AreaMapMenuTest {
         );
     }
 
+    @Test
+    void testCursorResetWhenReopenTheMenuWhileMapLockedButCursorOutOfDistanceBound() {
+        // open the menu
+        openOrCloseAreaMapMenu();
+        // lock the map
+        pressAndRelease(mapLockKeyAction);
+        // close the menu
+        openOrCloseAreaMapMenu();
+
+        // set cursor position out of distance bound
+        var map = AreaMapConfigMap.getInstance();
+        int hb = map.getHorizontalBound();
+        setMapCursorTo(new BlockPos(hb + 1, 0, 0));
+
+        // mock player moving
+        BlockPos newPlayerPosition = new BlockPos(new Vec3i(1, 1, 1));
+        mockPlayerPositionUtils.when(PlayerPositionUtils::getPlayerBlockPosition).thenReturn(Optional.of(newPlayerPosition));
+
+        // open the menu
+        openOrCloseAreaMapMenu();
+        assertThat(valueOfMapCursor())
+                .as("Cursor should be reset to current player position " +
+                        "since cursor has been out of distance bound, no matter the map is locked")
+                .isEqualTo(newPlayerPosition);
+    }
+
     private static void setMapCursorTo(BlockPos pos) {
         try {
             Field cursorField = AreaMapMenu.class.getDeclaredField("cursor");

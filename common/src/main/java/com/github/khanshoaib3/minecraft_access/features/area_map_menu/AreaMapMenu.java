@@ -128,8 +128,8 @@ public class AreaMapMenu {
     }
 
     private void updateMapStatesOnMenuOpening() {
-        // TODO reset if out of distance bound
-        if (mapLocked) return;
+        // reset if out of distance bound
+        if (mapLocked && checkIfWithinDistanceBound(this.cursor)) return;
         resetCursorToPlayerPosition();
     }
 
@@ -162,7 +162,7 @@ public class AreaMapMenu {
 
     private void moveCursorTowards(Orientation direction) {
         BlockPos nextStep = cursor.add(direction.vector);
-        if (!checkDistanceBound(nextStep)) return;
+        if (!checkIfWithinDistanceBound(nextStep)) return;
 
         this.cursor = nextStep;
         MainClass.infoLog("Cursor moves " + direction + ": " + cursor);
@@ -172,7 +172,7 @@ public class AreaMapMenu {
 //        MainClass.speakWithNarrator(blockDescription.getLeft() + I18n.translate("minecraft_access.other.words_connection") + PlayerPositionUtils.getI18NPosition(), true);
     }
 
-    private boolean checkDistanceBound(BlockPos nextStep) {
+    private boolean checkIfWithinDistanceBound(BlockPos nextStep) {
         BlockPos playerPos = PlayerPositionUtils.getPlayerBlockPosition().orElseThrow();
         int distanceOnX = Math.abs(playerPos.getX() - nextStep.getX());
         int distanceOnY = Math.abs(playerPos.getY() - nextStep.getY());
