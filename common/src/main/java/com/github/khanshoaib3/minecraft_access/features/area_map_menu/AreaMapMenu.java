@@ -135,7 +135,7 @@ public class AreaMapMenu {
     private void updateMapStatesOnMenuOpening() {
         // reset if out of distance bound
         if (mapLocked && checkCursorWithinDistanceBound(this.cursor)) return;
-        resetCursorToPlayerPosition();
+        resetCursorToPlayerPosition(false);
     }
 
     private void handleInMenuActions() {
@@ -149,7 +149,7 @@ public class AreaMapMenu {
         }
 
         if (cursorResetKey.canBeTriggered()) {
-            resetCursorToPlayerPosition();
+            resetCursorToPlayerPosition(true);
             return;
         }
 
@@ -189,8 +189,8 @@ public class AreaMapMenu {
         return true;
     }
 
-    private void resetCursorToPlayerPosition() {
+    private void resetCursorToPlayerPosition(boolean interruptNarration) {
         cursor = PlayerPositionUtils.getPlayerBlockPosition().orElseThrow();
-        MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.cursor_reset", PlayerPositionUtils.getI18NPosition()), true);
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.cursor_reset", PlayerPositionUtils.getI18NPosition()), interruptNarration);
     }
 }
