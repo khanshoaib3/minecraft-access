@@ -15,24 +15,24 @@ public class ExtensionUtils {
      * @param fieldAnnotationClass find field annotated with which annotation
      * @return generated MockedStatic instance
      */
-    public static <T> Optional<MockedStatic<T>> mockStaticForAnnotatedField(ExtensionContext extensionContext, Class<T> targetClass, Class<? extends Annotation> fieldAnnotationClass) {
-        MockedStatic<T> ms = null;
+    public static <T> MockedStatic<T> mockStaticForAnnotatedField(ExtensionContext extensionContext, Class<T> targetClass, Class<? extends Annotation> fieldAnnotationClass) {
+        MockedStatic<T> ms = Mockito.mockStatic(targetClass);
+
+        // Assign mock instance to first tagged field in test class
         Object testInstance = extensionContext.getRequiredTestInstance();
         Optional<Field> of = Arrays.stream(testInstance.getClass().getDeclaredFields())
                 .filter(f -> f.isAnnotationPresent(fieldAnnotationClass))
                 .findFirst();
 
         if (of.isPresent()) {
-            ms = Mockito.mockStatic(targetClass);
-
             try {
-                of.get().setAccessible(true);
+                of.get().trySetAccessible();
                 of.get().set(testInstance, ms);
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
         }
 
-        return Optional.ofNullable(ms);
+        return ms;
     }
 }

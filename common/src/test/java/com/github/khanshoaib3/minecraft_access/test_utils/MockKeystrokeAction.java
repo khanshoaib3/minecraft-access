@@ -1,8 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.test_utils;
 
-import com.github.khanshoaib3.minecraft_access.utils.condition.IntervalKeystroke;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
-import com.github.khanshoaib3.minecraft_access.utils.condition.KeystrokeTiming;
 import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
 import org.junit.platform.commons.util.ReflectionUtils;
 
@@ -84,9 +82,6 @@ public class MockKeystrokeAction {
                 Field justClosed = MenuKeystroke.class.getDeclaredField("isMenuJustClosed");
                 justClosed.setAccessible(true);
                 justClosed.set(this.mockTarget, false);
-            } else if (this.mockTarget instanceof IntervalKeystroke) {
-                Field intervalField = KeystrokeTiming.class.getDeclaredField("interval");
-                intervalField.setAccessible(true);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.features.area_map_menu;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.AreaMapConfigMap;
 import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
+import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityProxy;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.condition.IntervalKeystroke;
@@ -17,7 +18,10 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.BooleanSupplier;
 
 /**
@@ -124,12 +128,13 @@ public class AreaMapMenu {
     }
 
     private void openAreaMapMenu() {
-        MinecraftClient.getInstance().setScreen(new AreaMapMenuGUI());
+        MinecraftClient client = MinecraftClient.getInstance();
+        client.setScreen(new AreaMapMenuGUI(client));
     }
 
     private void updateMapStatesOnMenuOpening() {
         // reset if out of distance bound
-        if (mapLocked && checkIfWithinDistanceBound(this.cursor)) return;
+        if (mapLocked && checkCursorWithinDistanceBound(this.cursor)) return;
         resetCursorToPlayerPosition();
     }
 
@@ -155,14 +160,14 @@ public class AreaMapMenu {
             } else {
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.map_unlock"), true);
                 // Play the same unlock sound as POI Unlocking
-                Objects.requireNonNull(MinecraftClient.getInstance().player).playSound(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM.value(), 0.4f, 2f);
+                ClientPlayerEntityProxy.playSound(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, 0.4f, 2f);
             }
         }
     }
 
     private void moveCursorTowards(Orientation direction) {
         BlockPos nextStep = cursor.add(direction.vector);
-        if (!checkIfWithinDistanceBound(nextStep)) return;
+        if (!checkCursorWithinDistanceBound(nextStep)) return;
 
         this.cursor = nextStep;
         MainClass.infoLog("Cursor moves " + direction + ": " + cursor);
@@ -172,7 +177,7 @@ public class AreaMapMenu {
 //        MainClass.speakWithNarrator(blockDescription.getLeft() + I18n.translate("minecraft_access.other.words_connection") + PlayerPositionUtils.getI18NPosition(), true);
     }
 
-    private boolean checkIfWithinDistanceBound(BlockPos nextStep) {
+    private boolean checkCursorWithinDistanceBound(BlockPos nextStep) {
         BlockPos playerPos = PlayerPositionUtils.getPlayerBlockPosition().orElseThrow();
         int distanceOnX = Math.abs(playerPos.getX() - nextStep.getX());
         int distanceOnY = Math.abs(playerPos.getY() - nextStep.getY());
