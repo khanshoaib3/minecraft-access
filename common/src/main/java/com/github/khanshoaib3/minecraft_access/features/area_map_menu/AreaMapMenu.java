@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.features.area_map_menu;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.AreaMapConfigMap;
 import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
+import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityProxy;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.condition.IntervalKeystroke;
@@ -13,6 +14,7 @@ import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtil
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 
@@ -39,6 +41,8 @@ public class AreaMapMenu {
     public static final Set<Pair<IntervalKeystroke, Orientation>> CURSOR_MOVING_DIRECTIONS = new HashSet<>(6);
 
     private boolean enabled;
+    private int verticalBound = 2;
+    private int horizontalBound = 96;
     private BlockPos cursor;
     private boolean mapLocked = false;
 
@@ -116,18 +120,22 @@ public class AreaMapMenu {
     private void updateConfigs() {
         AreaMapConfigMap map = AreaMapConfigMap.getInstance();
         this.enabled = map.isEnabled();
+        this.verticalBound = map.getVerticalBound();
+        this.horizontalBound = map.getHorizontalBound();
 
         // set key intervals
         Arrays.stream(cursorMovingKeys).forEach(k -> k.setInterval(Interval.inMilliseconds(map.getDelayInMilliseconds(), k.interval())));
     }
 
     private void openAreaMapMenu() {
-        MinecraftClient.getInstance().setScreen(new AreaMapMenuGUI());
+        MinecraftClient client = MinecraftClient.getInstance();
+        client.setScreen(new AreaMapMenuGUI(client));
     }
 
     private void updateMapStatesOnMenuOpening() {
-        if (mapLocked) return;
-        resetCursorToPlayerPosition();
+        // reset if out of distance bound
+        if (mapLocked && checkCursorWithinDistanceBound(this.cursor)) return;
+        resetCursorToPlayerPosition(false);
     }
 
     private void handleInMenuActions() {
@@ -141,7 +149,7 @@ public class AreaMapMenu {
         }
 
         if (cursorResetKey.canBeTriggered()) {
-            resetCursorToPlayerPosition();
+            resetCursorToPlayerPosition(true);
             return;
         }
 
@@ -151,12 +159,17 @@ public class AreaMapMenu {
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.map_lock"), true);
             } else {
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.map_unlock"), true);
+                // Play the same unlock sound as POI Unlocking
+                ClientPlayerEntityProxy.playSound(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, 0.4f, 2f);
             }
         }
     }
 
     private void moveCursorTowards(Orientation direction) {
-        this.cursor = this.cursor.add(direction.vector);
+        BlockPos nextStep = cursor.add(direction.vector);
+        if (!checkCursorWithinDistanceBound(nextStep)) return;
+
+        this.cursor = nextStep;
         MainClass.infoLog("Cursor moves " + direction + ": " + cursor);
         Pair<String, String> blockDescription = ReadCrosshair.getInstance().describeBlock(this.cursor, "");
         MainClass.speakWithNarrator(blockDescription.getLeft(), true);
@@ -164,8 +177,20 @@ public class AreaMapMenu {
 //        MainClass.speakWithNarrator(blockDescription.getLeft() + I18n.translate("minecraft_access.other.words_connection") + PlayerPositionUtils.getI18NPosition(), true);
     }
 
-    private void resetCursorToPlayerPosition() {
+    private boolean checkCursorWithinDistanceBound(BlockPos nextStep) {
+        BlockPos playerPos = PlayerPositionUtils.getPlayerBlockPosition().orElseThrow();
+        int distanceOnX = Math.abs(playerPos.getX() - nextStep.getX());
+        int distanceOnY = Math.abs(playerPos.getY() - nextStep.getY());
+        int distanceOnZ = Math.abs(playerPos.getZ() - nextStep.getZ());
+        if(distanceOnX > horizontalBound || distanceOnZ > horizontalBound || distanceOnY > verticalBound) {
+            MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.cursor_reach_bound"), true);
+            return false;
+        }
+        return true;
+    }
+
+    private void resetCursorToPlayerPosition(boolean interruptNarration) {
         cursor = PlayerPositionUtils.getPlayerBlockPosition().orElseThrow();
-        MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.cursor_reset", PlayerPositionUtils.getI18NPosition()), true);
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.cursor_reset", PlayerPositionUtils.getI18NPosition()), interruptNarration);
     }
 }

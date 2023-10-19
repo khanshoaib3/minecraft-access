@@ -10,6 +10,17 @@ public class AreaMapConfigMap {
     private boolean enabled = true;
     @SerializedName("Delay (in milliseconds)")
     private int delayInMilliseconds = 150;
+    /**
+     * player y (lower-body) +-2
+     */
+    @SerializedName("Vertical Distance Bound")
+    private int verticalBound = 2;
+    /**
+     * the default Java Edition render distance is 12 chunks = 192 x 192 blocks
+     * 192/2 = 96
+     */
+    @SerializedName("Horizontal Distance Bound")
+    private int horizontalBound = 96;
 
     private AreaMapConfigMap() {
     }
@@ -27,6 +38,8 @@ public class AreaMapConfigMap {
         AreaMapConfigMap m = new AreaMapConfigMap();
         m.enabled = true;
         m.delayInMilliseconds = 150;
+        m.verticalBound = 2;
+        m.horizontalBound = 96;
 
         setInstance(m);
         return m;
@@ -46,5 +59,21 @@ public class AreaMapConfigMap {
 
     public void setDelayInMilliseconds(int delayInMilliseconds) {
         this.delayInMilliseconds = delayInMilliseconds;
+    }
+
+    public int getVerticalBound() {
+        return verticalBound;
+    }
+
+    public void setVerticalBound(int verticalLimit) {
+        this.verticalBound = verticalLimit;
+    }
+
+    public int getHorizontalBound() {
+        return horizontalBound;
+    }
+
+    public void setHorizontalBound(int horizontalLimit) {
+        this.horizontalBound = horizontalLimit;
     }
 }
