@@ -9,44 +9,118 @@ import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.resource.language.I18n;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
 public class ValueEntryMenu extends BaseScreen {
     public enum CONFIG_TYPE {
-        CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE,
-        CAMERA_CONTROLS_MODIFIED_ROTATING_ANGLE,
-        CAMERA_CONTROLS_DELAY,
-        INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT,
-        INVENTORY_CONTROLS_DELAY,
-        MOUSE_SIMULATION_SCROLL_DELAY,
-        POI_BLOCKS_RANGE,
-        POI_BLOCKS_VOLUME,
-        POI_BLOCKS_DELAY,
-        POI_ENTITIES_RANGE,
-        POI_ENTITIES_VOLUME,
-        POI_ENTITIES_DELAY,
-        POI_LOCKING_DELAY,
-        PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD,
-        PLAYER_WARNINGS_SECOND_HEALTH_THRESHOLD,
-        PLAYER_WARNINGS_HUNGER_THRESHOLD,
-        PLAYER_WARNINGS_AIR_THRESHOLD,
-        FALL_DETECTOR_RANGE,
-        FALL_DETECTOR_DEPTH_THRESHOLD,
-        FALL_DETECTOR_VOLUME,
-        FALL_DETECTOR_DELAY,
-        READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL,
-        NARRATOR_MENU_VOLUME,
-        NARRATOR_MENU_RANGE,
-        OTHER_POSITION_NARRATOR_FORMAT,
-        AREA_MAP_DELAY
+        CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE(() -> CameraControlsConfigMap.getInstance().getNormalRotatingAngle(),
+                (v) -> CameraControlsConfigMap.getInstance().setNormalRotatingAngle(Float.parseFloat(v)),
+                ValueType.FLOAT),
+        CAMERA_CONTROLS_MODIFIED_ROTATING_ANGLE(() -> CameraControlsConfigMap.getInstance().getModifiedRotatingAngle(),
+                (v) -> CameraControlsConfigMap.getInstance().setModifiedRotatingAngle(Float.parseFloat(v)),
+                ValueType.FLOAT),
+        CAMERA_CONTROLS_DELAY(() -> CameraControlsConfigMap.getInstance().getDelayInMilliseconds(),
+                (v) -> CameraControlsConfigMap.getInstance().setDelayInMilliseconds(Integer.parseInt(v)),
+                ValueType.INT),
+        INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT(() -> InventoryControlsConfigMap.getInstance().getRowAndColumnFormat(),
+                (v) -> InventoryControlsConfigMap.getInstance().setRowAndColumnFormat(v),
+                ValueType.STRING),
+        INVENTORY_CONTROLS_DELAY(() -> InventoryControlsConfigMap.getInstance().getDelayInMilliseconds(),
+                (v) -> InventoryControlsConfigMap.getInstance().setDelayInMilliseconds(Integer.parseInt(v)),
+                ValueType.INT),
+        MOUSE_SIMULATION_SCROLL_DELAY(() -> MouseSimulationConfigMap.getInstance().getScrollDelayInMilliseconds(),
+                (v) -> MouseSimulationConfigMap.getInstance().setScrollDelayInMilliseconds(Integer.parseInt(v)),
+                ValueType.INT),
+        POI_BLOCKS_RANGE(() -> POIBlocksConfigMap.getInstance().getRange(),
+                (v) -> POIBlocksConfigMap.getInstance().setRange(Integer.parseInt(v)),
+                ValueType.INT),
+        POI_BLOCKS_VOLUME(() -> POIBlocksConfigMap.getInstance().getVolume(),
+                (v) -> POIBlocksConfigMap.getInstance().setVolume(Float.parseFloat(v)),
+                ValueType.FLOAT),
+        POI_BLOCKS_DELAY(() -> POIBlocksConfigMap.getInstance().getDelay(),
+                (v) -> POIBlocksConfigMap.getInstance().setDelay(Integer.parseInt(v)),
+                ValueType.INT),
+        POI_ENTITIES_RANGE(() -> POIEntitiesConfigMap.getInstance().getRange(),
+                (v) -> POIEntitiesConfigMap.getInstance().setRange(Integer.parseInt(v)),
+                ValueType.INT),
+        POI_ENTITIES_VOLUME(() -> POIEntitiesConfigMap.getInstance().getVolume(),
+                (v) -> POIEntitiesConfigMap.getInstance().setVolume(Float.parseFloat(v)),
+                ValueType.FLOAT),
+        POI_ENTITIES_DELAY(() -> POIEntitiesConfigMap.getInstance().getDelay(),
+                (v) -> POIEntitiesConfigMap.getInstance().setDelay(Integer.parseInt(v)),
+                ValueType.INT),
+        POI_LOCKING_DELAY(() -> POILockingConfigMap.getInstance().getDelay(),
+                (v) -> POILockingConfigMap.getInstance().setDelay(Integer.parseInt(v)),
+                ValueType.INT),
+        PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD(() -> PlayerWarningConfigMap.getInstance().getFirstHealthThreshold(),
+                (v) -> PlayerWarningConfigMap.getInstance().setFirstHealthThreshold(Float.parseFloat(v)),
+                ValueType.FLOAT),
+        PLAYER_WARNINGS_SECOND_HEALTH_THRESHOLD(() -> PlayerWarningConfigMap.getInstance().getSecondHealthThreshold(),
+                (v) -> PlayerWarningConfigMap.getInstance().setSecondHealthThreshold(Float.parseFloat(v)),
+                ValueType.FLOAT),
+        PLAYER_WARNINGS_HUNGER_THRESHOLD(() -> PlayerWarningConfigMap.getInstance().getHungerThreshold(),
+                (v) -> PlayerWarningConfigMap.getInstance().setHungerThreshold(Float.parseFloat(v)),
+                ValueType.FLOAT),
+        PLAYER_WARNINGS_AIR_THRESHOLD(() -> PlayerWarningConfigMap.getInstance().getAirThreshold(),
+                (v) -> PlayerWarningConfigMap.getInstance().setAirThreshold(Float.parseFloat(v)),
+                ValueType.FLOAT),
+        FALL_DETECTOR_RANGE(() -> FallDetectorConfigMap.getInstance().getRange(),
+                (v) -> FallDetectorConfigMap.getInstance().setRange(Integer.parseInt(v)),
+                ValueType.INT),
+        FALL_DETECTOR_DEPTH_THRESHOLD(() -> FallDetectorConfigMap.getInstance().getDepth(),
+                (v) -> FallDetectorConfigMap.getInstance().setDepth(Integer.parseInt(v)),
+                ValueType.INT),
+        FALL_DETECTOR_VOLUME(() -> FallDetectorConfigMap.getInstance().getVolume(),
+                (v) -> FallDetectorConfigMap.getInstance().setVolume(Float.parseFloat(v)),
+                ValueType.FLOAT),
+        FALL_DETECTOR_DELAY(() -> FallDetectorConfigMap.getInstance().getDelay(),
+                (v) -> FallDetectorConfigMap.getInstance().setDelay(Integer.parseInt(v)),
+                ValueType.INT),
+        READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL(() -> ReadCrosshairConfigMap.getInstance().getRepeatSpeakingInterval(),
+                (v) -> ReadCrosshairConfigMap.getInstance().setRepeatSpeakingInterval(Integer.parseInt(v)),
+                ValueType.INT),
+        NARRATOR_MENU_VOLUME(() -> FluidDetectorConfigMap.getInstance().getVolume(),
+                (v) -> FluidDetectorConfigMap.getInstance().setVolume(Integer.parseInt(v)),
+                ValueType.FLOAT),
+        NARRATOR_MENU_RANGE(() -> FluidDetectorConfigMap.getInstance().getRange(),
+                (v) -> FluidDetectorConfigMap.getInstance().setRange(Integer.parseInt(v)),
+                ValueType.INT),
+        OTHER_POSITION_NARRATOR_FORMAT(() -> OtherConfigsMap.getInstance().getPositionNarratorFormat(),
+                (v) -> OtherConfigsMap.getInstance().setPositionNarratorFormat(v),
+                ValueType.STRING),
+        AREA_MAP_DELAY(() -> AreaMapConfigMap.getInstance().getDelayInMilliseconds(),
+                (v) -> AreaMapConfigMap.getInstance().setDelayInMilliseconds(Integer.parseInt(v)),
+                ValueType.INT),
+        AREA_MAP_VERTICAL_BOUND(() -> AreaMapConfigMap.getInstance().getVerticalBound(),
+                (v) -> AreaMapConfigMap.getInstance().setVerticalBound(Integer.parseInt(v)),
+                ValueType.INT),
+        AREA_MAP_HORIZONTAL_BOUND(() -> AreaMapConfigMap.getInstance().getHorizontalBound(),
+                (v) -> AreaMapConfigMap.getInstance().setHorizontalBound(Integer.parseInt(v)),
+                ValueType.INT);
+
+        private final Supplier<Object> valueGetter;
+        private final Consumer<String> valueSetter;
+        private final ValueType valueType;
+
+        CONFIG_TYPE(Supplier<Object> valueGetter, Consumer<String> valueSetter, ValueType valueType) {
+            this.valueGetter = valueGetter;
+            this.valueSetter = valueSetter;
+            this.valueType = valueType;
+        }
+
+        public String buildButtonText(String fieldI18NKey) {
+            return I18n.translate("minecraft_access.gui.common.button.button_with_string_value", I18n.translate(fieldI18NKey), this.valueGetter.get());
+        }
     }
 
-    public enum VALUE_TYPE {
+    private enum ValueType {
         INT,
         FLOAT,
         STRING
     }
 
     String value;
-    VALUE_TYPE valueType;
     CONFIG_TYPE configType;
     String previousValue;
 
@@ -58,123 +132,7 @@ public class ValueEntryMenu extends BaseScreen {
     @Override
     protected void init() {
         super.init();
-
-        final CameraControlsConfigMap cameraControlsConfigMap = CameraControlsConfigMap.getInstance();
-        final FallDetectorConfigMap fallDetectorConfigMap = FallDetectorConfigMap.getInstance();
-        final InventoryControlsConfigMap inventoryControlsConfigMap = InventoryControlsConfigMap.getInstance();
-        final PlayerWarningConfigMap playerWarningConfigMap = PlayerWarningConfigMap.getInstance();
-        final FluidDetectorConfigMap fluidDetectorConfigMap = FluidDetectorConfigMap.getInstance();
-        final POIBlocksConfigMap poiBlocksConfigMap = POIBlocksConfigMap.getInstance();
-        final POIEntitiesConfigMap entitiesConfigMap = POIEntitiesConfigMap.getInstance();
-        final AreaMapConfigMap areaMapConfigMap = AreaMapConfigMap.getInstance();
-
-        switch (configType) {
-            case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE -> {
-                this.value = String.valueOf(cameraControlsConfigMap.getNormalRotatingAngle());
-                this.valueType = VALUE_TYPE.FLOAT;
-            }
-            case CAMERA_CONTROLS_MODIFIED_ROTATING_ANGLE -> {
-                this.value = String.valueOf(cameraControlsConfigMap.getModifiedRotatingAngle());
-                this.valueType = VALUE_TYPE.FLOAT;
-            }
-            case CAMERA_CONTROLS_DELAY -> {
-                this.value = String.valueOf(cameraControlsConfigMap.getDelayInMilliseconds());
-                this.valueType = VALUE_TYPE.INT;
-            }
-            case INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT -> {
-                this.value = inventoryControlsConfigMap.getRowAndColumnFormat();
-                this.valueType = VALUE_TYPE.STRING;
-            }
-            case INVENTORY_CONTROLS_DELAY -> {
-                this.value = String.valueOf(inventoryControlsConfigMap.getDelayInMilliseconds());
-                this.valueType = VALUE_TYPE.INT;
-            }
-            case MOUSE_SIMULATION_SCROLL_DELAY -> {
-                this.value = String.valueOf(MouseSimulationConfigMap.getInstance().getScrollDelayInMilliseconds());
-                this.valueType = VALUE_TYPE.INT;
-            }
-            case POI_BLOCKS_RANGE -> {
-                this.value = String.valueOf(poiBlocksConfigMap.getRange());
-                this.valueType = VALUE_TYPE.INT;
-            }
-            case POI_BLOCKS_VOLUME -> {
-                this.value = String.valueOf(poiBlocksConfigMap.getVolume());
-                this.valueType = VALUE_TYPE.FLOAT;
-            }
-            case POI_BLOCKS_DELAY -> {
-                this.value = String.valueOf(poiBlocksConfigMap.getDelay());
-                this.valueType = VALUE_TYPE.INT;
-            }
-            case POI_ENTITIES_RANGE -> {
-                this.value = String.valueOf(entitiesConfigMap.getRange());
-                this.valueType = VALUE_TYPE.INT;
-            }
-            case POI_ENTITIES_VOLUME -> {
-                this.value = String.valueOf(entitiesConfigMap.getVolume());
-                this.valueType = VALUE_TYPE.FLOAT;
-            }
-            case POI_ENTITIES_DELAY -> {
-                this.value = String.valueOf(entitiesConfigMap.getDelay());
-                this.valueType = VALUE_TYPE.INT;
-            }
-            case POI_LOCKING_DELAY -> {
-                this.value = String.valueOf(POILockingConfigMap.getInstance().getDelay());
-                this.valueType = VALUE_TYPE.INT;
-            }
-            case PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD -> {
-                this.value = String.valueOf(playerWarningConfigMap.getFirstHealthThreshold());
-                this.valueType = VALUE_TYPE.FLOAT;
-            }
-            case PLAYER_WARNINGS_SECOND_HEALTH_THRESHOLD -> {
-                this.value = String.valueOf(playerWarningConfigMap.getSecondHealthThreshold());
-                this.valueType = VALUE_TYPE.FLOAT;
-            }
-            case PLAYER_WARNINGS_HUNGER_THRESHOLD -> {
-                this.value = String.valueOf(playerWarningConfigMap.getHungerThreshold());
-                this.valueType = VALUE_TYPE.FLOAT;
-            }
-            case PLAYER_WARNINGS_AIR_THRESHOLD -> {
-                this.value = String.valueOf(playerWarningConfigMap.getAirThreshold());
-                this.valueType = VALUE_TYPE.FLOAT;
-            }
-            case FALL_DETECTOR_RANGE -> {
-                this.value = String.valueOf(fallDetectorConfigMap.getRange());
-                this.valueType = VALUE_TYPE.INT;
-            }
-            case FALL_DETECTOR_DEPTH_THRESHOLD -> {
-                this.value = String.valueOf(fallDetectorConfigMap.getDepth());
-                this.valueType = VALUE_TYPE.INT;
-            }
-            case FALL_DETECTOR_VOLUME -> {
-                this.value = String.valueOf(fallDetectorConfigMap.getVolume());
-                this.valueType = VALUE_TYPE.FLOAT;
-            }
-            case FALL_DETECTOR_DELAY -> {
-                this.value = String.valueOf(fallDetectorConfigMap.getDelay());
-                this.valueType = VALUE_TYPE.INT;
-            }
-            case READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL -> {
-                this.value = String.valueOf(ReadCrosshairConfigMap.getInstance().getRepeatSpeakingInterval());
-                this.valueType = VALUE_TYPE.INT;
-            }
-            case NARRATOR_MENU_VOLUME -> {
-                this.value = String.valueOf(fluidDetectorConfigMap.getVolume());
-                this.valueType = VALUE_TYPE.FLOAT;
-            }
-            case NARRATOR_MENU_RANGE -> {
-                this.value = String.valueOf(fluidDetectorConfigMap.getRange());
-                this.valueType = VALUE_TYPE.INT;
-            }
-            case OTHER_POSITION_NARRATOR_FORMAT -> {
-                this.value = OtherConfigsMap.getInstance().getPositionNarratorFormat();
-                this.valueType = VALUE_TYPE.STRING;
-            }
-            case AREA_MAP_DELAY -> {
-                this.value = String.valueOf(areaMapConfigMap.getDelayInMilliseconds());
-                this.valueType = VALUE_TYPE.INT;
-            }
-        }
-
+        this.value = String.valueOf(this.configType.valueGetter.get());
         this.previousValue = this.value;
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.gui.value_entry_menu.info_text", this.value), true);
     }
@@ -193,13 +151,13 @@ public class ValueEntryMenu extends BaseScreen {
         } else if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) {
             this.updateConfig();
             this.close();
-        } else if (valueType != VALUE_TYPE.STRING && ((keyCode >= GLFW.GLFW_KEY_0 && keyCode <= GLFW.GLFW_KEY_9)
+        } else if (this.configType.valueType != ValueType.STRING && ((keyCode >= GLFW.GLFW_KEY_0 && keyCode <= GLFW.GLFW_KEY_9)
                 || (keyCode >= GLFW.GLFW_KEY_KP_0 && keyCode <= GLFW.GLFW_KEY_KP_9)
-                || (valueType != VALUE_TYPE.INT && (keyCode == GLFW.GLFW_KEY_PERIOD || keyCode == GLFW.GLFW_KEY_KP_DECIMAL)))) {
+                || (this.configType.valueType != ValueType.INT && (keyCode == GLFW.GLFW_KEY_PERIOD || keyCode == GLFW.GLFW_KEY_KP_DECIMAL)))) {
             this.value += GLFW.glfwGetKeyName(keyCode, scanCode);
-        } else if (keyCode == GLFW.GLFW_KEY_BACKSPACE && this.value.length() > 0) {
+        } else if (keyCode == GLFW.GLFW_KEY_BACKSPACE && !this.value.isEmpty()) {
             this.value = this.value.substring(0, this.value.length() - 1);
-        } else if (valueType == VALUE_TYPE.STRING && GLFW.glfwGetKeyName(keyCode, scanCode) != null) {
+        } else if (this.configType.valueType == ValueType.STRING && GLFW.glfwGetKeyName(keyCode, scanCode) != null) {
             this.value += GLFW.glfwGetKeyName(keyCode, scanCode);
         } else {
             return false;
@@ -210,60 +168,11 @@ public class ValueEntryMenu extends BaseScreen {
 
     private void updateConfig() {
         try {
-            final CameraControlsConfigMap cameraControlsConfigMap = CameraControlsConfigMap.getInstance();
-            final FallDetectorConfigMap fallDetectorConfigMap = FallDetectorConfigMap.getInstance();
-            final InventoryControlsConfigMap inventoryControlsConfigMap = InventoryControlsConfigMap.getInstance();
-            final PlayerWarningConfigMap playerWarningConfigMap = PlayerWarningConfigMap.getInstance();
-            final FluidDetectorConfigMap fluidDetectorConfigMap = FluidDetectorConfigMap.getInstance();
-            final POIBlocksConfigMap poibBlocksConfigMap = POIBlocksConfigMap.getInstance();
-            final POIEntitiesConfigMap poiEntitiesConfigMap = POIEntitiesConfigMap.getInstance();
-            final AreaMapConfigMap areaMapConfigMap = AreaMapConfigMap.getInstance();
-
-            switch (configType) {
-                case CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE ->
-                        cameraControlsConfigMap.setNormalRotatingAngle(Float.parseFloat(value));
-                case CAMERA_CONTROLS_MODIFIED_ROTATING_ANGLE ->
-                        cameraControlsConfigMap.setModifiedRotatingAngle(Float.parseFloat(value));
-                case CAMERA_CONTROLS_DELAY ->
-                        cameraControlsConfigMap.setDelayInMilliseconds(Integer.parseInt(value));
-                case INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT ->
-                        inventoryControlsConfigMap.setRowAndColumnFormat(value);
-                case INVENTORY_CONTROLS_DELAY ->
-                        inventoryControlsConfigMap.setDelayInMilliseconds(Integer.parseInt(value));
-                case MOUSE_SIMULATION_SCROLL_DELAY ->
-                        MouseSimulationConfigMap.getInstance().setScrollDelayInMilliseconds(Integer.parseInt(value));
-                case POI_BLOCKS_RANGE -> poibBlocksConfigMap.setRange(Integer.parseInt(value));
-                case POI_BLOCKS_VOLUME -> poibBlocksConfigMap.setVolume(Float.parseFloat(value));
-                case POI_BLOCKS_DELAY -> poibBlocksConfigMap.setDelay(Integer.parseInt(value));
-                case POI_ENTITIES_RANGE -> poiEntitiesConfigMap.setRange(Integer.parseInt(value));
-                case POI_ENTITIES_VOLUME -> poiEntitiesConfigMap.setVolume(Float.parseFloat(value));
-                case POI_ENTITIES_DELAY -> poiEntitiesConfigMap.setDelay(Integer.parseInt(value));
-                case POI_LOCKING_DELAY -> POILockingConfigMap.getInstance().setDelay(Integer.parseInt(value));
-                case PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD ->
-                        playerWarningConfigMap.setFirstHealthThreshold(Double.parseDouble(value));
-                case PLAYER_WARNINGS_SECOND_HEALTH_THRESHOLD ->
-                        playerWarningConfigMap.setSecondHealthThreshold(Double.parseDouble(value));
-                case PLAYER_WARNINGS_HUNGER_THRESHOLD ->
-                        playerWarningConfigMap.setHungerThreshold(Double.parseDouble(value));
-                case PLAYER_WARNINGS_AIR_THRESHOLD ->
-                        playerWarningConfigMap.setAirThreshold(Double.parseDouble(value));
-                case FALL_DETECTOR_RANGE -> fallDetectorConfigMap.setRange(Integer.parseInt(value));
-                case FALL_DETECTOR_DEPTH_THRESHOLD -> fallDetectorConfigMap.setDepth(Integer.parseInt(value));
-                case FALL_DETECTOR_VOLUME -> fallDetectorConfigMap.setVolume(Float.parseFloat(value));
-                case FALL_DETECTOR_DELAY -> fallDetectorConfigMap.setDelay(Integer.parseInt(value));
-                case READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL ->
-                        ReadCrosshairConfigMap.getInstance().setRepeatSpeakingInterval(Long.parseLong(value));
-                case NARRATOR_MENU_VOLUME -> fluidDetectorConfigMap.setVolume(Float.parseFloat(value));
-                case NARRATOR_MENU_RANGE -> fluidDetectorConfigMap.setRange(Integer.parseInt(value));
-                case OTHER_POSITION_NARRATOR_FORMAT -> OtherConfigsMap.getInstance().setPositionNarratorFormat(value);
-                case AREA_MAP_DELAY -> areaMapConfigMap.setDelayInMilliseconds(Integer.parseInt(value));
-            }
-
+            this.configType.valueSetter.accept(this.value);
             Config.getInstance().writeJSON();
 
         } catch (Exception e) {
-            MainClass.errorLog("Error occurred while updating the config. The user possibly entered wrong value type.");
-            e.printStackTrace();
+            MainClass.errorLog("Error occurred while updating the config. The user possibly entered wrong value type.", e);
         }
     }
 

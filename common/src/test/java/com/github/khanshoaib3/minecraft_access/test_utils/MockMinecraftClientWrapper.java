@@ -4,7 +4,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import org.mockito.Mockito;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.mock;
 
 /**
  * Reusable mock Minecraft Client for testing.
@@ -16,28 +19,34 @@ public class MockMinecraftClientWrapper {
     private final MinecraftClient mockitoClient;
 
     public MockMinecraftClientWrapper() {
-        mockitoClient = Mockito.mock(MinecraftClient.class);
+        mockitoClient = mock(MinecraftClient.class);
+
+        lenient().doAnswer((i) -> {
+            // assign screen param to desired field to simulate real behavior
+            mockitoClient.currentScreen = i.getArgument(0);
+            return null;
+        }).when(mockitoClient).setScreen(any());
     }
 
     public MinecraftClient mockito() {
         return mockitoClient;
     }
 
-    public void verifyOpeningMenuOf(Class<? extends Screen> screenClass) {
-        Mockito.verify(mockitoClient, Mockito.times(1)
-                .description("the menu should be opened"))
-                .setScreen(any(screenClass));
+    public void setScreen(Class<? extends Screen> screenClass) {
+        Screen screen = Mockito.mock(screenClass);
+        lenient().doAnswer((ignored) -> {
+            mockitoClient.currentScreen = null;
+            return null;
+        }).when(screen).close();
+
+        mockitoClient.currentScreen = screen;
     }
 
-    public Screen setScreen(Class<? extends Screen> screenClass) {
-        Screen screen = Mockito.mock(screenClass);
-        mockitoClient.currentScreen = screen;
-        return screen;
+    public void verifyOpeningMenuOf(Class<? extends Screen> screenClass) {
+        assertThat(mockitoClient.currentScreen).as("the menu should be opened").isOfAnyClassIn(screenClass);
     }
 
     public void verifyClosingMenu() {
-        Mockito.verify(mockitoClient.currentScreen, Mockito.times(1)
-                .description("the menu should be closed"))
-                .close();
+        assertThat(mockitoClient.currentScreen).as("the menu should be closed").isNull();
     }
 }
