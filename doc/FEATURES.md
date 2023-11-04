@@ -26,7 +26,8 @@ If you have any suggestion on improvements existing features or about a new feat
     * [Biome Indicator](#biome-indicator)
     * [XP Indicator](#xp-indicator)
     * [Speak Harvest Of Fishing](#speak-harvest-of-fishing)
-    * [Speak Chat Messages and Action Bar Updates](#speak-chat-messages-and-action-bar-updates)
+    * [Speak Chat Messages](#speak-chat-messages)
+    * [Speak Action Bar Updates](#speak-action-bar-updates)
 
 ## Camera Controls
 
@@ -223,10 +224,15 @@ Speak when your [experience](https://minecraft.wiki/w/Experience) level is incre
 
 In fact this feature will speak the items you pick up while you're holding the rod, whether you're actually fishing or not.
 
-### Speak Chat Messages and Action Bar Updates
+### Speak Chat Messages
 
 Speak [chat](https://minecraft.wiki/w/Chat) messages, so you won't miss your friends' conversation.
 If you feel that too many chat messages are making you feel noisy, you can turn off showing chat messages in the original `Chat Settings...` options.
+
+See also: [Keybindings](/doc/KEYBINDINGS.md#speak-chat-messages)
+
+### Speak Action Bar Updates
+
 Messages updated by the [action bar](https://minecraft.wiki/w/Commands/title) are common in modded multiplayer servers, usually they are used as announcements.
 
 ## Other Pages
