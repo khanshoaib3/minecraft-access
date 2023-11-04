@@ -19,6 +19,7 @@ You may want to take a look at [all the original controls](https://minecraft.wik
 6. [Health n Hunger](#health-n-hunger)
 7. [Narrator Menu](#narrator-menu)
 8. [Book Editing](#book-editing)
+9. []()
 
 ## Camera Controls
 
@@ -158,6 +159,19 @@ See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Configuration]
 | "Sign" button                                    | not re-mappable    | And enter a title for the book to make it permanently non-editable                                                   |
 
 See also: [Feature Description](/doc/FEATURES.md#book-editing)
+
+### Speak Chat Messages
+
+| Key Combination       | Description                                                                                                                        |
+|-----------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| Press `Alt` + `1`~`9` | Speak previous chat message (again) corresponding to the number, 1 for the closest message, 2 for second closest message and so on |
+
+This feature only works while the Chat Screen is open.
+These keys are not re-mappable.
+The chat message will be spoken when that message shows up, whether the sender is you or not.
+These keys are used to repeat previous chat messages.
+
+See also: [Feature Description](/doc/FEATURES.md#speak-chat-messages)
 
 ## Other Pages
 
