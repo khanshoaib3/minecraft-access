@@ -147,16 +147,16 @@ See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Configuration]
 
 ## Book Editing
 
-| Single Key                                       | Default Keybinding | Description                                                                                                          |
-|--------------------------------------------------|--------------------|----------------------------------------------------------------------------------------------------------------------|
+| Single Key                                       | Default Keybinding | Description                                                                                                 |
+|--------------------------------------------------|--------------------|-------------------------------------------------------------------------------------------------------------|
 | `Use Item/Place Block` (the original keybinding) | right mouse key    | Open the book editing screen while holding a [Book and Quill](https://minecraft.wiki/w/Book_and_Quill) item |
-| Tab                                              | not re-mappable    | Select buttons                                                                                                       |
-| Space                                            | not re-mappable    | Click selected button                                                                                                |
-| `Attack/Destroy` (the original keybinding)       | left mouse key     | Same as `Space` key, click selected button                                                                           |
-| Page Up                                          | not re-mappable    | Switch to previous page                                                                                              |
-| Page Down                                        | not re-mappable    | Switch to next page                                                                                                  |
-| "Done" button                                    | not re-mappable    | Save your unfinished work and quit editing screen                                                                    |
-| "Sign" button                                    | not re-mappable    | And enter a title for the book to make it permanently non-editable                                                   |
+| Tab                                              | not re-mappable    | Select buttons                                                                                              |
+| Space                                            | not re-mappable    | Click selected button                                                                                       |
+| `Attack/Destroy` (the original keybinding)       | left mouse key     | Same as `Space` key, click selected button                                                                  |
+| Page Up                                          | not re-mappable    | Switch to previous page                                                                                     |
+| Page Down                                        | not re-mappable    | Switch to next page                                                                                         |
+| "Done" button                                    | not re-mappable    | Save your unfinished work and quit editing screen                                                           |
+| "Sign" button                                    | not re-mappable    | And enter a title for the book to make it permanently non-editable                                          |
 
 See also: [Feature Description](/doc/FEATURES.md#book-editing)
 
