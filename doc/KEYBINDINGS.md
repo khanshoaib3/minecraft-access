@@ -19,6 +19,7 @@ You may want to take a look at [all the original controls](https://minecraft.wik
 6. [Health n Hunger](#health-n-hunger)
 7. [Narrator Menu](#narrator-menu)
 8. [Book Editing](#book-editing)
+9. [Speak Chat Messages](#speak-chat-messages)
 
 ## Camera Controls
 
@@ -146,18 +147,31 @@ See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Configuration]
 
 ## Book Editing
 
-| Single Key                                       | Default Keybinding | Description                                                                                                          |
-|--------------------------------------------------|--------------------|----------------------------------------------------------------------------------------------------------------------|
+| Single Key                                       | Default Keybinding | Description                                                                                                 |
+|--------------------------------------------------|--------------------|-------------------------------------------------------------------------------------------------------------|
 | `Use Item/Place Block` (the original keybinding) | right mouse key    | Open the book editing screen while holding a [Book and Quill](https://minecraft.wiki/w/Book_and_Quill) item |
-| Tab                                              | not re-mappable    | Select buttons                                                                                                       |
-| Space                                            | not re-mappable    | Click selected button                                                                                                |
-| `Attack/Destroy` (the original keybinding)       | left mouse key     | Same as `Space` key, click selected button                                                                           |
-| Page Up                                          | not re-mappable    | Switch to previous page                                                                                              |
-| Page Down                                        | not re-mappable    | Switch to next page                                                                                                  |
-| "Done" button                                    | not re-mappable    | Save your unfinished work and quit editing screen                                                                    |
-| "Sign" button                                    | not re-mappable    | And enter a title for the book to make it permanently non-editable                                                   |
+| Tab                                              | not re-mappable    | Select buttons                                                                                              |
+| Space                                            | not re-mappable    | Click selected button                                                                                       |
+| `Attack/Destroy` (the original keybinding)       | left mouse key     | Same as `Space` key, click selected button                                                                  |
+| Page Up                                          | not re-mappable    | Switch to previous page                                                                                     |
+| Page Down                                        | not re-mappable    | Switch to next page                                                                                         |
+| "Done" button                                    | not re-mappable    | Save your unfinished work and quit editing screen                                                           |
+| "Sign" button                                    | not re-mappable    | And enter a title for the book to make it permanently non-editable                                          |
 
 See also: [Feature Description](/doc/FEATURES.md#book-editing)
+
+### Speak Chat Messages
+
+| Key Combination       | Description                                                                                                                        |
+|-----------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| Press `Alt` + `1`~`9` | Speak previous chat message (again) corresponding to the number, 1 for the closest message, 2 for second closest message and so on |
+
+This feature only works while the Chat Screen is open.
+These keys are not re-mappable.
+The chat message will be spoken when that message shows up, whether the sender is you or not.
+These keys are used to repeat previous chat messages.
+
+See also: [Feature Description](/doc/FEATURES.md#speak-chat-messages)
 
 ## Other Pages
 
