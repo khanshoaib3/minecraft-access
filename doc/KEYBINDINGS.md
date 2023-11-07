@@ -19,7 +19,7 @@ You may want to take a look at [all the original controls](https://minecraft.wik
 6. [Health n Hunger](#health-n-hunger)
 7. [Narrator Menu](#narrator-menu)
 8. [Book Editing](#book-editing)
-9. [Speak Action Bar Updates](#speak-action-bar-updates)
+9. [Speak Chat Messages](#speak-chat-messages)
 
 ## Camera Controls
 
