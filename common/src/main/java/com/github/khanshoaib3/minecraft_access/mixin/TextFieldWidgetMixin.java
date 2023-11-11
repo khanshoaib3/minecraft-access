@@ -8,6 +8,7 @@ import net.minecraft.util.Util;
 import org.apache.logging.log4j.util.Strings;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -21,9 +22,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class TextFieldWidgetMixin {
     @Shadow
     private String text;
-
     @Shadow
     private int selectionStart;
+    @Unique
+    private String minecraft_access$previousSelectedText = "";
+    @Unique
+    private String minecraft_access$previousText = "";
 
     /**
      * Prevents any character input if alt is held down.
@@ -44,9 +48,33 @@ public class TextFieldWidgetMixin {
             return;
         }
         String selectedText = accessor.callGetSelectedText();
+
         if (Strings.isNotBlank(selectedText)) {
-            MainClass.speakWithNarrator(I18n.translate("minecraft_access.other.selected", selectedText), true);
+            // text selected
+            String textToSpeak = I18n.translate("minecraft_access.other.selected", selectedText);
+            if (this.minecraft_access$previousSelectedText.length() > selectedText.length()) {
+                // part of previous selected text is unselected
+                // only speak unselected text
+                textToSpeak = I18n.translate("minecraft_access.other.unselected", minecraft_access$getUnselectedText(selectedText));
+            }
+            MainClass.speakWithNarrator(textToSpeak, true);
+        } else {
+            // text unselected
+            boolean someTextIsErased = this.minecraft_access$previousText.length() > this.text.length();
+            // don't speak if no previous selected text
+            // don't speak if text is erased since this will cover erasing narration
+            if (Strings.isNotBlank(this.minecraft_access$previousSelectedText) && !someTextIsErased) {
+                MainClass.speakWithNarrator(I18n.translate("minecraft_access.other.unselected", this.minecraft_access$previousSelectedText), true);
+            }
         }
+
+        this.minecraft_access$previousSelectedText = selectedText;
+        this.minecraft_access$previousText = this.text;
+    }
+
+    @Unique
+    private String minecraft_access$getUnselectedText(String selectedText) {
+        return this.minecraft_access$previousSelectedText.replaceFirst(selectedText, "");
     }
 
     @Inject(at = @At("HEAD"), method = "eraseCharacters")
