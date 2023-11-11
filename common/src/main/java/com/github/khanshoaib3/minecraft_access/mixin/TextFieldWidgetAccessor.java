@@ -12,4 +12,10 @@ public interface TextFieldWidgetAccessor {
 
     @Invoker
     boolean callIsActive();
+
+    @Accessor
+    String getText();
+
+    @Invoker
+    String callGetSelectedText();
 }

@@ -1,13 +1,18 @@
 package com.github.khanshoaib3.minecraft_access.mixin;
 
+import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import org.apache.logging.log4j.util.Strings;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+/**
+ * Mainly add custom keypress handling
+ * to simulate screen reader's text speaking behavior when editing text in input fields.
+ */
 @Mixin(TextFieldWidget.class)
 public class TextFieldWidgetMixin {
     /**
@@ -22,22 +27,15 @@ public class TextFieldWidgetMixin {
         cir.cancel();
     }
 
-    /**
-     * Add custom keypress handling.
-     */
-    @Inject(at = @At("HEAD"), method = "keyPressed", cancellable = true)
-    private void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if (!minecraft_access$handleKeyPress(keyCode)) return;
-
-        // Method executes to here means one of custom keystroke handling above is triggered,
-        // so we want to cancel the logic in injected original method,
-        // since its logic is also return after one handling triggered.
-        cir.setReturnValue(true);
-        cir.cancel();
-    }
-
-    @Unique
-    private boolean minecraft_access$handleKeyPress(int keyCode) {
-        return false;
+    @Inject(at = @At("RETURN"), method = "keyPressed")
+    private void speakSelectedText(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+        TextFieldWidgetAccessor accessor = (TextFieldWidgetAccessor) this;
+        if (!accessor.callIsActive()) {
+            return;
+        }
+        String selectedText = accessor.callGetSelectedText();
+        if (Strings.isNotBlank(selectedText)) {
+            MainClass.speakWithNarrator(selectedText, true);
+        }
     }
 }
