@@ -26,6 +26,8 @@
     "RecipeBookResultsAccessor",
     "RecipeBookWidgetAccessor",
     "ScreenMixin",
+    "ScreenNarratorMixin",
+    "SelectionManagerMixin",
     "SlotAccessor",
     "StonecutterScreenAccessor",
     "TextFieldWidgetMixin"
