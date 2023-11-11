@@ -32,7 +32,7 @@ public class InGameHudMixin {
     @Unique
     private String minecraft_access$previousContent = "";
     @Unique
-    private static final Function<String, String> minecraft_access$HotbarI18N = toSpeak -> I18n.translate("minecraft_access.other.hotbar", toSpeak);
+    private static final Function<String, String> minecraft_access$HotbarI18N = toSpeak -> I18n.translate("minecraft_access.other.selected", toSpeak);
     @Unique
     private static final Function<String, String> minecraft_access$EmptySlotI18N = toSpeak -> I18n.translate("minecraft_access.inventory_controls.empty_slot", toSpeak);
 
