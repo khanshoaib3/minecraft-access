@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.mixin;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.util.Util;
 import org.apache.logging.log4j.util.Strings;
 import org.spongepowered.asm.mixin.Mixin;
@@ -44,7 +45,7 @@ public class TextFieldWidgetMixin {
         }
         String selectedText = accessor.callGetSelectedText();
         if (Strings.isNotBlank(selectedText)) {
-            MainClass.speakWithNarrator(selectedText, true);
+            MainClass.speakWithNarrator(I18n.translate("minecraft_access.other.selected", selectedText), true);
         }
     }
 
