@@ -75,6 +75,7 @@ public class TextFieldWidgetMixin {
 
     @Unique
     private String minecraft_access$getUnselectedText(String selectedText) {
+        // Use Pattern.quote() to prevent that unescaped regex characters make String.replaceFirst() throw exp
         return this.minecraft_access$previousSelectedText.replaceFirst(Pattern.quote(selectedText), "");
     }
 
