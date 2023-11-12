@@ -3,7 +3,6 @@ package com.github.khanshoaib3.minecraft_access.mixin;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import org.apache.logging.log4j.util.Strings;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -12,8 +11,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.regex.Pattern;
 
 /**
  * Mainly add custom keypress handling
@@ -27,10 +24,6 @@ public class TextFieldWidgetMixin {
     private int selectionStart;
     @Shadow
     private int selectionEnd;
-    @Unique
-    private String minecraft_access$previousSelectedText = "";
-    @Unique
-    private String minecraft_access$previousText = "";
 
     /**
      * Prevents any character input if alt is held down.
@@ -50,7 +43,7 @@ public class TextFieldWidgetMixin {
         if (!accessor.callIsActive()) {
             return;
         }
-        // is selecting, let the selecting text speaking method do the job
+        // is selecting, let the selecting text speaking method do the job instead
         if (Screen.hasShiftDown()) {
             return;
         }
@@ -89,33 +82,7 @@ public class TextFieldWidgetMixin {
             return;
         }
         String selectedText = accessor.callGetSelectedText();
-
-        if (Strings.isNotEmpty(selectedText)) {
-            // text selected
-            String textToSpeak = selectedText;
-            if (this.minecraft_access$previousSelectedText.length() > selectedText.length()) {
-                // part of previous selected text is unselected
-                // only speak unselected text
-                textToSpeak = minecraft_access$getUnselectedText(selectedText);
-            }
-            MainClass.speakWithNarrator(textToSpeak, true);
-        } else {
-            // text unselected
-            boolean someTextIsErased = this.minecraft_access$previousText.length() > this.text.length();
-            // don't speak if text is erased since this will cover erasing narration
-            if (!someTextIsErased) {
-                MainClass.speakWithNarratorIfNotEmpty(this.minecraft_access$previousSelectedText, true);
-            }
-        }
-
-        this.minecraft_access$previousSelectedText = selectedText;
-        this.minecraft_access$previousText = this.text;
-    }
-
-    @Unique
-    private String minecraft_access$getUnselectedText(String selectedText) {
-        // Use Pattern.quote() to prevent that unescaped regex characters make String.replaceFirst() throw exp
-        return this.minecraft_access$previousSelectedText.replaceFirst(Pattern.quote(selectedText), "");
+        MainClass.speakWithNarratorIfNotEmpty(selectedText, true);
     }
 
     @Inject(at = @At("HEAD"), method = "eraseCharacters")
