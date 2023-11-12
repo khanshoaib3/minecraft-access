@@ -10,11 +10,12 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.function.Supplier;
 
 @Mixin(SelectionManager.class)
-public class SelectionManagerMixin {
+public abstract class SelectionManagerMixin {
     @Final
     @Shadow
     private Supplier<String> stringGetter;
@@ -23,9 +24,17 @@ public class SelectionManagerMixin {
     @Shadow
     private int selectionEnd;
 
+    @Shadow protected abstract String getSelectedText(String string);
+
     @Inject(at = @At("TAIL"), method = "putCursorAtEnd")
     public void speakTextOfSwitchedLine(CallbackInfo ci) {
         MainClass.speakWithNarratorIfNotEmpty(this.stringGetter.get(), true);
+    }
+
+    @Inject(at = @At("RETURN"), method = "handleSpecialKey")
+    private void speakSelectedText(int keyCode, CallbackInfoReturnable<Boolean> cir) {
+        String selectedText = this.getSelectedText(this.stringGetter.get());
+        MainClass.speakWithNarratorIfNotEmpty(selectedText, true);
     }
 
     @Inject(at = @At("HEAD"), method = "delete(I)V")

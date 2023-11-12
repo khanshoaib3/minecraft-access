@@ -84,10 +84,6 @@ public class TextFieldWidgetMixin {
         }
     }
 
-    /**
-     * Speak selected text when more text is selected,
-     * speak unselected text when less text is selected.
-     */
     @Inject(at = @At("RETURN"), method = "keyPressed")
     private void speakSelectedText(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
         TextFieldWidgetAccessor accessor = (TextFieldWidgetAccessor) this;
