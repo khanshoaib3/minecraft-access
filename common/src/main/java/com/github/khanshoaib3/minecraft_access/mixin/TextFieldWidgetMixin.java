@@ -25,6 +25,8 @@ public class TextFieldWidgetMixin {
     private String text;
     @Shadow
     private int selectionStart;
+    @Shadow
+    private int selectionEnd;
     @Unique
     private String minecraft_access$previousSelectedText = "";
     @Unique
@@ -85,7 +87,12 @@ public class TextFieldWidgetMixin {
         int startPos = Math.min(cursorPos, this.selectionStart);
         int endPos = Math.max(cursorPos, this.selectionStart);
         String erasedText = this.text.substring(startPos, endPos);
-        if (Strings.isNotEmpty(erasedText)) {
+
+        // select all text (ctrl+a) will not change the cursor position,
+        // if we delete all text then, the erasedText will be a wrong value (one char ahead of cursor)
+        // don't speak under this condition
+        boolean allTextAreSelected = this.selectionEnd == 0;
+        if (Strings.isNotEmpty(erasedText) && !allTextAreSelected) {
             MainClass.speakWithNarrator(erasedText, true);
         }
     }
