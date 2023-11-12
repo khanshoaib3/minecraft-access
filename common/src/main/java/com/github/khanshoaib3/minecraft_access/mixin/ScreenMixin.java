@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.mixin;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.MerchantScreen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
@@ -20,7 +21,8 @@ import java.util.List;
 
 @Mixin(Screen.class)
 public abstract class ScreenMixin {
-    @Shadow public abstract Text getNarratedTitle();
+    @Shadow
+    public abstract Text getNarratedTitle();
 
     @Shadow
     @Nullable
@@ -28,14 +30,19 @@ public abstract class ScreenMixin {
         return null;
     }
 
-    @Shadow @Nullable private Selectable selected;
+    @Shadow
+    @Nullable
+    private Selectable selected;
 
-    @Shadow @Final private List<Selectable> selectables;
+    @Shadow
+    @Final
+    private List<Selectable> selectables;
 
-    @Shadow protected abstract void addElementNarrations(NarrationMessageBuilder builder);
+    @Shadow
+    protected abstract void addElementNarrations(NarrationMessageBuilder builder);
 
     @Inject(at = @At("HEAD"), method = "addScreenNarrations", cancellable = true)
-    private void addScreenNarrationsHead(NarrationMessageBuilder builder, CallbackInfo ci){
+    private void addScreenNarrationsHead(NarrationMessageBuilder builder, CallbackInfo ci) {
         builder.put(NarrationPart.TITLE, this.getNarratedTitle());
         this.addElementNarrations(builder);
         ci.cancel();
@@ -58,5 +65,16 @@ public abstract class ScreenMixin {
         }
 
         callbackInfo.cancel();
+    }
+
+    /**
+     * Stops narrating chat screen input on every text modifying operation
+     */
+    @Inject(at = @At("HEAD"), method = "narrateScreen", cancellable = true)
+    private void stopNarratingChatScreenInput(boolean onlyChangedNarrations, CallbackInfo ci) {
+        var c = MinecraftClient.getInstance();
+        if (c != null && c.currentScreen instanceof ChatScreen) {
+            ci.cancel();
+        }
     }
 }
