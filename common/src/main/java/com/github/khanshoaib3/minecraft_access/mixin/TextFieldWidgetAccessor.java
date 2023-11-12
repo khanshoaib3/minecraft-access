@@ -10,9 +10,16 @@ public interface TextFieldWidgetAccessor {
     @Accessor
     boolean getFocusUnlocked();
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     @Invoker
     boolean callIsActive();
 
     @Invoker
     String callGetSelectedText();
+
+    @Invoker
+    int callGetWordSkipPosition(int wordOffset);
+
+    @Invoker
+    int callGetCursorPosWithOffset(int offset);
 }

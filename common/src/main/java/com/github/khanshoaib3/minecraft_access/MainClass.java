@@ -13,6 +13,7 @@ import com.mojang.text2speech.Narrator;
 import dev.architectury.event.events.client.ClientTickEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
+import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -165,5 +166,11 @@ public class MainClass {
         }
 
         Narrator.getNarrator().say(text, interrupt);
+    }
+
+    public static void speakWithNarratorIfNotEmpty(String text, boolean interrupt) {
+        if (Strings.isNotEmpty(text)) {
+            speakWithNarrator(text, interrupt);
+        }
     }
 }
