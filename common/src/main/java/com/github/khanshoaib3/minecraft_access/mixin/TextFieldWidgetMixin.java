@@ -3,7 +3,6 @@ package com.github.khanshoaib3.minecraft_access.mixin;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.util.Util;
 import org.apache.logging.log4j.util.Strings;
 import org.spongepowered.asm.mixin.Mixin;
@@ -53,11 +52,11 @@ public class TextFieldWidgetMixin {
 
         if (Strings.isNotEmpty(selectedText)) {
             // text selected
-            String textToSpeak = I18n.translate("minecraft_access.other.selected", selectedText);
+            String textToSpeak = selectedText;
             if (this.minecraft_access$previousSelectedText.length() > selectedText.length()) {
                 // part of previous selected text is unselected
                 // only speak unselected text
-                textToSpeak = I18n.translate("minecraft_access.other.unselected", minecraft_access$getUnselectedText(selectedText));
+                textToSpeak = minecraft_access$getUnselectedText(selectedText);
             }
             MainClass.speakWithNarrator(textToSpeak, true);
         } else {
@@ -66,7 +65,7 @@ public class TextFieldWidgetMixin {
             // don't speak if no previous selected text
             // don't speak if text is erased since this will cover erasing narration
             if (Strings.isNotEmpty(this.minecraft_access$previousSelectedText) && !someTextIsErased) {
-                MainClass.speakWithNarrator(I18n.translate("minecraft_access.other.unselected", this.minecraft_access$previousSelectedText), true);
+                MainClass.speakWithNarrator(this.minecraft_access$previousSelectedText, true);
             }
         }
 
