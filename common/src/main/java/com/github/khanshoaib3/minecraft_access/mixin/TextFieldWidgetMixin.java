@@ -14,6 +14,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.regex.Pattern;
+
 /**
  * Mainly add custom keypress handling
  * to simulate screen reader's text speaking behavior when editing text in input fields.
@@ -74,7 +76,7 @@ public class TextFieldWidgetMixin {
 
     @Unique
     private String minecraft_access$getUnselectedText(String selectedText) {
-        return this.minecraft_access$previousSelectedText.replaceFirst(selectedText, "");
+        return this.minecraft_access$previousSelectedText.replaceFirst(Pattern.quote(selectedText), "");
     }
 
     @Inject(at = @At("HEAD"), method = "eraseCharacters")
