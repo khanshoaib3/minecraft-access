@@ -12,14 +12,14 @@ If you have any suggestion on improvements existing features or about a new feat
     * [Partial Speaking](#partial-speaking)
 4. [Inventory Controls](#inventory-controls)
 5. [Point of Interest](#point-of-interest)
-   * [POI Locking](#poi-locking)
-   * [POI Marking](#poi-marking)
+    * [POI Locking](#poi-locking)
+    * [POI Marking](#poi-marking)
 6. [Fall Detector](#fall-detector)
 7. [Narrator Menu](#narrator-menu)
 8. [Play Status](#player-status)
-   * [Position Narrator](#position-narrator)
-   * [Health n Hunger](#health-n-hunger)
-   * [Player Warnings](#player-warnings)
+    * [Position Narrator](#position-narrator)
+    * [Health n Hunger](#health-n-hunger)
+    * [Player Warnings](#player-warnings)
 9. [Book Editing](#book-editing)
 10. [Other Small Features](#other-small-features)
     * [Speak held item](#speak-held-item)
@@ -28,6 +28,7 @@ If you have any suggestion on improvements existing features or about a new feat
     * [Speak Harvest Of Fishing](#speak-harvest-of-fishing)
     * [Speak Chat Messages](#speak-chat-messages)
     * [Speak Action Bar Updates](#speak-action-bar-updates)
+    * [Speak Text Editing](#speak-text-editing)
 
 ## Camera Controls
 
@@ -80,7 +81,7 @@ You can switch focusing group, move to different slots within a group, or pick u
 
 Use mouse simulation keys in [`Mouse Simulation`](#mouse-simulation) feature to preform operations such as item transferring and button clicking.
 Left mouse key will pick up and put down full number of items in the slot.
-Right mouse key will pick up half number of items or put one item down. 
+Right mouse key will pick up half number of items or put one item down.
 Middle mouse key can be used in creative mode to pick up a full stack of item from the item list.
 The mod will speak what is currently in the slot, such as "Empty Slot" or "64 Stone".
 When you pick up full number of items in a slot, the mod will speak "Empty Slot" to represent current state of the slot.
@@ -227,13 +228,17 @@ In fact this feature will speak the items you pick up while you're holding the r
 ### Speak Chat Messages
 
 Speak [chat](https://minecraft.wiki/w/Chat) messages, so you won't miss your friends' conversation.
-If you feel that too many chat messages are making you feel noisy, you can turn off showing chat messages in the original `Chat Settings...` options.
+If you feel that too many chat messages are making you feel noisy, you can turn off showing chat messages in the original `Chat Settings...` options, or press "P" to open [Social Interactions Screen](https://minecraft.wiki/w/Social_interactions) to mute particular players.
 
 See also: [Keybindings](/doc/KEYBINDINGS.md#speak-chat-messages)
 
 ### Speak Action Bar Updates
 
 Messages updated by the [action bar](https://minecraft.wiki/w/Commands/title) are common in modded multiplayer servers, usually they are used as announcements.
+
+### Speak Text Editing
+
+The mod will simulate the feedback you get when typing text in other software's input boxes, it will speak the text that you delete, select, hover over with cursor.
 
 ## Other Pages
 
