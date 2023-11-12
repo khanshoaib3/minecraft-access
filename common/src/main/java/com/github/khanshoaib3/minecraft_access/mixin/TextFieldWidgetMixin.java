@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.mixin;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import org.apache.logging.log4j.util.Strings;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -66,6 +67,18 @@ public class TextFieldWidgetMixin {
                 } else {
                     String hoveredText = this.getCursorHoveredOverText(accessor.callGetCursorPosWithOffset(1));
                     MainClass.speakWithNarratorIfNotEmpty(hoveredText, true);
+                }
+                return;
+            }
+            case GLFW.GLFW_KEY_HOME: {
+                if (Strings.isNotEmpty(this.text)) {
+                    MainClass.speakWithNarrator(this.text.substring(0, 1), true);
+                }
+                return;
+            }
+            case GLFW.GLFW_KEY_END: {
+                if (Strings.isNotEmpty(this.text)) {
+                    MainClass.speakWithNarrator(this.text.substring(this.text.length() - 1), true);
                 }
             }
         }
