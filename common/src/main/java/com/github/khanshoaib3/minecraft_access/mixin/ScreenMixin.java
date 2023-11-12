@@ -7,7 +7,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.MerchantScreen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.screen.narration.NarrationPart;
-import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -65,16 +64,5 @@ public abstract class ScreenMixin {
         }
 
         callbackInfo.cancel();
-    }
-
-    /**
-     * Stop narrating text input in any screen on every text modifying operation
-     */
-    @Inject(at = @At("HEAD"), method = "narrateScreen", cancellable = true)
-    private void stopNarratingChatScreenInput(boolean onlyChangedNarrations, CallbackInfo ci) {
-        var c = MinecraftClient.getInstance();
-        if (c != null && c.currentScreen != null && c.currentScreen.getFocused() instanceof TextFieldWidget) {
-            ci.cancel();
-        }
     }
 }
