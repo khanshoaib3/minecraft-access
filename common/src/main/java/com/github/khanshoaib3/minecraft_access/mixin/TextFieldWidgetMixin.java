@@ -39,7 +39,7 @@ public class TextFieldWidgetMixin {
     }
 
     @Inject(at = @At("HEAD"), method = "keyPressed")
-    private void speakCursorHoveredOverText(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+    private void speakCursorHoverOverText(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
         TextFieldWidgetAccessor accessor = (TextFieldWidgetAccessor) this;
         if (!accessor.callIsActive()) {
             return;
@@ -52,20 +52,20 @@ public class TextFieldWidgetMixin {
         switch (keyCode) {
             case GLFW.GLFW_KEY_LEFT: {
                 if (Screen.hasControlDown()) {
-                    String hoveredText = this.getCursorHoveredOverText(accessor.callGetWordSkipPosition(-1));
+                    String hoveredText = this.getCursorHoverOverText(accessor.callGetWordSkipPosition(-1));
                     MainClass.speakWithNarratorIfNotEmpty(hoveredText, true);
                 } else {
-                    String hoveredText = this.getCursorHoveredOverText(accessor.callGetCursorPosWithOffset(-1));
+                    String hoveredText = this.getCursorHoverOverText(accessor.callGetCursorPosWithOffset(-1));
                     MainClass.speakWithNarratorIfNotEmpty(hoveredText, true);
                 }
                 return;
             }
             case GLFW.GLFW_KEY_RIGHT: {
                 if (Screen.hasControlDown()) {
-                    String hoveredText = this.getCursorHoveredOverText(accessor.callGetWordSkipPosition(1));
+                    String hoveredText = this.getCursorHoverOverText(accessor.callGetWordSkipPosition(1));
                     MainClass.speakWithNarratorIfNotEmpty(hoveredText, true);
                 } else {
-                    String hoveredText = this.getCursorHoveredOverText(accessor.callGetCursorPosWithOffset(1));
+                    String hoveredText = this.getCursorHoverOverText(accessor.callGetCursorPosWithOffset(1));
                     MainClass.speakWithNarratorIfNotEmpty(hoveredText, true);
                 }
                 return;
@@ -102,13 +102,13 @@ public class TextFieldWidgetMixin {
         // don't speak under this condition
         boolean allTextAreSelected = this.selectionEnd == 0;
         if (!allTextAreSelected) {
-            String erasedText = getCursorHoveredOverText(cursorPos);
+            String erasedText = getCursorHoverOverText(cursorPos);
             MainClass.speakWithNarratorIfNotEmpty(erasedText, true);
         }
     }
 
     @Unique
-    private String getCursorHoveredOverText(int changedCursorPos) {
+    private String getCursorHoverOverText(int changedCursorPos) {
         int currentCursorPos = this.selectionStart;
         int startPos = Math.min(changedCursorPos, currentCursorPos);
         int endPos = Math.max(changedCursorPos, currentCursorPos);
