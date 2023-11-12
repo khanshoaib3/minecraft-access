@@ -51,7 +51,7 @@ public class TextFieldWidgetMixin {
         }
         String selectedText = accessor.callGetSelectedText();
 
-        if (Strings.isNotBlank(selectedText)) {
+        if (Strings.isNotEmpty(selectedText)) {
             // text selected
             String textToSpeak = I18n.translate("minecraft_access.other.selected", selectedText);
             if (this.minecraft_access$previousSelectedText.length() > selectedText.length()) {
@@ -65,7 +65,7 @@ public class TextFieldWidgetMixin {
             boolean someTextIsErased = this.minecraft_access$previousText.length() > this.text.length();
             // don't speak if no previous selected text
             // don't speak if text is erased since this will cover erasing narration
-            if (Strings.isNotBlank(this.minecraft_access$previousSelectedText) && !someTextIsErased) {
+            if (Strings.isNotEmpty(this.minecraft_access$previousSelectedText) && !someTextIsErased) {
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.other.unselected", this.minecraft_access$previousSelectedText), true);
             }
         }
@@ -85,7 +85,7 @@ public class TextFieldWidgetMixin {
         int startPos = Math.min(cursorPos, this.selectionStart);
         int endPos = Math.max(cursorPos, this.selectionStart);
         String erasedText = this.text.substring(startPos, endPos);
-        if (Strings.isNotBlank(erasedText)) {
+        if (Strings.isNotEmpty(erasedText)) {
             MainClass.speakWithNarrator(erasedText, true);
         }
     }
