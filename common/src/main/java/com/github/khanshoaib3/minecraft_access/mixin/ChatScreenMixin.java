@@ -92,4 +92,12 @@ public class ChatScreenMixin {
 
         MainClass.speakWithNarrator(messages.get(indexOffset).content().getString(), true);
     }
+
+    /**
+     * Since there is no text modifying narration, we want to manually speak when the chat history is switched.
+     */
+    @Inject(at = @At("TAIL"), method = "setChatFromHistory")
+    private void speakSwitchedChatHistory(int index, CallbackInfo ci) {
+        MainClass.speakWithNarratorIfNotEmpty(this.chatField.getText(), true);
+    }
 }
