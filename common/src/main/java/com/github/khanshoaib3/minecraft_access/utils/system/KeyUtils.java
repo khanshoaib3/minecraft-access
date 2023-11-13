@@ -20,13 +20,10 @@ public class KeyUtils {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
         if (minecraftClient == null) return false;
         long handle = minecraftClient.getWindow().getHandle();
-        if (keyCodes.length == 1) {
-            return InputUtil.isKeyPressed(handle, keyCodes[0]);
-        } else {
-            return IntStream.of(keyCodes).anyMatch(c -> InputUtil.isKeyPressed(handle, c));
-        }
+        return IntStream.of(keyCodes).anyMatch(c -> InputUtil.isKeyPressed(handle, c));
     }
 
+    @SuppressWarnings("unused")
     public static boolean isAllPressed(int... keyCodes) {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
         if (minecraftClient == null) return false;
@@ -40,22 +37,12 @@ public class KeyUtils {
      * Get these instances via InputUtil.fromTranslationKey({key})
      */
     public static boolean isAnyPressed(KeyBinding... keyBindings) {
-        if (keyBindings.length == 1) {
-            return isAnyPressed(InputUtil.fromTranslationKey(keyBindings[0].getBoundKeyTranslationKey()).getCode());
-        } else {
-            int[] array = Arrays.stream(keyBindings)
-                    .mapToInt(b -> InputUtil.fromTranslationKey(b.getBoundKeyTranslationKey()).getCode())
-                    .toArray();
-            return isAnyPressed(array);
-        }
+        return Arrays.stream(keyBindings).anyMatch(KeyBinding::isPressed);
     }
 
     @SuppressWarnings("unused")
     public static boolean isAllPressed(KeyBinding... keyBindings) {
-        int[] array = Arrays.stream(keyBindings)
-                .mapToInt(b -> InputUtil.fromTranslationKey(b.getBoundKeyTranslationKey()).getCode())
-                .toArray();
-        return isAllPressed(array);
+        return Arrays.stream(keyBindings).allMatch(KeyBinding::isPressed);
     }
 
     public static boolean isF3Pressed() {
