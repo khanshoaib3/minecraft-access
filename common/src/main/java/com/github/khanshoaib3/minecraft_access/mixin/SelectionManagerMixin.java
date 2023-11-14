@@ -3,6 +3,8 @@ package com.github.khanshoaib3.minecraft_access.mixin;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.font.TextHandler;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ingame.AbstractSignEditScreen;
+import net.minecraft.client.gui.screen.ingame.BookEditScreen;
 import net.minecraft.client.util.SelectionManager;
 import net.minecraft.util.Util;
 import org.apache.logging.log4j.util.Strings;
@@ -18,6 +20,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.function.Supplier;
 
+/**
+ * Mixin the inner content manager of {@link AbstractSignEditScreen}, {@link BookEditScreen} to make text editing on these screens accessible.
+ */
 @Mixin(SelectionManager.class)
 public abstract class SelectionManagerMixin {
     @Final
@@ -46,20 +51,20 @@ public abstract class SelectionManagerMixin {
         switch (keyCode) {
             case GLFW.GLFW_KEY_LEFT: {
                 if (Screen.hasControlDown()) {
-                    String hoveredText = this.getCursorHoveredOverText(getCursorPosByWordsWithOffset(-1));
+                    String hoveredText = this.minecraft_access$getCursorHoveredOverText(minecraft_access$getCursorPosByWordsWithOffset(-1));
                     MainClass.speakWithNarratorIfNotEmpty(hoveredText, true);
                 } else {
-                    String hoveredText = this.getCursorHoveredOverText(getCursorPosWithOffset(-1));
+                    String hoveredText = this.minecraft_access$getCursorHoveredOverText(minecraft_access$getCursorPosWithOffset(-1));
                     MainClass.speakWithNarratorIfNotEmpty(hoveredText, true);
                 }
                 return;
             }
             case GLFW.GLFW_KEY_RIGHT: {
                 if (Screen.hasControlDown()) {
-                    String hoveredText = this.getCursorHoveredOverText(getCursorPosByWordsWithOffset(1));
+                    String hoveredText = this.minecraft_access$getCursorHoveredOverText(minecraft_access$getCursorPosByWordsWithOffset(1));
                     MainClass.speakWithNarratorIfNotEmpty(hoveredText, true);
                 } else {
-                    String hoveredText = this.getCursorHoveredOverText(getCursorPosWithOffset(1));
+                    String hoveredText = this.minecraft_access$getCursorHoveredOverText(minecraft_access$getCursorPosWithOffset(1));
                     MainClass.speakWithNarratorIfNotEmpty(hoveredText, true);
                 }
                 return;
@@ -81,12 +86,12 @@ public abstract class SelectionManagerMixin {
     }
 
     @Unique
-    private int getCursorPosByWordsWithOffset(int offset) {
+    private int minecraft_access$getCursorPosByWordsWithOffset(int offset) {
         return TextHandler.moveCursorByWords(this.stringGetter.get(), offset, this.selectionStart, true);
     }
 
     @Unique
-    private int getCursorPosWithOffset(int offset) {
+    private int minecraft_access$getCursorPosWithOffset(int offset) {
         return Util.moveCursor(this.stringGetter.get(), this.selectionStart, offset);
     }
 
@@ -104,13 +109,13 @@ public abstract class SelectionManagerMixin {
         // don't speak under this condition
         boolean allTextAreSelected = this.selectionEnd == 0;
         if (!allTextAreSelected) {
-            String erasedText = getCursorHoveredOverText(cursorPos);
+            String erasedText = minecraft_access$getCursorHoveredOverText(cursorPos);
             MainClass.speakWithNarratorIfNotEmpty(erasedText, true);
         }
     }
 
     @Unique
-    private String getCursorHoveredOverText(int changedCursorPos) {
+    private String minecraft_access$getCursorHoveredOverText(int changedCursorPos) {
         int currentCursorPos = this.selectionStart;
         int startPos = Math.min(changedCursorPos, currentCursorPos);
         int endPos = Math.max(changedCursorPos, currentCursorPos);

@@ -18,13 +18,26 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * to simulate screen reader's text speaking behavior when editing text in input fields.
  */
 @Mixin(TextFieldWidget.class)
-public class TextFieldWidgetMixin {
+public abstract class TextFieldWidgetMixin {
     @Shadow
     private String text;
     @Shadow
     private int selectionStart;
     @Shadow
     private int selectionEnd;
+
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    @Shadow
+    public abstract boolean isActive();
+
+    @Shadow
+    public abstract int getWordSkipPosition(int wordOffset);
+
+    @Shadow
+    protected abstract int getCursorPosWithOffset(int offset);
+
+    @Shadow
+    public abstract String getSelectedText();
 
     /**
      * Prevents any character input if alt is held down.
@@ -40,8 +53,7 @@ public class TextFieldWidgetMixin {
 
     @Inject(at = @At("HEAD"), method = "keyPressed")
     private void speakCursorHoverOverText(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        TextFieldWidgetAccessor accessor = (TextFieldWidgetAccessor) this;
-        if (!accessor.callIsActive()) {
+        if (!this.isActive()) {
             return;
         }
         // is selecting, let the selecting text speaking method do the job instead
@@ -52,20 +64,20 @@ public class TextFieldWidgetMixin {
         switch (keyCode) {
             case GLFW.GLFW_KEY_LEFT: {
                 if (Screen.hasControlDown()) {
-                    String hoveredText = this.getCursorHoverOverText(accessor.callGetWordSkipPosition(-1));
+                    String hoveredText = this.getCursorHoverOverText(this.getWordSkipPosition(-1));
                     MainClass.speakWithNarratorIfNotEmpty(hoveredText, true);
                 } else {
-                    String hoveredText = this.getCursorHoverOverText(accessor.callGetCursorPosWithOffset(-1));
+                    String hoveredText = this.getCursorHoverOverText(this.getCursorPosWithOffset(-1));
                     MainClass.speakWithNarratorIfNotEmpty(hoveredText, true);
                 }
                 return;
             }
             case GLFW.GLFW_KEY_RIGHT: {
                 if (Screen.hasControlDown()) {
-                    String hoveredText = this.getCursorHoverOverText(accessor.callGetWordSkipPosition(1));
+                    String hoveredText = this.getCursorHoverOverText(this.getWordSkipPosition(1));
                     MainClass.speakWithNarratorIfNotEmpty(hoveredText, true);
                 } else {
-                    String hoveredText = this.getCursorHoverOverText(accessor.callGetCursorPosWithOffset(1));
+                    String hoveredText = this.getCursorHoverOverText(this.getCursorPosWithOffset(1));
                     MainClass.speakWithNarratorIfNotEmpty(hoveredText, true);
                 }
                 return;
@@ -86,17 +98,16 @@ public class TextFieldWidgetMixin {
 
     @Inject(at = @At("RETURN"), method = "keyPressed")
     private void speakSelectedText(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        TextFieldWidgetAccessor accessor = (TextFieldWidgetAccessor) this;
-        if (!accessor.callIsActive()) {
+        if (!this.isActive()) {
             return;
         }
-        String selectedText = accessor.callGetSelectedText();
+        String selectedText = this.getSelectedText();
         MainClass.speakWithNarratorIfNotEmpty(selectedText, true);
     }
 
     @Inject(at = @At("HEAD"), method = "eraseCharacters")
     private void speakErasedText(int characterOffset, CallbackInfo ci) {
-        int cursorPos = ((TextFieldWidgetAccessor) this).callGetCursorPosWithOffset(characterOffset);
+        int cursorPos = this.getCursorPosWithOffset(characterOffset);
         // select all text (ctrl+a) will not change the cursor position,
         // if we delete all text then, the erasedText will be a wrong value (one char ahead of cursor)
         // don't speak under this condition
