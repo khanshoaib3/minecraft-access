@@ -26,7 +26,7 @@ public class ScreenNarratorMixin {
      * <p>
      * It's quite annoying, so we want to suppress these narrations.
      */
-    @Inject(at = @At("TAIL"), method = "buildNarratorText", cancellable = true)
+    @Inject(at = @At("RETURN"), method = "buildNarratorText", cancellable = true)
     public void suppressTextEditingNarration(boolean includeUnchanged, CallbackInfoReturnable<String> cir) {
         var c = MinecraftClient.getInstance();
         if (c == null || c.currentScreen == null || !(c.currentScreen.getFocused() instanceof TextFieldWidget)) {
