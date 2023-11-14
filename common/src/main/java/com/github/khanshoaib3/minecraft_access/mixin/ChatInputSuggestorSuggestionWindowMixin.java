@@ -11,6 +11,7 @@ import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -32,14 +33,17 @@ public class ChatInputSuggestorSuggestionWindowMixin {
     @Final
     private List<Suggestion> suggestions;
 
-    /**
-     * Simplify the narration of the command suggestions.
-     */
     @Inject(at = @At("HEAD"), method = "getNarration", cancellable = true)
-    private void speakSuggestion(CallbackInfoReturnable<Text> cir) {
+    private void simplifySuggestionNarration(CallbackInfoReturnable<Text> cir) {
         // Don't know why they update this value here
         this.lastNarrationIndex = this.selection;
+        String textToSpeak = getSuggestionTextToSpeak();
+        cir.setReturnValue(Text.of(textToSpeak));
+        cir.cancel();
+    }
 
+    @Unique
+    private String getSuggestionTextToSpeak() {
         Suggestion suggestion = this.suggestions.get(this.selection);
         Message message = suggestion.getTooltip();
         String textToSpeak = "%dx%d %s".formatted(this.selection + 1, this.suggestions.size(), suggestion.getText());
@@ -49,13 +53,18 @@ public class ChatInputSuggestorSuggestionWindowMixin {
         } else {
             textToSpeak = I18n.translate("minecraft_access.other.selected", textToSpeak);
         }
-        cir.setReturnValue(Text.of(textToSpeak));
-        cir.cancel();
+        return textToSpeak;
     }
 
     @Inject(at = @At("HEAD"), method = "complete")
     private void speakCompletion(CallbackInfo ci) {
         String selected = this.suggestions.get(this.selection).getText();
         MainClass.speakWithNarratorIfNotEmpty(selected, true);
+    }
+
+    @Inject(at = @At("RETURN"), method = "<init>")
+    private void speakFirstSuggestionWhenSuggestionsAreShown(CallbackInfo ci) {
+        String first = getSuggestionTextToSpeak();
+        MainClass.speakWithNarratorIfNotEmpty(first, true);
     }
 }
