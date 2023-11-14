@@ -11,6 +11,7 @@
     "BookScreenMixin",
     "ButtonWidgetMixin",
     "ChatHudAccessor",
+    "ChatInputSuggestorSuggestionWindowMixin",
     "ChatScreenMixin",
     "ClickableWidgetAccessor",
     "ClientPlayNetworkHandlerMixin",
