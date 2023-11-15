@@ -21,14 +21,14 @@ If you have any suggestion on improvements existing features or about a new feat
     * [Health n Hunger](#health-n-hunger)
     * [Player Warnings](#player-warnings)
 9. [Book Editing](#book-editing)
-10. [Other Small Features](#other-small-features)
+10. [Speak Text Editing](#speak-text-editing)
+11. [Other Small Features](#other-small-features)
     * [Speak held item](#speak-held-item)
     * [Biome Indicator](#biome-indicator)
     * [XP Indicator](#xp-indicator)
     * [Speak Harvest Of Fishing](#speak-harvest-of-fishing)
     * [Speak Chat Messages](#speak-chat-messages)
     * [Speak Action Bar Updates](#speak-action-bar-updates)
-    * [Speak Text Editing](#speak-text-editing)
 
 ## Camera Controls
 
@@ -202,6 +202,15 @@ This section as a brief guide on how to use this screen, listing the keys corres
 
 See also: [Keybindings](/doc/KEYBINDINGS.md#book-editing)
 
+## Speak Text Editing
+
+The mod will simulate the feedback you get when typing text in other software's input boxes.
+It will speak the text that you delete, select, pass with cursor on [Chat Screen](https://minecraft.wiki/w/Chat), [Book Edit Screen](#book-editing), [Command Block Screen](https://minecraft.wiki/w/Command_Block#Modification) and so on.
+The mod also simplifies the original [command](https://minecraft.wiki/w/Commands) suggestion narration for a better typing experience with lesser annoying too-detailed narrations.
+The content of one command suggestion narration will be like "{the order of focused suggestion}x{total number of suggestions} {suggestion} selected", the format can be customized in the config.
+
+See also: [Configuration](/doc/CONFIG.md#other-configurations)
+
 ## Other Small Features
 
 Some small features that are automatically triggered based on your actions.
@@ -235,13 +244,6 @@ See also: [Keybindings](/doc/KEYBINDINGS.md#speak-chat-messages)
 ### Speak Action Bar Updates
 
 Messages updated by the [action bar](https://minecraft.wiki/w/Commands/title) are common in modded multiplayer servers, usually they are used as announcements.
-
-### Speak Text Editing
-
-The mod will simulate the feedback you get when typing text in other software's input boxes.
-It will speak the text that you delete, select, hover over with cursor on [Chat Screen](https://minecraft.wiki/w/Chat), [Book Edit Screen](#book-editing), [Command Block Screen](https://minecraft.wiki/w/Command_Block#Modification) and so on.
-The mod also simplifies the original [command](https://minecraft.wiki/w/Commands) suggestion narration for a better typing experience with lesser annoying too-detailed narrations.
-The content of one command suggestion narration will be like "{the order of focused suggestion}x{total number of suggestions} {suggestion} selected", the format [can be customized in the config](/doc/CONFIG.md#other-configurations).
 
 ## Other Pages
 
