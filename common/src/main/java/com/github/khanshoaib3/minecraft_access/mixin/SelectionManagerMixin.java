@@ -3,6 +3,8 @@ package com.github.khanshoaib3.minecraft_access.mixin;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.font.TextHandler;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ingame.AbstractSignEditScreen;
+import net.minecraft.client.gui.screen.ingame.BookEditScreen;
 import net.minecraft.client.util.SelectionManager;
 import net.minecraft.util.Util;
 import org.apache.logging.log4j.util.Strings;
@@ -18,6 +20,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.function.Supplier;
 
+/**
+ * Mixin the inner content manager of {@link AbstractSignEditScreen}, {@link BookEditScreen} to make text editing on these screens accessible.
+ */
 @Mixin(SelectionManager.class)
 public abstract class SelectionManagerMixin {
     @Final

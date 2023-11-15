@@ -7,10 +7,12 @@ import com.github.khanshoaib3.minecraft_access.utils.system.MouseUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ingame.AbstractSignEditScreen;
 import net.minecraft.client.gui.screen.ingame.BookEditScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.PageTurnWidget;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.SelectionManager;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Final;
@@ -20,6 +22,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
@@ -42,6 +45,22 @@ public abstract class BookEditScreenMixin {
     @Shadow private ButtonWidget doneButton;
 
     @Shadow private String title;
+
+    @Shadow
+    @Final
+    private SelectionManager currentPageSelectionManager;
+
+    @Shadow
+    protected abstract void moveToLineStart();
+
+    @Shadow
+    protected abstract void moveToLineEnd();
+
+    @Shadow
+    protected abstract void moveUpLine();
+
+    @Shadow
+    protected abstract void moveDownLine();
 
     @Unique boolean minecraft_access$firstTimeInSignMenu = true;
     @Unique String minecraft_access$previousContent = "";
@@ -172,5 +191,59 @@ public abstract class BookEditScreenMixin {
                 ((ClickableWidgetAccessor) this.signButton).callGetY() - 10,
                 MouseUtils::move);
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.book_edit.focus_moved_away"), true);
+    }
+
+    /**
+     * Rewrite the keyPressed method to reuse {@link SelectionManager} keypress handling to reuse logic in {@link SelectionManagerMixin}.
+     * They should have been written this method in this way, as well as in {@link AbstractSignEditScreen}.
+     */
+    @Inject(at = @At("HEAD"), method = "keyPressedEditMode", cancellable = true)
+    private void minecraft_access$keyPressedEditMode(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+        cir.cancel();
+
+        if (this.currentPageSelectionManager.handleSpecialKey(keyCode)) {
+            cir.setReturnValue(true);
+            return;
+        }
+
+        switch (keyCode) {
+            case GLFW.GLFW_KEY_ENTER:
+            case GLFW.GLFW_KEY_KP_ENTER: {
+                this.currentPageSelectionManager.insert("\n");
+                cir.setReturnValue(true);
+                return;
+            }
+            case GLFW.GLFW_KEY_UP: {
+                this.moveUpLine();
+                cir.setReturnValue(true);
+                return;
+            }
+            case GLFW.GLFW_KEY_DOWN: {
+                this.moveDownLine();
+                cir.setReturnValue(true);
+                return;
+            }
+            case GLFW.GLFW_KEY_PAGE_UP: {
+                this.previousPageButton.onPress();
+                cir.setReturnValue(true);
+                return;
+            }
+            case GLFW.GLFW_KEY_PAGE_DOWN: {
+                this.nextPageButton.onPress();
+                cir.setReturnValue(true);
+                return;
+            }
+            case GLFW.GLFW_KEY_HOME: {
+                this.moveToLineStart();
+                cir.setReturnValue(true);
+                return;
+            }
+            case GLFW.GLFW_KEY_END: {
+                this.moveToLineEnd();
+                cir.setReturnValue(true);
+                return;
+            }
+        }
+        cir.setReturnValue(false);
     }
 }
