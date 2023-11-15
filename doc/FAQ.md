@@ -6,6 +6,7 @@
 2. [Can this mod be used to play multiplayer servers?](#can-this-mod-be-used-to-play-multiplayer-servers)
 3. [Why nobody answers my questions in Discord?](#why-nobody-answers-my-questions-in-discord)
 4. [Why this mod is updated slowly / the feature I asked was not released in the new version?](#why-this-mod-is-updated-slowly--the-feature-i-asked-was-not-released-in-the-new-version)
+5. [Has this mod been uploaded to mod platforms?](#has-this-mod-been-uploaded-to-mod-platforms)
 
 ## Is the mod enough to play the game normally?
 
@@ -47,3 +48,7 @@ Uh, maintaining or updating this mod is a volunteer effort.
 There are currently only two active developers.
 Any type of contribution is welcome, please go to the [issues page](https://github.com/khanshoaib3/minecraft-access/issues) for more details.
 If you know developers who might be willing to help contribute to this mod, please send them information about this mod and encourage them.
+
+## Has this mod been uploaded to mod platforms?
+
+Yes, it has been uploaded to Modrinth as [Minecraft Access](https://modrinth.com/mod/minecraft-access) and CurseForge as [Blind Accessibility](https://www.curseforge.com/minecraft/mc-mods/blind-accessibility).
