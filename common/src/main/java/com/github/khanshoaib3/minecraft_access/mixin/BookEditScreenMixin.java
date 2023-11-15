@@ -13,6 +13,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.PageTurnWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.SelectionManager;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Final;
@@ -28,23 +29,37 @@ import java.util.List;
 
 @Mixin(BookEditScreen.class)
 public abstract class BookEditScreenMixin {
-    @Shadow private int currentPage;
-    @Final @Shadow private List<String> pages;
+    @Shadow
+    private int currentPage;
+    @Final
+    @Shadow
+    private List<String> pages;
 
-    @Shadow private Text pageIndicatorText;
-    @Shadow private PageTurnWidget nextPageButton;
-    @Shadow private PageTurnWidget previousPageButton;
-    @Shadow private boolean signing;
+    @Shadow
+    private PageTurnWidget nextPageButton;
+    @Shadow
+    private PageTurnWidget previousPageButton;
+    @Shadow
+    private boolean signing;
 
-    @Shadow @Final private static Text FINALIZE_WARNING_TEXT;
-    @Shadow @Final private static Text EDIT_TITLE_TEXT;
+    @Shadow
+    @Final
+    private static Text FINALIZE_WARNING_TEXT;
+    @Shadow
+    @Final
+    private static Text EDIT_TITLE_TEXT;
 
-    @Shadow private ButtonWidget cancelButton;
-    @Shadow private ButtonWidget finalizeButton;
-    @Shadow private ButtonWidget signButton;
-    @Shadow private ButtonWidget doneButton;
+    @Shadow
+    private ButtonWidget cancelButton;
+    @Shadow
+    private ButtonWidget finalizeButton;
+    @Shadow
+    private ButtonWidget signButton;
+    @Shadow
+    private ButtonWidget doneButton;
 
-    @Shadow private String title;
+    @Shadow
+    private String title;
 
     @Shadow
     @Final
@@ -62,13 +77,19 @@ public abstract class BookEditScreenMixin {
     @Shadow
     protected abstract void moveDownLine();
 
-    @Unique boolean minecraft_access$firstTimeInSignMenu = true;
-    @Unique String minecraft_access$previousContent = "";
-    @Unique private static final Keystroke minecraft_access$tabKey = new Keystroke(() -> KeyUtils.isAnyPressed(GLFW.GLFW_KEY_TAB));
-    @Unique private static final Keystroke minecraft_access$spaceKey = new Keystroke(KeyUtils::isSpacePressed);
+    @Unique
+    boolean minecraft_access$firstTimeInSignMenu = true;
+    @Unique
+    String minecraft_access$previousContent = "";
+    @Unique
+    private static final Keystroke minecraft_access$tabKey = new Keystroke(() -> KeyUtils.isAnyPressed(GLFW.GLFW_KEY_TAB));
+    @Unique
+    private static final Keystroke minecraft_access$spaceKey = new Keystroke(KeyUtils::isSpacePressed);
 
-    @Unique private int minecraft_access$currentFocusedButtonStateCode = 0;
-    @Unique private static final int BUTTON_OFFSET = 3;
+    @Unique
+    private int minecraft_access$currentFocusedButtonStateCode = 0;
+    @Unique
+    private static final int BUTTON_OFFSET = 3;
 
     @Inject(at = @At("HEAD"), method = "render")
     public void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
@@ -129,17 +150,6 @@ public abstract class BookEditScreenMixin {
             if (this.nextPageButton.isFocused()) this.nextPageButton.setFocused(false);
             if (this.previousPageButton.isFocused()) this.previousPageButton.setFocused(false);
             minecraft_access$previousContent = "";
-        }
-
-        if (this.currentPage < 0 || this.currentPage > this.pages.size())
-            return; // Return if the page index is out of bounds
-
-        String currentPageContentString = this.pages.get(this.currentPage).trim();
-        currentPageContentString = "%s \n\n %s".formatted(currentPageContentString, this.pageIndicatorText.getString());
-
-        if (!minecraft_access$previousContent.equals(currentPageContentString)) {
-            minecraft_access$previousContent = currentPageContentString;
-            MainClass.speakWithNarrator(currentPageContentString, true);
         }
     }
 
@@ -225,11 +235,13 @@ public abstract class BookEditScreenMixin {
             }
             case GLFW.GLFW_KEY_PAGE_UP: {
                 this.previousPageButton.onPress();
+                speakCurrentPageContent();
                 cir.setReturnValue(true);
                 return;
             }
             case GLFW.GLFW_KEY_PAGE_DOWN: {
                 this.nextPageButton.onPress();
+                speakCurrentPageContent();
                 cir.setReturnValue(true);
                 return;
             }
@@ -245,5 +257,13 @@ public abstract class BookEditScreenMixin {
             }
         }
         cir.setReturnValue(false);
+    }
+
+    @Unique
+    private void speakCurrentPageContent() {
+        String currentPageContentString = this.pages.get(this.currentPage).trim();
+        MutableText pageIndicatorText = Text.translatable("book.pageIndicator", this.currentPage + 1, this.pages.size());
+        currentPageContentString = "%s\n\n%s".formatted(currentPageContentString, pageIndicatorText.getString());
+        MainClass.speakWithNarratorIfNotEmpty(currentPageContentString, true);
     }
 }
