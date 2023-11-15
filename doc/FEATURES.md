@@ -238,7 +238,10 @@ Messages updated by the [action bar](https://minecraft.wiki/w/Commands/title) ar
 
 ### Speak Text Editing
 
-The mod will simulate the feedback you get when typing text in other software's input boxes, it will speak the text that you delete, select, hover over with cursor.
+The mod will simulate the feedback you get when typing text in other software's input boxes.
+It will speak the text that you delete, select, hover over with cursor on [Chat Screen](https://minecraft.wiki/w/Chat), [Book Edit Screen](#book-editing), [Command Block Screen](https://minecraft.wiki/w/Command_Block#Modification) and so on.
+The mod also simplifies the original [command](https://minecraft.wiki/w/Commands) suggestion narration for a better typing experience with lesser annoying too-detailed narrations.
+The content of one command suggestion narration will be like "{the order of focused suggestion}x{total number of suggestions} {suggestion} selected", the format [can be customized in the config](/doc/CONFIG.md#other-configurations).
 
 ## Other Pages
 
