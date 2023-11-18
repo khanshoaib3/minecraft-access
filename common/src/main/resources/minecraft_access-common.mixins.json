@@ -28,6 +28,7 @@
     "RecipeBookWidgetAccessor",
     "ScreenMixin",
     "ScreenNarratorMixin",
+    "SelectionManagerAccessor",
     "SelectionManagerMixin",
     "SlotAccessor",
     "StonecutterScreenAccessor",

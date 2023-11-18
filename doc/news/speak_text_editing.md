@@ -6,6 +6,8 @@
 * Suppress annoying original "speak whole sentence" narration on every text editing operation.
 * Simplify the original command suggestion narration for a better typing experience with lesser annoying too-detailed narrations.
 
+See also: [description of this feature](/doc/FEATURES.md#speak-text-editing)
+
 ### Feature Changes
 
 ### Bug Fixes

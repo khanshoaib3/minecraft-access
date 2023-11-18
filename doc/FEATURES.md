@@ -196,7 +196,7 @@ See also: [Configuration](/doc/CONFIG.md#player-warnings)
 
 ## Book Editing
 
-The [Book Editing Screen](https://minecraft.wiki/w/Book_and_Quill#Writing) is special in that it has nothing to do with item management and has no slot groups.
+The [Book Editing Screen](https://minecraft.wiki/w/Book_and_Quill#Writing) is a special screen that has nothing to do with item management thus has no slot group.
 We've added some not re-mappable keys and narration cues to make it 100% accessible.
 This section as a brief guide on how to use this screen, listing the keys corresponding to the functions.
 
@@ -206,6 +206,8 @@ See also: [Keybindings](/doc/KEYBINDINGS.md#book-editing)
 
 The mod will simulate the feedback you get when typing text in other software's input boxes.
 It will speak the text that you delete, select, pass with cursor on [Chat Screen](https://minecraft.wiki/w/Chat), [Book Edit Screen](#book-editing), [Command Block Screen](https://minecraft.wiki/w/Command_Block#Modification) and so on.
+Note that we have to speak whole unfinished book title while signing a book since you can't move the cursor in that state, which means that the cursor will stay at the end of title and ignoring your cursor moving operations.
+
 The mod also simplifies the original [command](https://minecraft.wiki/w/Commands) suggestion narration for a better typing experience with lesser annoying too-detailed narrations.
 The content of one command suggestion narration will be like "{the order of focused suggestion}x{total number of suggestions} {suggestion} selected", the format can be customized in the config.
 

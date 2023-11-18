@@ -7,7 +7,6 @@ import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.MouseUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.AbstractSignEditScreen;
 import net.minecraft.client.gui.screen.ingame.BookEditScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -35,21 +34,12 @@ public abstract class BookEditScreenMixin {
     @Final
     @Shadow
     private List<String> pages;
-
     @Shadow
     private PageTurnWidget nextPageButton;
     @Shadow
     private PageTurnWidget previousPageButton;
     @Shadow
     private boolean signing;
-
-    @Shadow
-    @Final
-    private static Text FINALIZE_WARNING_TEXT;
-    @Shadow
-    @Final
-    private static Text EDIT_TITLE_TEXT;
-
     @Shadow
     private ButtonWidget cancelButton;
     @Shadow
@@ -58,10 +48,6 @@ public abstract class BookEditScreenMixin {
     private ButtonWidget signButton;
     @Shadow
     private ButtonWidget doneButton;
-
-    @Shadow
-    private String title;
-
     @Shadow
     @Final
     private SelectionManager currentPageSelectionManager;
@@ -78,10 +64,9 @@ public abstract class BookEditScreenMixin {
     @Shadow
     protected abstract void moveDownLine();
 
-    @Unique
-    boolean minecraft_access$firstTimeInSignMenu = true;
-    @Unique
-    String minecraft_access$previousContent = "";
+    @Shadow
+    @Final
+    private SelectionManager bookTitleSelectionManager;
     @Unique
     private static final Keystroke minecraft_access$tabKey = new Keystroke(() -> KeyUtils.isAnyPressed(GLFW.GLFW_KEY_TAB));
     @Unique
@@ -130,29 +115,6 @@ public abstract class BookEditScreenMixin {
         }
         // update the state
         minecraft_access$spaceKey.updateStateForNextTick();
-
-        // TODO delete below
-        if (this.signing) {
-            String currentTitle = this.title.trim();
-
-            if (!minecraft_access$previousContent.equals(currentTitle)) {
-                minecraft_access$previousContent = currentTitle;
-                if (minecraft_access$firstTimeInSignMenu) {
-                    minecraft_access$firstTimeInSignMenu = false;
-                    currentTitle = FINALIZE_WARNING_TEXT.getString() + "\n" + EDIT_TITLE_TEXT.getString();
-                }
-                MainClass.speakWithNarrator(currentTitle, true);
-            }
-            return;
-        }
-        minecraft_access$firstTimeInSignMenu = true;
-
-        // Repeat current page content and un-focus next and previous page buttons
-        if (Screen.hasAltDown() && Screen.hasControlDown()) {
-            if (this.nextPageButton.isFocused()) this.nextPageButton.setFocused(false);
-            if (this.previousPageButton.isFocused()) this.previousPageButton.setFocused(false);
-            minecraft_access$previousContent = "";
-        }
     }
 
     /**
@@ -210,7 +172,7 @@ public abstract class BookEditScreenMixin {
      * They should have been written this method in this way, as well as in {@link AbstractSignEditScreen}.
      */
     @Inject(at = @At("HEAD"), method = "keyPressedEditMode", cancellable = true)
-    private void minecraft_access$keyPressedEditMode(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+    private void rewriteKeyPressedHandling(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
         cir.cancel();
 
         if (this.currentPageSelectionManager.handleSpecialKey(keyCode)) {
@@ -261,6 +223,12 @@ public abstract class BookEditScreenMixin {
             }
         }
         cir.setReturnValue(false);
+    }
+
+    @Inject(at = @At("RETURN"), method = "keyPressedSignMode")
+    private void speakWholeSigningTextWhileSigning(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+        String signingText = ((SelectionManagerAccessor) this.bookTitleSelectionManager).getStringGetter().get();
+        MainClass.speakWithNarratorIfNotEmpty(signingText, true);
     }
 
     @Unique
