@@ -131,8 +131,6 @@ public abstract class BookEditScreenMixin {
         // update the state
         minecraft_access$spaceKey.updateStateForNextTick();
 
-        // TODO read page content while opening the book editing screen
-
         // TODO delete below
         if (this.signing) {
             String currentTitle = this.title.trim();
@@ -284,5 +282,10 @@ public abstract class BookEditScreenMixin {
         MutableText pageIndicatorText = Text.translatable("book.pageIndicator", this.currentPage + 1, this.pages.size());
         pageText = "%s\n\n%s".formatted(pageText, pageIndicatorText.getString());
         MainClass.speakWithNarratorIfNotEmpty(pageText, true);
+    }
+
+    @Inject(at = @At("RETURN"), method = "<init>")
+    private void speakPageContentWhileOpeningScreen(CallbackInfo ci) {
+        speakCurrentPageContent();
     }
 }
