@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.mixin;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.utils.StringUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.MouseUtils;
@@ -130,6 +131,9 @@ public abstract class BookEditScreenMixin {
         // update the state
         minecraft_access$spaceKey.updateStateForNextTick();
 
+        // TODO read page content while opening the book editing screen
+
+        // TODO delete below
         if (this.signing) {
             String currentTitle = this.title.trim();
 
@@ -225,11 +229,13 @@ public abstract class BookEditScreenMixin {
             }
             case GLFW.GLFW_KEY_UP: {
                 this.moveUpLine();
+                speakCurrentLineContent();
                 cir.setReturnValue(true);
                 return;
             }
             case GLFW.GLFW_KEY_DOWN: {
                 this.moveDownLine();
+                speakCurrentLineContent();
                 cir.setReturnValue(true);
                 return;
             }
@@ -260,10 +266,23 @@ public abstract class BookEditScreenMixin {
     }
 
     @Unique
+    private void speakCurrentLineContent() {
+        String pageText = getPageText();
+        int cursor = this.currentPageSelectionManager.getSelectionStart();
+        String lineText = StringUtils.getLineTextWhereTheCursorIsLocatedIn(pageText, cursor);
+        MainClass.speakWithNarratorIfNotEmpty(lineText, true);
+    }
+
+    @Unique
+    private String getPageText() {
+        return this.pages.get(this.currentPage).trim();
+    }
+
+    @Unique
     private void speakCurrentPageContent() {
-        String currentPageContentString = this.pages.get(this.currentPage).trim();
+        String pageText = getPageText();
         MutableText pageIndicatorText = Text.translatable("book.pageIndicator", this.currentPage + 1, this.pages.size());
-        currentPageContentString = "%s\n\n%s".formatted(currentPageContentString, pageIndicatorText.getString());
-        MainClass.speakWithNarratorIfNotEmpty(currentPageContentString, true);
+        pageText = "%s\n\n%s".formatted(pageText, pageIndicatorText.getString());
+        MainClass.speakWithNarratorIfNotEmpty(pageText, true);
     }
 }
