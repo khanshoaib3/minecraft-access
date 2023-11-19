@@ -134,8 +134,8 @@ public class ValueEntryMenu extends BaseScreen {
     CONFIG_TYPE configType;
     String previousValue;
 
-    protected ValueEntryMenu(String title, CONFIG_TYPE configType, BaseScreen previousScreen) {
-        super(title, previousScreen);
+    protected ValueEntryMenu(CONFIG_TYPE configType, BaseScreen previousScreen) {
+        super("value_entry_menu", previousScreen);
         this.configType = configType;
     }
 

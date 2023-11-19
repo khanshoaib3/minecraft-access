@@ -32,7 +32,7 @@ public class CameraControlsConfigMenu extends BaseScreen {
                 I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
                         I18n.translate("minecraft_access.gui.camera_controls_config_menu.button.normal_rotating_angle"),
                         initMap.getNormalRotatingAngle()),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE, this)));
         this.addDrawableChild(normalRotatingAngleButton);
 
         ButtonWidget modifiedRotatingAngleButton = this.buildButtonWidget(
@@ -40,13 +40,13 @@ public class CameraControlsConfigMenu extends BaseScreen {
                         I18n.translate("minecraft_access.gui.camera_controls_config_menu.button.modified_rotating_angle"),
                         initMap.getModifiedRotatingAngle()
                 ),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.CAMERA_CONTROLS_MODIFIED_ROTATING_ANGLE, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.CAMERA_CONTROLS_MODIFIED_ROTATING_ANGLE, this)));
         this.addDrawableChild(modifiedRotatingAngleButton);
 
         ButtonWidget delayButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.delay",
                         initMap.getDelayInMilliseconds()),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.CAMERA_CONTROLS_DELAY, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.CAMERA_CONTROLS_DELAY, this)));
         this.addDrawableChild(delayButton);
     }
 }

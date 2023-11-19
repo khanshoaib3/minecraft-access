@@ -59,7 +59,7 @@ public class ReadCrosshairConfigMenu extends BaseScreen {
         ButtonWidget repeatSpeakingIntervalButton = this.buildButtonWidget(
                 floatValueButtonMessageWith("minecraft_access.gui.read_crosshair_config_menu.button.repeat_speaking_interval_button",
                         initMap.getRepeatSpeakingInterval()),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL, this)),
+                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL, this)),
                 true);
         this.addDrawableChild(repeatSpeakingIntervalButton);
 
@@ -140,12 +140,12 @@ class RCRelativePositionSoundCueConfigMenu extends BaseScreen {
 
         ButtonWidget minVolumeButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.min_volume", initMap.getMinSoundVolume()),
-                (button) -> Objects.requireNonNull(this.client).setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.READ_CROSSHAIR_MIN_VOLUME, this)));
+                (button) -> Objects.requireNonNull(this.client).setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.READ_CROSSHAIR_MIN_VOLUME, this)));
         this.addDrawableChild(minVolumeButton);
 
         ButtonWidget maxVolumeButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.max_volume", initMap.getMaxSoundVolume()),
-                (button) -> Objects.requireNonNull(this.client).setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.READ_CROSSHAIR_MAX_VOLUME, this)));
+                (button) -> Objects.requireNonNull(this.client).setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.READ_CROSSHAIR_MAX_VOLUME, this)));
         this.addDrawableChild(maxVolumeButton);
     }
 }

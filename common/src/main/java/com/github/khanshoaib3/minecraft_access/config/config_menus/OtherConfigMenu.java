@@ -96,7 +96,7 @@ public class OtherConfigMenu extends BaseScreen {
                         I18n.translate("minecraft_access.gui.other_config_menu.button.position_narrator_format_button"),
                         initMap.getPositionNarratorFormat()
                 ),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.OTHER_POSITION_NARRATOR_FORMAT, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.OTHER_POSITION_NARRATOR_FORMAT, this)));
         positionNarratorFormatButton.active = false;
         this.addDrawableChild(positionNarratorFormatButton);
 
@@ -105,7 +105,7 @@ public class OtherConfigMenu extends BaseScreen {
                         I18n.translate("minecraft_access.gui.other_config_menu.button.command_suggestion_narrator_format_button"),
                         initMap.getCommandSuggestionNarratorFormat()
                 ),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.OTHER_COMMAND_SUGGESTION_NARRATOR_FORMAT, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.OTHER_COMMAND_SUGGESTION_NARRATOR_FORMAT, this)));
         this.addDrawableChild(suggestionFormatButton);
 
         ButtonWidget use12HourFormatButton = this.buildButtonWidget(

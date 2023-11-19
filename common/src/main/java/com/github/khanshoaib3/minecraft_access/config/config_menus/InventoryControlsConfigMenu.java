@@ -47,14 +47,14 @@ public class InventoryControlsConfigMenu extends BaseScreen {
                         I18n.translate("minecraft_access.gui.inventory_controls_config_menu.button.row_and_column_format"),
                         initMap.getRowAndColumnFormat()
                 ),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT, this)));
         rowNColumnButton.active = false;
         this.addDrawableChild(rowNColumnButton);
 
         ButtonWidget delayButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.delay",
                         initMap.getDelayInMilliseconds()),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.INVENTORY_CONTROLS_DELAY, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.INVENTORY_CONTROLS_DELAY, this)));
         this.addDrawableChild(delayButton);
     }
 }

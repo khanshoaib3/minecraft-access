@@ -42,7 +42,7 @@ public class PlayerWarningsConfigMenu extends BaseScreen {
                         I18n.translate("minecraft_access.gui.player_warnings_config_menu.button.first_health_threshold_button"),
                         initMap.getFirstHealthThreshold()
                 ),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD, this)));
         this.addDrawableChild(firstHealthThresholdButton);
 
         ButtonWidget secondHealthThresholdButton = this.buildButtonWidget(
@@ -50,7 +50,7 @@ public class PlayerWarningsConfigMenu extends BaseScreen {
                         I18n.translate("minecraft_access.gui.player_warnings_config_menu.button.second_health_threshold_button"),
                         initMap.getSecondHealthThreshold()
                 ),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.PLAYER_WARNINGS_SECOND_HEALTH_THRESHOLD, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.PLAYER_WARNINGS_SECOND_HEALTH_THRESHOLD, this)));
         this.addDrawableChild(secondHealthThresholdButton);
 
         ButtonWidget hungerThresholdButton = this.buildButtonWidget(
@@ -58,7 +58,7 @@ public class PlayerWarningsConfigMenu extends BaseScreen {
                         I18n.translate("minecraft_access.gui.player_warnings_config_menu.button.hunger_threshold_button"),
                         initMap.getHungerThreshold()
                 ),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.PLAYER_WARNINGS_HUNGER_THRESHOLD, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.PLAYER_WARNINGS_HUNGER_THRESHOLD, this)));
         this.addDrawableChild(hungerThresholdButton);
 
         ButtonWidget airThresholdButton = this.buildButtonWidget(
@@ -66,7 +66,7 @@ public class PlayerWarningsConfigMenu extends BaseScreen {
                         I18n.translate("minecraft_access.gui.player_warnings_config_menu.button.air_threshold_button"),
                         initMap.getAirThreshold()
                 ),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.PLAYER_WARNINGS_AIR_THRESHOLD, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.PLAYER_WARNINGS_AIR_THRESHOLD, this)));
         this.addDrawableChild(airThresholdButton);
     }
 }
