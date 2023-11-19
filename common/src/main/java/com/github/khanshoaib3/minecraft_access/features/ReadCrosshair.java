@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeakingConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.RCRelativePositionSoundCueConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.mixin.MobSpawnerLogicAccessor;
 import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
@@ -53,8 +54,6 @@ import java.util.stream.Collectors;
  */
 public class ReadCrosshair {
     private static final double RAY_CAST_DISTANCE = 6.0;
-    private static final double SOUND_VOLUME_MIN = 0.25;
-    private static final double SOUND_VOLUME_MAX = 0.4;
     private static ReadCrosshair instance;
 
     /**
@@ -76,6 +75,8 @@ public class ReadCrosshair {
     private boolean partialSpeakingBlock;
     private boolean partialSpeakingEntity;
     private boolean enableRelativePositionSoundCue;
+    private double minSoundVolume;
+    private double maxSoundVolume;
 
     private ReadCrosshair() {
         previousQuery = "";
@@ -137,6 +138,7 @@ public class ReadCrosshair {
         // use the instance of Config class to get instances of other config maps.
         ReadCrosshairConfigMap rcMap = ReadCrosshairConfigMap.getInstance();
         RCPartialSpeakingConfigMap rcpMap = RCPartialSpeakingConfigMap.getInstance();
+        RCRelativePositionSoundCueConfigMap rcrMap = RCRelativePositionSoundCueConfigMap.getInstance();
 
         this.enabled = rcMap.isEnabled();
         this.speakSide = rcMap.isSpeakSide();
@@ -144,7 +146,9 @@ public class ReadCrosshair {
         this.speakingConsecutiveBlocks = !rcMap.isDisableSpeakingConsecutiveBlocks();
         long interval = rcMap.getRepeatSpeakingInterval();
         this.repeatSpeakingInterval = Interval.inMilliseconds(interval, this.repeatSpeakingInterval);
-        this.enableRelativePositionSoundCue = rcMap.isEnableRelativePositionSoundCue();
+        this.enableRelativePositionSoundCue = rcrMap.isEnabled();
+        this.minSoundVolume = rcrMap.getMinSoundVolume();
+        this.maxSoundVolume = rcrMap.getMaxSoundVolume();
 
         this.enablePartialSpeaking = rcpMap.isEnabled();
         this.partialSpeakingFuzzyMode = rcpMap.isPartialSpeakingFuzzyMode();
@@ -217,7 +221,8 @@ public class ReadCrosshair {
         boolean focusChanged = !getPreviousQuery().equalsIgnoreCase(currentQuery);
         if (focusChanged) {
             if (this.enableRelativePositionSoundCue) {
-                PositionUtils.playRelativePositionSoundCue(targetPosition, RAY_CAST_DISTANCE, SoundEvents.BLOCK_NOTE_BLOCK_HARP, SOUND_VOLUME_MIN, SOUND_VOLUME_MAX);
+                PositionUtils.playRelativePositionSoundCue(targetPosition, RAY_CAST_DISTANCE,
+                        SoundEvents.BLOCK_NOTE_BLOCK_HARP, this.minSoundVolume, this.maxSoundVolume);
             }
             this.previousQuery = currentQuery;
             MainClass.speakWithNarrator(toSpeak, true);

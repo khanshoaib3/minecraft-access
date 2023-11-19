@@ -16,8 +16,8 @@ public class ReadCrosshairConfigMap {
     private boolean disableSpeakingConsecutiveBlocks;
     @SerializedName("Repeat Speaking Interval (in milliseconds) (0 to disable)")
     private long repeatSpeakingInterval;
-    @SerializedName("Enable Relative Position Sound Cue")
-    private boolean enableRelativePositionSoundCue = true;
+    @SerializedName("Relative Position Sound Cue")
+    private RCRelativePositionSoundCueConfigMap relativePositionSoundCueConfigMap;
     @SerializedName("Partial Speaking")
     private RCPartialSpeakingConfigMap partialSpeakingConfigMap;
 
@@ -30,8 +30,8 @@ public class ReadCrosshairConfigMap {
         m.setSpeakSide(true);
         m.setDisableSpeakingConsecutiveBlocks(true);
         m.setRepeatSpeakingInterval(0L);
-        m.enableRelativePositionSoundCue = true;
-        m.setPartialSpeakingConfigMap(RCPartialSpeakingConfigMap.buildDefault());
+        m.relativePositionSoundCueConfigMap = RCRelativePositionSoundCueConfigMap.buildDefault();
+        m.partialSpeakingConfigMap = RCPartialSpeakingConfigMap.buildDefault();
 
         setInstance(m);
         return m;
@@ -43,6 +43,7 @@ public class ReadCrosshairConfigMap {
     }
 
     public static void setInstance(ReadCrosshairConfigMap map) {
+        RCRelativePositionSoundCueConfigMap.setInstance(map.relativePositionSoundCueConfigMap);
         RCPartialSpeakingConfigMap.setInstance(map.partialSpeakingConfigMap);
         instance = map;
     }
@@ -77,18 +78,6 @@ public class ReadCrosshairConfigMap {
 
     public void setRepeatSpeakingInterval(long repeatSpeakingInterval) {
         this.repeatSpeakingInterval = repeatSpeakingInterval;
-    }
-
-    public boolean isEnableRelativePositionSoundCue() {
-        return enableRelativePositionSoundCue;
-    }
-
-    public void setEnableRelativePositionSoundCue(boolean enableTargetRelativePositionSoundCue) {
-        this.enableRelativePositionSoundCue = enableTargetRelativePositionSoundCue;
-    }
-
-    public void setPartialSpeakingConfigMap(RCPartialSpeakingConfigMap partialSpeakingConfigMap) {
-        this.partialSpeakingConfigMap = partialSpeakingConfigMap;
     }
 
     public void resetMissingSectionsToDefault() {

@@ -100,7 +100,14 @@ public class ValueEntryMenu extends BaseScreen {
                 ValueType.INT),
         AREA_MAP_HORIZONTAL_BOUND(() -> AreaMapConfigMap.getInstance().getHorizontalBound(),
                 (v) -> AreaMapConfigMap.getInstance().setHorizontalBound(Integer.parseInt(v)),
-                ValueType.INT);
+                ValueType.INT),
+        READ_CROSSHAIR_MIN_VOLUME(() -> RCRelativePositionSoundCueConfigMap.getInstance().getMinSoundVolume(),
+                (v) -> RCRelativePositionSoundCueConfigMap.getInstance().setMinSoundVolume(Float.parseFloat(v)),
+                ValueType.FLOAT),
+        READ_CROSSHAIR_MAX_VOLUME(() -> RCRelativePositionSoundCueConfigMap.getInstance().getMaxSoundVolume(),
+                (v) -> RCRelativePositionSoundCueConfigMap.getInstance().setMaxSoundVolume(Float.parseFloat(v)),
+                ValueType.FLOAT),
+        ;
 
         private final Supplier<Object> valueGetter;
         private final Consumer<String> valueSetter;
