@@ -16,7 +16,8 @@ public class ReadCrosshairConfigMap {
     private boolean disableSpeakingConsecutiveBlocks;
     @SerializedName("Repeat Speaking Interval (in milliseconds) (0 to disable)")
     private long repeatSpeakingInterval;
-
+    @SerializedName("Enable Relative Position Sound Cue")
+    private boolean enableRelativePositionSoundCue = true;
     @SerializedName("Partial Speaking")
     private RCPartialSpeakingConfigMap partialSpeakingConfigMap;
 
@@ -29,6 +30,7 @@ public class ReadCrosshairConfigMap {
         m.setSpeakSide(true);
         m.setDisableSpeakingConsecutiveBlocks(true);
         m.setRepeatSpeakingInterval(0L);
+        m.enableRelativePositionSoundCue = true;
         m.setPartialSpeakingConfigMap(RCPartialSpeakingConfigMap.buildDefault());
 
         setInstance(m);
@@ -75,6 +77,14 @@ public class ReadCrosshairConfigMap {
 
     public void setRepeatSpeakingInterval(long repeatSpeakingInterval) {
         this.repeatSpeakingInterval = repeatSpeakingInterval;
+    }
+
+    public boolean isEnableRelativePositionSoundCue() {
+        return enableRelativePositionSoundCue;
+    }
+
+    public void setEnableRelativePositionSoundCue(boolean enableTargetRelativePositionSoundCue) {
+        this.enableRelativePositionSoundCue = enableTargetRelativePositionSoundCue;
     }
 
     public void setPartialSpeakingConfigMap(RCPartialSpeakingConfigMap partialSpeakingConfigMap) {

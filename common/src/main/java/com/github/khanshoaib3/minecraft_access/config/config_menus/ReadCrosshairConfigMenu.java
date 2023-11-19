@@ -60,6 +60,17 @@ public class ReadCrosshairConfigMenu extends BaseScreen {
                 true);
         this.addDrawableChild(repeatSpeakingIntervalButton);
 
+        Function<Boolean, String> t1 = featureToggleButtonMessageWith("minecraft_access.gui.read_crosshair_config_menu.button.enable_relative_position_sound_cue");
+        ButtonWidget b1 = this.buildButtonWidget(
+                t1.apply(initMap.isEnableRelativePositionSoundCue()),
+                (button) -> {
+                    ReadCrosshairConfigMap map = ReadCrosshairConfigMap.getInstance();
+                    map.setEnableRelativePositionSoundCue(!map.isEnableRelativePositionSoundCue());
+                    button.setMessage(Text.of(t1.apply(map.isEnableRelativePositionSoundCue())));
+                    Config.getInstance().writeJSON();
+                });
+        this.addDrawableChild(b1);
+
         ButtonWidget enablePartialSpeakingButton = this.buildButtonWidget("minecraft_access.gui.read_crosshair_config_menu.button.partial_speaking_menu_button",
                 (button) -> this.client.setScreen(new RCPartialSpeakingConfigMenu("rc_partial_speaking_menu", this)));
         this.addDrawableChild(enablePartialSpeakingButton);

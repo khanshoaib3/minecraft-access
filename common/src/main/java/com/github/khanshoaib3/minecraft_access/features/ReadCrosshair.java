@@ -75,6 +75,7 @@ public class ReadCrosshair {
     private List<String> partialSpeakingTargets;
     private boolean partialSpeakingBlock;
     private boolean partialSpeakingEntity;
+    private boolean enableRelativePositionSoundCue;
 
     private ReadCrosshair() {
         previousQuery = "";
@@ -143,6 +144,7 @@ public class ReadCrosshair {
         this.speakingConsecutiveBlocks = !rcMap.isDisableSpeakingConsecutiveBlocks();
         long interval = rcMap.getRepeatSpeakingInterval();
         this.repeatSpeakingInterval = Interval.inMilliseconds(interval, this.repeatSpeakingInterval);
+        this.enableRelativePositionSoundCue = rcMap.isEnableRelativePositionSoundCue();
 
         this.enablePartialSpeaking = rcpMap.isEnabled();
         this.partialSpeakingFuzzyMode = rcpMap.isPartialSpeakingFuzzyMode();
@@ -214,7 +216,9 @@ public class ReadCrosshair {
     private void speakIfFocusChanged(String currentQuery, String toSpeak, Vec3d targetPosition) {
         boolean focusChanged = !getPreviousQuery().equalsIgnoreCase(currentQuery);
         if (focusChanged) {
-            PositionUtils.playRelativePositionSoundCue(targetPosition, RAY_CAST_DISTANCE, SoundEvents.BLOCK_NOTE_BLOCK_HARP, SOUND_VOLUME_MIN, SOUND_VOLUME_MAX);
+            if (this.enableRelativePositionSoundCue) {
+                PositionUtils.playRelativePositionSoundCue(targetPosition, RAY_CAST_DISTANCE, SoundEvents.BLOCK_NOTE_BLOCK_HARP, SOUND_VOLUME_MIN, SOUND_VOLUME_MAX);
+            }
             this.previousQuery = currentQuery;
             MainClass.speakWithNarrator(toSpeak, true);
         }
