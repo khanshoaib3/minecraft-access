@@ -4,6 +4,7 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeakingConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.mixin.MobSpawnerLogicAccessor;
+import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityProxy;
 import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
@@ -26,6 +27,7 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.hit.BlockHitResult;
@@ -33,6 +35,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import org.apache.logging.log4j.util.Strings;
 import org.jetbrains.annotations.NotNull;
@@ -49,6 +52,10 @@ import java.util.stream.Collectors;
  * It also gives feedback when a block is powered by a redstone signal or when a door is open similar cases.
  */
 public class ReadCrosshair {
+    private static final double RAY_CAST_DISTANCE = 6.0;
+    private static final double SOUND_VOLUME_MIN = 0.25;
+    private static final double SOUND_VOLUME_MAX = 0.4;
+    private static final double VOLUME_DELTA_PER_BLOCK = (SOUND_VOLUME_MAX - SOUND_VOLUME_MIN) / RAY_CAST_DISTANCE;
     private static ReadCrosshair instance;
 
     /**
@@ -104,7 +111,7 @@ public class ReadCrosshair {
             if (entity == null) return;
 
             HitResult blockHit = minecraftClient.crosshairTarget;
-            HitResult fluidHit = entity.raycast(6.0, 0.0F, true);
+            HitResult fluidHit = entity.raycast(RAY_CAST_DISTANCE, 0.0F, true);
 
             if (blockHit == null) return;
 
@@ -186,7 +193,7 @@ public class ReadCrosshair {
                     currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_leashed", currentQuery);
             }
 
-            speakIfFocusChanged(currentQuery, currentQuery);
+            speakIfFocusChanged(currentQuery, currentQuery, entity.getPos());
         } catch (Exception e) {
             MainClass.errorLog("Error occurred in ReadCrosshair, reading entity", e);
         }
@@ -205,12 +212,38 @@ public class ReadCrosshair {
      * @param currentQuery for checking if focus is changed
      * @param toSpeak      text will be narrated (if focus has changed)
      */
-    private void speakIfFocusChanged(String currentQuery, String toSpeak) {
+    private void speakIfFocusChanged(String currentQuery, String toSpeak, Vec3d targetPosition) {
         boolean focusChanged = !getPreviousQuery().equalsIgnoreCase(currentQuery);
         if (focusChanged) {
+            playRelativePositionSoundCue(targetPosition);
             this.previousQuery = currentQuery;
             MainClass.speakWithNarrator(toSpeak, true);
         }
+    }
+
+    /**
+     * To indicate relative location between player and target.
+     */
+    private static void playRelativePositionSoundCue(Vec3d targetPosition) {
+        Vec3d playerPos = PlayerPositionUtils.getPlayerPosition().orElseThrow();
+
+        // Use pitch to represent relative elevation, the higher the sound the higher the target.
+        // The range of pitch is [0.5, 2.0], calculated as: 2 ^ (x / 12), where x is [-12, 12].
+        // ref: https://minecraft.wiki/w/Note_Block#Notes
+        //
+        // Since we have a custom read crosshair ray cast distance (=6),
+        // the range of (targetY - playerY) is [-6, 6],
+        // so let the distance be the denominator to map to original range.
+        float pitch = (float) Math.pow(2, (targetPosition.getY() - playerPos.y) / RAY_CAST_DISTANCE);
+
+        // Use volume to represent distance, the louder the sound the closer the distance.
+        // Manually set the volume range to [0.25, 0.4],
+        // range of distance is [0, 6].
+        double distance = Math.sqrt(targetPosition.squaredDistanceTo(playerPos.x, playerPos.y, playerPos.z));
+        float volume = (float) (SOUND_VOLUME_MIN + (RAY_CAST_DISTANCE - distance) * VOLUME_DELTA_PER_BLOCK);
+
+        ClientPlayerEntityProxy.playSoundOnPosition(SoundEvents.BLOCK_NOTE_BLOCK_HARP, volume, pitch, targetPosition);
+        MainClass.infoLog(String.valueOf(pitch));
     }
 
     private void checkForBlocks(BlockHitResult hit) {
@@ -219,8 +252,9 @@ public class ReadCrosshair {
             Direction d = hit.getSide();
             side = I18n.translate("minecraft_access.direction." + d.getName());
         }
-        Pair<String, String> toSpeakAndCurrentQuery = describeBlock(hit.getBlockPos(), side);
-        speakIfFocusChanged(toSpeakAndCurrentQuery.getRight(), toSpeakAndCurrentQuery.getLeft());
+        BlockPos blockPos = hit.getBlockPos();
+        Pair<String, String> toSpeakAndCurrentQuery = describeBlock(blockPos, side);
+        speakIfFocusChanged(toSpeakAndCurrentQuery.getRight(), toSpeakAndCurrentQuery.getLeft(), Vec3d.of(blockPos));
     }
 
     /**
@@ -537,7 +571,7 @@ public class ReadCrosshair {
 
             String toSpeak = name + levelString;
 
-            speakIfFocusChanged(currentQuery, toSpeak);
+            speakIfFocusChanged(currentQuery, toSpeak, Vec3d.of(blockPos));
             return true;
         }
         return false;
