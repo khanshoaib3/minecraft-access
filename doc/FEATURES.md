@@ -9,6 +9,7 @@ If you have any suggestion on improvements existing features or about a new feat
 1. [Camera Controls](#camera-controls)
 2. [Mouse Simulation](#mouse-simulation)
 3. [Read Crosshair](#read-crosshair)
+    * [Relative Position Sound Cue](#relative-position-sound-cue)
     * [Partial Speaking](#partial-speaking)
 4. [Inventory Controls](#inventory-controls)
 5. [Point of Interest](#point-of-interest)
@@ -62,6 +63,15 @@ For functional blocks or entities with multiple forms, the mod will also speak c
 According to [wiki](https://minecraft.wiki/w/Breaking#Basics_of_breaking), the breaking distance in survival mode is 4.5 blocks (in Java Edition), but this `ReadCrosshair` feature will speak targets at most 6 blocks away. So if the mod says something but you can't interact with it, move forward a little closer to it.
 
 See also: [Configuration](/doc/CONFIG.md#read-crosshair)
+
+### Relative Position Sound Cue
+
+Whenever you're looking at a block and entity, the mod will play a piano sound cue to indicate relative location between you and target.
+Volume to represent distance, the louder the sound the closer the distance.
+Pitch to represent elevation, the higher the sound the higher the target relative to you.
+You can turn off this feature or change sound volume in config.
+
+See also: [Configuration](/doc/CONFIG.md#relative-position-sound-cue)
 
 ### Partial Speaking
 

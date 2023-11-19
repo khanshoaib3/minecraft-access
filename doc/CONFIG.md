@@ -15,6 +15,7 @@ If you want to reset the config back to default values, simply delete the config
 1. [Camera Controls](#camera-controls)
 2. [Mouse Simulation](#mouse-simulation)
 3. [Read Crosshair](#read-crosshair)
+    * [Relative Position Sound Cue](#relative-position-sound-cue)
     * [Partial Speaking](#partial-speaking)
 4. [Inventory Controls](#inventory-controls)
 5. [Point of Interest](#point-of-interest)
@@ -64,6 +65,16 @@ See also: [Feature Description](/doc/FEATURES.md#mouse-simulation), [Keybindings
 Config `Disable Speaking Consecutive Blocks With Same Name` is useful when you don't want to hear a repetitive speaking of a large area of the same block.
 
 See also: [Feature Description](/doc/FEATURES.md#read-crosshair)
+
+### Relative Position Sound Cue
+
+| Configuration    | Default Value | Description                    |
+|------------------|---------------|--------------------------------|
+| Enabled          | true          | Whether to enable this feature |
+| Min Sound Volume | 0.25          | Min volume of the sound cue    |
+| Max Sound Volume | 0.4           | Max volume of the sound cue    |
+
+See also: [Feature Description](/doc/FEATURES.md#relative-position-sound-cue)
 
 ### Partial Speaking
 
@@ -115,13 +126,13 @@ See also: [Feature Description](/doc/FEATURES.md#point-of-interest), [Keybinding
 
 ### Entities
 
-| Configuration                       | Default Value | Description                                                 |
-|-------------------------------------|---------------|-------------------------------------------------------------|
-| Enabled                             | true          | Whether to enable scanning entities                         |
-| Range                               | 6             | Range of entities to scan                                   |
-| Play Sound                          | true          | Play a sound cue at positions of detected entities          |
-| Sound Volume                        | 0.25          | Volume of the sound cue                                     |
-| Delay (in milliseconds)             | 3000          | Execute at set intervals                                    |
+| Configuration           | Default Value | Description                                        |
+|-------------------------|---------------|----------------------------------------------------|
+| Enabled                 | true          | Whether to enable scanning entities                |
+| Range                   | 6             | Range of entities to scan                          |
+| Play Sound              | true          | Play a sound cue at positions of detected entities |
+| Sound Volume            | 0.25          | Volume of the sound cue                            |
+| Delay (in milliseconds) | 3000          | Execute at set intervals                           |
 
 ### Entities/Blocks Locking
 
@@ -191,9 +202,9 @@ See also: [Feature Description](/doc/FEATURES.md#fall-detector)
 
 ## Narrator Menu
 
-| Configuration           | Default Value | Description                         |
-|-------------------------|---------------|-------------------------------------|
-| Enabled                 | true          | Whether to enable this feature      |
+| Configuration | Default Value | Description                    |
+|---------------|---------------|--------------------------------|
+| Enabled       | true          | Whether to enable this feature |
 
 See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Keybindings](/doc/KEYBINDINGS.md#narrator-menu)
 
