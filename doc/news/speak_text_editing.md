@@ -1,6 +1,6 @@
 ### New Features
 
-## Speak Text Editing
+#### Speak Text Editing
 
 * Now the mod will simulate the feedback you get when typing text in other software's input boxes, it will speak the text that you delete, select, pass with cursor, on Chat Screen, Book Edit Screen, Command Block Screen and so on.
 * Suppress annoying original "speak whole sentence" narration on every text editing operation.

@@ -75,9 +75,12 @@ class POIBlocksConfigMenu extends BaseScreen {
                 });
         this.addDrawableChild(detectFluidBlocksButton);
 
+        ValueEntryMenu.ValueConfig c1 = new ValueEntryMenu.ValueConfig(() -> POIBlocksConfigMap.getInstance().getRange(),
+                (v) -> POIBlocksConfigMap.getInstance().setRange(Integer.parseInt(v)),
+                ValueEntryMenu.ValueType.INT);
         ButtonWidget rangeButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.range", initMap.getRange()),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_BLOCKS_RANGE, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c1, this)));
         this.addDrawableChild(rangeButton);
 
         ButtonWidget playSoundButton = this.buildButtonWidget("minecraft_access.gui.common.button.play_sound_toggle_button." + (initMap.isPlaySound() ? "enabled" : "disabled"),
@@ -89,9 +92,12 @@ class POIBlocksConfigMenu extends BaseScreen {
                 });
         this.addDrawableChild(playSoundButton);
 
+        ValueEntryMenu.ValueConfig c2 = new ValueEntryMenu.ValueConfig(() -> POIBlocksConfigMap.getInstance().getVolume(),
+                (v) -> POIBlocksConfigMap.getInstance().setVolume(Float.parseFloat(v)),
+                ValueEntryMenu.ValueType.FLOAT);
         ButtonWidget volumeButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.volume", initMap.getVolume()),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_BLOCKS_VOLUME, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c2, this)));
         this.addDrawableChild(volumeButton);
 
         ButtonWidget playSoundForOtherBlocksButton = this.buildButtonWidget(
@@ -109,9 +115,12 @@ class POIBlocksConfigMenu extends BaseScreen {
                 true);
         this.addDrawableChild(playSoundForOtherBlocksButton);
 
+        ValueEntryMenu.ValueConfig c3 = new ValueEntryMenu.ValueConfig(() -> POIBlocksConfigMap.getInstance().getDelay(),
+                (v) -> POIBlocksConfigMap.getInstance().setDelay(Integer.parseInt(v)),
+                ValueEntryMenu.ValueType.INT);
         ButtonWidget delayButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.delay", initMap.getDelay()),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_BLOCKS_DELAY, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c3, this)));
         this.addDrawableChild(delayButton);
     }
 }
@@ -137,9 +146,12 @@ class POIEntitiesConfigMenu extends BaseScreen {
                 });
         this.addDrawableChild(featureToggleButton);
 
+        ValueEntryMenu.ValueConfig c1 = new ValueEntryMenu.ValueConfig(() -> POIEntitiesConfigMap.getInstance().getRange(),
+                (v) -> POIEntitiesConfigMap.getInstance().setRange(Integer.parseInt(v)),
+                ValueEntryMenu.ValueType.INT);
         ButtonWidget rangeButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.range", initMap.getRange()),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_ENTITIES_RANGE, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c1, this)));
         this.addDrawableChild(rangeButton);
 
         ButtonWidget playSoundButton = this.buildButtonWidget("minecraft_access.gui.common.button.play_sound_toggle_button." + (initMap.isPlaySound() ? "enabled" : "disabled"),
@@ -151,14 +163,20 @@ class POIEntitiesConfigMenu extends BaseScreen {
                 });
         this.addDrawableChild(playSoundButton);
 
+        ValueEntryMenu.ValueConfig c2 = new ValueEntryMenu.ValueConfig(() -> POIEntitiesConfigMap.getInstance().getVolume(),
+                (v) -> POIEntitiesConfigMap.getInstance().setVolume(Float.parseFloat(v)),
+                ValueEntryMenu.ValueType.FLOAT);
         ButtonWidget volumeButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.volume", initMap.getVolume()),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_ENTITIES_VOLUME, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c2, this)));
         this.addDrawableChild(volumeButton);
 
+        ValueEntryMenu.ValueConfig c3 = new ValueEntryMenu.ValueConfig(() -> POIEntitiesConfigMap.getInstance().getDelay(),
+                (v) -> POIEntitiesConfigMap.getInstance().setDelay(Integer.parseInt(v)),
+                ValueEntryMenu.ValueType.INT);
         ButtonWidget delayButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.delay", initMap.getDelay()),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_ENTITIES_DELAY, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c3, this)));
         this.addDrawableChild(delayButton);
     }
 }
@@ -242,9 +260,12 @@ class POILockingConfigMenu extends BaseScreen {
                 });
         this.addDrawableChild(unlockingSoundButton);
 
+        ValueEntryMenu.ValueConfig c1 = new ValueEntryMenu.ValueConfig(() -> POILockingConfigMap.getInstance().getDelay(),
+                (v) -> POILockingConfigMap.getInstance().setDelay(Integer.parseInt(v)),
+                ValueEntryMenu.ValueType.INT);
         ButtonWidget delayButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.delay", initMap.getDelay()),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.POI_LOCKING_DELAY, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c1, this)));
         this.addDrawableChild(delayButton);
     }
 }

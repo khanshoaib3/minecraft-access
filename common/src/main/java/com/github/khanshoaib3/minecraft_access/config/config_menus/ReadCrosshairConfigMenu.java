@@ -2,11 +2,14 @@ package com.github.khanshoaib3.minecraft_access.config.config_menus;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeakingConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.RCRelativePositionSoundCueConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
 
+import java.util.Objects;
 import java.util.function.Function;
 
 @SuppressWarnings("DataFlowIssue")
@@ -53,16 +56,23 @@ public class ReadCrosshairConfigMenu extends BaseScreen {
                 true);
         this.addDrawableChild(disableConsecutiveBlocksButton);
 
+        ValueEntryMenu.ValueConfig c1 = new ValueEntryMenu.ValueConfig(() -> ReadCrosshairConfigMap.getInstance().getRepeatSpeakingInterval(),
+                (v) -> ReadCrosshairConfigMap.getInstance().setRepeatSpeakingInterval(Integer.parseInt(v)),
+                ValueEntryMenu.ValueType.INT);
         ButtonWidget repeatSpeakingIntervalButton = this.buildButtonWidget(
                 floatValueButtonMessageWith("minecraft_access.gui.read_crosshair_config_menu.button.repeat_speaking_interval_button",
                         initMap.getRepeatSpeakingInterval()),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.READ_CROSSHAIR_REPEAT_SPEAKING_INTERVAL, this)),
+                (button) -> this.client.setScreen(new ValueEntryMenu(c1, this)),
                 true);
         this.addDrawableChild(repeatSpeakingIntervalButton);
 
-        ButtonWidget enablePartialSpeakingButton = this.buildButtonWidget("minecraft_access.gui.read_crosshair_config_menu.button.partial_speaking_menu_button",
+        ButtonWidget rcSoundMenuButton = this.buildButtonWidget("minecraft_access.gui.read_crosshair_config_menu.button.relative_position_sound_cue_menu_button",
+                (button) -> this.client.setScreen(new RCRelativePositionSoundCueConfigMenu("relative_position_sound_cue_menu", this)));
+        this.addDrawableChild(rcSoundMenuButton);
+
+        ButtonWidget rcPartialSpeakingMenuButton = this.buildButtonWidget("minecraft_access.gui.read_crosshair_config_menu.button.partial_speaking_menu_button",
                 (button) -> this.client.setScreen(new RCPartialSpeakingConfigMenu("rc_partial_speaking_menu", this)));
-        this.addDrawableChild(enablePartialSpeakingButton);
+        this.addDrawableChild(rcPartialSpeakingMenuButton);
     }
 }
 
@@ -108,5 +118,43 @@ class RCPartialSpeakingConfigMenu extends BaseScreen {
                     Config.getInstance().writeJSON();
                 });
         this.addDrawableChild(partialSpeakingFuzzyModeButton);
+    }
+}
+
+class RCRelativePositionSoundCueConfigMenu extends BaseScreen {
+
+    public RCRelativePositionSoundCueConfigMenu(String title, BaseScreen previousScreen) {
+        super(title, previousScreen);
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        RCRelativePositionSoundCueConfigMap initMap = RCRelativePositionSoundCueConfigMap.getInstance();
+
+        ButtonWidget featureToggleButton = this.buildButtonWidget(featureToggleButtonMessage(initMap.isEnabled()),
+                (button) -> {
+                    RCRelativePositionSoundCueConfigMap map = RCRelativePositionSoundCueConfigMap.getInstance();
+                    map.setEnabled(!map.isEnabled());
+                    button.setMessage(Text.of(featureToggleButtonMessage(map.isEnabled())));
+                    Config.getInstance().writeJSON();
+                });
+        this.addDrawableChild(featureToggleButton);
+
+        ValueEntryMenu.ValueConfig c1 = new ValueEntryMenu.ValueConfig(() -> RCRelativePositionSoundCueConfigMap.getInstance().getMinSoundVolume(),
+                (v) -> RCRelativePositionSoundCueConfigMap.getInstance().setMinSoundVolume(Float.parseFloat(v)),
+                ValueEntryMenu.ValueType.FLOAT);
+        ButtonWidget minVolumeButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.min_volume", initMap.getMinSoundVolume()),
+                (button) -> Objects.requireNonNull(this.client).setScreen(new ValueEntryMenu(c1, this)));
+        this.addDrawableChild(minVolumeButton);
+
+        ValueEntryMenu.ValueConfig c2 = new ValueEntryMenu.ValueConfig(() -> RCRelativePositionSoundCueConfigMap.getInstance().getMaxSoundVolume(),
+                (v) -> RCRelativePositionSoundCueConfigMap.getInstance().setMaxSoundVolume(Float.parseFloat(v)),
+                ValueEntryMenu.ValueType.FLOAT);
+        ButtonWidget maxVolumeButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.max_volume", initMap.getMaxSoundVolume()),
+                (button) -> Objects.requireNonNull(this.client).setScreen(new ValueEntryMenu(c2, this)));
+        this.addDrawableChild(maxVolumeButton);
     }
 }
