@@ -12,6 +12,7 @@ import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -22,6 +23,7 @@ import java.util.List;
 
 @Mixin(ChatScreen.class)
 public class ChatScreenMixin {
+    @Unique
     private static final Text USAGE_TEXT = Text.translatable("chat_screen.usage");
 
     @Shadow
@@ -43,33 +45,36 @@ public class ChatScreenMixin {
     }
 
     /**
-     * Adds new keybinds that speak the previous chat messages.
+     * Add custom keystroke handling for chat screen.
      */
     @Inject(at = @At("HEAD"), method = "keyPressed", cancellable = true)
     private void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if (!Screen.hasAltDown()) return;
-        if (!handleKeyInput(keyCode)) return;
+        if (!minecraft_access$repeatPreviousChatMessage(keyCode)) return;
 
+        // Method executes to here means one of custom keystroke handling above is triggered,
+        // so we want to cancel the logic in injected original method,
+        // since its logic is also return after one handling triggered.
         cir.setReturnValue(true);
         cir.cancel();
     }
 
     /**
-     * Handles the input from a key event and returns a boolean value indicating whether
-     * the input was handled or not.
-     * This method checks if the key code corresponds to a numeric key or numeric keypad
-     * key between 1 and 9. If it does, it calls the {@link #speakPreviousChatAtIndex(int)}
-     * method with the corresponding index and returns true. If the key code does not correspond
-     * to one of these keys, the method returns false.
+     * This method checks if the key code corresponds to a numeric key or numeric keypad key between 1 and 9,
+     * while Alt key is pressed too.
+     * If it does, it calls the {@link #minecraft_access$speakPreviousChatAtIndex(int)}
+     * method with the corresponding index and returns true.
      *
      * @param keyCode the key code of the input event.
      * @return true if the input was handled, false otherwise.
      */
-    private static boolean handleKeyInput(int keyCode) {
-        for (int i = 1; i <= 9; i++) {
-            if (keyCode == GLFW.GLFW_KEY_0 + i || keyCode == GLFW.GLFW_KEY_KP_0 + i) {
-                speakPreviousChatAtIndex(i - 1);
-                return true;
+    @Unique
+    private static boolean minecraft_access$repeatPreviousChatMessage(int keyCode) {
+        if (Screen.hasAltDown()) {
+            for (int i = 1; i <= 9; i++) {
+                if (keyCode == GLFW.GLFW_KEY_0 + i || keyCode == GLFW.GLFW_KEY_KP_0 + i) {
+                    minecraft_access$speakPreviousChatAtIndex(i - 1);
+                    return true;
+                }
             }
         }
         return false;
@@ -80,10 +85,19 @@ public class ChatScreenMixin {
      *
      * @param indexOffset the index offset from the most recent chat message to speak.
      */
-    private static void speakPreviousChatAtIndex(int indexOffset) {
+    @Unique
+    private static void minecraft_access$speakPreviousChatAtIndex(int indexOffset) {
         List<ChatHudLine> messages = ((ChatHudAccessor) MinecraftClient.getInstance().inGameHud.getChatHud()).getMessages();
         if ((messages.size() - indexOffset) <= 0) return;
 
         MainClass.speakWithNarrator(messages.get(indexOffset).content().getString(), true);
+    }
+
+    /**
+     * Since there is no text modifying narration, we want to manually speak when the chat history is switched.
+     */
+    @Inject(at = @At("TAIL"), method = "setChatFromHistory")
+    private void speakSwitchedChatHistory(int index, CallbackInfo ci) {
+        MainClass.speakWithNarratorIfNotEmpty(this.chatField.getText(), true);
     }
 }

@@ -8,5 +8,4 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface TextFieldWidgetAccessor {
     @Accessor
     boolean getFocusUnlocked();
-
 }

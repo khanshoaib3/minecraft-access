@@ -17,7 +17,8 @@ import java.util.List;
  * Automatically installs the required libraries for client's operating system.
  */
 public class AutoLibrarySetup {
-    public AutoLibrarySetup() {}
+    public AutoLibrarySetup() {
+    }
 
     public void initialize() {
         if (checkInstalled()) return;
@@ -25,7 +26,7 @@ public class AutoLibrarySetup {
         try {
             downloadAndInstall();
         } catch (IOException e) {
-            MainClass.errorLog("An error occurred while downloading library.");
+            MainClass.errorLog("An error occurred while downloading library.", e);
         }
     }
 
@@ -44,8 +45,7 @@ public class AutoLibrarySetup {
             try {
                 unzipUtility.unzip(tolkLatestBuildZip.getAbsolutePath(), tempDirectoryPath.getAbsolutePath());
             } catch (Exception e) {
-                MainClass.errorLog("An error occurred while extracting tolk-latest-build.zip");
-                e.printStackTrace();
+                MainClass.errorLog("An error occurred while extracting tolk-latest-build.zip", e);
             }
 
             MainClass.infoLog("Moving files...");
