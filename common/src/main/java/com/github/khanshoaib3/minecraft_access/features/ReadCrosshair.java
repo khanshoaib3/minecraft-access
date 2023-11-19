@@ -4,10 +4,10 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeakingConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.mixin.MobSpawnerLogicAccessor;
-import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityProxy;
 import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.position.PositionUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BeehiveBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -55,7 +55,6 @@ public class ReadCrosshair {
     private static final double RAY_CAST_DISTANCE = 6.0;
     private static final double SOUND_VOLUME_MIN = 0.25;
     private static final double SOUND_VOLUME_MAX = 0.4;
-    private static final double VOLUME_DELTA_PER_BLOCK = (SOUND_VOLUME_MAX - SOUND_VOLUME_MIN) / RAY_CAST_DISTANCE;
     private static ReadCrosshair instance;
 
     /**
@@ -215,35 +214,10 @@ public class ReadCrosshair {
     private void speakIfFocusChanged(String currentQuery, String toSpeak, Vec3d targetPosition) {
         boolean focusChanged = !getPreviousQuery().equalsIgnoreCase(currentQuery);
         if (focusChanged) {
-            playRelativePositionSoundCue(targetPosition);
+            PositionUtils.playRelativePositionSoundCue(targetPosition, RAY_CAST_DISTANCE, SoundEvents.BLOCK_NOTE_BLOCK_HARP, SOUND_VOLUME_MIN, SOUND_VOLUME_MAX);
             this.previousQuery = currentQuery;
             MainClass.speakWithNarrator(toSpeak, true);
         }
-    }
-
-    /**
-     * To indicate relative location between player and target.
-     */
-    private static void playRelativePositionSoundCue(Vec3d targetPosition) {
-        Vec3d playerPos = PlayerPositionUtils.getPlayerPosition().orElseThrow();
-
-        // Use pitch to represent relative elevation, the higher the sound the higher the target.
-        // The range of pitch is [0.5, 2.0], calculated as: 2 ^ (x / 12), where x is [-12, 12].
-        // ref: https://minecraft.wiki/w/Note_Block#Notes
-        //
-        // Since we have a custom read crosshair ray cast distance (=6),
-        // the range of (targetY - playerY) is [-6, 6],
-        // so let the distance be the denominator to map to original range.
-        float pitch = (float) Math.pow(2, (targetPosition.getY() - playerPos.y) / RAY_CAST_DISTANCE);
-
-        // Use volume to represent distance, the louder the sound the closer the distance.
-        // Manually set the volume range to [0.25, 0.4],
-        // range of distance is [0, 6].
-        double distance = Math.sqrt(targetPosition.squaredDistanceTo(playerPos.x, playerPos.y, playerPos.z));
-        float volume = (float) (SOUND_VOLUME_MIN + (RAY_CAST_DISTANCE - distance) * VOLUME_DELTA_PER_BLOCK);
-
-        ClientPlayerEntityProxy.playSoundOnPosition(SoundEvents.BLOCK_NOTE_BLOCK_HARP, volume, pitch, targetPosition);
-        MainClass.infoLog(String.valueOf(pitch));
     }
 
     private void checkForBlocks(BlockHitResult hit) {
