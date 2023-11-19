@@ -20,7 +20,8 @@ import java.util.List;
 
 @Mixin(Screen.class)
 public abstract class ScreenMixin {
-    @Shadow public abstract Text getNarratedTitle();
+    @Shadow
+    public abstract Text getNarratedTitle();
 
     @Shadow
     @Nullable
@@ -28,14 +29,19 @@ public abstract class ScreenMixin {
         return null;
     }
 
-    @Shadow @Nullable private Selectable selected;
+    @Shadow
+    @Nullable
+    private Selectable selected;
 
-    @Shadow @Final private List<Selectable> selectables;
+    @Shadow
+    @Final
+    private List<Selectable> selectables;
 
-    @Shadow protected abstract void addElementNarrations(NarrationMessageBuilder builder);
+    @Shadow
+    protected abstract void addElementNarrations(NarrationMessageBuilder builder);
 
     @Inject(at = @At("HEAD"), method = "addScreenNarrations", cancellable = true)
-    private void addScreenNarrationsHead(NarrationMessageBuilder builder, CallbackInfo ci){
+    private void addScreenNarrationsHead(NarrationMessageBuilder builder, CallbackInfo ci) {
         builder.put(NarrationPart.TITLE, this.getNarratedTitle());
         this.addElementNarrations(builder);
         ci.cancel();

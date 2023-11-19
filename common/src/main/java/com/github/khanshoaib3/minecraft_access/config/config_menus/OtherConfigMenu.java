@@ -100,6 +100,14 @@ public class OtherConfigMenu extends BaseScreen {
         positionNarratorFormatButton.active = false;
         this.addDrawableChild(positionNarratorFormatButton);
 
+        ButtonWidget suggestionFormatButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.button_with_string_value",
+                        I18n.translate("minecraft_access.gui.other_config_menu.button.command_suggestion_narrator_format_button"),
+                        initMap.getCommandSuggestionNarratorFormat()
+                ),
+                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.OTHER_COMMAND_SUGGESTION_NARRATOR_FORMAT, this)));
+        this.addDrawableChild(suggestionFormatButton);
+
         ButtonWidget use12HourFormatButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.toggle_button." + (initMap.isUse12HourTimeFormat() ? "enabled" : "disabled"),
                         I18n.translate("minecraft_access.gui.other_config_menu.button.use_12_hour_format_button")

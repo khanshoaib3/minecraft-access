@@ -12,16 +12,17 @@ If you have any suggestion on improvements existing features or about a new feat
     * [Partial Speaking](#partial-speaking)
 4. [Inventory Controls](#inventory-controls)
 5. [Point of Interest](#point-of-interest)
-   * [POI Locking](#poi-locking)
-   * [POI Marking](#poi-marking)
+    * [POI Locking](#poi-locking)
+    * [POI Marking](#poi-marking)
 6. [Fall Detector](#fall-detector)
 7. [Narrator Menu](#narrator-menu)
 8. [Play Status](#player-status)
-   * [Position Narrator](#position-narrator)
-   * [Health n Hunger](#health-n-hunger)
-   * [Player Warnings](#player-warnings)
+    * [Position Narrator](#position-narrator)
+    * [Health n Hunger](#health-n-hunger)
+    * [Player Warnings](#player-warnings)
 9. [Book Editing](#book-editing)
-10. [Other Small Features](#other-small-features)
+10. [Speak Text Editing](#speak-text-editing)
+11. [Other Small Features](#other-small-features)
     * [Speak held item](#speak-held-item)
     * [Biome Indicator](#biome-indicator)
     * [XP Indicator](#xp-indicator)
@@ -75,7 +76,7 @@ You can switch focusing group, move to different slots within a group, or pick u
 
 Use mouse simulation keys in [`Mouse Simulation`](#mouse-simulation) feature to preform operations such as item transferring and button clicking.
 Left mouse key will pick up and put down full number of items in the slot.
-Right mouse key will pick up half number of items or put one item down. 
+Right mouse key will pick up half number of items or put one item down.
 Middle mouse key can be used in creative mode to pick up a full stack of item from the item list.
 The mod will speak what is currently in the slot, such as "Empty Slot" or "64 Stone".
 When you pick up full number of items in a slot, the mod will speak "Empty Slot" to represent current state of the slot.
@@ -190,11 +191,22 @@ See also: [Configuration](/doc/CONFIG.md#player-warnings)
 
 ## Book Editing
 
-The [Book Editing Screen](https://minecraft.wiki/w/Book_and_Quill#Writing) is special in that it has nothing to do with item management and has no slot groups.
+The [Book Editing Screen](https://minecraft.wiki/w/Book_and_Quill#Writing) is a special screen that has nothing to do with item management thus has no slot group.
 We've added some not re-mappable keys and narration cues to make it 100% accessible.
 This section as a brief guide on how to use this screen, listing the keys corresponding to the functions.
 
 See also: [Keybindings](/doc/KEYBINDINGS.md#book-editing)
+
+## Speak Text Editing
+
+The mod will simulate the feedback you get when typing text in other software's input boxes.
+It will speak the text that you delete, select, pass with cursor on [Chat Screen](https://minecraft.wiki/w/Chat), [Book Edit Screen](#book-editing), [Command Block Screen](https://minecraft.wiki/w/Command_Block#Modification) and so on.
+Note that we have to speak whole unfinished book title while signing a book since you can't move the cursor in that state, which means that the cursor will stay at the end of title and ignoring your cursor moving operations.
+
+The mod also simplifies the original [command](https://minecraft.wiki/w/Commands) suggestion narration for a better typing experience with lesser annoying too-detailed narrations.
+The content of one command suggestion narration will be like "{the order of focused suggestion}x{total number of suggestions} {suggestion} selected", the format can be customized in the config.
+
+See also: [Configuration](/doc/CONFIG.md#other-configurations)
 
 ## Other Small Features
 
@@ -222,7 +234,7 @@ In fact this feature will speak the items you pick up while you're holding the r
 ### Speak Chat Messages
 
 Speak [chat](https://minecraft.wiki/w/Chat) messages, so you won't miss your friends' conversation.
-If you feel that too many chat messages are making you feel noisy, you can turn off showing chat messages in the original `Chat Settings...` options.
+If you feel that too many chat messages are making you feel noisy, you can turn off showing chat messages in the original `Chat Settings...` options, or press "P" to open [Social Interactions Screen](https://minecraft.wiki/w/Social_interactions) to mute particular players.
 
 See also: [Keybindings](/doc/KEYBINDINGS.md#speak-chat-messages)
 
