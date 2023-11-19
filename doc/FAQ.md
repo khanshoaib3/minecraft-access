@@ -7,6 +7,8 @@
 3. [Why nobody answers my questions in Discord?](#why-nobody-answers-my-questions-in-discord)
 4. [Why this mod is updated slowly / the feature I asked was not released in the new version?](#why-this-mod-is-updated-slowly--the-feature-i-asked-was-not-released-in-the-new-version)
 5. [Has this mod been uploaded to mod platforms?](#has-this-mod-been-uploaded-to-mod-platforms)
+6. [Is this mod supports XX language?](#is-this-mod-supports-xx-language)
+7. [How can I contribute to I18N?](#how-can-i-contribute-to-i18n)
 
 ## Is the mod enough to play the game normally?
 
@@ -38,7 +40,7 @@ We stick to the pure client-side strategy for now, since you need to install a s
 ## Why nobody answers my questions in Discord?
 
 Sorry for the inconvenience. Here are some self-help materials to help you.
-If you have any question about installing, please read the [set-up guide](/doc/SET_UP.md). 
+If you have any question about installing, please read the [set-up guide](/doc/SET_UP.md).
 If you have any question about original game functions, please search on the [wiki](https://minecraft.wiki/?search) or just google it.
 If you have any question about this mod, please read the [manual](/README.md).
 
@@ -52,3 +54,11 @@ If you know developers who might be willing to help contribute to this mod, plea
 ## Has this mod been uploaded to mod platforms?
 
 Yes, it has been uploaded to Modrinth as [Minecraft Access](https://modrinth.com/mod/minecraft-access) and CurseForge as [Blind Accessibility](https://www.curseforge.com/minecraft/mc-mods/blind-accessibility).
+
+## Is this mod supports XX language?
+
+See [I18N Fallback Mechanism Feature](/doc/FEATURES.md#i18n-fallback-mechanism).
+
+## How can I contribute to I18N?
+
+We manage the translation of this mod in [another GitHub repository](https://github.com/khanshoaib3/minecraft-access-i18n#minecraft-access-i18n), take a look.

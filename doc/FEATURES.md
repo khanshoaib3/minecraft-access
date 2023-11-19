@@ -30,6 +30,7 @@ If you have any suggestion on improvements existing features or about a new feat
     * [Speak Harvest Of Fishing](#speak-harvest-of-fishing)
     * [Speak Chat Messages](#speak-chat-messages)
     * [Speak Action Bar Updates](#speak-action-bar-updates)
+    * [I18N Fallback Mechanism](#i18n-fallback-mechanism)
 
 ## Camera Controls
 
@@ -256,6 +257,13 @@ See also: [Keybindings](/doc/KEYBINDINGS.md#speak-chat-messages)
 ### Speak Action Bar Updates
 
 Messages updated by the [action bar](https://minecraft.wiki/w/Commands/title) are common in modded multiplayer servers, usually they are used as announcements.
+
+### I18N Fallback Mechanism
+
+Minecraft has supported many languages, when referring languages that this mod supports, we mean text that introduced by this mod and don't exist in original game.
+This mod has a fallback mechanism on I18n in case it fails on unsupported languages, or text that not translated in time in supported languages.
+If any text I18N failed on your language, the mod will use the English version instead.
+Set the game to your familiar language is recommended, even if it's not supported by this mod, since you can still be benefited from translatable game original text, such as name of blocks or creatures.
 
 ## Other Pages
 
