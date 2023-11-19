@@ -28,10 +28,13 @@ public class MouseSimulationMenu extends BaseScreen {
                 });
         this.addDrawableChild(featureToggleButton);
 
+        ValueEntryMenu.ValueConfig c1 = new ValueEntryMenu.ValueConfig(() -> MouseSimulationConfigMap.getInstance().getScrollDelayInMilliseconds(),
+                (v) -> MouseSimulationConfigMap.getInstance().setScrollDelayInMilliseconds(Integer.parseInt(v)),
+                ValueEntryMenu.ValueType.INT);
         ButtonWidget delayButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.delay",
                         initMap.getScrollDelayInMilliseconds()),
-                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.MOUSE_SIMULATION_SCROLL_DELAY, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c1, this)));
         this.addDrawableChild(delayButton);
     }
 }

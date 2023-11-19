@@ -47,14 +47,20 @@ class FluidDetectorConfigMenu extends BaseScreen {
 
         FluidDetectorConfigMap initMap = FluidDetectorConfigMap.getInstance();
 
+        ValueEntryMenu.ValueConfig c1 = new ValueEntryMenu.ValueConfig(() -> FluidDetectorConfigMap.getInstance().getVolume(),
+                (v) -> FluidDetectorConfigMap.getInstance().setVolume(Integer.parseInt(v)),
+                ValueEntryMenu.ValueType.FLOAT);
         ButtonWidget volumeButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.volume", initMap.getVolume()),
-                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.NARRATOR_MENU_VOLUME, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c1, this)));
         this.addDrawableChild(volumeButton);
 
+        ValueEntryMenu.ValueConfig c2 = new ValueEntryMenu.ValueConfig(() -> FluidDetectorConfigMap.getInstance().getRange(),
+                (v) -> FluidDetectorConfigMap.getInstance().setRange(Integer.parseInt(v)),
+                ValueEntryMenu.ValueType.INT);
         ButtonWidget rangeButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.range", initMap.getRange()),
-                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.NARRATOR_MENU_RANGE, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c2, this)));
         this.addDrawableChild(rangeButton);
     }
 }

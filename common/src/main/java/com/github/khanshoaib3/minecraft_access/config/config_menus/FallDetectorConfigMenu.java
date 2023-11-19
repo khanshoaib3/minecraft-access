@@ -28,18 +28,24 @@ public class FallDetectorConfigMenu extends BaseScreen {
                 });
         this.addDrawableChild(featureToggleButton);
 
+        ValueEntryMenu.ValueConfig c1 = new ValueEntryMenu.ValueConfig(() -> FallDetectorConfigMap.getInstance().getRange(),
+                (v) -> FallDetectorConfigMap.getInstance().setRange(Integer.parseInt(v)),
+                ValueEntryMenu.ValueType.INT);
         ButtonWidget rangeButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.range",
                         initMap.getRange()),
-                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.FALL_DETECTOR_RANGE, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c1, this)));
         this.addDrawableChild(rangeButton);
 
+        ValueEntryMenu.ValueConfig c2 = new ValueEntryMenu.ValueConfig(() -> FallDetectorConfigMap.getInstance().getDepth(),
+                (v) -> FallDetectorConfigMap.getInstance().setDepth(Integer.parseInt(v)),
+                ValueEntryMenu.ValueType.INT);
         ButtonWidget depthButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
                         I18n.translate("minecraft_access.gui.fall_detector_config_menu.button.depth_threshold_button"),
                         initMap.getDepth()
                 ),
-                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.FALL_DETECTOR_DEPTH_THRESHOLD, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c2, this)));
         this.addDrawableChild(depthButton);
 
         ButtonWidget playAlternateSoundButton = this.buildButtonWidget(
@@ -57,14 +63,20 @@ public class FallDetectorConfigMenu extends BaseScreen {
         playAlternateSoundButton.active = false;
         this.addDrawableChild(playAlternateSoundButton);
 
+        ValueEntryMenu.ValueConfig c3 = new ValueEntryMenu.ValueConfig(() -> FallDetectorConfigMap.getInstance().getVolume(),
+                (v) -> FallDetectorConfigMap.getInstance().setVolume(Float.parseFloat(v)),
+                ValueEntryMenu.ValueType.FLOAT);
         ButtonWidget volumeButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.volume", initMap.getVolume()),
-                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.FALL_DETECTOR_VOLUME, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c3, this)));
         this.addDrawableChild(volumeButton);
 
+        ValueEntryMenu.ValueConfig c4 = new ValueEntryMenu.ValueConfig(() -> FallDetectorConfigMap.getInstance().getDelay(),
+                (v) -> FallDetectorConfigMap.getInstance().setDelay(Integer.parseInt(v)),
+                ValueEntryMenu.ValueType.INT);
         ButtonWidget delayButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.delay", initMap.getDelay()),
-                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.FALL_DETECTOR_DELAY, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c4, this)));
         this.addDrawableChild(delayButton);
     }
 }

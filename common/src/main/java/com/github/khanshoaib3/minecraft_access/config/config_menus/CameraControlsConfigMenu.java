@@ -28,25 +28,34 @@ public class CameraControlsConfigMenu extends BaseScreen {
                 });
         this.addDrawableChild(featureToggleButton);
 
+        ValueEntryMenu.ValueConfig c1 = new ValueEntryMenu.ValueConfig(() -> CameraControlsConfigMap.getInstance().getNormalRotatingAngle(),
+                (v) -> CameraControlsConfigMap.getInstance().setNormalRotatingAngle(Float.parseFloat(v)),
+                ValueEntryMenu.ValueType.FLOAT);
         ButtonWidget normalRotatingAngleButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
                         I18n.translate("minecraft_access.gui.camera_controls_config_menu.button.normal_rotating_angle"),
                         initMap.getNormalRotatingAngle()),
-                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.CAMERA_CONTROLS_NORMAL_ROTATING_ANGLE, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c1, this)));
         this.addDrawableChild(normalRotatingAngleButton);
 
+        ValueEntryMenu.ValueConfig c2 = new ValueEntryMenu.ValueConfig(() -> CameraControlsConfigMap.getInstance().getModifiedRotatingAngle(),
+                (v) -> CameraControlsConfigMap.getInstance().setModifiedRotatingAngle(Float.parseFloat(v)),
+                ValueEntryMenu.ValueType.FLOAT);
         ButtonWidget modifiedRotatingAngleButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
                         I18n.translate("minecraft_access.gui.camera_controls_config_menu.button.modified_rotating_angle"),
                         initMap.getModifiedRotatingAngle()
                 ),
-                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.CAMERA_CONTROLS_MODIFIED_ROTATING_ANGLE, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c2, this)));
         this.addDrawableChild(modifiedRotatingAngleButton);
 
+        ValueEntryMenu.ValueConfig c3 = new ValueEntryMenu.ValueConfig(() -> CameraControlsConfigMap.getInstance().getDelayInMilliseconds(),
+                (v) -> CameraControlsConfigMap.getInstance().setDelayInMilliseconds(Integer.parseInt(v)),
+                ValueEntryMenu.ValueType.INT);
         ButtonWidget delayButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.delay",
                         initMap.getDelayInMilliseconds()),
-                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.CAMERA_CONTROLS_DELAY, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c3, this)));
         this.addDrawableChild(delayButton);
     }
 }

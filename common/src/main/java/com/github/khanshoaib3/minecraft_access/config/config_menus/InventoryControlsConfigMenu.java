@@ -42,19 +42,25 @@ public class InventoryControlsConfigMenu extends BaseScreen {
                 });
         this.addDrawableChild(autoOpenRecipeBookButton);
 
+        ValueEntryMenu.ValueConfig c1 = new ValueEntryMenu.ValueConfig(() -> InventoryControlsConfigMap.getInstance().getRowAndColumnFormat(),
+                (v) -> InventoryControlsConfigMap.getInstance().setRowAndColumnFormat(v),
+                ValueEntryMenu.ValueType.STRING);
         ButtonWidget rowNColumnButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.button_with_string_value",
                         I18n.translate("minecraft_access.gui.inventory_controls_config_menu.button.row_and_column_format"),
                         initMap.getRowAndColumnFormat()
                 ),
-                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.INVENTORY_CONTROLS_ROW_N_COLUMN_FORMAT, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c1, this)));
         rowNColumnButton.active = false;
         this.addDrawableChild(rowNColumnButton);
 
+        ValueEntryMenu.ValueConfig c2 = new ValueEntryMenu.ValueConfig(() -> InventoryControlsConfigMap.getInstance().getDelayInMilliseconds(),
+                (v) -> InventoryControlsConfigMap.getInstance().setDelayInMilliseconds(Integer.parseInt(v)),
+                ValueEntryMenu.ValueType.INT);
         ButtonWidget delayButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.delay",
                         initMap.getDelayInMilliseconds()),
-                (button) -> this.client.setScreen(new ValueEntryMenu(ValueEntryMenu.CONFIG_TYPE.INVENTORY_CONTROLS_DELAY, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c2, this)));
         this.addDrawableChild(delayButton);
     }
 }
