@@ -21,6 +21,49 @@ If you want to contribute to translating work, we manage the translation of this
 ### Feature Changes
 
 * Now whenever you're looking at a block and entity, the mod will play a piano sound cue to indicate relative location between you and target. see also: [description of this feature](/doc/FEATURES.md#relative-position-sound-cue) [#191](https://github.com/khanshoaib3/minecraft-access/issues/191)
+* Now the mod will only speak item count when held item type isn't changed (when picking up or spending items), with a new config "Report Held Items Count When Changed", see the [configuration](/doc/CONFIG.md#other-configurations).
+* Now the mod will speak sitting state of cat, dog, parrot, [and so on](https://minecraft.wiki/w/Sitting#Mechanics) in `Read Crosshair`. [#192](https://github.com/khanshoaib3/minecraft-access/issues/192)
+* Not the mod will speak if an animal is tamed in `Read Crosshair`.
+* Now the mod can tell if a zombie villager is under curing in `Read Crosshair`. [#195](https://github.com/khanshoaib3/minecraft-access/issues/195)
+* Now the mod will additionally speak an entity's type if it has a custom name given by the name tag.
+* Move "Shearable" word in front of sheep information in `Read Crosshair`.
+* Now the mod will tell if your [taming operation](https://minecraft.fandom.com/wiki/Taming) is successful or not.
+
+### Bug Fixes
+
+* Fix the bug that keybindings can't be rebound to mouse 4,5 keys (mouse side keys) [#190](https://github.com/khanshoaib3/minecraft-access/issues/190)
+* Fix the bug that a dead entity can be locked before it disappears. [#208](https://github.com/khanshoaib3/minecraft-access/issues/208)
+
+### Dependencies Changes
+
+### Refactoring, Documentation and Chores
+
+* Now the change log should be added as a small independent markdown file (fragment) under `./doc/news`.
+* Add introduction of missing chat message feature into manual.
+
+Release v1.4.0 (2023-11)
+---------------------------
+
+### New Features
+
+#### Speak Text Editing
+
+* Now the mod will simulate the feedback you get when typing text in other software's input boxes, it will speak the text that you delete, select, pass with cursor, on Chat Screen, Book Edit Screen, Command Block Screen and so on.
+* Suppress annoying original "speak whole sentence" narration on every text editing operation.
+* Simplify the original command suggestion narration for a better typing experience with lesser annoying too-detailed narrations.
+
+See also: [description of this feature](/doc/FEATURES.md#speak-text-editing) [#187](https://github.com/khanshoaib3/minecraft-access/issues/187)
+
+#### I18N Fallback Mechanism
+
+A fallback mechanism is added to I18n in case it fails on unsupported languages, or text that not translated in time in supported languages.
+If any I18N failed on your language, the mod will use the English version instead.
+Set the game to your familiar language is recommended, even if it's not supported by this mod, since you can still be benefited from translatable game original text, such as name of blocks or creatures.
+If you want to contribute to translating work, we manage the translation of this mod in [another GitHub repository](https://github.com/khanshoaib3/minecraft-access-i18n#minecraft-access-i18n), take a look.
+
+### Feature Changes
+
+* Now whenever you're looking at a block and entity, the mod will play a piano sound cue to indicate relative location between you and target. see also: [description of this feature](/doc/FEATURES.md#relative-position-sound-cue) [#191](https://github.com/khanshoaib3/minecraft-access/issues/191)
 
 ### Bug Fixes
 
