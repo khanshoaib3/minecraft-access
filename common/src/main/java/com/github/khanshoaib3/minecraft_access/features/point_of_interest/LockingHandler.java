@@ -154,8 +154,8 @@ public class LockingHandler {
         }
 
         if (!POIEntities.markedEntities.isEmpty()) {
-            Entry<Double, Entity> entry = POIEntities.markedEntities.firstEntry();
-            lockOnEntity(entry);
+            Entity entity = POIEntities.markedEntities.firstEntry().getValue();
+            lockOnEntity(entity);
             return;
         }
 
@@ -169,14 +169,14 @@ public class LockingHandler {
         }
 
         if (!POIEntities.hostileEntity.isEmpty()) {
-            Entry<Double, Entity> entry = POIEntities.hostileEntity.firstEntry();
-            lockOnEntity(entry);
+            Entity entity = POIEntities.hostileEntity.firstEntry().getValue();
+            lockOnEntity(entity);
             return;
         }
 
         if (!POIEntities.passiveEntity.isEmpty()) {
-            Entry<Double, Entity> entry = POIEntities.passiveEntity.firstEntry();
-            lockOnEntity(entry);
+            Entity entity = POIEntities.passiveEntity.firstEntry().getValue();
+            lockOnEntity(entity);
             return;
         }
 
@@ -185,9 +185,7 @@ public class LockingHandler {
         determineClosestEntriesAndLock(minecraftClient);
     }
 
-    private void lockOnEntity(Entry<Double, Entity> entry) {
-        Entity entity = entry.getValue();
-
+    private void lockOnEntity(Entity entity) {
         String text = entity.getName().getString();
         lockedOnEntity = entity;
         lockedOnBlockEntries = "";
@@ -371,7 +369,8 @@ public class LockingHandler {
 //            MutableText mutableText = (new net.minecraft.text.LiteralText("")).append(closestBlock.getName()); // pre 1.19
         String text = mutableText.getString();
 
-        if (this.speakDistance) text += " " + PositionUtils.getPositionDifference(new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
+        if (this.speakDistance)
+            text += " " + PositionUtils.getPositionDifference(new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
         MainClass.speakWithNarrator(text, true);
     }
 
