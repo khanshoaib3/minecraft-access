@@ -155,8 +155,10 @@ public class LockingHandler {
 
         if (!POIEntities.markedEntities.isEmpty()) {
             Entity entity = POIEntities.markedEntities.firstEntry().getValue();
-            lockOnEntity(entity);
-            return;
+            if (entity.isAlive()) {
+                lockOnEntity(entity);
+                return;
+            }
         }
 
         if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
@@ -170,14 +172,18 @@ public class LockingHandler {
 
         if (!POIEntities.hostileEntity.isEmpty()) {
             Entity entity = POIEntities.hostileEntity.firstEntry().getValue();
-            lockOnEntity(entity);
-            return;
+            if (entity.isAlive()) {
+                lockOnEntity(entity);
+                return;
+            }
         }
 
         if (!POIEntities.passiveEntity.isEmpty()) {
             Entity entity = POIEntities.passiveEntity.firstEntry().getValue();
-            lockOnEntity(entity);
-            return;
+            if (entity.isAlive()) {
+                lockOnEntity(entity);
+                return;
+            }
         }
 
         if (!this.lockOnBlocks) return;
