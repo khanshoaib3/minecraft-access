@@ -1,3 +1,39 @@
+Release v1.4.0 (2023-11)
+---------------------------
+
+### New Features
+
+#### Speak Text Editing
+
+* Now the mod will simulate the feedback you get when typing text in other software's input boxes, it will speak the text that you delete, select, pass with cursor, on Chat Screen, Book Edit Screen, Command Block Screen and so on.
+* Suppress annoying original "speak whole sentence" narration on every text editing operation.
+* Simplify the original command suggestion narration for a better typing experience with lesser annoying too-detailed narrations.
+
+See also: [description of this feature](/doc/FEATURES.md#speak-text-editing) [#187](https://github.com/khanshoaib3/minecraft-access/issues/187)
+
+#### I18N Fallback Mechanism
+
+A fallback mechanism is added to I18n in case it fails on unsupported languages, or text that not translated in time in supported languages.
+If any I18N failed on your language, the mod will use the English version instead.
+Set the game to your familiar language is recommended, even if it's not supported by this mod, since you can still be benefited from translatable game original text, such as name of blocks or creatures.
+If you want to contribute to translating work, we manage the translation of this mod in [another GitHub repository](https://github.com/khanshoaib3/minecraft-access-i18n#minecraft-access-i18n), take a look.
+
+### Feature Changes
+
+* Now whenever you're looking at a block and entity, the mod will play a piano sound cue to indicate relative location between you and target. see also: [description of this feature](/doc/FEATURES.md#relative-position-sound-cue) [#191](https://github.com/khanshoaib3/minecraft-access/issues/191)
+
+### Bug Fixes
+
+* Fix the bug that keybindings can't be rebound to mouse 4,5 keys (mouse side keys) [#190](https://github.com/khanshoaib3/minecraft-access/issues/190)
+* Fix the bug that a dead entity can be locked before it disappears. [#208](https://github.com/khanshoaib3/minecraft-access/issues/208)
+
+### Dependencies Changes
+
+### Refactoring, Documentation and Chores
+
+* Now the change log should be added as a small independent markdown file (fragment) under `./doc/news`.
+* Add introduction of missing chat message feature into manual.
+
 Release v1.3.0 (2023-09)
 ---------------------------
 
@@ -129,6 +165,7 @@ Release v1.0.1 (for 1.19.3) (2023-07-01)
 <p>
 
 ## What's Changed
+
 * Added config option to speak time in 12 hour format by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/21
 * Chat History Reader by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/23
 * Misc by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/24
@@ -144,14 +181,13 @@ Release v1.0.1 (for 1.19.3) (2023-07-01)
 * Config Menu by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/45
 * Add narration about crops ripe level and farmland wet state. Refactor block narration methods. close [#44](https://github.com/khanshoaib3/minecraft-access/pull/44) by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/46
 * Add Narrator Menu hotkey and Narrator Menu number key listening by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/47
-* Add speak harvest of fishing feature, to be clear it will report what your picked up when you're holding a fishing rod.  by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/52
+* Add speak harvest of fishing feature, to be clear it will report what your picked up when you're holding a fishing rod. by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/52
 * Comparator info fix; Bug fix for redstone related blocks; Refactored i18n entries; by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/53
 * Add speak harvest of fishing config by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/54
 * Fix debugMode dynamic config. close [#50](https://github.com/khanshoaib3/minecraft-access/pull/50) by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/57
 * Add marked poi scan feature by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/59
 * Refactor key related code by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/56
 * Fixes buggy Time Utils with camera and inventory controls key inputs. by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/63
-
 
 **Full Changelog**: https://github.com/khanshoaib3/minecraft-access/compare/v1.0.0...v1.0.1
 </p>
@@ -180,6 +216,7 @@ Note that you may face issue in accessing the F4 menu, this can be resolved by d
 ## Auto Generated Release Notes
 
 ### What's Changed
+
 * Bug Fixes by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/28
 * Auto Library Installer by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/29
 * I18N SlotsGroup by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/30
@@ -192,6 +229,7 @@ Note that you may face issue in accessing the F4 menu, this can be resolved by d
 * Config Menu by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/45
 
 ### New Contributors
+
 * @boholder made their first contribution in https://github.com/khanshoaib3/minecraft-access/pull/30
 
 **Full Changelog**: https://github.com/khanshoaib3/minecraft-access/compare/v1.0.1-beta.1...v1.0.1-beta.2
