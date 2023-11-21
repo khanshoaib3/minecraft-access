@@ -40,7 +40,8 @@ We stick to the pure client-side strategy for now, since you need to install a s
 Sorry for the inconvenience. Here are some self-help materials to help you.
 If you have any question about installing, please read the [set-up guide](/doc/SET_UP.md). 
 If you have any question about original game functions, please search on the [wiki](https://minecraft.wiki/w/Special:Search?scope=internal) or just google it.
-If you have any question about this mod, please read the [manual](/README.md).
+If you want to learn to play the game, there are [some detailed text tutorials on wiki](https://minecraft.wiki/w/Tutorials), you can also listen [Pixlriffs's Minecraft Survival Guide](https://www.youtube.com/watch?v=VfpHTJsn9I4&list=PLgENJ0iY3XBjmydGuzYTtDwfxuR6lN8KC) on YouTube, or just google the question and search answers on forums.
+If you have any question about this ![img.png](img.png)mod, please read the [manual](/README.md).
 
 ## Why this mod is updated slowly / the feature I asked was not released in the new version?
 

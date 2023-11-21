@@ -7,7 +7,7 @@ Currently, this mod [has enough features](doc/FAQ.md#is-the-mod-enough-to-play-t
 
 This mod supports:
 
-* Game version `1.19.3`, and subsequent versions start from `1.20.1` (but maybe not every minor version)
+* Game version `1.19.3`, `1.20.1`.
 * On [Fabric](https://fabricmc.net/use/installer/) and [Forge](https://files.minecraftforge.net/net/minecraftforge/forge/) modding platform
 * On Windows and Linux operating system ([Help us on macOS porting](https://github.com/khanshoaib3/minecraft-access/issues/22))
 
