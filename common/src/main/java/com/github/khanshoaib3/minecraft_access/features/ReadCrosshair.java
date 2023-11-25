@@ -21,8 +21,7 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.entity.passive.*;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.registry.Registries;
@@ -188,10 +187,23 @@ public class ReadCrosshair {
             }
 
             String currentQuery = entity.getName().getString();
+
             if (entity instanceof AnimalEntity animalEntity) {
+
                 if (animalEntity instanceof SheepEntity sheepEntity) {
                     currentQuery = getSheepInfo(sheepEntity, currentQuery);
+                } else if (animalEntity instanceof CatEntity catEntity) {
+                    currentQuery = getCatInfo(catEntity, currentQuery);
+                } else if (animalEntity instanceof WolfEntity wolfEntity) {
+                    currentQuery = getWolfInfo(wolfEntity, currentQuery);
+                } else if (animalEntity instanceof FoxEntity foxEntity) {
+                    currentQuery = getFoxInfo(foxEntity, currentQuery);
+                } else if (animalEntity instanceof ParrotEntity parrotEntity) {
+                    currentQuery = getParrotInfo(parrotEntity, currentQuery);
+                } else if (animalEntity instanceof PandaEntity pandaEntity) {
+                    currentQuery = getPandaInfo(pandaEntity, currentQuery);
                 }
+
                 if (animalEntity.isBaby())
                     currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_baby", currentQuery);
                 if (animalEntity.isLeashed())
@@ -202,6 +214,30 @@ public class ReadCrosshair {
         } catch (Exception e) {
             MainClass.errorLog("Error occurred in ReadCrosshair, reading entity", e);
         }
+    }
+
+    private String getCatInfo(CatEntity catEntity, String currentQuery) {
+        return catEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
+    }
+
+    private String getWolfInfo(WolfEntity wolfEntity, String currentQuery) {
+        return wolfEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
+    }
+
+    private String getFoxInfo(FoxEntity foxEntity, String currentQuery) {
+        return foxEntity.isSitting() ? addSittingInfo(currentQuery) : currentQuery;
+    }
+
+    private String getParrotInfo(ParrotEntity parrotEntity, String currentQuery) {
+        return parrotEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
+    }
+
+    private String getPandaInfo(PandaEntity pandaEntity, String currentQuery) {
+        return pandaEntity.isSitting() ? addSittingInfo(currentQuery) : currentQuery;
+    }
+
+    private String addSittingInfo(String currentQuery) {
+        return I18n.translate("minecraft_access.read_crosshair.is_sitting", currentQuery);
     }
 
     private static String getSheepInfo(SheepEntity sheepEntity, String currentQuery) {
