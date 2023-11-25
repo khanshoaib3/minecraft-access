@@ -218,6 +218,7 @@ See also: [Configuration](/doc/CONFIG.md#other-configurations)
 
 When you switch held items, speak the name and number of items in your hand (main hand only).
 The item [durability](https://minecraft.wiki/w/Durability) information is included.
+If you feel that continuous item count reporting is annoying, you can close it in the [configuration](/doc/CONFIG.md#other-configurations).
 
 ### Biome Indicator
 

@@ -21,6 +21,7 @@ If you want to contribute to translating work, we manage the translation of this
 ### Feature Changes
 
 * Now whenever you're looking at a block and entity, the mod will play a piano sound cue to indicate relative location between you and target. see also: [description of this feature](/doc/FEATURES.md#relative-position-sound-cue) [#191](https://github.com/khanshoaib3/minecraft-access/issues/191)
+* Now the mod will only speak item count when held item type isn't changed (when picking up or spending items), with a new config "Report Held Items Count When Changed", see the [configuration](/doc/CONFIG.md#other-configurations).
 
 ### Bug Fixes
 
