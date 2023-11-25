@@ -190,6 +190,10 @@ public class ReadCrosshair {
 
             if (entity instanceof AnimalEntity animalEntity) {
 
+                if (animalEntity instanceof TameableEntity tameableEntity) {
+                    currentQuery = tameableEntity.isTamed() ? I18n.translate("minecraft_access.read_crosshair.is_tamed", currentQuery) : currentQuery;
+                }
+
                 if (animalEntity instanceof SheepEntity sheepEntity) {
                     currentQuery = getSheepInfo(sheepEntity, currentQuery);
                 } else if (animalEntity instanceof CatEntity catEntity) {
