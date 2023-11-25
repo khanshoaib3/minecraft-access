@@ -191,13 +191,13 @@ public class ReadCrosshair {
                 } else if (animalEntity instanceof WolfEntity wolfEntity) {
                     currentQuery = wolfEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
                 } else if (animalEntity instanceof FoxEntity foxEntity) {
-                    currentQuery = foxEntity.isSitting()? addSittingInfo(currentQuery) : currentQuery;
+                    currentQuery = foxEntity.isSitting() ? addSittingInfo(currentQuery) : currentQuery;
                 } else if (animalEntity instanceof ParrotEntity parrotEntity) {
-                    currentQuery = parrotEntity.isInSittingPose()? addSittingInfo(currentQuery) : currentQuery;
+                    currentQuery = parrotEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
                 } else if (animalEntity instanceof PandaEntity pandaEntity) {
-                    currentQuery = pandaEntity.isSitting()? addSittingInfo(currentQuery) : currentQuery;
+                    currentQuery = pandaEntity.isSitting() ? addSittingInfo(currentQuery) : currentQuery;
                 } else if (animalEntity instanceof CamelEntity camelEntity) {
-                    currentQuery = camelEntity.isSitting()? addSittingInfo(currentQuery) : currentQuery;
+                    currentQuery = camelEntity.isSitting() ? addSittingInfo(currentQuery) : currentQuery;
                 }
 
                 if (animalEntity.isBaby())
@@ -208,7 +208,9 @@ public class ReadCrosshair {
 
             if (entity instanceof HostileEntity) {
                 if (entity instanceof ZombieVillagerEntity zombieVillagerEntity) {
-                    currentQuery = getZombieVillagerInfo(zombieVillagerEntity, currentQuery);
+                    currentQuery = zombieVillagerEntity.isConverting() ?
+                            I18n.translate("minecraft_access.read_crosshair.zombie_villager_is_curing", currentQuery) :
+                            currentQuery;
                 }
             }
 
@@ -216,10 +218,6 @@ public class ReadCrosshair {
         } catch (Exception e) {
             MainClass.errorLog("Error occurred in ReadCrosshair, reading entity", e);
         }
-    }
-
-    private String getZombieVillagerInfo(ZombieVillagerEntity zombieVillagerEntity, String currentQuery) {
-        return currentQuery;
     }
 
     private String addSittingInfo(String currentQuery) {
