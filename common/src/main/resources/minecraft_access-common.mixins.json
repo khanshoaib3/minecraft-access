@@ -17,6 +17,7 @@
     "ClientPlayNetworkHandlerMixin",
     "CreativeInventoryScreenAccessor",
     "DurabilityMixin",
+    "EntityAccessor",
     "EyeOfEnderEntityMixin",
     "HandledScreenAccessor",
     "I18nMixin",
@@ -33,6 +34,7 @@
     "SelectionManagerMixin",
     "SlotAccessor",
     "StonecutterScreenAccessor",
+    "TameableEntityMixin",
     "TextFieldWidgetAccessor",
     "TextFieldWidgetMixin"
   ],
