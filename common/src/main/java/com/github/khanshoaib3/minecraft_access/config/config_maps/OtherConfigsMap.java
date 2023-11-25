@@ -35,6 +35,8 @@ public class OtherConfigsMap {
     private boolean actionBarEnabled;
     @SerializedName("Speak Harvest Of Fishing")
     private boolean fishingHarvestEnabled;
+    @SerializedName("Report Held Items Count When Changed")
+    private boolean reportHeldItemsCountWhenChanged = true;
     @SerializedName("Enable Menu Fix")
     private boolean menuFixEnabled;
     @SerializedName("Debug Mode")
@@ -175,6 +177,14 @@ public class OtherConfigsMap {
         this.multipleClickSpeedInMilliseconds = multipleClickSpeedInMilliseconds;
     }
 
+    public boolean isReportHeldItemsCountWhenChanged() {
+        return reportHeldItemsCountWhenChanged;
+    }
+
+    public void setReportHeldItemsCountWhenChanged(boolean reportHeldItemsCountWhenChanged) {
+        this.reportHeldItemsCountWhenChanged = reportHeldItemsCountWhenChanged;
+    }
+
     public static OtherConfigsMap buildDefault() {
         OtherConfigsMap defaultOtherConfigsMap = new OtherConfigsMap();
         defaultOtherConfigsMap.setBiomeIndicatorEnabled(true);
@@ -187,6 +197,7 @@ public class OtherConfigsMap {
         defaultOtherConfigsMap.setUse12HourTimeFormat(false);
         defaultOtherConfigsMap.setActionBarEnabled(true);
         defaultOtherConfigsMap.setFishingHarvestEnabled(true);
+        defaultOtherConfigsMap.reportHeldItemsCountWhenChanged = true;
         defaultOtherConfigsMap.setMenuFixEnabled(true);
         defaultOtherConfigsMap.setDebugMode(false);
         defaultOtherConfigsMap.setMultipleClickSpeedInMilliseconds(750);
