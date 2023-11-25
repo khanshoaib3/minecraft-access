@@ -152,6 +152,21 @@ public class OtherConfigMenu extends BaseScreen {
                 true);
         this.addDrawableChild(speakFishingHarvestButton);
 
+        ButtonWidget reportHeldItemsCountWhenChangedButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (initMap.isReportHeldItemsCountWhenChanged() ? "enabled" : "disabled"),
+                        I18n.translate("minecraft_access.gui.other_config_menu.button.report_held_items_count_when_changed_button")
+                ),
+                (button) -> {
+                    OtherConfigsMap map = OtherConfigsMap.getInstance();
+                    map.setReportHeldItemsCountWhenChanged(!map.isReportHeldItemsCountWhenChanged());
+                    Config.getInstance().writeJSON();
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (map.isReportHeldItemsCountWhenChanged() ? "enabled" : "disabled"),
+                            I18n.translate("minecraft_access.gui.other_config_menu.button.report_held_items_count_when_changed_button")
+                    )));
+                },
+                true);
+        this.addDrawableChild(reportHeldItemsCountWhenChangedButton);
+
         ButtonWidget menuFixButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.toggle_button." + (initMap.isMenuFixEnabled() ? "enabled" : "disabled"),
                         I18n.translate("minecraft_access.gui.other_config_menu.button.menu_fix_button")
