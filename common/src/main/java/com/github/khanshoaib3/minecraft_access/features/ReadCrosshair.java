@@ -187,15 +187,17 @@ public class ReadCrosshair {
                 if (animalEntity instanceof SheepEntity sheepEntity) {
                     currentQuery = getSheepInfo(sheepEntity, currentQuery);
                 } else if (animalEntity instanceof CatEntity catEntity) {
-                    currentQuery = getCatInfo(catEntity, currentQuery);
+                    currentQuery = catEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
                 } else if (animalEntity instanceof WolfEntity wolfEntity) {
-                    currentQuery = getWolfInfo(wolfEntity, currentQuery);
+                    currentQuery = wolfEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
                 } else if (animalEntity instanceof FoxEntity foxEntity) {
-                    currentQuery = getFoxInfo(foxEntity, currentQuery);
+                    currentQuery = foxEntity.isSitting()? addSittingInfo(currentQuery) : currentQuery;
                 } else if (animalEntity instanceof ParrotEntity parrotEntity) {
-                    currentQuery = getParrotInfo(parrotEntity, currentQuery);
+                    currentQuery = parrotEntity.isInSittingPose()? addSittingInfo(currentQuery) : currentQuery;
                 } else if (animalEntity instanceof PandaEntity pandaEntity) {
-                    currentQuery = getPandaInfo(pandaEntity, currentQuery);
+                    currentQuery = pandaEntity.isSitting()? addSittingInfo(currentQuery) : currentQuery;
+                } else if (animalEntity instanceof CamelEntity camelEntity) {
+                    currentQuery = camelEntity.isSitting()? addSittingInfo(currentQuery) : currentQuery;
                 }
 
                 if (animalEntity.isBaby())
@@ -218,26 +220,6 @@ public class ReadCrosshair {
 
     private String getZombieVillagerInfo(ZombieVillagerEntity zombieVillagerEntity, String currentQuery) {
         return currentQuery;
-    }
-
-    private String getCatInfo(CatEntity catEntity, String currentQuery) {
-        return catEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
-    }
-
-    private String getWolfInfo(WolfEntity wolfEntity, String currentQuery) {
-        return wolfEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
-    }
-
-    private String getFoxInfo(FoxEntity foxEntity, String currentQuery) {
-        return foxEntity.isSitting() ? addSittingInfo(currentQuery) : currentQuery;
-    }
-
-    private String getParrotInfo(ParrotEntity parrotEntity, String currentQuery) {
-        return parrotEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
-    }
-
-    private String getPandaInfo(PandaEntity pandaEntity, String currentQuery) {
-        return pandaEntity.isSitting() ? addSittingInfo(currentQuery) : currentQuery;
     }
 
     private String addSittingInfo(String currentQuery) {
