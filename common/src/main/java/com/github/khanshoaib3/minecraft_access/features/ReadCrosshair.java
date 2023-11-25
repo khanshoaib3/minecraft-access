@@ -175,8 +175,15 @@ public class ReadCrosshair {
             if (enablePartialSpeaking && partialSpeakingEntity) {
                 if (checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(EntityType.getId(entity.getType()))) return;
             }
-
             String currentQuery = entity.getName().getString();
+
+            // Add its type in front of its name if it has been renamed with name tag,
+            // so even if there are two different types of entities that named the same name,
+            // the mod can make the player tell the difference:
+            // "Cat Neko", "Dog Neko"...
+            if (entity.hasCustomName()) {
+                currentQuery = I18n.translate(entity.getType().getTranslationKey()) + " " + currentQuery;
+            }
 
             if (entity instanceof AnimalEntity animalEntity) {
 
