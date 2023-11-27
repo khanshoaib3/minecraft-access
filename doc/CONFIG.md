@@ -59,7 +59,7 @@ See also: [Feature Description](/doc/FEATURES.md#mouse-simulation), [Keybindings
 |----------------------------------------------------|-----------------------|---------------------------------------------------------------------------------|
 | Enabled                                            | true                  | Whether to enable this feature                                                  |
 | Speak Block Sides                                  | true                  | Enable speaking of the side of block as well                                    |
-| Disable Speaking Consecutive Blocks With Same Name | true                  | Disable speaking the block if the previous block was also same                  |
+| Disable Speaking Consecutive Blocks With Same Name | false                 | Disable speaking the block if the previous block was also same                  |
 | Repeat Speaking Interval (in milliseconds)         | 0 (for tuning it off) | Repeat speaking for the given amount of time, even you haven't moved the camera |
 
 Config `Disable Speaking Consecutive Blocks With Same Name` is useful when you don't want to hear a repetitive speaking of a large area of the same block.

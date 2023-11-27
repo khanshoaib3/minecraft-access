@@ -28,6 +28,7 @@ If you want to contribute to translating work, we manage the translation of this
 * Now the mod will additionally speak an entity's type if it has a custom name given by the name tag.
 * Move "Shearable" word in front of sheep information in `Read Crosshair`.
 * Now the mod will tell if your [taming operation](https://minecraft.fandom.com/wiki/Taming) is successful or not.
+* The default value of config "Disable Speaking Consecutive Blocks With Same Name" in feature `Read Crosshair` is changed from `true` to `false`, to help newcomers understanding the game better.
 
 ### Bug Fixes
 
