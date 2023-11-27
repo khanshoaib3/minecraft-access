@@ -28,7 +28,7 @@ public class ReadCrosshairConfigMap {
         ReadCrosshairConfigMap m = new ReadCrosshairConfigMap();
         m.setEnabled(true);
         m.setSpeakSide(true);
-        m.setDisableSpeakingConsecutiveBlocks(true);
+        m.setDisableSpeakingConsecutiveBlocks(false);
         m.setRepeatSpeakingInterval(0L);
         m.relativePositionSoundCueConfigMap = RCRelativePositionSoundCueConfigMap.buildDefault();
         m.partialSpeakingConfigMap = RCPartialSpeakingConfigMap.buildDefault();
