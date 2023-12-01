@@ -84,5 +84,8 @@ public class ReadCrosshairConfigMap {
         if (Objects.isNull(this.partialSpeakingConfigMap)) {
             this.partialSpeakingConfigMap = RCPartialSpeakingConfigMap.buildDefault();
         }
+        if (Objects.isNull(this.relativePositionSoundCueConfigMap)) {
+            this.relativePositionSoundCueConfigMap = RCRelativePositionSoundCueConfigMap.buildDefault();
+        }
     }
 }
