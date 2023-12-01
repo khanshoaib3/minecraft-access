@@ -22,6 +22,7 @@
     "HandledScreenAccessor",
     "I18nMixin",
     "InGameHudMixin",
+    "KeyBindingAccessor",
     "LoomScreenAccessor",
     "MerchantScreenAccessor",
     "MobSpawnerLogicAccessor",
