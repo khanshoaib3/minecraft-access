@@ -27,7 +27,7 @@ First, this mod does not achieve 100% accessibility.
 For example, you'll find rowing the boat is difficult (since the relevant feature haven't been implemented yet), you can't directly recognize blocks that are placed together as a structure (since you can't see the entire appearance of a group of blocks, and there's very little this mod can do about that).
 We're gradually adding new features, but I'm pessimistic that the Minecraft is too complex to ever achieve 100% accessibility.
 
-Second, the Minecraft, despite the fact that it has a large number of players, is not easy to get started with. You'll need to learn many new concepts and knowledge to play it. You can learn how to play this game by listening the playing video (I recommend [Pixlriffs's Minecraft Survival Guide](https://www.youtube.com/watch?v=VfpHTJsn9I4&list=PLgENJ0iY3XBjmydGuzYTtDwfxuR6lN8KC)), reading [the wiki](https://minecraft.wiki), or find someone skilled enough to teach you.
+Second, the Minecraft, despite the fact that it has a large number of players, is not easy to get started with. You'll need to learn many new concepts and knowledge to play it. You can learn how to play this game by listening the playing video (I recommend [Pixlriffs's Minecraft Survival Guide](https://www.youtube.com/watch?v=VfpHTJsn9I4&list=PLgENJ0iY3XBjmydGuzYTtDwfxuR6lN8KC)), reading [the wiki](https://minecraft.wiki), or read [text tutorials on wiki](https://minecraft.wiki/w/Tutorials), or find someone skilled enough to teach you.
 
 So if you haven't bought the game yet and don't know much about Minecraft, think again before paying.
 
@@ -40,9 +40,10 @@ We stick to the pure client-side strategy for now, since you need to install a s
 ## Why nobody answers my questions in Discord?
 
 Sorry for the inconvenience. Here are some self-help materials to help you.
-If you have any question about installing, please read the [set-up guide](/doc/SET_UP.md).
-If you have any question about original game functions, please search on the [wiki](https://minecraft.wiki/?search) or just google it.
-If you have any question about this mod, please read the [manual](/README.md).
+If you have any question about installing, please read the [set-up guide](/doc/SET_UP.md). 
+If you have any question about original game functions, please search on the [wiki](https://minecraft.wiki/w/Special:Search?scope=internal) or just google it.
+If you want to learn to play the game, there are [some detailed text tutorials on wiki](https://minecraft.wiki/w/Tutorials), you can also listen [Pixlriffs's Minecraft Survival Guide](https://www.youtube.com/watch?v=VfpHTJsn9I4&list=PLgENJ0iY3XBjmydGuzYTtDwfxuR6lN8KC) on YouTube, or just google the question and search answers on forums.
+If you have any question about this ![img.png](img.png)mod, please read the [manual](/README.md).
 
 ## Why this mod is updated slowly / the feature I asked was not released in the new version?
 

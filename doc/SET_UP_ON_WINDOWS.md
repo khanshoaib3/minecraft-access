@@ -21,7 +21,9 @@ If you know where this tutorial could be improved, please let us know in Discord
 4. [Additional Installation for Windows](#additional-installation-for-windows)
 5. [Start the Game](#start-the-game)
 6. [Upgrade the Game and Mods](#upgrade-the-game-and-mods)
-7. [Some Helpful Links](#some-helpful-links)
+7. [Some Helpful Resources](#some-helpful-resources)
+   1. [Quality of Life Mods](#quality-of-life-mods)
+   2. [A Very Simple Beginner Guide](#a-very-simple-beginner-guide)
 
 ## Purchase the Game and Download the Launcher
 
@@ -228,6 +230,8 @@ If you don't, here it is: `%appdata%\.minecraft`, it's a short version of that p
 
 Open that minecraft folder in the File Explorer, under this folder there are sub-folders like `assets`, `bin`, `config`......
 What we want to find is the `mods` folder, we'll put downloaded mod files inside it, both Fabric and Forge will load mods from this folder.
+We've learned that we need to start the launcher once after installing the mod framework for the `mods` folder to be created.
+Haven't experimented but, I think it's ok to create it manually yourself.
 
 ## Additional Installation for Windows
 
@@ -290,10 +294,10 @@ If you want to update the game version, you need to check all mod files in the `
 Another situation that causes the game to crash or misbehave is conflict between mods, which is difficult to reflect in the error log because it is hard to predict.
 For this type of error, there is a simple, common, cumbersome, no-better-choice method for all modded games: move all mod files into a temporal folder, then add them back one by one, try to start the game every time you move back a file.
 
-## Some Helpful Links
+## Some Helpful Resources
 
 * [The manual of this mod](https://github.com/khanshoaib3/minecraft-access) - Check what features this mod provides.
-* [Minecraft Wiki](https://minecraft.wiki) - Has details and guides on everything about Minecraft.
+* [Minecraft Wiki](https://minecraft.wiki/w/Minecraft_Wiki) - Has details and guides on everything about Minecraft, it also has [many detailed text tutorials](https://minecraft.wiki/w/Tutorials) on it.
 * [Minecraft Survival Guide (Season 3)](https://www.youtube.com/watch?v=VfpHTJsn9I4&list=PLgENJ0iY3XBjmydGuzYTtDwfxuR6lN8KC) - A great series by Pixlriffs, highly recommend for beginners.
 * [Playability Discord server](https://discord.gg/yQjjsDqWQX) - Again, you can join our Discord server if you need help in setting up the mod or any issue related to Minecraft Java.
 * [Twitter](https://twitter.com/shoaib_mk0) - You can follow the developer on Twitter to get notification when a new update drops.
@@ -301,4 +305,11 @@ For this type of error, there is a simple, common, cumbersome, no-better-choice 
 
 ### Quality of Life Mods
 
-* Presence Footsteps [Fabric](https://modrinth.com/mod/presence-footsteps), [Forge port](https://www.curseforge.com/minecraft/mc-mods/presence-footsteps-forge) - Footstep sound enhancement mod, highly recommend.
+* Presence Footsteps [Fabric](https://modrinth.com/mod/presence-footsteps), [Forge port](https://www.curseforge.com/minecraft/mc-mods/presence-footsteps-forge) - Footstep sound enhancement mod, highly recommend. Note that currently the Forge port isn't support for `1.20.*` yet, so you need to ["install" (put under another folder)](https://minecraft.wiki/w/Tutorials/Loading_a_resource_pack) this resource pack instead: [Presence Footsteps: A Realistic Sounds Pack](https://www.curseforge.com/minecraft/texture-packs/presence-footsteps-a-realistic-sounds-pack).
+
+### A Very Simple Beginner Guide
+
+Try reading [text tutorials for beginners on Minecraft Wiki](https://minecraft.wiki/w/Tutorials), if you find out that listening YouTube videos to learn to play this game is slow or difficult.
+Because Minecraft's world generation is randomized, you may run into the difficulty of trying to generate multiple worlds but all of their spawn location are bad. You can search good [world generation seeds](https://minecraft.wiki/w/Seed_(level_generation)) [on Google](https://www.google.com/search?client=firefox-b-d&q=minecraft+good+seed) and set them when you're creating single player worlds.
+I highly recommend you lower the difficulty of the game to get better experience, such as change the [difficulty](https://minecraft.wiki/w/Difficulty) to `Peaceful` to avoid monster spawning, or [use](https://www.minecraft.net/en-us/article/minecraft-commands) [commands](https://minecraft.wiki/w/Commands) to gain advantages (remember to turn on `Allow Cheats` option when you create the world).
+Some commands are very convenient when you're playing single player worlds, such as `/tp` to teleport to another location, `/locate village` to find the nearest village, etc.

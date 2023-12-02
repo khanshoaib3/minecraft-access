@@ -154,9 +154,11 @@ public class LockingHandler {
         }
 
         if (!POIEntities.markedEntities.isEmpty()) {
-            Entry<Double, Entity> entry = POIEntities.markedEntities.firstEntry();
-            lockOnEntity(entry);
-            return;
+            Entity entity = POIEntities.markedEntities.firstEntry().getValue();
+            if (entity.isAlive()) {
+                lockOnEntity(entity);
+                return;
+            }
         }
 
         if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
@@ -169,15 +171,19 @@ public class LockingHandler {
         }
 
         if (!POIEntities.hostileEntity.isEmpty()) {
-            Entry<Double, Entity> entry = POIEntities.hostileEntity.firstEntry();
-            lockOnEntity(entry);
-            return;
+            Entity entity = POIEntities.hostileEntity.firstEntry().getValue();
+            if (entity.isAlive()) {
+                lockOnEntity(entity);
+                return;
+            }
         }
 
         if (!POIEntities.passiveEntity.isEmpty()) {
-            Entry<Double, Entity> entry = POIEntities.passiveEntity.firstEntry();
-            lockOnEntity(entry);
-            return;
+            Entity entity = POIEntities.passiveEntity.firstEntry().getValue();
+            if (entity.isAlive()) {
+                lockOnEntity(entity);
+                return;
+            }
         }
 
         if (!this.lockOnBlocks) return;
@@ -185,9 +191,7 @@ public class LockingHandler {
         determineClosestEntriesAndLock(minecraftClient);
     }
 
-    private void lockOnEntity(Entry<Double, Entity> entry) {
-        Entity entity = entry.getValue();
-
+    private void lockOnEntity(Entity entity) {
         String text = entity.getName().getString();
         lockedOnEntity = entity;
         lockedOnBlockEntries = "";
@@ -371,7 +375,8 @@ public class LockingHandler {
 //            MutableText mutableText = (new net.minecraft.text.LiteralText("")).append(closestBlock.getName()); // pre 1.19
         String text = mutableText.getString();
 
-        if (this.speakDistance) text += " " + PositionUtils.getPositionDifference(new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
+        if (this.speakDistance)
+            text += " " + PositionUtils.getPositionDifference(new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
         MainClass.speakWithNarrator(text, true);
     }
 

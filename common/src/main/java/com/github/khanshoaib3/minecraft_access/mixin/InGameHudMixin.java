@@ -7,7 +7,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -30,7 +29,9 @@ public class InGameHudMixin {
     private ItemStack currentStack;
 
     @Unique
-    private String minecraft_access$previousContent = "";
+    private String minecraft_access$previousItemName = "";
+    @Unique
+    private int minecraft_access$previousItemCount = 0;
     @Unique
     private static final Function<String, String> minecraft_access$HotbarI18N = toSpeak -> I18n.translate("minecraft_access.other.hotbar", toSpeak);
     @Unique
@@ -38,35 +39,36 @@ public class InGameHudMixin {
 
     /**
      * This method is continually invoked by the InGameHud.render(),
-     * so we use previousContent
+     * so we use previousContent to check if the content has changed and need to be narrated.
      */
     @Inject(at = @At("TAIL"), method = "renderHeldItemTooltip")
     public void renderHeldItemTooltipMixin(DrawContext context, CallbackInfo ci) {
         boolean currentStackIsEmpty = this.currentStack.isEmpty();
         if (this.heldItemTooltipFade == 0 && currentStackIsEmpty) {
             // Speak "empty slot" when the selected slot is empty
-            minecraft_access$speakIfHeldChanged("", minecraft_access$EmptySlotI18N);
+            minecraft_access$speakIfHeldChanged("", 0, minecraft_access$EmptySlotI18N);
         }
 
         if (!currentStackIsEmpty) {
             // Speak held item's name and count
-            MutableText mutableText = net.minecraft.text.Text.empty()
-                    .append(String.valueOf(this.currentStack.getCount()))
-                    .append(" ")
-                    .append(this.currentStack.getName())
-                    .formatted(this.currentStack.getRarity().formatting);
-
-            String toSpeak = mutableText.getString();
-            minecraft_access$speakIfHeldChanged(toSpeak, minecraft_access$HotbarI18N);
+            minecraft_access$speakIfHeldChanged(this.currentStack.getName().getString(), this.currentStack.getCount(), minecraft_access$HotbarI18N);
         }
     }
 
-    @Unique private void minecraft_access$speakIfHeldChanged(String toSpeak, Function<String, String> i18n) {
-        boolean contentChanged = !this.minecraft_access$previousContent.equals(toSpeak);
-        if (contentChanged) {
-            MainClass.speakWithNarrator(i18n.apply(toSpeak), true);
-            this.minecraft_access$previousContent = toSpeak;
+    @Unique
+    private void minecraft_access$speakIfHeldChanged(String itemName, int itemCount, Function<String, String> i18n) {
+        boolean nameChanged = !this.minecraft_access$previousItemName.equals(itemName);
+        boolean countChanged = this.minecraft_access$previousItemCount != itemCount;
+        boolean reportHeldItemsCountWhenChanged = OtherConfigsMap.getInstance().isReportHeldItemsCountWhenChanged();
+
+        if (nameChanged) {
+            String itemCountText = itemCount == 0 ? "" : itemCount + " ";
+            MainClass.speakWithNarrator(i18n.apply(itemCountText + itemName), true);
+        } else if (countChanged && reportHeldItemsCountWhenChanged) {
+            MainClass.speakWithNarrator(String.valueOf(itemCount), true);
         }
+        this.minecraft_access$previousItemName = itemName;
+        this.minecraft_access$previousItemCount = itemCount;
     }
 
     @Inject(at = @At("HEAD"), method = "setOverlayMessage(Lnet/minecraft/text/Text;Z)V")
