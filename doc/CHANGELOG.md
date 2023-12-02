@@ -22,6 +22,13 @@ If you want to contribute to translating work, we manage the translation of this
 
 * Now whenever you're looking at a block and entity, the mod will play a piano sound cue to indicate relative location between you and target. see also: [description of this feature](/doc/FEATURES.md#relative-position-sound-cue) [#191](https://github.com/khanshoaib3/minecraft-access/issues/191)
 * Now the mod will only speak item count when held item type isn't changed (when picking up or spending items), with a new config "Report Held Items Count When Changed", see the [configuration](/doc/CONFIG.md#other-configurations).
+* Now the mod will speak sitting state of cat, dog, parrot, [and so on](https://minecraft.wiki/w/Sitting#Mechanics) in `Read Crosshair`. [#192](https://github.com/khanshoaib3/minecraft-access/issues/192)
+* Not the mod will speak if an animal is tamed in `Read Crosshair`.
+* Now the mod can tell if a zombie villager is under curing in `Read Crosshair`. [#195](https://github.com/khanshoaib3/minecraft-access/issues/195)
+* Now the mod will additionally speak an entity's type if it has a custom name given by the name tag.
+* Move "Shearable" word in front of sheep information in `Read Crosshair`.
+* Now the mod will tell if your [taming operation](https://minecraft.fandom.com/wiki/Taming) is successful or not.
+* The default value of config "Disable Speaking Consecutive Blocks With Same Name" in feature `Read Crosshair` is changed from `true` to `false`, to help newcomers understanding the game better.
 
 ### Bug Fixes
 

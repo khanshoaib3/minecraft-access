@@ -28,7 +28,7 @@ public class ReadCrosshairConfigMap {
         ReadCrosshairConfigMap m = new ReadCrosshairConfigMap();
         m.setEnabled(true);
         m.setSpeakSide(true);
-        m.setDisableSpeakingConsecutiveBlocks(true);
+        m.setDisableSpeakingConsecutiveBlocks(false);
         m.setRepeatSpeakingInterval(0L);
         m.relativePositionSoundCueConfigMap = RCRelativePositionSoundCueConfigMap.buildDefault();
         m.partialSpeakingConfigMap = RCPartialSpeakingConfigMap.buildDefault();
@@ -83,6 +83,9 @@ public class ReadCrosshairConfigMap {
     public void resetMissingSectionsToDefault() {
         if (Objects.isNull(this.partialSpeakingConfigMap)) {
             this.partialSpeakingConfigMap = RCPartialSpeakingConfigMap.buildDefault();
+        }
+        if (Objects.isNull(this.relativePositionSoundCueConfigMap)) {
+            this.relativePositionSoundCueConfigMap = RCRelativePositionSoundCueConfigMap.buildDefault();
         }
     }
 }

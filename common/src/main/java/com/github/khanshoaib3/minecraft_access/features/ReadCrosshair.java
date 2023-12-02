@@ -21,8 +21,9 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.ZombieVillagerEntity;
+import net.minecraft.entity.passive.*;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.registry.Registries;
@@ -186,16 +187,50 @@ public class ReadCrosshair {
             if (enablePartialSpeaking && partialSpeakingEntity) {
                 if (checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(EntityType.getId(entity.getType()))) return;
             }
-
             String currentQuery = entity.getName().getString();
+
+            // Add its type in front of its name if it has been renamed with name tag,
+            // so even if there are two different types of entities that named the same name,
+            // the mod can make the player tell the difference:
+            // "Cat Neko", "Dog Neko"...
+            if (entity.hasCustomName()) {
+                currentQuery = I18n.translate(entity.getType().getTranslationKey()) + " " + currentQuery;
+            }
+
             if (entity instanceof AnimalEntity animalEntity) {
+
+                if (animalEntity instanceof TameableEntity tameableEntity) {
+                    currentQuery = tameableEntity.isTamed() ? I18n.translate("minecraft_access.read_crosshair.is_tamed", currentQuery) : currentQuery;
+                }
+
                 if (animalEntity instanceof SheepEntity sheepEntity) {
                     currentQuery = getSheepInfo(sheepEntity, currentQuery);
+                } else if (animalEntity instanceof CatEntity catEntity) {
+                    currentQuery = catEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
+                } else if (animalEntity instanceof WolfEntity wolfEntity) {
+                    currentQuery = wolfEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
+                } else if (animalEntity instanceof FoxEntity foxEntity) {
+                    currentQuery = foxEntity.isSitting() ? addSittingInfo(currentQuery) : currentQuery;
+                } else if (animalEntity instanceof ParrotEntity parrotEntity) {
+                    currentQuery = parrotEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
+                } else if (animalEntity instanceof PandaEntity pandaEntity) {
+                    currentQuery = pandaEntity.isSitting() ? addSittingInfo(currentQuery) : currentQuery;
+                } else if (animalEntity instanceof CamelEntity camelEntity) {
+                    currentQuery = camelEntity.isSitting() ? addSittingInfo(currentQuery) : currentQuery;
                 }
+
                 if (animalEntity.isBaby())
                     currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_baby", currentQuery);
                 if (animalEntity.isLeashed())
                     currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_leashed", currentQuery);
+            }
+
+            if (entity instanceof HostileEntity) {
+                if (entity instanceof ZombieVillagerEntity zombieVillagerEntity) {
+                    currentQuery = zombieVillagerEntity.isConverting() ?
+                            I18n.translate("minecraft_access.read_crosshair.zombie_villager_is_curing", currentQuery) :
+                            currentQuery;
+                }
             }
 
             speakIfFocusChanged(currentQuery, currentQuery, entity.getPos());
@@ -204,12 +239,16 @@ public class ReadCrosshair {
         }
     }
 
+    private String addSittingInfo(String currentQuery) {
+        return I18n.translate("minecraft_access.read_crosshair.is_sitting", currentQuery);
+    }
+
     private static String getSheepInfo(SheepEntity sheepEntity, String currentQuery) {
         String dyedColor = sheepEntity.getColor().getName();
         String translatedColor = I18n.translate("minecraft_access.color." + dyedColor);
         String shearable = sheepEntity.isShearable() ?
-                I18n.translate("minecraft_access.other.shearable", currentQuery) :
-                I18n.translate("minecraft_access.other.not_shearable", currentQuery);
+                I18n.translate("minecraft_access.read_crosshair.shearable", currentQuery) :
+                I18n.translate("minecraft_access.read_crosshair.not_shearable", currentQuery);
         return translatedColor + " " + shearable;
     }
 
@@ -235,6 +274,7 @@ public class ReadCrosshair {
             Direction d = hit.getSide();
             side = I18n.translate("minecraft_access.direction." + d.getName());
         }
+
         BlockPos blockPos = hit.getBlockPos();
         Pair<String, String> toSpeakAndCurrentQuery = describeBlock(blockPos, side);
         speakIfFocusChanged(toSpeakAndCurrentQuery.getRight(), toSpeakAndCurrentQuery.getLeft(), Vec3d.of(blockPos));
