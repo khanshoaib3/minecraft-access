@@ -7,6 +7,8 @@
 3. [Why nobody answers my questions in Discord?](#why-nobody-answers-my-questions-in-discord)
 4. [Why this mod is updated slowly / the feature I asked was not released in the new version?](#why-this-mod-is-updated-slowly--the-feature-i-asked-was-not-released-in-the-new-version)
 5. [Has this mod been uploaded to mod platforms?](#has-this-mod-been-uploaded-to-mod-platforms)
+6. [Is this mod supports XX language?](#is-this-mod-supports-xx-language)
+7. [How can I contribute to I18N?](#how-can-i-contribute-to-i18n)
 
 ## Is the mod enough to play the game normally?
 
@@ -25,7 +27,7 @@ First, this mod does not achieve 100% accessibility.
 For example, you'll find rowing the boat is difficult (since the relevant feature haven't been implemented yet), you can't directly recognize blocks that are placed together as a structure (since you can't see the entire appearance of a group of blocks, and there's very little this mod can do about that).
 We're gradually adding new features, but I'm pessimistic that the Minecraft is too complex to ever achieve 100% accessibility.
 
-Second, the Minecraft, despite the fact that it has a large number of players, is not easy to get started with. You'll need to learn many new concepts and knowledge to play it. You can learn how to play this game by listening the playing video (I recommend [Pixlriffs's Minecraft Survival Guide](https://www.youtube.com/watch?v=VfpHTJsn9I4&list=PLgENJ0iY3XBjmydGuzYTtDwfxuR6lN8KC)), reading [the wiki](https://minecraft.wiki/w/Minecraft_Wiki), or find someone skilled enough to teach you.
+Second, the Minecraft, despite the fact that it has a large number of players, is not easy to get started with. You'll need to learn many new concepts and knowledge to play it. You can learn how to play this game by listening the playing video (I recommend [Pixlriffs's Minecraft Survival Guide](https://www.youtube.com/watch?v=VfpHTJsn9I4&list=PLgENJ0iY3XBjmydGuzYTtDwfxuR6lN8KC)), reading [the wiki](https://minecraft.wiki), or find someone skilled enough to teach you.
 
 So if you haven't bought the game yet and don't know much about Minecraft, think again before paying.
 
@@ -38,8 +40,8 @@ We stick to the pure client-side strategy for now, since you need to install a s
 ## Why nobody answers my questions in Discord?
 
 Sorry for the inconvenience. Here are some self-help materials to help you.
-If you have any question about installing, please read the [set-up guide](/doc/SET_UP.md). 
-If you have any question about original game functions, please search on the [wiki](https://minecraft.wiki/w/Special:Search?scope=internal) or just google it.
+If you have any question about installing, please read the [set-up guide](/doc/SET_UP.md).
+If you have any question about original game functions, please search on the [wiki](https://minecraft.wiki/?search) or just google it.
 If you have any question about this mod, please read the [manual](/README.md).
 
 ## Why this mod is updated slowly / the feature I asked was not released in the new version?
@@ -52,3 +54,11 @@ If you know developers who might be willing to help contribute to this mod, plea
 ## Has this mod been uploaded to mod platforms?
 
 Yes, it has been uploaded to Modrinth as [Minecraft Access](https://modrinth.com/mod/minecraft-access) and CurseForge as [Blind Accessibility](https://www.curseforge.com/minecraft/mc-mods/blind-accessibility).
+
+## Is this mod supports XX language?
+
+See [I18N Fallback Mechanism Feature](/doc/FEATURES.md#i18n-fallback-mechanism).
+
+## How can I contribute to I18N?
+
+We manage the translation of this mod in [another GitHub repository](https://github.com/khanshoaib3/minecraft-access-i18n#minecraft-access-i18n), take a look.

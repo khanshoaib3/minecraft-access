@@ -153,9 +153,11 @@ public class LockingHandler {
         }
 
         if (!POIEntities.markedEntities.isEmpty()) {
-            Entry<Double, Entity> entry = POIEntities.markedEntities.firstEntry();
-            lockOnEntity(entry);
-            return;
+            Entity entity = POIEntities.markedEntities.firstEntry().getValue();
+            if (entity.isAlive()) {
+                lockOnEntity(entity);
+                return;
+            }
         }
 
         if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
@@ -168,15 +170,19 @@ public class LockingHandler {
         }
 
         if (!POIEntities.hostileEntity.isEmpty()) {
-            Entry<Double, Entity> entry = POIEntities.hostileEntity.firstEntry();
-            lockOnEntity(entry);
-            return;
+            Entity entity = POIEntities.hostileEntity.firstEntry().getValue();
+            if (entity.isAlive()) {
+                lockOnEntity(entity);
+                return;
+            }
         }
 
         if (!POIEntities.passiveEntity.isEmpty()) {
-            Entry<Double, Entity> entry = POIEntities.passiveEntity.firstEntry();
-            lockOnEntity(entry);
-            return;
+            Entity entity = POIEntities.passiveEntity.firstEntry().getValue();
+            if (entity.isAlive()) {
+                lockOnEntity(entity);
+                return;
+            }
         }
 
         if (!this.lockOnBlocks) return;
@@ -184,9 +190,7 @@ public class LockingHandler {
         determineClosestEntriesAndLock(minecraftClient);
     }
 
-    private void lockOnEntity(Entry<Double, Entity> entry) {
-        Entity entity = entry.getValue();
-
+    private void lockOnEntity(Entity entity) {
         String text = entity.getName().getString();
         lockedOnEntity = entity;
         lockedOnBlockEntries = "";

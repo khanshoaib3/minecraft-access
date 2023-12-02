@@ -14,8 +14,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ScreenNarrator.class)
 public class ScreenNarratorMixin {
+    /**
+     * Use ConfigMenu as a placeholder screen since it has no text editing field.
+     */
     @Unique
-    private static final Screen PLACE_HOLDER = new ConfigMenu("PLACEHOLDER");
+    private static final Screen PLACE_HOLDER = new ConfigMenu("config_menu");
     @Unique
     private Screen previousScreen = PLACE_HOLDER;
 

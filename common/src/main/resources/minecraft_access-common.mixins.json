@@ -17,9 +17,12 @@
     "ClientPlayNetworkHandlerMixin",
     "CreativeInventoryScreenAccessor",
     "DurabilityMixin",
+    "EntityAccessor",
     "EyeOfEnderEntityMixin",
     "HandledScreenAccessor",
+    "I18nMixin",
     "InGameHudMixin",
+    "KeyBindingAccessor",
     "LoomScreenAccessor",
     "MerchantScreenAccessor",
     "MobSpawnerLogicAccessor",
@@ -32,6 +35,8 @@
     "SelectionManagerMixin",
     "SlotAccessor",
     "StonecutterScreenAccessor",
+    "TameableEntityMixin",
+    "TextFieldWidgetAccessor",
     "TextFieldWidgetMixin"
   ],
   "injectors": {

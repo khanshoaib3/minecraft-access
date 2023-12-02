@@ -2,11 +2,13 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeakingConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.RCRelativePositionSoundCueConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.mixin.MobSpawnerLogicAccessor;
 import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.position.PositionUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BeehiveBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -14,18 +16,19 @@ import net.minecraft.block.entity.MobSpawnerBlockEntity;
 import net.minecraft.block.entity.SignBlockEntity;
 import net.minecraft.block.enums.ComparatorMode;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.ZombieVillagerEntity;
+import net.minecraft.entity.passive.*;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.hit.BlockHitResult;
@@ -33,6 +36,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import org.apache.logging.log4j.util.Strings;
 import org.jetbrains.annotations.NotNull;
@@ -49,6 +53,7 @@ import java.util.stream.Collectors;
  * It also gives feedback when a block is powered by a redstone signal or when a door is open similar cases.
  */
 public class ReadCrosshair {
+    private static final double RAY_CAST_DISTANCE = 6.0;
     private static ReadCrosshair instance;
 
     /**
@@ -69,6 +74,9 @@ public class ReadCrosshair {
     private List<String> partialSpeakingTargets;
     private boolean partialSpeakingBlock;
     private boolean partialSpeakingEntity;
+    private boolean enableRelativePositionSoundCue;
+    private double minSoundVolume;
+    private double maxSoundVolume;
 
     private ReadCrosshair() {
         previousQuery = "";
@@ -104,7 +112,7 @@ public class ReadCrosshair {
             if (entity == null) return;
 
             HitResult blockHit = minecraftClient.crosshairTarget;
-            HitResult fluidHit = entity.raycast(6.0, 0.0F, true);
+            HitResult fluidHit = entity.raycast(RAY_CAST_DISTANCE, 0.0F, true);
 
             if (blockHit == null) return;
 
@@ -130,6 +138,7 @@ public class ReadCrosshair {
         // use the instance of Config class to get instances of other config maps.
         ReadCrosshairConfigMap rcMap = ReadCrosshairConfigMap.getInstance();
         RCPartialSpeakingConfigMap rcpMap = RCPartialSpeakingConfigMap.getInstance();
+        RCRelativePositionSoundCueConfigMap rcrMap = RCRelativePositionSoundCueConfigMap.getInstance();
 
         this.enabled = rcMap.isEnabled();
         this.speakSide = rcMap.isSpeakSide();
@@ -137,6 +146,9 @@ public class ReadCrosshair {
         this.speakingConsecutiveBlocks = !rcMap.isDisableSpeakingConsecutiveBlocks();
         long interval = rcMap.getRepeatSpeakingInterval();
         this.repeatSpeakingInterval = Interval.inMilliseconds(interval, this.repeatSpeakingInterval);
+        this.enableRelativePositionSoundCue = rcrMap.isEnabled();
+        this.minSoundVolume = rcrMap.getMinSoundVolume();
+        this.maxSoundVolume = rcrMap.getMaxSoundVolume();
 
         this.enablePartialSpeaking = rcpMap.isEnabled();
         this.partialSpeakingFuzzyMode = rcpMap.isPartialSpeakingFuzzyMode();
@@ -174,30 +186,68 @@ public class ReadCrosshair {
             if (enablePartialSpeaking && partialSpeakingEntity) {
                 if (checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(EntityType.getId(entity.getType()))) return;
             }
-
             String currentQuery = entity.getName().getString();
+
+            // Add its type in front of its name if it has been renamed with name tag,
+            // so even if there are two different types of entities that named the same name,
+            // the mod can make the player tell the difference:
+            // "Cat Neko", "Dog Neko"...
+            if (entity.hasCustomName()) {
+                currentQuery = I18n.translate(entity.getType().getTranslationKey()) + " " + currentQuery;
+            }
+
             if (entity instanceof AnimalEntity animalEntity) {
+
+                if (animalEntity instanceof TameableEntity tameableEntity) {
+                    currentQuery = tameableEntity.isTamed() ? I18n.translate("minecraft_access.read_crosshair.is_tamed", currentQuery) : currentQuery;
+                }
+
                 if (animalEntity instanceof SheepEntity sheepEntity) {
                     currentQuery = getSheepInfo(sheepEntity, currentQuery);
+                } else if (animalEntity instanceof CatEntity catEntity) {
+                    currentQuery = catEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
+                } else if (animalEntity instanceof WolfEntity wolfEntity) {
+                    currentQuery = wolfEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
+                } else if (animalEntity instanceof FoxEntity foxEntity) {
+                    currentQuery = foxEntity.isSitting() ? addSittingInfo(currentQuery) : currentQuery;
+                } else if (animalEntity instanceof ParrotEntity parrotEntity) {
+                    currentQuery = parrotEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
+                } else if (animalEntity instanceof PandaEntity pandaEntity) {
+                    currentQuery = pandaEntity.isSitting() ? addSittingInfo(currentQuery) : currentQuery;
+                } else if (animalEntity instanceof CamelEntity camelEntity) {
+                    currentQuery = camelEntity.isSitting() ? addSittingInfo(currentQuery) : currentQuery;
                 }
+
                 if (animalEntity.isBaby())
                     currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_baby", currentQuery);
                 if (animalEntity.isLeashed())
                     currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_leashed", currentQuery);
             }
 
-            speakIfFocusChanged(currentQuery, currentQuery);
+            if (entity instanceof HostileEntity) {
+                if (entity instanceof ZombieVillagerEntity zombieVillagerEntity) {
+                    currentQuery = zombieVillagerEntity.isConverting() ?
+                            I18n.translate("minecraft_access.read_crosshair.zombie_villager_is_curing", currentQuery) :
+                            currentQuery;
+                }
+            }
+
+            speakIfFocusChanged(currentQuery, currentQuery, entity.getPos());
         } catch (Exception e) {
             MainClass.errorLog("Error occurred in ReadCrosshair, reading entity", e);
         }
+    }
+
+    private String addSittingInfo(String currentQuery) {
+        return I18n.translate("minecraft_access.read_crosshair.is_sitting", currentQuery);
     }
 
     private static String getSheepInfo(SheepEntity sheepEntity, String currentQuery) {
         String dyedColor = sheepEntity.getColor().getName();
         String translatedColor = I18n.translate("minecraft_access.color." + dyedColor);
         String shearable = sheepEntity.isShearable() ?
-                I18n.translate("minecraft_access.other.shearable", currentQuery) :
-                I18n.translate("minecraft_access.other.not_shearable", currentQuery);
+                I18n.translate("minecraft_access.read_crosshair.shearable", currentQuery) :
+                I18n.translate("minecraft_access.read_crosshair.not_shearable", currentQuery);
         return translatedColor + " " + shearable;
     }
 
@@ -205,9 +255,13 @@ public class ReadCrosshair {
      * @param currentQuery for checking if focus is changed
      * @param toSpeak      text will be narrated (if focus has changed)
      */
-    private void speakIfFocusChanged(String currentQuery, String toSpeak) {
+    private void speakIfFocusChanged(String currentQuery, String toSpeak, Vec3d targetPosition) {
         boolean focusChanged = !getPreviousQuery().equalsIgnoreCase(currentQuery);
         if (focusChanged) {
+            if (this.enableRelativePositionSoundCue) {
+                PositionUtils.playRelativePositionSoundCue(targetPosition, RAY_CAST_DISTANCE,
+                        SoundEvents.BLOCK_NOTE_BLOCK_HARP, this.minSoundVolume, this.maxSoundVolume);
+            }
             this.previousQuery = currentQuery;
             MainClass.speakWithNarrator(toSpeak, true);
         }
@@ -219,8 +273,10 @@ public class ReadCrosshair {
             Direction d = hit.getSide();
             side = I18n.translate("minecraft_access.direction." + d.getName());
         }
-        Pair<String, String> toSpeakAndCurrentQuery = describeBlock(hit.getBlockPos(), side);
-        speakIfFocusChanged(toSpeakAndCurrentQuery.getRight(), toSpeakAndCurrentQuery.getLeft());
+
+        BlockPos blockPos = hit.getBlockPos();
+        Pair<String, String> toSpeakAndCurrentQuery = describeBlock(blockPos, side);
+        speakIfFocusChanged(toSpeakAndCurrentQuery.getRight(), toSpeakAndCurrentQuery.getLeft(), Vec3d.of(blockPos));
     }
 
     /**
@@ -526,7 +582,7 @@ public class ReadCrosshair {
 
             String toSpeak = name + levelString;
 
-            speakIfFocusChanged(currentQuery, toSpeak);
+            speakIfFocusChanged(currentQuery, toSpeak, Vec3d.of(blockPos));
             return true;
         }
         return false;

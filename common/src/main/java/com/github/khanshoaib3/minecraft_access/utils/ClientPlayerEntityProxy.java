@@ -4,7 +4,9 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -18,7 +20,12 @@ import net.minecraft.world.World;
  */
 public class ClientPlayerEntityProxy {
 
-    public static void playSound(RegistryEntry.Reference<SoundEvent> sound, float volume, float pitch) {
+    public static void playSoundOnPlayer(RegistryEntry.Reference<SoundEvent> sound, float volume, float pitch) {
         WorldUtils.getClientPlayer().orElseThrow().playSound(sound.value(), volume, pitch);
+    }
+
+    public static void playSoundOnPosition(RegistryEntry.Reference<SoundEvent> sound, float volume, float pitch, Vec3d position) {
+        // note that the useDistance param only works for positions 100 blocks away, check its code.
+        WorldUtils.getClientWorld().orElseThrow().playSound(position.x, position.y, position.z, sound.value(), SoundCategory.BLOCKS, volume, pitch, true);
     }
 }

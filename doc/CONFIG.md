@@ -15,6 +15,7 @@ If you want to reset the config back to default values, simply delete the config
 1. [Camera Controls](#camera-controls)
 2. [Mouse Simulation](#mouse-simulation)
 3. [Read Crosshair](#read-crosshair)
+    * [Relative Position Sound Cue](#relative-position-sound-cue)
     * [Partial Speaking](#partial-speaking)
 4. [Inventory Controls](#inventory-controls)
 5. [Point of Interest](#point-of-interest)
@@ -58,12 +59,22 @@ See also: [Feature Description](/doc/FEATURES.md#mouse-simulation), [Keybindings
 |----------------------------------------------------|-----------------------|---------------------------------------------------------------------------------|
 | Enabled                                            | true                  | Whether to enable this feature                                                  |
 | Speak Block Sides                                  | true                  | Enable speaking of the side of block as well                                    |
-| Disable Speaking Consecutive Blocks With Same Name | true                  | Disable speaking the block if the previous block was also same                  |
+| Disable Speaking Consecutive Blocks With Same Name | false                 | Disable speaking the block if the previous block was also same                  |
 | Repeat Speaking Interval (in milliseconds)         | 0 (for tuning it off) | Repeat speaking for the given amount of time, even you haven't moved the camera |
 
 Config `Disable Speaking Consecutive Blocks With Same Name` is useful when you don't want to hear a repetitive speaking of a large area of the same block.
 
 See also: [Feature Description](/doc/FEATURES.md#read-crosshair)
+
+### Relative Position Sound Cue
+
+| Configuration    | Default Value | Description                    |
+|------------------|---------------|--------------------------------|
+| Enabled          | true          | Whether to enable this feature |
+| Min Sound Volume | 0.25          | Min volume of the sound cue    |
+| Max Sound Volume | 0.4           | Max volume of the sound cue    |
+
+See also: [Feature Description](/doc/FEATURES.md#relative-position-sound-cue)
 
 ### Partial Speaking
 
@@ -115,13 +126,13 @@ See also: [Feature Description](/doc/FEATURES.md#point-of-interest), [Keybinding
 
 ### Entities
 
-| Configuration                       | Default Value | Description                                                 |
-|-------------------------------------|---------------|-------------------------------------------------------------|
-| Enabled                             | true          | Whether to enable scanning entities                         |
-| Range                               | 6             | Range of entities to scan                                   |
-| Play Sound                          | true          | Play a sound cue at positions of detected entities          |
-| Sound Volume                        | 0.25          | Volume of the sound cue                                     |
-| Delay (in milliseconds)             | 3000          | Execute at set intervals                                    |
+| Configuration           | Default Value | Description                                        |
+|-------------------------|---------------|----------------------------------------------------|
+| Enabled                 | true          | Whether to enable scanning entities                |
+| Range                   | 6             | Range of entities to scan                          |
+| Play Sound              | true          | Play a sound cue at positions of detected entities |
+| Sound Volume            | 0.25          | Volume of the sound cue                            |
+| Delay (in milliseconds) | 3000          | Execute at set intervals                           |
 
 ### Entities/Blocks Locking
 
@@ -191,9 +202,9 @@ See also: [Feature Description](/doc/FEATURES.md#fall-detector)
 
 ## Narrator Menu
 
-| Configuration           | Default Value | Description                         |
-|-------------------------|---------------|-------------------------------------|
-| Enabled                 | true          | Whether to enable this feature      |
+| Configuration | Default Value | Description                    |
+|---------------|---------------|--------------------------------|
+| Enabled       | true          | Whether to enable this feature |
 
 See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Keybindings](/doc/KEYBINDINGS.md#narrator-menu)
 
@@ -214,6 +225,7 @@ See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Keybindings](/
 | Use 12 Hour Time Format                | false         | Whether to use 12 hour time format when speaking the time                                                                                                                 | 
 | Speak Action Bar Updates               | true          | Whether to speak the messages updated in [action bar](https://minecraft.wiki/w/Commands/title), useful when you're in modded multiplayer servers                          |
 | Speak Harvest Of Fishing               | true          | Whether to speak the harvest of fishing                                                                                                                                   |
+| Report Held Items Count When Changed   | true          | Whether to report the number of held items when it changed                                                                                                                |
 | Enable Menu Fix                        | true          | Whether to reset the cursor position when opening a menu (to prevent speak out unnecessary content)                                                                       |
 | Debug Mode                             | true          | Developer config, whether to print debug messages into log                                                                                                                |
 | Multiple Click Speed (in milliseconds) | 750           | The maximum time interval between two keystrokes in multiple click operations like "double-click"                                                                         |

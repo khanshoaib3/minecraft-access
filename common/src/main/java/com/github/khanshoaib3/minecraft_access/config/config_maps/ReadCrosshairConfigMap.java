@@ -16,7 +16,8 @@ public class ReadCrosshairConfigMap {
     private boolean disableSpeakingConsecutiveBlocks;
     @SerializedName("Repeat Speaking Interval (in milliseconds) (0 to disable)")
     private long repeatSpeakingInterval;
-
+    @SerializedName("Relative Position Sound Cue")
+    private RCRelativePositionSoundCueConfigMap relativePositionSoundCueConfigMap;
     @SerializedName("Partial Speaking")
     private RCPartialSpeakingConfigMap partialSpeakingConfigMap;
 
@@ -27,9 +28,10 @@ public class ReadCrosshairConfigMap {
         ReadCrosshairConfigMap m = new ReadCrosshairConfigMap();
         m.setEnabled(true);
         m.setSpeakSide(true);
-        m.setDisableSpeakingConsecutiveBlocks(true);
+        m.setDisableSpeakingConsecutiveBlocks(false);
         m.setRepeatSpeakingInterval(0L);
-        m.setPartialSpeakingConfigMap(RCPartialSpeakingConfigMap.buildDefault());
+        m.relativePositionSoundCueConfigMap = RCRelativePositionSoundCueConfigMap.buildDefault();
+        m.partialSpeakingConfigMap = RCPartialSpeakingConfigMap.buildDefault();
 
         setInstance(m);
         return m;
@@ -41,6 +43,7 @@ public class ReadCrosshairConfigMap {
     }
 
     public static void setInstance(ReadCrosshairConfigMap map) {
+        RCRelativePositionSoundCueConfigMap.setInstance(map.relativePositionSoundCueConfigMap);
         RCPartialSpeakingConfigMap.setInstance(map.partialSpeakingConfigMap);
         instance = map;
     }
@@ -77,13 +80,12 @@ public class ReadCrosshairConfigMap {
         this.repeatSpeakingInterval = repeatSpeakingInterval;
     }
 
-    public void setPartialSpeakingConfigMap(RCPartialSpeakingConfigMap partialSpeakingConfigMap) {
-        this.partialSpeakingConfigMap = partialSpeakingConfigMap;
-    }
-
     public void resetMissingSectionsToDefault() {
         if (Objects.isNull(this.partialSpeakingConfigMap)) {
             this.partialSpeakingConfigMap = RCPartialSpeakingConfigMap.buildDefault();
+        }
+        if (Objects.isNull(this.relativePositionSoundCueConfigMap)) {
+            this.relativePositionSoundCueConfigMap = RCRelativePositionSoundCueConfigMap.buildDefault();
         }
     }
 }
