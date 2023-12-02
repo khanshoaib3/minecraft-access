@@ -160,7 +160,7 @@ public class AreaMapMenu {
             } else {
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.map_unlock"), true);
                 // Play the same unlock sound as POI Unlocking
-                ClientPlayerEntityProxy.playSound(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, 0.4f, 2f);
+                ClientPlayerEntityProxy.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, 0.4f, 2f);
             }
         }
     }

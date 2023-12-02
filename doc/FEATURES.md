@@ -9,6 +9,7 @@ If you have any suggestion on improvements existing features or about a new feat
 1. [Camera Controls](#camera-controls)
 2. [Mouse Simulation](#mouse-simulation)
 3. [Read Crosshair](#read-crosshair)
+    * [Relative Position Sound Cue](#relative-position-sound-cue)
     * [Partial Speaking](#partial-speaking)
 4. [Inventory Controls](#inventory-controls)
 5. [Point of Interest](#point-of-interest)
@@ -29,6 +30,7 @@ If you have any suggestion on improvements existing features or about a new feat
     * [Speak Harvest Of Fishing](#speak-harvest-of-fishing)
     * [Speak Chat Messages](#speak-chat-messages)
     * [Speak Action Bar Updates](#speak-action-bar-updates)
+    * [I18N Fallback Mechanism](#i18n-fallback-mechanism)
 
 ## Camera Controls
 
@@ -62,6 +64,15 @@ For functional blocks or entities with multiple forms, the mod will also speak c
 According to [wiki](https://minecraft.wiki/w/Breaking#Basics_of_breaking), the breaking distance in survival mode is 4.5 blocks (in Java Edition), but this `ReadCrosshair` feature will speak targets at most 6 blocks away. So if the mod says something but you can't interact with it, move forward a little closer to it.
 
 See also: [Configuration](/doc/CONFIG.md#read-crosshair)
+
+### Relative Position Sound Cue
+
+Whenever you're looking at a block and entity, the mod will play a piano sound cue to indicate relative location between you and target.
+Volume to represent distance, the louder the sound the closer the distance.
+Pitch to represent elevation, the higher the sound the higher the target relative to you.
+You can turn off this feature or change sound volume in config.
+
+See also: [Configuration](/doc/CONFIG.md#relative-position-sound-cue)
 
 ### Partial Speaking
 
@@ -246,6 +257,13 @@ See also: [Keybindings](/doc/KEYBINDINGS.md#speak-chat-messages)
 ### Speak Action Bar Updates
 
 Messages updated by the [action bar](https://minecraft.wiki/w/Commands/title) are common in modded multiplayer servers, usually they are used as announcements.
+
+### I18N Fallback Mechanism
+
+Minecraft has supported many languages, when referring languages that this mod supports, we mean text that introduced by this mod and don't exist in original game.
+This mod has a fallback mechanism on I18n in case it fails on unsupported languages, or text that not translated in time in supported languages.
+If any text I18N failed on your language, the mod will use the English version instead.
+Set the game to your familiar language is recommended, even if it's not supported by this mod, since you can still be benefited from translatable game original text, such as name of blocks or creatures.
 
 ## Other Pages
 

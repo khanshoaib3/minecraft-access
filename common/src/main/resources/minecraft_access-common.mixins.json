@@ -19,6 +19,7 @@
     "DurabilityMixin",
     "EyeOfEnderEntityMixin",
     "HandledScreenAccessor",
+    "I18nMixin",
     "InGameHudMixin",
     "LoomScreenAccessor",
     "MerchantScreenAccessor",

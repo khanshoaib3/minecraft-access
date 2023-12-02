@@ -37,36 +37,48 @@ public class PlayerWarningsConfigMenu extends BaseScreen {
                 });
         this.addDrawableChild(playSoundButton);
 
+        ValueEntryMenu.ValueConfig c1 = new ValueEntryMenu.ValueConfig(() -> PlayerWarningConfigMap.getInstance().getFirstHealthThreshold(),
+                (v) -> PlayerWarningConfigMap.getInstance().setFirstHealthThreshold(Float.parseFloat(v)),
+                ValueEntryMenu.ValueType.FLOAT);
         ButtonWidget firstHealthThresholdButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
                         I18n.translate("minecraft_access.gui.player_warnings_config_menu.button.first_health_threshold_button"),
                         initMap.getFirstHealthThreshold()
                 ),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.PLAYER_WARNINGS_FIRST_HEALTH_THRESHOLD, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c1, this)));
         this.addDrawableChild(firstHealthThresholdButton);
 
+        ValueEntryMenu.ValueConfig c2 = new ValueEntryMenu.ValueConfig(() -> PlayerWarningConfigMap.getInstance().getSecondHealthThreshold(),
+                (v) -> PlayerWarningConfigMap.getInstance().setSecondHealthThreshold(Float.parseFloat(v)),
+                ValueEntryMenu.ValueType.FLOAT);
         ButtonWidget secondHealthThresholdButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
                         I18n.translate("minecraft_access.gui.player_warnings_config_menu.button.second_health_threshold_button"),
                         initMap.getSecondHealthThreshold()
                 ),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.PLAYER_WARNINGS_SECOND_HEALTH_THRESHOLD, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c2, this)));
         this.addDrawableChild(secondHealthThresholdButton);
 
+        ValueEntryMenu.ValueConfig c3 = new ValueEntryMenu.ValueConfig(() -> PlayerWarningConfigMap.getInstance().getHungerThreshold(),
+                (v) -> PlayerWarningConfigMap.getInstance().setHungerThreshold(Float.parseFloat(v)),
+                ValueEntryMenu.ValueType.FLOAT);
         ButtonWidget hungerThresholdButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
                         I18n.translate("minecraft_access.gui.player_warnings_config_menu.button.hunger_threshold_button"),
                         initMap.getHungerThreshold()
                 ),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.PLAYER_WARNINGS_HUNGER_THRESHOLD, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c3, this)));
         this.addDrawableChild(hungerThresholdButton);
 
+        ValueEntryMenu.ValueConfig c4 = new ValueEntryMenu.ValueConfig(() -> PlayerWarningConfigMap.getInstance().getAirThreshold(),
+                (v) -> PlayerWarningConfigMap.getInstance().setAirThreshold(Float.parseFloat(v)),
+                ValueEntryMenu.ValueType.FLOAT);
         ButtonWidget airThresholdButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.button_with_float_value",
                         I18n.translate("minecraft_access.gui.player_warnings_config_menu.button.air_threshold_button"),
                         initMap.getAirThreshold()
                 ),
-                (button) -> this.client.setScreen(new ValueEntryMenu("value_entry_menu", ValueEntryMenu.CONFIG_TYPE.PLAYER_WARNINGS_AIR_THRESHOLD, this)));
+                (button) -> this.client.setScreen(new ValueEntryMenu(c4, this)));
         this.addDrawableChild(airThresholdButton);
     }
 }
