@@ -165,8 +165,9 @@ Start the installer, a window pops up for you to choose the installation configu
 
 #### Download the Forge
 
-Forge requires you to select the right version of the game at the time of download the installer, please refer to the current game version that supported by this mod on [releases page](https://github.com/khanshoaib3/minecraft-access/releases).
-[Here is the download page for the Forge](https://files.minecraftforge.net/net/minecraftforge/forge/).
+Reports have been received that higher versions of Forge that are compatible with the game version may not be compatible with the mod, so it is recommended to download the tested version of Forge with link in the [releases page](https://github.com/khanshoaib3/minecraft-access/releases) (under `Mod Version Compatibility` section).
+Forge requires you to select the right version of the game at the time of download the installer, please refer to the current game version that supported by this mod on releases page.
+If you want to download the latest version of Forge for some reason, [here is the download page for the Forge](https://files.minecraftforge.net/net/minecraftforge/forge/).
 Select the `Installer` button under the `Download Recommended` sector.
 Then the website will redirect you to a Minecraft server provider's advertising page, in which you'll find a `SKIP` button, click it to trigger the real downloading process.
 An executable jar file will be downloaded, named as `forge-<game-version>-<forge-version>-installer.jar`, for example `forge-1.20.1-47.1.0-installer.jar`.
@@ -305,7 +306,7 @@ For this type of error, there is a simple, common, cumbersome, no-better-choice 
 
 ### Quality of Life Mods
 
-* Presence Footsteps [Fabric](https://modrinth.com/mod/presence-footsteps), [Forge port](https://www.curseforge.com/minecraft/mc-mods/presence-footsteps-forge) - Footstep sound enhancement mod, highly recommend. Note that currently the Forge port isn't support for `1.20.*` yet, so you need to ["install" (put under another folder)](https://minecraft.wiki/w/Tutorials/Loading_a_resource_pack) this resource pack instead: [Presence Footsteps: A Realistic Sounds Pack](https://www.curseforge.com/minecraft/texture-packs/presence-footsteps-a-realistic-sounds-pack).
+* Presence Footsteps [Fabric](https://modrinth.com/mod/presence-footsteps), [Forge port](https://www.curseforge.com/minecraft/mc-mods/presence-footsteps-forge) - Footstep sound enhancement mod, highly recommend. Note that currently the Forge port isn't support for `1.20.*` yet, so you need to ["install" (put under another folder)](https://minecraft.wiki/w/Tutorials/Loading_a_resource_pack) this resource pack instead: [Presence Footsteps: Remastered Sounds Pack](https://modrinth.com/resourcepack/presense-footsteps-sounds).
 
 ### A Very Simple Beginner Guide
 

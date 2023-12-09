@@ -6,6 +6,8 @@
   "mixins": [
   ],
   "client": [
+    "ForgeGuiMixin",
+    "InGameHudAccessor",
     "NarratorMixin"
   ],
   "injectors": {

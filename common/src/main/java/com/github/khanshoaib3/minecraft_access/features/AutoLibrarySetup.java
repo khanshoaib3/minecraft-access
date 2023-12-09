@@ -21,9 +21,8 @@ public class AutoLibrarySetup {
     }
 
     public void initialize() {
-        if (checkInstalled()) return;
-
         try {
+            if (checkInstalled()) return;
             downloadAndInstall();
         } catch (IOException e) {
             MainClass.errorLog("An error occurred while downloading library.", e);

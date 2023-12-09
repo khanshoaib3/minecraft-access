@@ -1,3 +1,14 @@
+Release v1.4.1 (2023-12)
+---------------------------
+
+### Bug Fixes
+
+* Fix the bug that can not speak hotbar in latest version of forge (1.20.1-47.2.17) [#218](https://github.com/khanshoaib3/minecraft-access/issues/218)
+
+### Dependencies Changes
+
+* forge_version: `47.0.19` -> `47.2.17`
+
 Release v1.4.0 (2023-11)
 ---------------------------
 
