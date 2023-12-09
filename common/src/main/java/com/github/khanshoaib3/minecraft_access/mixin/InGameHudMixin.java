@@ -29,6 +29,9 @@ public class InGameHudMixin {
     @Unique
     private SpeakHeldItem minecraft_access$feature;
 
+    @Unique
+    private String minecraft_access$previousActionBarContent = "";
+
     /**
      * This method is continually invoked by the InGameHud.render(),
      * so we use previousContent to check if the content has changed and need to be narrated.
@@ -43,7 +46,13 @@ public class InGameHudMixin {
 
     @Inject(at = @At("HEAD"), method = "setOverlayMessage(Lnet/minecraft/text/Text;Z)V")
     public void speakActionbar(Text message, boolean tinted, CallbackInfo ci) {
-        if (OtherConfigsMap.getInstance().isActionBarEnabled())
-            MainClass.speakWithNarrator(message.getString(), true);
+        if (OtherConfigsMap.getInstance().isActionBarEnabled()) {
+            String msg = message.getString();
+            boolean contentChanged = !this.minecraft_access$previousActionBarContent.equals(msg);
+            if (contentChanged) {
+                MainClass.speakWithNarratorIfNotEmpty(msg, true);
+                this.minecraft_access$previousActionBarContent = msg;
+            }
+        }
     }
 }
