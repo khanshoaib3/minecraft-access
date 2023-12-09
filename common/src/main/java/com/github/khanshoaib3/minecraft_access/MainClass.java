@@ -43,6 +43,14 @@ public class MainClass {
      * Initializes the mod
      */
     public static void init() {
+        try {
+            _init();
+        } catch (Exception e) {
+            MainClass.errorLog("An error occurred while initializing Minecraft Access.", e);
+        }
+    }
+
+    private static void _init() {
         Config.getInstance().loadConfig();
         debugMode = OtherConfigsMap.getInstance().isDebugMode();
 
@@ -81,6 +89,14 @@ public class MainClass {
      * @param minecraftClient The current minecraft client object
      */
     public static void clientTickEventsMethod(MinecraftClient minecraftClient) {
+        try {
+            _clientTickEventsMethod(minecraftClient);
+        }catch (Exception e){
+            MainClass.errorLog("An error occurred while running Minecraft Access client tick events", e);
+        }
+    }
+
+    private static void _clientTickEventsMethod(MinecraftClient minecraftClient) {
         // update debug mode config
         OtherConfigsMap otherConfigsMap = OtherConfigsMap.getInstance();
         debugMode = otherConfigsMap.isDebugMode();
