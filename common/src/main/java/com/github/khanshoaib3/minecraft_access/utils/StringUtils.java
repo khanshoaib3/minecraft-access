@@ -1,10 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.utils;
 
-import org.spongepowered.asm.mixin.Unique;
-
 public class StringUtils {
 
-    @Unique
     public static String getLineTextWhereTheCursorIsLocatedIn(String whole, int cursor) {
         // ref: https://stackoverflow.com/questions/5034442/indexes-of-all-occurrences-of-character-in-a-string
         String lineSeparator = "\n";
@@ -32,5 +29,17 @@ public class StringUtils {
             index = whole.indexOf(lineSeparator, index + 1);
         }
         return whole.substring(start, end);
+    }
+
+
+    /**
+     * Comma first, then whitespaces.
+     */
+    public static String[] splitToParts(String msg) {
+        if (msg.contains(",")) {
+            return msg.split(",");
+        } else {
+            return msg.split("\\s");
+        }
     }
 }
