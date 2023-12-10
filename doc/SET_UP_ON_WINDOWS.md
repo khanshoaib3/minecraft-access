@@ -143,6 +143,8 @@ Also, this does not mean that you can load mod files for one framework on anothe
 [Here is the download page for the Fabric loader](https://fabricmc.net/use/installer/).
 Fabric provides an executable installer for Windows, click the `Download for Windows` button to download it.
 The executable file is named as `fabric-installer-<installer-version-number>.exe`, for example, `fabric-installer-0.11.2.exe`.
+We have received reports that some screen readers such as NVDA cannot read the installer's interface if your current input method is not English.
+Try to switch to English input method first, if the problem still persists, please download the jar form of the installer by click the `Download universal jar` button, just below the `Download for Windows` button.
 
 > In addition to the official launcher, there are a number of ways to install Fabric on other launchers available at the bottom of this download page.
 > macOS and Linux users need to first install Java separately then download and run the `universal jar`, which is more troublesome than Windows.
@@ -187,6 +189,8 @@ Restart your computer after the installation completed.
 
 #### Continue to Install the Forge
 
+We have received reports that some screen readers such as NVDA cannot read the installer's interface if your current input method is not English.
+Try to switch to English input method first then start the Forge installer.
 Now you can run the forge jar file like normal executable file, a window pops up for you to choose the installation configurations:
 
 1. First is a radio box for selecting install client or server, `Install client` is selected by default, yeah we want to install the client, no need to change it.
