@@ -29,7 +29,7 @@ If you have any suggestion on improvements existing features or about a new feat
     * [XP Indicator](#xp-indicator)
     * [Speak Harvest Of Fishing](#speak-harvest-of-fishing)
     * [Speak Chat Messages](#speak-chat-messages)
-    * [Speak Action Bar Updates](#speak-action-bar-updates)
+    * [Speak Action Bar Updates](#speak-action-bar-messages)
     * [I18N Fallback Mechanism](#i18n-fallback-mechanism)
 
 ## Camera Controls
@@ -255,9 +255,9 @@ If you feel that too many chat messages are making you feel noisy, you can turn 
 
 See also: [Keybindings](/doc/KEYBINDINGS.md#speak-chat-messages)
 
-### Speak Action Bar Updates
+### Speak Action Bar Messages
 
-Messages updated by the [action bar](https://minecraft.wiki/w/Commands/title) are common in modded multiplayer servers, usually they are used as announcements.
+Messages shown in the form of [action bar](https://minecraft.wiki/w/Commands/title) are common in modded multiplayer servers, usually they are used as server announcements or showing mod-specific information, for example in hypixel it shows extra "health, defense, mana" values of players.
 
 ### I18N Fallback Mechanism
 

@@ -31,7 +31,7 @@ public class OtherConfigsMap {
     private String commandSuggestionNarratorFormat;
     @SerializedName("Use 12 Hour Time Format")
     private boolean use12HourTimeFormat;
-    @SerializedName("Speak Action Bar Updates")
+    @SerializedName("Speak Action Bar Messages")
     private boolean actionBarEnabled;
     @SerializedName("Speak Harvest Of Fishing")
     private boolean fishingHarvestEnabled;
