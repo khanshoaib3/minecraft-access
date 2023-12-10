@@ -258,6 +258,7 @@ See also: [Keybindings](/doc/KEYBINDINGS.md#speak-chat-messages)
 ### Speak Action Bar Messages
 
 Messages shown in the form of [action bar](https://minecraft.wiki/w/Commands/title) are common in modded multiplayer servers, usually they are used as server announcements or showing mod-specific information, for example in hypixel it shows extra "health, defense, mana" values of players.
+When you feel like the mod is repeating action bar messages, that's because the messages are partially updated but the mod will speak the whole sentence, try to open "Only Speak Action Bar Updates" config in the [configuration](/doc/CONFIG.md#other-configurations).
 
 ### I18N Fallback Mechanism
 

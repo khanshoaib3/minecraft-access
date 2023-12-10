@@ -7,8 +7,8 @@ Release v1.4.1 (2023-12)
 
 ### Feature Changes
 
-* Breaking change: Config "Speak Action Bar Updates" is renamed to "Speak Action Bar Messages".
-* 
+* Breaking change: config "Speak Action Bar Updates" is renamed to "Speak Action Bar Messages".
+* New config "Only Speak Action Bar Updates" for only speak changed part of action bar message when the message is partially updated, useful for some mods like hypixel. [#220](https://github.com/khanshoaib3/minecraft-access/issues/220)
 
 ### Dependencies Changes
 

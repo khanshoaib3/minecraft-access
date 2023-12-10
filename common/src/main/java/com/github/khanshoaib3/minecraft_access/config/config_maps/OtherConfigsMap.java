@@ -33,6 +33,8 @@ public class OtherConfigsMap {
     private boolean use12HourTimeFormat;
     @SerializedName("Speak Action Bar Messages")
     private boolean actionBarEnabled;
+    @SerializedName("Only Speak Action Bar Updates")
+    private boolean onlySpeakActionBarUpdates = false;
     @SerializedName("Speak Harvest Of Fishing")
     private boolean fishingHarvestEnabled;
     @SerializedName("Report Held Items Count When Changed")
@@ -161,6 +163,14 @@ public class OtherConfigsMap {
         this.actionBarEnabled = actionBarEnabled;
     }
 
+    public boolean isOnlySpeakActionBarUpdates() {
+        return onlySpeakActionBarUpdates;
+    }
+
+    public void setOnlySpeakActionBarUpdates(boolean onlySpeakActionBarUpdates) {
+        this.onlySpeakActionBarUpdates = onlySpeakActionBarUpdates;
+    }
+
     public boolean isFishingHarvestEnabled() {
         return fishingHarvestEnabled;
     }
@@ -196,6 +206,7 @@ public class OtherConfigsMap {
         defaultOtherConfigsMap.setCommandSuggestionNarratorFormat(DEFAULT_COMMAND_SUGGESTION_FORMAT);
         defaultOtherConfigsMap.setUse12HourTimeFormat(false);
         defaultOtherConfigsMap.setActionBarEnabled(true);
+        defaultOtherConfigsMap.onlySpeakActionBarUpdates = false;
         defaultOtherConfigsMap.setFishingHarvestEnabled(true);
         defaultOtherConfigsMap.reportHeldItemsCountWhenChanged = true;
         defaultOtherConfigsMap.setMenuFixEnabled(true);
