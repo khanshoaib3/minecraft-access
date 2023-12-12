@@ -5,6 +5,11 @@ Release v1.4.1 (2023-12)
 
 * Fix the bug that can not speak hotbar in latest version of forge (1.20.1-47.2.17) [#218](https://github.com/khanshoaib3/minecraft-access/issues/218)
 
+### Feature Changes
+
+* Breaking change: config "Speak Action Bar Updates" is renamed to "Speak Action Bar Messages".
+* New config "Only Speak Action Bar Updates" for only speak changed part of action bar message when the message is partially updated, useful for some mods like hypixel. [#220](https://github.com/khanshoaib3/minecraft-access/issues/220)
+
 ### Dependencies Changes
 
 * forge_version: `47.0.19` -> `47.2.17`

@@ -143,6 +143,21 @@ public class OtherConfigMenu extends BaseScreen {
                 true);
         this.addDrawableChild(speakActionBarButton);
 
+        ButtonWidget onlySpeakChangedContentOfActionBarButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (initMap.isOnlySpeakActionBarUpdates() ? "enabled" : "disabled"),
+                        I18n.translate("minecraft_access.gui.other_config_menu.button.only_speak_action_bar_updates_button")
+                ),
+                (button) -> {
+                    OtherConfigsMap map = OtherConfigsMap.getInstance();
+                    map.setOnlySpeakActionBarUpdates(!map.isOnlySpeakActionBarUpdates());
+                    Config.getInstance().writeJSON();
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (map.isOnlySpeakActionBarUpdates() ? "enabled" : "disabled"),
+                            I18n.translate("minecraft_access.gui.other_config_menu.button.only_speak_action_bar_updates_button")
+                    )));
+                },
+                true);
+        this.addDrawableChild(onlySpeakChangedContentOfActionBarButton);
+
         ButtonWidget speakFishingHarvestButton = this.buildButtonWidget(
                 I18n.translate("minecraft_access.gui.common.button.toggle_button." + (initMap.isFishingHarvestEnabled() ? "enabled" : "disabled"),
                         I18n.translate("minecraft_access.gui.other_config_menu.button.speak_fishing_harvest_button")
