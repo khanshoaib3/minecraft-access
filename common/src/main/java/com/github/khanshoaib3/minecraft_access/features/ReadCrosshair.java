@@ -117,14 +117,14 @@ public class ReadCrosshair {
 
             if (blockHit == null) return;
 
-            boolean playerIsNotInFluid = !minecraftClient.player.isSwimming()
-                    && !minecraftClient.player.isSubmergedInWater()
-                    && !minecraftClient.player.isInsideWaterOrBubbleColumn()
-                    && !minecraftClient.player.isInLava();
+            boolean playerIsInFluid = minecraftClient.player.isSwimming()
+                    || minecraftClient.player.isSubmergedInWater()
+                    || minecraftClient.player.isInsideWaterOrBubbleColumn()
+                    || minecraftClient.player.isInLava();
 
             boolean playerLooksAtFluid = checkForFluidHit(minecraftClient, fluidHit);
 
-            if (playerIsNotInFluid && playerLooksAtFluid) return;
+            if (playerIsInFluid && playerLooksAtFluid) return;
 
             checkForBlockAndEntityHit(blockHit);
         } catch (Exception e) {
