@@ -1,3 +1,10 @@
+Release v1.4.2 (2023-12)
+---------------------------
+
+### Bug Fixes
+
+* Fix the bug that ReadCrosshair spam when the player in the fluid and looks at fluid. [#222](https://github.com/khanshoaib3/minecraft-access/issues/222)
+
 Release v1.4.1 (2023-12)
 ---------------------------
 
