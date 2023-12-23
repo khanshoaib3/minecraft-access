@@ -64,13 +64,14 @@ public class POIBlocks {
             blockList.add(state -> state.isOf(Blocks.DAYLIGHT_DETECTOR));
             blockList.add(state -> state.isOf(Blocks.JUKEBOX));
             blockList.add(state -> state.isOf(Blocks.LODESTONE));
-            blockList.add(state -> state.getBlock() instanceof BeehiveBlock);
-            blockList.add(state -> state.getBlock() instanceof ComposterBlock);
+            blockList.add(state -> state.isOf(Blocks.BEE_NEST));
+            blockList.add(state -> state.isOf(Blocks.COMPOSTER));
             blockList.add(state -> state.isOf(Blocks.OBSERVER));
             blockList.add(state -> state.isIn(BlockTags.FENCE_GATES));
-            blockList.add(state -> state.getBlock() instanceof SculkShriekerBlock);
-            blockList.add(state -> state.getBlock() instanceof SculkCatalystBlock);
-            blockList.add(state -> state.getBlock() instanceof SculkSensorBlock);
+            blockList.add(state -> state.isOf(Blocks.SCULK_SHRIEKER));
+            blockList.add(state -> state.isOf(Blocks.SCULK_CATALYST));
+            blockList.add(state -> state.isOf(Blocks.CALIBRATED_SCULK_SENSOR));
+            blockList.add(state -> state.isOf(Blocks.SCULK_SENSOR));
 
             oreBlockList.add(state -> state.isOf(Blocks.COAL_ORE));
             oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_COAL_ORE));
