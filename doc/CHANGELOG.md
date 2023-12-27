@@ -1,3 +1,10 @@
+Release v1.4.3 (2024-01)
+---------------------------
+
+### Bug Fixes
+
+* Fix the bug that you can't use `Left Alt` + `Center Camera Key` to look straight back. [#225](https://github.com/khanshoaib3/minecraft-access/issues/225)
+
 Release v1.4.2 (2023-12)
 ---------------------------
 
