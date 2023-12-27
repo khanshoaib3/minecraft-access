@@ -1,3 +1,33 @@
+Release v1.4.3 (2024-01)
+---------------------------
+
+### Bug Fixes
+
+* Fix the bug that you can't use `Left Alt` + `Center Camera Key` to look straight back. [#225](https://github.com/khanshoaib3/minecraft-access/issues/225)
+
+Release v1.4.2 (2023-12)
+---------------------------
+
+### Bug Fixes
+
+* Fix the bug that ReadCrosshair spam when the player in the fluid and looks at fluid. [#222](https://github.com/khanshoaib3/minecraft-access/issues/222)
+
+Release v1.4.1 (2023-12)
+---------------------------
+
+### Bug Fixes
+
+* Fix the bug that can not speak hotbar in latest version of forge (1.20.1-47.2.17) [#218](https://github.com/khanshoaib3/minecraft-access/issues/218)
+
+### Feature Changes
+
+* Breaking change: config "Speak Action Bar Updates" is renamed to "Speak Action Bar Messages".
+* New config "Only Speak Action Bar Updates" for only speak changed part of action bar message when the message is partially updated, useful for some mods like hypixel. [#220](https://github.com/khanshoaib3/minecraft-access/issues/220)
+
+### Dependencies Changes
+
+* forge_version: `47.0.19` -> `47.2.17`
+
 Release v1.4.0 (2023-11)
 ---------------------------
 
@@ -34,41 +64,6 @@ If you want to contribute to translating work, we manage the translation of this
 
 * Fix the bug that keybindings can't be rebound to mouse 4,5 keys (mouse side keys) [#190](https://github.com/khanshoaib3/minecraft-access/issues/190)
 * Fix the bug that a dead entity can be locked before it disappears. [#208](https://github.com/khanshoaib3/minecraft-access/issues/208)
-
-### Dependencies Changes
-
-### Refactoring, Documentation and Chores
-
-* Now the change log should be added as a small independent markdown file (fragment) under `./doc/news`.
-* Add introduction of missing chat message feature into manual.
-
-Release v1.4.0 (2023-11)
----------------------------
-
-### New Features
-
-#### Speak Text Editing
-
-* Now the mod will simulate the feedback you get when typing text in other software's input boxes, it will speak the text that you delete, select, pass with cursor, on Chat Screen, Book Edit Screen, Command Block Screen and so on.
-* Suppress annoying original "speak whole sentence" narration on every text editing operation.
-* Simplify the original command suggestion narration for a better typing experience with lesser annoying too-detailed narrations.
-
-See also: [description of this feature](/doc/FEATURES.md#speak-text-editing) [#187](https://github.com/khanshoaib3/minecraft-access/issues/187)
-
-#### I18N Fallback Mechanism
-
-A fallback mechanism is added to I18n in case it fails on unsupported languages, or text that not translated in time in supported languages.
-If any I18N failed on your language, the mod will use the English version instead.
-Set the game to your familiar language is recommended, even if it's not supported by this mod, since you can still be benefited from translatable game original text, such as name of blocks or creatures.
-If you want to contribute to translating work, we manage the translation of this mod in [another GitHub repository](https://github.com/khanshoaib3/minecraft-access-i18n#minecraft-access-i18n), take a look.
-
-### Feature Changes
-
-* Now whenever you're looking at a block and entity, the mod will play a piano sound cue to indicate relative location between you and target. see also: [description of this feature](/doc/FEATURES.md#relative-position-sound-cue) [#191](https://github.com/khanshoaib3/minecraft-access/issues/191)
-
-### Bug Fixes
-
-* Fix the bug that keybindings can't be rebound to mouse 4,5 keys (mouse side keys) [#190](https://github.com/khanshoaib3/minecraft-access/issues/190)
 
 ### Dependencies Changes
 
