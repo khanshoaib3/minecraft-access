@@ -22,7 +22,6 @@ public class FallDetector {
     private boolean enabled;
     private int range;
     private int depth;
-//    private boolean playSound;
     private float volume;
     private int delayInMilliseconds;
 
