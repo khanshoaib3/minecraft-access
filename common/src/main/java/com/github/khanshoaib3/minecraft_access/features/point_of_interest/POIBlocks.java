@@ -5,7 +5,6 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.POIBlocksConfi
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.fluid.FluidState;
@@ -44,6 +43,10 @@ public class POIBlocks {
             Blocks.SCULK_SENSOR
     };
 
+    private static final List<Predicate<BlockState>> poiBlockPredicates = Arrays.stream(POI_BLOCKS)
+            .map(b -> (Predicate<BlockState>) state -> state.isOf(b))
+            .toList();
+
     private static final Block[] ORE_BLOCKS = new Block[]{
             Blocks.COAL_ORE,
             Blocks.DEEPSLATE_COAL_ORE,
@@ -65,6 +68,9 @@ public class POIBlocks {
             Blocks.NETHER_QUARTZ_ORE
     };
 
+    private static final List<Predicate<BlockState>> oreBlockPredicates = Arrays.stream(ORE_BLOCKS)
+            .map(b -> (Predicate<BlockState>) state -> state.isOf(b))
+            .toList();
 
     public static TreeMap<Double, Vec3d> oreBlocks = new TreeMap<>();
     public static TreeMap<Double, Vec3d> doorBlocks = new TreeMap<>();
@@ -84,23 +90,14 @@ public class POIBlocks {
     private float volume;
     private boolean playSoundForOtherBlocks;
     private Interval interval;
-
-    private static final List<Predicate<BlockState>> blockList = Lists.newArrayList();
-    private static final List<Predicate<BlockState>> oreBlockList = Lists.newArrayList();
     private Predicate<BlockState> markedBlock = state -> false;
     private boolean marking = false;
 
     static {
         try {
-            blockList.addAll(Arrays.stream(POI_BLOCKS)
-                    .map(b -> (Predicate<BlockState>) state -> state.isOf(b))
-                    .toList());
-            oreBlockList.addAll(Arrays.stream(ORE_BLOCKS)
-                    .map(b -> (Predicate<BlockState>) state -> state.isOf(b))
-                    .toList());
             instance = new POIBlocks();
         } catch (Exception e) {
-            throw new RuntimeException("Exception occurred in creating POIBlocks instance");
+            throw new RuntimeException("Exception occurred in creating POIBlocks instance", e);
         }
     }
 
@@ -195,7 +192,7 @@ public class POIBlocks {
             }
 
 //            MainClass.speakWithNarrator(I18n.translate("narrate.apextended.poiblock.warn"), true);
-        } else if (oreBlockList.stream().anyMatch($ -> $.test(blockState))) {
+        } else if (oreBlockPredicates.stream().anyMatch($ -> $.test(blockState))) {
             oreBlocks.put(diff, blockVec3dPos);
             soundType = "ore";
         } else if (block instanceof ButtonBlock) {
@@ -223,7 +220,7 @@ public class POIBlocks {
                 }
 
             }
-        } else if (blockList.stream().anyMatch($ -> $.test(blockState))) {
+        } else if (poiBlockPredicates.stream().anyMatch($ -> $.test(blockState))) {
             otherBlocks.put(diff, blockVec3dPos);
             soundType = "blocks";
         } else if (blockState.createScreenHandlerFactory(minecraftClient.world, blockPos) != null) {
