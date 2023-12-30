@@ -9,7 +9,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Property;
@@ -17,10 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.Predicate;
 
 /**
@@ -29,6 +25,46 @@ import java.util.function.Predicate;
 public class POIBlocks {
     private static final POIBlocks instance;
     private MinecraftClient minecraftClient;
+
+    private static final Block[] POI_BLOCKS = new Block[]{
+            Blocks.PISTON,
+            Blocks.STICKY_PISTON,
+            Blocks.RESPAWN_ANCHOR,
+            Blocks.BELL,
+            Blocks.OBSERVER,
+            Blocks.DAYLIGHT_DETECTOR,
+            Blocks.JUKEBOX,
+            Blocks.LODESTONE,
+            Blocks.BEE_NEST,
+            Blocks.COMPOSTER,
+            Blocks.OBSERVER,
+            Blocks.SCULK_SHRIEKER,
+            Blocks.SCULK_CATALYST,
+            Blocks.CALIBRATED_SCULK_SENSOR,
+            Blocks.SCULK_SENSOR
+    };
+
+    private static final Block[] ORE_BLOCKS = new Block[]{
+            Blocks.COAL_ORE,
+            Blocks.DEEPSLATE_COAL_ORE,
+            Blocks.COPPER_ORE,
+            Blocks.DEEPSLATE_COPPER_ORE,
+            Blocks.DIAMOND_ORE,
+            Blocks.DEEPSLATE_DIAMOND_ORE,
+            Blocks.EMERALD_ORE,
+            Blocks.DEEPSLATE_EMERALD_ORE,
+            Blocks.GOLD_ORE,
+            Blocks.DEEPSLATE_GOLD_ORE,
+            Blocks.NETHER_GOLD_ORE,
+            Blocks.IRON_ORE,
+            Blocks.DEEPSLATE_IRON_ORE,
+            Blocks.LAPIS_ORE,
+            Blocks.DEEPSLATE_LAPIS_ORE,
+            Blocks.REDSTONE_ORE,
+            Blocks.DEEPSLATE_REDSTONE_ORE,
+            Blocks.NETHER_QUARTZ_ORE
+    };
+
 
     public static TreeMap<Double, Vec3d> oreBlocks = new TreeMap<>();
     public static TreeMap<Double, Vec3d> doorBlocks = new TreeMap<>();
@@ -56,41 +92,12 @@ public class POIBlocks {
 
     static {
         try {
-            blockList.add(state -> state.isOf(Blocks.PISTON));
-            blockList.add(state -> state.isOf(Blocks.STICKY_PISTON));
-            blockList.add(state -> state.isOf(Blocks.RESPAWN_ANCHOR));
-            blockList.add(state -> state.isOf(Blocks.BELL));
-            blockList.add(state -> state.isOf(Blocks.OBSERVER));
-            blockList.add(state -> state.isOf(Blocks.DAYLIGHT_DETECTOR));
-            blockList.add(state -> state.isOf(Blocks.JUKEBOX));
-            blockList.add(state -> state.isOf(Blocks.LODESTONE));
-            blockList.add(state -> state.isOf(Blocks.BEE_NEST));
-            blockList.add(state -> state.isOf(Blocks.COMPOSTER));
-            blockList.add(state -> state.isOf(Blocks.OBSERVER));
-            blockList.add(state -> state.isIn(BlockTags.FENCE_GATES));
-            blockList.add(state -> state.isOf(Blocks.SCULK_SHRIEKER));
-            blockList.add(state -> state.isOf(Blocks.SCULK_CATALYST));
-            blockList.add(state -> state.isOf(Blocks.CALIBRATED_SCULK_SENSOR));
-            blockList.add(state -> state.isOf(Blocks.SCULK_SENSOR));
-
-            oreBlockList.add(state -> state.isOf(Blocks.COAL_ORE));
-            oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_COAL_ORE));
-            oreBlockList.add(state -> state.isOf(Blocks.COPPER_ORE));
-            oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_COPPER_ORE));
-            oreBlockList.add(state -> state.isOf(Blocks.DIAMOND_ORE));
-            oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_DIAMOND_ORE));
-            oreBlockList.add(state -> state.isOf(Blocks.EMERALD_ORE));
-            oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_EMERALD_ORE));
-            oreBlockList.add(state -> state.isOf(Blocks.GOLD_ORE));
-            oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_GOLD_ORE));
-            oreBlockList.add(state -> state.isOf(Blocks.NETHER_GOLD_ORE));
-            oreBlockList.add(state -> state.isOf(Blocks.IRON_ORE));
-            oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_IRON_ORE));
-            oreBlockList.add(state -> state.isOf(Blocks.LAPIS_ORE));
-            oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_LAPIS_ORE));
-            oreBlockList.add(state -> state.isOf(Blocks.REDSTONE_ORE));
-            oreBlockList.add(state -> state.isOf(Blocks.DEEPSLATE_REDSTONE_ORE));
-            oreBlockList.add(state -> state.isOf(Blocks.NETHER_QUARTZ_ORE));
+            blockList.addAll(Arrays.stream(POI_BLOCKS)
+                    .map(b -> (Predicate<BlockState>) state -> state.isOf(b))
+                    .toList());
+            oreBlockList.addAll(Arrays.stream(ORE_BLOCKS)
+                    .map(b -> (Predicate<BlockState>) state -> state.isOf(b))
+                    .toList());
             instance = new POIBlocks();
         } catch (Exception e) {
             throw new RuntimeException("Exception occurred in creating POIBlocks instance");
