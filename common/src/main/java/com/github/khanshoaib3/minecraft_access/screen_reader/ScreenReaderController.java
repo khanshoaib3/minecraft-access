@@ -30,14 +30,13 @@ public class ScreenReaderController {
         try {
             MainClass.setScreenReader(getAvailable());
 
-            if(!closeOpenedScreen) return;
+            if (!closeOpenedScreen) return;
             if (MinecraftClient.getInstance() == null) return;
             if (MinecraftClient.getInstance().player == null) return;
             MinecraftClient.getInstance().player.closeScreen();
             MainClass.speakWithNarrator("Screen reader refreshed", true);
         } catch (Exception e) {
-            MainClass.errorLog("An error while refreshing screen reader");
-            e.printStackTrace();
+            MainClass.errorLog("An error while refreshing screen reader", e);
         }
     }
 }

@@ -151,8 +151,7 @@ public class POIBlocks {
             MainClass.infoLog("POIBlock ended.");
 
         } catch (Exception e) {
-            MainClass.errorLog("\nError encountered in poi blocks feature.");
-            e.printStackTrace();
+            MainClass.errorLog("Error encountered in poi blocks feature.", e);
         }
     }
 
@@ -263,8 +262,8 @@ public class POIBlocks {
                 minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(),
                         SoundCategory.BLOCKS, volume, 2f);
             else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocksWithInterface"))
-                    minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(),
-                            SoundCategory.BLOCKS, volume, 0f);
+                minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(),
+                        SoundCategory.BLOCKS, volume, 0f);
 
         }
     }

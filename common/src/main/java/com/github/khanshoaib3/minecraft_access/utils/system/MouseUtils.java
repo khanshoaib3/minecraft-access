@@ -19,6 +19,7 @@ public class MouseUtils {
 
     /**
      * Move the mouse to the given pixel location and then perform left click.
+     *
      * @param x the x position of the pixel location
      * @param y the y position of the pixel location
      */
@@ -38,6 +39,7 @@ public class MouseUtils {
 
     /**
      * Move the mouse to the given pixel location and then perform right click.
+     *
      * @param x the x position of the pixel location
      * @param y the y position of the pixel location
      */
@@ -58,6 +60,7 @@ public class MouseUtils {
 
     /**
      * Move the mouse to the given pixel location.
+     *
      * @param x the x position of the pixel location
      * @param y the y position of the pixel location
      */
@@ -72,11 +75,12 @@ public class MouseUtils {
 
     /**
      * Move the mouse to the given pixel location after a dela.
-     * @param x the x position of the pixel location
-     * @param y the y position of the pixel location
+     *
+     * @param x     the x position of the pixel location
+     * @param y     the y position of the pixel location
      * @param delay delay amount in milliseconds
      */
-    public static void moveAfterDelay(int x, int y, int delay){
+    public static void moveAfterDelay(int x, int y, int delay) {
         try {
             MainClass.infoLog("Moving mouse to x:%d y:%d after %d milliseconds".formatted(x, y, delay));
             TimerTask timerTask = new TimerTask() {
@@ -87,8 +91,7 @@ public class MouseUtils {
             };
             new Timer().schedule(timerTask, delay);
         } catch (Exception e) {
-            MainClass.errorLog("\nError encountered on moving mouse.");
-            e.printStackTrace();
+            MainClass.errorLog("Error encountered on moving mouse.", e);
         }
     }
 
@@ -233,8 +236,7 @@ public class MouseUtils {
                 windowsAction.accept(mainInterface);
             }
         } catch (Exception e) {
-            MainClass.errorLog("\nError encountered on performing " + name + ".");
-            e.printStackTrace();
+            MainClass.errorLog("Error encountered on performing " + name + ".", e);
         }
     }
 
@@ -277,8 +279,7 @@ public class MouseUtils {
         try {
             mainInterface = Native.load("User32.dll", user32dllInterface.class);
         } catch (Exception e) {
-            MainClass.errorLog("\nError encountered while initializing User32.dll");
-            e.printStackTrace();
+            MainClass.errorLog("Error encountered while initializing User32.dll", e);
         }
     }
 

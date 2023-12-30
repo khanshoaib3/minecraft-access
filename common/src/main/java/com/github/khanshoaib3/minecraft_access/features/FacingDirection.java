@@ -44,8 +44,7 @@ public class FacingDirection {
 
             MainClass.speakWithNarrator(toSpeak, true);
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred in DirectionNarrator.");
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred in DirectionNarrator.", e);
         }
     }
 }

@@ -149,10 +149,9 @@ public class InventoryControls {
                 }
             }
 
-            if(wasAnyKeyPressed) interval.start();
+            if (wasAnyKeyPressed) interval.start();
         } catch (Exception e) {
-            MainClass.errorLog("\nError encountered in Inventory Controls feature.");
-            e.printStackTrace();
+            MainClass.errorLog("Error encountered in Inventory Controls feature.", e);
         }
     }
 

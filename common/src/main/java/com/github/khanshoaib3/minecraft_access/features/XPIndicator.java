@@ -33,8 +33,7 @@ public class XPIndicator {
                     : I18n.translate("minecraft_access.xp_indicator.decreased", currentXPLevel);
             MainClass.speakWithNarrator(toSpeak, true);
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred in xp indicator.");
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred in xp indicator.", e);
         }
     }
 }

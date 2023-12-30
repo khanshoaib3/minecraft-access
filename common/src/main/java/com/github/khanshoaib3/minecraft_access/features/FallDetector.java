@@ -69,8 +69,7 @@ public class FallDetector {
             SearchNearbyPositions();
             MainClass.infoLog("Searching ended.");
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred in fall detector.");
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred in fall detector.", e);
         }
     }
 
