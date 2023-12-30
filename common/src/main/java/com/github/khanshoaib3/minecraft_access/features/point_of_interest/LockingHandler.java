@@ -63,7 +63,7 @@ public class LockingHandler {
             loadConfigurations();
             mainLogic();
         } catch (Exception e) {
-            e.printStackTrace();
+            MainClass.errorLog("An error while updating LockingHandler", e);
         }
     }
 

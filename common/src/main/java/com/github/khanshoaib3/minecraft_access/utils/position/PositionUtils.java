@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.utils.position;
 
+import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityProxy;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
@@ -76,7 +77,7 @@ public class PositionUtils {
             String posZ = getNarratableNumber(blockPos.getZ());
             return String.format("%s x %s y %s z", posX, posY, posZ);
         } catch (Exception e) {
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred when getting block position.", e);
         }
         return "";
     }

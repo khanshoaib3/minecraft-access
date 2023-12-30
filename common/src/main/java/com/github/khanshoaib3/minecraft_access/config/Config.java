@@ -56,8 +56,7 @@ public class Config {
             ConfigMap.setInstance(configMap);
 
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred while reading config.json file, resetting to default");
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred while reading config.json file, resetting to default", e);
             resetConfigToDefault();
         } finally {
             MainClass.infoLog("Loaded configurations from config.json");
@@ -81,8 +80,7 @@ public class Config {
             this.configMap = ConfigMap.buildDefault();
             writeJSON();
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred while resetting config.json file to default.");
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred while resetting config.json file to default.", e);
         }
     }
 
@@ -102,7 +100,7 @@ public class Config {
         try (Writer writer = new FileWriter(CONFIG_FILE_PATH)) {
             writer.write(gson.toJson(configMap));
         } catch (Exception e) {
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred while saving config.json file.", e);
         }
     }
 
