@@ -25,6 +25,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.Arrays;
@@ -34,6 +35,10 @@ import java.util.stream.Stream;
  * Opens a menu when F4 button is pressed (configurable) with few helpful options.
  */
 public class NarratorMenu {
+    /**
+     * Way more far than the Read Crosshair feature (6 blocks).
+     */
+    public static final double RAY_CAST_DISTANCE = 20.0;
     private static MinecraftClient minecraftClient;
     private static final MenuKeystroke menuKey;
     private static final Keystroke hotKey;
@@ -169,15 +174,8 @@ public class NarratorMenu {
 
     public static void getBlockAndFluidTargetInformation() {
         try {
-            if (minecraftClient.player == null) return;
-            if (minecraftClient.cameraEntity == null) return;
-            if (minecraftClient.world == null) return;
-
-            minecraftClient.player.closeScreen();
-
-            HitResult hit = minecraftClient.cameraEntity.raycast(20.0, 0.0f, true);
-            if (hit == null)
-                return;
+            HitResult hit = getBlockAndFluidHitResult();
+            if (hit == null) return;
 
             if (!minecraftClient.player.isSwimming() && !minecraftClient.player.isSubmergedInWater() && !minecraftClient.player.isInsideWaterOrBubbleColumn() && !minecraftClient.player.isInLava()
                     && checkForFluidHit(minecraftClient, hit, false)) return;
@@ -205,17 +203,21 @@ public class NarratorMenu {
         }
     }
 
+    @Nullable
+    private static HitResult getBlockAndFluidHitResult() {
+        if (minecraftClient.player == null) return null;
+        if (minecraftClient.cameraEntity == null) return null;
+        if (minecraftClient.world == null) return null;
+
+        minecraftClient.player.closeScreen();
+
+        return minecraftClient.cameraEntity.raycast(RAY_CAST_DISTANCE, 0.0f, true);
+    }
+
     public static void getBlockAndFluidTargetPosition() {
         try {
-            if (minecraftClient.player == null) return;
-            if (minecraftClient.cameraEntity == null) return;
-            if (minecraftClient.world == null) return;
-
-            minecraftClient.player.closeScreen();
-
-            HitResult hit = minecraftClient.cameraEntity.raycast(20.0, 0.0f, true);
-            if (hit == null)
-                return;
+            HitResult hit = getBlockAndFluidHitResult();
+            if (hit == null) return;
 
             if (!minecraftClient.player.isSwimming() && !minecraftClient.player.isSubmergedInWater() && !minecraftClient.player.isInsideWaterOrBubbleColumn() && !minecraftClient.player.isInLava()
                     && checkForFluidHit(minecraftClient, hit, true)) return;
