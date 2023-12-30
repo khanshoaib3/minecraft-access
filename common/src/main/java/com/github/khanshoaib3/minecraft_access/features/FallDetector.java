@@ -118,13 +118,13 @@ public class FallDetector {
     }
 
     private void checkForFall(BlockPos toCheck) {
-        MainClass.infoLog("%d) Checking fall for x:%d y:%d z:%d".formatted(++count, toCheck.getX(), toCheck.getY(), toCheck.getZ()));
 
         if (minecraftClient.world == null) return;
         if (!(minecraftClient.world.getBlockState(toCheck).isAir())) return;
 
         if (getDepth(toCheck, depth) < depth) return;
 
+        MainClass.infoLog("%d) Found qualified fall position: x:%d y:%d z:%d".formatted(++count, toCheck.getX(), toCheck.getY(), toCheck.getZ()));
         minecraftClient.world.playSoundAtBlockCenter(toCheck, SoundEvents.BLOCK_ANVIL_HIT, SoundCategory.BLOCKS, volume, 1f, true);
     }
 
