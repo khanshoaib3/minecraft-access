@@ -34,7 +34,6 @@ public class LockingHandler {
     private static final LockingHandler instance;
     public Entity lockedOnEntity = null;
     public Vec3d lockedOnBlock = null;
-    public Vec3d prevEntityPos = null;
     public boolean isLockedOntoLadder = false;
     public boolean isLockedOntoEyeOfEnderTarget = false; // The block where the eye of ender disappears
     public String lockedOnBlockEntries = "";
@@ -87,29 +86,24 @@ public class LockingHandler {
         if (minecraftClient.currentScreen != null) return;
 
         if (lockedOnEntity != null) {
+            // Since the entity is dead, we'll automatically unlock from it
             if (!lockedOnEntity.isAlive()) {
-                // Since the entity is dead, we'll automatically unlock from it
+                // When the eye of ender disappears, its isAlive() will also return false.
+                // Change the lock target to the last (block) position (somewhere floating in the air) where the eye of ender disappeared,
+                // so the player can continue walking until being under that position.
+                if (lockedOnEntity instanceof EyeOfEnderEntity) {
+                    lockedOnBlock = Vec3d.of(lockedOnEntity.getBlockPos());
+                    isLockedOntoEyeOfEnderTarget = true;
+                }
+
                 lockedOnEntity = null;
                 playUnlockingSound(minecraftClient);
                 return;
             }
 
-            double posX = lockedOnEntity.getX() - 0.5;
-            double posY = lockedOnEntity.getY() - 0.5;
-            double posZ = lockedOnEntity.getZ() - 0.5;
-            if (lockedOnEntity instanceof EyeOfEnderEntity)
-                prevEntityPos = new Vec3d(posX, posY, posZ);
-
-            Vec3d vec3d = new Vec3d(lockedOnEntity.getX(),
-                    lockedOnEntity.getY() + lockedOnEntity.getHeight() - 0.25, lockedOnEntity.getZ());
-            minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, vec3d);
-        }
-        else {
-            if (prevEntityPos != null) {
-                lockedOnBlock = prevEntityPos;
-                isLockedOntoEyeOfEnderTarget = true;
-                prevEntityPos = null;
-            }
+            double aboutEntityHeadHeight = lockedOnEntity.getY() + lockedOnEntity.getHeight() - 0.25;
+            Vec3d aboutEntityHeadPosition = new Vec3d(lockedOnEntity.getX(), aboutEntityHeadHeight, lockedOnEntity.getZ());
+            minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, aboutEntityHeadPosition);
         }
 
         if (isLockedOntoLadder) {
