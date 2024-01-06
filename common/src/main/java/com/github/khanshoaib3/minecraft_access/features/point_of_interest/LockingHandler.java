@@ -86,8 +86,6 @@ public class LockingHandler {
         if (minecraftClient.world == null) return;
         if (minecraftClient.currentScreen != null) return;
 
-        boolean isLockingKeyPressed = KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().lockingHandlerKey);
-
         if (lockedOnEntity != null) outer:{
             if (!lockedOnEntity.isAlive()) {
                 lockedOnEntity = null;
@@ -136,7 +134,9 @@ public class LockingHandler {
             }
         }
 
+        boolean isLockingKeyPressed = KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().lockingHandlerKey);
         if (!isLockingKeyPressed) return;
+
         // Control + Locking for POI marking feature
         if (Screen.hasControlDown()) return;
 
