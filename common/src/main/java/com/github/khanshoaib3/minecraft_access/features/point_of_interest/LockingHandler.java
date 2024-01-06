@@ -4,6 +4,7 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POILockingConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.position.PositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
@@ -12,7 +13,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EyeOfEnderEntity;
 import net.minecraft.sound.SoundEvents;
@@ -103,7 +103,7 @@ public class LockingHandler {
 
             double aboutEntityHeadHeight = lockedOnEntity.getY() + lockedOnEntity.getHeight() - 0.25;
             Vec3d aboutEntityHeadPosition = new Vec3d(lockedOnEntity.getX(), aboutEntityHeadHeight, lockedOnEntity.getZ());
-            minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, aboutEntityHeadPosition);
+            PlayerUtils.lookAt(aboutEntityHeadPosition);
         }
 
         if (isLockedOntoLadder) {
@@ -120,7 +120,7 @@ public class LockingHandler {
             BlockState blockState = minecraftClient.world.getBlockState(new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
             String entries = blockState.getEntries() + String.valueOf(blockState.getBlock()) + (new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
             if (entries.equalsIgnoreCase(lockedOnBlockEntries) || isLockedOntoEyeOfEnderTarget)
-                minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, lockedOnBlock);
+                PlayerUtils.lookAt(lockedOnBlock);
             else {
                 lockedOnBlockEntries = "";
                 isLockedOntoLadder = false;
