@@ -86,11 +86,12 @@ public class LockingHandler {
         if (minecraftClient.world == null) return;
         if (minecraftClient.currentScreen != null) return;
 
-        if (lockedOnEntity != null) outer:{
+        if (lockedOnEntity != null) {
             if (!lockedOnEntity.isAlive()) {
+                // Since the entity is dead, we'll automatically unlock from it
                 lockedOnEntity = null;
                 playUnlockingSound(minecraftClient);
-                break outer;
+                return;
             }
 
             double posX = lockedOnEntity.getX() - 0.5;
