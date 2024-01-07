@@ -105,12 +105,7 @@ public class LockingHandler {
         }
 
         boolean isLockingKeyPressed = KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().lockingHandlerKey);
-        if (!isLockingKeyPressed) return;
-
-        // "Control" + "Locking Key" combination for POI marking feature
-        if (Screen.hasControlDown()) return;
-
-        if (Screen.hasAltDown()) {
+        if (isLockingKeyPressed && Screen.hasAltDown()) {
             if (lockedOnEntity != null || lockedOnBlock != null) {
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.unlocked"), true);
                 lockedOnEntity = null;
@@ -119,9 +114,12 @@ public class LockingHandler {
                 isLockedOntoEyeOfEnderTarget = false;
                 playUnlockingSound();
             }
-            return;
+        } else if (isLockingKeyPressed) {
+            relock();
         }
+    }
 
+    private void relock() {
         if (!POIEntities.markedEntities.isEmpty()) {
             Entity entity = POIEntities.markedEntities.firstEntry().getValue();
             if (entity.isAlive()) {
