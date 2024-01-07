@@ -6,6 +6,7 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConf
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
+import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
@@ -20,6 +21,7 @@ import net.minecraft.entity.EyeOfEnderEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.List;
@@ -251,26 +253,15 @@ public class LockingHandler {
 
         unlock(false);
         lockedOnBlock = new BlockPos3d(nearestBlockPosition);
-        narrateBlockPosAndSetBlockEntries();
-    }
+        BlockState blockState = WorldUtils.getClientWorld().orElseThrow().getBlockState(lockedOnBlock);
+        lockedOnBlockEntries = blockState.getEntries().toString();
 
-    private void narrateBlockPosAndSetBlockEntries() {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.world == null) return;
-        if (lockedOnBlock == null) return;
-
-        BlockState blockState = client.world.getBlockState(lockedOnBlock);
-        lockedOnBlockEntries = blockState.getEntries() + String.valueOf(blockState.getBlock()) + (lockedOnBlock);
-
-        Block closestBlock = blockState.getBlock();
-
-        MutableText mutableText = (Text.literal("")).append(closestBlock.getName()); // post 1.19
-//            MutableText mutableText = (new net.minecraft.text.LiteralText("")).append(closestBlock.getName()); // pre 1.19
-        String text = mutableText.getString();
-
-        if (this.speakDistance)
-            text += " " + NarrationUtils.narrateRelativePositionOfPlayerAnd(lockedOnBlock);
-        MainClass.speakWithNarrator(text, true);
+        Pair<String, String> toSpeakAndCurrentQuery = NarrationUtils.narrateBlock(lockedOnBlock, "");
+        String toSpeak = toSpeakAndCurrentQuery.getLeft();
+        if (this.speakDistance) {
+            toSpeak += " " + NarrationUtils.narrateRelativePositionOfPlayerAnd(lockedOnBlock);
+        }
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", toSpeak), true);
     }
 
     private void playUnlockingSound() {
