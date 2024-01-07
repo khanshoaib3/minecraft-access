@@ -20,9 +20,7 @@ import net.minecraft.entity.EyeOfEnderEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
 
 import java.util.Map.Entry;
 
@@ -35,7 +33,7 @@ import java.util.Map.Entry;
 public class LockingHandler {
     private static final LockingHandler instance;
     public Entity lockedOnEntity = null;
-    public Vec3d lockedOnBlock = null;
+    public BlockPos3d lockedOnBlock = null;
     public boolean isLockedOntoEyeOfEnderTarget = false; // The block where the eye of ender disappears
     public String lockedOnBlockEntries = "";
     private Interval interval;
@@ -93,7 +91,7 @@ public class LockingHandler {
                 // Change the lock target to the last (block) position (somewhere floating in the air) where the eye of ender disappeared,
                 // so the player can continue walking until being under that position.
                 if (lockedOnEntity instanceof EyeOfEnderEntity) {
-                    lockedOnBlock = Vec3d.of(lockedOnEntity.getBlockPos());
+                    lockedOnBlock = BlockPos3d.of(lockedOnEntity.getBlockPos());
                     isLockedOntoEyeOfEnderTarget = true;
                 }
 
@@ -106,7 +104,7 @@ public class LockingHandler {
         }
 
         if (lockedOnBlock != null) {
-            BlockState blockState = minecraftClient.world.getBlockState(new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
+            BlockState blockState = minecraftClient.world.getBlockState(lockedOnBlock);
 
             if (Blocks.LADDER.equals(blockState.getBlock())) {
                 // Automatically unlock from the ladder after the player starting climbing the ladder.
@@ -114,7 +112,7 @@ public class LockingHandler {
                 // since the player position is player's leg (player standing y + 1),
                 // and the mod will lock on the ladder at the same height of the player head (player standing y + 2).
                 Vec3d playerPos = PlayerPositionUtils.getPlayerPosition().orElseThrow();
-                double distance = lockedOnBlock.distanceTo(playerPos);
+                double distance = lockedOnBlock.toCenterPos().distanceTo(playerPos);
                 if (distance <= 0.5) {
                     lockedOnBlock = null;
                     playUnlockingSound(minecraftClient);
@@ -122,7 +120,7 @@ public class LockingHandler {
                 }
             }
 
-            String entries = blockState.getEntries() + String.valueOf(blockState.getBlock()) + (new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
+            String entries = blockState.getEntries() + String.valueOf(blockState.getBlock()) + lockedOnBlock;
             if (entries.equalsIgnoreCase(lockedOnBlockEntries) || isLockedOntoEyeOfEnderTarget)
                 PlayerUtils.lookAt(lockedOnBlock);
             else {
@@ -316,34 +314,34 @@ public class LockingHandler {
         if (client.player == null) return;
 
         if (closest.equals(closestMarkedBlockDouble) && closestMarkedBlockDouble != -9999.0) {
-            lockedOnBlock = closestMarkedBlockEntry.getValue();
+            lockedOnBlock = new BlockPos3d(closestMarkedBlockEntry.getValue());
             lockedOnEntity = null;
         }
 
         if (closest.equals(closestOreBlockDouble) && closestOreBlockDouble != -9999.0) {
-            lockedOnBlock = closestOreBlockEntry.getValue();
+            lockedOnBlock = new BlockPos3d(closestOreBlockEntry.getValue());
             lockedOnEntity = null;
         } else if (closest.equals(closestDoorBlockDouble) && closestDoorBlockDouble != -9999.0) {
-            lockedOnBlock = NonCubeBlockAbsolutePositions.getDoorAbsolutePosition(client, closestDoorBlockEntry.getValue());
+            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getDoorAbsolutePosition(client, closestDoorBlockEntry.getValue()));
             lockedOnEntity = null;
         } else if (closest.equals(closestButtonBlockDouble) && closestButtonBlockDouble != -9999.0) {
-            lockedOnBlock = NonCubeBlockAbsolutePositions.getButtonsAbsolutePosition(client, closestButtonBlockEntry.getValue());
+            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getButtonsAbsolutePosition(client, closestButtonBlockEntry.getValue()));
             lockedOnEntity = null;
         } else if (closest.equals(closestLadderBlockDouble) && closestLadderBlockDouble != -9999.0) {
-            lockedOnBlock = NonCubeBlockAbsolutePositions.getLaddersAbsolutePosition(client, closestLadderBlockEntry.getValue());
+            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getLaddersAbsolutePosition(client, closestLadderBlockEntry.getValue()));
             lockedOnEntity = null;
         } else if (closest.equals(closestLeverBlockDouble) && closestLeverBlockDouble != -9999.0) {
-            lockedOnBlock = NonCubeBlockAbsolutePositions.getLeversAbsolutePosition(client, closestLeverBlockEntry.getValue());
+            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getLeversAbsolutePosition(client, closestLeverBlockEntry.getValue()));
             lockedOnEntity = null;
         } else if (closest.equals(closestTrapDoorBlockDouble) && closestTrapDoorBlockDouble != -9999.0) {
-            lockedOnBlock = NonCubeBlockAbsolutePositions.getTrapDoorAbsolutePosition(client, closestTrapDoorBlockEntry.getValue());
+            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getTrapDoorAbsolutePosition(client, closestTrapDoorBlockEntry.getValue()));
             lockedOnEntity = null;
         } else if (closest.equals(closestFluidBlockDouble) && closestFluidBlockDouble != -9999.0
                 && !client.player.isSwimming() && !client.player.isSubmergedInWater() && !client.player.isInsideWaterOrBubbleColumn() && !client.player.isInLava()) {
-            lockedOnBlock = closestFluidBlockEntry.getValue();
+            lockedOnBlock = new BlockPos3d(closestFluidBlockEntry.getValue());
             lockedOnEntity = null;
         } else if (closest.equals(closestOtherBlockDouble) && closestOtherBlockDouble != -9999.0) {
-            lockedOnBlock = closestOtherBlockEntry.getValue();
+            lockedOnBlock = new BlockPos3d(closestOtherBlockEntry.getValue());
             lockedOnEntity = null;
         }
     }
@@ -352,8 +350,8 @@ public class LockingHandler {
         if (client.world == null) return;
         if (lockedOnBlock == null) return;
 
-        BlockState blockState = client.world.getBlockState(new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
-        lockedOnBlockEntries = blockState.getEntries() + String.valueOf(blockState.getBlock()) + (new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
+        BlockState blockState = client.world.getBlockState(lockedOnBlock);
+        lockedOnBlockEntries = blockState.getEntries() + String.valueOf(blockState.getBlock()) + (lockedOnBlock);
 
         Block closestBlock = blockState.getBlock();
 
@@ -362,7 +360,7 @@ public class LockingHandler {
         String text = mutableText.getString();
 
         if (this.speakDistance)
-            text += " " + PositionUtils.getPositionDifference(new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
+            text += " " + PositionUtils.getPositionDifference(lockedOnBlock);
         MainClass.speakWithNarrator(text, true);
     }
 
