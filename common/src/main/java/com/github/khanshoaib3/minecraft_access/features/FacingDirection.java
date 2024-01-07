@@ -2,8 +2,8 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
-import com.github.khanshoaib3.minecraft_access.utils.position.PositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
@@ -28,7 +28,7 @@ public class FacingDirection {
             String toSpeak;
             if (isLeftAltPressed) {
                 int angle = new PlayerPositionUtils(minecraftClient).getVerticalFacingDirection();
-                toSpeak = PositionUtils.getNarratableNumber(angle);
+                toSpeak = NarrationUtils.narrateNumber(angle);
             } else {
 
                 /* TODO add to config and add left alt combination to readme
