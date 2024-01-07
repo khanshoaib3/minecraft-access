@@ -36,7 +36,6 @@ public abstract class EyeOfEnderEntityMixin extends Entity implements FlyingItem
         MainClass.lockingHandler.lockedOnEntity = this;
         MainClass.lockingHandler.lockedOnBlockEntries = "";
         MainClass.lockingHandler.lockedOnBlock = null;
-        MainClass.lockingHandler.isLockedOntoLadder = false;
 
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.tracking_eye_of_ender"), true);
     }
