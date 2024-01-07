@@ -2,7 +2,7 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.FluidDetectorConfigMap;
-import com.github.khanshoaib3.minecraft_access.utils.position.PositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
@@ -75,7 +75,7 @@ public class FluidDetector {
         minecraftClient.world.playSound(minecraftClient.player, closestFluidPos, SoundEvents.ENTITY_ITEM_PICKUP,
                 SoundCategory.BLOCKS, this.volume, 1f);
 
-        String posDifference = PositionUtils.getPositionDifference(closestFluidPos);
+        String posDifference = NarrationUtils.narrateRelativePositionOfPlayerAnd(closestFluidPos);
         String name = minecraftClient.world.getBlockState(closestFluidPos).getBlock().getName().getString();
 
         MainClass.speakWithNarrator(name + ", " + posDifference, true);
