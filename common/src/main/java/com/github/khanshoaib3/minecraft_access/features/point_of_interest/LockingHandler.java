@@ -96,7 +96,7 @@ public class LockingHandler {
                 }
 
                 lockedOnEntity = null;
-                playUnlockingSound(minecraftClient);
+                playUnlockingSound();
                 return;
             }
 
@@ -115,7 +115,7 @@ public class LockingHandler {
                 double distance = lockedOnBlock.toCenterPos().distanceTo(playerPos);
                 if (distance <= 0.5) {
                     lockedOnBlock = null;
-                    playUnlockingSound(minecraftClient);
+                    playUnlockingSound();
                     return;
                 }
             }
@@ -126,7 +126,7 @@ public class LockingHandler {
             else {
                 lockedOnBlockEntries = "";
                 lockedOnBlock = null;
-                playUnlockingSound(minecraftClient);
+                playUnlockingSound();
             }
         }
 
@@ -143,7 +143,7 @@ public class LockingHandler {
                 lockedOnBlockEntries = "";
                 lockedOnBlock = null;
                 isLockedOntoEyeOfEnderTarget = false;
-                playUnlockingSound(minecraftClient);
+                playUnlockingSound();
             }
             return;
         }
@@ -364,12 +364,9 @@ public class LockingHandler {
         MainClass.speakWithNarrator(text, true);
     }
 
-    private void playUnlockingSound(MinecraftClient client) {
+    private void playUnlockingSound() {
         if (!this.unlockingSound) return;
-        if (client.player == null) return;
-
-        float volume = 0.4f;
-        client.player.playSound(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM.value(), volume, 2f);
+        PlayerUtils.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, 0.4f, 2f);
     }
 
     public void setMarking(boolean marking) {
