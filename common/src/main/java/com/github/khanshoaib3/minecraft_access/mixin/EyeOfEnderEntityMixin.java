@@ -32,7 +32,7 @@ public abstract class EyeOfEnderEntityMixin extends Entity implements FlyingItem
         if (!POILockingConfigMap.getInstance().isAutoLockEyeOfEnderEntity())
             return;
 
-        MainClass.infoLog("Auto locking to eye of ender entity");
+        MainClass.infoLog("Auto locking on eye of ender entity");
         MainClass.lockingHandler.lockedOnEntity = this;
         MainClass.lockingHandler.lockedOnBlockEntries = "";
         MainClass.lockingHandler.lockedOnBlock = null;

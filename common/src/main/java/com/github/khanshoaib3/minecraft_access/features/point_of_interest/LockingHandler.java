@@ -103,9 +103,7 @@ public class LockingHandler {
             if (entriesOfLockedBlockNotChanged || isLockedOntoEyeOfEnderTarget)
                 PlayerUtils.lookAt(lockedOnBlock);
             else {
-                lockedOnBlockEntries = "";
-                lockedOnBlock = null;
-                playUnlockingSound();
+                unlock();
             }
         }
 
@@ -113,15 +111,19 @@ public class LockingHandler {
         if (isLockingKeyPressed && Screen.hasAltDown()) {
             if (lockedOnEntity != null || lockedOnBlock != null) {
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.unlocked"), true);
-                lockedOnEntity = null;
-                lockedOnBlockEntries = "";
-                lockedOnBlock = null;
-                isLockedOntoEyeOfEnderTarget = false;
-                playUnlockingSound();
+                unlock();
             }
         } else if (isLockingKeyPressed) {
             relock();
         }
+    }
+
+    private void unlock() {
+        lockedOnEntity = null;
+        lockedOnBlockEntries = "";
+        lockedOnBlock = null;
+        isLockedOntoEyeOfEnderTarget = false;
+        playUnlockingSound();
     }
 
     private void relock() {
@@ -178,8 +180,7 @@ public class LockingHandler {
             Vec3d playerPos = PlayerPositionUtils.getPlayerPosition().orElseThrow();
             double distance = lockedOnBlock.toCenterPos().distanceTo(playerPos);
             if (distance <= 0.5) {
-                lockedOnBlock = null;
-                playUnlockingSound();
+                unlock();
                 return true;
             }
         }
@@ -202,8 +203,7 @@ public class LockingHandler {
             isLockedOntoEyeOfEnderTarget = true;
         }
 
-        lockedOnEntity = null;
-        playUnlockingSound();
+        unlock();
         return true;
     }
 
