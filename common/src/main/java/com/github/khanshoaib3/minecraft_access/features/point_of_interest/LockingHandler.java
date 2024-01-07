@@ -6,6 +6,7 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConf
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
+import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.position.PositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import net.minecraft.block.Block;
@@ -110,8 +111,11 @@ public class LockingHandler {
             BlockState blockState = minecraftClient.world.getBlockState(new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
 
             if (Blocks.LADDER.equals(blockState.getBlock())) {
-                // Automatically unlock from the ladder if the player is close
-                Vec3d playerPos = minecraftClient.player.getPos();
+                // Automatically unlock from the ladder after the player starting climbing the ladder.
+                // When you stand directly in front of the ladder, the distance is 1.5,
+                // since the player position is player's leg (player standing y + 1),
+                // and the mod will lock on the ladder at the same height of the player head (player standing y + 2).
+                Vec3d playerPos = PlayerPositionUtils.getPlayerPosition().orElseThrow();
                 double distance = lockedOnBlock.distanceTo(playerPos);
                 if (distance <= 0.5) {
                     lockedOnBlock = null;
