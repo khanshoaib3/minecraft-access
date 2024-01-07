@@ -1,7 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.utils;
 
 import com.github.khanshoaib3.minecraft_access.features.point_of_interest.BlockPos3d;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
@@ -12,8 +11,6 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
-import java.util.Optional;
 
 /**
  * This class provides delegate calls to {@link ClientPlayerEntity}.

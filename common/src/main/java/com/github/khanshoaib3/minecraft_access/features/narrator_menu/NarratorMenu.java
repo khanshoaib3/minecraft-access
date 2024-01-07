@@ -9,6 +9,7 @@ import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderControl
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
+import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
@@ -177,8 +178,7 @@ public class NarratorMenu {
             HitResult hit = getBlockAndFluidHitResult();
             if (hit == null) return;
 
-            if (!minecraftClient.player.isSwimming() && !minecraftClient.player.isSubmergedInWater() && !minecraftClient.player.isInsideWaterOrBubbleColumn() && !minecraftClient.player.isInLava()
-                    && checkForFluidHit(minecraftClient, hit, false)) return;
+            if (!PlayerUtils.isInFluid() && checkForFluidHit(minecraftClient, hit, false)) return;
 
             switch (hit.getType()) {
                 case MISS, ENTITY -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
@@ -187,7 +187,7 @@ public class NarratorMenu {
                         BlockHitResult blockHit = (BlockHitResult) hit;
                         BlockPos blockPos = blockHit.getBlockPos();
 
-                        BlockState blockState = minecraftClient.world.getBlockState(blockPos);
+                        BlockState blockState = WorldUtils.getClientWorld().orElseThrow().getBlockState(blockPos);
                         Block block = blockState.getBlock();
                         MutableText mutableText = block.getName();
 
@@ -219,8 +219,7 @@ public class NarratorMenu {
             HitResult hit = getBlockAndFluidHitResult();
             if (hit == null) return;
 
-            if (!minecraftClient.player.isSwimming() && !minecraftClient.player.isSubmergedInWater() && !minecraftClient.player.isInsideWaterOrBubbleColumn() && !minecraftClient.player.isInLava()
-                    && checkForFluidHit(minecraftClient, hit, true)) return;
+            if (!PlayerUtils.isInFluid() && checkForFluidHit(minecraftClient, hit, true)) return;
 
             switch (hit.getType()) {
                 case MISS, ENTITY -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
