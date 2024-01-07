@@ -6,9 +6,9 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMa
 import com.github.khanshoaib3.minecraft_access.features.BiomeIndicator;
 import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
-import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
+import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
@@ -305,7 +305,7 @@ public class NarratorMenu {
 
             minecraftClient.player.closeScreen();
 
-            MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.xp", ClientPlayerEntityUtils.getExperienceLevel(), ClientPlayerEntityUtils.getExperienceProgress()), true);
+            MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.xp", PlayerUtils.getExperienceLevel(), PlayerUtils.getExperienceProgress()), true);
         } catch (Exception e) {
             MainClass.errorLog("An error occurred when getting XP.", e);
         }
