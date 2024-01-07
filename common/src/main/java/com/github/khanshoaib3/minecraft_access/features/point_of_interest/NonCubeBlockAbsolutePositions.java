@@ -10,8 +10,8 @@ import net.minecraft.util.math.Vec3d;
 import java.util.Map;
 
 /**
- * The natural position of the block is generally considered to be the center of the block (x.5,y.5,z.5).
- * Some blocks do not occupy the entire cube space, and for those of them that can be interacted with (thus should be locked),
+ * The position of the block (blockPos.toCenterPos()) is generally considered to be the center of the block (x.5,y.5,z.5).
+ * Some blocks do not occupy the entire cube space, and for some of those that can be interacted with (thus need can be locked via POI Locking),
  * we manually calculate the locking position of these blocks (which are usually not the center of the block) by these methods.
  */
 public class NonCubeBlockAbsolutePositions {
