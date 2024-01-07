@@ -1,30 +1,15 @@
 package com.github.khanshoaib3.minecraft_access.utils.position;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 /**
  * Functions about getting blocks' position.
  */
 public class PositionUtils {
-
-    public static String getPosition(BlockPos blockPos) {
-        try {
-            String posX = NarrationUtils.narrateNumber(blockPos.getX());
-            String posY = NarrationUtils.narrateNumber(blockPos.getY());
-            String posZ = NarrationUtils.narrateNumber(blockPos.getZ());
-            return String.format("%s x %s y %s z", posX, posY, posZ);
-        } catch (Exception e) {
-            MainClass.errorLog("An error occurred when getting block position.", e);
-        }
-        return "";
-    }
 
     /**
      * To indicate relative location between player and target.
