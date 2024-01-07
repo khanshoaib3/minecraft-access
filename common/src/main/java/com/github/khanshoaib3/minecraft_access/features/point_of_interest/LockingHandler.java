@@ -42,7 +42,7 @@ public class LockingHandler {
     private boolean speakDistance;
     private boolean unlockingSound;
 
-    private boolean marking = false;
+    private boolean onPOIMarkingNow = false;
 
     static {
         instance = new LockingHandler();
@@ -94,8 +94,13 @@ public class LockingHandler {
 
             if (unlockFromLadderIfClimbingOnIt(blockState)) return;
 
+            // Entries are different shape of blocks when they're in different states,
+            // for example, opened chest and closed chest are different states of chest block,
+            // they are different entries when invoking getEntries().
             String entries = blockState.getEntries() + String.valueOf(blockState.getBlock()) + lockedOnBlock;
-            if (entries.equalsIgnoreCase(lockedOnBlockEntries) || isLockedOntoEyeOfEnderTarget)
+            boolean entriesOfLockedBlockNotChanged = entries.equalsIgnoreCase(lockedOnBlockEntries);
+
+            if (entriesOfLockedBlockNotChanged || isLockedOntoEyeOfEnderTarget)
                 PlayerUtils.lookAt(lockedOnBlock);
             else {
                 lockedOnBlockEntries = "";
@@ -128,7 +133,7 @@ public class LockingHandler {
             }
         }
 
-        if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+        if (onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
             if (POIBlocks.markedBlocks.isEmpty()) {
                 return;
             } else {
@@ -387,6 +392,6 @@ public class LockingHandler {
     }
 
     public void setMarking(boolean marking) {
-        this.marking = marking;
+        this.onPOIMarkingNow = marking;
     }
 }
