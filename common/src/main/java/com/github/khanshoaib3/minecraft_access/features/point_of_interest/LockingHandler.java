@@ -211,9 +211,11 @@ public class LockingHandler {
         unlock(false);
         lockedOnEntity = entity;
 
-        String text = entity.getName().getString();
-        if (this.speakDistance) text += " " + NarrationUtils.narrateRelativePositionOfPlayerAnd(entity.getBlockPos());
-        MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", text), true);
+        String narration = NarrationUtils.narrateEntity(entity);
+        if (this.speakDistance){
+            narration += " " + NarrationUtils.narrateRelativePositionOfPlayerAnd(entity.getBlockPos());
+        }
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", narration), true);
     }
 
     private void determineClosestEntriesAndLock() {
