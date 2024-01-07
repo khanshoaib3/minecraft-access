@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIBlocksConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
+import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.*;
@@ -184,7 +185,7 @@ public class POIBlocks {
         if (markedBlock.test(blockState)) {
             markedBlocks.put(diff, blockVec3dPos);
             soundType = "mark";
-        } else if (this.detectFluidBlocks && block instanceof FluidBlock) {
+        } else if (this.detectFluidBlocks && block instanceof FluidBlock && !PlayerUtils.isInFluid()) {
             FluidState fluidState = minecraftClient.world.getFluidState(blockPos);
             if (fluidState.getLevel() == 8) {
                 fluidBlocks.put(diff, blockVec3dPos);

@@ -22,7 +22,10 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.TreeMap;
 
 /**
  * Locks on to the nearest entity or block.<br><br>
@@ -218,147 +221,37 @@ public class LockingHandler {
     }
 
     private void determineClosestEntriesAndLock() {
-        Double closest = -9999.0;
+        Double minPlayerDistance = Double.MAX_VALUE;
+        Vec3d nearestBlockPosition = null;
 
-        Entry<Double, Vec3d> closestDoorBlockEntry = null;
-        Double closestDoorBlockDouble = -9999.0;
-        if (!POIBlocks.doorBlocks.isEmpty()) {
-            closestDoorBlockEntry = POIBlocks.doorBlocks.firstEntry();
-            closestDoorBlockDouble = closestDoorBlockEntry.getKey();
-            closest = closestDoorBlockDouble;
+        List<TreeMap<Double, Vec3d>> scannedBlockMaps = List.of(
+                POIBlocks.doorBlocks,
+                POIBlocks.buttonBlocks,
+                POIBlocks.ladderBlocks,
+                POIBlocks.leverBlocks,
+                POIBlocks.trapDoorBlocks,
+                POIBlocks.otherBlocks,
+                POIBlocks.oreBlocks,
+                POIBlocks.fluidBlocks,
+                POIBlocks.markedBlocks
+        );
+
+        for (TreeMap<Double, Vec3d> map : scannedBlockMaps) {
+            if (!map.isEmpty()) {
+                Entry<Double, Vec3d> closestOneInThisType = map.firstEntry();
+                Double distanceWithPlayer = closestOneInThisType.getKey();
+                if (distanceWithPlayer < minPlayerDistance) {
+                    minPlayerDistance = distanceWithPlayer;
+                    nearestBlockPosition = closestOneInThisType.getValue();
+                }
+            }
         }
 
-        Entry<Double, Vec3d> closestButtonBlockEntry = null;
-        Double closestButtonBlockDouble = -9999.0;
-        if (!POIBlocks.buttonBlocks.isEmpty()) {
-            closestButtonBlockEntry = POIBlocks.buttonBlocks.firstEntry();
-            closestButtonBlockDouble = closestButtonBlockEntry.getKey();
-            closest = closestButtonBlockDouble;
-        }
+        if (Objects.isNull(nearestBlockPosition)) return;
 
-        Entry<Double, Vec3d> closestLadderBlockEntry = null;
-        Double closestLadderBlockDouble = -9999.0;
-        if (!POIBlocks.ladderBlocks.isEmpty()) {
-            closestLadderBlockEntry = POIBlocks.ladderBlocks.firstEntry();
-            closestLadderBlockDouble = closestLadderBlockEntry.getKey();
-            closest = closestLadderBlockDouble;
-        }
-
-        Entry<Double, Vec3d> closestLeverBlockEntry = null;
-        Double closestLeverBlockDouble = -9999.0;
-        if (!POIBlocks.leverBlocks.isEmpty()) {
-            closestLeverBlockEntry = POIBlocks.leverBlocks.firstEntry();
-            closestLeverBlockDouble = closestLeverBlockEntry.getKey();
-            closest = closestLeverBlockDouble;
-        }
-
-        Entry<Double, Vec3d> closestTrapDoorBlockEntry = null;
-        Double closestTrapDoorBlockDouble = -9999.0;
-        if (!POIBlocks.trapDoorBlocks.isEmpty()) {
-            closestTrapDoorBlockEntry = POIBlocks.trapDoorBlocks.firstEntry();
-            closestTrapDoorBlockDouble = closestTrapDoorBlockEntry.getKey();
-            closest = closestTrapDoorBlockDouble;
-        }
-
-        Entry<Double, Vec3d> closestFluidBlockEntry = null;
-        Double closestFluidBlockDouble = -9999.0;
-        if (!POIBlocks.fluidBlocks.isEmpty()) {
-            closestFluidBlockEntry = POIBlocks.fluidBlocks.firstEntry();
-            closestFluidBlockDouble = closestFluidBlockEntry.getKey();
-            closest = closestFluidBlockDouble;
-        }
-
-        Entry<Double, Vec3d> closestOtherBlockEntry = null;
-        Double closestOtherBlockDouble = -9999.0;
-        if (!POIBlocks.otherBlocks.isEmpty()) {
-            closestOtherBlockEntry = POIBlocks.otherBlocks.firstEntry();
-            closestOtherBlockDouble = closestOtherBlockEntry.getKey();
-            closest = closestOtherBlockDouble;
-        }
-
-        Entry<Double, Vec3d> closestOreBlockEntry = null;
-        Double closestOreBlockDouble = -9999.0;
-        if (!POIBlocks.oreBlocks.isEmpty()) {
-            closestOreBlockEntry = POIBlocks.oreBlocks.firstEntry();
-            closestOreBlockDouble = closestOreBlockEntry.getKey();
-            closest = closestOreBlockDouble;
-        }
-
-        Entry<Double, Vec3d> closestMarkedBlockEntry = null;
-        Double closestMarkedBlockDouble = -9999.0;
-        if (!POIBlocks.markedBlocks.isEmpty()) {
-            closestMarkedBlockEntry = POIBlocks.markedBlocks.firstEntry();
-            closestMarkedBlockDouble = closestMarkedBlockEntry.getKey();
-            closest = closestMarkedBlockDouble;
-        }
-
-        if (closest == -9999.0) return;
-
-        if (closestDoorBlockDouble != -9999.0)
-            closest = Math.min(closest, closestDoorBlockDouble);
-        if (closestButtonBlockDouble != -9999.0)
-            closest = Math.min(closest, closestButtonBlockDouble);
-        if (closestLadderBlockDouble != -9999.0)
-            closest = Math.min(closest, closestLadderBlockDouble);
-        if (closestLeverBlockDouble != -9999.0)
-            closest = Math.min(closest, closestLeverBlockDouble);
-        if (closestTrapDoorBlockDouble != -9999.0)
-            closest = Math.min(closest, closestTrapDoorBlockDouble);
-        if (closestOreBlockDouble != -9999.0)
-            closest = Math.min(closest, closestOreBlockDouble);
-        if (closestOtherBlockDouble != -9999.0)
-            closest = Math.min(closest, closestOtherBlockDouble);
-
-        lockOnBlock(closest, closestDoorBlockEntry,
-                closestDoorBlockDouble, closestButtonBlockEntry, closestButtonBlockDouble,
-                closestLadderBlockEntry, closestLadderBlockDouble, closestLeverBlockEntry,
-                closestLeverBlockDouble, closestTrapDoorBlockEntry, closestTrapDoorBlockDouble,
-                closestFluidBlockEntry, closestFluidBlockDouble, closestOtherBlockEntry,
-                closestOtherBlockDouble, closestOreBlockEntry, closestOreBlockDouble,
-                closestMarkedBlockEntry, closestMarkedBlockDouble);
-
+        unlock(false);
+        lockedOnBlock = new BlockPos3d(nearestBlockPosition);
         narrateBlockPosAndSetBlockEntries();
-    }
-
-    private void lockOnBlock(Double closest,
-                             Entry<Double, Vec3d> closestDoorBlockEntry, Double closestDoorBlockDouble,
-                             Entry<Double, Vec3d> closestButtonBlockEntry, Double closestButtonBlockDouble,
-                             Entry<Double, Vec3d> closestLadderBlockEntry, Double closestLadderBlockDouble,
-                             Entry<Double, Vec3d> closestLeverBlockEntry, Double closestLeverBlockDouble,
-                             Entry<Double, Vec3d> closestTrapDoorBlockEntry, Double closestTrapDoorBlockDouble,
-                             Entry<Double, Vec3d> closestFluidBlockEntry, Double closestFluidBlockDouble,
-                             Entry<Double, Vec3d> closestOtherBlockEntry, Double closestOtherBlockDouble,
-                             Entry<Double, Vec3d> closestOreBlockEntry, Double closestOreBlockDouble,
-                             Entry<Double, Vec3d> closestMarkedBlockEntry, Double closestMarkedBlockDouble) {
-
-        if (closest.equals(closestMarkedBlockDouble) && closestMarkedBlockDouble != -9999.0) {
-            lockedOnBlock = new BlockPos3d(closestMarkedBlockEntry.getValue());
-            lockedOnEntity = null;
-        } else if (closest.equals(closestOreBlockDouble) && closestOreBlockDouble != -9999.0) {
-            lockedOnBlock = new BlockPos3d(closestOreBlockEntry.getValue());
-            lockedOnEntity = null;
-        } else if (closest.equals(closestDoorBlockDouble) && closestDoorBlockDouble != -9999.0) {
-            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getDoorAbsolutePosition(closestDoorBlockEntry.getValue()));
-            lockedOnEntity = null;
-        } else if (closest.equals(closestButtonBlockDouble) && closestButtonBlockDouble != -9999.0) {
-            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getButtonsAbsolutePosition(closestButtonBlockEntry.getValue()));
-            lockedOnEntity = null;
-        } else if (closest.equals(closestLadderBlockDouble) && closestLadderBlockDouble != -9999.0) {
-            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getLaddersAbsolutePosition(closestLadderBlockEntry.getValue()));
-            lockedOnEntity = null;
-        } else if (closest.equals(closestLeverBlockDouble) && closestLeverBlockDouble != -9999.0) {
-            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getLeversAbsolutePosition(closestLeverBlockEntry.getValue()));
-            lockedOnEntity = null;
-        } else if (closest.equals(closestTrapDoorBlockDouble) && closestTrapDoorBlockDouble != -9999.0) {
-            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getTrapDoorAbsolutePosition(closestTrapDoorBlockEntry.getValue()));
-            lockedOnEntity = null;
-        } else if (closest.equals(closestFluidBlockDouble) && closestFluidBlockDouble != -9999.0 && !PlayerUtils.isInFluid()) {
-            lockedOnBlock = new BlockPos3d(closestFluidBlockEntry.getValue());
-            lockedOnEntity = null;
-        } else if (closest.equals(closestOtherBlockDouble) && closestOtherBlockDouble != -9999.0) {
-            lockedOnBlock = new BlockPos3d(closestOtherBlockEntry.getValue());
-            lockedOnEntity = null;
-        }
     }
 
     private void narrateBlockPosAndSetBlockEntries() {
