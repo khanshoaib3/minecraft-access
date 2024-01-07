@@ -107,7 +107,7 @@ public class LockingHandler {
         boolean isLockingKeyPressed = KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().lockingHandlerKey);
         if (!isLockingKeyPressed) return;
 
-        // Control + Locking for POI marking feature
+        // "Control" + "Locking Key" combination for POI marking feature
         if (Screen.hasControlDown()) return;
 
         if (Screen.hasAltDown()) {
@@ -135,7 +135,7 @@ public class LockingHandler {
                 return;
             } else {
                 // Skip entity locking logic
-                determineClosestEntriesAndLock(minecraftClient);
+                determineClosestEntriesAndLock();
             }
         }
 
@@ -157,7 +157,7 @@ public class LockingHandler {
 
         if (!this.lockOnBlocks) return;
 
-        determineClosestEntriesAndLock(minecraftClient);
+        determineClosestEntriesAndLock();
     }
 
     /**
@@ -215,7 +215,7 @@ public class LockingHandler {
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", text), true);
     }
 
-    private void determineClosestEntriesAndLock(MinecraftClient minecraftClient) {
+    private void determineClosestEntriesAndLock() {
         Double closest = -9999.0;
 
         Entry<Double, Vec3d> closestDoorBlockEntry = null;
@@ -307,7 +307,7 @@ public class LockingHandler {
         if (closestOtherBlockDouble != -9999.0)
             closest = Math.min(closest, closestOtherBlockDouble);
 
-        lockOntoBlocksOrPassiveEntity(minecraftClient, closest, closestDoorBlockEntry,
+        lockOntoBlocksOrPassiveEntity(closest, closestDoorBlockEntry,
                 closestDoorBlockDouble, closestButtonBlockEntry, closestButtonBlockDouble,
                 closestLadderBlockEntry, closestLadderBlockDouble, closestLeverBlockEntry,
                 closestLeverBlockDouble, closestTrapDoorBlockEntry, closestTrapDoorBlockDouble,
@@ -315,10 +315,10 @@ public class LockingHandler {
                 closestOtherBlockDouble, closestOreBlockEntry, closestOreBlockDouble,
                 closestMarkedBlockEntry, closestMarkedBlockDouble);
 
-        narrateBlockPosAndSetBlockEntries(minecraftClient);
+        narrateBlockPosAndSetBlockEntries();
     }
 
-    private void lockOntoBlocksOrPassiveEntity(MinecraftClient client, Double closest,
+    private void lockOntoBlocksOrPassiveEntity(Double closest,
                                                Entry<Double, Vec3d> closestDoorBlockEntry, Double closestDoorBlockDouble,
                                                Entry<Double, Vec3d> closestButtonBlockEntry, Double closestButtonBlockDouble,
                                                Entry<Double, Vec3d> closestLadderBlockEntry, Double closestLadderBlockDouble,
@@ -328,7 +328,7 @@ public class LockingHandler {
                                                Entry<Double, Vec3d> closestOtherBlockEntry, Double closestOtherBlockDouble,
                                                Entry<Double, Vec3d> closestOreBlockEntry, Double closestOreBlockDouble,
                                                Entry<Double, Vec3d> closestMarkedBlockEntry, Double closestMarkedBlockDouble) {
-
+        MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null) return;
 
         if (closest.equals(closestMarkedBlockDouble) && closestMarkedBlockDouble != -9999.0) {
@@ -364,7 +364,8 @@ public class LockingHandler {
         }
     }
 
-    private void narrateBlockPosAndSetBlockEntries(MinecraftClient client) {
+    private void narrateBlockPosAndSetBlockEntries() {
+        MinecraftClient client = MinecraftClient.getInstance();
         if (client.world == null) return;
         if (lockedOnBlock == null) return;
 
