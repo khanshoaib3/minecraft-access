@@ -85,40 +85,14 @@ public class LockingHandler {
         if (minecraftClient.currentScreen != null) return;
 
         if (lockedOnEntity != null) {
-            // Since the entity is dead, we'll automatically unlock from it
-            if (!lockedOnEntity.isAlive()) {
-                // When the eye of ender disappears, its isAlive() will also return false.
-                // Change the lock target to the last (block) position (somewhere floating in the air) where the eye of ender disappeared,
-                // so the player can continue walking until being under that position.
-                if (lockedOnEntity instanceof EyeOfEnderEntity) {
-                    lockedOnBlock = BlockPos3d.of(lockedOnEntity.getBlockPos());
-                    isLockedOntoEyeOfEnderTarget = true;
-                }
-
-                lockedOnEntity = null;
-                playUnlockingSound();
-                return;
-            }
-
+            if (unlockFromDeadEntity()) return;
             PlayerUtils.lookAt(lockedOnEntity);
         }
 
         if (lockedOnBlock != null) {
             BlockState blockState = minecraftClient.world.getBlockState(lockedOnBlock);
 
-            if (Blocks.LADDER.equals(blockState.getBlock())) {
-                // Automatically unlock from the ladder after the player starting climbing the ladder.
-                // When you stand directly in front of the ladder, the distance is 1.5,
-                // since the player position is player's leg (player standing y + 1),
-                // and the mod will lock on the ladder at the same height of the player head (player standing y + 2).
-                Vec3d playerPos = PlayerPositionUtils.getPlayerPosition().orElseThrow();
-                double distance = lockedOnBlock.toCenterPos().distanceTo(playerPos);
-                if (distance <= 0.5) {
-                    lockedOnBlock = null;
-                    playUnlockingSound();
-                    return;
-                }
-            }
+            if (unlockFromLadderIfClimbingOnIt(blockState)) return;
 
             String entries = blockState.getEntries() + String.valueOf(blockState.getBlock()) + lockedOnBlock;
             if (entries.equalsIgnoreCase(lockedOnBlockEntries) || isLockedOntoEyeOfEnderTarget)
@@ -184,6 +158,50 @@ public class LockingHandler {
         if (!this.lockOnBlocks) return;
 
         determineClosestEntriesAndLock(minecraftClient);
+    }
+
+    /**
+     * Automatically unlock from the ladder after the player starting climbing the ladder.
+     * When you stand directly in front of the ladder, the distance is 1.5,
+     * since the player position is player's leg (player standing y + 1),
+     * and the mod will lock on the ladder at the same height of the player head (player standing y + 2).
+     *
+     * @param blockState state of locked block, taken from world
+     * @return true if unlocked
+     */
+    private boolean unlockFromLadderIfClimbingOnIt(BlockState blockState) {
+        if (Blocks.LADDER.equals(blockState.getBlock())) {
+
+            Vec3d playerPos = PlayerPositionUtils.getPlayerPosition().orElseThrow();
+            double distance = lockedOnBlock.toCenterPos().distanceTo(playerPos);
+            if (distance <= 0.5) {
+                lockedOnBlock = null;
+                playUnlockingSound();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * If the entity has dead, we'll automatically unlock from it.
+     *
+     * @return true if unlocked
+     */
+    private boolean unlockFromDeadEntity() {
+        if (!lockedOnEntity.isAlive()) return false;
+
+        // When the eye of ender disappears, its isAlive() will also return false.
+        // Change the lock target to the last (block) position (somewhere floating in the air) where the eye of ender disappeared,
+        // so the player can continue walking until being under that position.
+        if (lockedOnEntity instanceof EyeOfEnderEntity) {
+            lockedOnBlock = BlockPos3d.of(lockedOnEntity.getBlockPos());
+            isLockedOntoEyeOfEnderTarget = true;
+        }
+
+        lockedOnEntity = null;
+        playUnlockingSound();
+        return true;
     }
 
     private void lockOnEntity(Entity entity) {
