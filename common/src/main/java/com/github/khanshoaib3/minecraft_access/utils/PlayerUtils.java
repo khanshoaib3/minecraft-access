@@ -48,4 +48,18 @@ public class PlayerUtils {
     public static void lookAt(BlockPos3d position) {
         lookAt(position.getAccuratePosition());
     }
+
+    public static int getExperienceLevel() {
+        if (MinecraftClient.getInstance() == null) return -999;
+        if (MinecraftClient.getInstance().player == null) return -999;
+
+        return MinecraftClient.getInstance().player.experienceLevel;
+    }
+
+    public static int getExperienceProgress() {
+        if (MinecraftClient.getInstance() == null) return -999;
+        if (MinecraftClient.getInstance().player == null) return -999;
+
+        return (int) (MinecraftClient.getInstance().player.experienceProgress * 100);
+    }
 }
