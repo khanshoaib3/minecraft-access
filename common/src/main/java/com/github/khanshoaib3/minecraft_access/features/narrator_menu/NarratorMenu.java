@@ -11,7 +11,6 @@ import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
-import com.github.khanshoaib3.minecraft_access.utils.position.PositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -229,7 +228,7 @@ public class NarratorMenu {
                     try {
                         BlockHitResult blockHitResult = (BlockHitResult) hit;
                         BlockPos blockPos = blockHitResult.getBlockPos();
-                        MainClass.speakWithNarrator(PositionUtils.getPosition(blockPos), true);
+                        MainClass.speakWithNarrator(NarrationUtils.narrateCoordinatesOf(blockPos), true);
                     } catch (Exception e) {
                         MainClass.errorLog("An error occurred when speaking block position.", e);
                     }
@@ -255,7 +254,7 @@ public class NarratorMenu {
                 name = name.replace("block.minecraft.", ""); // Remove `block.minecraft.` for unsupported languages
 
             if (onlyPosition) {
-                MainClass.speakWithNarrator(PositionUtils.getPosition(blockPos), true);
+                MainClass.speakWithNarrator(NarrationUtils.narrateCoordinatesOf(blockPos), true);
                 return true;
             }
 

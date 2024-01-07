@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.utils;
 
+import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
@@ -135,5 +136,17 @@ public class NarrationUtils {
 
     public static String getDifferenceString(int blocks, String key1, String key2) {
         return I18n.translate("minecraft_access.util.position_difference_" + (blocks < 0 ? key1 : key2), Math.abs(blocks));
+    }
+
+    public static String narrateCoordinatesOf(BlockPos blockPos) {
+        try {
+            String posX = narrateNumber(blockPos.getX());
+            String posY = narrateNumber(blockPos.getY());
+            String posZ = narrateNumber(blockPos.getZ());
+            return String.format("%s x %s y %s z", posX, posY, posZ);
+        } catch (Exception e) {
+            MainClass.errorLog("An error occurred when getting position narration.", e);
+            return "";
+        }
     }
 }
