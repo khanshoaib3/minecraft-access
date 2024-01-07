@@ -6,6 +6,7 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.RCRelativePosi
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.mixin.MobSpawnerLogicAccessor;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
+import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
@@ -114,11 +115,7 @@ public class ReadCrosshair {
 
             if (blockHit == null) return;
 
-            boolean playerIsInFluid = minecraftClient.player.isSwimming()
-                    || minecraftClient.player.isSubmergedInWater()
-                    || minecraftClient.player.isInsideWaterOrBubbleColumn()
-                    || minecraftClient.player.isInLava();
-
+            boolean playerIsInFluid = PlayerUtils.isInFluid();
             boolean playerLooksAtFluid = checkForFluidHit(minecraftClient, fluidHit);
 
             if (playerIsInFluid && playerLooksAtFluid) return;

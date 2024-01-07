@@ -62,4 +62,12 @@ public class PlayerUtils {
 
         return (int) (MinecraftClient.getInstance().player.experienceProgress * 100);
     }
+
+    public static boolean isInFluid() {
+        ClientPlayerEntity player = WorldUtils.getClientPlayer().orElseThrow();
+        return player.isSwimming()
+                || player.isSubmergedInWater()
+                || player.isInsideWaterOrBubbleColumn()
+                || player.isInLava();
+    }
 }
