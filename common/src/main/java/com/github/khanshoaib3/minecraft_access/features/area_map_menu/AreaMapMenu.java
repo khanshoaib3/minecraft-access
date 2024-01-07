@@ -2,9 +2,9 @@ package com.github.khanshoaib3.minecraft_access.features.area_map_menu;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.AreaMapConfigMap;
-import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
-import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
+import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.condition.IntervalKeystroke;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
@@ -171,7 +171,7 @@ public class AreaMapMenu {
 
         this.cursor = nextStep;
         MainClass.infoLog("Cursor moves " + direction + ": " + cursor);
-        Pair<String, String> blockDescription = ReadCrosshair.getInstance().describeBlock(this.cursor, "");
+        Pair<String, String> blockDescription = NarrationUtils.narrateBlock(this.cursor, "");
         MainClass.speakWithNarrator(blockDescription.getLeft(), true);
         // TODO Alt + speak position key
 //        MainClass.speakWithNarrator(blockDescription.getLeft() + I18n.translate("minecraft_access.other.words_connection") + PlayerPositionUtils.getI18NPosition(), true);
