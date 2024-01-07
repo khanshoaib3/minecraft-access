@@ -102,9 +102,7 @@ public class LockingHandler {
                 return;
             }
 
-            double aboutEntityHeadHeight = lockedOnEntity.getY() + lockedOnEntity.getHeight() - 0.25;
-            Vec3d aboutEntityHeadPosition = new Vec3d(lockedOnEntity.getX(), aboutEntityHeadHeight, lockedOnEntity.getZ());
-            PlayerUtils.lookAt(aboutEntityHeadPosition);
+            PlayerUtils.lookAt(lockedOnEntity);
         }
 
         if (lockedOnBlock != null) {
