@@ -1,10 +1,11 @@
 package com.github.khanshoaib3.minecraft_access.utils.position;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
+import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -107,6 +108,11 @@ public class PositionUtils {
         double volumeDeltaPerBlock = (maxVolume - minVolume) / maxDistance;
         float volume = (float) (minVolume + (maxDistance - distance) * volumeDeltaPerBlock);
 
-        PlayerUtils.playSoundOnPosition(sound, volume, pitch, targetPosition);
+        playSoundAtPosition(sound, volume, pitch, targetPosition);
+    }
+
+    public static void playSoundAtPosition(RegistryEntry.Reference<SoundEvent> sound, float volume, float pitch, Vec3d position) {
+        // note that the useDistance param only works for positions 100 blocks away, check its code.
+        WorldUtils.getClientWorld().orElseThrow().playSound(position.x, position.y, position.z, sound.value(), SoundCategory.BLOCKS, volume, pitch, true);
     }
 }
