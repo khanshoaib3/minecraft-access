@@ -18,7 +18,7 @@ import java.util.Optional;
  * we manually calculate the locking position of these blocks (which are usually not the center of the block) by these methods.
  */
 public class NonCubeBlockAbsolutePositions {
-    public static Vec3d getTrapDoorAbsolutePosition(Vec3d blockPos) {
+    public static Vec3d getTrapDoorPos(Vec3d blockPos) {
         Optional<ClientWorld> world = WorldUtils.getClientWorld();
         if (world.isEmpty()) return blockPos;
 
@@ -61,7 +61,7 @@ public class NonCubeBlockAbsolutePositions {
         return new Vec3d(x, y, z);
     }
 
-    public static Vec3d getLeversAbsolutePosition(Vec3d blockPos) {
+    public static Vec3d getLeverPos(Vec3d blockPos) {
         Optional<ClientWorld> world = WorldUtils.getClientWorld();
         if (world.isEmpty()) return blockPos;
 
@@ -102,7 +102,7 @@ public class NonCubeBlockAbsolutePositions {
         return new Vec3d(x, y, z);
     }
 
-    public static Vec3d getLaddersAbsolutePosition(Vec3d blockPos) {
+    public static Vec3d getLadderPos(Vec3d blockPos) {
         Optional<ClientWorld> world = WorldUtils.getClientWorld();
         if (world.isEmpty()) return blockPos;
 
@@ -135,7 +135,7 @@ public class NonCubeBlockAbsolutePositions {
         return new Vec3d(x, y, z);
     }
 
-    public static Vec3d getButtonsAbsolutePosition(Vec3d blockPos) {
+    public static Vec3d getButtonPos(Vec3d blockPos) {
         Optional<ClientWorld> world = WorldUtils.getClientWorld();
         if (world.isEmpty()) return blockPos;
 
@@ -175,7 +175,7 @@ public class NonCubeBlockAbsolutePositions {
         return new Vec3d(x, y, z);
     }
 
-    public static Vec3d getDoorAbsolutePosition(Vec3d blockPos) {
+    public static Vec3d getDoorPos(Vec3d blockPos) {
         Optional<ClientWorld> world = WorldUtils.getClientWorld();
         if (world.isEmpty()) return blockPos;
 
