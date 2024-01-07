@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
         MockConfigExtension.class,
         MockMinecraftClientExtension.class,
         MockPlayerPositionUtilsExtension.class,
-        MockClientPlayerEntityProxyExtension.class,
+        MockPlayerUtilsExtension.class,
         MockIntervalExtension.class
 })
 public @interface FeatureText {

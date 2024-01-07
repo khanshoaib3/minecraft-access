@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.utils.position;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityProxy;
+import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -107,6 +107,6 @@ public class PositionUtils {
         double volumeDeltaPerBlock = (maxVolume - minVolume) / maxDistance;
         float volume = (float) (minVolume + (maxDistance - distance) * volumeDeltaPerBlock);
 
-        ClientPlayerEntityProxy.playSoundOnPosition(sound, volume, pitch, targetPosition);
+        PlayerUtils.playSoundOnPosition(sound, volume, pitch, targetPosition);
     }
 }

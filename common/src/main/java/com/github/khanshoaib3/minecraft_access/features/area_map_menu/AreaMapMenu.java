@@ -3,7 +3,7 @@ package com.github.khanshoaib3.minecraft_access.features.area_map_menu;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.AreaMapConfigMap;
 import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
-import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityProxy;
+import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.condition.IntervalKeystroke;
@@ -160,7 +160,7 @@ public class AreaMapMenu {
             } else {
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.map_unlock"), true);
                 // Play the same unlock sound as POI Unlocking
-                ClientPlayerEntityProxy.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, 0.4f, 2f);
+                PlayerUtils.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, 0.4f, 2f);
             }
         }
     }
