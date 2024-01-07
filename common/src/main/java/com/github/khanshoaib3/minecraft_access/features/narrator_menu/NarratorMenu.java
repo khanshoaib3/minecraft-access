@@ -8,6 +8,7 @@ import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
 import com.github.khanshoaib3.minecraft_access.utils.position.PositionUtils;
@@ -191,7 +192,7 @@ public class NarratorMenu {
                         Block block = blockState.getBlock();
                         MutableText mutableText = block.getName();
 
-                        String text = mutableText.getString() + ", " + PositionUtils.getPositionDifference(blockPos);
+                        String text = mutableText.getString() + ", " + NarrationUtils.narrateRelativePositionOfPlayerAnd(blockPos);
                         MainClass.speakWithNarrator(text, true);
                     } catch (Exception e) {
                         MainClass.errorLog("An error occurred when speaking block information.", e);
@@ -262,7 +263,7 @@ public class NarratorMenu {
             String levelString = "";
             if (level < 8) levelString = I18n.translate("minecraft_access.read_crosshair.fluid_level", level);
 
-            String toSpeak = name + levelString + ", " + PositionUtils.getPositionDifference(blockPos);
+            String toSpeak = name + levelString + ", " + NarrationUtils.narrateRelativePositionOfPlayerAnd(blockPos);
 
             MainClass.speakWithNarrator(toSpeak, true);
             return true;

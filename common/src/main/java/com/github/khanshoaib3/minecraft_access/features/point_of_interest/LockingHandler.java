@@ -4,10 +4,10 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POILockingConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
-import com.github.khanshoaib3.minecraft_access.utils.position.PositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -212,7 +212,7 @@ public class LockingHandler {
         lockedOnEntity = entity;
 
         String text = entity.getName().getString();
-        if (this.speakDistance) text += " " + PositionUtils.getPositionDifference(entity.getBlockPos());
+        if (this.speakDistance) text += " " + NarrationUtils.narrateRelativePositionOfPlayerAnd(entity.getBlockPos());
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", text), true);
     }
 
@@ -380,7 +380,7 @@ public class LockingHandler {
         String text = mutableText.getString();
 
         if (this.speakDistance)
-            text += " " + PositionUtils.getPositionDifference(lockedOnBlock);
+            text += " " + NarrationUtils.narrateRelativePositionOfPlayerAnd(lockedOnBlock);
         MainClass.speakWithNarrator(text, true);
     }
 
