@@ -13,6 +13,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import java.util.Optional;
+
 /**
  * This class provides delegate calls to {@link ClientPlayerEntity}.
  * The main reason for this class is that {@link ClientPlayerEntity} cannot be mocked by Mockito. <p>
@@ -29,9 +31,7 @@ public class PlayerUtils {
     }
 
     public static void lookAt(Vec3d position) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player == null) return;
-        client.player.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, position);
+        WorldUtils.getClientPlayer().orElseThrow().lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, position);
     }
 
     public static void lookAt(Entity entity) {
@@ -50,17 +50,14 @@ public class PlayerUtils {
     }
 
     public static int getExperienceLevel() {
-        if (MinecraftClient.getInstance() == null) return -999;
-        if (MinecraftClient.getInstance().player == null) return -999;
-
-        return MinecraftClient.getInstance().player.experienceLevel;
+        return WorldUtils.getClientPlayer().map(p -> p.experienceLevel).orElse(-999);
     }
 
+    /**
+     * @return percentage-based number
+     */
     public static int getExperienceProgress() {
-        if (MinecraftClient.getInstance() == null) return -999;
-        if (MinecraftClient.getInstance().player == null) return -999;
-
-        return (int) (MinecraftClient.getInstance().player.experienceProgress * 100);
+        return WorldUtils.getClientPlayer().map(p -> (int) (p.experienceProgress * 100)).orElse(-999);
     }
 
     public static boolean isInFluid() {
