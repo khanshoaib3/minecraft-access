@@ -9,7 +9,6 @@ import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
-import com.github.khanshoaib3.minecraft_access.utils.position.PositionUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BeehiveBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -201,7 +200,7 @@ public class ReadCrosshair {
         boolean focusChanged = !getPreviousQuery().equalsIgnoreCase(currentQuery);
         if (focusChanged) {
             if (this.enableRelativePositionSoundCue) {
-                PositionUtils.playRelativePositionSoundCue(targetPosition, RAY_CAST_DISTANCE,
+                WorldUtils.playRelativePositionSoundCue(targetPosition, RAY_CAST_DISTANCE,
                         SoundEvents.BLOCK_NOTE_BLOCK_HARP, this.minSoundVolume, this.maxSoundVolume);
             }
             this.previousQuery = currentQuery;
