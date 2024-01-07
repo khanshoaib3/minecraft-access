@@ -8,7 +8,6 @@ import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -27,11 +26,6 @@ public class PlayerUtils {
 
     public static void playSoundOnPlayer(RegistryEntry.Reference<SoundEvent> sound, float volume, float pitch) {
         WorldUtils.getClientPlayer().orElseThrow().playSound(sound.value(), volume, pitch);
-    }
-
-    public static void playSoundOnPosition(RegistryEntry.Reference<SoundEvent> sound, float volume, float pitch, Vec3d position) {
-        // note that the useDistance param only works for positions 100 blocks away, check its code.
-        WorldUtils.getClientWorld().orElseThrow().playSound(position.x, position.y, position.z, sound.value(), SoundCategory.BLOCKS, volume, pitch, true);
     }
 
     public static void lookAt(Vec3d position) {
