@@ -309,7 +309,7 @@ public class LockingHandler {
         if (closestOtherBlockDouble != -9999.0)
             closest = Math.min(closest, closestOtherBlockDouble);
 
-        lockOntoBlocksOrPassiveEntity(closest, closestDoorBlockEntry,
+        lockOnBlock(closest, closestDoorBlockEntry,
                 closestDoorBlockDouble, closestButtonBlockEntry, closestButtonBlockDouble,
                 closestLadderBlockEntry, closestLadderBlockDouble, closestLeverBlockEntry,
                 closestLeverBlockDouble, closestTrapDoorBlockEntry, closestTrapDoorBlockDouble,
@@ -320,25 +320,21 @@ public class LockingHandler {
         narrateBlockPosAndSetBlockEntries();
     }
 
-    private void lockOntoBlocksOrPassiveEntity(Double closest,
-                                               Entry<Double, Vec3d> closestDoorBlockEntry, Double closestDoorBlockDouble,
-                                               Entry<Double, Vec3d> closestButtonBlockEntry, Double closestButtonBlockDouble,
-                                               Entry<Double, Vec3d> closestLadderBlockEntry, Double closestLadderBlockDouble,
-                                               Entry<Double, Vec3d> closestLeverBlockEntry, Double closestLeverBlockDouble,
-                                               Entry<Double, Vec3d> closestTrapDoorBlockEntry, Double closestTrapDoorBlockDouble,
-                                               Entry<Double, Vec3d> closestFluidBlockEntry, Double closestFluidBlockDouble,
-                                               Entry<Double, Vec3d> closestOtherBlockEntry, Double closestOtherBlockDouble,
-                                               Entry<Double, Vec3d> closestOreBlockEntry, Double closestOreBlockDouble,
-                                               Entry<Double, Vec3d> closestMarkedBlockEntry, Double closestMarkedBlockDouble) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player == null) return;
+    private void lockOnBlock(Double closest,
+                             Entry<Double, Vec3d> closestDoorBlockEntry, Double closestDoorBlockDouble,
+                             Entry<Double, Vec3d> closestButtonBlockEntry, Double closestButtonBlockDouble,
+                             Entry<Double, Vec3d> closestLadderBlockEntry, Double closestLadderBlockDouble,
+                             Entry<Double, Vec3d> closestLeverBlockEntry, Double closestLeverBlockDouble,
+                             Entry<Double, Vec3d> closestTrapDoorBlockEntry, Double closestTrapDoorBlockDouble,
+                             Entry<Double, Vec3d> closestFluidBlockEntry, Double closestFluidBlockDouble,
+                             Entry<Double, Vec3d> closestOtherBlockEntry, Double closestOtherBlockDouble,
+                             Entry<Double, Vec3d> closestOreBlockEntry, Double closestOreBlockDouble,
+                             Entry<Double, Vec3d> closestMarkedBlockEntry, Double closestMarkedBlockDouble) {
 
         if (closest.equals(closestMarkedBlockDouble) && closestMarkedBlockDouble != -9999.0) {
             lockedOnBlock = new BlockPos3d(closestMarkedBlockEntry.getValue());
             lockedOnEntity = null;
-        }
-
-        if (closest.equals(closestOreBlockDouble) && closestOreBlockDouble != -9999.0) {
+        } else if (closest.equals(closestOreBlockDouble) && closestOreBlockDouble != -9999.0) {
             lockedOnBlock = new BlockPos3d(closestOreBlockEntry.getValue());
             lockedOnEntity = null;
         } else if (closest.equals(closestDoorBlockDouble) && closestDoorBlockDouble != -9999.0) {
@@ -356,8 +352,7 @@ public class LockingHandler {
         } else if (closest.equals(closestTrapDoorBlockDouble) && closestTrapDoorBlockDouble != -9999.0) {
             lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getTrapDoorAbsolutePosition(closestTrapDoorBlockEntry.getValue()));
             lockedOnEntity = null;
-        } else if (closest.equals(closestFluidBlockDouble) && closestFluidBlockDouble != -9999.0
-                && !client.player.isSwimming() && !client.player.isSubmergedInWater() && !client.player.isInsideWaterOrBubbleColumn() && !client.player.isInLava()) {
+        } else if (closest.equals(closestFluidBlockDouble) && closestFluidBlockDouble != -9999.0 && !PlayerUtils.isInFluid()) {
             lockedOnBlock = new BlockPos3d(closestFluidBlockEntry.getValue());
             lockedOnEntity = null;
         } else if (closest.equals(closestOtherBlockDouble) && closestOtherBlockDouble != -9999.0) {
