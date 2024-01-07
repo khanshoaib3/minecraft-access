@@ -22,7 +22,6 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Objects;
 import java.util.TreeMap;
 
 /**
@@ -140,7 +139,7 @@ public class LockingHandler {
                 return;
             } else {
                 // Skip entity locking logic
-                lockOnBlock();
+                findAndLockOnNearestBlock();
             }
         }
 
@@ -155,7 +154,7 @@ public class LockingHandler {
         }
 
         if (this.lockOnBlocks) {
-            lockOnBlock();
+            findAndLockOnNearestBlock();
         }
     }
 
@@ -193,7 +192,7 @@ public class LockingHandler {
         // Change the lock target to the last (block) position (somewhere floating in the air) where the eye of ender disappeared,
         // so the player can continue walking until being under that position.
         if (lockedOnEntity instanceof EyeOfEnderEntity) {
-            lockedOnBlock = BlockPos3d.of(lockedOnEntity.getBlockPos());
+            lockOnBlock(lockedOnEntity.getBlockPos().toCenterPos());
             isLockedOnWhereEyeOfEnderDisappears = true;
         }
 
@@ -218,7 +217,7 @@ public class LockingHandler {
         return true;
     }
 
-    private void lockOnBlock() {
+    private void findAndLockOnNearestBlock() {
         Double minPlayerDistance = Double.MAX_VALUE;
         Vec3d nearestBlockPosition = null;
 
@@ -245,26 +244,31 @@ public class LockingHandler {
             }
         }
 
-        if (Objects.isNull(nearestBlockPosition)) return;
+        if (nearestBlockPosition != null) {
+            lockOnBlock(nearestBlockPosition);
+        }
+    }
 
+    private void lockOnBlock(Vec3d position) {
         unlock(false);
+
         BlockState blockState = WorldUtils.getClientWorld().orElseThrow().getBlockState(lockedOnBlock);
         lockedOnBlockEntries = blockState.getEntries().toString();
 
-        Vec3d absolutePosition = nearestBlockPosition;
+        Vec3d absolutePosition = position;
         Block blockType = blockState.getBlock();
 
         // Special cases for non-cube blocks
         if (blockType instanceof DoorBlock) {
-            absolutePosition = NonCubeBlockAbsolutePositions.getDoorPos(nearestBlockPosition);
+            absolutePosition = NonCubeBlockAbsolutePositions.getDoorPos(position);
         } else if (blockType instanceof TrapdoorBlock) {
-            absolutePosition = NonCubeBlockAbsolutePositions.getTrapDoorPos(nearestBlockPosition);
+            absolutePosition = NonCubeBlockAbsolutePositions.getTrapDoorPos(position);
         } else if (blockType instanceof ButtonBlock) {
-            absolutePosition = NonCubeBlockAbsolutePositions.getButtonPos(nearestBlockPosition);
+            absolutePosition = NonCubeBlockAbsolutePositions.getButtonPos(position);
         } else if (blockType instanceof LadderBlock) {
-            absolutePosition = NonCubeBlockAbsolutePositions.getLadderPos(nearestBlockPosition);
+            absolutePosition = NonCubeBlockAbsolutePositions.getLadderPos(position);
         } else if (blockType instanceof LeverBlock) {
-            absolutePosition = NonCubeBlockAbsolutePositions.getLeverPos(nearestBlockPosition);
+            absolutePosition = NonCubeBlockAbsolutePositions.getLeverPos(position);
         }
 
         lockedOnBlock = new BlockPos3d(absolutePosition);
