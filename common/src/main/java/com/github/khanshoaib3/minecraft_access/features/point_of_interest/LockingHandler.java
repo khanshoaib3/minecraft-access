@@ -10,17 +10,13 @@ import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EyeOfEnderEntity;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.Vec3d;
 
@@ -144,7 +140,7 @@ public class LockingHandler {
                 return;
             } else {
                 // Skip entity locking logic
-                determineClosestEntriesAndLock();
+                lockOnBlock();
             }
         }
 
@@ -158,9 +154,9 @@ public class LockingHandler {
             if (lockOnEntity(entity)) return;
         }
 
-        if (!this.lockOnBlocks) return;
-
-        determineClosestEntriesAndLock();
+        if (this.lockOnBlocks) {
+            lockOnBlock();
+        }
     }
 
     /**
@@ -222,7 +218,7 @@ public class LockingHandler {
         return true;
     }
 
-    private void determineClosestEntriesAndLock() {
+    private void lockOnBlock() {
         Double minPlayerDistance = Double.MAX_VALUE;
         Vec3d nearestBlockPosition = null;
 
@@ -252,9 +248,26 @@ public class LockingHandler {
         if (Objects.isNull(nearestBlockPosition)) return;
 
         unlock(false);
-        lockedOnBlock = new BlockPos3d(nearestBlockPosition);
         BlockState blockState = WorldUtils.getClientWorld().orElseThrow().getBlockState(lockedOnBlock);
         lockedOnBlockEntries = blockState.getEntries().toString();
+
+        Vec3d absolutePosition = nearestBlockPosition;
+        Block blockType = blockState.getBlock();
+
+        // Special cases for non-cube blocks
+        if (blockType instanceof DoorBlock) {
+            absolutePosition = NonCubeBlockAbsolutePositions.getDoorPos(nearestBlockPosition);
+        } else if (blockType instanceof TrapdoorBlock) {
+            absolutePosition = NonCubeBlockAbsolutePositions.getTrapDoorPos(nearestBlockPosition);
+        } else if (blockType instanceof ButtonBlock) {
+            absolutePosition = NonCubeBlockAbsolutePositions.getButtonPos(nearestBlockPosition);
+        } else if (blockType instanceof LadderBlock) {
+            absolutePosition = NonCubeBlockAbsolutePositions.getLadderPos(nearestBlockPosition);
+        } else if (blockType instanceof LeverBlock) {
+            absolutePosition = NonCubeBlockAbsolutePositions.getLeverPos(nearestBlockPosition);
+        }
+
+        lockedOnBlock = new BlockPos3d(absolutePosition);
 
         Pair<String, String> toSpeakAndCurrentQuery = NarrationUtils.narrateBlock(lockedOnBlock, "");
         String toSpeak = toSpeakAndCurrentQuery.getLeft();
