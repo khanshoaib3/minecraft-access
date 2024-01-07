@@ -10,6 +10,7 @@ import com.github.khanshoaib3.minecraft_access.utils.position.PositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
@@ -34,7 +35,6 @@ public class LockingHandler {
     private static final LockingHandler instance;
     public Entity lockedOnEntity = null;
     public Vec3d lockedOnBlock = null;
-    public boolean isLockedOntoLadder = false;
     public boolean isLockedOntoEyeOfEnderTarget = false; // The block where the eye of ender disappears
     public String lockedOnBlockEntries = "";
     private Interval interval;
@@ -106,24 +106,25 @@ public class LockingHandler {
             PlayerUtils.lookAt(aboutEntityHeadPosition);
         }
 
-        if (isLockedOntoLadder) {
-            Vec3d playerPos = minecraftClient.player.getPos();
-            double distance = lockedOnBlock.distanceTo(playerPos);
-            if (distance <= 0.5) {
-                lockedOnBlock = null;
-                isLockedOntoLadder = false;
-                playUnlockingSound(minecraftClient);
-            }
-        }
-
         if (lockedOnBlock != null) {
             BlockState blockState = minecraftClient.world.getBlockState(new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
+
+            if (Blocks.LADDER.equals(blockState.getBlock())) {
+                // Automatically unlock from the ladder if the player is close
+                Vec3d playerPos = minecraftClient.player.getPos();
+                double distance = lockedOnBlock.distanceTo(playerPos);
+                if (distance <= 0.5) {
+                    lockedOnBlock = null;
+                    playUnlockingSound(minecraftClient);
+                    return;
+                }
+            }
+
             String entries = blockState.getEntries() + String.valueOf(blockState.getBlock()) + (new BlockPos(new Vec3i((int) lockedOnBlock.x, (int) lockedOnBlock.y, (int) lockedOnBlock.z)));
             if (entries.equalsIgnoreCase(lockedOnBlockEntries) || isLockedOntoEyeOfEnderTarget)
                 PlayerUtils.lookAt(lockedOnBlock);
             else {
                 lockedOnBlockEntries = "";
-                isLockedOntoLadder = false;
                 lockedOnBlock = null;
                 playUnlockingSound(minecraftClient);
             }
@@ -141,7 +142,6 @@ public class LockingHandler {
                 lockedOnEntity = null;
                 lockedOnBlockEntries = "";
                 lockedOnBlock = null;
-                isLockedOntoLadder = false;
                 isLockedOntoEyeOfEnderTarget = false;
                 playUnlockingSound(minecraftClient);
             }
@@ -192,7 +192,6 @@ public class LockingHandler {
         lockedOnBlockEntries = "";
 
         lockedOnBlock = null;
-        isLockedOntoLadder = false;
 
         if (this.speakDistance) text += " " + PositionUtils.getPositionDifference(entity.getBlockPos());
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", text), true);
@@ -317,43 +316,33 @@ public class LockingHandler {
         if (closest.equals(closestMarkedBlockDouble) && closestMarkedBlockDouble != -9999.0) {
             lockedOnBlock = closestMarkedBlockEntry.getValue();
             lockedOnEntity = null;
-            isLockedOntoLadder = false;
         }
 
         if (closest.equals(closestOreBlockDouble) && closestOreBlockDouble != -9999.0) {
             lockedOnBlock = closestOreBlockEntry.getValue();
             lockedOnEntity = null;
-            isLockedOntoLadder = false;
         } else if (closest.equals(closestDoorBlockDouble) && closestDoorBlockDouble != -9999.0) {
             lockedOnBlock = NonCubeBlockAbsolutePositions.getDoorAbsolutePosition(client, closestDoorBlockEntry.getValue());
             lockedOnEntity = null;
-            isLockedOntoLadder = false;
         } else if (closest.equals(closestButtonBlockDouble) && closestButtonBlockDouble != -9999.0) {
             lockedOnBlock = NonCubeBlockAbsolutePositions.getButtonsAbsolutePosition(client, closestButtonBlockEntry.getValue());
             lockedOnEntity = null;
-            isLockedOntoLadder = false;
         } else if (closest.equals(closestLadderBlockDouble) && closestLadderBlockDouble != -9999.0) {
-            Vec3d absolutePos = NonCubeBlockAbsolutePositions.getLaddersAbsolutePosition(client, closestLadderBlockEntry.getValue());
-            isLockedOntoLadder = true;
-            lockedOnBlock = absolutePos;
+            lockedOnBlock = NonCubeBlockAbsolutePositions.getLaddersAbsolutePosition(client, closestLadderBlockEntry.getValue());
             lockedOnEntity = null;
         } else if (closest.equals(closestLeverBlockDouble) && closestLeverBlockDouble != -9999.0) {
             lockedOnBlock = NonCubeBlockAbsolutePositions.getLeversAbsolutePosition(client, closestLeverBlockEntry.getValue());
             lockedOnEntity = null;
-            isLockedOntoLadder = false;
         } else if (closest.equals(closestTrapDoorBlockDouble) && closestTrapDoorBlockDouble != -9999.0) {
             lockedOnBlock = NonCubeBlockAbsolutePositions.getTrapDoorAbsolutePosition(client, closestTrapDoorBlockEntry.getValue());
             lockedOnEntity = null;
-            isLockedOntoLadder = false;
         } else if (closest.equals(closestFluidBlockDouble) && closestFluidBlockDouble != -9999.0
                 && !client.player.isSwimming() && !client.player.isSubmergedInWater() && !client.player.isInsideWaterOrBubbleColumn() && !client.player.isInLava()) {
             lockedOnBlock = closestFluidBlockEntry.getValue();
             lockedOnEntity = null;
-            isLockedOntoLadder = false;
         } else if (closest.equals(closestOtherBlockDouble) && closestOtherBlockDouble != -9999.0) {
             lockedOnBlock = closestOtherBlockEntry.getValue();
             lockedOnEntity = null;
-            isLockedOntoLadder = false;
         }
     }
 
