@@ -72,4 +72,8 @@ public class NarrationUtils {
                 I18n.translate("minecraft_access.read_crosshair.not_shearable", currentQuery);
         return translatedColor + " " + shearable;
     }
+
+    public static String narrateNumber(double d) {
+        return d >= 0 ? String.valueOf(d) : I18n.translate("minecraft_access.other.negative", -d);
+    }
 }

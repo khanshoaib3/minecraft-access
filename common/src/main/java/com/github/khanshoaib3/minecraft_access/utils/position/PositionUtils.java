@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.utils.position;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
@@ -15,9 +16,6 @@ import net.minecraft.util.math.Vec3d;
  * Functions about getting blocks' position.
  */
 public class PositionUtils {
-    public static String getNarratableNumber(double d) {
-        return d >= 0 ? String.valueOf(d) : I18n.translate("minecraft_access.other.negative", -d);
-    }
 
     public static String getPositionDifference(BlockPos blockPos) {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
@@ -73,9 +71,9 @@ public class PositionUtils {
 
     public static String getPosition(BlockPos blockPos) {
         try {
-            String posX = getNarratableNumber(blockPos.getX());
-            String posY = getNarratableNumber(blockPos.getY());
-            String posZ = getNarratableNumber(blockPos.getZ());
+            String posX = NarrationUtils.narrateNumber(blockPos.getX());
+            String posY = NarrationUtils.narrateNumber(blockPos.getY());
+            String posZ = NarrationUtils.narrateNumber(blockPos.getZ());
             return String.format("%s x %s y %s z", posX, posY, posZ);
         } catch (Exception e) {
             MainClass.errorLog("An error occurred when getting block position.", e);
