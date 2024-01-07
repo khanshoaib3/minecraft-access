@@ -103,7 +103,7 @@ public class LockingHandler {
             if (entriesOfLockedBlockNotChanged || isLockedOnWhereEyeOfEnderDisappears)
                 PlayerUtils.lookAt(lockedOnBlock);
             else {
-                unlock();
+                unlock(true);
             }
         }
 
@@ -111,19 +111,19 @@ public class LockingHandler {
         if (isLockingKeyPressed && Screen.hasAltDown()) {
             if (lockedOnEntity != null || lockedOnBlock != null) {
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.unlocked"), true);
-                unlock();
+                unlock(true);
             }
         } else if (isLockingKeyPressed) {
             relock();
         }
     }
 
-    private void unlock() {
+    private void unlock(boolean playSound) {
         lockedOnEntity = null;
         lockedOnBlockEntries = "";
         lockedOnBlock = null;
         isLockedOnWhereEyeOfEnderDisappears = false;
-        playUnlockingSound();
+        if (playSound) playUnlockingSound();
     }
 
     private void relock() {
@@ -180,7 +180,7 @@ public class LockingHandler {
             Vec3d playerPos = PlayerPositionUtils.getPlayerPosition().orElseThrow();
             double distance = lockedOnBlock.toCenterPos().distanceTo(playerPos);
             if (distance <= 0.5) {
-                unlock();
+                unlock(true);
                 return true;
             }
         }
@@ -203,17 +203,15 @@ public class LockingHandler {
             isLockedOnWhereEyeOfEnderDisappears = true;
         }
 
-        unlock();
+        unlock(true);
         return true;
     }
 
-    private void lockOnEntity(Entity entity) {
-        String text = entity.getName().getString();
+    public void lockOnEntity(Entity entity) {
+        unlock(false);
         lockedOnEntity = entity;
-        lockedOnBlockEntries = "";
 
-        lockedOnBlock = null;
-
+        String text = entity.getName().getString();
         if (this.speakDistance) text += " " + PositionUtils.getPositionDifference(entity.getBlockPos());
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", text), true);
     }
