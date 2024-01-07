@@ -34,7 +34,7 @@ public class LockingHandler {
     private static final LockingHandler instance;
     public Entity lockedOnEntity = null;
     public BlockPos3d lockedOnBlock = null;
-    public boolean isLockedOntoEyeOfEnderTarget = false; // The block where the eye of ender disappears
+    public boolean isLockedOnWhereEyeOfEnderDisappears = false;
     public String lockedOnBlockEntries = "";
     private Interval interval;
 
@@ -100,7 +100,7 @@ public class LockingHandler {
             String entries = blockState.getEntries() + String.valueOf(blockState.getBlock()) + lockedOnBlock;
             boolean entriesOfLockedBlockNotChanged = entries.equalsIgnoreCase(lockedOnBlockEntries);
 
-            if (entriesOfLockedBlockNotChanged || isLockedOntoEyeOfEnderTarget)
+            if (entriesOfLockedBlockNotChanged || isLockedOnWhereEyeOfEnderDisappears)
                 PlayerUtils.lookAt(lockedOnBlock);
             else {
                 unlock();
@@ -122,7 +122,7 @@ public class LockingHandler {
         lockedOnEntity = null;
         lockedOnBlockEntries = "";
         lockedOnBlock = null;
-        isLockedOntoEyeOfEnderTarget = false;
+        isLockedOnWhereEyeOfEnderDisappears = false;
         playUnlockingSound();
     }
 
@@ -200,7 +200,7 @@ public class LockingHandler {
         // so the player can continue walking until being under that position.
         if (lockedOnEntity instanceof EyeOfEnderEntity) {
             lockedOnBlock = BlockPos3d.of(lockedOnEntity.getBlockPos());
-            isLockedOntoEyeOfEnderTarget = true;
+            isLockedOnWhereEyeOfEnderDisappears = true;
         }
 
         unlock();
