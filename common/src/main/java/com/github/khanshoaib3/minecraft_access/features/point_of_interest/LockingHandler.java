@@ -97,12 +97,13 @@ public class LockingHandler {
             // Entries are different shape of blocks when they're in different states,
             // for example, opened chest and closed chest are different states of chest block,
             // they are different entries when invoking getEntries().
-            String entries = blockState.getEntries() + String.valueOf(blockState.getBlock()) + lockedOnBlock;
+            String entries = blockState.getEntries().toString();
             boolean entriesOfLockedBlockNotChanged = entries.equalsIgnoreCase(lockedOnBlockEntries);
 
             if (entriesOfLockedBlockNotChanged || isLockedOnWhereEyeOfEnderDisappears)
                 PlayerUtils.lookAt(lockedOnBlock);
             else {
+                // Unlock if (the state of) locked block is changed
                 unlock(true);
             }
         }
@@ -209,7 +210,7 @@ public class LockingHandler {
         lockedOnEntity = entity;
 
         String narration = NarrationUtils.narrateEntity(entity);
-        if (this.speakDistance){
+        if (this.speakDistance) {
             narration += " " + NarrationUtils.narrateRelativePositionOfPlayerAnd(entity.getBlockPos());
         }
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", narration), true);
