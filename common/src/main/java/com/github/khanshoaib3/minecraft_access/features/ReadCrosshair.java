@@ -5,6 +5,7 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeak
 import com.github.khanshoaib3.minecraft_access.config.config_maps.RCRelativePositionSoundCueConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.mixin.MobSpawnerLogicAccessor;
+import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
@@ -187,69 +188,12 @@ public class ReadCrosshair {
             if (enablePartialSpeaking && partialSpeakingEntity) {
                 if (checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(EntityType.getId(entity.getType()))) return;
             }
-            String currentQuery = entity.getName().getString();
 
-            // Add its type in front of its name if it has been renamed with name tag,
-            // so even if there are two different types of entities that named the same name,
-            // the mod can make the player tell the difference:
-            // "Cat Neko", "Dog Neko"...
-            if (entity.hasCustomName()) {
-                currentQuery = I18n.translate(entity.getType().getTranslationKey()) + " " + currentQuery;
-            }
-
-            if (entity instanceof AnimalEntity animalEntity) {
-
-                if (animalEntity instanceof TameableEntity tameableEntity) {
-                    currentQuery = tameableEntity.isTamed() ? I18n.translate("minecraft_access.read_crosshair.is_tamed", currentQuery) : currentQuery;
-                }
-
-                if (animalEntity instanceof SheepEntity sheepEntity) {
-                    currentQuery = getSheepInfo(sheepEntity, currentQuery);
-                } else if (animalEntity instanceof CatEntity catEntity) {
-                    currentQuery = catEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
-                } else if (animalEntity instanceof WolfEntity wolfEntity) {
-                    currentQuery = wolfEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
-                } else if (animalEntity instanceof FoxEntity foxEntity) {
-                    currentQuery = foxEntity.isSitting() ? addSittingInfo(currentQuery) : currentQuery;
-                } else if (animalEntity instanceof ParrotEntity parrotEntity) {
-                    currentQuery = parrotEntity.isInSittingPose() ? addSittingInfo(currentQuery) : currentQuery;
-                } else if (animalEntity instanceof PandaEntity pandaEntity) {
-                    currentQuery = pandaEntity.isSitting() ? addSittingInfo(currentQuery) : currentQuery;
-                } else if (animalEntity instanceof CamelEntity camelEntity) {
-                    currentQuery = camelEntity.isSitting() ? addSittingInfo(currentQuery) : currentQuery;
-                }
-
-                if (animalEntity.isBaby())
-                    currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_baby", currentQuery);
-                if (animalEntity.isLeashed())
-                    currentQuery = I18n.translate("minecraft_access.read_crosshair.animal_entity_leashed", currentQuery);
-            }
-
-            if (entity instanceof HostileEntity) {
-                if (entity instanceof ZombieVillagerEntity zombieVillagerEntity) {
-                    currentQuery = zombieVillagerEntity.isConverting() ?
-                            I18n.translate("minecraft_access.read_crosshair.zombie_villager_is_curing", currentQuery) :
-                            currentQuery;
-                }
-            }
-
-            speakIfFocusChanged(currentQuery, currentQuery, entity.getPos());
+            String narration = NarrationUtils.narrateEntity(entity);
+            speakIfFocusChanged(narration, narration, entity.getPos());
         } catch (Exception e) {
             MainClass.errorLog("Error occurred in ReadCrosshair, reading entity", e);
         }
-    }
-
-    private String addSittingInfo(String currentQuery) {
-        return I18n.translate("minecraft_access.read_crosshair.is_sitting", currentQuery);
-    }
-
-    private static String getSheepInfo(SheepEntity sheepEntity, String currentQuery) {
-        String dyedColor = sheepEntity.getColor().getName();
-        String translatedColor = I18n.translate("minecraft_access.color." + dyedColor);
-        String shearable = sheepEntity.isShearable() ?
-                I18n.translate("minecraft_access.read_crosshair.shearable", currentQuery) :
-                I18n.translate("minecraft_access.read_crosshair.not_shearable", currentQuery);
-        return translatedColor + " " + shearable;
     }
 
     /**
