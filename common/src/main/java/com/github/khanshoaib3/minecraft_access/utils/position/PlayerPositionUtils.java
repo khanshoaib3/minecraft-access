@@ -45,6 +45,9 @@ public class PlayerPositionUtils {
         return Double.parseDouble(tempPosZ);
     }
 
+    /**
+     * Player position is at player's leg.
+     */
     public static Optional<Vec3d> getPlayerPosition() {
         MinecraftClient client = MinecraftClient.getInstance();
         return client.player == null ? java.util.Optional.empty() : Optional.of(client.player.getPos());

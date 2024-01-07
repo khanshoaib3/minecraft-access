@@ -138,7 +138,7 @@ For example when you want to mine an ore, capture an animal or fight a monster.
 Note that:
 
 * The mod will continue locking on the position where the eye of ender disappears (if you enabled "Auto Lock on to Eye of Ender when Used" config).
-* The mod will automatically stop locking on ladders if you are very close to them, so you can directly climb the ladder without manually pressing unlock key.
+* The mod will automatically stop locking on ladders when you start climbing on them, so you can directly climb the ladder without manually pressing unlock key.
 
 See also: [Configuration](/doc/CONFIG.md#entitiesblocks-locking), [Keybindings](/doc/KEYBINDINGS.md#point-of-interest)
 
