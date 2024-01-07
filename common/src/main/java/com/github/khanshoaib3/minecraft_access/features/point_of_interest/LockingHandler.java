@@ -342,19 +342,19 @@ public class LockingHandler {
             lockedOnBlock = new BlockPos3d(closestOreBlockEntry.getValue());
             lockedOnEntity = null;
         } else if (closest.equals(closestDoorBlockDouble) && closestDoorBlockDouble != -9999.0) {
-            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getDoorAbsolutePosition(client, closestDoorBlockEntry.getValue()));
+            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getDoorAbsolutePosition(closestDoorBlockEntry.getValue()));
             lockedOnEntity = null;
         } else if (closest.equals(closestButtonBlockDouble) && closestButtonBlockDouble != -9999.0) {
-            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getButtonsAbsolutePosition(client, closestButtonBlockEntry.getValue()));
+            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getButtonsAbsolutePosition(closestButtonBlockEntry.getValue()));
             lockedOnEntity = null;
         } else if (closest.equals(closestLadderBlockDouble) && closestLadderBlockDouble != -9999.0) {
-            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getLaddersAbsolutePosition(client, closestLadderBlockEntry.getValue()));
+            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getLaddersAbsolutePosition(closestLadderBlockEntry.getValue()));
             lockedOnEntity = null;
         } else if (closest.equals(closestLeverBlockDouble) && closestLeverBlockDouble != -9999.0) {
-            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getLeversAbsolutePosition(client, closestLeverBlockEntry.getValue()));
+            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getLeversAbsolutePosition(closestLeverBlockEntry.getValue()));
             lockedOnEntity = null;
         } else if (closest.equals(closestTrapDoorBlockDouble) && closestTrapDoorBlockDouble != -9999.0) {
-            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getTrapDoorAbsolutePosition(client, closestTrapDoorBlockEntry.getValue()));
+            lockedOnBlock = new BlockPos3d(NonCubeBlockAbsolutePositions.getTrapDoorAbsolutePosition(closestTrapDoorBlockEntry.getValue()));
             lockedOnEntity = null;
         } else if (closest.equals(closestFluidBlockDouble) && closestFluidBlockDouble != -9999.0
                 && !client.player.isSwimming() && !client.player.isSubmergedInWater() && !client.player.isInsideWaterOrBubbleColumn() && !client.player.isInLava()) {
