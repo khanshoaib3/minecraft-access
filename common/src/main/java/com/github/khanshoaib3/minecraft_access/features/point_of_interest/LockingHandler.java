@@ -129,13 +129,11 @@ public class LockingHandler {
     private void relock() {
         if (!POIEntities.markedEntities.isEmpty()) {
             Entity entity = POIEntities.markedEntities.firstEntry().getValue();
-            if (entity.isAlive()) {
-                lockOnEntity(entity);
-                return;
-            }
+            if (lockOnEntity(entity)) return;
         }
 
-        if (onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+        boolean suppressLockingOnNonMarkedThings = onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled();
+        if (suppressLockingOnNonMarkedThings) {
             if (POIBlocks.markedBlocks.isEmpty()) {
                 return;
             } else {
@@ -146,18 +144,12 @@ public class LockingHandler {
 
         if (!POIEntities.hostileEntity.isEmpty()) {
             Entity entity = POIEntities.hostileEntity.firstEntry().getValue();
-            if (entity.isAlive()) {
-                lockOnEntity(entity);
-                return;
-            }
+            if (lockOnEntity(entity)) return;
         }
 
         if (!POIEntities.passiveEntity.isEmpty()) {
             Entity entity = POIEntities.passiveEntity.firstEntry().getValue();
-            if (entity.isAlive()) {
-                lockOnEntity(entity);
-                return;
-            }
+            if (lockOnEntity(entity)) return;
         }
 
         if (!this.lockOnBlocks) return;
@@ -207,7 +199,12 @@ public class LockingHandler {
         return true;
     }
 
-    public void lockOnEntity(Entity entity) {
+    /**
+     * @return true if locked
+     */
+    public boolean lockOnEntity(Entity entity) {
+        if (!entity.isAlive()) return false;
+
         unlock(false);
         lockedOnEntity = entity;
 
@@ -216,6 +213,7 @@ public class LockingHandler {
             narration += " " + NarrationUtils.narrateRelativePositionOfPlayerAnd(entity.getBlockPos());
         }
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", narration), true);
+        return true;
     }
 
     private void determineClosestEntriesAndLock() {
