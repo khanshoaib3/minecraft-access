@@ -111,7 +111,6 @@ public class LockingHandler {
         boolean isLockingKeyPressed = KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().lockingHandlerKey);
         if (isLockingKeyPressed && Screen.hasAltDown()) {
             if (lockedOnEntity != null || lockedOnBlock != null) {
-                MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.unlocked"), true);
                 unlock(true);
             }
         } else if (isLockingKeyPressed) {
@@ -119,12 +118,18 @@ public class LockingHandler {
         }
     }
 
-    private void unlock(boolean playSound) {
+    private void unlock(boolean speak) {
         lockedOnEntity = null;
         lockedOnBlockEntries = "";
         lockedOnBlock = null;
         isLockedOnWhereEyeOfEnderDisappears = false;
-        if (playSound) playUnlockingSound();
+
+        if (speak) {
+            MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.unlocked"), true);
+            if (this.unlockingSound) {
+                PlayerUtils.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, 0.4f, 2f);
+            }
+        }
     }
 
     private void relock() {
@@ -279,11 +284,6 @@ public class LockingHandler {
             toSpeak += " " + NarrationUtils.narrateRelativePositionOfPlayerAnd(lockedOnBlock);
         }
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", toSpeak), true);
-    }
-
-    private void playUnlockingSound() {
-        if (!this.unlockingSound) return;
-        PlayerUtils.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, 0.4f, 2f);
     }
 
     public void setMarking(boolean marking) {
