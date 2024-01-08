@@ -252,7 +252,7 @@ public class LockingHandler {
     private void lockOnBlock(Vec3d position) {
         unlock(false);
 
-        BlockState blockState = WorldUtils.getClientWorld().orElseThrow().getBlockState(lockedOnBlock);
+        BlockState blockState = WorldUtils.getClientWorld().orElseThrow().getBlockState(new BlockPos3d(position));
         lockedOnBlockEntries = blockState.getEntries().toString();
 
         Vec3d absolutePosition = position;
