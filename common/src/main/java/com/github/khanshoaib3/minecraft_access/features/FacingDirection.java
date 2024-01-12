@@ -5,6 +5,7 @@ import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 
@@ -12,6 +13,7 @@ import net.minecraft.client.resource.language.I18n;
  * Adds key binding to speak the player's facing direction.<br>
  * - Speak Facing Direction Key (default: H) = Speaks the player facing direction.
  */
+@Slf4j
 public class FacingDirection {
     public void update() {
         try {
@@ -44,7 +46,7 @@ public class FacingDirection {
 
             MainClass.speakWithNarrator(toSpeak, true);
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred in DirectionNarrator.", e);
+            log.error("An error occurred in DirectionNarrator.", e);
         }
     }
 }

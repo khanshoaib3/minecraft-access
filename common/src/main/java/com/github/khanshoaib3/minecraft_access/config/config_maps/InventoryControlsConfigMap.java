@@ -2,9 +2,14 @@ package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class InventoryControlsConfigMap {
 
+    @Setter
     private static InventoryControlsConfigMap instance;
 
     @SerializedName("Enabled")
@@ -24,10 +29,6 @@ public class InventoryControlsConfigMap {
         return instance;
     }
 
-    public static void setInstance(InventoryControlsConfigMap map) {
-        instance = map;
-    }
-
     public static InventoryControlsConfigMap buildDefault() {
         InventoryControlsConfigMap defaultInventoryControlsConfigMap = new InventoryControlsConfigMap();
         defaultInventoryControlsConfigMap.setEnabled(true);
@@ -37,37 +38,5 @@ public class InventoryControlsConfigMap {
 
         setInstance(defaultInventoryControlsConfigMap);
         return defaultInventoryControlsConfigMap;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public boolean isAutoOpenRecipeBook() {
-        return autoOpenRecipeBook;
-    }
-
-    public void setAutoOpenRecipeBook(boolean autoOpenRecipeBook) {
-        this.autoOpenRecipeBook = autoOpenRecipeBook;
-    }
-
-    public String getRowAndColumnFormat() {
-        return rowAndColumnFormat;
-    }
-
-    public void setRowAndColumnFormat(String rowAndColumnFormat) {
-        this.rowAndColumnFormat = rowAndColumnFormat;
-    }
-
-    public int getDelayInMilliseconds() {
-        return delayInMilliseconds;
-    }
-
-    public void setDelayInMilliseconds(int delayInMilliseconds) {
-        this.delayInMilliseconds = delayInMilliseconds;
     }
 }

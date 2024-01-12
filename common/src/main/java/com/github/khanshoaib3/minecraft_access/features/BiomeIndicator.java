@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -9,6 +10,7 @@ import net.minecraft.world.biome.Biome;
 /**
  * Narrates the name of the biome when entering a different biome.
  */
+@Slf4j
 public class BiomeIndicator {
     private String previousBiome;
 
@@ -30,7 +32,7 @@ public class BiomeIndicator {
             /* Pre 1.19.3
             Identifier id = minecraftClient.world.getRegistryManager().get(Registry.BIOME_KEY).getId(minecraftClient.world.getBiome(minecraftClient.player.getBlockPos()).value()); // Pre 1.19.3
             if (id == null) {
-                MainClass.errorLog("\nUnable to detect biome!!\n");
+                log.error("\nUnable to detect biome!!\n");
                 return;
             }
             String name = I18n.translate("biome." + id.getNamespace() + "." + id.getPath());
@@ -42,7 +44,7 @@ public class BiomeIndicator {
             }
 
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred while narrating biome.", e);
+            log.error("An error occurred while narrating biome.", e);
         }
     }
 

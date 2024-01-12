@@ -1,9 +1,9 @@
 package com.github.khanshoaib3.minecraft_access.screen_reader;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Structure;
+import lombok.extern.slf4j.Slf4j;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class ScreenReaderLinux implements ScreenReaderInterface {
     private libSpeechdWrapperInterface mainInstance = null;
 
@@ -20,18 +21,18 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
         Path path = Paths.get("libspeechdwrapper.so").toAbsolutePath();
         if(!Files.exists(path))
         {
-            MainClass.errorLog("libspeechdwrapper not installed!");
+            log.error("libspeechdwrapper not installed!");
             return;
         }
 
-        MainClass.infoLog("Initializing libspeechdwrapper for linux at: " + path);
+       log.info("Initializing libspeechdwrapper for linux at: " + path);
         libSpeechdWrapperInterface instance = Native.load(path.toString(), libSpeechdWrapperInterface.class);
         int re = instance.Initialize();
 
         // Try initializing again after 3 seconds (when no screen reader is running, the library is unable to connect with the speechd socket)
         if (re == -1) {
             try {
-                MainClass.errorLog("Unable to initialize screen reader, trying again in 3 seconds.");
+                log.error("Unable to initialize screen reader, trying again in 3 seconds.");
                 TimeUnit.SECONDS.sleep(3);
                 re = instance.Initialize();
             } catch (InterruptedException e) {
@@ -41,9 +42,9 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
 
         if (re == 1) {
             mainInstance = instance;
-            MainClass.infoLog("Successfully initialized screen reader");
+           log.info("Successfully initialized screen reader");
         } else {
-            MainClass.errorLog("Unable to initialize screen reader");
+            log.error("Unable to initialize screen reader");
         }
     }
 
@@ -63,9 +64,9 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
 
         int re = mainInstance.Speak(str, interrupt);
         if (re == 1) {
-            MainClass.infoLog("Speaking(interrupt:" + interrupt + ")= " + text);
+           log.info("Speaking(interrupt:" + interrupt + ")= " + text);
         } else {
-            MainClass.errorLog("Unable to speak");
+            log.error("Unable to speak");
         }
     }
 
@@ -76,9 +77,9 @@ public class ScreenReaderLinux implements ScreenReaderInterface {
 
         int re = mainInstance.Close();
         if (re == 1) {
-            MainClass.infoLog("Successfully closed screen reader");
+           log.info("Successfully closed screen reader");
         } else {
-            MainClass.errorLog("Unable to close screen reader");
+            log.error("Unable to close screen reader");
         }
     }
 

@@ -11,12 +11,14 @@ import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderControl
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
 import com.mojang.text2speech.Narrator;
 import dev.architectury.event.events.client.ClientTickEvent;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Slf4j
 public class MainClass {
     public static final String MOD_ID = "minecraft_access";
     private static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
@@ -46,7 +48,7 @@ public class MainClass {
         try {
             _init();
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred while initializing Minecraft Access.", e);
+            log.error("An error occurred while initializing Minecraft Access.", e);
         }
     }
 
@@ -55,7 +57,7 @@ public class MainClass {
         debugMode = OtherConfigsMap.getInstance().isDebugMode();
 
         String msg = "Initializing Minecraft Access";
-        MainClass.infoLog(msg);
+        log.info(msg);
 
         new AutoLibrarySetup().initialize();
 
@@ -91,8 +93,8 @@ public class MainClass {
     public static void clientTickEventsMethod(MinecraftClient minecraftClient) {
         try {
             _clientTickEventsMethod(minecraftClient);
-        }catch (Exception e){
-            MainClass.errorLog("An error occurred while running Minecraft Access client tick events", e);
+        } catch (Exception e) {
+            log.error("An error occurred while running Minecraft Access client tick events", e);
         }
     }
 
@@ -105,7 +107,7 @@ public class MainClass {
         if (!MainClass.alreadyDisabledAdvancementKey && minecraftClient.options != null) {
             minecraftClient.options.advancementsKey.setBoundKey(InputUtil.fromTranslationKey("key.keyboard.unknown"));
             MainClass.alreadyDisabledAdvancementKey = true;
-            infoLog("Unbound advancements key");
+            log.info("Unbound advancements key");
         }
 
         if (otherConfigsMap.isMenuFixEnabled()) {
@@ -152,18 +154,6 @@ public class MainClass {
 
         // TODO remove feature flag after complete
         // AreaMapMenu.getInstance().update();
-    }
-
-    public static void infoLog(String msg) {
-        if (debugMode) LOGGER.info(msg);
-    }
-
-    public static void errorLog(String msg) {
-        LOGGER.error(msg);
-    }
-
-    public static void errorLog(String msg, Throwable e) {
-        LOGGER.error(msg, e);
     }
 
     public static ScreenReaderInterface getScreenReader() {

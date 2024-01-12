@@ -8,6 +8,7 @@ import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.position.Orientation;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
+import lombok.extern.slf4j.Slf4j;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -35,6 +36,7 @@ import net.minecraft.util.math.Vec3d;
  * 16) Right Alt + double Look Down Key or Look Straight Down Key (default: Keypad .): Snaps the camera to the look down at feet direction.
  */
 @Environment(EnvType.CLIENT)
+@Slf4j
 public class CameraControls {
     private MinecraftClient minecraftClient;
 
@@ -67,7 +69,7 @@ public class CameraControls {
             boolean wasAnyKeyPressed = keyListener();
             if (wasAnyKeyPressed) interval.start();
         } catch (Exception e) {
-            MainClass.errorLog("Error encountered in Camera Controls feature.", e);
+            log.error("Error encountered in Camera Controls feature.", e);
         }
     }
 
@@ -208,7 +210,7 @@ public class CameraControls {
         minecraftClient.player.changeLookDirection(horizontalAngleDelta, verticalAngleDelta);
 
         // log and speak new facing direction
-        MainClass.infoLog("Rotating camera by x:%d y:%d".formatted((int) horizontalAngleDelta, (int) verticalAngleDelta));
+       log.info("Rotating camera by x:%d y:%d".formatted((int) horizontalAngleDelta, (int) verticalAngleDelta));
 
         PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
         String horizontalDirection = pUtil.getHorizontalFacingDirectionInCardinal();
@@ -234,7 +236,7 @@ public class CameraControls {
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, targetBlockPosition);
 
         // log and speak new facing direction
-        MainClass.infoLog("Rotating camera to: %s".formatted(direction.name()));
+       log.info("Rotating camera to: %s".formatted(direction.name()));
 
         PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
 

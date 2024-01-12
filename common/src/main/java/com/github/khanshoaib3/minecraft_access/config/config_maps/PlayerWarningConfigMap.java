@@ -2,9 +2,14 @@ package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class PlayerWarningConfigMap {
 
+    @Setter
     private static PlayerWarningConfigMap instance;
 
     @SerializedName("Enabled")
@@ -28,10 +33,6 @@ public class PlayerWarningConfigMap {
         return instance;
     }
 
-    public static void setInstance(PlayerWarningConfigMap map) {
-        instance = map;
-    }
-
     public static PlayerWarningConfigMap buildDefault() {
         PlayerWarningConfigMap defaultPlayerWarningConfigMap = new PlayerWarningConfigMap();
         defaultPlayerWarningConfigMap.setEnabled(true);
@@ -43,53 +44,5 @@ public class PlayerWarningConfigMap {
 
         setInstance(defaultPlayerWarningConfigMap);
         return defaultPlayerWarningConfigMap;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public boolean isPlaySound() {
-        return playSound;
-    }
-
-    public void setPlaySound(boolean playSound) {
-        this.playSound = playSound;
-    }
-
-    public double getFirstHealthThreshold() {
-        return firstHealthThreshold;
-    }
-
-    public void setFirstHealthThreshold(double firstHealthThreshold) {
-        this.firstHealthThreshold = firstHealthThreshold;
-    }
-
-    public double getSecondHealthThreshold() {
-        return secondHealthThreshold;
-    }
-
-    public void setSecondHealthThreshold(double secondHealthThreshold) {
-        this.secondHealthThreshold = secondHealthThreshold;
-    }
-
-    public double getHungerThreshold() {
-        return hungerThreshold;
-    }
-
-    public void setHungerThreshold(double hungerThreshold) {
-        this.hungerThreshold = hungerThreshold;
-    }
-
-    public double getAirThreshold() {
-        return airThreshold;
-    }
-
-    public void setAirThreshold(double airThreshold) {
-        this.airThreshold = airThreshold;
     }
 }

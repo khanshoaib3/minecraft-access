@@ -2,9 +2,14 @@ package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class POIEntitiesConfigMap {
 
+    @Setter
     private static POIEntitiesConfigMap instance;
 
     @SerializedName("Enabled")
@@ -26,10 +31,6 @@ public class POIEntitiesConfigMap {
         return instance;
     }
 
-    public static void setInstance(POIEntitiesConfigMap map) {
-        instance = map;
-    }
-
     public static POIEntitiesConfigMap buildDefault() {
         POIEntitiesConfigMap m = new POIEntitiesConfigMap();
         m.setEnabled(true);
@@ -40,45 +41,5 @@ public class POIEntitiesConfigMap {
 
         setInstance(m);
         return m;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public int getRange() {
-        return range;
-    }
-
-    public void setRange(int range) {
-        this.range = range;
-    }
-
-    public boolean isPlaySound() {
-        return playSound;
-    }
-
-    public void setPlaySound(boolean playSound) {
-        this.playSound = playSound;
-    }
-
-    public float getVolume() {
-        return volume;
-    }
-
-    public void setVolume(float volume) {
-        this.volume = volume;
-    }
-
-    public int getDelay() {
-        return delay;
-    }
-
-    public void setDelay(int delay) {
-        this.delay = delay;
     }
 }

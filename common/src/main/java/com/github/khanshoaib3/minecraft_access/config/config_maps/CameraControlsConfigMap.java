@@ -2,9 +2,13 @@ package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class CameraControlsConfigMap {
-
+    @Setter
     private static CameraControlsConfigMap instance;
 
     @SerializedName("Enabled")
@@ -24,10 +28,6 @@ public class CameraControlsConfigMap {
         return instance;
     }
 
-    public static void setInstance(CameraControlsConfigMap map) {
-        instance = map;
-    }
-
     public static CameraControlsConfigMap buildDefault() {
         CameraControlsConfigMap m = new CameraControlsConfigMap();
         m.setEnabled(true);
@@ -37,37 +37,5 @@ public class CameraControlsConfigMap {
 
         setInstance(m);
         return m;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public float getNormalRotatingAngle() {
-        return normalRotatingAngle;
-    }
-
-    public void setNormalRotatingAngle(float normalRotatingAngle) {
-        this.normalRotatingAngle = normalRotatingAngle;
-    }
-
-    public float getModifiedRotatingAngle() {
-        return modifiedRotatingAngle;
-    }
-
-    public void setModifiedRotatingAngle(float modifiedRotatingAngle) {
-        this.modifiedRotatingAngle = modifiedRotatingAngle;
-    }
-
-    public int getDelayInMilliseconds() {
-        return delayInMilliseconds;
-    }
-
-    public void setDelayInMilliseconds(int delayInMilliseconds) {
-        this.delayInMilliseconds = delayInMilliseconds;
     }
 }

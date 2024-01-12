@@ -2,8 +2,13 @@ package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class AreaMapConfigMap {
+    @Setter
     private static AreaMapConfigMap instance;
 
     @SerializedName("Enabled")
@@ -30,10 +35,6 @@ public class AreaMapConfigMap {
         return instance;
     }
 
-    public static void setInstance(AreaMapConfigMap map) {
-        instance = map;
-    }
-
     public static AreaMapConfigMap buildDefault() {
         AreaMapConfigMap m = new AreaMapConfigMap();
         m.enabled = true;
@@ -43,37 +44,5 @@ public class AreaMapConfigMap {
 
         setInstance(m);
         return m;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public int getDelayInMilliseconds() {
-        return delayInMilliseconds;
-    }
-
-    public void setDelayInMilliseconds(int delayInMilliseconds) {
-        this.delayInMilliseconds = delayInMilliseconds;
-    }
-
-    public int getVerticalBound() {
-        return verticalBound;
-    }
-
-    public void setVerticalBound(int verticalLimit) {
-        this.verticalBound = verticalLimit;
-    }
-
-    public int getHorizontalBound() {
-        return horizontalBound;
-    }
-
-    public void setHorizontalBound(int horizontalLimit) {
-        this.horizontalBound = horizontalLimit;
     }
 }

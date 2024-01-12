@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.PlayerWarningConfigMap;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.sound.SoundCategory;
@@ -10,6 +11,7 @@ import net.minecraft.sound.SoundEvents;
 /**
  * Warns the player when the health, hunger or food reaches below a certain threshold.
  */
+@Slf4j
 public class PlayerWarnings {
     private MinecraftClient minecraftClient;
 
@@ -56,7 +58,7 @@ public class PlayerWarnings {
 
             airWarning(air);
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred in PlayerWarnings.", e);
+            log.error("An error occurred in PlayerWarnings.", e);
         }
     }
 

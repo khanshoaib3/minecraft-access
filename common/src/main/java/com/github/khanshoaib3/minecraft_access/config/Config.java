@@ -1,8 +1,9 @@
 package com.github.khanshoaib3.minecraft_access.config;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -12,7 +13,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Slf4j
 public class Config {
+    /**
+     * -- GETTER --
+     *  Returns the singleton instance.
+     *  It's what we'll call when we want to operate on the config
+     */
+    @Getter
     private static final Config instance;
     private static final String CONFIG_FILE_PATH = Paths.get("config", "minecraft-access", "config.json").toString();
     private ConfigMap configMap = null;
@@ -26,14 +34,6 @@ public class Config {
      * To prevent constructing other instances.
      */
     protected Config() {
-    }
-
-    /**
-     * Returns the singleton instance.
-     * It's what we'll call when we want to operate on the config
-     */
-    public static Config getInstance() {
-        return instance;
     }
 
     /**
@@ -56,10 +56,10 @@ public class Config {
             ConfigMap.setInstance(configMap);
 
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred while reading config.json file, resetting to default", e);
+            log.error("An error occurred while reading config.json file, resetting to default", e);
             resetConfigToDefault();
         } finally {
-            MainClass.infoLog("Loaded configurations from config.json");
+           log.info("Loaded configurations from config.json");
         }
     }
 
@@ -80,7 +80,7 @@ public class Config {
             this.configMap = ConfigMap.buildDefault();
             writeJSON();
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred while resetting config.json file to default.", e);
+            log.error("An error occurred while resetting config.json file to default.", e);
         }
     }
 
@@ -91,7 +91,7 @@ public class Config {
 
         configFile.getParentFile().mkdirs();
         configFile.createNewFile();
-        MainClass.infoLog("Created an empty config.json file at: %s".formatted(configFile.getAbsolutePath()));
+       log.info("Created an empty config.json file at: %s".formatted(configFile.getAbsolutePath()));
 
         resetConfigToDefault();
     }
@@ -100,7 +100,7 @@ public class Config {
         try (Writer writer = new FileWriter(CONFIG_FILE_PATH)) {
             writer.write(gson.toJson(configMap));
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred while saving config.json file.", e);
+            log.error("An error occurred while saving config.json file.", e);
         }
     }
 

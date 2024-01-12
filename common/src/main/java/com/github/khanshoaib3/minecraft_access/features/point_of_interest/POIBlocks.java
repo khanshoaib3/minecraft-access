@@ -1,11 +1,12 @@
 package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIBlocksConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.google.common.collect.ImmutableSet;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.fluid.FluidState;
@@ -22,6 +23,7 @@ import java.util.function.Predicate;
 /**
  * Scans the area to find exposed ore blocks, doors, buttons, ladders, etc., groups them and plays a sound only at ore blocks.
  */
+@Slf4j
 public class POIBlocks {
     private static final POIBlocks instance;
     private MinecraftClient minecraftClient;
@@ -92,6 +94,7 @@ public class POIBlocks {
     private boolean playSoundForOtherBlocks;
     private Interval interval;
     private Predicate<BlockState> markedBlock = state -> false;
+    @Setter
     private boolean marking = false;
 
     static {
@@ -139,17 +142,17 @@ public class POIBlocks {
             int posZ = pos.getZ();
             checkedBlocks = new ArrayList<>();
 
-            MainClass.infoLog("POIBlock started...");
+           log.info("POIBlock started...");
 
             checkBlock(new BlockPos(new Vec3i(posX, posY, posZ)), 0);
             checkBlock(new BlockPos(new Vec3i(posX, posY + 3, posZ)), 0);
             checkBlock(new BlockPos(new Vec3i(posX, posY + 1, posZ)), this.range);
             checkBlock(new BlockPos(new Vec3i(posX, posY + 2, posZ)), this.range);
 
-            MainClass.infoLog("POIBlock ended.");
+           log.info("POIBlock ended.");
 
         } catch (Exception e) {
-            MainClass.errorLog("Error encountered in poi blocks feature.", e);
+            log.error("Error encountered in poi blocks feature.", e);
         }
     }
 
@@ -239,19 +242,19 @@ public class POIBlocks {
         if (this.playSound && this.volume > 0 && !soundType.isEmpty()) {
 
             if (soundType.equalsIgnoreCase("mark")) {
-                MainClass.infoLog("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+               log.info("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
                 minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.ENTITY_ITEM_PICKUP,
                         SoundCategory.BLOCKS, volume, -5f);
             }
 
             if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
                 if (!soundType.equalsIgnoreCase("mark")) {
-                    MainClass.infoLog("{POIBlocks} Suppress sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+                   log.info("{POIBlocks} Suppress sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
                 }
                 return;
             }
 
-            MainClass.infoLog("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+           log.info("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
 
             if (soundType.equalsIgnoreCase("ore"))
                 minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.ENTITY_ITEM_PICKUP,
@@ -264,10 +267,6 @@ public class POIBlocks {
                         SoundCategory.BLOCKS, volume, 0f);
 
         }
-    }
-
-    public void setMarking(boolean marking) {
-        this.marking = marking;
     }
 
     public void setMarkedBlock(Block block) {

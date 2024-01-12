@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.mixin;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -21,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Slf4j
 @Mixin(ClientPlayNetworkHandler.class)
 public abstract class ClientPlayNetworkHandlerMixin implements TickablePacketListener, ClientPlayPacketListener {
     @Shadow
@@ -50,7 +52,7 @@ public abstract class ClientPlayNetworkHandlerMixin implements TickablePacketLis
                 // This item might be an ExperienceOrbEntity and we don't want to speak this sort of thing.
                 if (entity instanceof ItemEntity itemEntity) {
                     String name = I18n.translate(itemEntity.getStack().getItem().getTranslationKey());
-                    MainClass.infoLog("Fishing harvest: %s".formatted(name));
+                    log.info("Fishing harvest: %s".formatted(name));
 
                     // Have observed this speak will interrupt adventure achievement, level up notification or so,
                     // it should be at low priority.

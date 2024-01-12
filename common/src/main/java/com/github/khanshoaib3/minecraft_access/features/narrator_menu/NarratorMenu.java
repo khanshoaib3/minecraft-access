@@ -13,6 +13,7 @@ import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -35,6 +36,7 @@ import java.util.stream.Stream;
 /**
  * Opens a menu when F4 button is pressed (configurable) with few helpful options.
  */
+@Slf4j
 public class NarratorMenu {
     /**
      * Way more far than the Read Crosshair feature (6 blocks).
@@ -136,7 +138,7 @@ public class NarratorMenu {
             menuKey.updateStateForNextTick();
             hotKey.updateStateForNextTick();
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred in NarratorMenu.", e);
+            log.error("An error occurred in NarratorMenu.", e);
         }
     }
 
@@ -194,12 +196,12 @@ public class NarratorMenu {
                         String text = mutableText.getString() + ", " + NarrationUtils.narrateRelativePositionOfPlayerAnd(blockPos);
                         MainClass.speakWithNarrator(text, true);
                     } catch (Exception e) {
-                        MainClass.errorLog("An error occurred when speaking block information.", e);
+                        log.error("An error occurred when speaking block information.", e);
                     }
                 }
             }
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred when getting block and target information.", e);
+            log.error("An error occurred when getting block and target information.", e);
         }
     }
 
@@ -229,12 +231,12 @@ public class NarratorMenu {
                         BlockPos blockPos = blockHitResult.getBlockPos();
                         MainClass.speakWithNarrator(NarrationUtils.narrateCoordinatesOf(blockPos), true);
                     } catch (Exception e) {
-                        MainClass.errorLog("An error occurred when speaking block position.", e);
+                        log.error("An error occurred when speaking block position.", e);
                     }
                 }
             }
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred when getting block and target position.", e);
+            log.error("An error occurred when getting block and target position.", e);
         }
     }
 
@@ -279,7 +281,7 @@ public class NarratorMenu {
             int light = minecraftClient.world.getLightLevel(minecraftClient.player.getBlockPos());
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.light_level", light), true);
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred when getting light level.", e);
+            log.error("An error occurred when getting light level.", e);
         }
     }
 
@@ -294,7 +296,7 @@ public class NarratorMenu {
             String name = I18n.translate(BiomeIndicator.getBiomeName(var27));
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.biome", name), true);
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred when getting biome.", e);
+            log.error("An error occurred when getting biome.", e);
         }
     }
 
@@ -306,7 +308,7 @@ public class NarratorMenu {
 
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.xp", PlayerUtils.getExperienceLevel(), PlayerUtils.getExperienceProgress()), true);
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred when getting XP.", e);
+            log.error("An error occurred when getting XP.", e);
         }
     }
 
@@ -336,7 +338,7 @@ public class NarratorMenu {
             toSpeak = I18n.translate(translationKey, toSpeak);
             MainClass.speakWithNarrator(toSpeak, true);
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred while speaking time of day.", e);
+            log.error("An error occurred while speaking time of day.", e);
         }
     }
 }

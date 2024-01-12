@@ -2,10 +2,15 @@ package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
 public class RCPartialSpeakingConfigMap {
+    @Setter
     private static RCPartialSpeakingConfigMap instance;
 
     @SerializedName("Enabled")
@@ -34,10 +39,6 @@ public class RCPartialSpeakingConfigMap {
         return m;
     }
 
-    public static void setInstance(RCPartialSpeakingConfigMap map) {
-        instance = map;
-    }
-
     public static RCPartialSpeakingConfigMap getInstance() {
         if (instance == null) Config.getInstance().loadConfig();
         return instance;
@@ -50,48 +51,5 @@ public class RCPartialSpeakingConfigMap {
         ENTITY,
         @SerializedName("block")
         BLOCK,
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public RCPartialSpeakingConfigMap setEnabled(boolean enabled) {
-        this.enabled = enabled;
-        return this;
-    }
-
-    public boolean isPartialSpeakingWhitelistMode() {
-        return partialSpeakingWhitelistMode;
-    }
-
-    public void setPartialSpeakingWhitelistMode(boolean partialSpeakingWhitelistMode) {
-        this.partialSpeakingWhitelistMode = partialSpeakingWhitelistMode;
-    }
-
-    public List<String> getPartialSpeakingTargets() {
-        return partialSpeakingTargets;
-    }
-
-    @SuppressWarnings("unused")
-    public void setPartialSpeakingTargets(List<String> partialSpeakingBlocks) {
-        this.partialSpeakingTargets = partialSpeakingBlocks;
-    }
-
-    public boolean isPartialSpeakingFuzzyMode() {
-        return partialSpeakingFuzzyMode;
-    }
-
-    public void setPartialSpeakingFuzzyMode(boolean partialSpeakingFuzzyMode) {
-        this.partialSpeakingFuzzyMode = partialSpeakingFuzzyMode;
-    }
-
-    public PartialSpeakingTargetMode getPartialSpeakingTargetMode() {
-        return partialSpeakingTargetMode;
-    }
-
-    @SuppressWarnings("unused")
-    public void setPartialSpeakingTargetMode(PartialSpeakingTargetMode partialSpeakingTargetMode) {
-        this.partialSpeakingTargetMode = partialSpeakingTargetMode;
     }
 }

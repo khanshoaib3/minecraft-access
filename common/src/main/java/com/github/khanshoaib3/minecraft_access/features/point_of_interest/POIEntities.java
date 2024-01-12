@@ -1,9 +1,10 @@
 package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIEntitiesConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EyeOfEnderEntity;
@@ -25,6 +26,7 @@ import java.util.function.Predicate;
 /**
  * Scans the area for entities, groups them and plays a sound at their location.
  */
+@Slf4j
 public class POIEntities {
 
     public static TreeMap<Double, Entity> passiveEntity = new TreeMap<>();
@@ -38,6 +40,7 @@ public class POIEntities {
     private boolean enabled;
 
     private static final POIEntities instance;
+    @Setter
     private boolean marking = false;
     private Predicate<Entity> markedEntity = e -> false;
 
@@ -71,7 +74,7 @@ public class POIEntities {
             hostileEntity = new TreeMap<>();
             markedEntities = new TreeMap<>();
 
-            MainClass.infoLog("POIEntities started...");
+           log.info("POIEntities started...");
 
             for (Entity i : minecraftClient.world.getEntities()) {
                 if (!(i instanceof MobEntity || i instanceof ItemEntity || i instanceof EyeOfEnderEntity || (i instanceof PlayerEntity && i != minecraftClient.player)))
@@ -96,7 +99,7 @@ public class POIEntities {
                 }
 
                 if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
-                    MainClass.infoLog("POIEntities end early by POI marking feature.");
+                   log.info("POIEntities end early by POI marking feature.");
                     return;
                 }
 
@@ -116,10 +119,10 @@ public class POIEntities {
                     this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
                 }
             }
-            MainClass.infoLog("POIEntities end.");
+           log.info("POIEntities end.");
 
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred while executing POIEntities", e);
+            log.error("An error occurred while executing POIEntities", e);
         }
     }
 
@@ -128,7 +131,7 @@ public class POIEntities {
         if (minecraftClient.world == null) return;
         if (!playSound || !(volume > 0f)) return;
 
-        MainClass.infoLog("{POIEntity} Playing sound at x:%d y:%d z%d".formatted(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
+       log.info("{POIEntity} Playing sound at x:%d y:%d z%d".formatted(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
         minecraftClient.world.playSound(minecraftClient.player, blockPos, soundEvent, SoundCategory.BLOCKS, volume, pitch);
     }
 
@@ -142,10 +145,6 @@ public class POIEntities {
         this.playSound = map.isPlaySound();
         this.volume = map.getVolume();
         this.interval = Interval.inMilliseconds(map.getDelay(), this.interval);
-    }
-
-    public void setMarking(boolean marking) {
-        this.marking = marking;
     }
 
     public void setMarkedEntity(Entity entity) {

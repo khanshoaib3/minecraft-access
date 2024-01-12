@@ -2,8 +2,10 @@ package com.github.khanshoaib3.minecraft_access.screen_reader;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.system.OsUtils;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 
+@Slf4j
 public class ScreenReaderController {
     public static ScreenReaderInterface getAvailable() {
         if (OsUtils.isLinux()) {
@@ -26,7 +28,7 @@ public class ScreenReaderController {
     }
 
     public static void refreshScreenReader(boolean closeOpenedScreen) {
-        MainClass.infoLog("Refreshing screen reader");
+       log.info("Refreshing screen reader");
         try {
             MainClass.setScreenReader(getAvailable());
 
@@ -36,7 +38,7 @@ public class ScreenReaderController {
             MinecraftClient.getInstance().player.closeScreen();
             MainClass.speakWithNarrator("Screen reader refreshed", true);
         } catch (Exception e) {
-            MainClass.errorLog("An error while refreshing screen reader", e);
+            log.error("An error while refreshing screen reader", e);
         }
     }
 }
