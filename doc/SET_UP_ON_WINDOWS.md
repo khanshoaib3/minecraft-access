@@ -51,7 +51,7 @@ Below are system requirements from [the official website](https://www.minecraft.
 > And yeah, most servers have this authentication turned on.
 >
 > It is theoretically possible to install mods for pirated Minecraft, but I don't know how to do it,
-> and for your and your computer's safety we don't recommend playing pirated games, so lets not discuss this further.
+> and for your and your computer's safety we don't recommend playing pirated games, so lets not discuss this further, google it yourself if you insist.
 
 There are two editions of Minecraft: Java Edition and Bedrock Edition.
 This Mod is only available for the Java Edition.
@@ -95,11 +95,10 @@ So if you have problem with Microsoft Store service, please download the older o
 The launcher installer is a normal executable file, run it and wait for the finish.
 If the installation is successful, you will now have a new application called `Minecraft Launcher`.
 
-I'm not sure if the next steps require starting the launcher once first to get it to initialize something.
-So try starting the launcher, then start whatever version of the Java Edition Minecraft (the latest version by default).
+The next steps require starting the launcher once first to let it generate the game folder, so try [starting the launcher](#start-the-game), then start whatever version of the Java Edition Minecraft (the latest version by default).
 Something may need to be prepared every time the launcher starts, especially at the first time the whole game need to be downloaded.
 This may take a few minutes, and you can listen to the screen reader's progress bar sound effect to know the progress.
-At the first time you start it requires you to sign in with your Microsoft account.
+At the first time you start the launcher it requires you to sign in with your Microsoft account.
 
 ## Choose and Install the Mod Framework
 
@@ -152,7 +151,7 @@ Try to switch to English input method first, if the problem still persists, plea
 Start the installer, a window pops up for you to choose the installation configurations:
 
 1. The `Client` tab is selected by default, yeah we want to install the client, don't change it.
-2. The first combo box is for selecting the game version you want to install, please refer to the current game version that supported by this mod on [releases page](https://github.com/khanshoaib3/minecraft-access/releases).
+2. The first combo box is for selecting the game version you want to install, please refer to the current game version that supported by this mod on [releases page](https://github.com/khanshoaib3/minecraft-access/releases) (under `Mod Version Compatibility` section), and change the combo box to select that game version.
 3. Next is a checkbox for showing game snapshot versions, just ignore it, it's for mod developers.
 4. The second combo box is for selecting the Fabric loader version, the latest version is selected by default and no need to change.
 5. Then there is an input field for specifying the installation location, normally the installer will automatically recognize the official loader's folder,
@@ -167,9 +166,9 @@ Start the installer, a window pops up for you to choose the installation configu
 
 #### Download the Forge
 
-Reports have been received that higher versions of Forge that are compatible with the game version may not be compatible with the mod, so it is recommended to download the tested version of Forge with link in the [releases page](https://github.com/khanshoaib3/minecraft-access/releases) (under `Mod Version Compatibility` section).
-Forge requires you to select the right version of the game at the time of download the installer, please refer to the current game version that supported by this mod on releases page.
-If you want to download the latest version of Forge for some reason, [here is the download page for the Forge](https://files.minecraftforge.net/net/minecraftforge/forge/).
+Forge requires you to select the right version of the game at the time of download the installer.
+Reports have been received that higher versions of Forge that are compatible with the game version may not be compatible with this mod (this mod is always built on one specific Forge version), so it is recommended to download the tested version of Forge with link in the [releases page](https://github.com/khanshoaib3/minecraft-access/releases) (under `Mod Version Compatibility` section).
+If you still want to download the latest version of Forge for some reason, [here is the download page for that version of Forge](https://files.minecraftforge.net/net/minecraftforge/forge/).
 Select the `Installer` button under the `Download Recommended` sector.
 Then the website will redirect you to a Minecraft server provider's advertising page, in which you'll find a `SKIP` button, click it to trigger the real downloading process.
 An executable jar file will be downloaded, named as `forge-<game-version>-<forge-version>-installer.jar`, for example `forge-1.20.1-47.1.0-installer.jar`.
@@ -278,7 +277,10 @@ If the game crashes and a bunch of error logs pop up, the biggest probability is
 
 ## Upgrade the Game and Mods
 
-Recall what is mentioned above:
+Upgrade the game is simple, for [Fabric](#install-the-fabric), change the preferring installing game version in Fabric installer screen, for [Forge](#install-the-forge), download another installer for the game version you want and install it.
+You need to check all mod files in the `mods` folder for compatibility with the new game version, and replace or remove incompatible mods.
+
+Now let's talk about how to upgrade mods, recall what is mentioned above:
 
 1. The mod framework itself and mods of Fabric and Forge are not compatible with each other.
 2. The same framework for different game versions are not compatible with mod files which support other game versions.
@@ -293,8 +295,6 @@ Some examples to help you understand:
 According to these conditions, if you want to upgrade some mods version while keeping the game version unchanged, you just need to replace the corresponding mod files.
 For mods that have dependencies like this mod, you also need to be aware of that whether the version of dependent mods have changed.
 For example, when upgrading this mod, you should be also aware the version changes of `Fabric Api` and `Architectury Api` mods.
-
-If you want to update the game version, you need to check all mod files in the `mods` folder for compatibility with the new game version, and replace or remove incompatible mods.
 
 Another situation that causes the game to crash or misbehave is conflict between mods, which is difficult to reflect in the error log because it is hard to predict.
 For this type of error, there is a simple, common, cumbersome, no-better-choice method for all modded games: move all mod files into a temporal folder, then add them back one by one, try to start the game every time you move back a file.
