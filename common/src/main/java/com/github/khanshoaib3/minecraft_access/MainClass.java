@@ -14,14 +14,13 @@ import dev.architectury.event.events.client.ClientTickEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.util.Strings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Slf4j
 public class MainClass {
     public static final String MOD_ID = "minecraft_access";
-    private static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     private static ScreenReaderInterface screenReader = null;
 
     public static CameraControls cameraControls = null;
@@ -37,8 +36,6 @@ public class MainClass {
 
     public static boolean isForge = false;
     public static boolean interrupt = true;
-
-    private static boolean debugMode;
     private static boolean alreadyDisabledAdvancementKey = false;
 
     /**
@@ -54,7 +51,6 @@ public class MainClass {
 
     private static void _init() {
         Config.getInstance().loadConfig();
-        debugMode = OtherConfigsMap.getInstance().isDebugMode();
 
         String msg = "Initializing Minecraft Access";
         log.info(msg);
@@ -99,9 +95,9 @@ public class MainClass {
     }
 
     private static void _clientTickEventsMethod(MinecraftClient minecraftClient) {
-        // update debug mode config
         OtherConfigsMap otherConfigsMap = OtherConfigsMap.getInstance();
-        debugMode = otherConfigsMap.isDebugMode();
+
+        changeLogLevelBaseOnDebugConfig();
 
         // TODO change attack and use keys on startup and add startup features to config.json
         if (!MainClass.alreadyDisabledAdvancementKey && minecraftClient.options != null) {
@@ -154,6 +150,24 @@ public class MainClass {
 
         // TODO remove feature flag after complete
         // AreaMapMenu.getInstance().update();
+    }
+
+    private static void changeLogLevelBaseOnDebugConfig() {
+        // Dynamic changing log level based on debug mode config
+        //
+        // Start the client with these JVM flags:
+        // -Dfabric.log.level=debug
+        // -Dforge.logging.console.level=debug
+        // to see debug logs in the console when you're developing.
+        //
+        // Although the debug log won't be printed in console by default,
+        // they'll be printed in "debug.log" under game's "logs" directory.
+        boolean debugMode = OtherConfigsMap.getInstance().isDebugMode();
+        if (debugMode && !log.isDebugEnabled()) {
+            Configurator.setLevel("com.github.khanshoaib3.minecraft_access", Level.DEBUG);
+        } else if (log.isDebugEnabled()) {
+            Configurator.setLevel("com.github.khanshoaib3.minecraft_access", Level.INFO);
+        }
     }
 
     public static ScreenReaderInterface getScreenReader() {
