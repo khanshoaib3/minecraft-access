@@ -152,19 +152,15 @@ public class MainClass {
         // AreaMapMenu.getInstance().update();
     }
 
+    /**
+     * Dynamically changing log level based on debug mode config.
+     */
     private static void changeLogLevelBaseOnDebugConfig() {
-        // Dynamic changing log level based on debug mode config
-        //
-        // Start the client with these JVM flags:
-        // -Dfabric.log.level=debug
-        // -Dforge.logging.console.level=debug
-        // to see debug logs in the console when you're developing.
-        //
-        // Although the debug log won't be printed in console by default,
-        // they'll be printed in "debug.log" under game's "logs" directory.
         boolean debugMode = OtherConfigsMap.getInstance().isDebugMode();
-        if (debugMode && !log.isDebugEnabled()) {
-            Configurator.setLevel("com.github.khanshoaib3.minecraft_access", Level.DEBUG);
+        if (debugMode) {
+            if (!log.isDebugEnabled()) {
+                Configurator.setLevel("com.github.khanshoaib3.minecraft_access", Level.DEBUG);
+            }
         } else if (log.isDebugEnabled()) {
             Configurator.setLevel("com.github.khanshoaib3.minecraft_access", Level.INFO);
         }
