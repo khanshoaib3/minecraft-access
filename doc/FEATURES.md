@@ -101,8 +101,8 @@ When you put down grabbing items in an occupied slot, items in the slot will swi
 Please note that:
 
 1. Item speaking in "Scrollable Recipes Group" under "Crafting Screen" will be delayed about one second, please wait after press the slot moving key to hear the item name.
-
 2. In "Scrollable Recipes Group" under "Crafting Screen", except the first page, sometimes you will hear nothing while you moving between slots. It's best to keep items you want to craft within the first page of the recipe book by moving unused resource items out of your inventory.
+3. After put things into an [Anvil](https://minecraft.fandom.com/wiki/Anvil), the cursor will be automatically focused onto the rename input text field, all you need to do is pressing "Enter" key to go back to slot selection.
 
 See also: [Configuration](/doc/CONFIG.md#inventory-controls), [Keybindings](/doc/KEYBINDINGS.md#inventory-controls)
 
