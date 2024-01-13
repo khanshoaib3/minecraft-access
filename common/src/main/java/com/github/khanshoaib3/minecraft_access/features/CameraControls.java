@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.features;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControlsConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.Log;
 import com.github.khanshoaib3.minecraft_access.utils.condition.DoubleClick;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.position.Orientation;
@@ -210,7 +211,7 @@ public class CameraControls {
         minecraftClient.player.changeLookDirection(horizontalAngleDelta, verticalAngleDelta);
 
         // log and speak new facing direction
-       log.debug("Rotating camera by x:%d y:%d".formatted((int) horizontalAngleDelta, (int) verticalAngleDelta));
+        Log.debug(log, "Rotating camera by x:%d y:%d".formatted((int) horizontalAngleDelta, (int) verticalAngleDelta));
 
         PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
         String horizontalDirection = pUtil.getHorizontalFacingDirectionInCardinal();
@@ -236,7 +237,7 @@ public class CameraControls {
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, targetBlockPosition);
 
         // log and speak new facing direction
-       log.debug("Rotating camera to: %s".formatted(direction.name()));
+        Log.debug(log, "Rotating camera to: %s".formatted(direction.name()));
 
         PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
 

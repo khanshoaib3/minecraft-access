@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIEntitiesConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
+import com.github.khanshoaib3.minecraft_access.utils.Log;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -74,7 +75,7 @@ public class POIEntities {
             hostileEntity = new TreeMap<>();
             markedEntities = new TreeMap<>();
 
-           log.debug("POIEntities started...");
+            Log.debug(log, "POIEntities started...");
 
             for (Entity i : minecraftClient.world.getEntities()) {
                 if (!(i instanceof MobEntity || i instanceof ItemEntity || i instanceof EyeOfEnderEntity || (i instanceof PlayerEntity && i != minecraftClient.player)))
@@ -99,7 +100,7 @@ public class POIEntities {
                 }
 
                 if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
-                   log.debug("POIEntities end early by POI marking feature.");
+                    Log.debug(log, "POIEntities end early by POI marking feature.");
                     return;
                 }
 
@@ -119,7 +120,7 @@ public class POIEntities {
                     this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
                 }
             }
-           log.debug("POIEntities end.");
+            Log.debug(log, "POIEntities end.");
 
         } catch (Exception e) {
             log.error("An error occurred while executing POIEntities", e);
@@ -131,7 +132,7 @@ public class POIEntities {
         if (minecraftClient.world == null) return;
         if (!playSound || !(volume > 0f)) return;
 
-       log.debug("{POIEntity} Playing sound at x:%d y:%d z%d".formatted(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
+        Log.debug(log, "{POIEntity} Playing sound at x:%d y:%d z%d".formatted(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
         minecraftClient.world.playSound(minecraftClient.player, blockPos, soundEvent, SoundCategory.BLOCKS, volume, pitch);
     }
 

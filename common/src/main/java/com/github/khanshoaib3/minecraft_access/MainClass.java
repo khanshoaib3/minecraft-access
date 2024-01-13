@@ -9,13 +9,12 @@ import com.github.khanshoaib3.minecraft_access.features.point_of_interest.Lockin
 import com.github.khanshoaib3.minecraft_access.features.point_of_interest.POIMarking;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
+import com.github.khanshoaib3.minecraft_access.utils.Log;
 import com.mojang.text2speech.Narrator;
 import dev.architectury.event.events.client.ClientTickEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.util.Strings;
 
 @Slf4j
@@ -97,7 +96,7 @@ public class MainClass {
     private static void _clientTickEventsMethod(MinecraftClient minecraftClient) {
         OtherConfigsMap otherConfigsMap = OtherConfigsMap.getInstance();
 
-        changeLogLevelBaseOnDebugConfig();
+        Log.updateDebugModeConfig();
 
         // TODO change attack and use keys on startup and add startup features to config.json
         if (!MainClass.alreadyDisabledAdvancementKey && minecraftClient.options != null) {
@@ -150,20 +149,6 @@ public class MainClass {
 
         // TODO remove feature flag after complete
         // AreaMapMenu.getInstance().update();
-    }
-
-    /**
-     * Dynamically changing log level based on debug mode config.
-     */
-    private static void changeLogLevelBaseOnDebugConfig() {
-        boolean debugMode = OtherConfigsMap.getInstance().isDebugMode();
-        if (debugMode) {
-            if (!log.isDebugEnabled()) {
-                Configurator.setLevel("com.github.khanshoaib3.minecraft_access", Level.DEBUG);
-            }
-        } else if (log.isDebugEnabled()) {
-            Configurator.setLevel("com.github.khanshoaib3.minecraft_access", Level.INFO);
-        }
     }
 
     public static ScreenReaderInterface getScreenReader() {

@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.features.area_map_menu;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.AreaMapConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.Log;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
@@ -169,7 +170,7 @@ public class AreaMapMenu {
         if (!checkCursorWithinDistanceBound(nextStep)) return;
 
         this.cursor = nextStep;
-       log.debug("Cursor moves " + direction + ": " + cursor);
+        Log.debug(log, "Cursor moves " + direction + ": " + cursor);
         Pair<String, String> blockDescription = NarrationUtils.narrateBlock(this.cursor, "");
         MainClass.speakWithNarrator(blockDescription.getLeft(), true);
         // TODO Alt + speak position key
@@ -181,7 +182,7 @@ public class AreaMapMenu {
         int distanceOnX = Math.abs(playerPos.getX() - nextStep.getX());
         int distanceOnY = Math.abs(playerPos.getY() - nextStep.getY());
         int distanceOnZ = Math.abs(playerPos.getZ() - nextStep.getZ());
-        if(distanceOnX > horizontalBound || distanceOnZ > horizontalBound || distanceOnY > verticalBound) {
+        if (distanceOnX > horizontalBound || distanceOnZ > horizontalBound || distanceOnY > verticalBound) {
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.cursor_reach_bound"), true);
             return false;
         }

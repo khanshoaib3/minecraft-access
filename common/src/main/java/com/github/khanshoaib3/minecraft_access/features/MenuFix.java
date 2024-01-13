@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
+import com.github.khanshoaib3.minecraft_access.utils.Log;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.MouseUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -71,7 +72,7 @@ public class MenuFix {
         try {
             if (menuList.contains(minecraftClient.currentScreen.getClass())) {
                 if (!(prevScreenClass == minecraftClient.currentScreen.getClass())) {
-                   log.debug("%s opened, now moving the mouse cursor.".formatted(minecraftClient.currentScreen.getTitle().getString()));
+                    Log.debug(log, "%s opened, now moving the mouse cursor.".formatted(minecraftClient.currentScreen.getTitle().getString()));
                     moveMouseCursor(minecraftClient);
                     prevScreenClass = minecraftClient.currentScreen.getClass();
                 }

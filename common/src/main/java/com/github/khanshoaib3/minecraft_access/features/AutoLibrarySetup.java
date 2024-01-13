@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
+import com.github.khanshoaib3.minecraft_access.utils.Log;
 import com.github.khanshoaib3.minecraft_access.utils.UnzipUtility;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -36,7 +37,7 @@ public class AutoLibrarySetup {
      */
     private void downloadAndInstall() throws IOException {
         if (SystemUtils.IS_OS_WINDOWS) {
-           log.info("Downloading latest tolk build...");
+            log.info("Downloading latest tolk build...");
             File tolkLatestBuildZip = new File(Paths.get("tolk-latest-build.zip").toAbsolutePath().toString());
             FileUtils.copyURLToFile(new URL("https://github.com/ndarilek/tolk/releases/download/refs%2Fheads%2Fmaster/tolk.zip"), tolkLatestBuildZip);
 
@@ -48,20 +49,20 @@ public class AutoLibrarySetup {
                 log.error("An error occurred while extracting tolk-latest-build.zip", e);
             }
 
-           log.info("Moving files...");
+            log.info("Moving files...");
             String sourceDir = "x64";
             if (SystemUtils.OS_ARCH.equalsIgnoreCase("X86")) sourceDir = "x86";
             FileUtils.copyDirectory(Paths.get(tempDirectoryPath.getAbsolutePath(), sourceDir).toFile(),
                     tempDirectoryPath.getParentFile());
 
-           log.info("Deleting temp files...");
+            log.info("Deleting temp files...");
             FileUtils.delete(tolkLatestBuildZip);
             FileUtils.deleteDirectory(tempDirectoryPath);
-           log.info("tolk library downloaded and installed.");
+            log.info("tolk library downloaded and installed.");
         } else if (SystemUtils.IS_OS_LINUX) {
-           log.info("Downloading libspeechdwrapper.so ...");
+            log.info("Downloading libspeechdwrapper.so ...");
             FileUtils.copyURLToFile(new URL("https://github.com/khanshoaib3/libspeechdwrapper/releases/download/v1.0.0/libspeechdwrapper.so"), new File(Paths.get("libspeechdwrapper.so").toAbsolutePath().toString()));
-           log.info("libspeechdwrapper.so downloaded and installed.");
+            log.info("libspeechdwrapper.so downloaded and installed.");
         }
     }
 
@@ -71,17 +72,17 @@ public class AutoLibrarySetup {
      * @return Returns true if all files are installed otherwise false.
      */
     private boolean checkInstalled() {
-       log.info("Checking for installed files...");
+        log.info("Checking for installed files...");
 
         for (String libraryName : getRequiredLibraryNames()) {
-           log.debug("Checking for " + libraryName);
+            Log.debug(log, "Checking for " + libraryName);
             if (!Files.exists(Paths.get(libraryName).toAbsolutePath())) {
-               log.error(libraryName + " file not found.");
+                log.error(libraryName + " file not found.");
                 return false;
             }
         }
 
-       log.info("All files are installed.");
+        log.info("All files are installed.");
         return true;
     }
 

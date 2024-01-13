@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.config.config_maps.FallDetectorConfigMap;
+import com.github.khanshoaib3.minecraft_access.utils.Log;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.sound.SoundCategory;
@@ -66,9 +67,9 @@ public class FallDetector {
             if (currentTimeInMillis - previousTimeInMillis < delayInMilliseconds) return;
             previousTimeInMillis = currentTimeInMillis;
 
-           log.debug("Searching for fall in nearby area...");
+            Log.debug(log, "Searching for fall in nearby area...");
             SearchNearbyPositions();
-           log.debug("Searching ended.");
+            Log.debug(log, "Searching ended.");
         } catch (Exception e) {
             log.error("An error occurred in fall detector.", e);
         }
@@ -123,7 +124,7 @@ public class FallDetector {
 
         if (getDepth(toCheck, depth) < depth) return;
 
-       log.debug("%d) Found qualified fall position: x:%d y:%d z:%d".formatted(++count, toCheck.getX(), toCheck.getY(), toCheck.getZ()));
+        Log.debug(log, "%d) Found qualified fall position: x:%d y:%d z:%d".formatted(++count, toCheck.getX(), toCheck.getY(), toCheck.getZ()));
         minecraftClient.world.playSoundAtBlockCenter(toCheck, SoundEvents.BLOCK_ANVIL_HIT, SoundCategory.BLOCKS, volume, 1f, true);
     }
 

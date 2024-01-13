@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.mixin;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
+import com.github.khanshoaib3.minecraft_access.utils.Log;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -52,7 +53,7 @@ public abstract class ClientPlayNetworkHandlerMixin implements TickablePacketLis
                 // This item might be an ExperienceOrbEntity and we don't want to speak this sort of thing.
                 if (entity instanceof ItemEntity itemEntity) {
                     String name = I18n.translate(itemEntity.getStack().getItem().getTranslationKey());
-                    log.debug("Fishing harvest: %s".formatted(name));
+                    Log.debug(log, "Fishing harvest: %s".formatted(name));
 
                     // Have observed this speak will interrupt adventure achievement, level up notification or so,
                     // it should be at low priority.

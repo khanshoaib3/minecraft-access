@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIBlocksConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
+import com.github.khanshoaib3.minecraft_access.utils.Log;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.google.common.collect.ImmutableSet;
@@ -142,14 +143,14 @@ public class POIBlocks {
             int posZ = pos.getZ();
             checkedBlocks = new ArrayList<>();
 
-           log.debug("POIBlock started...");
+            Log.debug(log, "POIBlock started...");
 
             checkBlock(new BlockPos(new Vec3i(posX, posY, posZ)), 0);
             checkBlock(new BlockPos(new Vec3i(posX, posY + 3, posZ)), 0);
             checkBlock(new BlockPos(new Vec3i(posX, posY + 1, posZ)), this.range);
             checkBlock(new BlockPos(new Vec3i(posX, posY + 2, posZ)), this.range);
 
-           log.debug("POIBlock ended.");
+            Log.debug(log, "POIBlock ended.");
 
         } catch (Exception e) {
             log.error("Error encountered in poi blocks feature.", e);
@@ -242,19 +243,19 @@ public class POIBlocks {
         if (this.playSound && this.volume > 0 && !soundType.isEmpty()) {
 
             if (soundType.equalsIgnoreCase("mark")) {
-               log.debug("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+                Log.debug(log, "{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
                 minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.ENTITY_ITEM_PICKUP,
                         SoundCategory.BLOCKS, volume, -5f);
             }
 
             if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
                 if (!soundType.equalsIgnoreCase("mark")) {
-                   log.debug("{POIBlocks} Suppress sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+                    Log.debug(log, "{POIBlocks} Suppress sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
                 }
                 return;
             }
 
-           log.debug("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+            Log.debug(log, "{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
 
             if (soundType.equalsIgnoreCase("ore"))
                 minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.ENTITY_ITEM_PICKUP,

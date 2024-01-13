@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.utils.system;
 
+import com.github.khanshoaib3.minecraft_access.utils.Log;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import lombok.extern.slf4j.Slf4j;
@@ -83,7 +84,7 @@ public class MouseUtils {
      */
     public static void moveAfterDelay(int x, int y, int delay) {
         try {
-           log.debug("Moving mouse to x:%d y:%d after %d milliseconds".formatted(x, y, delay));
+            Log.debug(log, "Moving mouse to x:%d y:%d after %d milliseconds".formatted(x, y, delay));
             TimerTask timerTask = new TimerTask() {
                 @Override
                 public void run() {
@@ -227,7 +228,7 @@ public class MouseUtils {
                 int x = (int) minecraftClient.mouse.getX(), y = (int) minecraftClient.mouse.getY();
                 coordinates = " on x:%d y:%d".formatted(x, y);
             }
-           log.debug("Performing " + name + coordinates);
+            Log.debug(log, "Performing " + name + coordinates);
 
 
             if (OsUtils.isLinux()) {

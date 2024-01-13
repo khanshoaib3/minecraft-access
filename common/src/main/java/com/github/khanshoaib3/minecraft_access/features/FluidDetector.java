@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.FluidDetectorConfigMap;
+import com.github.khanshoaib3.minecraft_access.utils.Log;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.BlockState;
@@ -32,7 +33,7 @@ public class FluidDetector {
         if (closeCurrentlyOpenedScreen && MinecraftClient.getInstance().currentScreen != null && MinecraftClient.getInstance().player != null)
             MinecraftClient.getInstance().player.closeScreen();
 
-        log.debug("Finding closest water source");
+        Log.debug(log, "Finding closest water source");
         findClosestFluidSource(true);
     }
 
@@ -45,7 +46,7 @@ public class FluidDetector {
         if (closeCurrentlyOpenedScreen && MinecraftClient.getInstance().currentScreen != null && MinecraftClient.getInstance().player != null)
             MinecraftClient.getInstance().player.closeScreen();
 
-        log.debug("Finding closest lava source");
+        Log.debug(log, "Finding closest lava source");
         findClosestFluidSource(false);
     }
 
@@ -70,12 +71,12 @@ public class FluidDetector {
         BlockPos startingPointPos = new BlockPos(new Vec3i(posX, posY, posZ));
         BlockPos closestFluidPos = findFluid(minecraftClient, startingPointPos, this.range, water);
         if (closestFluidPos == null) {
-            log.debug("Unable to find closest fluid source");
+            Log.debug(log, "Unable to find closest fluid source");
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.other.not_found"), true);
             return;
         }
 
-        log.debug("{FluidDetector} playing sound at %dx %dy %dz".formatted(closestFluidPos.getX(), closestFluidPos.getY(), closestFluidPos.getZ()));
+        Log.debug(log, "{FluidDetector} playing sound at %dx %dy %dz".formatted(closestFluidPos.getX(), closestFluidPos.getY(), closestFluidPos.getZ()));
         minecraftClient.world.playSound(minecraftClient.player, closestFluidPos, SoundEvents.ENTITY_ITEM_PICKUP,
                 SoundCategory.BLOCKS, this.volume, 1f);
 
