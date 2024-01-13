@@ -240,12 +240,12 @@ public class InventoryControls {
         if (disableInputForSearchBox) return false; // Skip other key inputs if using a search box
 
         if (isGroupKeyPressed) {
-           log.info("Group key pressed");
+           log.debug("Group key pressed");
             changeGroup(!isLeftShiftPressed);
             return true;
         }
         if (isSwitchTabKeyPressed) {
-           log.info("Switch Tab key pressed");
+           log.debug("Switch Tab key pressed");
             if (currentScreen instanceof InventoryScreen || currentScreen instanceof CraftingScreen)
                 changeRecipeTab(!isLeftShiftPressed);
             else if (currentScreen instanceof CreativeInventoryScreen)
@@ -254,7 +254,7 @@ public class InventoryControls {
             return true;
         }
         if (isUpKeyPressed) {
-           log.info("Up key pressed");
+           log.debug("Up key pressed");
             if (isLeftShiftPressed && currentGroup.isScrollable) {
                 if (currentScreen instanceof InventoryScreen inventoryScreen && inventoryScreen.getRecipeBookWidget().isOpen()) {
                     clickPreviousRecipeBookPage(inventoryScreen);
@@ -269,12 +269,12 @@ public class InventoryControls {
             return true;
         }
         if (isRightKeyPressed) {
-           log.info("Right key pressed");
+           log.debug("Right key pressed");
             focusSlotItemAt(FocusDirection.RIGHT);
             return true;
         }
         if (isDownKeyPressed) {
-           log.info("Down key pressed");
+           log.debug("Down key pressed");
             if (isLeftShiftPressed && currentGroup.isScrollable) {
                 if (currentScreen instanceof InventoryScreen inventoryScreen && inventoryScreen.getRecipeBookWidget().isOpen()) {
                     clickNextRecipeBookPage(inventoryScreen);
@@ -289,7 +289,7 @@ public class InventoryControls {
             return true;
         }
         if (isLeftKeyPressed) {
-           log.info("Left key pressed");
+           log.debug("Left key pressed");
             focusSlotItemAt(FocusDirection.LEFT);
             return true;
         }
@@ -337,7 +337,7 @@ public class InventoryControls {
             MouseUtils.moveAndLeftClick(p.x(), p.y());
             moveToSlotItem(currentSlotItem, 100);
 
-           log.info("Recipe toggle key pressed, Showing %s".formatted(toggleCraftableButton.isToggled() ? "all" : "craftable only"));
+           log.debug("Recipe toggle key pressed, Showing %s".formatted(toggleCraftableButton.isToggled() ? "all" : "craftable only"));
             MainClass.speakWithNarrator("Showing %s".formatted(toggleCraftableButton.isToggled() ? "all" : "craftable only"), true);
 
             return true;
@@ -538,7 +538,7 @@ public class InventoryControls {
 
         currentGroupIndex = nextGroupIndex;
         currentGroup = currentSlotsGroupList.get(currentGroupIndex);
-       log.info("Group(name:%s) %d/%d selected".formatted(currentGroup.getGroupName(), currentGroupIndex + 1, currentSlotsGroupList.size()));
+       log.debug("Group(name:%s) %d/%d selected".formatted(currentGroup.getGroupName(), currentGroupIndex + 1, currentSlotsGroupList.size()));
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.inventory_controls.group_selected",
                 currentGroup.isScrollable ? I18n.translate("minecraft_access.inventory_controls.scrollable") : "",
                 currentGroup.getGroupName()), true);
@@ -557,7 +557,7 @@ public class InventoryControls {
 
         currentGroupIndex = 0;
         currentGroup = currentSlotsGroupList.get(0);
-       log.info("Group(name:%s) %d/%d selected".formatted(currentGroup.getGroupName(), currentGroupIndex + 1, currentSlotsGroupList.size()));
+       log.debug("Group(name:%s) %d/%d selected".formatted(currentGroup.getGroupName(), currentGroupIndex + 1, currentSlotsGroupList.size()));
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.inventory_controls.group_selected",
                 currentGroup.isScrollable ? I18n.translate("minecraft_access.inventory_controls.scrollable") : "",
                 currentGroup.getGroupName()), interrupt);
@@ -623,7 +623,7 @@ public class InventoryControls {
         MouseUtils.moveAndLeftClick(p.x(), p.y());
         moveToSlotItem(currentSlotItem, 100);
 
-       log.info("Change tab to %s".formatted(recipeBookWidgetAccessor.getCurrentTab().getCategory().name()));
+       log.debug("Change tab to %s".formatted(recipeBookWidgetAccessor.getCurrentTab().getCategory().name()));
     }
 
     /**
@@ -632,10 +632,10 @@ public class InventoryControls {
      */
     private void setSearchBoxFocus(TextFieldWidget w, boolean focus) {
         if (focus) {
-           log.info("T key pressed, selecting the search box.");
+           log.debug("T key pressed, selecting the search box.");
             w.setFocused(true);
         } else {
-           log.info("Enter key pressed, deselecting the search box.");
+           log.debug("Enter key pressed, deselecting the search box.");
             boolean origin = ((TextFieldWidgetAccessor) w).getFocusUnlocked();
             w.setFocusUnlocked(true);
             w.setFocused(false);

@@ -71,7 +71,7 @@ public class MenuFix {
         try {
             if (menuList.contains(minecraftClient.currentScreen.getClass())) {
                 if (!(prevScreenClass == minecraftClient.currentScreen.getClass())) {
-                   log.info("%s opened, now moving the mouse cursor.".formatted(minecraftClient.currentScreen.getTitle().getString()));
+                   log.debug("%s opened, now moving the mouse cursor.".formatted(minecraftClient.currentScreen.getTitle().getString()));
                     moveMouseCursor(minecraftClient);
                     prevScreenClass = minecraftClient.currentScreen.getClass();
                 }

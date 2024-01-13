@@ -142,14 +142,14 @@ public class POIBlocks {
             int posZ = pos.getZ();
             checkedBlocks = new ArrayList<>();
 
-           log.info("POIBlock started...");
+           log.debug("POIBlock started...");
 
             checkBlock(new BlockPos(new Vec3i(posX, posY, posZ)), 0);
             checkBlock(new BlockPos(new Vec3i(posX, posY + 3, posZ)), 0);
             checkBlock(new BlockPos(new Vec3i(posX, posY + 1, posZ)), this.range);
             checkBlock(new BlockPos(new Vec3i(posX, posY + 2, posZ)), this.range);
 
-           log.info("POIBlock ended.");
+           log.debug("POIBlock ended.");
 
         } catch (Exception e) {
             log.error("Error encountered in poi blocks feature.", e);
@@ -242,19 +242,19 @@ public class POIBlocks {
         if (this.playSound && this.volume > 0 && !soundType.isEmpty()) {
 
             if (soundType.equalsIgnoreCase("mark")) {
-               log.info("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+               log.debug("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
                 minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.ENTITY_ITEM_PICKUP,
                         SoundCategory.BLOCKS, volume, -5f);
             }
 
             if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
                 if (!soundType.equalsIgnoreCase("mark")) {
-                   log.info("{POIBlocks} Suppress sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+                   log.debug("{POIBlocks} Suppress sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
                 }
                 return;
             }
 
-           log.info("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+           log.debug("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
 
             if (soundType.equalsIgnoreCase("ore"))
                 minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.ENTITY_ITEM_PICKUP,

@@ -169,7 +169,7 @@ public class AreaMapMenu {
         if (!checkCursorWithinDistanceBound(nextStep)) return;
 
         this.cursor = nextStep;
-       log.info("Cursor moves " + direction + ": " + cursor);
+       log.debug("Cursor moves " + direction + ": " + cursor);
         Pair<String, String> blockDescription = NarrationUtils.narrateBlock(this.cursor, "");
         MainClass.speakWithNarrator(blockDescription.getLeft(), true);
         // TODO Alt + speak position key

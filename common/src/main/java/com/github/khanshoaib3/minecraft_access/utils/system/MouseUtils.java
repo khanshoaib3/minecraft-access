@@ -83,7 +83,7 @@ public class MouseUtils {
      */
     public static void moveAfterDelay(int x, int y, int delay) {
         try {
-           log.info("Moving mouse to x:%d y:%d after %d milliseconds".formatted(x, y, delay));
+           log.debug("Moving mouse to x:%d y:%d after %d milliseconds".formatted(x, y, delay));
             TimerTask timerTask = new TimerTask() {
                 @Override
                 public void run() {
@@ -227,7 +227,7 @@ public class MouseUtils {
                 int x = (int) minecraftClient.mouse.getX(), y = (int) minecraftClient.mouse.getY();
                 coordinates = " on x:%d y:%d".formatted(x, y);
             }
-           log.info("Performing " + name + coordinates);
+           log.debug("Performing " + name + coordinates);
 
 
             if (OsUtils.isLinux()) {

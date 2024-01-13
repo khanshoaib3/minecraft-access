@@ -74,9 +74,9 @@ public class AutoLibrarySetup {
        log.info("Checking for installed files...");
 
         for (String libraryName : getRequiredLibraryNames()) {
-           log.info("Checking for " + libraryName);
+           log.debug("Checking for " + libraryName);
             if (!Files.exists(Paths.get(libraryName).toAbsolutePath())) {
-               log.info(libraryName + " file not found.");
+               log.error(libraryName + " file not found.");
                 return false;
             }
         }

@@ -66,9 +66,9 @@ public class FallDetector {
             if (currentTimeInMillis - previousTimeInMillis < delayInMilliseconds) return;
             previousTimeInMillis = currentTimeInMillis;
 
-           log.info("Searching for fall in nearby area...");
+           log.debug("Searching for fall in nearby area...");
             SearchNearbyPositions();
-           log.info("Searching ended.");
+           log.debug("Searching ended.");
         } catch (Exception e) {
             log.error("An error occurred in fall detector.", e);
         }
@@ -123,7 +123,7 @@ public class FallDetector {
 
         if (getDepth(toCheck, depth) < depth) return;
 
-       log.info("%d) Found qualified fall position: x:%d y:%d z:%d".formatted(++count, toCheck.getX(), toCheck.getY(), toCheck.getZ()));
+       log.debug("%d) Found qualified fall position: x:%d y:%d z:%d".formatted(++count, toCheck.getX(), toCheck.getY(), toCheck.getZ()));
         minecraftClient.world.playSoundAtBlockCenter(toCheck, SoundEvents.BLOCK_ANVIL_HIT, SoundCategory.BLOCKS, volume, 1f, true);
     }
 

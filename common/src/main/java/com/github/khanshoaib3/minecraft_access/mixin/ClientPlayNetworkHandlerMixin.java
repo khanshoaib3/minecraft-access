@@ -52,7 +52,7 @@ public abstract class ClientPlayNetworkHandlerMixin implements TickablePacketLis
                 // This item might be an ExperienceOrbEntity and we don't want to speak this sort of thing.
                 if (entity instanceof ItemEntity itemEntity) {
                     String name = I18n.translate(itemEntity.getStack().getItem().getTranslationKey());
-                    log.info("Fishing harvest: %s".formatted(name));
+                    log.debug("Fishing harvest: %s".formatted(name));
 
                     // Have observed this speak will interrupt adventure achievement, level up notification or so,
                     // it should be at low priority.

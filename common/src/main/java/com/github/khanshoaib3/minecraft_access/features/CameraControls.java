@@ -210,7 +210,7 @@ public class CameraControls {
         minecraftClient.player.changeLookDirection(horizontalAngleDelta, verticalAngleDelta);
 
         // log and speak new facing direction
-       log.info("Rotating camera by x:%d y:%d".formatted((int) horizontalAngleDelta, (int) verticalAngleDelta));
+       log.debug("Rotating camera by x:%d y:%d".formatted((int) horizontalAngleDelta, (int) verticalAngleDelta));
 
         PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
         String horizontalDirection = pUtil.getHorizontalFacingDirectionInCardinal();
@@ -236,7 +236,7 @@ public class CameraControls {
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, targetBlockPosition);
 
         // log and speak new facing direction
-       log.info("Rotating camera to: %s".formatted(direction.name()));
+       log.debug("Rotating camera to: %s".formatted(direction.name()));
 
         PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
 
