@@ -5,6 +5,13 @@ Release v1.5.0 (2024-)
 
 * Breaking change: The mod will speak "unlock" on every unlock (used to be only on manually press unlock key). Config "Play Unlocking Sound" is replaced by ["Play Sound Instead Of Speak"](/doc/CONFIG.md#entitiesblocks-locking), default value is "false", so if you find out speak is annoying, switch this config to "ture" for original base drum sound.
 
+### Refactoring, Documentation and Chores
+
+* Add [lombok](https://projectlombok.org/features/) (1.18.30) as "common" module dependency.
+* Use lombok's `@Slf4j` instead of `MainClass.debug()` to let every class has its own logger.
+* Use lombok's `@Getter` `@Setter` to replace `*ConfigMap`'s boilerplate code.
+* Now there are two level of log that recorded with `log.info()` and `Log.debug()`, about latter invocation, see [this sad class](/common/src/main/java/com/github/khanshoaib3/minecraft_access/utils/Log.java).
+
 Release v1.4.3 (2024-01)
 ---------------------------
 
