@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[43,)"
+loaderVersion = "[49,)"
 #issueTrackerURL = ""
 license = "GNU GPLv3"
 
@@ -16,20 +16,20 @@ A mod for minecraft java that adds accessibility feature.
 [[dependencies.minecraft_access]]
 modId = "forge"
 mandatory = true
-versionRange = "[43,)"
+versionRange = "[49,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.minecraft_access]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.20.1,)"
+versionRange = "[1.20.4,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.minecraft_access]]
 modId = "architectury"
 mandatory = true
-versionRange = "[6.2.43,)"
+versionRange = "[11.0.9,)"
 ordering = "AFTER"
 side = "BOTH"
