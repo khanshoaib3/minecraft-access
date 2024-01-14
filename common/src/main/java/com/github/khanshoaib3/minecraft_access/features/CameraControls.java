@@ -67,8 +67,7 @@ public class CameraControls {
             boolean wasAnyKeyPressed = keyListener();
             if (wasAnyKeyPressed) interval.start();
         } catch (Exception e) {
-            MainClass.errorLog("\nError encountered in Camera Controls feature.");
-            e.printStackTrace();
+            MainClass.errorLog("Error encountered in Camera Controls feature.", e);
         }
     }
 

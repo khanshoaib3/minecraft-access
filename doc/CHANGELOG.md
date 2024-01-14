@@ -1,3 +1,10 @@
+Release v1.5.0 (2024-)
+---------------------------
+
+### Feature Changes
+
+* Breaking change: The mod will speak "unlock" on every unlock (used to be only on manually press unlock key). Config "Play Unlocking Sound" is replaced by ["Play Sound Instead Of Speak"](/doc/CONFIG.md#entitiesblocks-locking), default value is "false", so if you find out speak is annoying, switch this config to "ture" for original base drum sound.
+
 Release v1.4.3 (2024-01)
 ---------------------------
 

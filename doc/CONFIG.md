@@ -142,7 +142,7 @@ See also: [Feature Description](/doc/FEATURES.md#point-of-interest), [Keybinding
 | Lock on Blocks                          | true          | Enable lock on POI blocks as well, if false, only entities can be locked                     |
 | Play Sound                              | true          | Play a sound cue at positions of detected entities                                           |
 | Speak Relative Distance to Entity/Block | false         | Speak relative distance to the target when locking on                                        |
-| Play Unlocking Sound                    | true          | Play a sound cue on unlock                                                                   |
+| Play Sound Instead Of Speak             | false         | Play a base drum sound cue on unlock instead of speak "unlock"                               |
 | Auto Lock on to Eye of Ender when Used  | true          | Automatically lock on to the [Eye of Ender](https://minecraft.wiki/w/Eye_of_Ender) when used |
 | Delay (in milliseconds)                 | 100           | Cooldown between two feature executions                                                      |
 

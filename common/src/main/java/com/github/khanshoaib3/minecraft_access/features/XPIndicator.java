@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
+import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 
@@ -23,7 +23,7 @@ public class XPIndicator {
             if (minecraftClient.player == null) return;
             if (minecraftClient.currentScreen != null) return;
 
-            int currentXPLevel = ClientPlayerEntityUtils.getExperienceLevel();
+            int currentXPLevel = PlayerUtils.getExperienceLevel();
             if (previousXPLevel == currentXPLevel) return;
 
             boolean increased = previousXPLevel < currentXPLevel;
@@ -33,8 +33,7 @@ public class XPIndicator {
                     : I18n.translate("minecraft_access.xp_indicator.decreased", currentXPLevel);
             MainClass.speakWithNarrator(toSpeak, true);
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred in xp indicator.");
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred in xp indicator.", e);
         }
     }
 }

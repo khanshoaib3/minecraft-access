@@ -6,11 +6,12 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMa
 import com.github.khanshoaib3.minecraft_access.features.BiomeIndicator;
 import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
-import com.github.khanshoaib3.minecraft_access.utils.ClientPlayerEntityUtils;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
+import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
+import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
+import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
-import com.github.khanshoaib3.minecraft_access.utils.position.PositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -25,6 +26,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.Arrays;
@@ -34,6 +36,10 @@ import java.util.stream.Stream;
  * Opens a menu when F4 button is pressed (configurable) with few helpful options.
  */
 public class NarratorMenu {
+    /**
+     * Way more far than the Read Crosshair feature (6 blocks).
+     */
+    public static final double RAY_CAST_DISTANCE = 20.0;
     private static MinecraftClient minecraftClient;
     private static final MenuKeystroke menuKey;
     private static final Keystroke hotKey;
@@ -130,8 +136,7 @@ public class NarratorMenu {
             menuKey.updateStateForNextTick();
             hotKey.updateStateForNextTick();
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred in NarratorMenu.");
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred in NarratorMenu.", e);
         }
     }
 
@@ -170,18 +175,10 @@ public class NarratorMenu {
 
     public static void getBlockAndFluidTargetInformation() {
         try {
-            if (minecraftClient.player == null) return;
-            if (minecraftClient.cameraEntity == null) return;
-            if (minecraftClient.world == null) return;
+            HitResult hit = getBlockAndFluidHitResult();
+            if (hit == null) return;
 
-            minecraftClient.player.closeScreen();
-
-            HitResult hit = minecraftClient.cameraEntity.raycast(20.0, 0.0f, true);
-            if (hit == null)
-                return;
-
-            if (!minecraftClient.player.isSwimming() && !minecraftClient.player.isSubmergedInWater() && !minecraftClient.player.isInsideWaterOrBubbleColumn() && !minecraftClient.player.isInLava()
-                    && checkForFluidHit(minecraftClient, hit, false)) return;
+            if (!PlayerUtils.isInFluid() && checkForFluidHit(minecraftClient, hit, false)) return;
 
             switch (hit.getType()) {
                 case MISS, ENTITY -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
@@ -190,36 +187,39 @@ public class NarratorMenu {
                         BlockHitResult blockHit = (BlockHitResult) hit;
                         BlockPos blockPos = blockHit.getBlockPos();
 
-                        BlockState blockState = minecraftClient.world.getBlockState(blockPos);
+                        BlockState blockState = WorldUtils.getClientWorld().orElseThrow().getBlockState(blockPos);
                         Block block = blockState.getBlock();
                         MutableText mutableText = block.getName();
 
-                        String text = mutableText.getString() + ", " + PositionUtils.getPositionDifference(blockPos);
+                        String text = mutableText.getString() + ", " + NarrationUtils.narrateRelativePositionOfPlayerAnd(blockPos);
                         MainClass.speakWithNarrator(text, true);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        MainClass.errorLog("An error occurred when speaking block information.", e);
                     }
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred when getting block and target information.", e);
         }
+    }
+
+    @Nullable
+    private static HitResult getBlockAndFluidHitResult() {
+        if (minecraftClient.player == null) return null;
+        if (minecraftClient.cameraEntity == null) return null;
+        if (minecraftClient.world == null) return null;
+
+        minecraftClient.player.closeScreen();
+
+        return minecraftClient.cameraEntity.raycast(RAY_CAST_DISTANCE, 0.0f, true);
     }
 
     public static void getBlockAndFluidTargetPosition() {
         try {
-            if (minecraftClient.player == null) return;
-            if (minecraftClient.cameraEntity == null) return;
-            if (minecraftClient.world == null) return;
+            HitResult hit = getBlockAndFluidHitResult();
+            if (hit == null) return;
 
-            minecraftClient.player.closeScreen();
-
-            HitResult hit = minecraftClient.cameraEntity.raycast(20.0, 0.0f, true);
-            if (hit == null)
-                return;
-
-            if (!minecraftClient.player.isSwimming() && !minecraftClient.player.isSubmergedInWater() && !minecraftClient.player.isInsideWaterOrBubbleColumn() && !minecraftClient.player.isInLava()
-                    && checkForFluidHit(minecraftClient, hit, true)) return;
+            if (!PlayerUtils.isInFluid() && checkForFluidHit(minecraftClient, hit, true)) return;
 
             switch (hit.getType()) {
                 case MISS, ENTITY -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
@@ -227,14 +227,14 @@ public class NarratorMenu {
                     try {
                         BlockHitResult blockHitResult = (BlockHitResult) hit;
                         BlockPos blockPos = blockHitResult.getBlockPos();
-                        MainClass.speakWithNarrator(PositionUtils.getPosition(blockPos), true);
+                        MainClass.speakWithNarrator(NarrationUtils.narrateCoordinatesOf(blockPos), true);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        MainClass.errorLog("An error occurred when speaking block position.", e);
                     }
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred when getting block and target position.", e);
         }
     }
 
@@ -253,7 +253,7 @@ public class NarratorMenu {
                 name = name.replace("block.minecraft.", ""); // Remove `block.minecraft.` for unsupported languages
 
             if (onlyPosition) {
-                MainClass.speakWithNarrator(PositionUtils.getPosition(blockPos), true);
+                MainClass.speakWithNarrator(NarrationUtils.narrateCoordinatesOf(blockPos), true);
                 return true;
             }
 
@@ -261,7 +261,7 @@ public class NarratorMenu {
             String levelString = "";
             if (level < 8) levelString = I18n.translate("minecraft_access.read_crosshair.fluid_level", level);
 
-            String toSpeak = name + levelString + ", " + PositionUtils.getPositionDifference(blockPos);
+            String toSpeak = name + levelString + ", " + NarrationUtils.narrateRelativePositionOfPlayerAnd(blockPos);
 
             MainClass.speakWithNarrator(toSpeak, true);
             return true;
@@ -279,7 +279,7 @@ public class NarratorMenu {
             int light = minecraftClient.world.getLightLevel(minecraftClient.player.getBlockPos());
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.light_level", light), true);
         } catch (Exception e) {
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred when getting light level.", e);
         }
     }
 
@@ -294,7 +294,7 @@ public class NarratorMenu {
             String name = I18n.translate(BiomeIndicator.getBiomeName(var27));
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.biome", name), true);
         } catch (Exception e) {
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred when getting biome.", e);
         }
     }
 
@@ -304,9 +304,9 @@ public class NarratorMenu {
 
             minecraftClient.player.closeScreen();
 
-            MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.xp", ClientPlayerEntityUtils.getExperienceLevel(), ClientPlayerEntityUtils.getExperienceProgress()), true);
+            MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.xp", PlayerUtils.getExperienceLevel(), PlayerUtils.getExperienceProgress()), true);
         } catch (Exception e) {
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred when getting XP.", e);
         }
     }
 
@@ -336,8 +336,7 @@ public class NarratorMenu {
             toSpeak = I18n.translate(translationKey, toSpeak);
             MainClass.speakWithNarrator(toSpeak, true);
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred while speaking time of day.");
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred while speaking time of day.", e);
         }
     }
 }

@@ -135,6 +135,12 @@ See also: [Configuration](/doc/CONFIG.md#point-of-interest), [Keybindings](/doc/
 You can lock onto the closest target with a key, then your camera will follow the target as it moves, so you can approach it more easily.
 For example when you want to mine an ore, capture an animal or fight a monster.
 
+Note that:
+
+* The mod will continue locking on the position where the eye of ender disappears (if you enabled "Auto Lock on to Eye of Ender when Used" config).
+* The mod will automatically stop locking on ladders when you start climbing on them, so you can directly climb the ladder without manually pressing unlock key.
+* The mod will automatically stop locking on blocks if they are destroyed or changed (for example, a [door](https://minecraft.wiki/w/Door) is opened or clocked, or a [piston](https://minecraft.wiki/w/Piston) is activated).
+
 See also: [Configuration](/doc/CONFIG.md#entitiesblocks-locking), [Keybindings](/doc/KEYBINDINGS.md#point-of-interest)
 
 ### POI Marking

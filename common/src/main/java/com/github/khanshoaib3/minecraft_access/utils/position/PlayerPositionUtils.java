@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.utils.position;
 
 import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
+import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
@@ -45,6 +46,9 @@ public class PlayerPositionUtils {
         return Double.parseDouble(tempPosZ);
     }
 
+    /**
+     * Player position is at player's leg.
+     */
     public static Optional<Vec3d> getPlayerPosition() {
         MinecraftClient client = MinecraftClient.getInstance();
         return client.player == null ? java.util.Optional.empty() : Optional.of(client.player.getPos());
@@ -65,23 +69,23 @@ public class PlayerPositionUtils {
             format = OtherConfigsMap.DEFAULT_POSITION_FORMAT;
         }
 
-        String posX = PositionUtils.getNarratableNumber(getX());
-        String posY = PositionUtils.getNarratableNumber(getY());
-        String posZ = PositionUtils.getNarratableNumber(getZ());
+        String posX = NarrationUtils.narrateNumber(getX());
+        String posY = NarrationUtils.narrateNumber(getY());
+        String posZ = NarrationUtils.narrateNumber(getZ());
 
         return format.replace("{x}", posX).replace("{y}", posY).replace("{z}", posZ);
     }
 
     public static String getNarratableXPos() {
-        return PositionUtils.getNarratableNumber(getX()) + "x";
+        return NarrationUtils.narrateNumber(getX()) + "x";
     }
 
     public static String getNarratableYPos() {
-        return PositionUtils.getNarratableNumber(getY()) + "y";
+        return NarrationUtils.narrateNumber(getY()) + "y";
     }
 
     public static String getNarratableZPos() {
-        return PositionUtils.getNarratableNumber(getZ()) + "z";
+        return NarrationUtils.narrateNumber(getZ()) + "z";
     }
 
     public int getVerticalFacingDirection() {

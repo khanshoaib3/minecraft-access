@@ -1,20 +1,28 @@
 package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
+import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.Optional;
 
-public class AbsolutePositions {
-    public static Vec3d getTrapDoorAbsolutePosition(MinecraftClient client, Vec3d blockPos) {
-        if (client.world == null) return blockPos;
+/**
+ * The position of the block (blockPos.toCenterPos()) is generally considered to be the center of the block (x.5,y.5,z.5).
+ * Some blocks do not occupy the entire cube space, and for some of those that can be interacted with (thus need can be locked via POI Locking),
+ * we manually calculate the locking position of these blocks (which are usually not the center of the block) by these methods.
+ */
+public class NonCubeBlockAbsolutePositions {
+    public static Vec3d getTrapDoorPos(Vec3d blockPos) {
+        Optional<ClientWorld> world = WorldUtils.getClientWorld();
+        if (world.isEmpty()) return blockPos;
 
-        BlockState blockState = client.world.getBlockState(BlockPos.ofFloored(blockPos.x, blockPos.y, blockPos.z));
-        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = blockState.getEntries().entrySet();
+        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world.get());
 
         String half = "", facing = "", open = "";
 
@@ -53,11 +61,11 @@ public class AbsolutePositions {
         return new Vec3d(x, y, z);
     }
 
-    public static Vec3d getLeversAbsolutePosition(MinecraftClient client, Vec3d blockPos) {
-        if (client.world == null) return blockPos;
+    public static Vec3d getLeverPos(Vec3d blockPos) {
+        Optional<ClientWorld> world = WorldUtils.getClientWorld();
+        if (world.isEmpty()) return blockPos;
 
-        BlockState blockState = client.world.getBlockState(BlockPos.ofFloored(blockPos.x, blockPos.y, blockPos.z));
-        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = blockState.getEntries().entrySet();
+        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world.get());
 
         String face = "", facing = "";
 
@@ -94,11 +102,11 @@ public class AbsolutePositions {
         return new Vec3d(x, y, z);
     }
 
-    public static Vec3d getLaddersAbsolutePosition(MinecraftClient client, Vec3d blockPos) {
-        if (client.world == null) return blockPos;
+    public static Vec3d getLadderPos(Vec3d blockPos) {
+        Optional<ClientWorld> world = WorldUtils.getClientWorld();
+        if (world.isEmpty()) return blockPos;
 
-        BlockState blockState = client.world.getBlockState(BlockPos.ofFloored(blockPos.x, blockPos.y, blockPos.z));
-        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = blockState.getEntries().entrySet();
+        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world.get());
 
         String facing = "";
 
@@ -127,11 +135,11 @@ public class AbsolutePositions {
         return new Vec3d(x, y, z);
     }
 
-    public static Vec3d getButtonsAbsolutePosition(MinecraftClient client, Vec3d blockPos) {
-        if (client.world == null) return blockPos;
+    public static Vec3d getButtonPos(Vec3d blockPos) {
+        Optional<ClientWorld> world = WorldUtils.getClientWorld();
+        if (world.isEmpty()) return blockPos;
 
-        BlockState blockState = client.world.getBlockState(BlockPos.ofFloored(blockPos.x, blockPos.y, blockPos.z));
-        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = blockState.getEntries().entrySet();
+        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world.get());
 
         double x = blockPos.getX();
         double y = blockPos.getY();
@@ -167,11 +175,11 @@ public class AbsolutePositions {
         return new Vec3d(x, y, z);
     }
 
-    public static Vec3d getDoorAbsolutePosition(MinecraftClient client, Vec3d blockPos) {
-        if (client.world == null) return blockPos;
+    public static Vec3d getDoorPos(Vec3d blockPos) {
+        Optional<ClientWorld> world = WorldUtils.getClientWorld();
+        if (world.isEmpty()) return blockPos;
 
-        BlockState blockState = client.world.getBlockState(BlockPos.ofFloored(blockPos.x, blockPos.y, blockPos.z));
-        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = blockState.getEntries().entrySet();
+        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world.get());
 
         String facing = "", hinge = "", open = "";
 
@@ -222,5 +230,11 @@ public class AbsolutePositions {
         }
 
         return new Vec3d(x, y, z);
+    }
+
+    @NotNull
+    private static ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> getEntries(Vec3d blockPos, ClientWorld world) {
+        BlockState blockState = world.getBlockState(BlockPos.ofFloored(blockPos.x, blockPos.y, blockPos.z));
+        return blockState.getEntries().entrySet();
     }
 }

@@ -13,8 +13,8 @@ public class POILockingConfigMap {
     private boolean lockOnBlocks;
     @SerializedName("Speak Relative Distance to Entity/Block")
     private boolean speakDistance;
-    @SerializedName("Play Unlocking Sound")
-    private boolean unlockingSound;
+    @SerializedName("Play Sound Instead Of Speak")
+    private boolean unlockingSound = false;
     @SerializedName("Auto Lock on to Eye of Ender when Used")
     private boolean autoLockEyeOfEnderEntity;
     @SerializedName("Delay (in milliseconds)")
@@ -37,7 +37,7 @@ public class POILockingConfigMap {
         m.setEnabled(true);
         m.setLockOnBlocks(true);
         m.setSpeakDistance(false);
-        m.setUnlockingSound(true);
+        m.setUnlockingSound(false);
         m.setAutoLockEyeOfEnderEntity(true);
         m.setDelay(100);
 

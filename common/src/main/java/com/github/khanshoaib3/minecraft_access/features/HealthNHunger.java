@@ -11,7 +11,7 @@ import net.minecraft.client.resource.language.I18n;
  * - Speak Player Health and Hunger Key (default: R) = Speaks the health and hunger.<br>
  */
 public class HealthNHunger {
-    public void update(){
+    public void update() {
         try {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
             if (minecraftClient == null) return;
@@ -29,9 +29,8 @@ public class HealthNHunger {
 
             String toSpeak = I18n.translate("minecraft_access.healthHunger.format", health, hunger);
             MainClass.speakWithNarrator(toSpeak, true);
-        } catch (Exception e){
-            MainClass.errorLog("An error occurred in HealthNHunger.");
-            e.printStackTrace();
+        } catch (Exception e) {
+            MainClass.errorLog("An error occurred in HealthNHunger.", e);
         }
     }
 }

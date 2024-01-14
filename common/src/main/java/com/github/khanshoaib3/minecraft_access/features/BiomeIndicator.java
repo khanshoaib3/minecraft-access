@@ -42,13 +42,13 @@ public class BiomeIndicator {
             }
 
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred while narrating biome.");
-            e.printStackTrace();
+            MainClass.errorLog("An error occurred while narrating biome.", e);
         }
     }
 
     /**
      * Gets the biome name from registry entry
+     *
      * @param biome the biome's registry entry
      * @return the biome's name
      */
@@ -58,13 +58,14 @@ public class BiomeIndicator {
 
     /**
      * Gets the biome translation key from registry entry
+     *
      * @param biome the biome's registry entry
      * @return the biome's translation key
      */
     private static String getBiomeTranslationKey(RegistryEntry<Biome> biome) {
         return biome.getKeyOrValue().map(
-            (biomeKey) -> "biome." + biomeKey.getValue().getNamespace() + "." + biomeKey.getValue().getPath(),
-            (biomeValue) -> "[unregistered " + biomeValue + "]" // For unregistered biome
+                (biomeKey) -> "biome." + biomeKey.getValue().getNamespace() + "." + biomeKey.getValue().getPath(),
+                (biomeValue) -> "[unregistered " + biomeValue + "]" // For unregistered biome
         );
     }
 }
