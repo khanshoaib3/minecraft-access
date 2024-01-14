@@ -10,6 +10,7 @@ import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -30,6 +31,7 @@ import java.util.TreeMap;
  * 1. Locking Key (default: Y) = Locks onto the nearest entity or block<br>
  * 2. Alt key + Locking Key = Unlocks from the currently locked entity or block<br>
  */
+@Slf4j
 public class LockingHandler {
     private static final LockingHandler instance;
     public Entity lockedOnEntity = null;
@@ -61,7 +63,7 @@ public class LockingHandler {
             loadConfigurations();
             mainLogic();
         } catch (Exception e) {
-            MainClass.errorLog("An error while updating LockingHandler", e);
+            log.error("An error while updating LockingHandler", e);
         }
     }
 

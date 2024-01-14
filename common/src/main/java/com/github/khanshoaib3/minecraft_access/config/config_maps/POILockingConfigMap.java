@@ -2,9 +2,14 @@ package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class POILockingConfigMap {
 
+    @Setter
     private static POILockingConfigMap instance;
 
     @SerializedName("Enabled")
@@ -28,10 +33,6 @@ public class POILockingConfigMap {
         return instance;
     }
 
-    public static void setInstance(POILockingConfigMap map) {
-        instance = map;
-    }
-
     public static POILockingConfigMap buildDefault() {
         POILockingConfigMap m = new POILockingConfigMap();
         m.setEnabled(true);
@@ -43,53 +44,5 @@ public class POILockingConfigMap {
 
         setInstance(m);
         return m;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public boolean isLockOnBlocks() {
-        return lockOnBlocks;
-    }
-
-    public void setLockOnBlocks(boolean lockOnBlocks) {
-        this.lockOnBlocks = lockOnBlocks;
-    }
-
-    public boolean isSpeakDistance() {
-        return speakDistance;
-    }
-
-    public void setSpeakDistance(boolean speakDistance) {
-        this.speakDistance = speakDistance;
-    }
-
-    public boolean isUnlockingSound() {
-        return unlockingSound;
-    }
-
-    public void setUnlockingSound(boolean unlockingSound) {
-        this.unlockingSound = unlockingSound;
-    }
-
-    public boolean isAutoLockEyeOfEnderEntity() {
-        return autoLockEyeOfEnderEntity;
-    }
-
-    public void setAutoLockEyeOfEnderEntity(boolean autoLockEyeOfEnderEntity) {
-        this.autoLockEyeOfEnderEntity = autoLockEyeOfEnderEntity;
-    }
-
-    public int getDelay() {
-        return delay;
-    }
-
-    public void setDelay(int delay) {
-        this.delay = delay;
     }
 }

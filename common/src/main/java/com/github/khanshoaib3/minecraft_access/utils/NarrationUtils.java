@@ -1,8 +1,8 @@
 package com.github.khanshoaib3.minecraft_access.utils;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.mixin.MobSpawnerLogicAccessor;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BeehiveBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -36,6 +36,7 @@ import java.util.stream.Collectors;
 /**
  * Translate input objects to narration text.
  */
+@Slf4j
 public class NarrationUtils {
     /**
      * One redstone wire must be connected with another wire at one of three positions: [side, side down, side up],
@@ -174,7 +175,7 @@ public class NarrationUtils {
             String posZ = narrateNumber(blockPos.getZ());
             return String.format("%s x %s y %s z", posX, posY, posZ);
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred when getting position narration.", e);
+            log.error("An error occurred when getting position narration.", e);
             return "";
         }
     }
@@ -250,7 +251,7 @@ public class NarrationUtils {
             currentQuery = redstoneRelatedInfo.getRight();
 
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred while adding narration text for special blocks", e);
+            log.error("An error occurred while adding narration text for special blocks", e);
         }
 
         return new Pair<>(toSpeak, currentQuery);

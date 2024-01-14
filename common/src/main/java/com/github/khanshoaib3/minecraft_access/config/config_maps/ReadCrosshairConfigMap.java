@@ -2,9 +2,13 @@ package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Objects;
 
+@Getter
+@Setter
 public class ReadCrosshairConfigMap {
     private static ReadCrosshairConfigMap instance;
 
@@ -46,38 +50,6 @@ public class ReadCrosshairConfigMap {
         RCRelativePositionSoundCueConfigMap.setInstance(map.relativePositionSoundCueConfigMap);
         RCPartialSpeakingConfigMap.setInstance(map.partialSpeakingConfigMap);
         instance = map;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public boolean isSpeakSide() {
-        return speakSide;
-    }
-
-    public void setSpeakSide(boolean speakSide) {
-        this.speakSide = speakSide;
-    }
-
-    public boolean isDisableSpeakingConsecutiveBlocks() {
-        return disableSpeakingConsecutiveBlocks;
-    }
-
-    public void setDisableSpeakingConsecutiveBlocks(boolean disableSpeakingConsecutiveBlocks) {
-        this.disableSpeakingConsecutiveBlocks = disableSpeakingConsecutiveBlocks;
-    }
-
-    public long getRepeatSpeakingInterval() {
-        return repeatSpeakingInterval;
-    }
-
-    public void setRepeatSpeakingInterval(long repeatSpeakingInterval) {
-        this.repeatSpeakingInterval = repeatSpeakingInterval;
     }
 
     public void resetMissingSectionsToDefault() {

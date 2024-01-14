@@ -8,6 +8,7 @@ import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
@@ -34,6 +35,7 @@ import java.util.function.Predicate;
  * This feature reads the name of the targeted block or entity.<br>
  * It also gives feedback when a block is powered by a redstone signal or when a door is open similar cases.
  */
+@Slf4j
 public class ReadCrosshair {
     private static final double RAY_CAST_DISTANCE = 6.0;
     private static ReadCrosshair instance;
@@ -97,7 +99,7 @@ public class ReadCrosshair {
 
             checkForBlockAndEntityHit(blockHit);
         } catch (Exception e) {
-            MainClass.errorLog("Error occurred in read block feature.\n%s".formatted(e.getMessage()));
+            log.error("Error occurred in read block feature.", e);
         }
     }
 
@@ -160,7 +162,7 @@ public class ReadCrosshair {
             String narration = NarrationUtils.narrateEntity(entity);
             speakIfFocusChanged(narration, narration, entity.getPos());
         } catch (Exception e) {
-            MainClass.errorLog("Error occurred in ReadCrosshair, reading entity", e);
+            log.error("Error occurred in ReadCrosshair, reading entity", e);
         }
     }
 
@@ -190,7 +192,7 @@ public class ReadCrosshair {
         BlockPos blockPos = hit.getBlockPos();
         WorldUtils.BlockInfo blockInfo = WorldUtils.getBlockInfo(blockPos).orElseThrow();
         // In Minecraft resource location format, for example, "oak_door" for Oak Door.
-        // ref: https://minecraft.wiki/w/Java_Edition_data_values#Blocks)
+        // ref: https://minecraft.wiki/w/Java_Edition_data_values#Blocks
         Identifier blockId = Registries.BLOCK.getId(blockInfo.type());
 
         Pair<String, String> toSpeakAndCurrentQuery;

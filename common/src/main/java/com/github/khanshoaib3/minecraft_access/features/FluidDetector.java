@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.features;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.FluidDetectorConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
@@ -17,31 +18,34 @@ import net.minecraft.util.math.Vec3i;
 /**
  * Searches for the closest water/lava source.
  */
+@Slf4j
 public class FluidDetector {
     private int range;
     private float volume;
 
     /**
      * Finds the closest water source and plays a sound at its position.
+     *
      * @param closeCurrentlyOpenedScreen Whether to close the currently opened screen or not
      */
     public void findClosestWaterSource(boolean closeCurrentlyOpenedScreen) {
         if (closeCurrentlyOpenedScreen && MinecraftClient.getInstance().currentScreen != null && MinecraftClient.getInstance().player != null)
             MinecraftClient.getInstance().player.closeScreen();
 
-        MainClass.infoLog("Finding closest water source");
+        log.debug("Finding closest water source");
         findClosestFluidSource(true);
     }
 
     /**
      * Finds the closest lava source and plays a sound at its position.
+     *
      * @param closeCurrentlyOpenedScreen Whether to close the currently opened screen or not
      */
     public void findClosestLavaSource(boolean closeCurrentlyOpenedScreen) {
         if (closeCurrentlyOpenedScreen && MinecraftClient.getInstance().currentScreen != null && MinecraftClient.getInstance().player != null)
             MinecraftClient.getInstance().player.closeScreen();
 
-        MainClass.infoLog("Finding closest lava source");
+        log.debug("Finding closest lava source");
         findClosestFluidSource(false);
     }
 
@@ -66,12 +70,12 @@ public class FluidDetector {
         BlockPos startingPointPos = new BlockPos(new Vec3i(posX, posY, posZ));
         BlockPos closestFluidPos = findFluid(minecraftClient, startingPointPos, this.range, water);
         if (closestFluidPos == null) {
-            MainClass.infoLog("Unable to find closest fluid source");
+            log.debug("Unable to find closest fluid source");
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.other.not_found"), true);
             return;
         }
 
-        MainClass.infoLog("{FluidDetector} playing sound at %dx %dy %dz".formatted(closestFluidPos.getX(), closestFluidPos.getY(), closestFluidPos.getZ()));
+        log.debug("{FluidDetector} playing sound at %dx %dy %dz".formatted(closestFluidPos.getX(), closestFluidPos.getY(), closestFluidPos.getZ()));
         minecraftClient.world.playSound(minecraftClient.player, closestFluidPos, SoundEvents.ENTITY_ITEM_PICKUP,
                 SoundCategory.BLOCKS, this.volume, 1f);
 

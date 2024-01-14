@@ -1,6 +1,5 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.MouseSimulationConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
@@ -8,6 +7,7 @@ import com.github.khanshoaib3.minecraft_access.utils.condition.IntervalKeystroke
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.MouseUtils;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Pair;
 import org.apache.commons.lang3.tuple.Triple;
@@ -23,6 +23,7 @@ import java.util.Set;
  * 4) mouse wheel scroll up<br>
  * 5) mouse wheel scroll down
  */
+@Slf4j
 public class MouseKeySimulation {
     private static final MouseKeySimulation instance;
 
@@ -73,7 +74,7 @@ public class MouseKeySimulation {
             execute();
 
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred while executing MouseKeySimulation", e);
+            log.error("An error occurred while executing MouseKeySimulation", e);
         }
     }
 

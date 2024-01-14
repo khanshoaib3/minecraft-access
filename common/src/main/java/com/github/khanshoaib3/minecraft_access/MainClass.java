@@ -11,15 +11,16 @@ import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderControl
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
 import com.mojang.text2speech.Narrator;
 import dev.architectury.event.events.client.ClientTickEvent;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.util.Strings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+@Slf4j
 public class MainClass {
     public static final String MOD_ID = "minecraft_access";
-    private static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     private static ScreenReaderInterface screenReader = null;
 
     public static CameraControls cameraControls = null;
@@ -35,8 +36,6 @@ public class MainClass {
 
     public static boolean isForge = false;
     public static boolean interrupt = true;
-
-    private static boolean debugMode;
     private static boolean alreadyDisabledAdvancementKey = false;
 
     /**
@@ -46,16 +45,15 @@ public class MainClass {
         try {
             _init();
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred while initializing Minecraft Access.", e);
+            log.error("An error occurred while initializing Minecraft Access.", e);
         }
     }
 
     private static void _init() {
         Config.getInstance().loadConfig();
-        debugMode = OtherConfigsMap.getInstance().isDebugMode();
 
         String msg = "Initializing Minecraft Access";
-        MainClass.infoLog(msg);
+        log.info(msg);
 
         new AutoLibrarySetup().initialize();
 
@@ -91,21 +89,21 @@ public class MainClass {
     public static void clientTickEventsMethod(MinecraftClient minecraftClient) {
         try {
             _clientTickEventsMethod(minecraftClient);
-        }catch (Exception e){
-            MainClass.errorLog("An error occurred while running Minecraft Access client tick events", e);
+        } catch (Exception e) {
+            log.error("An error occurred while running Minecraft Access client tick events", e);
         }
     }
 
     private static void _clientTickEventsMethod(MinecraftClient minecraftClient) {
-        // update debug mode config
         OtherConfigsMap otherConfigsMap = OtherConfigsMap.getInstance();
-        debugMode = otherConfigsMap.isDebugMode();
+
+        changeLogLevelBaseOnDebugConfig();
 
         // TODO change attack and use keys on startup and add startup features to config.json
         if (!MainClass.alreadyDisabledAdvancementKey && minecraftClient.options != null) {
             minecraftClient.options.advancementsKey.setBoundKey(InputUtil.fromTranslationKey("key.keyboard.unknown"));
             MainClass.alreadyDisabledAdvancementKey = true;
-            infoLog("Unbound advancements key");
+            log.info("Unbound advancements key");
         }
 
         if (otherConfigsMap.isMenuFixEnabled()) {
@@ -154,16 +152,18 @@ public class MainClass {
         // AreaMapMenu.getInstance().update();
     }
 
-    public static void infoLog(String msg) {
-        if (debugMode) LOGGER.info(msg);
-    }
-
-    public static void errorLog(String msg) {
-        LOGGER.error(msg);
-    }
-
-    public static void errorLog(String msg, Throwable e) {
-        LOGGER.error(msg, e);
+    /**
+     * Dynamically changing log level based on debug mode config.
+     */
+    private static void changeLogLevelBaseOnDebugConfig() {
+        boolean debugMode = OtherConfigsMap.getInstance().isDebugMode();
+        if (debugMode) {
+            if (!log.isDebugEnabled()) {
+                Configurator.setLevel("com.github.khanshoaib3.minecraft_access", Level.DEBUG);
+            }
+        } else if (log.isDebugEnabled()) {
+            Configurator.setLevel("com.github.khanshoaib3.minecraft_access", Level.INFO);
+        }
     }
 
     public static ScreenReaderInterface getScreenReader() {

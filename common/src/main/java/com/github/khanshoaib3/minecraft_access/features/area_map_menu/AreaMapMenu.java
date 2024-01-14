@@ -12,6 +12,8 @@ import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
 import com.github.khanshoaib3.minecraft_access.utils.position.Orientation;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.sound.SoundEvents;
@@ -30,8 +32,9 @@ import java.util.function.BooleanSupplier;
  * User can move a virtual cursor to explore the area (speak out pointed block's information).
  * Open the AreaMap menu with F6.
  */
-@SuppressWarnings("unused")
+@Slf4j
 public class AreaMapMenu {
+    @Getter
     private static final AreaMapMenu instance;
 
     private static final MenuKeystroke menuKey;
@@ -75,10 +78,6 @@ public class AreaMapMenu {
                 Keystroke.TriggeredAt.PRESSING);
     }
 
-    public static AreaMapMenu getInstance() {
-        return instance;
-    }
-
     public void update() {
         try {
             MinecraftClient client = MinecraftClient.getInstance();
@@ -88,7 +87,7 @@ public class AreaMapMenu {
             // functional core, imperative shell, for easier testing
             execute(client);
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred in AreaMapMenu.", e);
+            log.error("An error occurred in AreaMapMenu.", e);
         }
     }
 
@@ -170,7 +169,7 @@ public class AreaMapMenu {
         if (!checkCursorWithinDistanceBound(nextStep)) return;
 
         this.cursor = nextStep;
-        MainClass.infoLog("Cursor moves " + direction + ": " + cursor);
+       log.debug("Cursor moves " + direction + ": " + cursor);
         Pair<String, String> blockDescription = NarrationUtils.narrateBlock(this.cursor, "");
         MainClass.speakWithNarrator(blockDescription.getLeft(), true);
         // TODO Alt + speak position key

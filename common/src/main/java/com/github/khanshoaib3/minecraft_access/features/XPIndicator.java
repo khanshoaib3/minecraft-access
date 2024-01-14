@@ -2,12 +2,14 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 
 /**
  * This feature speaks when the player xp level is increased or decreased.
  */
+@Slf4j
 public class XPIndicator {
     private int previousXPLevel;
 
@@ -33,7 +35,7 @@ public class XPIndicator {
                     : I18n.translate("minecraft_access.xp_indicator.decreased", currentXPLevel);
             MainClass.speakWithNarrator(toSpeak, true);
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred in xp indicator.", e);
+            log.error("An error occurred in xp indicator.", e);
         }
     }
 }

@@ -2,12 +2,17 @@ package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.logging.log4j.util.Strings;
 
 import java.util.regex.Pattern;
 
+@Getter
+@Setter
 public class OtherConfigsMap {
 
+    @Setter
     private static OtherConfigsMap instance;
 
     public static final String DEFAULT_POSITION_FORMAT = "{x}x, {y}y, {z}z";
@@ -62,58 +67,6 @@ public class OtherConfigsMap {
         return instance;
     }
 
-    public static void setInstance(OtherConfigsMap map) {
-        instance = map;
-    }
-
-    public boolean isBiomeIndicatorEnabled() {
-        return biomeIndicatorEnabled;
-    }
-
-    public void setBiomeIndicatorEnabled(boolean biomeIndicatorEnabled) {
-        this.biomeIndicatorEnabled = biomeIndicatorEnabled;
-    }
-
-    public boolean isXpIndicatorEnabled() {
-        return xpIndicatorEnabled;
-    }
-
-    public void setXpIndicatorEnabled(boolean xpIndicatorEnabled) {
-        this.xpIndicatorEnabled = xpIndicatorEnabled;
-    }
-
-    public boolean isFacingDirectionEnabled() {
-        return facingDirectionEnabled;
-    }
-
-    public void setFacingDirectionEnabled(boolean facingDirectionEnabled) {
-        this.facingDirectionEnabled = facingDirectionEnabled;
-    }
-
-    public boolean isHealthNHungerEnabled() {
-        return healthNHungerEnabled;
-    }
-
-    public void setHealthNHungerEnabled(boolean healthNHungerEnabled) {
-        this.healthNHungerEnabled = healthNHungerEnabled;
-    }
-
-    public boolean isPositionNarratorEnabled() {
-        return positionNarratorEnabled;
-    }
-
-    public void setPositionNarratorEnabled(boolean positionNarratorEnabled) {
-        this.positionNarratorEnabled = positionNarratorEnabled;
-    }
-
-    public String getPositionNarratorFormat() {
-        return positionNarratorFormat;
-    }
-
-    public void setPositionNarratorFormat(String positionNarratorFormat) {
-        this.positionNarratorFormat = positionNarratorFormat;
-    }
-
     public String getCommandSuggestionNarratorFormat() {
         if (!checkSuggestionNarrationFormatIsValid(this.commandSuggestionNarratorFormat)) {
             this.commandSuggestionNarratorFormat = DEFAULT_COMMAND_SUGGESTION_FORMAT;
@@ -129,70 +82,6 @@ public class OtherConfigsMap {
     private static boolean checkSuggestionNarrationFormatIsValid(String format) {
         if (Strings.isBlank(format)) return false;
         return TWO_NUMBER_IN_FORMAT.matcher(format).matches() && ONE_STRING_IN_FORMAT.matcher(format).matches();
-    }
-
-    public boolean isUse12HourTimeFormat() {
-        return use12HourTimeFormat;
-    }
-
-    public void setUse12HourTimeFormat(boolean use12HourTimeFormat) {
-        this.use12HourTimeFormat = use12HourTimeFormat;
-    }
-
-    public boolean isMenuFixEnabled() {
-        return menuFixEnabled;
-    }
-
-    public void setMenuFixEnabled(boolean menuFixEnabled) {
-        this.menuFixEnabled = menuFixEnabled;
-    }
-
-    public boolean isDebugMode() {
-        return debugMode;
-    }
-
-    public void setDebugMode(boolean debugMode) {
-        this.debugMode = debugMode;
-    }
-
-    public boolean isActionBarEnabled() {
-        return actionBarEnabled;
-    }
-
-    public void setActionBarEnabled(boolean actionBarEnabled) {
-        this.actionBarEnabled = actionBarEnabled;
-    }
-
-    public boolean isOnlySpeakActionBarUpdates() {
-        return onlySpeakActionBarUpdates;
-    }
-
-    public void setOnlySpeakActionBarUpdates(boolean onlySpeakActionBarUpdates) {
-        this.onlySpeakActionBarUpdates = onlySpeakActionBarUpdates;
-    }
-
-    public boolean isFishingHarvestEnabled() {
-        return fishingHarvestEnabled;
-    }
-
-    public void setFishingHarvestEnabled(boolean fishingHarvestEnabled) {
-        this.fishingHarvestEnabled = fishingHarvestEnabled;
-    }
-
-    public int getMultipleClickSpeedInMilliseconds() {
-        return multipleClickSpeedInMilliseconds;
-    }
-
-    public void setMultipleClickSpeedInMilliseconds(int multipleClickSpeedInMilliseconds) {
-        this.multipleClickSpeedInMilliseconds = multipleClickSpeedInMilliseconds;
-    }
-
-    public boolean isReportHeldItemsCountWhenChanged() {
-        return reportHeldItemsCountWhenChanged;
-    }
-
-    public void setReportHeldItemsCountWhenChanged(boolean reportHeldItemsCountWhenChanged) {
-        this.reportHeldItemsCountWhenChanged = reportHeldItemsCountWhenChanged;
     }
 
     public static OtherConfigsMap buildDefault() {

@@ -2,8 +2,13 @@ package com.github.khanshoaib3.minecraft_access.config.config_maps;
 
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class POIMarkingConfigMap {
+    @Setter
     private static POIMarkingConfigMap instance;
 
     @SerializedName("Enabled")
@@ -25,28 +30,8 @@ public class POIMarkingConfigMap {
         return m;
     }
 
-    public static void setInstance(POIMarkingConfigMap map) {
-        instance = map;
-    }
-
     public static POIMarkingConfigMap getInstance() {
         if (instance == null) Config.getInstance().loadConfig();
         return instance;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean poiMarkingEnabled) {
-        this.enabled = poiMarkingEnabled;
-    }
-
-    public boolean isSuppressOtherWhenEnabled() {
-        return suppressOtherWhenEnabled;
-    }
-
-    public void setSuppressOtherWhenEnabled(boolean suppressOtherWhenEnabled) {
-        this.suppressOtherWhenEnabled = suppressOtherWhenEnabled;
     }
 }

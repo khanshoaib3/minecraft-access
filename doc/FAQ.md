@@ -84,8 +84,11 @@ I believe through talking we can find out what's wrong together and fix it.
 ### The game crushed when I start it from launcher
 
 Great! Believe it or not, it's easier to be solved than "running but abnormal", game crushed because it KNEW something is wrong, better than  knowing nothing.
-There would be log files under the `logs` folder in your `.minecraft` folder, developers need the `debug.log` file, it contains enough information to find out where is the problem, please upload it to wherever that developers can view.
 If the crush pop up dialog says something about "mod incompatibility", please refer [this section](/doc/SET_UP_ON_WINDOWS.md#upgrade-the-game-and-mods) in the setup guide.
+
+If you are using Fabric, there would be crush report files under the `crash-reports` folder in your `.minecraft` folder, developers need the latest `crash-...` file.
+If you are using Forge, there would be log files under the `logs` folder in your `.minecraft` folder, developers need the `debug.log` file.
+Please upload it to wherever that developers can view, for example you can upload it to Discord channels while asking for help.
 
 ### The game running but abnormal
 
@@ -108,5 +111,6 @@ Please provide these information to developers in "mc-issues" channel:
 * Your operation
 * What you expected or what the mod manual premises
 * What feedback the game and mod gave you
+* In case the developers asking for log files: there would be log files under the `logs` folder in your `.minecraft` folder, developers need the `debug.log` file, please upload it to wherever that developers can view.
 
 It might be a bug of this mod, or something in mod manual is misleading, or you misunderstand how the game works like.

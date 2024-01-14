@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.config.config_menus;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.resource.language.I18n;
@@ -11,6 +12,7 @@ import org.lwjgl.glfw.GLFW;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+@Slf4j
 public class ValueEntryMenu extends BaseScreen {
     public static class ValueConfig {
         private final Supplier<Object> valueGetter;
@@ -86,7 +88,7 @@ public class ValueEntryMenu extends BaseScreen {
             Config.getInstance().writeJSON();
 
         } catch (Exception e) {
-            MainClass.errorLog("Error occurred while updating the config. The user possibly entered wrong value type.", e);
+            log.error("Error occurred while updating the config. The user possibly entered wrong value type.", e);
         }
     }
 

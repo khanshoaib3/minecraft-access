@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.UnzipUtility;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * Automatically installs the required libraries for client's operating system.
  */
+@Slf4j
 public class AutoLibrarySetup {
     public AutoLibrarySetup() {
     }
@@ -25,7 +26,7 @@ public class AutoLibrarySetup {
             if (checkInstalled()) return;
             downloadAndInstall();
         } catch (IOException e) {
-            MainClass.errorLog("An error occurred while downloading library.", e);
+            log.error("An error occurred while downloading library.", e);
         }
     }
 
@@ -35,7 +36,7 @@ public class AutoLibrarySetup {
      */
     private void downloadAndInstall() throws IOException {
         if (SystemUtils.IS_OS_WINDOWS) {
-            MainClass.infoLog("Downloading latest tolk build...");
+           log.info("Downloading latest tolk build...");
             File tolkLatestBuildZip = new File(Paths.get("tolk-latest-build.zip").toAbsolutePath().toString());
             FileUtils.copyURLToFile(new URL("https://github.com/ndarilek/tolk/releases/download/refs%2Fheads%2Fmaster/tolk.zip"), tolkLatestBuildZip);
 
@@ -44,23 +45,23 @@ public class AutoLibrarySetup {
             try {
                 unzipUtility.unzip(tolkLatestBuildZip.getAbsolutePath(), tempDirectoryPath.getAbsolutePath());
             } catch (Exception e) {
-                MainClass.errorLog("An error occurred while extracting tolk-latest-build.zip", e);
+                log.error("An error occurred while extracting tolk-latest-build.zip", e);
             }
 
-            MainClass.infoLog("Moving files...");
+           log.info("Moving files...");
             String sourceDir = "x64";
             if (SystemUtils.OS_ARCH.equalsIgnoreCase("X86")) sourceDir = "x86";
             FileUtils.copyDirectory(Paths.get(tempDirectoryPath.getAbsolutePath(), sourceDir).toFile(),
                     tempDirectoryPath.getParentFile());
 
-            MainClass.infoLog("Deleting temp files...");
+           log.info("Deleting temp files...");
             FileUtils.delete(tolkLatestBuildZip);
             FileUtils.deleteDirectory(tempDirectoryPath);
-            MainClass.infoLog("tolk library downloaded and installed.");
+           log.info("tolk library downloaded and installed.");
         } else if (SystemUtils.IS_OS_LINUX) {
-            MainClass.infoLog("Downloading libspeechdwrapper.so ...");
+           log.info("Downloading libspeechdwrapper.so ...");
             FileUtils.copyURLToFile(new URL("https://github.com/khanshoaib3/libspeechdwrapper/releases/download/v1.0.0/libspeechdwrapper.so"), new File(Paths.get("libspeechdwrapper.so").toAbsolutePath().toString()));
-            MainClass.infoLog("libspeechdwrapper.so downloaded and installed.");
+           log.info("libspeechdwrapper.so downloaded and installed.");
         }
     }
 
@@ -70,17 +71,17 @@ public class AutoLibrarySetup {
      * @return Returns true if all files are installed otherwise false.
      */
     private boolean checkInstalled() {
-        MainClass.infoLog("Checking for installed files...");
+       log.info("Checking for installed files...");
 
         for (String libraryName : getRequiredLibraryNames()) {
-            MainClass.infoLog("Checking for " + libraryName);
+           log.debug("Checking for " + libraryName);
             if (!Files.exists(Paths.get(libraryName).toAbsolutePath())) {
-                MainClass.infoLog(libraryName + " file not found.");
+               log.error(libraryName + " file not found.");
                 return false;
             }
         }
 
-        MainClass.infoLog("All files are installed.");
+       log.info("All files are installed.");
         return true;
     }
 

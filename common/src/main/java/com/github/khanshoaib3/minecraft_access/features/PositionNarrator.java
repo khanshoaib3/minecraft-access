@@ -6,6 +6,7 @@ import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import org.lwjgl.glfw.GLFW;
 
@@ -17,6 +18,7 @@ import org.lwjgl.glfw.GLFW;
  * 3. Left Alt + C = Speaks only the y position.<br>
  * 4. Left Alt + Z = Speaks only the z position.<br>
  */
+@Slf4j
 public class PositionNarrator {
     private static final PositionNarrator instance;
     public static Keystroke KeyX = new Keystroke(() -> KeyUtils.isAnyPressed(GLFW.GLFW_KEY_X));
@@ -66,7 +68,7 @@ public class PositionNarrator {
             positionNarrationKey.updateStateForNextTick();
 
         } catch (Exception e) {
-            MainClass.errorLog("An error occurred in PositionNarrator.", e);
+            log.error("An error occurred in PositionNarrator.", e);
         }
     }
 

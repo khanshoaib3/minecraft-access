@@ -1,8 +1,8 @@
 package com.github.khanshoaib3.minecraft_access.utils.system;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Window;
 
@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 /**
  * Contains functions to simulate mouse events.
  */
+@Slf4j
 public class MouseUtils {
     private static user32dllInterface mainInterface = null;
 
@@ -68,7 +69,7 @@ public class MouseUtils {
         doNativeMouseAction("mouse moving", true,
                 "xdotool mousemove %d %d".formatted(x, y),
                 (i) -> {
-                    if (!i.SetCursorPos(x, y)) MainClass.errorLog("\nError encountered on moving mouse.");
+                    if (!i.SetCursorPos(x, y)) log.error("\nError encountered on moving mouse.");
                 }
         );
     }
@@ -82,7 +83,7 @@ public class MouseUtils {
      */
     public static void moveAfterDelay(int x, int y, int delay) {
         try {
-            MainClass.infoLog("Moving mouse to x:%d y:%d after %d milliseconds".formatted(x, y, delay));
+           log.debug("Moving mouse to x:%d y:%d after %d milliseconds".formatted(x, y, delay));
             TimerTask timerTask = new TimerTask() {
                 @Override
                 public void run() {
@@ -91,7 +92,7 @@ public class MouseUtils {
             };
             new Timer().schedule(timerTask, delay);
         } catch (Exception e) {
-            MainClass.errorLog("Error encountered on moving mouse.", e);
+            log.error("Error encountered on moving mouse.", e);
         }
     }
 
@@ -226,7 +227,7 @@ public class MouseUtils {
                 int x = (int) minecraftClient.mouse.getX(), y = (int) minecraftClient.mouse.getY();
                 coordinates = " on x:%d y:%d".formatted(x, y);
             }
-            MainClass.infoLog("Performing " + name + coordinates);
+           log.debug("Performing " + name + coordinates);
 
 
             if (OsUtils.isLinux()) {
@@ -236,7 +237,7 @@ public class MouseUtils {
                 windowsAction.accept(mainInterface);
             }
         } catch (Exception e) {
-            MainClass.errorLog("Error encountered on performing " + name + ".", e);
+            log.error("Error encountered on performing " + name + ".", e);
         }
     }
 
@@ -279,7 +280,7 @@ public class MouseUtils {
         try {
             mainInterface = Native.load("User32.dll", user32dllInterface.class);
         } catch (Exception e) {
-            MainClass.errorLog("Error encountered while initializing User32.dll", e);
+            log.error("Error encountered while initializing User32.dll", e);
         }
     }
 

@@ -1,13 +1,14 @@
 package com.github.khanshoaib3.minecraft_access.screen_reader;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
+import lombok.extern.slf4j.Slf4j;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Slf4j
 public class ScreenReaderWindows implements ScreenReaderInterface {
     tolkInterface mainInstance = null;
 
@@ -15,20 +16,20 @@ public class ScreenReaderWindows implements ScreenReaderInterface {
     public void initializeScreenReader() {
         Path path = Paths.get("Tolk.dll");
         if (!Files.exists(path)) {
-            MainClass.errorLog("Tolk not installed!");
+            log.error("Tolk not installed!");
             return;
         }
 
-        MainClass.infoLog("Initializing Tolk for windows at: " + path);
+        log.info("Initializing Tolk for windows at: " + path);
         tolkInterface instance = Native.load(path.toString(), tolkInterface.class);
         instance.Tolk_TrySAPI(true);
         instance.Tolk_Load();
         boolean isLoaded = instance.Tolk_IsLoaded() && instance.Tolk_HasSpeech();
         if (isLoaded) {
-            MainClass.infoLog("Successfully initialized screen reader");
+            log.info("Successfully initialized screen reader");
             mainInstance = instance;
         } else {
-            MainClass.errorLog("Unable to initialize screen reader");
+            log.error("Unable to initialize screen reader");
         }
     }
 
@@ -39,7 +40,7 @@ public class ScreenReaderWindows implements ScreenReaderInterface {
 
     @Override
     public void say(String text, boolean interrupt) {
-        if(mainInstance==null)
+        if (mainInstance == null)
             return;
 
         char[] ch = new char[text.length() + 1]; // Last character must be null so NVDA decodes the text correctly
@@ -48,14 +49,14 @@ public class ScreenReaderWindows implements ScreenReaderInterface {
         }
         boolean re = mainInstance.Tolk_Output(ch, interrupt);
         if (re)
-            MainClass.infoLog("Speaking(interrupt:" + interrupt + ")= " + text);
+            log.info("Speaking(interrupt:" + interrupt + ")= " + text);
         else
-            MainClass.errorLog("Unable to speak");
+            log.error("Unable to speak");
     }
 
     @Override
     public void closeScreenReader() {
-        if(mainInstance==null)
+        if (mainInstance == null)
             return;
 
         mainInstance.Tolk_Unload();
@@ -71,12 +72,14 @@ public class ScreenReaderWindows implements ScreenReaderInterface {
 
         /**
          * Tests if Tolk has been initialized.
+         *
          * @return true if Tolk has been initialized, false otherwise.
          */
         boolean Tolk_IsLoaded();
 
         /**
          * Tests if the current screen reader driver supports speech output, if one is set. If none is set, tries to detect the currently active screen reader before testing for speech support. You should call Tolk_Load once before using this function.
+         *
          * @return true if the current screen reader driver supports speech, false otherwise.
          */
         boolean Tolk_HasSpeech();
@@ -87,16 +90,17 @@ public class ScreenReaderWindows implements ScreenReaderInterface {
         void Tolk_Unload();
 
         /**
-         *  Name:         Tolk_TrySAPI
-         *  Description:  Sets if Microsoft Speech API (SAPI) should be used in the screen reader auto-detection process. The default is not to include SAPI. The SAPI driver will use the system default synthesizer, voice and soundcard. This function triggers the screen reader detection process if needed. For best performance, you should call this function before calling Tolk_Load.
-         *  Parameters:   trySAPI: whether or not to include SAPI in auto-detection.
-         *  Returns:      None.
+         * Name:         Tolk_TrySAPI
+         * Description:  Sets if Microsoft Speech API (SAPI) should be used in the screen reader auto-detection process. The default is not to include SAPI. The SAPI driver will use the system default synthesizer, voice and soundcard. This function triggers the screen reader detection process if needed. For best performance, you should call this function before calling Tolk_Load.
+         * Parameters:   trySAPI: whether or not to include SAPI in auto-detection.
+         * Returns:      None.
          */
         void Tolk_TrySAPI(boolean trySAPI);
 
         /**
          * Outputs text through the current screen reader driver, if one is set. If none is set or if it encountered an error, tries to detect the currently active screen reader before outputting the text. This is the preferred function to use for sending text to a screen reader, because it uses all of the supported output methods (speech and/or braille depending on the current screen reader driver). You should call Tolk_Load once before using this function. This function is asynchronous.
-         * @param text text to output.
+         *
+         * @param text      text to output.
          * @param interrupt whether to first cancel any previous speech.
          * @return true on success, false otherwise.
          */

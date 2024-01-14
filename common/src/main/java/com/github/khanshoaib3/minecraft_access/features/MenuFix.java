@@ -1,8 +1,8 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
-import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.MouseUtils;
+import lombok.extern.slf4j.Slf4j;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -26,6 +26,7 @@ import java.util.List;
  * which results in infinite speaking of `Screen element x out of x` by the narrator
  */
 @Environment(EnvType.CLIENT)
+@Slf4j
 public class MenuFix {
     /**
      * Prevents executing this fix for the title screen the first time
@@ -70,7 +71,7 @@ public class MenuFix {
         try {
             if (menuList.contains(minecraftClient.currentScreen.getClass())) {
                 if (!(prevScreenClass == minecraftClient.currentScreen.getClass())) {
-                    MainClass.infoLog("%s opened, now moving the mouse cursor.".formatted(minecraftClient.currentScreen.getTitle().getString()));
+                   log.debug("%s opened, now moving the mouse cursor.".formatted(minecraftClient.currentScreen.getTitle().getString()));
                     moveMouseCursor(minecraftClient);
                     prevScreenClass = minecraftClient.currentScreen.getClass();
                 }
@@ -81,7 +82,7 @@ public class MenuFix {
                     moveMouseCursor(minecraftClient);
             }
         } catch (Exception e) {
-            MainClass.errorLog("Error encountered while running the menu fix feature", e);
+            log.error("Error encountered while running the menu fix feature", e);
         }
     }
 
@@ -97,7 +98,7 @@ public class MenuFix {
 
             MouseUtils.moveAndLeftClick(movePosX, movePosY);
         } catch (Exception e) {
-            MainClass.errorLog("Error encountered while moving the mouse for the menu fix feature", e);
+            log.error("Error encountered while moving the mouse for the menu fix feature", e);
         }
     }
 }
