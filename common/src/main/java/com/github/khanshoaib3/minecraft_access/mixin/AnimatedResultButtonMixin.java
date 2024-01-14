@@ -28,7 +28,7 @@ public class AnimatedResultButtonMixin {
     //    @Inject(at = @At("HEAD"), method = "appendNarrations", cancellable = true) // Pre 1.19.3
     @Inject(at = @At("HEAD"), method = "appendClickableNarrations", cancellable = true) // From 1.19.3
     private void appendNarrations(NarrationMessageBuilder builder, CallbackInfo callbackInfo) {
-        ItemStack itemStack = ((AnimatedResultButtonAccessor) this).callGetResults().get(((AnimatedResultButtonAccessor) this).getCurrentResultIndex()).getOutput(DynamicRegistryManager.EMPTY);
+        ItemStack itemStack = ((AnimatedResultButtonAccessor) this).callGetResults().get(((AnimatedResultButtonAccessor) this).getCurrentResultIndex()).getResult(DynamicRegistryManager.EMPTY);
         String itemName = itemStack.getName().getString();
 
         boolean sameItem = itemName.equalsIgnoreCase(minecraft_access$previousItemName);

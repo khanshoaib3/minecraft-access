@@ -95,7 +95,7 @@ public class ValueEntryMenu extends BaseScreen {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         this.speakValue();
-        this.renderBackground(context);
+        this.renderBackground(context, mouseX, mouseY, delta);
         context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 15, 16777215);
         context.drawCenteredTextWithShadow(this.textRenderer, value, this.width / 2, this.height / 2, 16777215);
         super.render(context, mouseX, mouseY, delta);
