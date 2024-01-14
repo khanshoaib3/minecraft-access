@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PageTurnWidgetMixin {
     @Shadow @Final private boolean isNextPageButton;
 
-    @Inject(at = @At("HEAD"), method = "renderButton")
+    @Inject(at = @At("HEAD"), method = "renderWidget")
     public void renderButton(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci){
         if(this.isNextPageButton)
             ((ClickableWidgetAccessor)this).setMessage(Text.literal(I18n.translate("minecraft_access.menus.book_screen.next_page_button_name")));

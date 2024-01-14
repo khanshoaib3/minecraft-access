@@ -1,4 +1,4 @@
-Release v1.5.0 (2024-)
+Release v1.5.0 (2024-01)
 ---------------------------
 
 ### Feature Changes
@@ -11,6 +11,15 @@ Release v1.5.0 (2024-)
 * Use lombok's `@Slf4j` instead of `MainClass.debug()` to let every class has its own logger.
 * Change some log message's level to `DEBUG`, make these logs controlled by config "Debug Mode" (and tested in dev and prod environments).
 * Use lombok's `@Getter` `@Setter` to replace `*ConfigMap`'s boilerplate code.
+
+### Dependencies Changes
+
+* minecraft_version: `1.20.1` -> `1.20.4`
+* architectury_version: `9.0.8` -> `11.0.9`
+* fabric_loader_version: `0.14.21` -> `0.15.1`
+* fabric_api_version: `0.84.0+1.20.1` -> `0.93.1+1.20.4`
+* forge_version: `1.20.1-47.0.19` -> `1.20.4-49.0.19`
+* dev.architectury.loom: `1.1-SNAPSHOT` -> `1.4.380`
 
 Release v1.4.3 (2024-01)
 ---------------------------

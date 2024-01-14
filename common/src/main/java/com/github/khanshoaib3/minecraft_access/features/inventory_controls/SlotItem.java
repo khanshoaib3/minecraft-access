@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screen.ingame.MerchantScreen;
 import net.minecraft.client.gui.screen.ingame.StonecutterScreen;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.StonecuttingRecipe;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -80,11 +81,11 @@ public class SlotItem {
         }
 
         if (MinecraftClient.getInstance().currentScreen instanceof StonecutterScreen stonecutterScreen) {
-            List<StonecuttingRecipe> list = stonecutterScreen.getScreenHandler().getAvailableRecipes();
+            List<RecipeEntry<StonecuttingRecipe>> list = stonecutterScreen.getScreenHandler().getAvailableRecipes();
             if (list.size() == 0) return "";
 
             int scrollOffset = ((StonecutterScreenAccessor) stonecutterScreen).getScrollOffset();
-            ItemStack item = list.get(recipeOrTradeIndex + scrollOffset).getOutput(DynamicRegistryManager.EMPTY);
+            ItemStack item = list.get(recipeOrTradeIndex + scrollOffset).value().getResult(DynamicRegistryManager.EMPTY);
             List<Text> toolTip = MinecraftClient.getInstance().currentScreen.getTooltipFromItem(MinecraftClient.getInstance(),item);
             StringBuilder toolTipString = new StringBuilder();
             for (Text text : toolTip) {
