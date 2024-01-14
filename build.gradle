@@ -1,6 +1,7 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.1-SNAPSHOT" apply false
+    // ref: https://maven.architectury.dev/dev/architectury/architectury-loom/
+    id "dev.architectury.loom" version "1.4.380" apply false
 }
 
 architectury {
@@ -37,7 +38,7 @@ allprojects {
         // for more information about repositories.
     }
 
-    tasks.withType(JavaCompile) {
+    tasks.withType(JavaCompile).configureEach {
         options.encoding = "UTF-8"
         options.release = 17
     }

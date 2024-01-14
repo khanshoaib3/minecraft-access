@@ -47,18 +47,20 @@ shadowJar {
     exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
+    // "classifier" is removed in gradle 8, use "archiveClassifier" instead
+    // ref: https://github.com/architectury/architectury-api/blob/18ba59c9041d3fa535278097ee4b3d574dfec6d2/fabric/build.gradle#L48
+    archiveClassifier = "dev-shadow"
 }
 
 remapJar {
     injectAccessWidener = true
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    classifier null
+    archiveClassifier = null
 }
 
 jar {
-    classifier "dev"
+    archiveClassifier = "dev"
 }
 
 sourcesJar {
