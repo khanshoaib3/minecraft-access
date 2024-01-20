@@ -54,6 +54,20 @@ public class InventoryControlsConfigMenu extends BaseScreen {
         rowNColumnButton.active = false;
         this.addDrawableChild(rowNColumnButton);
 
+        ButtonWidget repeatSpeakingFocusedSlotBtn = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (initMap.isSpeakFocusedSlotChanges() ? "enabled" : "disabled"),
+                        I18n.translate("minecraft_access.gui.inventory_controls_config_menu.button.speak_focused_slot_changes")
+                ),
+                (button) -> {
+                    InventoryControlsConfigMap map = InventoryControlsConfigMap.getInstance();
+                    map.setSpeakFocusedSlotChanges(!map.isSpeakFocusedSlotChanges());
+                    Config.getInstance().writeJSON();
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (map.isSpeakFocusedSlotChanges() ? "enabled" : "disabled"),
+                            I18n.translate("minecraft_access.gui.inventory_controls_config_menu.button.speak_focused_slot_changes")
+                    )));
+                });
+        this.addDrawableChild(repeatSpeakingFocusedSlotBtn);
+
         ValueEntryMenu.ValueConfig c2 = new ValueEntryMenu.ValueConfig(() -> InventoryControlsConfigMap.getInstance().getDelayInMilliseconds(),
                 (v) -> InventoryControlsConfigMap.getInstance().setDelayInMilliseconds(Integer.parseInt(v)),
                 ValueEntryMenu.ValueType.INT);

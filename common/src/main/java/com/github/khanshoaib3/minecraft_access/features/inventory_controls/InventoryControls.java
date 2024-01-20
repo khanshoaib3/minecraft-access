@@ -59,7 +59,7 @@ public class InventoryControls {
     private int currentGroupIndex = 0;
     private SlotItem currentSlotItem = null;
     private String previousSlotText = "";
-    private boolean repeatSpeakingFocusedSlot = true;
+    private boolean speakFocusedSlotChanges = true;
 
     private enum FocusDirection {
         UP(I18n.translate("minecraft_access.inventory_controls.direction_up")),
@@ -144,7 +144,7 @@ public class InventoryControls {
 
             if (currentSlotsGroupList.isEmpty()) return;
 
-            if (repeatSpeakingFocusedSlot) {
+            if (speakFocusedSlotChanges) {
                 String slotNarrationText = getCurrentSlotNarrationText();
                 if (!previousSlotText.equals(slotNarrationText)) {
                     previousSlotText = slotNarrationText;
@@ -166,6 +166,7 @@ public class InventoryControls {
         autoOpenRecipeBook = map.isAutoOpenRecipeBook();
         rowAndColumnFormat = map.getRowAndColumnFormat();
         interval = Interval.inMilliseconds(map.getDelayInMilliseconds(), interval);
+        speakFocusedSlotChanges = map.isSpeakFocusedSlotChanges();
     }
 
     /**

@@ -95,13 +95,14 @@ See also: [Feature Description](/doc/FEATURES.md#partial-speaking)
 
 ## Inventory Controls
 
-| Configuration                                                                             | Default Value | Description                                                                                            |
-|-------------------------------------------------------------------------------------------|---------------|--------------------------------------------------------------------------------------------------------|
-| Enabled                                                                                   | true          | Whether to enable this feature                                                                         |
-| Auto Open Recipe Book                                                                     | true          | Automatically opens the recipe                                                                         |
-| book on opening the inventory (in creative/survival inventory screen and crafting screen) |               |                                                                                                        |
-| Row and Column Format in Crafting Input Slots                                             | "%dx%d"       | The speaking format of row and column prefix, two "%d" are representing the position of row and column |
-| Delay (in milliseconds)                                                                   | 250           | Cooldown between two feature executions                                                                |
+| Configuration                                                                             | Default Value | Description                                                                                                                                                        |
+|-------------------------------------------------------------------------------------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Enabled                                                                                   | true          | Whether to enable this feature                                                                                                                                     |
+| Auto Open Recipe Book                                                                     | true          | Automatically opens the recipe                                                                                                                                     |
+| book on opening the inventory (in creative/survival inventory screen and crafting screen) |               |                                                                                                                                                                    |
+| Row and Column Format in Crafting Input Slots                                             | "%dx%d"       | The speaking format of row and column prefix, two "%d" are representing the position of row and column                                                             |
+| Speak Focused Slot Changes                                                                | true          | Speak if the content of focused slot changes, close it if you hear the mod is continuously repeating changes of item name, some mods like hypixel will cause that. |
+| Delay (in milliseconds)                                                                   | 250           | Cooldown between two feature executions                                                                                                                            |
 
 Most recipes [require](https://minecraft.wiki/w/Crafting) their ingredients to be arranged in a specific way on the crafting grid (a.k.a. our crafting input group).
 That's how `Row and Column Format in Crafting Input Slots` config can help you, you'll hear something like "1x2 Empty Slot" which represent you're locating at row one and column two slot inside the crafting input group, and it contains nothing.
