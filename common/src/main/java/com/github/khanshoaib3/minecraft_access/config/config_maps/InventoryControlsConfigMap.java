@@ -18,6 +18,8 @@ public class InventoryControlsConfigMap {
     private boolean autoOpenRecipeBook;
     @SerializedName("Row and Column Format in Crafting Input Slots")
     private String rowAndColumnFormat;
+    @SerializedName("Speak Focused Slot Changes")
+    private boolean speakFocusedSlotChanges = true;
     @SerializedName("Delay (in milliseconds)")
     private int delayInMilliseconds;
 
@@ -35,6 +37,7 @@ public class InventoryControlsConfigMap {
         defaultInventoryControlsConfigMap.setAutoOpenRecipeBook(true);
         defaultInventoryControlsConfigMap.setRowAndColumnFormat("%dx%d");
         defaultInventoryControlsConfigMap.setDelayInMilliseconds(150);
+        defaultInventoryControlsConfigMap.speakFocusedSlotChanges = true;
 
         setInstance(defaultInventoryControlsConfigMap);
         return defaultInventoryControlsConfigMap;

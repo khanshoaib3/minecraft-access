@@ -103,6 +103,7 @@ Please note that:
 1. Item speaking in "Scrollable Recipes Group" under "Crafting Screen" will be delayed about one second, please wait after press the slot moving key to hear the item name.
 2. In "Scrollable Recipes Group" under "Crafting Screen", except the first page, sometimes you will hear nothing while you moving between slots. It's best to keep items you want to craft within the first page of the recipe book by moving unused resource items out of your inventory.
 3. After put things into an [Anvil](https://minecraft.fandom.com/wiki/Anvil), the cursor will be automatically focused onto the rename input text field, all you need to do is pressing "Enter" key to go back to slot selection.
+4. Servers will build custom inventory screens to serve as special option menus, some mods like hypixel will continuously changing the option (item) names, which will cause this mod continuously speaking changed item name. Close "Speak Focused Slot Changes" config to solve this problem.
 
 See also: [Configuration](/doc/CONFIG.md#inventory-controls), [Keybindings](/doc/KEYBINDINGS.md#inventory-controls)
 
@@ -264,7 +265,7 @@ See also: [Keybindings](/doc/KEYBINDINGS.md#speak-chat-messages)
 ### Speak Action Bar Messages
 
 Messages shown in the form of [action bar](https://minecraft.wiki/w/Commands/title) are common in modded multiplayer servers, usually they are used as server announcements or showing mod-specific information, for example in hypixel it shows extra "health, defense, mana" values of players.
-When you feel like the mod is repeating action bar messages, that's because the messages are partially updated but the mod will speak the whole sentence, try to open "Only Speak Action Bar Updates" config in the [configuration](/doc/CONFIG.md#other-configurations).
+When you feel like the mod is repeating action bar messages, that's because the messages are partially updated but the mod will speak the whole sentence, try to open "Only Speak Action Bar Updates" config in the [configuration](/doc/CONFIG.md#other-configurations). It happens when playing some mods like hypixel.
 
 ### I18N Fallback Mechanism
 

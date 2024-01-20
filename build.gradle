@@ -1,7 +1,10 @@
 plugins {
+    // Sadly, you can't use a variable for a plugin version
+    // ref: https://stackoverflow.com/questions/37555196/in-gradle-how-to-use-a-variable-for-a-plugin-version
     id "architectury-plugin" version "3.4-SNAPSHOT"
     // ref: https://maven.architectury.dev/dev/architectury/architectury-loom/
-    id "dev.architectury.loom" version "1.4.380" apply false
+    // From developers of architectury: "shouldn?t hardcode the loom version, just put *-SNAPSHOT"
+    id "dev.architectury.loom" version "1.4-SNAPSHOT" apply false
 }
 
 architectury {
