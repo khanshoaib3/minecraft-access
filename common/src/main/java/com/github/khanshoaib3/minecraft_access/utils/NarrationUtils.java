@@ -176,7 +176,9 @@ public class NarrationUtils {
     /**
      * @param pos  block position (in the client world)
      * @param side if side is provided, then the invoker is ReadCrosshair
-     * @return toSpeak, currentQuery
+     * @return (toSpeak, currentQuery):
+     * "toSpeak" is the actual one to be spoken through Narrator,
+     * "currentQuery" is kind of shortened "toSpeak" that is used for checking if target is changed compared to previous.
      */
     public static Pair<String, String> narrateBlock(BlockPos pos, String side) {
         MinecraftClient client = MinecraftClient.getInstance();
