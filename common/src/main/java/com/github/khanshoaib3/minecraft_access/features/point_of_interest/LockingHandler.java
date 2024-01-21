@@ -2,7 +2,6 @@ package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POILockingConfigMap;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
@@ -139,12 +138,7 @@ public class LockingHandler {
     }
 
     private void relock() {
-        boolean suppressLockingOnNonMarkedThings = onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled();
-
-        List<TreeMap<Double, Entity>> scannedEntityMaps = suppressLockingOnNonMarkedThings ?
-                List.of(POIEntities.markedEntities) :
-                List.of(POIEntities.markedEntities, POIEntities.hostileEntity, POIEntities.passiveEntity);
-
+        List<TreeMap<Double, Entity>> scannedEntityMaps = POIEntities.getInstance().getLockingCandidates();
         for (TreeMap<Double, Entity> map : scannedEntityMaps) {
             if (!map.isEmpty()) {
                 Entity entity = map.firstEntry().getValue();
@@ -220,18 +214,7 @@ public class LockingHandler {
         Double minPlayerDistance = Double.MAX_VALUE;
         Vec3d nearestBlockPosition = null;
 
-        List<TreeMap<Double, Vec3d>> scannedBlockMaps = List.of(
-                POIBlocks.doorBlocks,
-                POIBlocks.buttonBlocks,
-                POIBlocks.ladderBlocks,
-                POIBlocks.leverBlocks,
-                POIBlocks.trapDoorBlocks,
-                POIBlocks.otherBlocks,
-                POIBlocks.oreBlocks,
-                POIBlocks.fluidBlocks,
-                POIBlocks.markedBlocks
-        );
-
+        List<TreeMap<Double, Vec3d>> scannedBlockMaps = POIBlocks.getInstance().getLockingCandidates();
         for (TreeMap<Double, Vec3d> map : scannedBlockMaps) {
             if (!map.isEmpty()) {
                 Entry<Double, Vec3d> closestOneInThisType = map.firstEntry();

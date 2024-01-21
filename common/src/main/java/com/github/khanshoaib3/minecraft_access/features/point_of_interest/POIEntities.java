@@ -20,6 +20,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
+import java.util.List;
 import java.util.TreeMap;
 import java.util.function.Predicate;
 
@@ -74,7 +75,7 @@ public class POIEntities {
             hostileEntity = new TreeMap<>();
             markedEntities = new TreeMap<>();
 
-           log.debug("POIEntities started...");
+            log.debug("POIEntities started...");
 
             for (Entity i : minecraftClient.world.getEntities()) {
                 if (!(i instanceof MobEntity || i instanceof ItemEntity || i instanceof EyeOfEnderEntity || (i instanceof PlayerEntity && i != minecraftClient.player)))
@@ -99,7 +100,7 @@ public class POIEntities {
                 }
 
                 if (onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
-                   log.debug("POIEntities end early by POI marking feature.");
+                    log.debug("POIEntities end early by POI marking feature.");
                     return;
                 }
 
@@ -119,7 +120,7 @@ public class POIEntities {
                     this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
                 }
             }
-           log.debug("POIEntities end.");
+            log.debug("POIEntities end.");
 
         } catch (Exception e) {
             log.error("An error occurred while executing POIEntities", e);
@@ -131,7 +132,7 @@ public class POIEntities {
         if (minecraftClient.world == null) return;
         if (!playSound || !(volume > 0f)) return;
 
-       log.debug("{POIEntity} Playing sound at x:%d y:%d z%d".formatted(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
+        log.debug("{POIEntity} Playing sound at x:%d y:%d z%d".formatted(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
         minecraftClient.world.playSound(minecraftClient.player, blockPos, soundEvent, SoundCategory.BLOCKS, volume, pitch);
     }
 
@@ -156,5 +157,12 @@ public class POIEntities {
             Class<? extends Entity> clazz = entity.getClass();
             this.markedEntity = clazz::isInstance;
         }
+    }
+
+    public List<TreeMap<Double, Entity>> getLockingCandidates() {
+        boolean suppressLockingOnNonMarkedThings = onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled();
+        return suppressLockingOnNonMarkedThings ?
+                List.of(markedEntities) :
+                List.of(markedEntities, hostileEntity, passiveEntity);
     }
 }
