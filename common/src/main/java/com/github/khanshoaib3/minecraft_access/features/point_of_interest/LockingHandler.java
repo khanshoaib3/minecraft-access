@@ -136,32 +136,20 @@ public class LockingHandler {
     }
 
     private void relock() {
-        if (!POIEntities.markedEntities.isEmpty()) {
-            Entity entity = POIEntities.markedEntities.firstEntry().getValue();
-            if (lockOnEntity(entity)) return;
-        }
-
         boolean suppressLockingOnNonMarkedThings = onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled();
-        if (suppressLockingOnNonMarkedThings) {
-            if (POIBlocks.markedBlocks.isEmpty()) {
-                return;
-            } else {
-                // Skip entity locking logic
-                findAndLockOnNearestBlock();
+
+        List<TreeMap<Double, Entity>> scannedEntityMaps = suppressLockingOnNonMarkedThings ?
+                List.of(POIEntities.markedEntities) :
+                List.of(POIEntities.markedEntities, POIEntities.hostileEntity, POIEntities.passiveEntity);
+
+        for (TreeMap<Double, Entity> map : scannedEntityMaps) {
+            if (!map.isEmpty()) {
+                Entity entity = map.firstEntry().getValue();
+                if (lockOnEntity(entity)) return;
             }
         }
 
-        if (!POIEntities.hostileEntity.isEmpty()) {
-            Entity entity = POIEntities.hostileEntity.firstEntry().getValue();
-            if (lockOnEntity(entity)) return;
-        }
-
-        if (!POIEntities.passiveEntity.isEmpty()) {
-            Entity entity = POIEntities.passiveEntity.firstEntry().getValue();
-            if (lockOnEntity(entity)) return;
-        }
-
-        if (this.lockOnBlocks) {
+        if (this.lockOnBlocks || onPOIMarkingNow) {
             findAndLockOnNearestBlock();
         }
     }
