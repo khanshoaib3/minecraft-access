@@ -41,7 +41,7 @@ public class POIEntities {
 
     private static final POIEntities instance;
     @Setter
-    private boolean marking = false;
+    private boolean onPOIMarkingNow = false;
     private Predicate<Entity> markedEntity = e -> false;
 
     static {
@@ -98,7 +98,7 @@ public class POIEntities {
                     }
                 }
 
-                if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+                if (onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
                    log.debug("POIEntities end early by POI marking feature.");
                     return;
                 }
@@ -149,10 +149,10 @@ public class POIEntities {
 
     public void setMarkedEntity(Entity entity) {
         if (entity == null) {
-            this.marking = false;
+            this.onPOIMarkingNow = false;
             this.markedEntity = e -> false;
         } else {
-            this.marking = true;
+            this.onPOIMarkingNow = true;
             Class<? extends Entity> clazz = entity.getClass();
             this.markedEntity = clazz::isInstance;
         }

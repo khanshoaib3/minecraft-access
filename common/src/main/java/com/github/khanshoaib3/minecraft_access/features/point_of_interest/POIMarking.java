@@ -4,6 +4,7 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
+import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -15,21 +16,18 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 
 public class POIMarking {
+    @Getter
     private static final POIMarking instance;
     private static final POIBlocks poiBlocks;
     private static final POIEntities poiEntities;
     private static final LockingHandler lockingHandler;
-    private static boolean marking = false;
+    private static boolean onMarking = false;
 
     static {
         instance = new POIMarking();
         poiBlocks = POIBlocks.getInstance();
         poiEntities = POIEntities.getInstance();
         lockingHandler = LockingHandler.getInstance();
-    }
-
-    public static POIMarking getInstance() {
-        return instance;
     }
 
     /**
@@ -53,13 +51,13 @@ public class POIMarking {
             unmark();
         }
 
-        // trigger POI updates
+        // trigger POI Scan updates
         poiBlocks.update();
         poiEntities.update();
     }
 
     private void mark() {
-        if (marking) return;
+        if (onMarking) return;
 
         MinecraftClient client = MinecraftClient.getInstance();
         if (client == null) return;
@@ -75,7 +73,7 @@ public class POIMarking {
                 if (world == null) return;
                 Block b = world.getBlockState(((BlockHitResult) hit).getBlockPos()).getBlock();
                 poiBlocks.setMarkedBlock(b);
-                poiEntities.setMarking(true);
+                poiEntities.setOnPOIMarkingNow(true);
 
                 String name = b.getName().getString();
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.marking.marked", name), true);
@@ -83,21 +81,21 @@ public class POIMarking {
             case ENTITY -> {
                 Entity e = ((EntityHitResult) hit).getEntity();
                 poiEntities.setMarkedEntity(e);
-                poiBlocks.setMarking(true);
+                poiBlocks.setOnPOIMarkingNow(true);
 
                 String name = e.getName().getString();
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.marking.marked", name), true);
             }
         }
 
-        marking = true;
-        lockingHandler.setMarking(true);
+        onMarking = true;
+        lockingHandler.setOnPOIMarkingNow(true);
     }
 
     private void unmark() {
-        if (!marking) return;
-        marking = false;
-        lockingHandler.setMarking(false);
+        if (!onMarking) return;
+        onMarking = false;
+        lockingHandler.setOnPOIMarkingNow(false);
         poiEntities.setMarkedEntity(null);
         poiBlocks.setMarkedBlock(null);
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.marking.unmarked"), true);

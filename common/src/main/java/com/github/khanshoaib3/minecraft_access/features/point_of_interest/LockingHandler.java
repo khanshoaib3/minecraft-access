@@ -10,6 +10,7 @@ import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
@@ -37,13 +38,13 @@ public class LockingHandler {
     public Entity lockedOnEntity = null;
     public BlockPos3d lockedOnBlock = null;
     public boolean isLockedOnWhereEyeOfEnderDisappears = false;
-    public String lockedOnBlockEntries = "";
+    public String entriesOfLockedOnBlock = "";
     private Interval interval;
 
     private boolean lockOnBlocks;
     private boolean speakDistance;
     private boolean unlockingSound;
-
+    @Setter
     private boolean onPOIMarkingNow = false;
 
     static {
@@ -100,7 +101,7 @@ public class LockingHandler {
             // for example, opened chest and closed chest are different states of chest block,
             // they are different entries when invoking getEntries().
             String entries = blockState.getEntries().toString();
-            boolean entriesOfLockedBlockNotChanged = entries.equalsIgnoreCase(lockedOnBlockEntries);
+            boolean entriesOfLockedBlockNotChanged = entries.equalsIgnoreCase(entriesOfLockedOnBlock);
 
             if (entriesOfLockedBlockNotChanged || isLockedOnWhereEyeOfEnderDisappears)
                 PlayerUtils.lookAt(lockedOnBlock);
@@ -122,7 +123,7 @@ public class LockingHandler {
 
     private void unlock(boolean speak) {
         lockedOnEntity = null;
-        lockedOnBlockEntries = "";
+        entriesOfLockedOnBlock = "";
         lockedOnBlock = null;
         isLockedOnWhereEyeOfEnderDisappears = false;
 
@@ -249,7 +250,7 @@ public class LockingHandler {
         unlock(false);
 
         BlockState blockState = WorldUtils.getClientWorld().orElseThrow().getBlockState(new BlockPos3d(position));
-        lockedOnBlockEntries = blockState.getEntries().toString();
+        entriesOfLockedOnBlock = blockState.getEntries().toString();
 
         Vec3d absolutePosition = position;
         Block blockType = blockState.getBlock();
@@ -275,9 +276,5 @@ public class LockingHandler {
             toSpeak += " " + NarrationUtils.narrateRelativePositionOfPlayerAnd(lockedOnBlock);
         }
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", toSpeak), true);
-    }
-
-    public void setMarking(boolean marking) {
-        this.onPOIMarkingNow = marking;
     }
 }

@@ -95,7 +95,7 @@ public class POIBlocks {
     private Interval interval;
     private Predicate<BlockState> markedBlock = state -> false;
     @Setter
-    private boolean marking = false;
+    private boolean onPOIMarkingNow = false;
 
     static {
         try {
@@ -247,7 +247,7 @@ public class POIBlocks {
                         SoundCategory.BLOCKS, volume, -5f);
             }
 
-            if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+            if (onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
                 if (!soundType.equalsIgnoreCase("mark")) {
                    log.debug("{POIBlocks} Suppress sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
                 }
@@ -271,10 +271,10 @@ public class POIBlocks {
 
     public void setMarkedBlock(Block block) {
         if (block == null) {
-            this.marking = false;
+            this.onPOIMarkingNow = false;
             this.markedBlock = s -> false;
         } else {
-            this.marking = true;
+            this.onPOIMarkingNow = true;
             this.markedBlock = s -> s.isOf(block);
         }
     }

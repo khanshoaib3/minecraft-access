@@ -139,8 +139,11 @@ public class MainClass {
         if (narratorMenu != null && NarratorMenuConfigMap.getInstance().isEnabled())
             narratorMenu.update();
 
+        // POI Marking will handle POI Blocks and POI Entities features
         POIMarking.getInstance().update();
 
+        // Locking Handler will handle POI locking features,
+        // it should be after POI Marking
         if (lockingHandler != null && POILockingConfigMap.getInstance().isEnabled())
             lockingHandler.update();
 
