@@ -75,15 +75,15 @@ public class POIBlocks {
             .map(b -> (Predicate<BlockState>) state -> state.isOf(b))
             .toList();
 
-    public static TreeMap<Double, Vec3d> oreBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> doorBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> buttonBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> ladderBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> leverBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> trapDoorBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> fluidBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> otherBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> markedBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> oreBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> doorBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> buttonBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> ladderBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> leverBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> trapDoorBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> fluidBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> otherBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> markedBlocks = new TreeMap<>();
 
     private List<Vec3d> checkedBlocks = new ArrayList<>();
     private boolean enabled;

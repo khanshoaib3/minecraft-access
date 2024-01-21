@@ -30,9 +30,9 @@ import java.util.function.Predicate;
 @Slf4j
 public class POIEntities {
 
-    public static TreeMap<Double, Entity> passiveEntity = new TreeMap<>();
-    public static TreeMap<Double, Entity> hostileEntity = new TreeMap<>();
-    public static TreeMap<Double, Entity> markedEntities = new TreeMap<>();
+    private TreeMap<Double, Entity> passiveEntity = new TreeMap<>();
+    private TreeMap<Double, Entity> hostileEntity = new TreeMap<>();
+    private TreeMap<Double, Entity> markedEntities = new TreeMap<>();
 
     private int range;
     private boolean playSound;

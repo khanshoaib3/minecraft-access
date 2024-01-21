@@ -34,10 +34,10 @@ import java.util.TreeMap;
 public class LockingHandler {
     private static final LockingHandler instance;
     private boolean enabled = true;
-    public Entity lockedOnEntity = null;
-    public BlockPos3d lockedOnBlock = null;
-    public boolean isLockedOnWhereEyeOfEnderDisappears = false;
-    public String entriesOfLockedOnBlock = "";
+    private Entity lockedOnEntity = null;
+    private BlockPos3d lockedOnBlock = null;
+    private boolean isLockedOnWhereEyeOfEnderDisappears = false;
+    private String entriesOfLockedOnBlock = "";
     private Interval interval;
 
     private boolean lockOnBlocks;
