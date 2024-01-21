@@ -17,9 +17,9 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.Predicate;
 
@@ -28,6 +28,19 @@ import java.util.function.Predicate;
  */
 @Slf4j
 public class POIEntities {
+    /**
+     * Entity types to be scanned for.
+     */
+    private static final Set<Predicate<Entity>> INTERESTED_ENTITY_TYPES = Set.of(
+            // LivingEntity = MobEntity + PlayerEntity + ArmorStandEntity
+            e -> e instanceof MobEntity,
+            e -> e instanceof PlayerEntity,
+            // For notifying dropped items
+            e -> e instanceof ItemEntity,
+            // For auto-locking eye of ender
+            e -> e instanceof EyeOfEnderEntity
+    );
+    private static final Predicate<Entity> IS_INTERESTED_ENTITY_TYPE = INTERESTED_ENTITY_TYPES.stream().reduce(Predicate::or).get();
 
     private TreeMap<Double, Entity> passiveEntity = new TreeMap<>();
     private TreeMap<Double, Entity> hostileEntity = new TreeMap<>();
@@ -77,17 +90,15 @@ public class POIEntities {
             log.debug("POIEntities started...");
 
             for (Entity i : minecraftClient.world.getEntities()) {
-                if (!(i instanceof MobEntity || i instanceof ItemEntity || i instanceof EyeOfEnderEntity || (i instanceof PlayerEntity && i != minecraftClient.player)))
-                    continue;
+                // Only scan interested entity types
+                if (!IS_INTERESTED_ENTITY_TYPE.test(i)) continue;
+                // Exclude player self
+                if (i == minecraftClient.player) continue;
+
+                double distance = minecraftClient.player.distanceTo(i);
+                if (distance > range) continue;
 
                 BlockPos blockPos = i.getBlockPos();
-
-                Vec3d entityVec3d = new Vec3d(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-                Vec3d playerVec3d = new Vec3d(minecraftClient.player.getBlockPos().getX(), minecraftClient.player.getBlockPos().getY(),
-                        minecraftClient.player.getBlockPos().getZ());
-                Double distance = entityVec3d.distanceTo(playerVec3d);
-
-                if (distance > range) continue;
 
                 if (markedEntity.test(i)) {
                     markedEntities.put(distance, i);
