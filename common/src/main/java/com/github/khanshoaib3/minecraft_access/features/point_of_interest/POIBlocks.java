@@ -5,7 +5,6 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConf
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.google.common.collect.ImmutableSet;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
@@ -94,7 +93,6 @@ public class POIBlocks {
     private boolean playSoundForOtherBlocks;
     private Interval interval;
     private Predicate<BlockState> markedBlock = state -> false;
-    @Setter
     private boolean onPOIMarkingNow = false;
 
     static {
@@ -113,8 +111,9 @@ public class POIBlocks {
         loadConfigurations();
     }
 
-    public void update() {
+    public void update(boolean onMarking) {
         try {
+            this.onPOIMarkingNow = onMarking;
             loadConfigurations();
 
             if (!this.enabled) return;
@@ -270,13 +269,7 @@ public class POIBlocks {
     }
 
     public void setMarkedBlock(Block block) {
-        if (block == null) {
-            this.onPOIMarkingNow = false;
-            this.markedBlock = s -> false;
-        } else {
-            this.onPOIMarkingNow = true;
-            this.markedBlock = s -> s.isOf(block);
-        }
+        this.markedBlock = block == null ? s -> false : s -> s.isOf(block);
     }
 
     public List<TreeMap<Double, Vec3d>> getLockingCandidates() {

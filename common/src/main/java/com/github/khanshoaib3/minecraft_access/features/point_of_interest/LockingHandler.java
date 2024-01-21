@@ -9,7 +9,6 @@ import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
@@ -43,7 +42,6 @@ public class LockingHandler {
     private boolean lockOnBlocks;
     private boolean speakDistance;
     private boolean unlockingSound;
-    @Setter
     private boolean onPOIMarkingNow = false;
 
     static {
@@ -57,7 +55,8 @@ public class LockingHandler {
         return instance;
     }
 
-    public void update() {
+    public void update(boolean onMarking) {
+        this.onPOIMarkingNow = onMarking;
         loadConfigurations();
         if (!enabled) return;
         if (interval != null && !interval.isReady()) return;

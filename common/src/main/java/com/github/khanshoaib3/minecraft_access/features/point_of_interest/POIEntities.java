@@ -3,7 +3,6 @@ package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIEntitiesConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
@@ -41,7 +40,6 @@ public class POIEntities {
     private boolean enabled;
 
     private static final POIEntities instance;
-    @Setter
     private boolean onPOIMarkingNow = false;
     private Predicate<Entity> markedEntity = e -> false;
 
@@ -57,7 +55,8 @@ public class POIEntities {
         loadConfigurations();
     }
 
-    public void update() {
+    public void update(boolean onMarking) {
+        this.onPOIMarkingNow = onMarking;
         loadConfigurations();
 
         if (!enabled) return;
@@ -150,10 +149,9 @@ public class POIEntities {
 
     public void setMarkedEntity(Entity entity) {
         if (entity == null) {
-            this.onPOIMarkingNow = false;
             this.markedEntity = e -> false;
         } else {
-            this.onPOIMarkingNow = true;
+            // Mark an entity = mark the type of entity (class type)
             Class<? extends Entity> clazz = entity.getClass();
             this.markedEntity = clazz::isInstance;
         }

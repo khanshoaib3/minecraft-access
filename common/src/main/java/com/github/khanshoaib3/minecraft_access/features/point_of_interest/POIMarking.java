@@ -54,10 +54,10 @@ public class POIMarking {
         }
 
         // Trigger other POI features
-        poiBlocks.update();
-        poiEntities.update();
+        poiBlocks.update(onMarking);
+        poiEntities.update(onMarking);
         // Locking Handler (POI Locking) should be after POI Scan features
-        lockingHandler.update();
+        lockingHandler.update(onMarking);
     }
 
     private void mark() {
@@ -78,7 +78,6 @@ public class POIMarking {
                 BlockPos pos = ((BlockHitResult) hit).getBlockPos();
                 Block b = world.getBlockState(pos).getBlock();
                 poiBlocks.setMarkedBlock(b);
-                poiEntities.setOnPOIMarkingNow(true);
 
                 String name = NarrationUtils.narrateBlock(pos, "");
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.marking.marked", name), true);
@@ -86,7 +85,6 @@ public class POIMarking {
             case ENTITY -> {
                 Entity e = ((EntityHitResult) hit).getEntity();
                 poiEntities.setMarkedEntity(e);
-                poiBlocks.setOnPOIMarkingNow(true);
 
                 String name = NarrationUtils.narrateEntity(e);
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.marking.marked", name), true);
@@ -94,13 +92,11 @@ public class POIMarking {
         }
 
         onMarking = true;
-        lockingHandler.setOnPOIMarkingNow(true);
     }
 
     private void unmark() {
         if (!onMarking) return;
         onMarking = false;
-        lockingHandler.setOnPOIMarkingNow(false);
         poiEntities.setMarkedEntity(null);
         poiBlocks.setMarkedBlock(null);
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.marking.unmarked"), true);
