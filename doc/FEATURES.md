@@ -112,12 +112,11 @@ See also: [Configuration](/doc/CONFIG.md#inventory-controls), [Keybindings](/doc
 This feature will scan and notify (with sound cues) you of (pre-configured) special blocks and all types of entity around you.
 
 What blocks are considered special? Those you tend to miss.
-In Minecraft, not every block takes up the entire space of a block.
-Buttons are tiny and ladders is only a thin layer attached to the wall.
-You'll find it difficult to point precisely at these blocks.
+In Minecraft, not every block is cube shaped, for example buttons are tiny, single glass block is a thin bar, ladders is a thin layer attached to the wall, you'll find it difficult to point precisely at these blocks.
 Precious blocks like raw ores can be seen at a glance by sighted players, but visually impaired players will need to point at them to know their existence.
 
-By the same token, entities are movable, so scanning and locking onto them helps you get close to and interact with them.
+By the same token, entities (players, animals, monsters) are movable, so scanning and locking onto them helps you get close to and interact with them.
+Be aware that if you keep any screen opening, the mod will stop scanning and notifying for entities, for a cleaner screen narration, which may get you in danger if there are monsters around you.
 
 | Sound Cue                                                                                    | Description                                                                                                                                                                                    |
 |----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

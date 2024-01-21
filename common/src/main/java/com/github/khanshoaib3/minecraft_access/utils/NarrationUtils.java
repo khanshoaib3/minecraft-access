@@ -22,14 +22,12 @@ import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
 import org.apache.logging.log4j.util.Strings;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -38,11 +36,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class NarrationUtils {
-    /**
-     * One redstone wire must be connected with another wire at one of three positions: [side, side down, side up],
-     * since we are checking if the wire is connecting with ALL directions, only take one sample position (x+1) is enough.
-     */
-    public static final Set<Vec3i> THREE_SAMPLE_POSITIONS = Set.of(new Vec3i(1, 0, 0), new Vec3i(1, -1, 0), new Vec3i(1, 1, 0));
     public static final Predicate<BlockState> IS_REDSTONE_WIRE = (BlockState state) -> state.getBlock() instanceof RedstoneWireBlock;
 
     public static String narrateEntity(Entity entity) {
@@ -183,9 +176,11 @@ public class NarrationUtils {
     /**
      * @param pos  block position (in the client world)
      * @param side if side is provided, then the invoker is ReadCrosshair
-     * @return toSpeak, currentQuery
+     * @return (toSpeak, currentQuery):
+     * "toSpeak" is the actual one to be spoken through Narrator,
+     * "currentQuery" is kind of shortened "toSpeak" that is used for checking if target is changed compared to previous.
      */
-    public static Pair<String, String> narrateBlock(BlockPos pos, String side) {
+    public static Pair<String, String> narrateBlockForContentChecking(BlockPos pos, String side) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (Objects.isNull(client)) return new Pair<>("", "");
         ClientWorld clientWorld = client.world;
@@ -239,7 +234,7 @@ public class NarrationUtils {
                 // Monster spawners that gotten from creative creating screen is empty.
                 String entityName = "Empty";
                 if (entity != null) {
-                    entityName = entity.getDisplayName().getString();
+                    entityName = Objects.requireNonNull(entity.getDisplayName()).getString();
                 }
                 toSpeak = entityName + " " + toSpeak;
                 currentQuery = entityName + currentQuery;
@@ -255,6 +250,14 @@ public class NarrationUtils {
         }
 
         return new Pair<>(toSpeak, currentQuery);
+    }
+
+    /**
+     * @param pos  block position (in the client world)
+     * @param side if side is provided, then the invoker is ReadCrosshair
+     */
+    public static String narrateBlock(BlockPos pos, String side) {
+        return narrateBlockForContentChecking(pos, side).getLeft();
     }
 
     private static String getSignInfo(SignBlockEntity signEntity, ClientPlayerEntity player, String toSpeak) {
@@ -375,9 +378,15 @@ public class NarrationUtils {
         // https://minecraft.wiki/w/Redstone_Dust
         // So here is an additional check to see if the redstone wire is really connected to all directions
         if (connectedDirections.size() == 4) {
-            Optional<Boolean> result = WorldUtils.checkAnyOfSurroundingBlocks(pos, THREE_SAMPLE_POSITIONS, IS_REDSTONE_WIRE);
+            // If two redstone wires are connected, they're at one of three relative positions: [side, side down, side up].
+            // Take one sample relative position (x+1) then check if any block at [-1,0,1] height is also redstone wire.
+            Iterable<BlockPos> threePosAtSide = BlockPos.iterate(pos.add(1, -1, 0), pos.add(1, 1, 0));
+            Optional<Boolean> result = WorldUtils.checkAnyOfBlocks(threePosAtSide, IS_REDSTONE_WIRE);
+
             if (result.isEmpty()) return new Pair<>(toSpeak, currentQuery);
-            // return early if we find out that this wire is not connected to all directions
+            // If there's no redstone wire on x+1 side,
+            // then current wire is not connected to that side,
+            // so it's not connected to all directions.
             if (Boolean.FALSE.equals(result.get())) return new Pair<>(toSpeak, currentQuery);
         }
 

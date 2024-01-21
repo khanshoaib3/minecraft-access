@@ -5,6 +5,11 @@ Release v1.5.1 (2024-01)
 
 * Add a new config "Speak Focused Slot Changes" with default "true" value for "Inventory Controls" feature. Close this config if you hear the mod is continuously repeating changes of item name. [#242](https://github.com/khanshoaib3/minecraft_access/issues/242)
 
+### Bug Fixes
+
+* Fix the bug that locking on Entity will immediately unlock [#248](https://github.com/khanshoaib3/minecraft_access/issues/248)
+* Fix the bug that mod's INFO log will be logged twice in console and log files [#247](https://github.com/khanshoaib3/minecraft_access/issues/247)
+
 Release v1.5.0 (2024-01)
 ---------------------------
 

@@ -5,7 +5,6 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConf
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.google.common.collect.ImmutableSet;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
@@ -75,15 +74,15 @@ public class POIBlocks {
             .map(b -> (Predicate<BlockState>) state -> state.isOf(b))
             .toList();
 
-    public static TreeMap<Double, Vec3d> oreBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> doorBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> buttonBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> ladderBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> leverBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> trapDoorBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> fluidBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> otherBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> markedBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> oreBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> doorBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> buttonBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> ladderBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> leverBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> trapDoorBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> fluidBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> otherBlocks = new TreeMap<>();
+    private TreeMap<Double, Vec3d> markedBlocks = new TreeMap<>();
 
     private List<Vec3d> checkedBlocks = new ArrayList<>();
     private boolean enabled;
@@ -94,8 +93,7 @@ public class POIBlocks {
     private boolean playSoundForOtherBlocks;
     private Interval interval;
     private Predicate<BlockState> markedBlock = state -> false;
-    @Setter
-    private boolean marking = false;
+    private boolean onPOIMarkingNow = false;
 
     static {
         try {
@@ -113,8 +111,9 @@ public class POIBlocks {
         loadConfigurations();
     }
 
-    public void update() {
+    public void update(boolean onMarking) {
         try {
+            this.onPOIMarkingNow = onMarking;
             loadConfigurations();
 
             if (!this.enabled) return;
@@ -142,14 +141,14 @@ public class POIBlocks {
             int posZ = pos.getZ();
             checkedBlocks = new ArrayList<>();
 
-           log.debug("POIBlock started...");
+            log.debug("POIBlock started...");
 
             checkBlock(new BlockPos(new Vec3i(posX, posY, posZ)), 0);
             checkBlock(new BlockPos(new Vec3i(posX, posY + 3, posZ)), 0);
             checkBlock(new BlockPos(new Vec3i(posX, posY + 1, posZ)), this.range);
             checkBlock(new BlockPos(new Vec3i(posX, posY + 2, posZ)), this.range);
 
-           log.debug("POIBlock ended.");
+            log.debug("POIBlock ended.");
 
         } catch (Exception e) {
             log.error("Error encountered in poi blocks feature.", e);
@@ -242,19 +241,19 @@ public class POIBlocks {
         if (this.playSound && this.volume > 0 && !soundType.isEmpty()) {
 
             if (soundType.equalsIgnoreCase("mark")) {
-               log.debug("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+                log.debug("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
                 minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.ENTITY_ITEM_PICKUP,
                         SoundCategory.BLOCKS, volume, -5f);
             }
 
-            if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+            if (onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
                 if (!soundType.equalsIgnoreCase("mark")) {
-                   log.debug("{POIBlocks} Suppress sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+                    log.debug("{POIBlocks} Suppress sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
                 }
                 return;
             }
 
-           log.debug("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+            log.debug("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
 
             if (soundType.equalsIgnoreCase("ore"))
                 minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.ENTITY_ITEM_PICKUP,
@@ -270,12 +269,13 @@ public class POIBlocks {
     }
 
     public void setMarkedBlock(Block block) {
-        if (block == null) {
-            this.marking = false;
-            this.markedBlock = s -> false;
-        } else {
-            this.marking = true;
-            this.markedBlock = s -> s.isOf(block);
-        }
+        this.markedBlock = block == null ? s -> false : s -> s.isOf(block);
+    }
+
+    public List<TreeMap<Double, Vec3d>> getLockingCandidates() {
+        boolean suppressLockingOnNonMarkedThings = onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled();
+        return suppressLockingOnNonMarkedThings ?
+                List.of(markedBlocks) :
+                List.of(doorBlocks, buttonBlocks, ladderBlocks, leverBlocks, trapDoorBlocks, otherBlocks, oreBlocks, fluidBlocks, markedBlocks);
     }
 }

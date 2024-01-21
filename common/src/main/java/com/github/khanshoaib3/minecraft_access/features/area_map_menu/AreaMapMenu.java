@@ -170,8 +170,8 @@ public class AreaMapMenu {
 
         this.cursor = nextStep;
        log.debug("Cursor moves " + direction + ": " + cursor);
-        Pair<String, String> blockDescription = NarrationUtils.narrateBlock(this.cursor, "");
-        MainClass.speakWithNarrator(blockDescription.getLeft(), true);
+        String blockDescription = NarrationUtils.narrateBlock(this.cursor, "");
+        MainClass.speakWithNarrator(blockDescription, true);
         // TODO Alt + speak position key
 //        MainClass.speakWithNarrator(blockDescription.getLeft() + I18n.translate("minecraft_access.other.words_connection") + PlayerPositionUtils.getI18NPosition(), true);
     }

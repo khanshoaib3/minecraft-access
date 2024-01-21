@@ -3,7 +3,6 @@ package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIEntitiesConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
@@ -18,8 +17,9 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 
+import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.Predicate;
 
@@ -28,10 +28,23 @@ import java.util.function.Predicate;
  */
 @Slf4j
 public class POIEntities {
+    /**
+     * Entity types to be scanned for.
+     */
+    private static final Set<Predicate<Entity>> INTERESTED_ENTITY_TYPES = Set.of(
+            // LivingEntity = MobEntity + PlayerEntity + ArmorStandEntity
+            e -> e instanceof MobEntity,
+            e -> e instanceof PlayerEntity,
+            // For notifying dropped items
+            e -> e instanceof ItemEntity,
+            // For auto-locking eye of ender
+            e -> e instanceof EyeOfEnderEntity
+    );
+    private static final Predicate<Entity> IS_INTERESTED_ENTITY_TYPE = INTERESTED_ENTITY_TYPES.stream().reduce(Predicate::or).get();
 
-    public static TreeMap<Double, Entity> passiveEntity = new TreeMap<>();
-    public static TreeMap<Double, Entity> hostileEntity = new TreeMap<>();
-    public static TreeMap<Double, Entity> markedEntities = new TreeMap<>();
+    private TreeMap<Double, Entity> passiveEntity = new TreeMap<>();
+    private TreeMap<Double, Entity> hostileEntity = new TreeMap<>();
+    private TreeMap<Double, Entity> markedEntities = new TreeMap<>();
 
     private int range;
     private boolean playSound;
@@ -40,8 +53,7 @@ public class POIEntities {
     private boolean enabled;
 
     private static final POIEntities instance;
-    @Setter
-    private boolean marking = false;
+    private boolean onPOIMarkingNow = false;
     private Predicate<Entity> markedEntity = e -> false;
 
     static {
@@ -56,7 +68,8 @@ public class POIEntities {
         loadConfigurations();
     }
 
-    public void update() {
+    public void update(boolean onMarking) {
+        this.onPOIMarkingNow = onMarking;
         loadConfigurations();
 
         if (!enabled) return;
@@ -74,20 +87,18 @@ public class POIEntities {
             hostileEntity = new TreeMap<>();
             markedEntities = new TreeMap<>();
 
-           log.debug("POIEntities started...");
+            log.debug("POIEntities started...");
 
             for (Entity i : minecraftClient.world.getEntities()) {
-                if (!(i instanceof MobEntity || i instanceof ItemEntity || i instanceof EyeOfEnderEntity || (i instanceof PlayerEntity && i != minecraftClient.player)))
-                    continue;
+                // Only scan interested entity types
+                if (!IS_INTERESTED_ENTITY_TYPE.test(i)) continue;
+                // Exclude player self
+                if (i == minecraftClient.player) continue;
+
+                double distance = minecraftClient.player.distanceTo(i);
+                if (distance > range) continue;
 
                 BlockPos blockPos = i.getBlockPos();
-
-                Vec3d entityVec3d = new Vec3d(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-                Vec3d playerVec3d = new Vec3d(minecraftClient.player.getBlockPos().getX(), minecraftClient.player.getBlockPos().getY(),
-                        minecraftClient.player.getBlockPos().getZ());
-                Double distance = entityVec3d.distanceTo(playerVec3d);
-
-                if (distance > range) continue;
 
                 if (markedEntity.test(i)) {
                     markedEntities.put(distance, i);
@@ -98,8 +109,8 @@ public class POIEntities {
                     }
                 }
 
-                if (marking && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
-                   log.debug("POIEntities end early by POI marking feature.");
+                if (onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+                    log.debug("POIEntities end early by POI marking feature.");
                     return;
                 }
 
@@ -119,7 +130,7 @@ public class POIEntities {
                     this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
                 }
             }
-           log.debug("POIEntities end.");
+            log.debug("POIEntities end.");
 
         } catch (Exception e) {
             log.error("An error occurred while executing POIEntities", e);
@@ -131,7 +142,7 @@ public class POIEntities {
         if (minecraftClient.world == null) return;
         if (!playSound || !(volume > 0f)) return;
 
-       log.debug("{POIEntity} Playing sound at x:%d y:%d z%d".formatted(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
+        log.debug("{POIEntity} Playing sound at x:%d y:%d z%d".formatted(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
         minecraftClient.world.playSound(minecraftClient.player, blockPos, soundEvent, SoundCategory.BLOCKS, volume, pitch);
     }
 
@@ -149,12 +160,18 @@ public class POIEntities {
 
     public void setMarkedEntity(Entity entity) {
         if (entity == null) {
-            this.marking = false;
             this.markedEntity = e -> false;
         } else {
-            this.marking = true;
+            // Mark an entity = mark the type of entity (class type)
             Class<? extends Entity> clazz = entity.getClass();
             this.markedEntity = clazz::isInstance;
         }
+    }
+
+    public List<TreeMap<Double, Entity>> getLockingCandidates() {
+        boolean suppressLockingOnNonMarkedThings = onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled();
+        return suppressLockingOnNonMarkedThings ?
+                List.of(markedEntities) :
+                List.of(markedEntities, hostileEntity, passiveEntity);
     }
 }

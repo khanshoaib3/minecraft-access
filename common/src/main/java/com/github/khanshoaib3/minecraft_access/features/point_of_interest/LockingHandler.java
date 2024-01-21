@@ -2,7 +2,6 @@ package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POILockingConfigMap;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
@@ -18,7 +17,6 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EyeOfEnderEntity;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Pair;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.List;
@@ -34,16 +32,16 @@ import java.util.TreeMap;
 @Slf4j
 public class LockingHandler {
     private static final LockingHandler instance;
-    public Entity lockedOnEntity = null;
-    public BlockPos3d lockedOnBlock = null;
-    public boolean isLockedOnWhereEyeOfEnderDisappears = false;
-    public String lockedOnBlockEntries = "";
+    private boolean enabled = true;
+    private Entity lockedOnEntity = null;
+    private BlockPos3d lockedOnBlock = null;
+    private boolean isLockedOnWhereEyeOfEnderDisappears = false;
+    private String entriesOfLockedOnBlock = "";
     private Interval interval;
 
     private boolean lockOnBlocks;
     private boolean speakDistance;
     private boolean unlockingSound;
-
     private boolean onPOIMarkingNow = false;
 
     static {
@@ -57,10 +55,12 @@ public class LockingHandler {
         return instance;
     }
 
-    public void update() {
+    public void update(boolean onMarking) {
+        this.onPOIMarkingNow = onMarking;
+        loadConfigurations();
+        if (!enabled) return;
         if (interval != null && !interval.isReady()) return;
         try {
-            loadConfigurations();
             mainLogic();
         } catch (Exception e) {
             log.error("An error while updating LockingHandler", e);
@@ -72,6 +72,7 @@ public class LockingHandler {
      */
     private void loadConfigurations() {
         POILockingConfigMap map = POILockingConfigMap.getInstance();
+        this.enabled = map.isEnabled();
         this.lockOnBlocks = map.isLockOnBlocks();
         this.speakDistance = map.isSpeakDistance();
         this.unlockingSound = map.isUnlockingSound();
@@ -100,7 +101,7 @@ public class LockingHandler {
             // for example, opened chest and closed chest are different states of chest block,
             // they are different entries when invoking getEntries().
             String entries = blockState.getEntries().toString();
-            boolean entriesOfLockedBlockNotChanged = entries.equalsIgnoreCase(lockedOnBlockEntries);
+            boolean entriesOfLockedBlockNotChanged = entries.equalsIgnoreCase(entriesOfLockedOnBlock);
 
             if (entriesOfLockedBlockNotChanged || isLockedOnWhereEyeOfEnderDisappears)
                 PlayerUtils.lookAt(lockedOnBlock);
@@ -122,7 +123,7 @@ public class LockingHandler {
 
     private void unlock(boolean speak) {
         lockedOnEntity = null;
-        lockedOnBlockEntries = "";
+        entriesOfLockedOnBlock = "";
         lockedOnBlock = null;
         isLockedOnWhereEyeOfEnderDisappears = false;
 
@@ -136,32 +137,15 @@ public class LockingHandler {
     }
 
     private void relock() {
-        if (!POIEntities.markedEntities.isEmpty()) {
-            Entity entity = POIEntities.markedEntities.firstEntry().getValue();
-            if (lockOnEntity(entity)) return;
-        }
-
-        boolean suppressLockingOnNonMarkedThings = onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled();
-        if (suppressLockingOnNonMarkedThings) {
-            if (POIBlocks.markedBlocks.isEmpty()) {
-                return;
-            } else {
-                // Skip entity locking logic
-                findAndLockOnNearestBlock();
+        List<TreeMap<Double, Entity>> scannedEntityMaps = POIEntities.getInstance().getLockingCandidates();
+        for (TreeMap<Double, Entity> map : scannedEntityMaps) {
+            if (!map.isEmpty()) {
+                Entity entity = map.firstEntry().getValue();
+                if (lockOnEntity(entity)) return;
             }
         }
 
-        if (!POIEntities.hostileEntity.isEmpty()) {
-            Entity entity = POIEntities.hostileEntity.firstEntry().getValue();
-            if (lockOnEntity(entity)) return;
-        }
-
-        if (!POIEntities.passiveEntity.isEmpty()) {
-            Entity entity = POIEntities.passiveEntity.firstEntry().getValue();
-            if (lockOnEntity(entity)) return;
-        }
-
-        if (this.lockOnBlocks) {
+        if (this.lockOnBlocks || onPOIMarkingNow) {
             findAndLockOnNearestBlock();
         }
     }
@@ -194,7 +178,7 @@ public class LockingHandler {
      * @return true if unlocked
      */
     private boolean unlockFromDeadEntity() {
-        if (!lockedOnEntity.isAlive()) return false;
+        if (lockedOnEntity.isAlive()) return false;
 
         // When the eye of ender disappears, its isAlive() will also return false.
         // Change the lock target to the last (block) position (somewhere floating in the air) where the eye of ender disappeared,
@@ -229,18 +213,7 @@ public class LockingHandler {
         Double minPlayerDistance = Double.MAX_VALUE;
         Vec3d nearestBlockPosition = null;
 
-        List<TreeMap<Double, Vec3d>> scannedBlockMaps = List.of(
-                POIBlocks.doorBlocks,
-                POIBlocks.buttonBlocks,
-                POIBlocks.ladderBlocks,
-                POIBlocks.leverBlocks,
-                POIBlocks.trapDoorBlocks,
-                POIBlocks.otherBlocks,
-                POIBlocks.oreBlocks,
-                POIBlocks.fluidBlocks,
-                POIBlocks.markedBlocks
-        );
-
+        List<TreeMap<Double, Vec3d>> scannedBlockMaps = POIBlocks.getInstance().getLockingCandidates();
         for (TreeMap<Double, Vec3d> map : scannedBlockMaps) {
             if (!map.isEmpty()) {
                 Entry<Double, Vec3d> closestOneInThisType = map.firstEntry();
@@ -261,7 +234,7 @@ public class LockingHandler {
         unlock(false);
 
         BlockState blockState = WorldUtils.getClientWorld().orElseThrow().getBlockState(new BlockPos3d(position));
-        lockedOnBlockEntries = blockState.getEntries().toString();
+        entriesOfLockedOnBlock = blockState.getEntries().toString();
 
         Vec3d absolutePosition = position;
         Block blockType = blockState.getBlock();
@@ -281,15 +254,10 @@ public class LockingHandler {
 
         lockedOnBlock = new BlockPos3d(absolutePosition);
 
-        Pair<String, String> toSpeakAndCurrentQuery = NarrationUtils.narrateBlock(lockedOnBlock, "");
-        String toSpeak = toSpeakAndCurrentQuery.getLeft();
+        String blockDescription = NarrationUtils.narrateBlock(lockedOnBlock, "");
         if (this.speakDistance) {
-            toSpeak += " " + NarrationUtils.narrateRelativePositionOfPlayerAnd(lockedOnBlock);
+            blockDescription += " " + NarrationUtils.narrateRelativePositionOfPlayerAnd(lockedOnBlock);
         }
-        MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", toSpeak), true);
-    }
-
-    public void setMarking(boolean marking) {
-        this.onPOIMarkingNow = marking;
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", blockDescription), true);
     }
 }
