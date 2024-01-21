@@ -12,12 +12,9 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
 
-import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class WorldUtils {
     public record BlockInfo(BlockPos pos, BlockState state, Block type, BlockEntity entity) {
@@ -52,26 +49,7 @@ public class WorldUtils {
         return p == null ? Optional.empty() : Optional.of(p);
     }
 
-    @SuppressWarnings("unused")
-    public static Optional<Boolean> checkAllOfSurroundingBlocks(BlockPos pos, Collection<Vec3i> offsets, Predicate<BlockState> expected) {
-        return checkAllOfBlocks(offsets.stream().map(pos::add).collect(Collectors.toList()), expected);
-    }
-
-    public static Optional<Boolean> checkAllOfBlocks(Collection<BlockPos> positions, Predicate<BlockState> expected) {
-        for (BlockPos pos : positions) {
-            Optional<BlockInfo> info = getBlockInfo(pos);
-            if (info.isEmpty()) return Optional.empty();
-
-            if (!expected.test(info.get().state)) return Optional.of(false);
-        }
-        return Optional.of(true);
-    }
-
-    public static Optional<Boolean> checkAnyOfSurroundingBlocks(BlockPos pos, Collection<Vec3i> offsets, Predicate<BlockState> expected) {
-        return checkAnyOfBlocks(offsets.stream().map(pos::add).collect(Collectors.toList()), expected);
-    }
-
-    public static Optional<Boolean> checkAnyOfBlocks(Collection<BlockPos> positions, Predicate<BlockState> expected) {
+    public static Optional<Boolean> checkAnyOfBlocks(Iterable<BlockPos> positions, Predicate<BlockState> expected) {
         for (BlockPos pos : positions) {
             Optional<BlockInfo> info = getBlockInfo(pos);
             if (info.isEmpty()) return Optional.empty();
