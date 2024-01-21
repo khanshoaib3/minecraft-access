@@ -185,7 +185,7 @@ public class LockingHandler {
      * @return true if unlocked
      */
     private boolean unlockFromDeadEntity() {
-        if (!lockedOnEntity.isAlive()) return false;
+        if (lockedOnEntity.isAlive()) return false;
 
         // When the eye of ender disappears, its isAlive() will also return false.
         // Change the lock target to the last (block) position (somewhere floating in the air) where the eye of ender disappeared,
