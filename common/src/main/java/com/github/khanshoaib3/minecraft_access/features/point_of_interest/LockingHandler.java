@@ -19,7 +19,6 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EyeOfEnderEntity;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Pair;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.List;
@@ -270,11 +269,10 @@ public class LockingHandler {
 
         lockedOnBlock = new BlockPos3d(absolutePosition);
 
-        Pair<String, String> toSpeakAndCurrentQuery = NarrationUtils.narrateBlock(lockedOnBlock, "");
-        String toSpeak = toSpeakAndCurrentQuery.getLeft();
+        String blockDescription = NarrationUtils.narrateBlock(lockedOnBlock, "");
         if (this.speakDistance) {
-            toSpeak += " " + NarrationUtils.narrateRelativePositionOfPlayerAnd(lockedOnBlock);
+            blockDescription += " " + NarrationUtils.narrateRelativePositionOfPlayerAnd(lockedOnBlock);
         }
-        MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", toSpeak), true);
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", blockDescription), true);
     }
 }

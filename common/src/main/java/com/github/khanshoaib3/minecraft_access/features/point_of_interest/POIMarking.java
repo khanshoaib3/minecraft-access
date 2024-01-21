@@ -78,7 +78,7 @@ public class POIMarking {
                 poiBlocks.setMarkedBlock(b);
                 poiEntities.setOnPOIMarkingNow(true);
 
-                String name = NarrationUtils.narrateBlock(pos,"").getLeft();
+                String name = NarrationUtils.narrateBlock(pos, "");
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.marking.marked", name), true);
             }
             case ENTITY -> {

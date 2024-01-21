@@ -199,7 +199,7 @@ public class ReadCrosshair {
         if (enablePartialSpeaking && partialSpeakingBlock && checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(blockId)) {
             toSpeakAndCurrentQuery = new Pair<>("", "");
         } else {
-            toSpeakAndCurrentQuery = NarrationUtils.narrateBlock(blockPos, side);
+            toSpeakAndCurrentQuery = NarrationUtils.narrateBlockForContentChecking(blockPos, side);
         }
 
         String currentQuery = toSpeakAndCurrentQuery.getRight();

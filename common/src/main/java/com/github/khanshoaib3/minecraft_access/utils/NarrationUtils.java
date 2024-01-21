@@ -180,7 +180,7 @@ public class NarrationUtils {
      * "toSpeak" is the actual one to be spoken through Narrator,
      * "currentQuery" is kind of shortened "toSpeak" that is used for checking if target is changed compared to previous.
      */
-    public static Pair<String, String> narrateBlock(BlockPos pos, String side) {
+    public static Pair<String, String> narrateBlockForContentChecking(BlockPos pos, String side) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (Objects.isNull(client)) return new Pair<>("", "");
         ClientWorld clientWorld = client.world;
@@ -250,6 +250,14 @@ public class NarrationUtils {
         }
 
         return new Pair<>(toSpeak, currentQuery);
+    }
+
+    /**
+     * @param pos  block position (in the client world)
+     * @param side if side is provided, then the invoker is ReadCrosshair
+     */
+    public static String narrateBlock(BlockPos pos, String side) {
+        return narrateBlockForContentChecking(pos, side).getLeft();
     }
 
     private static String getSignInfo(SignBlockEntity signEntity, ClientPlayerEntity player, String toSpeak) {
