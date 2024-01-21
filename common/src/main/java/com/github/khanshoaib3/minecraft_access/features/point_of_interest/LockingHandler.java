@@ -34,6 +34,7 @@ import java.util.TreeMap;
 @Slf4j
 public class LockingHandler {
     private static final LockingHandler instance;
+    private boolean enabled = true;
     public Entity lockedOnEntity = null;
     public BlockPos3d lockedOnBlock = null;
     public boolean isLockedOnWhereEyeOfEnderDisappears = false;
@@ -58,9 +59,10 @@ public class LockingHandler {
     }
 
     public void update() {
+        loadConfigurations();
+        if (!enabled) return;
         if (interval != null && !interval.isReady()) return;
         try {
-            loadConfigurations();
             mainLogic();
         } catch (Exception e) {
             log.error("An error while updating LockingHandler", e);
@@ -72,6 +74,7 @@ public class LockingHandler {
      */
     private void loadConfigurations() {
         POILockingConfigMap map = POILockingConfigMap.getInstance();
+        this.enabled = map.isEnabled();
         this.lockOnBlocks = map.isLockOnBlocks();
         this.speakDistance = map.isSpeakDistance();
         this.unlockingSound = map.isUnlockingSound();

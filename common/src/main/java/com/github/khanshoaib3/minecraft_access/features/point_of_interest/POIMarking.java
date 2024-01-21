@@ -53,9 +53,11 @@ public class POIMarking {
             unmark();
         }
 
-        // trigger POI Scan updates
+        // Trigger other POI features
         poiBlocks.update();
         poiEntities.update();
+        // Locking Handler (POI Locking) should be after POI Scan features
+        lockingHandler.update();
     }
 
     private void mark() {

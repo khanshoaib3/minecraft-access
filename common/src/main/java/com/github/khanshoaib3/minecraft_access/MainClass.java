@@ -5,7 +5,6 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.*;
 import com.github.khanshoaib3.minecraft_access.features.*;
 import com.github.khanshoaib3.minecraft_access.features.inventory_controls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.narrator_menu.NarratorMenu;
-import com.github.khanshoaib3.minecraft_access.features.point_of_interest.LockingHandler;
 import com.github.khanshoaib3.minecraft_access.features.point_of_interest.POIMarking;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
@@ -31,7 +30,6 @@ public class MainClass {
     public static HealthNHunger healthNHunger = null;
     public static PlayerWarnings playerWarnings = null;
     public static NarratorMenu narratorMenu = null;
-    public static LockingHandler lockingHandler = null;
     public static FluidDetector fluidDetector = null;
 
     public static boolean isForge = false;
@@ -69,7 +67,6 @@ public class MainClass {
         MainClass.healthNHunger = new HealthNHunger();
         MainClass.playerWarnings = new PlayerWarnings();
         MainClass.narratorMenu = new NarratorMenu();
-        MainClass.lockingHandler = LockingHandler.getInstance();
         MainClass.fluidDetector = new FluidDetector();
 
         ClientTickEvent.CLIENT_POST.register(MainClass::clientTickEventsMethod);
@@ -139,13 +136,8 @@ public class MainClass {
         if (narratorMenu != null && NarratorMenuConfigMap.getInstance().isEnabled())
             narratorMenu.update();
 
-        // POI Marking will handle POI Blocks and POI Entities features
+        // POI Marking will handle POI Scan and POI Locking features inside it
         POIMarking.getInstance().update();
-
-        // Locking Handler will handle POI locking features,
-        // it should be after POI Marking
-        if (lockingHandler != null && POILockingConfigMap.getInstance().isEnabled())
-            lockingHandler.update();
 
         FallDetector.getInstance().update();
 
