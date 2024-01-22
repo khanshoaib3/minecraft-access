@@ -8,12 +8,15 @@ import net.minecraft.client.gui.screen.recipebook.AnimatedResultButton;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.DynamicRegistryManager;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+// TODO remove the @Debug annotation after fixing bug
+@Debug(export = true)
 @Mixin(AnimatedResultButton.class)
 public class AnimatedResultButtonMixin {
     @Unique
@@ -28,6 +31,7 @@ public class AnimatedResultButtonMixin {
     //    @Inject(at = @At("HEAD"), method = "appendNarrations", cancellable = true) // Pre 1.19.3
     @Inject(at = @At("HEAD"), method = "appendClickableNarrations", cancellable = true) // From 1.19.3
     private void appendNarrations(NarrationMessageBuilder builder, CallbackInfo callbackInfo) {
+        // TODO here causes #251 bug
         ItemStack itemStack = ((AnimatedResultButtonAccessor) this).callGetResults().get(((AnimatedResultButtonAccessor) this).getCurrentResultIndex()).getResult(DynamicRegistryManager.EMPTY);
         String itemName = itemStack.getName().getString();
 
