@@ -14,7 +14,12 @@ env:
   UPLOAD_PATH: upload
 
 jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+
   build:
+    # Run build job only if test job is successfully passed
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -37,9 +42,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: 'gradle'
-
-      - name: Run Test Suite
-        uses: ./.github/workflows/test.yml
 
       - name: Build Mod with Gradle
         run: ./gradlew build
