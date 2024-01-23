@@ -22,6 +22,8 @@ jobs:
   # Test and Build the Mod
   test-and-build:
     uses: ./.github/workflows/build.yml
+    with:
+      jdk-version: ${{ inputs.jdk-version || '17' }}
 
   todo:
     needs: test-and-build
