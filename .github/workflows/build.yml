@@ -6,8 +6,8 @@ name: Build Mod Files
 on: [workflow_dispatch, workflow_call]
 
 env:
-  FABRIC_PATH: fabric/build.yml/libs
-  FORGE_PATH: forge/build.yml/libs
+  FABRIC_PATH: fabric/build/libs
+  FORGE_PATH: forge/build/libs
   SHADOW_FILE: minecraft-access-*-dev-shadow.jar
   SOURCE_FILE: minecraft-access-*-sources.jar
   MOD_FILE: minecraft-access*.jar
