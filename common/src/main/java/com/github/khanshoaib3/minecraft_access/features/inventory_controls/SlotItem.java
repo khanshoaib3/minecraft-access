@@ -81,7 +81,6 @@ public class SlotItem {
         }
 
         if (MinecraftClient.getInstance().currentScreen instanceof StonecutterScreen stonecutterScreen) {
-            // TODO possible #251 bug point too
             List<RecipeEntry<StonecuttingRecipe>> list = stonecutterScreen.getScreenHandler().getAvailableRecipes();
             if (list.size() == 0) return "";
 
