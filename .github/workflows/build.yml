@@ -38,6 +38,9 @@ jobs:
           distribution: 'temurin'
           cache: 'gradle'
 
+      - name: Run Test Suite
+        uses: ./.github/workflows/test.yml
+
       - name: Build Mod with Gradle
         run: ./gradlew build
 
@@ -47,10 +50,10 @@ jobs:
         # Copy mod files into upload directory
         run: |
           cd ${{ github.WORKSPACE }}/${{ env.FABRIC_PATH }}
-          rm ${{ env.SHADOW_FILE }} ${{ env.SHADOW_FILE }}
+          rm ${{ env.SHADOW_FILE }} ${{ env.SOURCE_FILE }}
           cp ${{ env.MOD_FILE }} "${{ env.UPLOAD_PATH }}/$(basename -s .jar -a *)-fabric.jar"
           cd ${{ github.WORKSPACE }}/${{ env.FORGE_PATH }}
-          rm ${{ env.SHADOW_FILE }} ${{ env.SHADOW_FILE }}
+          rm ${{ env.SHADOW_FILE }} ${{ env.SOURCE_FILE }}
           cp ${{ env.MOD_FILE }} "${{ env.UPLOAD_PATH }}/$(basename -s .jar -a *)-forge.jar"
 
       - name: Set Current Time As Environment Variable

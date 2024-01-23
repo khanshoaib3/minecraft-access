@@ -1,10 +1,9 @@
 name: Run Unit Test Suite
-# This workflow will be triggered when new commits are pushed onto GitHub
+# pull_request: This workflow will be triggered when new commits are pushed onto GitHub
 # ref: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
-on:
-  pull_request:
-    # Default value of "pull_request": [opened, reopened, synchronize]
-    types: [ opened, reopened, edited, synchronize ]
+# workflow_call: Or it will be triggered by release workflow
+# ref: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_call
+on: [ pull_request, workflow_call ]
 
 jobs:
   test:
@@ -13,6 +12,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Set up JDK 17
+        if: ${{ github.event_name == 'pull_request' }}
         uses: actions/setup-java@v4
         with:
           java-version: '17'
