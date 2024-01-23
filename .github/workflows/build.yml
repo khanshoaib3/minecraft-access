@@ -27,7 +27,10 @@ jobs:
   test:
     uses: ./.github/workflows/test.yml
     with:
-      jdk-version: ${{ env.JDK_VERSION }}
+      # Context "env" is not allowed here
+      # Available contexts are "github", "inputs", "matrix", "needs", "strategy", "vars"
+      # ref: https://docs.github.com/en/actions/learn-github-actions/contexts#context-availability
+      jdk-version: ${{ inputs.jdk-version || '17' }}
 
   build:
     # Run build job only if test job is successfully passed
