@@ -1,15 +1,34 @@
-#WIP...
-#
-#name: Publish on GitHub, CurseForge & Modrinth
-#
-#on: workflow_dispatch
-#
-#env:                                              #Environment variables that can later be referenced using ${{ env.MINECRAFT_VERSION }}. These are useful for repeating information and allow for quick changes for new mod updates
-#  MINECRAFT_VERSION: 1.19.2
-#  JAVA_VERSION: 17
-#
-#permissions:
-#  contents: write
-#
-#grep "minecraft_version" gradle.properties | cut -d'=' -f2
-#
+name: Publish on GitHub, CurseForge, Modrinth
+
+# This release workflow can only be triggered manually
+on:
+  workflow_dispatch:
+    inputs:
+      jdk-version:
+        default: '17'
+        required: false
+        description: JDK version
+        type: string
+
+env:
+  MINECRAFT_VERSION: 1.19.2
+  JAVA_VERSION: ${{ inputs.jdk-version }}
+
+permissions:
+  contents: write
+
+jobs:
+  # Test and Build the Mod
+  test-and-build:
+    uses: ./.github/workflows/build.yml
+
+  todo:
+    needs: test-and-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Environment Variables
+        run: |
+          echo "MINECRAFT_VERSION=$(grep "minecraft_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
+          echo ${{ env.MINECRAFT_VERSION }}

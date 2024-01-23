@@ -1,9 +1,20 @@
 name: Run Unit Test Suite
-# pull_request: This workflow will be triggered when new commits are pushed onto GitHub
-# ref: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
-# workflow_call: Or it will be triggered by release workflow
-# ref: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_call
-on: [ pull_request, workflow_call ]
+
+on:
+  # pull_request: This workflow will be triggered when new commits are pushed onto GitHub
+  # ref: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
+  pull_request:
+    # This is the default value of this event
+    types: [opened, reopened, synchronize]
+
+  # workflow_call: Or it will be triggered by release workflow
+  # ref: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_call
+  workflow_call:
+    inputs:
+      jdk-version:
+        default: '17'
+        required: false
+        type: string
 
 jobs:
   test:
@@ -11,10 +22,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: ${{ inputs.jdk-version || '17' }}
           distribution: 'temurin'
           cache: 'gradle'
 

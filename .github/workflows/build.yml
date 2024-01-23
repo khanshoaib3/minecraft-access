@@ -1,9 +1,18 @@
 name: Build Mod Files
-# workflow_dispatch: You can trigger it manually from the Actions page
-# ref: https://docs.github.com/en/actions/using-workflows/manually-running-a-workflow
-# workflow_call: Or it will be triggered by release workflow
-# ref: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_call
-on: [workflow_dispatch, workflow_call]
+
+on:
+  # workflow_dispatch: You can trigger it manually from the Actions page
+  # ref: https://docs.github.com/en/actions/using-workflows/manually-running-a-workflow
+  workflow_dispatch:
+
+  # workflow_call: Or it will be triggered by release workflow
+  # ref: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_call
+  workflow_call:
+    inputs:
+      jdk-version:
+        default: '17'
+        required: false
+        type: string
 
 env:
   FABRIC_PATH: fabric/build/libs
@@ -12,13 +21,17 @@ env:
   SOURCE_FILE: minecraft-access-*-sources.jar
   MOD_FILE: minecraft-access*.jar
   UPLOAD_PATH: upload
+  JDK_VERSION: ${{ inputs.jdk-version || '17' }}
 
 jobs:
   test:
     uses: ./.github/workflows/test.yml
+    with:
+      jdk-version: ${{ env.JDK_VERSION }}
 
   build:
     # Run build job only if test job is successfully passed
+    # ref: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idneeds
     needs: test
     runs-on: ubuntu-latest
     permissions:
@@ -36,10 +49,10 @@ jobs:
           # Checkout the repo in mod's language assert path
           path: './common/src/main/resources/assets/minecraft_access/lang'
 
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: ${{ env.JDK_VERSION }}
           distribution: 'temurin'
           cache: 'gradle'
 
@@ -51,6 +64,7 @@ jobs:
         # Add platform suffix for fabric and forge mod files with cp command
         # Copy mod files into upload directory
         run: |
+          mkdir -p ${{ env.UPLOAD_PATH }}
           cd ${{ github.WORKSPACE }}/${{ env.FABRIC_PATH }}
           rm ${{ env.SHADOW_FILE }} ${{ env.SOURCE_FILE }}
           cp ${{ env.MOD_FILE }} "${{ env.UPLOAD_PATH }}/$(basename -s .jar -a *)-fabric.jar"
