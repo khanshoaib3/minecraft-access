@@ -1,7 +1,9 @@
-name: Build Mod Files and Upload to Artifact
-# You can trigger it manually from the Actions page
+name: Build Mod Files
+# workflow_dispatch: You can trigger it manually from the Actions page
 # ref: https://docs.github.com/en/actions/using-workflows/manually-running-a-workflow
-on: [workflow_dispatch]
+# workflow_call: Or it will be triggered by release workflow
+# ref: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_call
+on: [workflow_dispatch, workflow_call]
 
 env:
   FABRIC_PATH: fabric/build.yml/libs
@@ -52,11 +54,14 @@ jobs:
           cp ${{ env.MOD_FILE }} "${{ env.UPLOAD_PATH }}/$(basename -s .jar -a *)-forge.jar"
 
       - name: Set Current Time As Environment Variable
+        # Only run upload steps when this workflow is triggered manually
+        if: ${{ github.event_name == 'workflow_dispatch' }}
         # In YYYYMMDD-HHMMSS format
         run: echo "BUILD_TIME=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
 
       # Then we can download them from workflow result page
       - name: Upload Mod Files To Artifact
+        if: ${{ github.event_name == 'workflow_dispatch' }}
         uses: actions/upload-artifact@v3
         with:
           # Name of zip file that we download from workflow result page
