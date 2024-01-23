@@ -1,0 +1,15 @@
+#WIP...
+#
+#name: Publish on GitHub, CurseForge & Modrinth
+#
+#on: workflow_dispatch
+#
+#env:                                              #Environment variables that can later be referenced using ${{ env.MINECRAFT_VERSION }}. These are useful for repeating information and allow for quick changes for new mod updates
+#  MINECRAFT_VERSION: 1.19.2
+#  JAVA_VERSION: 17
+#
+#permissions:
+#  contents: write
+#
+#grep "minecraft_version" gradle.properties | cut -d'=' -f2
+#

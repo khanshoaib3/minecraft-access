@@ -1,0 +1,64 @@
+name: Build Mod Files and Upload to Artifact
+# You can trigger it manually from the Actions page
+# ref: https://docs.github.com/en/actions/using-workflows/manually-running-a-workflow
+on: [workflow_dispatch]
+
+env:
+  FABRIC_PATH: fabric/build.yml/libs
+  FORGE_PATH: forge/build.yml/libs
+  SHADOW_FILE: minecraft-access-*-dev-shadow.jar
+  SOURCE_FILE: minecraft-access-*-sources.jar
+  MOD_FILE: minecraft-access*.jar
+  UPLOAD_PATH: upload
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Fetch latest I18N files
+        uses: actions/checkout@v3
+        with:
+          # From another repo
+          repository: 'khanshoaib3/minecraft-access-i18n'
+          # Checkout the repo in mod's language assert path
+          path: './common/src/main/resources/assets/minecraft_access/lang'
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Build Mod with Gradle
+        run: ./gradlew build
+
+      - name: Rename Mod Files and Move To Upload Directory
+        # Remove shadow and source files for only matching mod file with in cp command
+        # Add platform suffix for fabric and forge mod files with cp command
+        # Copy mod files into upload directory
+        run: |
+          cd ${{ github.WORKSPACE }}/${{ env.FABRIC_PATH }}
+          rm ${{ env.SHADOW_FILE }} ${{ env.SHADOW_FILE }}
+          cp ${{ env.MOD_FILE }} "${{ env.UPLOAD_PATH }}/$(basename -s .jar -a *)-fabric.jar"
+          cd ${{ github.WORKSPACE }}/${{ env.FORGE_PATH }}
+          rm ${{ env.SHADOW_FILE }} ${{ env.SHADOW_FILE }}
+          cp ${{ env.MOD_FILE }} "${{ env.UPLOAD_PATH }}/$(basename -s .jar -a *)-forge.jar"
+
+      - name: Set Current Time As Environment Variable
+        # In YYYYMMDD-HHMMSS format
+        run: echo "BUILD_TIME=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
+
+      # Then we can download them from workflow result page
+      - name: Upload Mod Files To Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          # Name of zip file that we download from workflow result page
+          name: minecraft-access-mod-${{ env.BUILD_TIME }}
+          path: ${{ env.UPLOAD_PATH }}
