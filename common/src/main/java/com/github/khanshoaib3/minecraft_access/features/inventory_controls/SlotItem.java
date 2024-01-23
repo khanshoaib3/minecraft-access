@@ -5,6 +5,7 @@ import com.github.khanshoaib3.minecraft_access.mixin.MerchantScreenAccessor;
 import com.github.khanshoaib3.minecraft_access.mixin.StonecutterScreenAccessor;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.LoomScreen;
 import net.minecraft.client.gui.screen.ingame.MerchantScreen;
 import net.minecraft.client.gui.screen.ingame.StonecutterScreen;
@@ -72,7 +73,7 @@ public class SlotItem {
     public String getNarratableText() {
         if (MinecraftClient.getInstance().currentScreen instanceof LoomScreen loomScreen) {
             List<RegistryEntry<BannerPattern>> list = loomScreen.getScreenHandler().getBannerPatterns();
-            if (list.size() == 0) return "";
+            if (list.isEmpty()) return "";
 
             int p = row + ((LoomScreenAccessor) loomScreen).getVisibleTopRow();
             int q = p * 4 + column;
@@ -82,11 +83,11 @@ public class SlotItem {
 
         if (MinecraftClient.getInstance().currentScreen instanceof StonecutterScreen stonecutterScreen) {
             List<RecipeEntry<StonecuttingRecipe>> list = stonecutterScreen.getScreenHandler().getAvailableRecipes();
-            if (list.size() == 0) return "";
+            if (list.isEmpty()) return "";
 
             int scrollOffset = ((StonecutterScreenAccessor) stonecutterScreen).getScrollOffset();
             ItemStack item = list.get(recipeOrTradeIndex + scrollOffset).value().getResult(DynamicRegistryManager.EMPTY);
-            List<Text> toolTip = MinecraftClient.getInstance().currentScreen.getTooltipFromItem(MinecraftClient.getInstance(),item);
+            List<Text> toolTip = Screen.getTooltipFromItem(MinecraftClient.getInstance(),item);
             StringBuilder toolTipString = new StringBuilder();
             for (Text text : toolTip) {
                 toolTipString.append(text.getString()).append("\n");
