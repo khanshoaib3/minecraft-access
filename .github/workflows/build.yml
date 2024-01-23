@@ -66,10 +66,10 @@ jobs:
           mkdir -p ${{ env.UPLOAD_PATH }}
           cd ${{ github.WORKSPACE }}/${{ env.FABRIC_PATH }}
           rm ${{ env.SHADOW_FILE }} ${{ env.SOURCE_FILE }}
-          cp ${{ env.MOD_FILE }} "${{ env.UPLOAD_PATH }}/$(basename -s .jar -a *)-fabric.jar"
+          cp ${{ env.MOD_FILE }} "${{ github.WORKSPACE }}/${{ env.UPLOAD_PATH }}/$(basename -s .jar -a *)-fabric.jar"
           cd ${{ github.WORKSPACE }}/${{ env.FORGE_PATH }}
           rm ${{ env.SHADOW_FILE }} ${{ env.SOURCE_FILE }}
-          cp ${{ env.MOD_FILE }} "${{ env.UPLOAD_PATH }}/$(basename -s .jar -a *)-forge.jar"
+          cp ${{ env.MOD_FILE }} "${{ github.WORKSPACE }}/${{ env.UPLOAD_PATH }}/$(basename -s .jar -a *)-forge.jar"
 
       - name: Set Current Time As Environment Variable
         # Only run upload steps when this workflow is triggered manually
