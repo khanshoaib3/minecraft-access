@@ -7,6 +7,13 @@ Release v1.5.2 (2024-01)
 * Fix the bug that mod's INFO log will be logged twice in console and log files [#247](https://github.com/khanshoaib3/minecraft_access/issues/247)
 * Fix the bug that speaking recipes in Inventory Screen will cause the game crush. [#251](https://github.com/khanshoaib3/minecraft_access/issues/251)
 
+### Refactoring, Documentation and Chores
+
+Now there are [three workflows](../.github/workflows):
+* `test`: Triggered by PR, runs tests suite
+* `build`: Manually triggered, builds mod files, you can download built files from action page
+* `publish`: Manually triggered, creates GitHub release, publish mod files to Modrinth and CurseForge
+
 Release v1.5.1 (2024-01)
 ---------------------------
 

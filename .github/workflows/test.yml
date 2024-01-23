@@ -1,0 +1,34 @@
+name: Run Test Suite
+
+on:
+  # pull_request: This workflow will be triggered when new commits are pushed onto GitHub
+  # ref: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
+  pull_request:
+    # This is the default value of this event
+    types: [opened, reopened, synchronize]
+
+  # workflow_call: Or it will be triggered by release workflow
+  # ref: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_call
+  workflow_call:
+    inputs:
+      jdk-version:
+        default: '17'
+        required: false
+        type: string
+
+jobs:
+  test:
+    name: Run Test Suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ inputs.jdk-version || '17' }}
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Run Unit Test Suite
+        run: ./gradlew :common:test
