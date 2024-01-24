@@ -36,6 +36,7 @@ jobs:
           > .temp_response
           
           grep -oP '(?<="body": ").*(?=",)' .temp_response > ${{ env.TEMP_BODY_FILE }}
+          echo "RELEASE_ID=$(grep -oP '(?<="id": ).*(?=,)' .temp_response)" >> $GITHUB_ENV
 
       - name: Check If Release Has Been Changed
         id: check
@@ -60,7 +61,7 @@ jobs:
         # ref: https://github.com/irongut/EditRelease
         uses: irongut/EditRelease@v1.2.0
         with:
-          id: ${{ inputs.release-id }}
+          id: ${{ env.RELEASE_ID }}
           token: ${{ secrets.GITHUB_TOKEN }}
           replacebody: true
           files: ${{ env.TEMP_BODY_FILE }}
