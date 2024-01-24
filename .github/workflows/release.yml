@@ -27,6 +27,8 @@ env:
   CHANGELOG_TEMP_GITHUB: .changelog_github.md
   # Release message for modrinth, curseforge
   CHANGELOG_TEMP_PLATFORM: .changelog_platform.md
+  MODRINTH_ID: jGzXyfdm
+  CURSEFORGE_ID: 830055
 
 jobs:
   test-and-build:
@@ -127,10 +129,12 @@ jobs:
         if: ${{ !inputs.pre-release }}
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          modrinth-id: 2Wwh7N7U
+          modrinth-id: ${{ env.MODRINTH_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          name: "[Fabric ${{ env.MINECRAFT_VERSION }}] v${{ env.MOD_VERSION }}"
           modrinth-featured: false
+          curseforge-id: ${{ env.CURSEFORGE_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          name: "[Fabric ${{ env.MINECRAFT_VERSION }}] v${{ env.MOD_VERSION }}"
           changelog-file: ${{ env.CHANGELOG_TEMP_PLATFORM }}
           files: ${{ env.UPLOAD_PATH }}/*-fabric.jar
           version: ${{ env.MOD_GAME_VERSION }}-fabric
@@ -145,8 +149,10 @@ jobs:
         if: ${{ !inputs.pre-release }}
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          modrinth-id: 2Wwh7N7U
+          modrinth-id: ${{ env.MODRINTH_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          curseforge-id: ${{ env.CURSEFORGE_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           name: "[Forge ${{ env.MINECRAFT_VERSION }}] v${{ env.MOD_VERSION }}"
           modrinth-featured: false
           changelog-file: ${{ env.CHANGELOG_TEMP_PLATFORM }}
