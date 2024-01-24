@@ -38,13 +38,10 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ inputs.release-tag }} \
           > .temp_response
           
-          BODY=$(grep -oP '(?<="body": ").*(?=",)' .temp_response)
-          echo "BODY:"
-          echo $BODY
-          echo ${BODY} > ${{ env.TEMP_BODY_FILE }}
-          sed -i -e 's/\r//g' ${{ env.TEMP_BODY_FILE }}
+          grep -oP '(?<="body": ").*(?=",)' .temp_response | sed 's/\\r\\n/\n/g' > ${{ env.TEMP_BODY_FILE }}
           echo "NOW:"
           cat ${{ env.TEMP_BODY_FILE }}
+          
           echo "RELEASE_ID=$(grep -oP '(?<="id": ).*(?=,)' .temp_response | head -n1)" >> $GITHUB_ENV
 
       - name: Check If Release Has Been Changed
