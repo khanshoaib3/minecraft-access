@@ -1,8 +1,14 @@
 name: Wrap What's Changed Section of GitHub Releases
 
 on:
-  release:
-    types: [published]
+  workflow_call:
+    inputs:
+      release-id:
+        required: true
+        type: string
+
+env:
+  TEMP_BODY_FILE: .release_body
 
 jobs:
   wrap:
@@ -10,6 +16,10 @@ jobs:
     name: Wrap
     steps:
       - uses: actions/checkout@v3
+
+      - name: Check If Release Has Been Changed
+        id: check
+        run: if grep "Auto Generated Release Notes" ${{ github.event.release.body }} ; then echo "result=true" >> $GITHUB_OUTPUT ; fi
 
       # Wrap "What's Changed" section with:
       # <details>
@@ -19,18 +29,18 @@ jobs:
       # </p>
       # </details>
       - name: Wrap What's Changed Section
+        if: steps.check.outputs.result
         run:
-          echo ${{ github.event.release.body }} > .release_body
-          sed -i "s/^## What's Changed/\<details>\<summary>Auto Generated Release Notes\<\/summary>\<p>\\n## What's Changed\\n/" .release_body
-          printf "\n</p></details>" >> .release_body
+          echo ${{ github.event.release.body }} > ${{ env.TEMP_BODY_FILE }}
+          sed -i "s/^## What's Changed/\<details>\<summary>Auto Generated Release Notes\<\/summary>\<p>\\n## What's Changed\\n/" ${{ env.TEMP_BODY_FILE }}
+          printf "\n</p></details>" >> ${{ env.TEMP_BODY_FILE }}
 
       - name: Apply Changed Release Body to Release
-        uses: actions/github-script@v6
+        if: steps.check.outputs.result
+        # ref: https://github.com/irongut/EditRelease
+        uses: irongut/EditRelease@v1.2.0
         with:
-          script: |
-            github.rest.repos.updateRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              release_id: ${{ github.event.release.id }},
-              body: fs.readFileSync('.release_body', 'utf8')
-            })
+          id: ${{ inputs.release-id }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          replacebody: true
+          files: ${{ env.TEMP_BODY_FILE }}
