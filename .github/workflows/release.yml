@@ -30,7 +30,7 @@ jobs:
   test-and-build:
     uses: ./.github/workflows/build.yml
     with:
-      jdk-version: ${{ inputs.jdk-version || '17' }}
+      jdk-version: '17'
       build-files-cache-key: ${{ github.run_id }}
 
   publish:
@@ -54,10 +54,11 @@ jobs:
       # MOD_GAME_VERSION: 1.5.2+1.20.4
       # MOD_VERSION: 1.5.2
       # GIT_VERSION_TAG: v1.5.2-1.20.4
-      - name: Prepare Environment Variables
+      - name: Prepare Environment Variables Step 1
         run: |
           echo "MINECRAFT_VERSION=$(grep "minecraft_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
-          echo "MOD_GAME_VERSION=$(grep "mod_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
+          MOD_GAME_VERSION=$(grep "mod_version" gradle.properties | cut -d'=' -f2)
+          echo "MOD_GAME_VERSION=${MOD_GAME_VERSION}" >> $GITHUB_ENV
           echo "MOD_VERSION=$(echo ${{ env.MOD_GAME_VERSION }} | cut -d'+' -f1)" >> $GITHUB_ENV
           echo "GIT_VERSION_TAG"="v$(echo ${{ env.MOD_GAME_VERSION }} | sed 's/+/-/')" >> $GITHUB_ENV
 
@@ -77,7 +78,8 @@ jobs:
           awk '/-{3,}/{flag=1;next}/Release/{if (flag==1)exit}flag' \
             ${{ env.CHANGELOG_FILE_PATH }} >> \
             ${{ env.CHANGELOG_TEMP_GITHUB }}
-          printf "### Mod Version Compatibility" >> ${{ env.CHANGELOG_TEMP_GITHUB }}
+          sed -i 'i/###/##/g' ${{ env.CHANGELOG_TEMP_GITHUB }}
+          printf "## Mod Version Compatibility" >> ${{ env.CHANGELOG_TEMP_GITHUB }}
           awk '/Compatibility For ${{ env.MINECRAFT_VERSION }}/{flag=1;next}/----/{next}/Compatibility For/{if (flag==1)exit}flag' \
             ${{ env.MOD_COMPATIBILITY_INFO_FILE_PATH }} \
             >> ${{ env.CHANGELOG_TEMP_GITHUB }}
