@@ -116,6 +116,8 @@ jobs:
   wrap-whats-changed:
     name: Wrap What's Changed Section of GitHub Releases
     needs: publish
+    permissions:
+      contents: write
     uses: ./.github/workflows/wrap-whats-changed.yml
     with:
       release-tag: ${{ needs.publish.outputs.release-tag }}

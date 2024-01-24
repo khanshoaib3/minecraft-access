@@ -21,6 +21,9 @@ jobs:
   wrap:
     name: Wrap
     runs-on: ubuntu-latest
+    # ref: https://stackoverflow.com/questions/67389957/what-permissions-does-github-token-require-for-releases-from-a-github-action
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
 
