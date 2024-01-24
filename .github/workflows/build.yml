@@ -13,13 +13,14 @@ on:
         default: '17'
         required: false
         type: string
+      build-files-cache-key:
+        required: true
+        type: string
 
 env:
   FABRIC_PATH: fabric/build/libs
   FORGE_PATH: forge/build/libs
-  SHADOW_FILE: minecraft-access-*-dev-shadow.jar
-  SOURCE_FILE: minecraft-access-*-sources.jar
-  MOD_FILE: minecraft-access*.jar
+  MOD_FILE_PREFIX: minecraft-access-
   UPLOAD_PATH: upload
   JDK_VERSION: ${{ inputs.jdk-version || '17' }}
 
@@ -58,30 +59,50 @@ jobs:
       - name: Build Mod with Gradle
         run: ./gradlew build
 
-      - name: Rename Mod Files and Move To Upload Directory
+      - name: Set Environment Variables
+        # Get current time in YYYYMMDD-HHMMSS format
+        # Get mod version from gradle.properties
+        run: |
+          echo "BUILD_TIME=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
+          echo "MOD_VERSION=$(grep "mod_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
+
+      - name: Move All Build Files to Upload Directory
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        # Add platform suffix for fabric and forge build files with mv command
+        # Copy build files into upload directory
+        run: |
+          mkdir -p ${{ env.UPLOAD_PATH }}
+          cd ${{ github.WORKSPACE }}/${{ env.FABRIC_PATH }}
+          for f in *.jar; do mv -- "$f" "${f%.jar}-fabric.jar"; done
+          cp *.jar "${{ github.WORKSPACE }}/${{ env.UPLOAD_PATH }}"
+          cd ${{ github.WORKSPACE }}/${{ env.FORGE_PATH }}
+          for f in *.jar; do mv -- "$f" "${f%.jar}-forge.jar"; done
+          cp *.jar "${{ github.WORKSPACE }}/${{ env.UPLOAD_PATH }}"
+
+      - name: Move Only Mod Files to Upload Directory
+        if: ${{ github.event_name == 'workflow_call' }}
         # Remove shadow and source files for only matching mod file with in cp command
         # Add platform suffix for fabric and forge mod files with cp command
         # Copy mod files into upload directory
         run: |
           mkdir -p ${{ env.UPLOAD_PATH }}
-          cd ${{ github.WORKSPACE }}/${{ env.FABRIC_PATH }}
-          rm ${{ env.SHADOW_FILE }} ${{ env.SOURCE_FILE }}
-          cp ${{ env.MOD_FILE }} "${{ github.WORKSPACE }}/${{ env.UPLOAD_PATH }}/$(basename -s .jar -a *)-fabric.jar"
-          cd ${{ github.WORKSPACE }}/${{ env.FORGE_PATH }}
-          rm ${{ env.SHADOW_FILE }} ${{ env.SOURCE_FILE }}
-          cp ${{ env.MOD_FILE }} "${{ github.WORKSPACE }}/${{ env.UPLOAD_PATH }}/$(basename -s .jar -a *)-forge.jar"
-
-      - name: Set Current Time As Environment Variable
-        # Only run upload steps when this workflow is triggered manually
-        if: ${{ github.event_name == 'workflow_dispatch' }}
-        # In YYYYMMDD-HHMMSS format
-        run: echo "BUILD_TIME=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
+          mv ${{ env.FABRIC_PATH }}/${{ env.MOD_FILE_PREFIX }}${{ env.MOD_VERSION }}.jar ${{ env.UPLOAD_PATH }}/${{ env.MOD_FILE_PREFIX }}${{ env.MOD_VERSION }}-fabric.jar
+          mv ${{ env.FORGE_PATH }}/${{ env.MOD_FILE_PREFIX }}${{ env.MOD_VERSION }}.jar ${{ env.UPLOAD_PATH }}/${{ env.MOD_FILE_PREFIX }}${{ env.MOD_VERSION }}-fabric.jar
 
       # Then we can download them from workflow result page
       - name: Upload Mod Files To Artifact
+        # Only run artifact upload when triggered manually
         if: ${{ github.event_name == 'workflow_dispatch' }}
         uses: actions/upload-artifact@v3
         with:
           # Name of zip file that we download from workflow result page
           name: minecraft-access-mod-${{ env.BUILD_TIME }}
           path: ${{ env.UPLOAD_PATH }}
+
+      - name: Cache Mod Files for Publishing
+        # Only run file cache when triggered by release workflow
+        if: ${{ github.event_name == 'workflow_call' }}
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.UPLOAD_PATH }}
+          key: ${{ inputs.build-files-cache-key || env.MOD_VERSION }}

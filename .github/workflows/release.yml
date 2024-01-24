@@ -13,20 +13,20 @@ on:
 env:
   JAVA_VERSION: ${{ inputs.jdk-version }}
 
-permissions:
-  # Assigning repo "write" permissions to this workflow
-  # ref: https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps?apiVersion=2022-11-28#repository-permissions-for-contents
-  contents: write
-
 jobs:
   # Test and Build the Mod
   test-and-build:
     uses: ./.github/workflows/build.yml
     with:
       jdk-version: ${{ inputs.jdk-version || '17' }}
+      build-files-cache-key: ${{ github.run_id }}
 
-  todo:
+  publish:
     needs: test-and-build
+    permissions:
+      # Assigning repo "write" permissions to this workflow
+      # ref: https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps?apiVersion=2022-11-28#repository-permissions-for-contents
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -34,4 +34,12 @@ jobs:
       - name: Set Environment Variables
         run: |
           echo "MINECRAFT_VERSION=$(grep "minecraft_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
-          echo ${{ env.MINECRAFT_VERSION }}
+
+      - name: Restore Cached Mod Files
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ env.UPLOAD_PATH }}
+          key: ${{ github.run_id }}
+
+      - name: Test cache restore
+        run: ls ${{ env.UPLOAD_PATH }}
