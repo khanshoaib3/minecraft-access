@@ -26,14 +26,15 @@ env:
   CHANGELOG_TEMP_PLATFORM: .changelog_platform.md
 
 jobs:
-  # Test and Build the Mod
   test-and-build:
+    name: Test and Build
     uses: ./.github/workflows/build.yml
     with:
       jdk-version: '17'
       build-files-cache-key: ${{ github.run_id }}
 
   publish:
+    name: Publish
     needs: test-and-build
     permissions:
       # Assigning repo "write" permissions to this workflow

@@ -26,6 +26,7 @@ env:
 
 jobs:
   test:
+    name: Run Test Suite
     uses: ./.github/workflows/test.yml
     with:
       # Context "env" is not allowed here
@@ -36,6 +37,7 @@ jobs:
   build:
     # Run build job only if test job is successfully passed
     # ref: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idneeds
+    name: Run Gradle Build and Preserve Build Files
     needs: test
     runs-on: ubuntu-latest
     steps:

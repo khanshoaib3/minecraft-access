@@ -1,4 +1,4 @@
-name: Run Unit Test Suite
+name: Run Test Suite
 
 on:
   # pull_request: This workflow will be triggered when new commits are pushed onto GitHub
