@@ -41,6 +41,9 @@ jobs:
       # ref: https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps?apiVersion=2022-11-28#repository-permissions-for-contents
       contents: write
     runs-on: ubuntu-latest
+    # ref: https://docs.github.com/en/actions/using-jobs/defining-outputs-for-jobs
+    outputs:
+      release-tag: ${{ steps.env.outputs.release-tag }}
     steps:
       - uses: actions/checkout@v3
 
@@ -56,6 +59,7 @@ jobs:
       # MOD_VERSION: 1.5.2
       # GIT_VERSION_TAG: v1.5.2-1.20.4 (v{mod version}-{minecraft version})
       - name: Set Environment Variables
+        id: env
         run: |
           echo "MINECRAFT_VERSION=$(grep "minecraft_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
           
@@ -65,7 +69,10 @@ jobs:
           MOD_VERSION=$(echo ${MOD_GAME_VERSION} | cut -d'+' -f1)
           echo "MOD_VERSION=${MOD_VERSION}" >> $GITHUB_ENV
           
-          echo "GIT_VERSION_TAG"="v$(echo ${MOD_GAME_VERSION} | sed 's/+/-/')" >> $GITHUB_ENV
+          GIT_VERSION_TAG=v$(echo ${MOD_GAME_VERSION} | sed 's/+/-/')
+          echo "GIT_VERSION_TAG=${GIT_VERSION_TAG}" >> $GITHUB_ENV
+          
+          echo "release-tag=${GIT_VERSION_TAG}" >> $GITHUB_OUTPUT
 
       # Create temp changelog files, add content from input and documentation files
       #
@@ -113,4 +120,4 @@ jobs:
     needs: publish
     uses: ./.github/workflows/wrap-whats-changed.yml
     with:
-      release-tag: ${{ env.GIT_VERSION_TAG }}
+      release-tag: ${{ needs.publish.outputs.release-tag }}
