@@ -129,7 +129,7 @@ jobs:
         with:
           modrinth-id: 2Wwh7N7U
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          name: [Fabric ${{ env.MINECRAFT_VERSION }}] v${{ env.MOD_VERSION }}
+          name: "[Fabric ${{ env.MINECRAFT_VERSION }}] v${{ env.MOD_VERSION }}"
           modrinth-featured: false
           changelog-file: ${{ env.CHANGELOG_TEMP_PLATFORM }}
           files: ${{ env.UPLOAD_PATH }}/*.jar
