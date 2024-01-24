@@ -50,13 +50,13 @@ jobs:
       # </p>
       # </details>
       - name: Wrap What's Changed Section
-        if: steps.check.outputs.result
+        if: ${{ steps.check.outputs.result != 'true' }}
         run:
           sed -i "s/^## What's Changed/\<details>\<summary>Auto Generated Release Notes\<\/summary>\<p>\\n## What's Changed\\n/" ${{ env.TEMP_BODY_FILE }}
           printf "\n</p></details>" >> ${{ env.TEMP_BODY_FILE }}
 
       - name: Apply Changed Release Body to Release
-        if: ${{ steps.check.outputs.result == 'true' }}
+        if: ${{ steps.check.outputs.result != 'true' }}
         # ref: https://github.com/irongut/EditRelease
         uses: irongut/EditRelease@v1.2.0
         with:
