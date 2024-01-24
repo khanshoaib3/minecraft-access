@@ -67,7 +67,7 @@ jobs:
           echo "MOD_VERSION=$(grep "mod_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
 
       - name: Move All Build Files to Upload Directory
-        if: ${{ github.event_name == 'workflow_dispatch' }}
+        if: ${{ !inputs.build-files-cache-key }}
         # Add platform suffix for fabric and forge build files with mv command
         # Copy build files into upload directory
         run: |
@@ -80,7 +80,7 @@ jobs:
           cp *.jar "${{ github.WORKSPACE }}/${{ env.UPLOAD_PATH }}"
 
       - name: Move Only Mod Files to Upload Directory
-        if: ${{ github.event_name == 'workflow_call' }}
+        if: ${{ inputs.build-files-cache-key }}
         # Remove shadow and source files for only matching mod file with in cp command
         # Add platform suffix for fabric and forge mod files with cp command
         # Copy mod files into upload directory
@@ -92,7 +92,7 @@ jobs:
       # Then we can download them from workflow result page
       - name: Upload Mod Files To Artifact
         # Only run artifact upload when triggered manually
-        if: ${{ github.event_name == 'workflow_dispatch' }}
+        if: ${{ !inputs.build-files-cache-key }}
         uses: actions/upload-artifact@v3
         with:
           # Name of zip file that we download from workflow result page
@@ -101,7 +101,7 @@ jobs:
 
       - name: Cache Mod Files for Publishing
         # Only run file cache when triggered by release workflow
-        if: ${{ github.event_name == 'workflow_call' }}
+        if: ${{ inputs.build-files-cache-key }}
         uses: actions/cache/save@v4
         with:
           path: ${{ env.UPLOAD_PATH }}

@@ -12,6 +12,7 @@ on:
 
 env:
   JAVA_VERSION: ${{ inputs.jdk-version }}
+  UPLOAD_PATH: upload
 
 jobs:
   # Test and Build the Mod
