@@ -87,7 +87,7 @@ jobs:
         run: |
           mkdir -p ${{ env.UPLOAD_PATH }}
           mv ${{ env.FABRIC_PATH }}/${{ env.MOD_FILE_PREFIX }}${{ env.MOD_VERSION }}.jar ${{ env.UPLOAD_PATH }}/${{ env.MOD_FILE_PREFIX }}${{ env.MOD_VERSION }}-fabric.jar
-          mv ${{ env.FORGE_PATH }}/${{ env.MOD_FILE_PREFIX }}${{ env.MOD_VERSION }}.jar ${{ env.UPLOAD_PATH }}/${{ env.MOD_FILE_PREFIX }}${{ env.MOD_VERSION }}-fabric.jar
+          mv ${{ env.FORGE_PATH }}/${{ env.MOD_FILE_PREFIX }}${{ env.MOD_VERSION }}.jar ${{ env.UPLOAD_PATH }}/${{ env.MOD_FILE_PREFIX }}${{ env.MOD_VERSION }}-forge.jar
 
       # Then we can download them from workflow result page
       - name: Upload Mod Files To Artifact
