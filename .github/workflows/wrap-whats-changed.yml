@@ -51,7 +51,7 @@ jobs:
       # </details>
       - name: Wrap What's Changed Section
         if: ${{ steps.check.outputs.result != 'true' }}
-        run:
+        run: |
           sed -i "s/^## What's Changed/\<details>\<summary>Auto Generated Release Notes\<\/summary>\<p>\\n## What's Changed\\n/" ${{ env.TEMP_BODY_FILE }}
           printf "\n</p></details>" >> ${{ env.TEMP_BODY_FILE }}
 
