@@ -17,14 +17,14 @@ on:
       note:
         default: ''
         required: false
-        description: Will be printf to the head of release message (use "\n" to switch line)
+        description: Additional Release Note (will be printf to the head of release message, use "\n" to switch line)
         type: string
 
 env:
   JAVA_VERSION: ${{ inputs.jdk-version }}
   UPLOAD_PATH: upload
   CHANGELOG_FILE_PATH: ./doc/CHANGELOG.md
-  MOD_COMPATIBILITY_INFO_FILE_PATH: MOD_COMPATIBILITY.md
+  MOD_COMPATIBILITY_INFO_FILE_PATH: ./doc/MOD_COMPATIBILITY.md
   # Release message for github release
   # note + changelog + mod compatibility
   CHANGELOG_TEMP_GITHUB: .changelog_github.md
