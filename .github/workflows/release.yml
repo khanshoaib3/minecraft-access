@@ -66,34 +66,32 @@ jobs:
           
           echo "GIT_VERSION_TAG"="v$(echo ${MOD_GAME_VERSION} | sed 's/+/-/')" >> $GITHUB_ENV
 
-      # Create temp changelog files, add release note from input and documentation files
+      # Create temp changelog files, add content from input and documentation files
+      #
       # Extract changelog from CHANGELOG.md, match content between two "*Release*" lines
       # Extract mod compatibility info from MOD_COMPATIBILITY.md, match content between two "Compatibility For" lines
+      # Remove "Dependencies Changes" and "Refactoring, Documentation and Chores" from extracted changelog
+      # Replace "###" with "##" in changelog for higher head level
       #
-      # Release message for github release
-      # note + changelog + mod compatibility
-      #
-      # Release message for modrinth, curseforge
-      # note + changelog
+      # Release message for GitHub release: note + changelog + mod compatibility
+      # Release message for modrinth, curseforge: note + changelog
       - name: Prepare Release Messages
         run: |
-          touch ${{ env.CHANGELOG_TEMP_GITHUB }}
-          if [ "${{ inputs.note }}" != '' ] ; then printf "${{ inputs.note }}" >> ${{ env.CHANGELOG_TEMP_GITHUB }} ; fi
+          touch .changelog_temp
+          if [ "${{ inputs.note }}" != '' ] ; then printf "${{ inputs.note }}" > .changelog_temp ; fi
           awk '/-{3,}/{flag=1;next}/Release/{if (flag==1)exit}flag' \
-            ${{ env.CHANGELOG_FILE_PATH }} >> \
-            ${{ env.CHANGELOG_TEMP_GITHUB }}
-          sed -i 's/^###/##/' ${{ env.CHANGELOG_TEMP_GITHUB }}
+            ${{ env.CHANGELOG_FILE_PATH }} >> .changelog_temp
+          sed '/^### Dependencies.*$/,/\Z/d' .changelog_temp
+          sed '/^### Refactoring.*$/,/\Z/d' .changelog_temp
+          sed -i 's/^###/##/' .changelog_temp
+          
+          echo .changelog_temp > ${{ env.CHANGELOG_TEMP_GITHUB }}
           printf "## Mod Version Compatibility" >> ${{ env.CHANGELOG_TEMP_GITHUB }}
           awk '/Compatibility For ${{ env.MINECRAFT_VERSION }}/{flag=1;next}/----/{next}/Compatibility For/{if (flag==1)exit}flag' \
             ${{ env.MOD_COMPATIBILITY_INFO_FILE_PATH }} \
             >> ${{ env.CHANGELOG_TEMP_GITHUB }}
           
-          touch ${{ env.CHANGELOG_TEMP_PLATFORM }}
-          if [ "${{ inputs.note }}" != '' ] ; then printf "${{ inputs.note }}\n" >> ${{ env.CHANGELOG_TEMP_PLATFORM }} ; fi
-          awk '/-{3,}/{flag=1;next}/Release/{if (flag==1)exit}flag' \
-            ${{ env.CHANGELOG_FILE_PATH }} >> \
-            ${{ env.CHANGELOG_TEMP_PLATFORM }}
-          sed -i 's/^###/##/' ${{ env.CHANGELOG_TEMP_PLATFORM }}
+          echo .changelog_temp > ${{ env.CHANGELOG_TEMP_PLATFORM }}
 
       - name: Create Github Release
         uses: Kir-Antipov/mc-publish@v3.3
