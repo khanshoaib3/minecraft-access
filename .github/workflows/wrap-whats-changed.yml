@@ -1,13 +1,6 @@
 name: Wrap What's Changed Section of GitHub Releases
 
 on:
-  workflow_dispatch:
-    inputs:
-      release-tag:
-        required: true
-        description: Release Tag
-        type: string
-
   workflow_call:
     inputs:
       release-tag:
@@ -29,6 +22,14 @@ jobs:
 
       # github.repository: owner/repo
       # Release API ref: https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#get-a-release-by-tag-name
+      #
+      # Extract "body" and "id" from API response
+      #
+      # "body" string contains literally "\r\n"
+      # (why windows format? Does GitHub API server is running on windows?)
+      # so use sed to replace "\r\n" with new lines
+      #
+      # There will be multiple matches of "id" and we take first, that's GitHub release id.
       - name: Get Release Body
         run: |
           curl -L \
@@ -39,9 +40,7 @@ jobs:
           > .temp_response
           
           grep -oP '(?<="body": ").*(?=",)' .temp_response | sed 's/\\r\\n/\n/g' > ${{ env.TEMP_BODY_FILE }}
-          echo "NOW:"
-          cat ${{ env.TEMP_BODY_FILE }}
-          
+
           echo "RELEASE_ID=$(grep -oP '(?<="id": ).*(?=,)' .temp_response | head -n1)" >> $GITHUB_ENV
 
       - name: Check If Release Has Been Changed
@@ -61,8 +60,6 @@ jobs:
         run: |
           sed -i "s/^## What's Changed/\<details>\<summary>Auto Generated Release Notes\<\/summary>\<p>\\n## What's Changed\\n/" ${{ env.TEMP_BODY_FILE }}
           printf "\n</p></details>" >> ${{ env.TEMP_BODY_FILE }}
-          echo "AFTER:"
-          cat ${{ env.TEMP_BODY_FILE }}
 
       - name: Apply Changed Release Body to Release
         if: ${{ steps.check.outputs.result != 'true' }}
