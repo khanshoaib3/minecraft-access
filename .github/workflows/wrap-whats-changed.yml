@@ -36,13 +36,11 @@ jobs:
           > .temp_response
           
           grep -oP '(?<="body": ").*(?=",)' .temp_response > ${{ env.TEMP_BODY_FILE }}
-          cat ${{ env.TEMP_BODY_FILE }}
 
       - name: Check If Release Has Been Changed
         id: check
         run: |
           if grep "Auto Generated Release Notes" ${{ env.TEMP_BODY_FILE }} ; then echo "result=true" >> $GITHUB_OUTPUT ; fi
-          echo ${GITHUB_OUTPUT}
 
       # Wrap "What's Changed" section with:
       # <details>
@@ -58,7 +56,7 @@ jobs:
           printf "\n</p></details>" >> ${{ env.TEMP_BODY_FILE }}
 
       - name: Apply Changed Release Body to Release
-        if: ${{ steps.check.outputs.result }}
+        if: ${{ steps.check.outputs.result == 'true' }}
         # ref: https://github.com/irongut/EditRelease
         uses: irongut/EditRelease@v1.2.0
         with:
