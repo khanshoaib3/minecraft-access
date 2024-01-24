@@ -9,10 +9,22 @@ on:
         required: false
         description: JDK version
         type: string
+      pre-release:
+        default: true
+        required: false
+        description: Only create a pre-release GitHub release
+        type: boolean
+      note:
+        default: ''
+        required: false
+        description: Will be printf to the head of release message (use "\n" to switch line)
+        type: string
 
 env:
   JAVA_VERSION: ${{ inputs.jdk-version }}
   UPLOAD_PATH: upload
+  CHANGELOG_FILE_PATH: ./doc/CHANGELOG.md
+  CHANGELOG_TEMP: .changelog.md
 
 jobs:
   # Test and Build the Mod
@@ -32,15 +44,38 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set Environment Variables
-        run: |
-          echo "MINECRAFT_VERSION=$(grep "minecraft_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
-
       - name: Restore Cached Mod Files
         uses: actions/cache/restore@v4
         with:
           path: ${{ env.UPLOAD_PATH }}
           key: ${{ github.run_id }}
 
-      - name: Test cache restore
-        run: ls ${{ env.UPLOAD_PATH }}
+      - name: Prepare Environment Variables and Release Texts
+        # Get version information from gradle.properties and set them as environment variables
+        # MINECRAFT_VERSION: 1.20.4
+        # MOD_GAME_VERSION: 1.5.2+1.20.4
+        # MOD_VERSION: 1.5.2
+        # GIT_VERSION_TAG: v1.5.2-1.20.4
+        #
+        # Create temp changelog file, add release note from input and changelog from CHANGELOG.md
+        # Extract changelog from CHANGELOG.md, match content between two "*Release*" lines
+        run: |
+          echo "MINECRAFT_VERSION=$(grep "minecraft_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
+          echo "MOD_GAME_VERSION=$(grep "mod_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
+          echo "MOD_VERSION=$(echo ${{ env.MOD_GAME_VERSION }} | cut -d'+' -f1)" >> $GITHUB_ENV
+          echo "GIT_VERSION_TAG"="v$(echo ${{ env.MOD_GAME_VERSION }} | sed 's/+/-/')" >> $GITHUB_ENV
+          
+          printf ${{ input.note }} > ${{ env.CHANGELOG_TEMP }}
+          printf "\n" >> ${{ env.CHANGELOG_TEMP }}
+          awk '/-{3,}/{flag=1;next}/Release/{if (flag==1)exit}flag' ${{ env.CHANGELOG_FILE_PATH }} >> ${{ env.CHANGELOG_TEMP }}
+
+      - name: Create Github Release
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          github-tag: ${{ env.GIT_VERSION_TAG }}
+          github-generate-changelog: true
+          github-prerelease: ${{ inputs.pre-release }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          files: ${{ env.UPLOAD_PATH }}/*.jar
+          name: Release v${{ env.MOD_VERSION }} for ${{ env.MINECRAFT_VERSION }} [Fabric/Forge]
+          changelog-file: ${{ env.CHANGELOG_TEMP }}
