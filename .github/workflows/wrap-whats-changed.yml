@@ -39,7 +39,7 @@ jobs:
           > .temp_response
           
           BODY=$(grep -oP '(?<="body": ").*(?=",)' .temp_response)
-          echo ${BODY} > ${{ env.TEMP_BODY_FILE }}
+          printf ${BODY} > ${{ env.TEMP_BODY_FILE }}
           echo "RELEASE_ID=$(grep -oP '(?<="id": ).*(?=,)' .temp_response | head -n1)" >> $GITHUB_ENV
 
       - name: Check If Release Has Been Changed
