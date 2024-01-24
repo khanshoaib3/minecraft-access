@@ -4,11 +4,6 @@ name: Publish on GitHub, CurseForge, Modrinth
 on:
   workflow_dispatch:
     inputs:
-      jdk-version:
-        default: '17'
-        required: false
-        description: JDK version
-        type: string
       pre-release:
         default: true
         required: false
@@ -21,15 +16,13 @@ on:
         type: string
 
 env:
-  JAVA_VERSION: ${{ inputs.jdk-version }}
+  JAVA_VERSION: '17'
   UPLOAD_PATH: upload
   CHANGELOG_FILE_PATH: ./doc/CHANGELOG.md
   MOD_COMPATIBILITY_INFO_FILE_PATH: ./doc/MOD_COMPATIBILITY.md
   # Release message for github release
-  # note + changelog + mod compatibility
   CHANGELOG_TEMP_GITHUB: .changelog_github.md
   # Release message for modrinth, curseforge
-  # note + changelog
   CHANGELOG_TEMP_PLATFORM: .changelog_platform.md
 
 jobs:
@@ -68,9 +61,15 @@ jobs:
           echo "MOD_VERSION=$(echo ${{ env.MOD_GAME_VERSION }} | cut -d'+' -f1)" >> $GITHUB_ENV
           echo "GIT_VERSION_TAG"="v$(echo ${{ env.MOD_GAME_VERSION }} | sed 's/+/-/')" >> $GITHUB_ENV
 
-      # Create temp changelog file, add release note from input and changelog from CHANGELOG.md
+      # Create temp changelog files, add release note from input and documentation files
       # Extract changelog from CHANGELOG.md, match content between two "*Release*" lines
       # Extract mod compatibility info from MOD_COMPATIBILITY.md, match content between two "Compatibility For" lines
+      #
+      # Release message for github release
+      # note + changelog + mod compatibility
+      #
+      # Release message for modrinth, curseforge
+      # note + changelog
       - name: Prepare Release Messages
         run: |
           touch ${{ env.CHANGELOG_TEMP_GITHUB }}
