@@ -76,6 +76,9 @@ jobs:
           echo "GIT_VERSION_TAG=${GIT_VERSION_TAG}" >> $GITHUB_ENV
           
           echo "release-tag=${GIT_VERSION_TAG}" >> $GITHUB_OUTPUT
+          
+          echo "ARCHY_VERSION=$(grep "architectury_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
+          echo "FABRIC_API_VERSION=$(grep "fabric_api_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
 
       # Create temp changelog files, add content from input and documentation files
       #
@@ -116,22 +119,28 @@ jobs:
           name: Release v${{ env.MOD_VERSION }} for ${{ env.MINECRAFT_VERSION }} [Fabric/Forge]
           changelog-file: ${{ env.CHANGELOG_TEMP_GITHUB }}
 
-#      - name: Publish to Modrinth and CurseForge
-#        if: ${{ !inputs.pre-release }}
-#        uses: Kir-Antipov/mc-publish@v3.3
-#        with:
-#          modrinth-id: 2Wwh7N7U
-#          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-#          # For example: [Fabric 1.20.4] v1.5.2
-#          name: [Fabric ${{ env.MINECRAFT_VERSION }}] v${{ env.MOD_VERSION }}
-#          # "we do not recommend manually featuring any version"
-#          # ref: https://support.modrinth.com/en/articles/8793360-version-auto-featuring
-#          modrinth-featured: false
-#          changelog-file: ${{ env.CHANGELOG_TEMP_PLATFORM }}
-#          files: ${{ env.UPLOAD_PATH }}/*.jar
-#          version: ${{ env.GIT_VERSION_TAG }}
-#          loaders: ["fabric", "forge"]
-#          game-versions: ${{ env.MINECRAFT_VERSION }}
+      - name: Publish to Modrinth and CurseForge
+        if: ${{ !inputs.pre-release }}
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          modrinth-id: 2Wwh7N7U
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          # For example: [Fabric 1.20.4] v1.5.2
+          name: [Fabric ${{ env.MINECRAFT_VERSION }}] v${{ env.MOD_VERSION }}
+          # "we do not recommend manually featuring any version"
+          # ref: https://support.modrinth.com/en/articles/8793360-version-auto-featuring
+          modrinth-featured: false
+          changelog-file: ${{ env.CHANGELOG_TEMP_PLATFORM }}
+          files: ${{ env.UPLOAD_PATH }}/*.jar
+          version: ${{ env.GIT_VERSION_TAG }}
+          loaders: |
+            fabric
+            forge
+          game-versions: ${{ env.MINECRAFT_VERSION }}
+          java: ${{ env.JAVA_VERSION }}
+          dependencies: |
+            fabric-api@${{ env.FABRIC_API_VERSION }}(required)
+            architectury-api@${{ env.ARCHY_VERSION }}+fabric(required)
 
   # I want to keep current style of release message - "What's Changed" is wrapped and hidden
   post-github-release:
