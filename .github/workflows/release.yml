@@ -102,4 +102,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           files: ${{ env.UPLOAD_PATH }}/*.jar
           name: Release v${{ env.MOD_VERSION }} for ${{ env.MINECRAFT_VERSION }} [Fabric/Forge]
-          changelog-file: ${{ env.CHANGELOG_TEMP_PLATFORM }}
+          changelog-file: ${{ env.CHANGELOG_TEMP_GITHUB }}
