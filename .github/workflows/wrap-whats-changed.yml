@@ -19,8 +19,10 @@ env:
 
 jobs:
   wrap:
-    runs-on: ubuntu-latest
     name: Wrap
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v3
 
