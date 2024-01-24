@@ -65,8 +65,10 @@ jobs:
           echo "MOD_VERSION=$(echo ${{ env.MOD_GAME_VERSION }} | cut -d'+' -f1)" >> $GITHUB_ENV
           echo "GIT_VERSION_TAG"="v$(echo ${{ env.MOD_GAME_VERSION }} | sed 's/+/-/')" >> $GITHUB_ENV
           
-          printf ${{ input.note }} > ${{ env.CHANGELOG_TEMP }}
-          printf "\n" >> ${{ env.CHANGELOG_TEMP }}
+          touch ${{ env.CHANGELOG_TEMP }}
+          if [ "${{ inputs.note }}" != '' ] \
+            then printf ${{ inputs.note }} >> ${{ env.CHANGELOG_TEMP }} ; printf "\n" >> ${{ env.CHANGELOG_TEMP }} \
+          fi
           awk '/-{3,}/{flag=1;next}/Release/{if (flag==1)exit}flag' ${{ env.CHANGELOG_FILE_PATH }} >> ${{ env.CHANGELOG_TEMP }}
 
       - name: Create Github Release
