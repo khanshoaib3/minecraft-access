@@ -39,7 +39,12 @@ jobs:
           > .temp_response
           
           BODY=$(grep -oP '(?<="body": ").*(?=",)' .temp_response)
-          printf ${BODY} > ${{ env.TEMP_BODY_FILE }}
+          echo "BODY:"
+          echo $BODY
+          echo ${BODY} > ${{ env.TEMP_BODY_FILE }}
+          sed -i -e 's/\r//g' ${{ env.TEMP_BODY_FILE }}
+          echo "NOW:"
+          cat ${{ env.TEMP_BODY_FILE }}
           echo "RELEASE_ID=$(grep -oP '(?<="id": ).*(?=,)' .temp_response | head -n1)" >> $GITHUB_ENV
 
       - name: Check If Release Has Been Changed
@@ -59,6 +64,8 @@ jobs:
         run: |
           sed -i "s/^## What's Changed/\<details>\<summary>Auto Generated Release Notes\<\/summary>\<p>\\n## What's Changed\\n/" ${{ env.TEMP_BODY_FILE }}
           printf "\n</p></details>" >> ${{ env.TEMP_BODY_FILE }}
+          echo "AFTER:"
+          cat ${{ env.TEMP_BODY_FILE }}
 
       - name: Apply Changed Release Body to Release
         if: ${{ steps.check.outputs.result != 'true' }}
