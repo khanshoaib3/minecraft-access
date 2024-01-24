@@ -112,12 +112,10 @@ jobs:
           name: Release v${{ env.MOD_VERSION }} for ${{ env.MINECRAFT_VERSION }} [Fabric/Forge]
           changelog-file: ${{ env.CHANGELOG_TEMP_GITHUB }}
 
-#  # I want to keep current style of release message - "What's Changed" is wrapped and hidden
-#  wrap-whats-changed:
-#    name: Wrap What's Changed Section of GitHub Releases
-#    permissions:
-#      contents: read
-#    needs: publish
-#    uses: ./.github/workflows/wrap-whats-changed.yml
-#    with:
-#      release-tag: ${{ needs.publish.outputs.release-tag }}
+  # I want to keep current style of release message - "What's Changed" is wrapped and hidden
+  wrap-whats-changed:
+    name: Wrap What's Changed Section of GitHub Releases
+    needs: publish
+    uses: ./.github/workflows/wrap-whats-changed.yml
+    with:
+      release-tag: ${{ needs.publish.outputs.release-tag }}
