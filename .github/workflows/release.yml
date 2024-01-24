@@ -119,16 +119,17 @@ jobs:
           name: Release v${{ env.MOD_VERSION }} for ${{ env.MINECRAFT_VERSION }} [Fabric/Forge]
           changelog-file: ${{ env.CHANGELOG_TEMP_GITHUB }}
 
+      # For example: [Fabric 1.20.4] v1.5.2
+      #
+      # "we do not recommend manually featuring any version"
+      # ref: https://support.modrinth.com/en/articles/8793360-version-auto-featuring
       - name: Publish to Modrinth and CurseForge
         if: ${{ !inputs.pre-release }}
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           modrinth-id: 2Wwh7N7U
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          # For example: [Fabric 1.20.4] v1.5.2
           name: [Fabric ${{ env.MINECRAFT_VERSION }}] v${{ env.MOD_VERSION }}
-          # "we do not recommend manually featuring any version"
-          # ref: https://support.modrinth.com/en/articles/8793360-version-auto-featuring
           modrinth-featured: false
           changelog-file: ${{ env.CHANGELOG_TEMP_PLATFORM }}
           files: ${{ env.UPLOAD_PATH }}/*.jar
