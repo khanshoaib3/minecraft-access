@@ -45,7 +45,7 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ inputs.release-tag }} \
           > .temp_response
           
-          grep -oP '(?<="body": ").*(?=",)' .temp_response | sed 's/\\r\\n/\n/g' > ${{ env.TEMP_BODY_FILE }}
+          grep -oP '(?<="body": ").*(?=",)' .temp_response | sed 's/\\r//g' | sed 's/\\n/\n/g' > ${{ env.TEMP_BODY_FILE }}
 
           echo "RELEASE_ID=$(grep -oP '(?<="id": ).*(?=,)' .temp_response | head -n1)" >> $GITHUB_ENV
 

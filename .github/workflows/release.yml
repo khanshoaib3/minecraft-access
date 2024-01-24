@@ -123,7 +123,7 @@ jobs:
       #
       # "we do not recommend manually featuring any version"
       # ref: https://support.modrinth.com/en/articles/8793360-version-auto-featuring
-      - name: Publish to Modrinth and CurseForge
+      - name: Publish Fabric Version to Modrinth and CurseForge
         if: ${{ !inputs.pre-release }}
         uses: Kir-Antipov/mc-publish@v3.3
         with:
@@ -132,16 +132,31 @@ jobs:
           name: "[Fabric ${{ env.MINECRAFT_VERSION }}] v${{ env.MOD_VERSION }}"
           modrinth-featured: false
           changelog-file: ${{ env.CHANGELOG_TEMP_PLATFORM }}
-          files: ${{ env.UPLOAD_PATH }}/*.jar
-          version: ${{ env.GIT_VERSION_TAG }}
-          loaders: |
-            fabric
-            forge
+          files: ${{ env.UPLOAD_PATH }}/*-fabric.jar
+          version: ${{ env.MOD_GAME_VERSION }}-fabric
+          loaders: fabric
           game-versions: ${{ env.MINECRAFT_VERSION }}
           java: ${{ env.JAVA_VERSION }}
           dependencies: |
             fabric-api@${{ env.FABRIC_API_VERSION }}(required)
             architectury-api@${{ env.ARCHY_VERSION }}+fabric(required)
+
+      - name: Publish Forge Version to Modrinth and CurseForge
+        if: ${{ !inputs.pre-release }}
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          modrinth-id: 2Wwh7N7U
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          name: "[Forge ${{ env.MINECRAFT_VERSION }}] v${{ env.MOD_VERSION }}"
+          modrinth-featured: false
+          changelog-file: ${{ env.CHANGELOG_TEMP_PLATFORM }}
+          files: ${{ env.UPLOAD_PATH }}/*-forge.jar
+          version: ${{ env.MOD_GAME_VERSION }}-forge
+          loaders: forge
+          game-versions: ${{ env.MINECRAFT_VERSION }}
+          java: ${{ env.JAVA_VERSION }}
+          dependencies: |
+            architectury-api@${{ env.ARCHY_VERSION }}+forge(required)
 
   # I want to keep current style of release message - "What's Changed" is wrapped and hidden
   post-github-release:
