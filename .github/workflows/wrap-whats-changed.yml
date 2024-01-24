@@ -1,0 +1,36 @@
+name: Wrap What's Changed Section of GitHub Releases
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  wrap:
+    runs-on: ubuntu-latest
+    name: Wrap
+    steps:
+      - uses: actions/checkout@v3
+
+      # Wrap "What's Changed" section with:
+      # <details>
+      # <summary>Auto Generated Release Notes</summary>
+      # <p>
+      # ...
+      # </p>
+      # </details>
+      - name: Wrap What's Changed Section
+        run:
+          echo ${{ github.event.release.body }} > .release_body
+          sed -i "s/^## What's Changed/\<details>\<summary>Auto Generated Release Notes\<\/summary>\<p>\\n## What's Changed\\n/" .release_body
+          printf "\n</p></details>" >> .release_body
+
+      - name: Apply Changed Release Body to Release
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: ${{ github.event.release.id }},
+              body: fs.readFileSync('.release_body', 'utf8')
+            })
