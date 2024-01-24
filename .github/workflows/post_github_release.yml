@@ -1,4 +1,7 @@
-name: Wrap What's Changed Section of GitHub Releases
+# Wrap What's Changed Section of GitHub Releases
+# and
+# Change Pre-released GitHub Release to Formal Release
+name: Post GitHub Release Process
 
 on:
   workflow_call:
@@ -6,6 +9,9 @@ on:
       release-tag:
         required: true
         type: string
+      pre-release:
+        required: true
+        type: boolean
 
 env:
   TEMP_BODY_FILE: .release_body
@@ -70,3 +76,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           replacebody: true
           files: ${{ env.TEMP_BODY_FILE }}
+
+      - name: Switch Release Status To Full
+        if: ${{ !inputs.pre-release }}
+        uses: irongut/EditRelease@v1.2.0
+        with:
+          id: ${{ env.RELEASE_ID }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: false
