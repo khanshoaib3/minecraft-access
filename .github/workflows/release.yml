@@ -93,13 +93,13 @@ jobs:
           sed '/^### Refactoring.*$/,/\Z/d' .changelog_temp
           sed -i 's/^###/##/' .changelog_temp
           
-          echo .changelog_temp > ${{ env.CHANGELOG_TEMP_GITHUB }}
+          cp .changelog_temp ${{ env.CHANGELOG_TEMP_GITHUB }}
           printf "## Mod Version Compatibility" >> ${{ env.CHANGELOG_TEMP_GITHUB }}
           awk '/Compatibility For ${{ env.MINECRAFT_VERSION }}/{flag=1;next}/----/{next}/Compatibility For/{if (flag==1)exit}flag' \
             ${{ env.MOD_COMPATIBILITY_INFO_FILE_PATH }} \
             >> ${{ env.CHANGELOG_TEMP_GITHUB }}
           
-          echo .changelog_temp > ${{ env.CHANGELOG_TEMP_PLATFORM }}
+          cp .changelog_temp ${{ env.CHANGELOG_TEMP_PLATFORM }}
 
       - name: Create Github Release
         uses: Kir-Antipov/mc-publish@v3.3
