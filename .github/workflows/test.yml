@@ -15,10 +15,16 @@ on:
         default: '17'
         required: false
         type: string
+      version:
+        default: 'latest'
+        required: false
+        type: string
 
 jobs:
+  # Only run test job if we want to build latest version
   test:
     name: Run Test Suite
+    if: ${{ inputs.version == 'latest' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
