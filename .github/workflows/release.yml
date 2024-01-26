@@ -1,0 +1,196 @@
+# For each version, must run this workflow twice
+# with "pre-release: false" at first time (beta release),
+# then "pre-release: true" at second time (formal release)
+#
+# Generate Personal Access Token (PAT) in platforms,
+# set "MODRINTH_TOKEN" and "CURSEFORGE_TOKEN"
+# in GitHub repository settings -> Secrets and variables -> Actions -> Repository secrets
+name: Publish on GitHub, CurseForge, Modrinth
+
+# This release workflow can only be triggered manually
+on:
+  workflow_dispatch:
+    inputs:
+      pre-release:
+        default: true
+        required: false
+        description: Pre Release (only create a pre-release GitHub release, not publish to CurseForge, Modrinth)
+        type: boolean
+      version:
+        default: 'latest'
+        required: false
+        description: Version to be published (git tag like 'v1.5.2-1.20.4', default to extract from gradle.properties)
+        type: string
+      note:
+        default: ''
+        required: false
+        description: Additional Release Note (will be printf to the head of release message, use "\n" to switch line)
+        type: string
+
+env:
+  JAVA_VERSION: '17'
+  UPLOAD_PATH: upload
+  CHANGELOG_FILE_PATH: ./doc/CHANGELOG.md
+  MOD_COMPATIBILITY_INFO_FILE_PATH: ./doc/MOD_COMPATIBILITY.md
+  # Release body for github release
+  CHANGELOG_TEMP_GITHUB: .changelog_github.md
+  # Release body for modrinth, curseforge
+  CHANGELOG_TEMP_PLATFORM: .changelog_platform.md
+  MODRINTH_ID: jGzXyfdm
+  CURSEFORGE_ID: 830055
+
+jobs:
+  test-and-build:
+    name: Test and Build
+    uses: ./.github/workflows/build.yml
+    with:
+      jdk-version: '17'
+      build-files-cache-key: ${{ github.run_id }}
+      version: ${{ inputs.version || 'latest' }}
+
+  publish:
+    name: Publish
+    needs: test-and-build
+    permissions:
+      # Assigning repo "write" permissions to this workflow
+      # ref: https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps?apiVersion=2022-11-28#repository-permissions-for-contents
+      contents: write
+    runs-on: ubuntu-latest
+    # ref: https://docs.github.com/en/actions/using-jobs/defining-outputs-for-jobs
+    outputs:
+      release-tag: ${{ steps.env-gradle.outputs.release-tag || inputs.version }}
+    steps:
+      # As long as we checkout right commit at first,
+      # there is no need to modify steps below this checkout step
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.version == 'latest' && '' || inputs.version }}
+
+      - name: Restore Cached Mod Files
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ env.UPLOAD_PATH }}
+          key: ${{ github.run_id }}
+
+      # Get version information from gradle.properties and set them as environment variables
+      # MINECRAFT_VERSION: 1.20.4
+      # MOD_GAME_VERSION: 1.5.2+1.20.4
+      # MOD_VERSION: 1.5.2
+      # GIT_VERSION_TAG: v1.5.2-1.20.4 (v{mod version}-{minecraft version})
+      - name: Set Environment Variables
+        id: env
+        run: |
+          echo "MINECRAFT_VERSION=$(grep "minecraft_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
+          
+          MOD_GAME_VERSION=$(grep "mod_version" gradle.properties | cut -d'=' -f2)
+          echo "MOD_GAME_VERSION=${MOD_GAME_VERSION}" >> $GITHUB_ENV
+          
+          MOD_VERSION=$(echo ${MOD_GAME_VERSION} | cut -d'+' -f1)
+          echo "MOD_VERSION=${MOD_VERSION}" >> $GITHUB_ENV
+          
+          GIT_VERSION_TAG=v$(echo ${MOD_GAME_VERSION} | sed 's/+/-/')
+          echo "GIT_VERSION_TAG=${GIT_VERSION_TAG}" >> $GITHUB_ENV
+          
+          echo "release-tag=${GIT_VERSION_TAG}" >> $GITHUB_OUTPUT
+          
+          echo "ARCHY_VERSION=$(grep "architectury_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
+          echo "FABRIC_API_VERSION=$(grep "fabric_api_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
+
+      # Create temp changelog files, add content from input and documentation files
+      #
+      # Extract changelog from CHANGELOG.md, match content between two "*Release*" lines
+      # Extract mod compatibility info from MOD_COMPATIBILITY.md, match content between two "Compatibility For" lines
+      # Remove "Dependencies Changes" and "Refactoring, Documentation and Chores" from extracted changelog
+      # Replace "###" with "##" in changelog for higher head level
+      #
+      # Release message for GitHub release: note + changelog + mod compatibility
+      # Release message for modrinth, curseforge: note + changelog
+      - name: Prepare Release Messages
+        run: |
+          touch .changelog_temp
+          if [ "${{ inputs.note }}" != '' ] ; then printf "${{ inputs.note }}" > .changelog_temp ; fi
+          awk '/Release v${{ env.MOD_VERSION }}/{flag=1;next}/Release/{if (flag==1)exit}flag' \
+            ${{ env.CHANGELOG_FILE_PATH }} >> .changelog_temp
+          sed '/^### Dependencies.*$/,/\Z/d' .changelog_temp
+          sed '/^### Refactoring.*$/,/\Z/d' .changelog_temp
+          sed -i 's/^###/##/' .changelog_temp
+          
+          cp .changelog_temp ${{ env.CHANGELOG_TEMP_GITHUB }}
+          printf "## Mod Version Compatibility" >> ${{ env.CHANGELOG_TEMP_GITHUB }}
+          awk '/Compatibility For ${{ env.MINECRAFT_VERSION }}/{flag=1;next}/----/{next}/Compatibility For/{if (flag==1)exit}flag' \
+            ${{ env.MOD_COMPATIBILITY_INFO_FILE_PATH }} \
+            >> ${{ env.CHANGELOG_TEMP_GITHUB }}
+          
+          cp .changelog_temp ${{ env.CHANGELOG_TEMP_PLATFORM }}
+
+      # Action ref: https://github.com/Kir-Antipov/mc-publish
+      - name: Create Github Release
+        if: ${{ inputs.pre-release }}
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          github-tag: ${{ env.GIT_VERSION_TAG }}
+          github-generate-changelog: true
+          github-prerelease: ${{ inputs.pre-release }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          files: ${{ env.UPLOAD_PATH }}/*.jar
+          name: Release v${{ env.MOD_VERSION }} for ${{ env.MINECRAFT_VERSION }} [Fabric/Forge]
+          changelog-file: ${{ env.CHANGELOG_TEMP_GITHUB }}
+
+      # For example: [Fabric 1.20.4] v1.5.2
+      #
+      # "we do not recommend manually featuring any version"
+      # ref: https://support.modrinth.com/en/articles/8793360-version-auto-featuring
+      - name: Publish Fabric Version to Modrinth and CurseForge
+        if: ${{ !inputs.pre-release }}
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          modrinth-id: ${{ env.MODRINTH_ID }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          modrinth-featured: false
+          curseforge-id: ${{ env.CURSEFORGE_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          name: "[Fabric ${{ env.MINECRAFT_VERSION }}] v${{ env.MOD_VERSION }}"
+          changelog-file: ${{ env.CHANGELOG_TEMP_PLATFORM }}
+          files: ${{ env.UPLOAD_PATH }}/*-fabric.jar
+          version: ${{ env.MOD_GAME_VERSION }}-fabric
+          loaders: fabric
+          game-versions: ${{ env.MINECRAFT_VERSION }}
+          java: ${{ env.JAVA_VERSION }}
+          dependencies: |
+            fabric-api@${{ env.FABRIC_API_VERSION }}(required)
+            architectury-api@${{ env.ARCHY_VERSION }}+fabric(required)
+          retry-attempts: 2
+          retry-delay: 60000
+
+      - name: Publish Forge Version to Modrinth and CurseForge
+        if: ${{ !inputs.pre-release }}
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          modrinth-id: ${{ env.MODRINTH_ID }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          curseforge-id: ${{ env.CURSEFORGE_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          name: "[Forge ${{ env.MINECRAFT_VERSION }}] v${{ env.MOD_VERSION }}"
+          modrinth-featured: false
+          changelog-file: ${{ env.CHANGELOG_TEMP_PLATFORM }}
+          files: ${{ env.UPLOAD_PATH }}/*-forge.jar
+          version: ${{ env.MOD_GAME_VERSION }}-forge
+          loaders: forge
+          game-versions: ${{ env.MINECRAFT_VERSION }}
+          java: ${{ env.JAVA_VERSION }}
+          dependencies: |
+            architectury-api@${{ env.ARCHY_VERSION }}+forge(required)
+          retry-attempts: 2
+          retry-delay: 60000
+
+  # I want to keep current style of release message - "What's Changed" is wrapped and hidden
+  # And this workflow will also change existing "pre-release" release's status for formal-release publish
+  post-github-release:
+    name: Post GitHub Release Process
+    needs: publish
+    permissions:
+      contents: write
+    uses: ./.github/workflows/post_github_release.yml
+    with:
+      release-tag: ${{ needs.publish.outputs.release-tag }}
+      pre-release: ${{ inputs.pre-release }}
