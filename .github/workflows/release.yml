@@ -46,7 +46,7 @@ jobs:
     with:
       jdk-version: '17'
       build-files-cache-key: ${{ github.run_id }}
-      version: ${{ inputs.version || 'latest' }}
+      version: ${{ inputs.version }}
 
   publish:
     name: Publish
@@ -64,7 +64,7 @@ jobs:
       # there is no need to modify steps below this checkout step
       - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.version == 'latest' && '' || inputs.version }}
+          ref: ${{ inputs.version == 'latest' && github.ref || inputs.version }}
 
       - name: Restore Cached Mod Files
         uses: actions/cache/restore@v4

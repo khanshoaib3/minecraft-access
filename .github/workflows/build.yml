@@ -57,15 +57,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.version == 'latest' && '' || inputs.version }}
+          ref: ${{ inputs.version == 'latest' && github.ref || inputs.version }}
 
-      - name: Fetch latest I18N files
+      - name: Fetch Latest Lang Assert
+        if: ${{ inputs.version == 'latest' }}
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.version == 'latest' && '' || inputs.version }}
-          # From another repo
+          # ref: https://github.com/khanshoaib3/minecraft-access
           repository: 'khanshoaib3/minecraft-access-i18n'
           # Checkout the repo in mod's language assert path
+          path: './common/src/main/resources/assets/minecraft_access/lang'
+
+      - name: Fetch Lang Assert at Given Version
+        if: ${{ inputs.version != 'latest' }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version }}
+          repository: 'khanshoaib3/minecraft-access-i18n'
           path: './common/src/main/resources/assets/minecraft_access/lang'
 
       - name: Set up JDK
