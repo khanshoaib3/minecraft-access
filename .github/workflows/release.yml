@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     # ref: https://docs.github.com/en/actions/using-jobs/defining-outputs-for-jobs
     outputs:
-      release-tag: ${{ steps.env-gradle.outputs.release-tag || inputs.version }}
+      release-tag: ${{ steps.env.outputs.release-tag || inputs.version }}
     steps:
       # As long as we check out right commit at first,
       # there is no need to modify steps below this checkout step
