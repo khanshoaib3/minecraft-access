@@ -11,7 +11,7 @@ on:
       version:
         default: 'latest'
         required: false
-        description: Version to be published (git tag like 'v1.5.2-1.20.4', default to extract from gradle.properties)
+        description: Version to be published (git tag like 'v1.5.2-1.20.4', default to extract from gradle.properties, DO use default value to build the latest version)
 
   # workflow_call: Or it will be triggered by release workflow
   # ref: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_call
@@ -48,9 +48,6 @@ jobs:
   build:
     # Run build job only if test job is successfully passed
     # ref: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idneeds
-    #
-    # assignment syntax: ${{ condition && return-if-true || return-if-false }}
-    # ref: https://docs.github.com/en/actions/learn-github-actions/expressions#example
     #
     # ref='' for default value (HEAD of main branch) of checkout action
     # ref: https://github.com/actions/checkout
