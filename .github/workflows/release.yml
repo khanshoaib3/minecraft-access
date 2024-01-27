@@ -109,7 +109,7 @@ jobs:
         run: |
           touch .changelog_temp
           if [ "${{ inputs.note }}" != '' ] ; then printf "${{ inputs.note }}" > .changelog_temp ; fi
-          awk '/Release v${{ env.MOD_VERSION }}/{flag=1;next}/Release/{if (flag==1)exit}flag' \
+          awk '/Release v${{ env.MOD_VERSION }}/{flag=1;next}/----/{next}/Release/{if (flag==1)exit}flag' \
             ${{ env.CHANGELOG_FILE_PATH }} >> .changelog_temp
           sed '/^### Dependencies.*$/,/\Z/d' .changelog_temp
           sed '/^### Refactoring.*$/,/\Z/d' .changelog_temp
