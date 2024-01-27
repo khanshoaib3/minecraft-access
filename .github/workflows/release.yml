@@ -19,7 +19,7 @@ on:
       version:
         default: 'latest'
         required: false
-        description: Version to be published (git tag like 'v1.5.2-1.20.4', default to extract from gradle.properties)
+        description: Version to be published (git tag like 'v1.5.2-1.20.4', default to extract from gradle.properties, DO use default value for pre-release the latest version)
         type: string
       note:
         default: ''
@@ -32,7 +32,7 @@ env:
   UPLOAD_PATH: upload
   CHANGELOG_FILE_PATH: ./doc/CHANGELOG.md
   MOD_COMPATIBILITY_INFO_FILE_PATH: ./doc/MOD_COMPATIBILITY.md
-  # Release body for github release
+  # Release body for GitHub release
   CHANGELOG_TEMP_GITHUB: .changelog_github.md
   # Release body for modrinth, curseforge
   CHANGELOG_TEMP_PLATFORM: .changelog_platform.md
@@ -46,7 +46,7 @@ jobs:
     with:
       jdk-version: '17'
       build-files-cache-key: ${{ github.run_id }}
-      version: ${{ inputs.version || 'latest' }}
+      version: ${{ inputs.version }}
 
   publish:
     name: Publish
@@ -58,13 +58,13 @@ jobs:
     runs-on: ubuntu-latest
     # ref: https://docs.github.com/en/actions/using-jobs/defining-outputs-for-jobs
     outputs:
-      release-tag: ${{ steps.env-gradle.outputs.release-tag || inputs.version }}
+      release-tag: ${{ steps.env.outputs.release-tag || inputs.version }}
     steps:
-      # As long as we checkout right commit at first,
+      # As long as we check out right commit at first,
       # there is no need to modify steps below this checkout step
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.version == 'latest' && '' || inputs.version }}
+          ref: ${{ inputs.version == 'latest' && github.ref || inputs.version }}
 
       - name: Restore Cached Mod Files
         uses: actions/cache/restore@v4
@@ -179,7 +179,7 @@ jobs:
           game-versions: ${{ env.MINECRAFT_VERSION }}
           java: ${{ env.JAVA_VERSION }}
           dependencies: |
-            architectury-api@${{ env.ARCHY_VERSION }}+forge(required)
+            architectury-api@${{ env.ARCHY_VERSION }}+minecraftforge(required)
           retry-attempts: 2
           retry-delay: 60000
 

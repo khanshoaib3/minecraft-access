@@ -11,7 +11,7 @@ on:
       version:
         default: 'latest'
         required: false
-        description: Version to be published (git tag like 'v1.5.2-1.20.4', default to extract from gradle.properties)
+        description: Version to be published (git tag like 'v1.5.2-1.20.4', default to extract from gradle.properties, DO use default value to build the latest version)
 
   # workflow_call: Or it will be triggered by release workflow
   # ref: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_call
@@ -48,21 +48,32 @@ jobs:
   build:
     # Run build job only if test job is successfully passed
     # ref: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idneeds
+    #
+    # ref='' for default value (HEAD of main branch) of checkout action
+    # ref: https://github.com/actions/checkout
     name: Run Gradle Build and Preserve Build Files
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.version == 'latest' && '' || inputs.version }}
+          ref: ${{ inputs.version == 'latest' && github.ref || inputs.version }}
 
-      - name: Fetch latest I18N files
-        uses: actions/checkout@v3
+      - name: Fetch Latest Lang Assert
+        if: ${{ inputs.version == 'latest' }}
+        uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.version == 'latest' && '' || inputs.version }}
-          # From another repo
+          # ref: https://github.com/khanshoaib3/minecraft-access
           repository: 'khanshoaib3/minecraft-access-i18n'
           # Checkout the repo in mod's language assert path
+          path: './common/src/main/resources/assets/minecraft_access/lang'
+
+      - name: Fetch Lang Assert at Given Version
+        if: ${{ inputs.version != 'latest' }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version }}
+          repository: 'khanshoaib3/minecraft-access-i18n'
           path: './common/src/main/resources/assets/minecraft_access/lang'
 
       - name: Set up JDK
