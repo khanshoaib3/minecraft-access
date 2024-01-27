@@ -19,7 +19,7 @@ on:
       version:
         default: 'latest'
         required: false
-        description: Version to be published (git tag like 'v1.5.2-1.20.4', default to extract from gradle.properties, DO use default value for pre-release the latest version)
+        description: Version to be published (git tag like 'v1.5.2-1.20.4', DO use default value for pre-release the latest version)
         type: string
       note:
         default: ''
@@ -109,7 +109,7 @@ jobs:
         run: |
           touch .changelog_temp
           if [ "${{ inputs.note }}" != '' ] ; then printf "${{ inputs.note }}" > .changelog_temp ; fi
-          awk '/Release v${{ env.MOD_VERSION }}/{flag=1;next}/Release/{if (flag==1)exit}flag' \
+          awk '/Release v${{ env.MOD_VERSION }}/{flag=1;next}/----/{next}/Release/{if (flag==1)exit}flag' \
             ${{ env.CHANGELOG_FILE_PATH }} >> .changelog_temp
           sed '/^### Dependencies.*$/,/\Z/d' .changelog_temp
           sed '/^### Refactoring.*$/,/\Z/d' .changelog_temp
@@ -122,6 +122,8 @@ jobs:
             >> ${{ env.CHANGELOG_TEMP_GITHUB }}
           
           cp .changelog_temp ${{ env.CHANGELOG_TEMP_PLATFORM }}
+          GH_LINK="For additional information about this release, please check [this GitHub release page](https://github.com/khanshoaib3/minecraft-access/releases/tag/)."
+          printf ${GH_LINK} >> ${{ env.CHANGELOG_TEMP_PLATFORM }}
 
       # Action ref: https://github.com/Kir-Antipov/mc-publish
       - name: Create Github Release
