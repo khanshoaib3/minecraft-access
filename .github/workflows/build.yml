@@ -48,6 +48,12 @@ jobs:
   build:
     # Run build job only if test job is successfully passed
     # ref: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idneeds
+    #
+    # assignment syntax: ${{ condition && return-if-true || return-if-false }}
+    # ref: https://docs.github.com/en/actions/learn-github-actions/expressions#example
+    #
+    # ref='' for default value (HEAD of main branch) of checkout action
+    # ref: https://github.com/actions/checkout
     name: Run Gradle Build and Preserve Build Files
     needs: test
     runs-on: ubuntu-latest
