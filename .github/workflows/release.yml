@@ -19,7 +19,7 @@ on:
       version:
         default: 'latest'
         required: false
-        description: Version to be published (git tag like 'v1.5.2-1.20.4', default to extract from gradle.properties, DO use default value for pre-release the latest version)
+        description: Version to be published (git tag like 'v1.5.2-1.20.4', DO use default value for pre-release the latest version)
         type: string
       note:
         default: ''
