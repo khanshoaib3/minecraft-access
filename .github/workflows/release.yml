@@ -62,7 +62,7 @@ jobs:
     steps:
       # As long as we check out right commit at first,
       # there is no need to modify steps below this checkout step
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.version == 'latest' && '' || inputs.version }}
 
