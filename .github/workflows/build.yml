@@ -57,7 +57,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.version }}
+          ref: ${{ inputs.version == 'latest' && github.ref || inputs.version }}
 
       - name: Fetch Latest Lang Assert
         if: ${{ inputs.version == 'latest' }}
