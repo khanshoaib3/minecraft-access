@@ -24,7 +24,7 @@ jobs:
   # Only run test job if we want to build latest version
   test:
     name: Run Test Suite
-    if: ${{ inputs.version == 'latest' }}
+    if: ${{ !inputs.version || inputs.version == 'latest' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
