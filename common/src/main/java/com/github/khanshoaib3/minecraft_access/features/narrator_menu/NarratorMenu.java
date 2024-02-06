@@ -178,7 +178,7 @@ public class NarratorMenu {
             HitResult hit = getBlockAndFluidHitResult();
             if (hit == null) return;
 
-            if (!PlayerUtils.isInFluid() && checkForFluidHit(minecraftClient, hit, false)) return;
+            if (PlayerUtils.isNotInFluid() && checkForFluidHit(minecraftClient, hit, false)) return;
 
             switch (hit.getType()) {
                 case MISS, ENTITY -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
@@ -219,7 +219,7 @@ public class NarratorMenu {
             HitResult hit = getBlockAndFluidHitResult();
             if (hit == null) return;
 
-            if (!PlayerUtils.isInFluid() && checkForFluidHit(minecraftClient, hit, true)) return;
+            if (PlayerUtils.isNotInFluid() && checkForFluidHit(minecraftClient, hit, true)) return;
 
             switch (hit.getType()) {
                 case MISS, ENTITY -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);

@@ -184,7 +184,7 @@ public class POIBlocks {
         if (markedBlock.test(blockState)) {
             markedBlocks.put(diff, blockVec3dPos);
             soundType = "mark";
-        } else if (this.detectFluidBlocks && block instanceof FluidBlock && !PlayerUtils.isInFluid()) {
+        } else if (this.detectFluidBlocks && block instanceof FluidBlock && PlayerUtils.isNotInFluid()) {
             FluidState fluidState = minecraftClient.world.getFluidState(blockPos);
             if (fluidState.getLevel() == 8) {
                 fluidBlocks.put(diff, blockVec3dPos);

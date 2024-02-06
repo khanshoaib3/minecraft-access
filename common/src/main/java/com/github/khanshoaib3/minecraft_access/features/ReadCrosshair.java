@@ -86,7 +86,7 @@ public class ReadCrosshair {
 
             // Speak fluid if player isn't in fluid and is looking at a fluid block
             BlockHitResult fluidHitResult = PlayerUtils.crosshairFluidTarget(RAY_CAST_DISTANCE);
-            if (HitResult.Type.BLOCK.equals(fluidHitResult.getType()) && !PlayerUtils.isInFluid()) {
+            if (HitResult.Type.BLOCK.equals(fluidHitResult.getType()) && PlayerUtils.isNotInFluid()) {
                 BlockPos fPos = fluidHitResult.getBlockPos();
                 String toSpeak = NarrationUtils.narrateFluidBlock(fPos);
                 String currentQuery = this.speakingConsecutiveBlocks ? toSpeak + fPos : toSpeak;

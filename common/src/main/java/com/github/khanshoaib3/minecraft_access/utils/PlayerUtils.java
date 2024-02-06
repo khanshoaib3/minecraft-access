@@ -115,12 +115,13 @@ public class PlayerUtils {
         return WorldUtils.getClientPlayer().map(p -> (int) (p.experienceProgress * 100)).orElse(-999);
     }
 
-    public static boolean isInFluid() {
+    public static boolean isNotInFluid() {
         ClientPlayerEntity player = WorldUtils.getClientPlayer().orElseThrow();
-        return player.isSwimming()
+        boolean inFluid = player.isSwimming()
                 || player.isSubmergedInWater()
                 || player.isInsideWaterOrBubbleColumn()
                 || player.isInLava();
+        return !inFluid;
     }
 
     /**
