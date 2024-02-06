@@ -5,11 +5,17 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.mob.EndermanEntity;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
 /**
@@ -31,10 +37,59 @@ public class PlayerUtils {
         WorldUtils.getClientPlayer().orElseThrow().lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, position);
     }
 
+    /**
+     * Let player looks at entity even the entity exposes a very small part of its body
+     * TODO untested
+     */
     public static void lookAt(Entity entity) {
-        double aboutEntityHeadHeight = entity.getY() + entity.getHeight() - 0.25;
-        Vec3d aboutEntityHeadPosition = new Vec3d(entity.getX(), aboutEntityHeadHeight, entity.getZ());
-        lookAt(aboutEntityHeadPosition);
+        Vec3d playerEyePos = WorldUtils.getClientPlayer().orElseThrow().getEyePos();
+
+        // Try to look at entity's eyes or Enderman's stomach first.
+        Vec3d firstPos = entity instanceof EndermanEntity ? entity.getBlockPos().toCenterPos() : entity.getEyePos();
+        if (isPlayerCanSee(playerEyePos, firstPos, entity)) {
+            lookAt(firstPos);
+            return;
+        }
+
+        // Then start to find a possible position to target at the entity.
+        // This part of code is copied from Explosion.getExposure()
+        Box box = entity.getBoundingBox();
+        double stepX = 1.0 / ((box.maxX - box.minX) * 2.0 + 1.0);
+        double stepY = 1.0 / ((box.maxY - box.minY) * 2.0 + 1.0);
+        double stepZ = 1.0 / ((box.maxZ - box.minZ) * 2.0 + 1.0);
+        // Don't know how these two lengths are determined
+        double initX = (1.0 - Math.floor(1.0 / stepX) * stepX) / 2.0;
+        double initZ = (1.0 - Math.floor(1.0 / stepZ) * stepZ) / 2.0;
+        if (stepX < 0.0 || stepY < 0.0 || stepZ < 0.0) {
+            lookAt(firstPos);
+            return;
+        }
+
+        for (double i = 0.0; i <= 1.0; i += stepX) {
+            for (double j = 0.0; j <= 1.0; j += stepY) {
+                for (double k = 0.0; k <= 1.0; k += stepZ) {
+                    double px = MathHelper.lerp(i, box.minX, box.maxX);
+                    double py = MathHelper.lerp(j, box.minY, box.maxY);
+                    double pz = MathHelper.lerp(k, box.minZ, box.maxZ);
+                    Vec3d vec3d = new Vec3d(px + initX, py, pz + initZ);
+                    if (isPlayerCanSee(playerEyePos, vec3d, entity)) {
+                        lookAt(vec3d);
+                        return;
+                    }
+                }
+            }
+        }
+
+        // Make sure to look at entity even the player can't see it.
+        lookAt(firstPos);
+    }
+
+    private static boolean isPlayerCanSee(Vec3d playerEyePos, Vec3d somewhereOnEntity, Entity entity) {
+        BlockHitResult hitResult = entity.getWorld().raycast(
+                new RaycastContext(somewhereOnEntity, playerEyePos,
+                        RaycastContext.ShapeType.COLLIDER,
+                        RaycastContext.FluidHandling.NONE, entity));
+        return hitResult.getType() == HitResult.Type.MISS;
     }
 
     @SuppressWarnings("unused")
