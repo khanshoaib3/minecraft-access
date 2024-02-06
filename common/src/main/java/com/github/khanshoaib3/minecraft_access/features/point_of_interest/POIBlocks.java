@@ -135,20 +135,16 @@ public class POIBlocks {
             otherBlocks = new TreeMap<>();
             markedBlocks = new TreeMap<>();
 
-            BlockPos pos = minecraftClient.player.getBlockPos();
-
-            int posX = pos.getX();
-            int posY = pos.getY() - 1;
-            int posZ = pos.getZ();
+            // Player position is where player's leg be
             checkedBlocks = new ArrayList<>();
-
-            log.debug("POIBlock started...");
-
-            checkBlock(new BlockPos(new Vec3i(posX, posY, posZ)), 0);
-            checkBlock(new BlockPos(new Vec3i(posX, posY + 3, posZ)), 0);
-            checkBlock(new BlockPos(new Vec3i(posX, posY + 1, posZ)), this.range);
-            checkBlock(new BlockPos(new Vec3i(posX, posY + 2, posZ)), this.range);
-
+            BlockPos pos = minecraftClient.player.getBlockPos();
+            log.debug("POIBlock started.");
+            // Scan blocks above and below player,
+            // then scan two layers of blocks that are at same height as player.
+            checkBlock(pos.down(), 0);
+            checkBlock(pos.up(2), 0);
+            checkBlock(pos, this.range);
+            checkBlock(pos.up(), this.range);
             log.debug("POIBlock ended.");
 
         } catch (Exception e) {
