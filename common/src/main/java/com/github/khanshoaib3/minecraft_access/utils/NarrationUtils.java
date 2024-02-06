@@ -19,6 +19,7 @@ import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.entity.passive.*;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.Pair;
@@ -232,7 +233,7 @@ public class NarrationUtils {
             // Check if farmland is wet
             if (block instanceof FarmlandBlock && blockState.get(FarmlandBlock.MOISTURE) == FarmlandBlock.MAX_MOISTURE) {
                 toSpeak = I18n.translate("minecraft_access.crop.wet_farmland", toSpeak);
-                currentQuery = I18n.translate("minecraft_access.crop.wet_farmland", currentQuery);
+                currentQuery = "wet" + currentQuery;
             }
 
             // Speak monster spawner mob type
@@ -252,6 +253,11 @@ public class NarrationUtils {
             Pair<String, String> redstoneRelatedInfo = getRedstoneRelatedInfo(clientWorld, blockPos, block, blockState, toSpeak, currentQuery);
             toSpeak = redstoneRelatedInfo.getLeft();
             currentQuery = redstoneRelatedInfo.getRight();
+
+            if (clientWorld.getFluidState(blockPos).isOf(Fluids.WATER)) {
+                toSpeak = I18n.translate("minecraft_access.crop.water_logged", toSpeak);
+                currentQuery = "waterlogged" + currentQuery;
+            }
 
         } catch (Exception e) {
             log.error("An error occurred while adding narration text for special blocks", e);
