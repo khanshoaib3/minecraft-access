@@ -42,13 +42,13 @@ public class PlayerUtils {
 
     /**
      * Let player looks at entity even the entity exposes a very small part of its body
-     * TODO untested
      */
     public static void lookAt(Entity entity) {
         Vec3d playerEyePos = WorldUtils.getClientPlayer().orElseThrow().getEyePos();
 
         // Try to look at entity's eyes or Enderman's stomach first.
-        Vec3d firstPos = entity instanceof EndermanEntity ? entity.getBlockPos().toCenterPos() : entity.getEyePos();
+        boolean targetIsEnderman = entity instanceof EndermanEntity;
+        Vec3d firstPos = targetIsEnderman ? entity.getBlockPos().toCenterPos() : entity.getEyePos();
         if (isPlayerCanSee(playerEyePos, firstPos, entity)) {
             lookAt(firstPos);
             return;
@@ -68,11 +68,14 @@ public class PlayerUtils {
             return;
         }
 
+        // Never look at Enderman's face
+        double maxY = targetIsEnderman ? MathHelper.lerp(0.7, box.minY, box.maxY) / 2 : box.maxY;
+
         for (double i = 0.0; i <= 1.0; i += stepX) {
             for (double j = 0.0; j <= 1.0; j += stepY) {
                 for (double k = 0.0; k <= 1.0; k += stepZ) {
                     double px = MathHelper.lerp(i, box.minX, box.maxX);
-                    double py = MathHelper.lerp(j, box.minY, box.maxY);
+                    double py = MathHelper.lerp(j, box.minY, maxY);
                     double pz = MathHelper.lerp(k, box.minZ, box.maxZ);
                     Vec3d vec3d = new Vec3d(px + initX, py, pz + initZ);
                     if (isPlayerCanSee(playerEyePos, vec3d, entity)) {

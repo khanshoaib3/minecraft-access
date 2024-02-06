@@ -3,11 +3,13 @@ Release v1.5.3 (2024-02)
 
 ### Feature Changes
 
-* Now the Read Crosshair will only play the position sound cue once when player looks at different sides of same block.
+* Now the Read Crosshair feature will only play the position sound cue once when player looks at different sides of same block.
+* When locking on an entity, POI Locking feature will always try to target at a valid position that you can interact with, instead of previous "always targeting on head" behavior.
+* Now POI Locking feature will never let you make eye contact with an [Enderman](https://minecraft.wiki/w/Enderman).
 
 ### Bug Fixes
 
-* Fix the bug that looking at fluid will make Read Crosshair spam [#262](https://github.com/khanshoaib3/minecraft_access/issues/262)
+* Fix the bug that looking at fluid will make Read Crosshair spam. [#262](https://github.com/khanshoaib3/minecraft_access/issues/262)
 
 Release v1.5.2 (2024-01)
 ---------------------------
