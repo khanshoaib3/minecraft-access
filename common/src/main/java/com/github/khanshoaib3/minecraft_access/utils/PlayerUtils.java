@@ -1,22 +1,25 @@
 package com.github.khanshoaib3.minecraft_access.utils;
 
 import com.github.khanshoaib3.minecraft_access.features.point_of_interest.BlockPos3d;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.EndermanEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+
+import java.util.Objects;
 
 /**
  * This class provides delegate calls to {@link ClientPlayerEntity}.
@@ -118,5 +121,30 @@ public class PlayerUtils {
                 || player.isSubmergedInWater()
                 || player.isInsideWaterOrBubbleColumn()
                 || player.isInLava();
+    }
+
+    /**
+     * The value of MinecraftClient.crosshairTarget field is ray cast result that not including the fluid blocks.
+     * So use this method to get what fluid the player might be looking at.
+     */
+    public static BlockHitResult crosshairFluidTarget(double rayCastDistance) {
+        Entity camera = Objects.requireNonNull(MinecraftClient.getInstance().getCameraEntity());
+        HitResult hit = camera.raycast(rayCastDistance, 0.0F, true);
+        // Whatever the inner values are, they are not used.
+        BlockHitResult missed = BlockHitResult.createMissed(Vec3d.ZERO, Direction.UP, BlockPos.ORIGIN);
+
+        if (!HitResult.Type.BLOCK.equals(hit.getType())) return missed;
+
+        BlockPos blockPos = ((BlockHitResult) hit).getBlockPos();
+        ClientWorld world = WorldUtils.getClientWorld().orElseThrow();
+
+        BlockState blockState = world.getBlockState(blockPos);
+        boolean thisBlockIsFluidBlock = blockState.isOf(Blocks.WATER) || blockState.isOf(Blocks.LAVA);
+        if (!thisBlockIsFluidBlock) return missed;
+
+        FluidState fluidState = world.getFluidState(blockPos);
+        if (fluidState.isEmpty()) return missed;
+
+        return (BlockHitResult) hit;
     }
 }

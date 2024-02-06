@@ -1,3 +1,10 @@
+Release v1.5.3 (2024-02)
+---------------------------
+
+### Bug Fixes
+
+* Fix the bug that looking at fluid will make Read Crosshair spam [#262](https://github.com/khanshoaib3/minecraft_access/issues/262)
+
 Release v1.5.2 (2024-01)
 ---------------------------
 

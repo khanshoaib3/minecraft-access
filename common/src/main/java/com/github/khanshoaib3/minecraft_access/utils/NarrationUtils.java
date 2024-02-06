@@ -17,6 +17,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.entity.passive.*;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
@@ -469,5 +472,27 @@ public class NarrationUtils {
         } else {
             return "minecraft_access.crop.half_ripe";
         }
+    }
+
+    /**
+     * @param pos fluid position (in the client world)
+     * @return (toSpeak, currentQuery):
+     * "toSpeak" is the actual one to be spoken through Narrator,
+     * "currentQuery" is kind of shortened "toSpeak" that is used for checking if target is changed compared to previous.
+     */
+    public static String narrateFluidBlock(BlockPos pos) {
+        FluidState fluidState = WorldUtils.getClientWorld().orElseThrow().getFluidState(pos);
+        String name = getFluidI18NName(fluidState.getRegistryEntry());
+        int level = fluidState.getLevel();
+        String levelString = level < 8 ? I18n.translate("minecraft_access.read_crosshair.fluid_level", level) : "";
+        return name + " " + levelString;
+    }
+
+    private static String getFluidI18NName(RegistryEntry<Fluid> fluid) {
+        String translationKey = fluid.getKeyOrValue().map(
+                (fluidKey) -> "block." + fluidKey.getValue().getNamespace() + "." + fluidKey.getValue().getPath(),
+                (fluidValue) -> "[unregistered " + fluidValue + "]"
+        );
+        return I18n.translate(translationKey);
     }
 }

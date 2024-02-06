@@ -4,7 +4,6 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.ConfigMenu;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import com.github.khanshoaib3.minecraft_access.features.BiomeIndicator;
-import com.github.khanshoaib3.minecraft_access.features.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
@@ -20,7 +19,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.hit.BlockHitResult;
@@ -247,25 +245,12 @@ public class NarratorMenu {
 
         if (fluidHit.getType() == HitResult.Type.BLOCK) {
             BlockPos blockPos = ((BlockHitResult) fluidHit).getBlockPos();
-            FluidState fluidState = minecraftClient.world.getFluidState(blockPos);
-
-            String name = ReadCrosshair.getFluidName(fluidState.getRegistryEntry());
-            if (name.equals("block.minecraft.empty")) return false;
-            if (name.contains("block.minecraft."))
-                name = name.replace("block.minecraft.", ""); // Remove `block.minecraft.` for unsupported languages
-
             if (onlyPosition) {
                 MainClass.speakWithNarrator(NarrationUtils.narrateCoordinatesOf(blockPos), true);
                 return true;
             }
 
-            int level = fluidState.getLevel();
-            String levelString = "";
-            if (level < 8) levelString = I18n.translate("minecraft_access.read_crosshair.fluid_level", level);
-
-            String toSpeak = name + levelString + ", " + NarrationUtils.narrateRelativePositionOfPlayerAnd(blockPos);
-
-            MainClass.speakWithNarrator(toSpeak, true);
+            MainClass.speakWithNarrator(NarrationUtils.narrateFluidBlock(blockPos), true);
             return true;
         }
         return false;

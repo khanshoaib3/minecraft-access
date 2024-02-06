@@ -13,10 +13,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
@@ -84,20 +81,20 @@ public class ReadCrosshair {
             loadConfigurations();
             if (!enabled) return;
 
-            Entity entity = minecraftClient.getCameraEntity();
-            if (entity == null) return;
+            HitResult hit = minecraftClient.crosshairTarget;
+            if (hit == null) return;
 
-            HitResult blockHit = minecraftClient.crosshairTarget;
-            HitResult fluidHit = entity.raycast(RAY_CAST_DISTANCE, 0.0F, true);
+            // Speak fluid if player isn't in fluid and is looking at a fluid block
+            BlockHitResult fluidHitResult = PlayerUtils.crosshairFluidTarget(RAY_CAST_DISTANCE);
+            if (HitResult.Type.BLOCK.equals(fluidHitResult.getType()) && !PlayerUtils.isInFluid()) {
+                BlockPos fPos = fluidHitResult.getBlockPos();
+                String toSpeak = NarrationUtils.narrateFluidBlock(fPos);
+                String currentQuery = this.speakingConsecutiveBlocks ? toSpeak + fPos : toSpeak;
+                speakIfFocusChanged(currentQuery, toSpeak, Vec3d.of(fPos));
+            } else {
+                checkForBlockAndEntityHit(hit);
+            }
 
-            if (blockHit == null) return;
-
-            boolean playerIsInFluid = PlayerUtils.isInFluid();
-            boolean playerLooksAtFluid = checkForFluidHit(minecraftClient, fluidHit);
-
-            if (playerIsInFluid && playerLooksAtFluid) return;
-
-            checkForBlockAndEntityHit(blockHit);
         } catch (Exception e) {
             log.error("Error occurred in read block feature.", e);
         }
@@ -210,57 +207,6 @@ public class ReadCrosshair {
         if (this.speakingConsecutiveBlocks) currentQuery += " " + blockPosInString;
 
         speakIfFocusChanged(currentQuery, toSpeakAndCurrentQuery.getLeft(), Vec3d.of(blockPos));
-    }
-
-    private boolean checkForFluidHit(MinecraftClient minecraftClient, HitResult fluidHit) {
-        if (minecraftClient == null) return false;
-        if (minecraftClient.world == null) return false;
-        if (minecraftClient.currentScreen != null) return false;
-
-        if (fluidHit.getType() == HitResult.Type.BLOCK) {
-            BlockPos blockPos = ((BlockHitResult) fluidHit).getBlockPos();
-            FluidState fluidState = minecraftClient.world.getFluidState(blockPos);
-
-            String name = getFluidName(fluidState.getRegistryEntry());
-            if (name.equals("block.minecraft.empty")) return false;
-            if (name.contains("block.minecraft."))
-                name = name.replace("block.minecraft.", ""); // Remove `block.minecraft.` for unsupported languages
-
-            String currentQuery = name + blockPos;
-
-            int level = fluidState.getLevel();
-            String levelString = "";
-            if (level < 8) levelString = I18n.translate("minecraft_access.read_crosshair.fluid_level", level);
-
-            String toSpeak = name + levelString;
-
-            speakIfFocusChanged(currentQuery, toSpeak, Vec3d.of(blockPos));
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Gets the fluid name from registry entry
-     *
-     * @param fluid the fluid's registry entry
-     * @return the fluid's name
-     */
-    public static String getFluidName(RegistryEntry<Fluid> fluid) {
-        return I18n.translate(getFluidTranslationKey(fluid));
-    }
-
-    /**
-     * Gets the fluid translation key from registry entry
-     *
-     * @param fluid the fluid's registry entry
-     * @return the fluid's translation key
-     */
-    private static String getFluidTranslationKey(RegistryEntry<Fluid> fluid) {
-        return fluid.getKeyOrValue().map(
-                (fluidKey) -> "block." + fluidKey.getValue().getNamespace() + "." + fluidKey.getValue().getPath(),
-                (fluidValue) -> "[unregistered " + fluidValue + "]" // For unregistered fluid
-        );
     }
 
     private boolean checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(Identifier id) {
