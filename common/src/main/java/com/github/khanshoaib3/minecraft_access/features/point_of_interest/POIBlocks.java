@@ -84,7 +84,7 @@ public class POIBlocks {
     private TreeMap<Double, Vec3d> otherBlocks = new TreeMap<>();
     private TreeMap<Double, Vec3d> markedBlocks = new TreeMap<>();
 
-    private List<Vec3d> checkedBlocks = new ArrayList<>();
+    private Set<BlockPos> checkedBlocks = Set.of();
     private boolean enabled;
     private boolean detectFluidBlocks;
     private int range;
@@ -136,7 +136,7 @@ public class POIBlocks {
             markedBlocks = new TreeMap<>();
 
             // Player position is where player's leg be
-            checkedBlocks = new ArrayList<>();
+            checkedBlocks = new HashSet<>();
             BlockPos pos = minecraftClient.player.getBlockPos();
             log.debug("POIBlock started.");
             // Scan blocks above and below player,
@@ -175,8 +175,8 @@ public class POIBlocks {
         double posX = blockPos.getX(), posY = blockPos.getY(), posZ = blockPos.getZ();
         Vec3d blockVec3dPos = Vec3d.ofCenter(blockPos);
 
-        if (checkedBlocks.contains(blockVec3dPos)) return;
-        checkedBlocks.add(blockVec3dPos);
+        if (checkedBlocks.contains(blockPos)) return;
+        checkedBlocks.add(blockPos);
 
         double diff = playerVec3dPos.distanceTo(blockVec3dPos);
         String soundType = "";
