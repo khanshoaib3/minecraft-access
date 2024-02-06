@@ -37,7 +37,8 @@ public class ReadCrosshair {
     private static final double RAY_CAST_DISTANCE = 6.0;
     private static ReadCrosshair instance;
     private boolean enabled;
-    private String previousQuery;
+    private String previousQuery = "";
+    private Vec3d previousSoundPos = Vec3d.ZERO;
     private boolean speakSide;
     private boolean speakingConsecutiveBlocks;
     private Interval repeatSpeakingInterval;
@@ -52,7 +53,6 @@ public class ReadCrosshair {
     private double maxSoundVolume;
 
     private ReadCrosshair() {
-        previousQuery = "";
         loadConfigurations();
     }
 
@@ -160,9 +160,10 @@ public class ReadCrosshair {
     private void speakIfFocusChanged(String currentQuery, String toSpeak, Vec3d targetPosition) {
         boolean focusChanged = !getPreviousQuery().equalsIgnoreCase(currentQuery);
         if (focusChanged) {
-            if (this.enableRelativePositionSoundCue) {
+            if (this.enableRelativePositionSoundCue && !this.previousSoundPos.equals(targetPosition)) {
                 WorldUtils.playRelativePositionSoundCue(targetPosition, RAY_CAST_DISTANCE,
                         SoundEvents.BLOCK_NOTE_BLOCK_HARP, this.minSoundVolume, this.maxSoundVolume);
+                this.previousSoundPos = targetPosition;
             }
             this.previousQuery = currentQuery;
             MainClass.speakWithNarrator(toSpeak, true);

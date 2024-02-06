@@ -1,6 +1,10 @@
 Release v1.5.3 (2024-02)
 ---------------------------
 
+### Feature Changes
+
+* Now the Read Crosshair will only play the position sound cue once when player looks at different sides of same block.
+
 ### Bug Fixes
 
 * Fix the bug that looking at fluid will make Read Crosshair spam [#262](https://github.com/khanshoaib3/minecraft_access/issues/262)
