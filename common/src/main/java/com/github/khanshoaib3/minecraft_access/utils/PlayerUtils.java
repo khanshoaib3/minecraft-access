@@ -127,8 +127,20 @@ public class PlayerUtils {
     /**
      * The value of MinecraftClient.crosshairTarget field is ray cast result that not including the fluid blocks.
      * So use this method to get what fluid the player might be looking at.
+     *
+     * @return fluid block if player isn't in fluid and is looking at a fluid block,
+     * or MinecraftClient.crosshairTarget otherwise
      */
-    public static BlockHitResult crosshairFluidTarget(double rayCastDistance) {
+    public static HitResult crosshairTarget(double rayCastDistance) {
+        BlockHitResult fluidHitResult = crosshairFluidTarget(rayCastDistance);
+        if (HitResult.Type.BLOCK.equals(fluidHitResult.getType()) && PlayerUtils.isNotInFluid()) {
+            return fluidHitResult;
+        } else {
+            return MinecraftClient.getInstance().crosshairTarget;
+        }
+    }
+
+    private static BlockHitResult crosshairFluidTarget(double rayCastDistance) {
         Entity camera = Objects.requireNonNull(MinecraftClient.getInstance().getCameraEntity());
         HitResult hit = camera.raycast(rayCastDistance, 0.0F, true);
         // Whatever the inner values are, they are not used.

@@ -81,19 +81,9 @@ public class ReadCrosshair {
             loadConfigurations();
             if (!enabled) return;
 
-            HitResult hit = minecraftClient.crosshairTarget;
+            HitResult hit = PlayerUtils.crosshairTarget(RAY_CAST_DISTANCE);
             if (hit == null) return;
-
-            // Speak fluid if player isn't in fluid and is looking at a fluid block
-            BlockHitResult fluidHitResult = PlayerUtils.crosshairFluidTarget(RAY_CAST_DISTANCE);
-            if (HitResult.Type.BLOCK.equals(fluidHitResult.getType()) && PlayerUtils.isNotInFluid()) {
-                BlockPos fPos = fluidHitResult.getBlockPos();
-                String toSpeak = NarrationUtils.narrateFluidBlock(fPos);
-                String currentQuery = this.speakingConsecutiveBlocks ? toSpeak + fPos : toSpeak;
-                speakIfFocusChanged(currentQuery, toSpeak, Vec3d.of(fPos));
-            } else {
-                checkForBlockAndEntityHit(hit);
-            }
+            checkForBlockAndEntityHit(hit);
 
         } catch (Exception e) {
             log.error("Error occurred in read block feature.", e);

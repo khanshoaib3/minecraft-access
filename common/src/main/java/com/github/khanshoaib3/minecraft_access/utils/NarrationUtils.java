@@ -207,6 +207,11 @@ public class NarrationUtils {
 
         // Different special narration (toSpeak) about different type of blocks
         try {
+            if (blockState.isOf(Blocks.WATER) || blockState.isOf(Blocks.LAVA)) {
+                toSpeak = NarrationUtils.narrateFluidBlock(blockPos);
+                return new Pair<>(toSpeak, toSpeak);
+            }
+
             if (blockEntity != null) {
                 // The all signs tag include all types of signs, so it should also work with the hanging signs in 1.20.x
                 if (blockState.isIn(BlockTags.ALL_SIGNS)) {
@@ -480,7 +485,7 @@ public class NarrationUtils {
      * "toSpeak" is the actual one to be spoken through Narrator,
      * "currentQuery" is kind of shortened "toSpeak" that is used for checking if target is changed compared to previous.
      */
-    public static String narrateFluidBlock(BlockPos pos) {
+    private static String narrateFluidBlock(BlockPos pos) {
         FluidState fluidState = WorldUtils.getClientWorld().orElseThrow().getFluidState(pos);
         String name = getFluidI18NName(fluidState.getRegistryEntry());
         int level = fluidState.getLevel();
