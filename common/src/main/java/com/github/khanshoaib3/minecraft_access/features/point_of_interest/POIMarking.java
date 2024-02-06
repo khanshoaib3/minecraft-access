@@ -23,7 +23,9 @@ public class POIMarking {
     private static final POIBlocks poiBlocks;
     private static final POIEntities poiEntities;
     private static final LockingHandler lockingHandler;
-    private static boolean onMarking = false;
+    private boolean onMarking = false;
+    private Entity markedEntity = null;
+    private Block markedBlock = null;
 
     static {
         instance = new POIMarking();
@@ -54,8 +56,8 @@ public class POIMarking {
         }
 
         // Trigger other POI features
-        poiBlocks.update(onMarking);
-        poiEntities.update(onMarking);
+        poiBlocks.update(onMarking, markedBlock);
+        poiEntities.update(onMarking, markedEntity);
         // Locking Handler (POI Locking) should be after POI Scan features
         lockingHandler.update(onMarking);
     }
@@ -76,15 +78,14 @@ public class POIMarking {
                 ClientWorld world = client.world;
                 if (world == null) return;
                 BlockPos pos = ((BlockHitResult) hit).getBlockPos();
-                Block b = world.getBlockState(pos).getBlock();
-                poiBlocks.setMarkedBlock(b);
+                markedBlock = world.getBlockState(pos).getBlock();
 
                 String name = NarrationUtils.narrateBlock(pos, "");
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.marking.marked", name), true);
             }
             case ENTITY -> {
                 Entity e = ((EntityHitResult) hit).getEntity();
-                poiEntities.setMarkedEntity(e);
+                markedEntity = e;
 
                 String name = NarrationUtils.narrateEntity(e);
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.marking.marked", name), true);
@@ -97,8 +98,8 @@ public class POIMarking {
     private void unmark() {
         if (!onMarking) return;
         onMarking = false;
-        poiEntities.setMarkedEntity(null);
-        poiBlocks.setMarkedBlock(null);
+        markedEntity = null;
+        markedBlock = null;
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.marking.unmarked"), true);
     }
 }

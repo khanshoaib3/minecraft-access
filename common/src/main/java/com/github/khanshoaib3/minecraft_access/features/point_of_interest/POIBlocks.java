@@ -111,9 +111,10 @@ public class POIBlocks {
         loadConfigurations();
     }
 
-    public void update(boolean onMarking) {
+    public void update(boolean onMarking, Block markedBlock) {
         try {
             this.onPOIMarkingNow = onMarking;
+            if (onPOIMarkingNow) setMarkedBlock(markedBlock);
             loadConfigurations();
 
             if (!this.enabled) return;

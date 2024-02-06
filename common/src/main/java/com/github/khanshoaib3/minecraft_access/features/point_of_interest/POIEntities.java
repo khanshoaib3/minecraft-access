@@ -68,8 +68,9 @@ public class POIEntities {
         loadConfigurations();
     }
 
-    public void update(boolean onMarking) {
+    public void update(boolean onMarking, Entity markedEntity) {
         this.onPOIMarkingNow = onMarking;
+        if (onPOIMarkingNow) setMarkedEntity(markedEntity);
         loadConfigurations();
 
         if (!enabled) return;
@@ -100,7 +101,7 @@ public class POIEntities {
 
                 BlockPos blockPos = i.getBlockPos();
 
-                if (markedEntity.test(i)) {
+                if (this.markedEntity.test(i)) {
                     markedEntities.put(distance, i);
                     if (i instanceof HostileEntity) {
                         this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 2f);
