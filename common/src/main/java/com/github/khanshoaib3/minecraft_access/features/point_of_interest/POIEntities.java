@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIEntitiesConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
+import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
@@ -13,7 +14,6 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -104,9 +104,9 @@ public class POIEntities {
                 if (this.markedEntity.test(i)) {
                     markedEntities.put(distance, i);
                     if (i instanceof HostileEntity) {
-                        this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 2f);
+                        this.playSoundAtBlockPos(blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 2f);
                     } else {
-                        this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
+                        this.playSoundAtBlockPos(blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
                     }
                 }
 
@@ -117,18 +117,18 @@ public class POIEntities {
 
                 if (i instanceof PassiveEntity) {
                     passiveEntity.put(distance, i);
-                    this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
+                    this.playSoundAtBlockPos(blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
                 } else if (i instanceof HostileEntity) {
                     hostileEntity.put(distance, i);
-                    this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 2f);
+                    this.playSoundAtBlockPos(blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 2f);
                 } else if (i instanceof WaterCreatureEntity) {
                     passiveEntity.put(distance, i);
-                    this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
+                    this.playSoundAtBlockPos(blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
                 } else if (i instanceof ItemEntity itemEntity && itemEntity.isOnGround()) {
-                    this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON, 2f);
+                    this.playSoundAtBlockPos(blockPos, SoundEvents.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON, 2f);
                 } else if (i instanceof PlayerEntity) {
                     passiveEntity.put(distance, i);
-                    this.playSoundAtBlockPos(minecraftClient, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
+                    this.playSoundAtBlockPos(blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
                 }
             }
             log.debug("POIEntities end.");
@@ -138,13 +138,10 @@ public class POIEntities {
         }
     }
 
-    private void playSoundAtBlockPos(MinecraftClient minecraftClient, BlockPos blockPos, SoundEvent soundEvent, float pitch) {
-        if (minecraftClient.player == null) return;
-        if (minecraftClient.world == null) return;
-        if (!playSound || !(volume > 0f)) return;
-
-        log.debug("{POIEntity} Playing sound at x:%d y:%d z%d".formatted(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
-        minecraftClient.world.playSound(minecraftClient.player, blockPos, soundEvent, SoundCategory.BLOCKS, volume, pitch);
+    private void playSoundAtBlockPos(BlockPos blockPos, SoundEvent soundEvent, float pitch) {
+        if (!playSound || volume == 0f) return;
+        log.debug("Play sound at [x:%d y:%d z%d]".formatted(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
+        WorldUtils.playSoundAtPosition(soundEvent, volume, pitch, blockPos.toCenterPos());
     }
 
     /**

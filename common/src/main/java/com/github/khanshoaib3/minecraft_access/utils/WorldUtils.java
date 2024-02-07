@@ -74,7 +74,11 @@ public class WorldUtils {
     }
 
     public static void playSoundAtPosition(RegistryEntry.Reference<SoundEvent> sound, float volume, float pitch, Vec3d position) {
+        playSoundAtPosition(sound.value(), volume, pitch, position);
+    }
+
+    public static void playSoundAtPosition(SoundEvent sound, float volume, float pitch, Vec3d position) {
         // note that the useDistance param only works for positions 100 blocks away, check its code.
-        getClientWorld().playSound(position.x, position.y, position.z, sound.value(), SoundCategory.BLOCKS, volume, pitch, true);
+        getClientWorld().playSound(position.x, position.y, position.z, sound, SoundCategory.BLOCKS, volume, pitch, true);
     }
 }
