@@ -186,8 +186,7 @@ public class POIBlocks {
         }
 
         String soundType = checkAndPutIntoMap(blockPos, blockState);
-        boolean playSound = this.playSound && !soundType.isEmpty() && this.volume != 0;
-        if (playSound) playSoundAtBlock(blockPos, soundType);
+        playSoundAtBlock(blockPos, soundType);
     }
 
     private String checkAndPutIntoMap(BlockPos blockPos, BlockState blockState) {
@@ -246,6 +245,9 @@ public class POIBlocks {
     }
 
     private void playSoundAtBlock(BlockPos blockPos, String soundType) {
+        boolean playSound = this.playSound && !soundType.isEmpty() && this.volume != 0;
+        if (!playSound) return;
+
         String coordinates = NarrationUtils.narrateCoordinatesOf(blockPos);
 
         if (soundType.equalsIgnoreCase("mark")) {
