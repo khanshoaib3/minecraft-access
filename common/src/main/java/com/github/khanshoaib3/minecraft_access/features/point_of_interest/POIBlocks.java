@@ -235,34 +235,38 @@ public class POIBlocks {
             soundType = "blocksWithInterface";
         }
 
-        if (this.playSound && this.volume > 0 && !soundType.isEmpty()) {
-            String coordinates = NarrationUtils.narrateCoordinatesOf(blockPos);
+        boolean playSound = this.playSound && !soundType.isEmpty() && this.volume != 0;
+        if (playSound) playSoundAtBlock(blockPos, soundType);
+    }
 
-            if (soundType.equalsIgnoreCase("mark")) {
-                log.debug("{POIBlocks} Playing sound at " + coordinates);
-                minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.ENTITY_ITEM_PICKUP,
-                        SoundCategory.BLOCKS, volume, -5f);
-            }
+    private void playSoundAtBlock(BlockPos blockPos, String soundType) {
+        if (minecraftClient.world == null) return;
+        String coordinates = NarrationUtils.narrateCoordinatesOf(blockPos);
 
-            if (onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
-                if (!soundType.equalsIgnoreCase("mark")) {
-                    log.debug("{POIBlocks} Suppress sound at " + coordinates);
-                }
-                return;
-            }
-
+        if (soundType.equalsIgnoreCase("mark")) {
             log.debug("{POIBlocks} Playing sound at " + coordinates);
-
-            if (soundType.equalsIgnoreCase("ore"))
-                minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.ENTITY_ITEM_PICKUP,
-                        SoundCategory.BLOCKS, volume, -5f);
-            else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocks"))
-                minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(),
-                        SoundCategory.BLOCKS, volume, 2f);
-            else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocksWithInterface"))
-                minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(),
-                        SoundCategory.BLOCKS, volume, 0f);
+            minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.ENTITY_ITEM_PICKUP,
+                    SoundCategory.BLOCKS, volume, -5f);
         }
+
+        if (onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+            if (!soundType.equalsIgnoreCase("mark")) {
+                log.debug("{POIBlocks} Suppress sound at " + coordinates);
+            }
+            return;
+        }
+
+        log.debug("{POIBlocks} Playing sound at " + coordinates);
+
+        if (soundType.equalsIgnoreCase("ore"))
+            minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.ENTITY_ITEM_PICKUP,
+                    SoundCategory.BLOCKS, volume, -5f);
+        else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocks"))
+            minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(),
+                    SoundCategory.BLOCKS, volume, 2f);
+        else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocksWithInterface"))
+            minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(),
+                    SoundCategory.BLOCKS, volume, 0f);
     }
 
     private void setMarkedBlock(Block block) {
