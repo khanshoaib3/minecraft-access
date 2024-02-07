@@ -14,6 +14,9 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.vehicle.BoatEntity;
+import net.minecraft.entity.vehicle.MinecartEntity;
+import net.minecraft.entity.vehicle.VehicleEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -38,13 +41,16 @@ public class POIEntities {
             // For notifying dropped items
             e -> e instanceof ItemEntity,
             // For auto-locking eye of ender
-            e -> e instanceof EyeOfEnderEntity
+            e -> e instanceof EyeOfEnderEntity,
+            // boat + mine cart
+            e -> e instanceof VehicleEntity
     );
     private static final Predicate<Entity> IS_INTERESTED_ENTITY_TYPE = INTERESTED_ENTITY_TYPES.stream().reduce(Predicate::or).get();
 
     private TreeMap<Double, Entity> passiveEntity = new TreeMap<>();
     private TreeMap<Double, Entity> hostileEntity = new TreeMap<>();
     private TreeMap<Double, Entity> markedEntities = new TreeMap<>();
+    private TreeMap<Double, Entity> vehicleEntities = new TreeMap<>();
 
     private int range;
     private boolean playSound;
@@ -87,6 +93,7 @@ public class POIEntities {
             passiveEntity = new TreeMap<>();
             hostileEntity = new TreeMap<>();
             markedEntities = new TreeMap<>();
+            vehicleEntities = new TreeMap<>();
 
             log.debug("POIEntities started...");
 
@@ -129,6 +136,15 @@ public class POIEntities {
                 } else if (i instanceof PlayerEntity) {
                     passiveEntity.put(distance, i);
                     this.playSoundAtBlockPos(blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
+                } else if (i instanceof VehicleEntity) {
+                    vehicleEntities.put(distance, i);
+                    if (i instanceof MinecartEntity) {
+                        this.playSoundAtBlockPos(blockPos, SoundEvents.ENTITY_MINECART_RIDING, 2f);
+                    } else if (i instanceof BoatEntity) {
+                        this.playSoundAtBlockPos(blockPos, SoundEvents.ENTITY_BOAT_PADDLE_LAND, 2f);
+                    } else {
+                        this.playSoundAtBlockPos(blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
+                    }
                 }
             }
             log.debug("POIEntities end.");
@@ -170,6 +186,6 @@ public class POIEntities {
         boolean suppressLockingOnNonMarkedThings = onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled();
         return suppressLockingOnNonMarkedThings ?
                 List.of(markedEntities) :
-                List.of(markedEntities, hostileEntity, passiveEntity);
+                List.of(markedEntities, hostileEntity, passiveEntity, vehicleEntities);
     }
 }

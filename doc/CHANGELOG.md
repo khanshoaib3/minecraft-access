@@ -6,6 +6,7 @@ Release v1.5.3 (2024-02)
 * Now the Read Crosshair feature will only play the position sound cue once when player looks at different sides of same block.
 * When locking on an entity, POI Locking feature will always try to target at a valid position that you can interact with, instead of previous "always targeting on head" behavior.
 * Now POI Locking feature will never let you make eye contact with an [Enderman](https://minecraft.wiki/w/Enderman).
+* Boats and mine carts can be scanned and locked with POI feature now. [#157](https://github.com/khanshoaib3/minecraft_access/issues/157)
 
 ### Bug Fixes
 
