@@ -183,6 +183,8 @@ public class POIBlocks {
             checkBlock(blockPos.east(), vSubOne);
             checkBlock(blockPos.up(), vSubOne);
             checkBlock(blockPos.down(), vSubOne);
+            // Air block is not a valid POI block, so return early
+            return;
         }
 
         String soundType = checkAndPutIntoMap(blockPos, blockState);
