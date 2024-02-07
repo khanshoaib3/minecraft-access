@@ -68,7 +68,8 @@ public class POIBlocks {
             Blocks.DEEPSLATE_LAPIS_ORE,
             Blocks.REDSTONE_ORE,
             Blocks.DEEPSLATE_REDSTONE_ORE,
-            Blocks.NETHER_QUARTZ_ORE
+            Blocks.NETHER_QUARTZ_ORE,
+            Blocks.ANCIENT_DEBRIS
     };
 
     private static final List<Predicate<BlockState>> oreBlockPredicates = Arrays.stream(ORE_BLOCKS)
