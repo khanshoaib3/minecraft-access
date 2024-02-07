@@ -2,19 +2,18 @@ package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIBlocksConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
+import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.google.common.collect.ImmutableSet;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -184,27 +183,22 @@ public class POIBlocks {
             checkBlock(blockPos.down(), vSubOne);
         }
 
-        Block block = blockState.getBlock();
-
-        Vec3d playerVec3dPos = minecraftClient.player.getEyePos(); // post 1.17
-//        Vec3d playerVec3dPos = (new Vec3d(client.player.getX(), client.player.getEyeY(), client.player.getZ())); // pre 1.17
-        double posX = blockPos.getX(), posY = blockPos.getY(), posZ = blockPos.getZ();
-        Vec3d blockVec3dPos = Vec3d.ofCenter(blockPos);
-
-        double diff = playerVec3dPos.distanceTo(blockVec3dPos);
         String soundType = "";
+        Block block = blockState.getBlock();
+        Vec3d blockVec3dPos = blockPos.toCenterPos();
+        Vec3d playerEyePos = minecraftClient.player.getEyePos(); // post 1.17
+//        Vec3d playerVec3dPos = (new Vec3d(client.player.getX(), client.player.getEyeY(), client.player.getZ())); // pre 1.17
+
+        double diff = playerEyePos.distanceTo(blockVec3dPos);
 
         if (markedBlock.test(blockState)) {
             markedBlocks.put(diff, blockVec3dPos);
             soundType = "mark";
         } else if (this.detectFluidBlocks && block instanceof FluidBlock && PlayerUtils.isNotInFluid()) {
-            FluidState fluidState = minecraftClient.world.getFluidState(blockPos);
-            if (fluidState.getLevel() == 8) {
+            if (minecraftClient.world.getFluidState(blockPos).getLevel() == 8) {
                 fluidBlocks.put(diff, blockVec3dPos);
                 soundType = "blocks";
             }
-
-//            MainClass.speakWithNarrator(I18n.translate("narrate.apextended.poiblock.warn"), true);
         } else if (oreBlockPredicates.stream().anyMatch($ -> $.test(blockState))) {
             oreBlocks.put(diff, blockVec3dPos);
             soundType = "ore";
@@ -242,32 +236,32 @@ public class POIBlocks {
         }
 
         if (this.playSound && this.volume > 0 && !soundType.isEmpty()) {
+            String coordinates = NarrationUtils.narrateCoordinatesOf(blockPos);
 
             if (soundType.equalsIgnoreCase("mark")) {
-                log.debug("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
-                minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.ENTITY_ITEM_PICKUP,
+                log.debug("{POIBlocks} Playing sound at " + coordinates);
+                minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.ENTITY_ITEM_PICKUP,
                         SoundCategory.BLOCKS, volume, -5f);
             }
 
             if (onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
                 if (!soundType.equalsIgnoreCase("mark")) {
-                    log.debug("{POIBlocks} Suppress sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+                    log.debug("{POIBlocks} Suppress sound at " + coordinates);
                 }
                 return;
             }
 
-            log.debug("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
+            log.debug("{POIBlocks} Playing sound at " + coordinates);
 
             if (soundType.equalsIgnoreCase("ore"))
-                minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.ENTITY_ITEM_PICKUP,
+                minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.ENTITY_ITEM_PICKUP,
                         SoundCategory.BLOCKS, volume, -5f);
             else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocks"))
-                minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(),
+                minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(),
                         SoundCategory.BLOCKS, volume, 2f);
             else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocksWithInterface"))
-                minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(),
+                minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(),
                         SoundCategory.BLOCKS, volume, 0f);
-
         }
     }
 
