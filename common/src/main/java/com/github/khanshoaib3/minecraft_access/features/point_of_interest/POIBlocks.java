@@ -9,6 +9,8 @@ import com.google.common.collect.ImmutableSet;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Property;
@@ -24,7 +26,8 @@ import java.util.function.Predicate;
 @Slf4j
 public class POIBlocks {
     private static final POIBlocks instance;
-    private MinecraftClient minecraftClient;
+    private ClientPlayerEntity player;
+    private ClientWorld world;
 
     private static final Block[] POI_BLOCKS = new Block[]{
             Blocks.PISTON,
@@ -119,10 +122,12 @@ public class POIBlocks {
             if (!this.enabled) return;
             if (interval != null && !interval.isReady()) return;
 
-            minecraftClient = MinecraftClient.getInstance();
-            if (minecraftClient == null) return;
-            if (minecraftClient.player == null) return;
-            if (minecraftClient.currentScreen != null) return; //Prevent running if any screen is opened
+            MinecraftClient client = MinecraftClient.getInstance();
+            if (client == null) return;
+            if (client.player == null) return;
+            if (client.currentScreen != null) return; //Prevent running if any screen is opened
+            this.player = client.player;
+            this.world = client.world;
 
             oreBlocks = new TreeMap<>();
             doorBlocks = new TreeMap<>();
@@ -136,7 +141,7 @@ public class POIBlocks {
 
             // Player position is where player's leg be
             checkedBlocks = new HashSet<>();
-            BlockPos pos = minecraftClient.player.getBlockPos();
+            BlockPos pos = this.player.getBlockPos();
             log.debug("POIBlock started.");
             // Scan blocks exposed in the space around player
             checkBlock(pos.down(), 0);
@@ -165,10 +170,7 @@ public class POIBlocks {
         if (checkedBlocks.contains(blockPos)) return;
         checkedBlocks.add(blockPos);
 
-        if (minecraftClient.player == null) return;
-        if (minecraftClient.world == null) return;
-
-        BlockState blockState = minecraftClient.world.getBlockState(blockPos);
+        BlockState blockState = this.world.getBlockState(blockPos);
 
         // This checkBlock method is a DFS method.
         // In fact this isAir() condition makes the scan scope become dynamic and flexible,
@@ -186,7 +188,7 @@ public class POIBlocks {
         String soundType = "";
         Block block = blockState.getBlock();
         Vec3d blockVec3dPos = blockPos.toCenterPos();
-        Vec3d playerEyePos = minecraftClient.player.getEyePos(); // post 1.17
+        Vec3d playerEyePos = this.player.getEyePos(); // post 1.17
 //        Vec3d playerVec3dPos = (new Vec3d(client.player.getX(), client.player.getEyeY(), client.player.getZ())); // pre 1.17
 
         double diff = playerEyePos.distanceTo(blockVec3dPos);
@@ -195,7 +197,7 @@ public class POIBlocks {
             markedBlocks.put(diff, blockVec3dPos);
             soundType = "mark";
         } else if (this.detectFluidBlocks && block instanceof FluidBlock && PlayerUtils.isNotInFluid()) {
-            if (minecraftClient.world.getFluidState(blockPos).getLevel() == 8) {
+            if (this.world.getFluidState(blockPos).getLevel() == 8) {
                 fluidBlocks.put(diff, blockVec3dPos);
                 soundType = "blocks";
             }
@@ -230,7 +232,7 @@ public class POIBlocks {
         } else if (poiBlockPredicates.stream().anyMatch($ -> $.test(blockState))) {
             otherBlocks.put(diff, blockVec3dPos);
             soundType = "blocks";
-        } else if (blockState.createScreenHandlerFactory(minecraftClient.world, blockPos) != null) {
+        } else if (blockState.createScreenHandlerFactory(this.world, blockPos) != null) {
             otherBlocks.put(diff, blockVec3dPos);
             soundType = "blocksWithInterface";
         }
@@ -240,12 +242,11 @@ public class POIBlocks {
     }
 
     private void playSoundAtBlock(BlockPos blockPos, String soundType) {
-        if (minecraftClient.world == null) return;
         String coordinates = NarrationUtils.narrateCoordinatesOf(blockPos);
 
         if (soundType.equalsIgnoreCase("mark")) {
             log.debug("{POIBlocks} Playing sound at " + coordinates);
-            minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.ENTITY_ITEM_PICKUP,
+            this.world.playSound(this.player, blockPos, SoundEvents.ENTITY_ITEM_PICKUP,
                     SoundCategory.BLOCKS, volume, -5f);
         }
 
@@ -259,13 +260,13 @@ public class POIBlocks {
         log.debug("{POIBlocks} Playing sound at " + coordinates);
 
         if (soundType.equalsIgnoreCase("ore"))
-            minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.ENTITY_ITEM_PICKUP,
+            this.world.playSound(this.player, blockPos, SoundEvents.ENTITY_ITEM_PICKUP,
                     SoundCategory.BLOCKS, volume, -5f);
         else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocks"))
-            minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(),
+            this.world.playSound(this.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(),
                     SoundCategory.BLOCKS, volume, 2f);
         else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocksWithInterface"))
-            minecraftClient.world.playSound(minecraftClient.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(),
+            this.world.playSound(this.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(),
                     SoundCategory.BLOCKS, volume, 0f);
     }
 
