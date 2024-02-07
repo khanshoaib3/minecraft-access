@@ -139,8 +139,7 @@ public class POIBlocks {
             checkedBlocks = new HashSet<>();
             BlockPos pos = minecraftClient.player.getBlockPos();
             log.debug("POIBlock started.");
-            // Scan blocks above and below player,
-            // then scan two layers of blocks that are at same height as player.
+            // Scan blocks exposed in the space around player
             checkBlock(pos.down(), 0);
             checkBlock(pos.up(2), 0);
             checkBlock(pos, this.range);
@@ -164,19 +163,33 @@ public class POIBlocks {
     }
 
     private void checkBlock(BlockPos blockPos, int val) {
+        if (checkedBlocks.contains(blockPos)) return;
+        checkedBlocks.add(blockPos);
+
         if (minecraftClient.player == null) return;
         if (minecraftClient.world == null) return;
 
         BlockState blockState = minecraftClient.world.getBlockState(blockPos);
+
+        // This checkBlock method is a DFS method.
+        // In fact this isAir() condition makes the scan scope become dynamic and flexible,
+        // it always fits into space (filled with Air Block) around the player.
+        int vSubOne = val - 1;
+        if (blockState.isAir() && vSubOne >= 0) {
+            checkBlock(blockPos.north(), vSubOne);
+            checkBlock(blockPos.south(), vSubOne);
+            checkBlock(blockPos.west(), vSubOne);
+            checkBlock(blockPos.east(), vSubOne);
+            checkBlock(blockPos.up(), vSubOne);
+            checkBlock(blockPos.down(), vSubOne);
+        }
+
         Block block = blockState.getBlock();
 
         Vec3d playerVec3dPos = minecraftClient.player.getEyePos(); // post 1.17
 //        Vec3d playerVec3dPos = (new Vec3d(client.player.getX(), client.player.getEyeY(), client.player.getZ())); // pre 1.17
         double posX = blockPos.getX(), posY = blockPos.getY(), posZ = blockPos.getZ();
         Vec3d blockVec3dPos = Vec3d.ofCenter(blockPos);
-
-        if (checkedBlocks.contains(blockPos)) return;
-        checkedBlocks.add(blockPos);
 
         double diff = playerVec3dPos.distanceTo(blockVec3dPos);
         String soundType = "";
@@ -226,13 +239,6 @@ public class POIBlocks {
         } else if (blockState.createScreenHandlerFactory(minecraftClient.world, blockPos) != null) {
             otherBlocks.put(diff, blockVec3dPos);
             soundType = "blocksWithInterface";
-        } else if (blockState.isAir() && val - 1 >= 0) {
-            checkBlock(new BlockPos(new Vec3i((int) posX, (int) posY, (int) (posZ - 1))), val - 1); // North Block
-            checkBlock(new BlockPos(new Vec3i((int) posX, (int) posY, (int) posZ + 1)), val - 1); // South Block
-            checkBlock(new BlockPos(new Vec3i((int) posX - 1, (int) posY, (int) posZ)), val - 1); // West Block
-            checkBlock(new BlockPos(new Vec3i((int) posX + 1, (int) posY, (int) posZ)), val - 1); // East Block
-            checkBlock(new BlockPos(new Vec3i((int) posX, (int) posY + 1, (int) posZ)), val - 1); // Top Block
-            checkBlock(new BlockPos(new Vec3i((int) posX, (int) posY - 1, (int) posZ)), val - 1); // Bottom Block
         }
 
         if (this.playSound && this.volume > 0 && !soundType.isEmpty()) {
