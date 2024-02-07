@@ -183,9 +183,14 @@ public class POIEntities {
     }
 
     public List<TreeMap<Double, Entity>> getLockingCandidates() {
-        boolean suppressLockingOnNonMarkedThings = onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled();
-        return suppressLockingOnNonMarkedThings ?
-                List.of(markedEntities) :
-                List.of(markedEntities, hostileEntity, passiveEntity, vehicleEntities);
+        if (onPOIMarkingNow) {
+            if (POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+                return List.of(markedEntities);
+            } else {
+                return List.of(markedEntities, hostileEntity, passiveEntity, vehicleEntities);
+            }
+        } else {
+            return List.of(hostileEntity, passiveEntity, vehicleEntities);
+        }
     }
 }

@@ -281,9 +281,14 @@ public class POIBlocks {
     }
 
     public List<TreeMap<Double, Vec3d>> getLockingCandidates() {
-        boolean suppressLockingOnNonMarkedThings = onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled();
-        return suppressLockingOnNonMarkedThings ?
-                List.of(markedBlocks) :
-                List.of(doorBlocks, buttonBlocks, ladderBlocks, leverBlocks, trapDoorBlocks, otherBlocks, oreBlocks, fluidBlocks, markedBlocks);
+        if (onPOIMarkingNow) {
+            if (POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+                return List.of(markedBlocks);
+            } else {
+                return List.of(markedBlocks, doorBlocks, buttonBlocks, ladderBlocks, leverBlocks, trapDoorBlocks, otherBlocks, oreBlocks, fluidBlocks);
+            }
+        } else {
+            return List.of(doorBlocks, buttonBlocks, ladderBlocks, leverBlocks, trapDoorBlocks, otherBlocks, oreBlocks, fluidBlocks);
+        }
     }
 }
