@@ -2,7 +2,6 @@ package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIBlocksConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
-import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.google.common.collect.ImmutableSet;
@@ -250,22 +249,21 @@ public class POIBlocks {
         boolean playSound = this.playSound && !soundType.isEmpty() && this.volume != 0;
         if (!playSound) return;
 
-        String coordinates = NarrationUtils.narrateCoordinatesOf(blockPos);
+        String coordinates = "x:%d y:%d z%d".formatted(blockPos.getX(), blockPos.getY(), blockPos.getZ());
 
-        if (soundType.equalsIgnoreCase("mark")) {
-            log.debug("{POIBlocks} Playing sound at " + coordinates);
-            this.world.playSound(this.player, blockPos, SoundEvents.ENTITY_ITEM_PICKUP,
-                    SoundCategory.BLOCKS, volume, -5f);
-        }
-
-        if (onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
-            if (!soundType.equalsIgnoreCase("mark")) {
-                log.debug("{POIBlocks} Suppress sound at " + coordinates);
+        if (onPOIMarkingNow) {
+            if (soundType.equalsIgnoreCase("mark")) {
+                log.debug("Play sound at [{}]", coordinates);
+                this.world.playSound(this.player, blockPos, SoundEvents.ENTITY_ITEM_PICKUP,
+                        SoundCategory.BLOCKS, volume, -5f);
+                return;
+            } else if (POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+                log.debug("Suppress sound at [{}]", coordinates);
+                return;
             }
-            return;
         }
 
-        log.debug("{POIBlocks} Playing sound at " + coordinates);
+        log.debug("Play sound at [{}]", coordinates);
 
         if (soundType.equalsIgnoreCase("ore"))
             this.world.playSound(this.player, blockPos, SoundEvents.ENTITY_ITEM_PICKUP,
