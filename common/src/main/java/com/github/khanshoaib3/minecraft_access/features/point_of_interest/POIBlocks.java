@@ -265,7 +265,7 @@ public class POIBlocks {
         }
     }
 
-    public void setMarkedBlock(Block block) {
+    private void setMarkedBlock(Block block) {
         this.markedBlock = block == null ? s -> false : s -> s.isOf(block);
     }
 

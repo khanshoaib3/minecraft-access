@@ -159,7 +159,7 @@ public class POIEntities {
         this.interval = Interval.inMilliseconds(map.getDelay(), this.interval);
     }
 
-    public void setMarkedEntity(Entity entity) {
+    private void setMarkedEntity(Entity entity) {
         if (entity == null) {
             this.markedEntity = e -> false;
         } else {
