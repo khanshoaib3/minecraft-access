@@ -31,7 +31,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -193,7 +192,7 @@ public class NarrationUtils {
         // Since Minecraft uses flyweight pattern for blocks and entities,
         // All same type of blocks share one singleton Block instance,
         // While every block keep their states with a BlockState instance.
-        WorldUtils.BlockInfo blockInfo = WorldUtils.getBlockInfo(pos).orElseThrow();
+        WorldUtils.BlockInfo blockInfo = WorldUtils.getBlockInfo(pos);
         BlockPos blockPos = blockInfo.pos();
         BlockState blockState = blockInfo.state();
         Block block = blockInfo.type();
@@ -395,13 +394,11 @@ public class NarrationUtils {
             // If two redstone wires are connected, they're at one of three relative positions: [side, side down, side up].
             // Take one sample relative position (x+1) then check if any block at [-1,0,1] height is also redstone wire.
             Iterable<BlockPos> threePosAtSide = BlockPos.iterate(pos.add(1, -1, 0), pos.add(1, 1, 0));
-            Optional<Boolean> result = WorldUtils.checkAnyOfBlocks(threePosAtSide, IS_REDSTONE_WIRE);
-
-            if (result.isEmpty()) return new Pair<>(toSpeak, currentQuery);
+            boolean result = WorldUtils.checkAnyOfBlocks(threePosAtSide, IS_REDSTONE_WIRE);
             // If there's no redstone wire on x+1 side,
             // then current wire is not connected to that side,
             // so it's not connected to all directions.
-            if (Boolean.FALSE.equals(result.get())) return new Pair<>(toSpeak, currentQuery);
+            if (!result) return new Pair<>(toSpeak, currentQuery);
         }
 
         String directionsToSpeak = String.join(I18n.translate("minecraft_access.other.words_connection"), connectedDirections);
@@ -492,7 +489,7 @@ public class NarrationUtils {
      * "currentQuery" is kind of shortened "toSpeak" that is used for checking if target is changed compared to previous.
      */
     private static String narrateFluidBlock(BlockPos pos) {
-        FluidState fluidState = WorldUtils.getClientWorld().orElseThrow().getFluidState(pos);
+        FluidState fluidState = WorldUtils.getClientWorld().getFluidState(pos);
         String name = getFluidI18NName(fluidState.getRegistryEntry());
         int level = fluidState.getLevel();
         String levelString = level < 8 ? I18n.translate("minecraft_access.read_crosshair.fluid_level", level) : "";

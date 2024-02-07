@@ -246,7 +246,10 @@ public class NarratorMenu {
 
             minecraftClient.player.closeScreen();
 
-            MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.xp", PlayerUtils.getExperienceLevel(), PlayerUtils.getExperienceProgress()), true);
+            MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.xp",
+                    PlayerUtils.getExperienceLevel(),
+                    PlayerUtils.getExperienceProgress()),
+                    true);
         } catch (Exception e) {
             log.error("An error occurred when getting XP.", e);
         }

@@ -33,18 +33,18 @@ import java.util.Objects;
 public class PlayerUtils {
 
     public static void playSoundOnPlayer(RegistryEntry.Reference<SoundEvent> sound, float volume, float pitch) {
-        WorldUtils.getClientPlayer().orElseThrow().playSound(sound.value(), volume, pitch);
+        WorldUtils.getClientPlayer().playSound(sound.value(), volume, pitch);
     }
 
     public static void lookAt(Vec3d position) {
-        WorldUtils.getClientPlayer().orElseThrow().lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, position);
+        WorldUtils.getClientPlayer().lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, position);
     }
 
     /**
      * Let player looks at entity even the entity exposes a very small part of its body
      */
     public static void lookAt(Entity entity) {
-        Vec3d playerEyePos = WorldUtils.getClientPlayer().orElseThrow().getEyePos();
+        Vec3d playerEyePos = WorldUtils.getClientPlayer().getEyePos();
 
         // Try to look at entity's eyes or Enderman's stomach first.
         boolean targetIsEnderman = entity instanceof EndermanEntity;
@@ -108,18 +108,18 @@ public class PlayerUtils {
     }
 
     public static int getExperienceLevel() {
-        return WorldUtils.getClientPlayer().map(p -> p.experienceLevel).orElse(-999);
+        return WorldUtils.getClientPlayer().experienceLevel;
     }
 
     /**
      * @return percentage-based number
      */
-    public static int getExperienceProgress() {
-        return WorldUtils.getClientPlayer().map(p -> (int) (p.experienceProgress * 100)).orElse(-999);
+    public static float getExperienceProgress() {
+        return WorldUtils.getClientPlayer().experienceProgress * 100;
     }
 
     public static boolean isNotInFluid() {
-        ClientPlayerEntity player = WorldUtils.getClientPlayer().orElseThrow();
+        ClientPlayerEntity player = WorldUtils.getClientPlayer();
         boolean inFluid = player.isSwimming()
                 || player.isSubmergedInWater()
                 || player.isInsideWaterOrBubbleColumn()
@@ -152,7 +152,7 @@ public class PlayerUtils {
         if (!HitResult.Type.BLOCK.equals(hit.getType())) return missed;
 
         BlockPos blockPos = ((BlockHitResult) hit).getBlockPos();
-        ClientWorld world = WorldUtils.getClientWorld().orElseThrow();
+        ClientWorld world = WorldUtils.getClientWorld();
 
         BlockState blockState = world.getBlockState(blockPos);
         boolean thisBlockIsFluidBlock = blockState.isOf(Blocks.WATER) || blockState.isOf(Blocks.LAVA);

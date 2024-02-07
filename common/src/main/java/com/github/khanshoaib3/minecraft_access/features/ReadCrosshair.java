@@ -178,7 +178,7 @@ public class ReadCrosshair {
         }
 
         BlockPos blockPos = hit.getBlockPos();
-        WorldUtils.BlockInfo blockInfo = WorldUtils.getBlockInfo(blockPos).orElseThrow();
+        WorldUtils.BlockInfo blockInfo = WorldUtils.getBlockInfo(blockPos);
         // In Minecraft resource location format, for example, "oak_door" for Oak Door.
         // ref: https://minecraft.wiki/w/Java_Edition_data_values#Blocks
         Identifier blockId = Registries.BLOCK.getId(blockInfo.type());
