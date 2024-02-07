@@ -11,6 +11,7 @@ import net.minecraft.entity.EyeOfEnderEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -123,7 +124,7 @@ public class POIEntities {
                 if (i instanceof PassiveEntity) {
                     passiveEntity.put(distance, i);
                     this.playSoundAtBlockPos(blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
-                } else if (i instanceof HostileEntity) {
+                } else if (i instanceof Monster) {
                     hostileEntity.put(distance, i);
                     this.playSoundAtBlockPos(blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 2f);
                 } else if (i instanceof WaterCreatureEntity) {
