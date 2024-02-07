@@ -185,6 +185,12 @@ public class POIBlocks {
             checkBlock(blockPos.down(), vSubOne);
         }
 
+        String soundType = checkAndPutIntoMap(blockPos, blockState);
+        boolean playSound = this.playSound && !soundType.isEmpty() && this.volume != 0;
+        if (playSound) playSoundAtBlock(blockPos, soundType);
+    }
+
+    private String checkAndPutIntoMap(BlockPos blockPos, BlockState blockState) {
         String soundType = "";
         Block block = blockState.getBlock();
         Vec3d blockVec3dPos = blockPos.toCenterPos();
@@ -236,9 +242,7 @@ public class POIBlocks {
             otherBlocks.put(diff, blockVec3dPos);
             soundType = "blocksWithInterface";
         }
-
-        boolean playSound = this.playSound && !soundType.isEmpty() && this.volume != 0;
-        if (playSound) playSoundAtBlock(blockPos, soundType);
+        return soundType;
     }
 
     private void playSoundAtBlock(BlockPos blockPos, String soundType) {
