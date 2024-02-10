@@ -10,7 +10,6 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * The position of the block (blockPos.toCenterPos()) is generally considered to be the center of the block (x.5,y.5,z.5).
@@ -19,10 +18,8 @@ import java.util.Optional;
  */
 public class NonCubeBlockAbsolutePositions {
     public static Vec3d getTrapDoorPos(Vec3d blockPos) {
-        Optional<ClientWorld> world = WorldUtils.getClientWorld();
-        if (world.isEmpty()) return blockPos;
-
-        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world.get());
+        ClientWorld world = WorldUtils.getClientWorld();
+        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world);
 
         String half = "", facing = "", open = "";
 
@@ -62,10 +59,8 @@ public class NonCubeBlockAbsolutePositions {
     }
 
     public static Vec3d getLeverPos(Vec3d blockPos) {
-        Optional<ClientWorld> world = WorldUtils.getClientWorld();
-        if (world.isEmpty()) return blockPos;
-
-        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world.get());
+        ClientWorld world = WorldUtils.getClientWorld();
+        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world);
 
         String face = "", facing = "";
 
@@ -103,10 +98,8 @@ public class NonCubeBlockAbsolutePositions {
     }
 
     public static Vec3d getLadderPos(Vec3d blockPos) {
-        Optional<ClientWorld> world = WorldUtils.getClientWorld();
-        if (world.isEmpty()) return blockPos;
-
-        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world.get());
+        ClientWorld world = WorldUtils.getClientWorld();
+        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world);
 
         String facing = "";
 
@@ -136,10 +129,8 @@ public class NonCubeBlockAbsolutePositions {
     }
 
     public static Vec3d getButtonPos(Vec3d blockPos) {
-        Optional<ClientWorld> world = WorldUtils.getClientWorld();
-        if (world.isEmpty()) return blockPos;
-
-        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world.get());
+        ClientWorld world = WorldUtils.getClientWorld();
+        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world);
 
         double x = blockPos.getX();
         double y = blockPos.getY();
@@ -176,10 +167,8 @@ public class NonCubeBlockAbsolutePositions {
     }
 
     public static Vec3d getDoorPos(Vec3d blockPos) {
-        Optional<ClientWorld> world = WorldUtils.getClientWorld();
-        if (world.isEmpty()) return blockPos;
-
-        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world.get());
+        ClientWorld world = WorldUtils.getClientWorld();
+        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world);
 
         String facing = "", hinge = "", open = "";
 

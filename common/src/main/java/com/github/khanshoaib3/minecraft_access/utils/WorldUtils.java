@@ -13,17 +13,14 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-import java.util.Optional;
 import java.util.function.Predicate;
 
 public class WorldUtils {
     public record BlockInfo(BlockPos pos, BlockState state, Block type, BlockEntity entity) {
     }
 
-    public static Optional<BlockInfo> getBlockInfo(BlockPos pos) {
-        Optional<ClientWorld> w = getClientWorld();
-        if (w.isEmpty()) return Optional.empty();
-        ClientWorld world = w.get();
+    public static BlockInfo getBlockInfo(BlockPos pos) {
+        ClientWorld world = getClientWorld();
 
         // Since Minecraft uses flyweight pattern for blocks and entities,
         // All same type of blocks share one singleton Block instance,
@@ -32,31 +29,24 @@ public class WorldUtils {
         Block block = state.getBlock();
         BlockEntity entity = world.getBlockEntity(pos);
 
-        return Optional.of(new BlockInfo(pos, state, block, entity));
+        return new BlockInfo(pos, state, block, entity);
     }
 
-    public static Optional<ClientWorld> getClientWorld() {
-        MinecraftClient c = MinecraftClient.getInstance();
-        if (c == null) return Optional.empty();
-        ClientWorld world = c.world;
-        return world == null ? Optional.empty() : Optional.of(world);
+    public static ClientWorld getClientWorld() {
+        return MinecraftClient.getInstance().world;
     }
 
-    public static Optional<ClientPlayerEntity> getClientPlayer() {
-        MinecraftClient c = MinecraftClient.getInstance();
-        if (c == null) return Optional.empty();
-        ClientPlayerEntity p = c.player;
-        return p == null ? Optional.empty() : Optional.of(p);
+    public static ClientPlayerEntity getClientPlayer() {
+        return MinecraftClient.getInstance().player;
     }
 
-    public static Optional<Boolean> checkAnyOfBlocks(Iterable<BlockPos> positions, Predicate<BlockState> expected) {
+    public static boolean checkAnyOfBlocks(Iterable<BlockPos> positions, Predicate<BlockState> expected) {
         for (BlockPos pos : positions) {
-            Optional<BlockInfo> info = getBlockInfo(pos);
-            if (info.isEmpty()) return Optional.empty();
-
-            if (expected.test(info.get().state)) return Optional.of(true);
+            BlockInfo info = getBlockInfo(pos);
+            if (info.state == null) return false;
+            if (expected.test(info.state)) return true;
         }
-        return Optional.of(false);
+        return false;
     }
 
     /**
@@ -84,7 +74,11 @@ public class WorldUtils {
     }
 
     public static void playSoundAtPosition(RegistryEntry.Reference<SoundEvent> sound, float volume, float pitch, Vec3d position) {
+        playSoundAtPosition(sound.value(), volume, pitch, position);
+    }
+
+    public static void playSoundAtPosition(SoundEvent sound, float volume, float pitch, Vec3d position) {
         // note that the useDistance param only works for positions 100 blocks away, check its code.
-        getClientWorld().orElseThrow().playSound(position.x, position.y, position.z, sound.value(), SoundCategory.BLOCKS, volume, pitch, true);
+        getClientWorld().playSound(position.x, position.y, position.z, sound, SoundCategory.BLOCKS, volume, pitch, true);
     }
 }

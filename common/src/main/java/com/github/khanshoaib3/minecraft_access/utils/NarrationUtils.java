@@ -17,6 +17,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.entity.passive.*;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
@@ -27,7 +31,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -189,7 +192,7 @@ public class NarrationUtils {
         // Since Minecraft uses flyweight pattern for blocks and entities,
         // All same type of blocks share one singleton Block instance,
         // While every block keep their states with a BlockState instance.
-        WorldUtils.BlockInfo blockInfo = WorldUtils.getBlockInfo(pos).orElseThrow();
+        WorldUtils.BlockInfo blockInfo = WorldUtils.getBlockInfo(pos);
         BlockPos blockPos = blockInfo.pos();
         BlockState blockState = blockInfo.state();
         Block block = blockInfo.type();
@@ -204,6 +207,11 @@ public class NarrationUtils {
 
         // Different special narration (toSpeak) about different type of blocks
         try {
+            if (blockState.isOf(Blocks.WATER) || blockState.isOf(Blocks.LAVA)) {
+                toSpeak = NarrationUtils.narrateFluidBlock(blockPos);
+                return new Pair<>(toSpeak, toSpeak);
+            }
+
             if (blockEntity != null) {
                 // The all signs tag include all types of signs, so it should also work with the hanging signs in 1.20.x
                 if (blockState.isIn(BlockTags.ALL_SIGNS)) {
@@ -224,7 +232,7 @@ public class NarrationUtils {
             // Check if farmland is wet
             if (block instanceof FarmlandBlock && blockState.get(FarmlandBlock.MOISTURE) == FarmlandBlock.MAX_MOISTURE) {
                 toSpeak = I18n.translate("minecraft_access.crop.wet_farmland", toSpeak);
-                currentQuery = I18n.translate("minecraft_access.crop.wet_farmland", currentQuery);
+                currentQuery = "wet" + currentQuery;
             }
 
             // Speak monster spawner mob type
@@ -244,6 +252,11 @@ public class NarrationUtils {
             Pair<String, String> redstoneRelatedInfo = getRedstoneRelatedInfo(clientWorld, blockPos, block, blockState, toSpeak, currentQuery);
             toSpeak = redstoneRelatedInfo.getLeft();
             currentQuery = redstoneRelatedInfo.getRight();
+
+            if (clientWorld.getFluidState(blockPos).isOf(Fluids.WATER)) {
+                toSpeak = I18n.translate("minecraft_access.crop.water_logged", toSpeak);
+                currentQuery = "waterlogged" + currentQuery;
+            }
 
         } catch (Exception e) {
             log.error("An error occurred while adding narration text for special blocks", e);
@@ -381,13 +394,11 @@ public class NarrationUtils {
             // If two redstone wires are connected, they're at one of three relative positions: [side, side down, side up].
             // Take one sample relative position (x+1) then check if any block at [-1,0,1] height is also redstone wire.
             Iterable<BlockPos> threePosAtSide = BlockPos.iterate(pos.add(1, -1, 0), pos.add(1, 1, 0));
-            Optional<Boolean> result = WorldUtils.checkAnyOfBlocks(threePosAtSide, IS_REDSTONE_WIRE);
-
-            if (result.isEmpty()) return new Pair<>(toSpeak, currentQuery);
+            boolean result = WorldUtils.checkAnyOfBlocks(threePosAtSide, IS_REDSTONE_WIRE);
             // If there's no redstone wire on x+1 side,
             // then current wire is not connected to that side,
             // so it's not connected to all directions.
-            if (Boolean.FALSE.equals(result.get())) return new Pair<>(toSpeak, currentQuery);
+            if (!result) return new Pair<>(toSpeak, currentQuery);
         }
 
         String directionsToSpeak = String.join(I18n.translate("minecraft_access.other.words_connection"), connectedDirections);
@@ -469,5 +480,27 @@ public class NarrationUtils {
         } else {
             return "minecraft_access.crop.half_ripe";
         }
+    }
+
+    /**
+     * @param pos fluid position (in the client world)
+     * @return (toSpeak, currentQuery):
+     * "toSpeak" is the actual one to be spoken through Narrator,
+     * "currentQuery" is kind of shortened "toSpeak" that is used for checking if target is changed compared to previous.
+     */
+    private static String narrateFluidBlock(BlockPos pos) {
+        FluidState fluidState = WorldUtils.getClientWorld().getFluidState(pos);
+        String name = getFluidI18NName(fluidState.getRegistryEntry());
+        int level = fluidState.getLevel();
+        String levelString = level < 8 ? I18n.translate("minecraft_access.read_crosshair.fluid_level", level) : "";
+        return name + " " + levelString;
+    }
+
+    private static String getFluidI18NName(RegistryEntry<Fluid> fluid) {
+        String translationKey = fluid.getKeyOrValue().map(
+                (fluidKey) -> "block." + fluidKey.getValue().getNamespace() + "." + fluidKey.getValue().getPath(),
+                (fluidValue) -> "[unregistered " + fluidValue + "]"
+        );
+        return I18n.translate(translationKey);
     }
 }

@@ -8,13 +8,13 @@ import com.google.common.collect.ImmutableSet;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.fluid.FluidState;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -25,7 +25,8 @@ import java.util.function.Predicate;
 @Slf4j
 public class POIBlocks {
     private static final POIBlocks instance;
-    private MinecraftClient minecraftClient;
+    private ClientPlayerEntity player;
+    private ClientWorld world;
 
     private static final Block[] POI_BLOCKS = new Block[]{
             Blocks.PISTON,
@@ -67,7 +68,8 @@ public class POIBlocks {
             Blocks.DEEPSLATE_LAPIS_ORE,
             Blocks.REDSTONE_ORE,
             Blocks.DEEPSLATE_REDSTONE_ORE,
-            Blocks.NETHER_QUARTZ_ORE
+            Blocks.NETHER_QUARTZ_ORE,
+            Blocks.ANCIENT_DEBRIS
     };
 
     private static final List<Predicate<BlockState>> oreBlockPredicates = Arrays.stream(ORE_BLOCKS)
@@ -84,7 +86,7 @@ public class POIBlocks {
     private TreeMap<Double, Vec3d> otherBlocks = new TreeMap<>();
     private TreeMap<Double, Vec3d> markedBlocks = new TreeMap<>();
 
-    private List<Vec3d> checkedBlocks = new ArrayList<>();
+    private Set<BlockPos> checkedBlocks = Set.of();
     private boolean enabled;
     private boolean detectFluidBlocks;
     private int range;
@@ -111,18 +113,21 @@ public class POIBlocks {
         loadConfigurations();
     }
 
-    public void update(boolean onMarking) {
+    public void update(boolean onMarking, Block markedBlock) {
         try {
             this.onPOIMarkingNow = onMarking;
+            if (onPOIMarkingNow) setMarkedBlock(markedBlock);
             loadConfigurations();
 
             if (!this.enabled) return;
             if (interval != null && !interval.isReady()) return;
 
-            minecraftClient = MinecraftClient.getInstance();
-            if (minecraftClient == null) return;
-            if (minecraftClient.player == null) return;
-            if (minecraftClient.currentScreen != null) return; //Prevent running if any screen is opened
+            MinecraftClient client = MinecraftClient.getInstance();
+            if (client == null) return;
+            if (client.player == null) return;
+            if (client.currentScreen != null) return; //Prevent running if any screen is opened
+            this.player = client.player;
+            this.world = client.world;
 
             oreBlocks = new TreeMap<>();
             doorBlocks = new TreeMap<>();
@@ -134,20 +139,15 @@ public class POIBlocks {
             otherBlocks = new TreeMap<>();
             markedBlocks = new TreeMap<>();
 
-            BlockPos pos = minecraftClient.player.getBlockPos();
-
-            int posX = pos.getX();
-            int posY = pos.getY() - 1;
-            int posZ = pos.getZ();
-            checkedBlocks = new ArrayList<>();
-
-            log.debug("POIBlock started...");
-
-            checkBlock(new BlockPos(new Vec3i(posX, posY, posZ)), 0);
-            checkBlock(new BlockPos(new Vec3i(posX, posY + 3, posZ)), 0);
-            checkBlock(new BlockPos(new Vec3i(posX, posY + 1, posZ)), this.range);
-            checkBlock(new BlockPos(new Vec3i(posX, posY + 2, posZ)), this.range);
-
+            // Player position is where player's leg be
+            checkedBlocks = new HashSet<>();
+            BlockPos pos = this.player.getBlockPos();
+            log.debug("POIBlock started.");
+            // Scan blocks exposed in the space around player
+            checkBlock(pos.down(), 0);
+            checkBlock(pos.up(2), 0);
+            checkBlock(pos, this.range);
+            checkBlock(pos.up(), this.range);
             log.debug("POIBlock ended.");
 
         } catch (Exception e) {
@@ -167,34 +167,47 @@ public class POIBlocks {
     }
 
     private void checkBlock(BlockPos blockPos, int val) {
-        if (minecraftClient.player == null) return;
-        if (minecraftClient.world == null) return;
+        if (checkedBlocks.contains(blockPos)) return;
+        checkedBlocks.add(blockPos);
 
-        BlockState blockState = minecraftClient.world.getBlockState(blockPos);
-        Block block = blockState.getBlock();
+        BlockState blockState = this.world.getBlockState(blockPos);
 
-        Vec3d playerVec3dPos = minecraftClient.player.getEyePos(); // post 1.17
-//        Vec3d playerVec3dPos = (new Vec3d(client.player.getX(), client.player.getEyeY(), client.player.getZ())); // pre 1.17
-        double posX = blockPos.getX(), posY = blockPos.getY(), posZ = blockPos.getZ();
-        Vec3d blockVec3dPos = Vec3d.ofCenter(blockPos);
+        // This checkBlock method is a DFS method.
+        // In fact this isAir() condition makes the scan scope become dynamic and flexible,
+        // it always fits into space (filled with Air Block) around the player.
+        int vSubOne = val - 1;
+        if (blockState.isAir() && vSubOne >= 0) {
+            checkBlock(blockPos.north(), vSubOne);
+            checkBlock(blockPos.south(), vSubOne);
+            checkBlock(blockPos.west(), vSubOne);
+            checkBlock(blockPos.east(), vSubOne);
+            checkBlock(blockPos.up(), vSubOne);
+            checkBlock(blockPos.down(), vSubOne);
+            // Air block is not a valid POI block, so return early
+            return;
+        }
 
-        if (checkedBlocks.contains(blockVec3dPos)) return;
-        checkedBlocks.add(blockVec3dPos);
+        String soundType = checkAndPutIntoMap(blockPos, blockState);
+        playSoundAtBlock(blockPos, soundType);
+    }
 
-        double diff = playerVec3dPos.distanceTo(blockVec3dPos);
+    private String checkAndPutIntoMap(BlockPos blockPos, BlockState blockState) {
         String soundType = "";
+        Block block = blockState.getBlock();
+        Vec3d blockVec3dPos = blockPos.toCenterPos();
+        Vec3d playerEyePos = this.player.getEyePos(); // post 1.17
+//        Vec3d playerVec3dPos = (new Vec3d(client.player.getX(), client.player.getEyeY(), client.player.getZ())); // pre 1.17
+
+        double diff = playerEyePos.distanceTo(blockVec3dPos);
 
         if (markedBlock.test(blockState)) {
             markedBlocks.put(diff, blockVec3dPos);
             soundType = "mark";
-        } else if (this.detectFluidBlocks && block instanceof FluidBlock && !PlayerUtils.isInFluid()) {
-            FluidState fluidState = minecraftClient.world.getFluidState(blockPos);
-            if (fluidState.getLevel() == 8) {
+        } else if (this.detectFluidBlocks && block instanceof FluidBlock && PlayerUtils.isNotInFluid()) {
+            if (this.world.getFluidState(blockPos).getLevel() == 8) {
                 fluidBlocks.put(diff, blockVec3dPos);
                 soundType = "blocks";
             }
-
-//            MainClass.speakWithNarrator(I18n.translate("narrate.apextended.poiblock.warn"), true);
         } else if (oreBlockPredicates.stream().anyMatch($ -> $.test(blockState))) {
             oreBlocks.put(diff, blockVec3dPos);
             soundType = "ore";
@@ -226,56 +239,57 @@ public class POIBlocks {
         } else if (poiBlockPredicates.stream().anyMatch($ -> $.test(blockState))) {
             otherBlocks.put(diff, blockVec3dPos);
             soundType = "blocks";
-        } else if (blockState.createScreenHandlerFactory(minecraftClient.world, blockPos) != null) {
+        } else if (blockState.createScreenHandlerFactory(this.world, blockPos) != null) {
             otherBlocks.put(diff, blockVec3dPos);
             soundType = "blocksWithInterface";
-        } else if (blockState.isAir() && val - 1 >= 0) {
-            checkBlock(new BlockPos(new Vec3i((int) posX, (int) posY, (int) (posZ - 1))), val - 1); // North Block
-            checkBlock(new BlockPos(new Vec3i((int) posX, (int) posY, (int) posZ + 1)), val - 1); // South Block
-            checkBlock(new BlockPos(new Vec3i((int) posX - 1, (int) posY, (int) posZ)), val - 1); // West Block
-            checkBlock(new BlockPos(new Vec3i((int) posX + 1, (int) posY, (int) posZ)), val - 1); // East Block
-            checkBlock(new BlockPos(new Vec3i((int) posX, (int) posY + 1, (int) posZ)), val - 1); // Top Block
-            checkBlock(new BlockPos(new Vec3i((int) posX, (int) posY - 1, (int) posZ)), val - 1); // Bottom Block
         }
-
-        if (this.playSound && this.volume > 0 && !soundType.isEmpty()) {
-
-            if (soundType.equalsIgnoreCase("mark")) {
-                log.debug("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
-                minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.ENTITY_ITEM_PICKUP,
-                        SoundCategory.BLOCKS, volume, -5f);
-            }
-
-            if (onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
-                if (!soundType.equalsIgnoreCase("mark")) {
-                    log.debug("{POIBlocks} Suppress sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
-                }
-                return;
-            }
-
-            log.debug("{POIBlocks} Playing sound at x:%d y:%d z:%d".formatted((int) posX, (int) posY, (int) posZ));
-
-            if (soundType.equalsIgnoreCase("ore"))
-                minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.ENTITY_ITEM_PICKUP,
-                        SoundCategory.BLOCKS, volume, -5f);
-            else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocks"))
-                minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(),
-                        SoundCategory.BLOCKS, volume, 2f);
-            else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocksWithInterface"))
-                minecraftClient.world.playSound(minecraftClient.player, new BlockPos(new Vec3i((int) blockVec3dPos.x, (int) blockVec3dPos.y, (int) blockVec3dPos.z)), SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(),
-                        SoundCategory.BLOCKS, volume, 0f);
-
-        }
+        return soundType;
     }
 
-    public void setMarkedBlock(Block block) {
+    private void playSoundAtBlock(BlockPos blockPos, String soundType) {
+        boolean playSound = this.playSound && !soundType.isEmpty() && this.volume != 0;
+        if (!playSound) return;
+
+        String coordinates = "x:%d y:%d z%d".formatted(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+
+        if (onPOIMarkingNow) {
+            if (soundType.equalsIgnoreCase("mark")) {
+                log.debug("Play sound at [{}]", coordinates);
+                this.world.playSound(this.player, blockPos, SoundEvents.ENTITY_ITEM_PICKUP,
+                        SoundCategory.BLOCKS, volume, -5f);
+                return;
+            } else if (POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+                log.debug("Suppress sound at [{}]", coordinates);
+                return;
+            }
+        }
+
+        log.debug("Play sound at [{}]", coordinates);
+
+        if (soundType.equalsIgnoreCase("ore"))
+            this.world.playSound(this.player, blockPos, SoundEvents.ENTITY_ITEM_PICKUP,
+                    SoundCategory.BLOCKS, volume, -5f);
+        else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocks"))
+            this.world.playSound(this.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(),
+                    SoundCategory.BLOCKS, volume, 2f);
+        else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocksWithInterface"))
+            this.world.playSound(this.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(),
+                    SoundCategory.BLOCKS, volume, 0f);
+    }
+
+    private void setMarkedBlock(Block block) {
         this.markedBlock = block == null ? s -> false : s -> s.isOf(block);
     }
 
     public List<TreeMap<Double, Vec3d>> getLockingCandidates() {
-        boolean suppressLockingOnNonMarkedThings = onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled();
-        return suppressLockingOnNonMarkedThings ?
-                List.of(markedBlocks) :
-                List.of(doorBlocks, buttonBlocks, ladderBlocks, leverBlocks, trapDoorBlocks, otherBlocks, oreBlocks, fluidBlocks, markedBlocks);
+        if (onPOIMarkingNow) {
+            if (POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+                return List.of(markedBlocks);
+            } else {
+                return List.of(markedBlocks, doorBlocks, buttonBlocks, ladderBlocks, leverBlocks, trapDoorBlocks, otherBlocks, oreBlocks, fluidBlocks);
+            }
+        } else {
+            return List.of(doorBlocks, buttonBlocks, ladderBlocks, leverBlocks, trapDoorBlocks, otherBlocks, oreBlocks, fluidBlocks);
+        }
     }
 }

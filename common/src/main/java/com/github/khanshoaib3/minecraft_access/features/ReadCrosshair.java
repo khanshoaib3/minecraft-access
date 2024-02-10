@@ -13,10 +13,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
@@ -40,7 +37,8 @@ public class ReadCrosshair {
     private static final double RAY_CAST_DISTANCE = 6.0;
     private static ReadCrosshair instance;
     private boolean enabled;
-    private String previousQuery;
+    private String previousQuery = "";
+    private Vec3d previousSoundPos = Vec3d.ZERO;
     private boolean speakSide;
     private boolean speakingConsecutiveBlocks;
     private Interval repeatSpeakingInterval;
@@ -55,7 +53,6 @@ public class ReadCrosshair {
     private double maxSoundVolume;
 
     private ReadCrosshair() {
-        previousQuery = "";
         loadConfigurations();
     }
 
@@ -84,20 +81,10 @@ public class ReadCrosshair {
             loadConfigurations();
             if (!enabled) return;
 
-            Entity entity = minecraftClient.getCameraEntity();
-            if (entity == null) return;
+            HitResult hit = PlayerUtils.crosshairTarget(RAY_CAST_DISTANCE);
+            if (hit == null) return;
+            checkForBlockAndEntityHit(hit);
 
-            HitResult blockHit = minecraftClient.crosshairTarget;
-            HitResult fluidHit = entity.raycast(RAY_CAST_DISTANCE, 0.0F, true);
-
-            if (blockHit == null) return;
-
-            boolean playerIsInFluid = PlayerUtils.isInFluid();
-            boolean playerLooksAtFluid = checkForFluidHit(minecraftClient, fluidHit);
-
-            if (playerIsInFluid && playerLooksAtFluid) return;
-
-            checkForBlockAndEntityHit(blockHit);
         } catch (Exception e) {
             log.error("Error occurred in read block feature.", e);
         }
@@ -173,9 +160,10 @@ public class ReadCrosshair {
     private void speakIfFocusChanged(String currentQuery, String toSpeak, Vec3d targetPosition) {
         boolean focusChanged = !getPreviousQuery().equalsIgnoreCase(currentQuery);
         if (focusChanged) {
-            if (this.enableRelativePositionSoundCue) {
+            if (this.enableRelativePositionSoundCue && !this.previousSoundPos.equals(targetPosition)) {
                 WorldUtils.playRelativePositionSoundCue(targetPosition, RAY_CAST_DISTANCE,
                         SoundEvents.BLOCK_NOTE_BLOCK_HARP, this.minSoundVolume, this.maxSoundVolume);
+                this.previousSoundPos = targetPosition;
             }
             this.previousQuery = currentQuery;
             MainClass.speakWithNarrator(toSpeak, true);
@@ -190,7 +178,7 @@ public class ReadCrosshair {
         }
 
         BlockPos blockPos = hit.getBlockPos();
-        WorldUtils.BlockInfo blockInfo = WorldUtils.getBlockInfo(blockPos).orElseThrow();
+        WorldUtils.BlockInfo blockInfo = WorldUtils.getBlockInfo(blockPos);
         // In Minecraft resource location format, for example, "oak_door" for Oak Door.
         // ref: https://minecraft.wiki/w/Java_Edition_data_values#Blocks
         Identifier blockId = Registries.BLOCK.getId(blockInfo.type());
@@ -210,57 +198,6 @@ public class ReadCrosshair {
         if (this.speakingConsecutiveBlocks) currentQuery += " " + blockPosInString;
 
         speakIfFocusChanged(currentQuery, toSpeakAndCurrentQuery.getLeft(), Vec3d.of(blockPos));
-    }
-
-    private boolean checkForFluidHit(MinecraftClient minecraftClient, HitResult fluidHit) {
-        if (minecraftClient == null) return false;
-        if (minecraftClient.world == null) return false;
-        if (minecraftClient.currentScreen != null) return false;
-
-        if (fluidHit.getType() == HitResult.Type.BLOCK) {
-            BlockPos blockPos = ((BlockHitResult) fluidHit).getBlockPos();
-            FluidState fluidState = minecraftClient.world.getFluidState(blockPos);
-
-            String name = getFluidName(fluidState.getRegistryEntry());
-            if (name.equals("block.minecraft.empty")) return false;
-            if (name.contains("block.minecraft."))
-                name = name.replace("block.minecraft.", ""); // Remove `block.minecraft.` for unsupported languages
-
-            String currentQuery = name + blockPos;
-
-            int level = fluidState.getLevel();
-            String levelString = "";
-            if (level < 8) levelString = I18n.translate("minecraft_access.read_crosshair.fluid_level", level);
-
-            String toSpeak = name + levelString;
-
-            speakIfFocusChanged(currentQuery, toSpeak, Vec3d.of(blockPos));
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Gets the fluid name from registry entry
-     *
-     * @param fluid the fluid's registry entry
-     * @return the fluid's name
-     */
-    public static String getFluidName(RegistryEntry<Fluid> fluid) {
-        return I18n.translate(getFluidTranslationKey(fluid));
-    }
-
-    /**
-     * Gets the fluid translation key from registry entry
-     *
-     * @param fluid the fluid's registry entry
-     * @return the fluid's translation key
-     */
-    private static String getFluidTranslationKey(RegistryEntry<Fluid> fluid) {
-        return fluid.getKeyOrValue().map(
-                (fluidKey) -> "block." + fluidKey.getValue().getNamespace() + "." + fluidKey.getValue().getPath(),
-                (fluidValue) -> "[unregistered " + fluidValue + "]" // For unregistered fluid
-        );
     }
 
     private boolean checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(Identifier id) {

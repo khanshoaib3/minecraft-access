@@ -40,7 +40,7 @@ You may want to take a look at [all the original controls](https://minecraft.wik
 | `Center Camera Key`          | Number Pad 5       | Look straight ahead: Turn the camera to the closest of the eight cardinal directions and reset vertical angle to horizontal position |
 | `Look Straight Up Key`       | Number Pad 0       | Turn the camera to the look above head direction                                                                                     |
 | `Look Straight Down Key`     | Number Pad .       | Turn the camera to the look down at feet direction                                                                                   |
-| `Speak Facing Direction Key` | H                  | Speak the currently facing direction                                                                                                 |
+| `Speak Facing Direction Key` | H                  | Speak current horizontal facing direction                                                                                            |
 
 | Key Combination                                                           | Description                                                                                                                                         |
 |---------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -53,6 +53,7 @@ You may want to take a look at [all the original controls](https://minecraft.wik
 | `Right Alt` + `Look Right Key`                                            | Same as single `Look East Key`, turn the camera to the east                                                                                         |
 | hold `Right Alt` then press `Look Down Key`                               | Same as single `Look South Key` and single `Look Straight Down Key`, alternately move the camera to the south or down                               |
 | `Right Alt` + `Look Left Key`                                             | Same as single `Look West Key`, turn the camera to the west                                                                                         |
+| `Left Alt` + `Speak Facing Direction Key`                                 | Speak current vertical facing direction                                                                                                             |
 
 See also: [Feature Description](/doc/FEATURES.md#camera-controls), [Configuration](/doc/CONFIG.md#camera-controls)
 
