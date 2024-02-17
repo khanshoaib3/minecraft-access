@@ -6,7 +6,7 @@ Release v1.5.3 (2024-02)
 * Now the Read Crosshair feature will only play the position sound cue once when player looks at different sides of same block.
 * When locking on an entity, POI Locking feature will always try to target at a valid position that you can interact with, thus you can attack a monster even it expose small part of its body to you.
 * Now POI Locking feature will never let you make eye contact with an [Enderman](https://minecraft.wiki/w/Enderman).
-* [Boat](https://minecraft.wiki/w/Boat), [mine cart](https://minecraft.wiki/w/Minecart), [slime](https://minecraft.wiki/w/Slime), [magma cube](https://minecraft.wiki/w/Magma_cube], and [ancient debris](https://minecraft.wiki/w/Ancient_debris) can be scanned and locked with POI feature now. [#157](https://github.com/khanshoaib3/minecraft_access/issues/157) [#203](https://github.com/khanshoaib3/minecraft_access/issues/203) [#215](https://github.com/khanshoaib3/minecraft_access/issues/215)
+* [Boat](https://minecraft.wiki/w/Boat), [mine cart](https://minecraft.wiki/w/Minecart), [slime](https://minecraft.wiki/w/Slime), [magma cube](https://minecraft.wiki/w/Magma_cube), and [ancient debris](https://minecraft.wiki/w/Ancient_debris) can be scanned and locked with POI feature now. [#157](https://github.com/khanshoaib3/minecraft_access/issues/157) [#203](https://github.com/khanshoaib3/minecraft_access/issues/203) [#215](https://github.com/khanshoaib3/minecraft_access/issues/215)
 
 ### Bug Fixes
 

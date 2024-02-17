@@ -7,9 +7,12 @@ Currently, this mod [has enough features](doc/FAQ.md#is-the-mod-enough-to-play-t
 
 This mod supports:
 
-* Game version `1.19.3`, `1.20.1`, `1.20.4`.
+* Game version `1.19.3`, `1.20.1`, `1.20.4`
 * On [Fabric](https://fabricmc.net/use/installer/) and [Forge](https://files.minecraftforge.net/net/minecraftforge/forge/) modding platform
 * On Windows and Linux operating system ([Help us on macOS porting](https://github.com/khanshoaib3/minecraft-access/issues/22))
+* Works despite the language setting of the game (but the mod specific narration will [fall back to English](/doc/FEATURES.md#i18n-fallback-mechanism) if the mod does not support the language yet)
+
+Each version of mod will be pre-released on [GitHub](https://github.com/khanshoaib3/minecraft-access/releases) and announced in [Discord server](https://discord.gg/yQjjsDqWQX) first as beta test stage, after one week of feedback collection, one version will be released in [Modrinth](https://modrinth.com/mod/minecraft-access/versions) and [CurseForge](https://legacy.curseforge.com/minecraft/mc-mods/blind-accessibility/files). 
 
 ## Other Pages
 
@@ -35,4 +38,10 @@ This mod supports:
 
 ## Contribution
 
-Any type of contribution is welcome, please go to the [issues page](https://github.com/khanshoaib3/minecraft-access/issues) for more details. ❤
+Any type of contribution is welcome:
+
+* Take the first bite of the new versions and help us detect bugs and inconvenience.
+* Improve this mod's manual (pages including this one) for better readability and accessibility.
+* Help us [translate](/doc/FAQ.md#how-can-i-contribute-to-i18n) this mod into other languages.
+* Create more text or video based tutorials to teach visually impaired players how to use this mod or how to play the game.
+* For development contribution, please go to the [issues page](https://github.com/khanshoaib3/minecraft-access/issues) for more details.
