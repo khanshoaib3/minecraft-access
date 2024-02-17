@@ -9,7 +9,7 @@
 5. [Has this mod been uploaded to mod platforms?](#has-this-mod-been-uploaded-to-mod-platforms)
 6. [Is this mod supports XX language?](#is-this-mod-supports-xx-language)
 7. [How can I contribute to I18N?](#how-can-i-contribute-to-i18n)
-8. [What information the others need when I ask them for help?](#what-information-the-others-need-when-i-ask-them-for-help)
+8. [Self help guide for abnormal situation](#self-help-guide-for-abnormal-situation)
 
 ## Is the mod enough to play the game normally?
 
@@ -65,7 +65,7 @@ See [I18N Fallback Mechanism Feature](/doc/FEATURES.md#i18n-fallback-mechanism).
 
 We manage the translation of this mod in [another GitHub repository](https://github.com/khanshoaib3/minecraft-access-i18n#minecraft-access-i18n), take a look.
 
-## What information the others need when I ask them for help?
+## Self help guide for abnormal situation
 
 Chose the section that fits your progress:
 
@@ -90,18 +90,18 @@ If you are using Fabric, there would be crush report files under the `crash-repo
 If you are using Forge, there would be log files under the `logs` folder in your `.minecraft` folder, developers need the `debug.log` file.
 Please upload it to wherever that developers can view, for example you can upload it to Discord channels while asking for help.
 
-### The game running but abnormal
+### The game running but acts abnormal
 
 #### Can't hear the game narration
 
 Sorry but we don't have enough knowledge to solve this problem on Linux, we haven't got this type of report.
-
 If you're in Windows, please check:
 
-* There is no missing ["tolk" files](/doc/SET_UP_ON_WINDOWS.md#additional-installation-for-windows) under the game folder.
-* You have set the ["Narrator"](https://minecraft.wiki/w/Options#Chat_Settings) game setting (under "Options", "Chat Settings") to "All" choice.
+1. There is no missing ["tolk" files](/doc/SET_UP_ON_WINDOWS.md#additional-installation-for-windows) under the game folder.
+2. You're using one of tolk [supported screen readers](https://github.com/ndarilek/tolk?tab=readme-ov-file#supported-screen-readers), please note that Windows built-in Narrator is not supported by tolk.
+3. You have set the ["Narrator"](https://minecraft.wiki/w/Options#Chat_Settings) game setting (under "Options", "Chat Settings") to "All" choice.
 
- now open the launcher and start the game, when you're at the main screen (in which has "singleplayer game", "multiplayer game"...), close your screen reader and open built-in [Windows Narrator](https://support.microsoft.com/en-us/windows/complete-guide-to-narrator-e4397a0d-ef4f-b386-d8ae-c172f109bdb1) feature. Can you hear the menu selecting narration through Windows Narrator? If so the problem is in your screen reader, maybe the Narrator setting is wrong (for example, you need to close NVDA's keyboard narration setting since it will cover the narration from this mod), or there is a compatibility problem between it and "tolk".
+ Now open the launcher and start the game, when you're at the main screen (in which has "singleplayer game", "multiplayer game"...), close your screen reader and open built-in [Windows Narrator](https://support.microsoft.com/en-us/windows/complete-guide-to-narrator-e4397a0d-ef4f-b386-d8ae-c172f109bdb1) feature. Can you hear the menu selecting narration through Windows Narrator? If so the problem is in your screen reader, maybe the Narrator setting is wrong (for example, you need to close NVDA's keyboard narration setting since it will interrupt the narration of this mod), or there is a compatibility problem between it and "tolk".
 
 #### This mod doesn't work like expected
 
