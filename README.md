@@ -20,6 +20,7 @@ Each version of mod will be pre-released on [GitHub](https://github.com/khanshoa
 * [Features](/doc/FEATURES.md)
 * [Keybindings](/doc/KEYBINDINGS.md)
 * [Configuration](/doc/CONFIG.md)
+* [Sound Effects](https://html-preview.github.io/?url=https://github.com/khanshoaib3/minecraft-access/blob/1.20/doc/SOUND.html)
 * [FAQ](/doc/FAQ.md)
 
 ## Useful Links
