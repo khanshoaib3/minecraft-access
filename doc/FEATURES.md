@@ -5,7 +5,7 @@ This page contains details of all the features that are currently in the mod.
 If you have any question about original game functions, please search on the [wiki](https://minecraft.wiki/?search) first before asking for help.
 If you have any suggestion on improvements existing features or about a new feature, you can [join the discord server](https://discord.gg/yQjjsDqWQX) or [post an issue](https://github.com/khanshoaib3/minecraft-access/issues).
 
-There is a page for [view all sound effects](https://html-preview.github.io/?url=https://github.com/khanshoaib3/minecraft-access/blob/1.20/doc/SOUND.html) used in this mod.
+There is a page for [viewing all sound effects](https://html-preview.github.io/?url=https://github.com/khanshoaib3/minecraft-access/blob/1.20/doc/SOUND.html) used in this mod.
 
 ## Table Of Contents
 
