@@ -1,12 +1,33 @@
 <html lang="en">
 <head>
     <title>Sound Effects used in Minecraft Access Mod</title>
+    <!-- Style is mainly copied from -->
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table -->
     <style>
-        table, th, td {
+        table {
             max-width: 800px;
             border-collapse: collapse;
             border: 1px solid;
         }
+
+        th, td {
+            border-collapse: collapse;
+            border: 1px solid;
+            padding: 8px 10px;
+        }
+
+        th {
+            background-color: aliceblue;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #eee;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fff;
+        }
+
         p {
             max-width: 800px;
         }
@@ -44,6 +65,7 @@
         <td>
             <audio preload="none" controls src="sounds/Note_block_harp_scale.ogg"></audio>
         </td>
+    </tr>
     </tbody>
 </table>
 
