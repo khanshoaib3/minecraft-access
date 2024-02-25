@@ -1,8 +1,11 @@
 # Minecraft Access Features
 
 This page contains details of all the features that are currently in the mod.
+
 If you have any question about original game functions, please search on the [wiki](https://minecraft.wiki/?search) first before asking for help.
 If you have any suggestion on improvements existing features or about a new feature, you can [join the discord server](https://discord.gg/yQjjsDqWQX) or [post an issue](https://github.com/khanshoaib3/minecraft-access/issues).
+
+There is a page for [viewing all sound effects](https://html-preview.github.io/?url=https://github.com/khanshoaib3/minecraft-access/blob/1.20/doc/SOUND.html) used in this mod.
 
 ## Table Of Contents
 
@@ -109,7 +112,7 @@ See also: [Configuration](/doc/CONFIG.md#inventory-controls), [Keybindings](/doc
 
 ## Point of Interest
 
-This feature will scan and notify (with sound cues) you of (pre-configured) special blocks and all types of entity around you.
+This feature will scan and notify (with sound cues) you of (pre-configured) special blocks and all types of entity around you. You can listen to the sound cues for different types of blocks and entities on the Sound Demo page.
 
 What blocks are considered special? Those you tend to miss.
 In Minecraft, not every block is cube shaped, for example buttons are tiny, single glass block is a thin bar, ladders is a thin layer attached to the wall, you'll find it difficult to point precisely at these blocks.
@@ -117,16 +120,6 @@ Precious blocks like raw ores can be seen at a glance by sighted players, but vi
 
 By the same token, entities (players, animals, monsters) are movable, so scanning and locking onto them helps you get close to and interact with them.
 Be aware that if you keep any screen opening, the mod will stop scanning and notifying for entities, for a cleaner screen narration, which may get you in danger if there are monsters around you.
-
-| Sound Cue                                                                                    | Description                                                                                                                                                                                    |
-|----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Functional blocks without screens (like door, ladder)                                        | ["Bit" (Square wave) of Note Block](https://minecraft.wiki/w/Note_Block#Notes), a beeping electronic sound                                                                                     |
-| Functional blocks that have screens (like crafting table)                                    | [Banjo of Note Block](https://minecraft.wiki/w/Note_Block#Notes), a string instrument sound                                                                                                    |
-| [Ore blocks](https://minecraft.wiki/w/Ore)                                                   | [Item plops](https://minecraft.wiki/w/Item_(entity)#Sounds), bubbling sound, like the sound of pulling out a toilet plunger                                                                    |
-| [Item (entity)](https://minecraft.wiki/w/Item_(entity))                                      | [Pressure Plate clicks](https://minecraft.wiki/w/Pressure_Plate#Unique), crisp clacking sound, like sound of a lighter, or clicking on buttons                                                 |
-| [Passive mobs, Neutral mobs or Players](https://minecraft.wiki/w/Mob?so=search#Passive_mobs) | [Bells (Glockenspiel) of Note Block](https://minecraft.wiki/w/Note_Block#Notes), with the lowest pitch, like the sound of a little bell                                                        |
-| [Hostile mobs](https://minecraft.wiki/w/Mob?so=search#Hostile_mobs)                          | [Bells (Glockenspiel) of Note Block](https://minecraft.wiki/w/Note_Block#Notes) again, with the highest pitch, brief and sharp, like the sound of a time bomb, and you can hear their low roar |
-| Unlocking                                                                                    | [Bass Drum (Kick) of Note Block](https://minecraft.wiki/w/Note_Block#Notes) with the highest pitch, but it's still pretty low                                                                  |
 
 See also: [Configuration](/doc/CONFIG.md#point-of-interest), [Keybindings](/doc/KEYBINDINGS.md#point-of-interest)
 
@@ -153,12 +146,8 @@ See also: [Configuration](/doc/CONFIG.md#entitiesblocks-marking), [Keybindings](
 
 ## Fall Detector
 
-This feature alerts you with a sound cue when you're near the edge of a big drop.
+This feature alerts you with a foot stomping sound cue when you're near the edge of a big drop.
 It will play a sound effect at every location meets the set threshold, the louder the sound, the closer you are to the edge.
-
-| Sound Cue                   | Description                                                                                                               |
-|-----------------------------|---------------------------------------------------------------------------------------------------------------------------|
-| Position with high drop-off | [Breaking the Anvil](https://minecraft.wiki/w/Anvil#Generic), same sound as destroying blocks, like the sound of footstep |
 
 See also: [Configuration](/doc/CONFIG.md#fall-detector)
 
@@ -200,14 +189,10 @@ See also: [Configuration](/doc/CONFIG.md#health-n-hunger), [Keybindings](/doc/KE
 
 ### Player Warnings
 
-This feature warns you when your [health](https://minecraft.wiki/w/Health), [hunger](https://minecraft.wiki/w/Hunger) and [air](https://minecraft.wiki/w/Damage#Drowning) (when you're submerged in water) below the set thresholds.
+This feature warns you with the sound of metal when your [health](https://minecraft.wiki/w/Health), [hunger](https://minecraft.wiki/w/Hunger) and [air](https://minecraft.wiki/w/Damage#Drowning) (when you're submerged in water) below the set thresholds.
 You'll hear something like "Warning, Health is {current health}".
 If you enable the `Play Sound` config, you'll also hear a sound cue along with the warning words.
 You may want to learn about [the various damage types](https://minecraft.wiki/w/Damage) in the game.
-
-| Sound Cue                  | Description                                                                  |
-|----------------------------|------------------------------------------------------------------------------|
-| Status reach the threshold | [Anvil landing](https://minecraft.wiki/w/Anvil#Unique), crisp metallic sound |
 
 See also: [Configuration](/doc/CONFIG.md#player-warnings)
 

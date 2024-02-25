@@ -1,3 +1,10 @@
+Release v1.5.4 (2024-03)
+---------------------------
+
+### Refactoring, Documentation and Chores
+
+* Add [Sound Cue Listening Page](/doc/SOUND.html) for making users refer to the sound cue they heard in the game.
+
 Release v1.5.3 (2024-02)
 ---------------------------
 
