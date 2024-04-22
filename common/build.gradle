@@ -29,7 +29,10 @@ dependencies {
 
     // lombok that makes the life easier
     // https://projectlombok.org/setup/gradle
-    compileOnly group: "org.projectlombok", name: "lombok", version: "1.18.30"
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    testCompileOnly 'org.projectlombok:lombok:1.18.30'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
 
     // dependent on log4j for dynamic changing
     implementation 'org.apache.logging.log4j:log4j-api:2.22.1'
