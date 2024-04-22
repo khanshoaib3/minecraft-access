@@ -1,10 +1,12 @@
+// Sadly, you can't use a gradle variable for a plugin version
+// ref: https://stackoverflow.com/questions/37555196/in-gradle-how-to-use-a-variable-for-a-plugin-version
 plugins {
-    // Sadly, you can't use a variable for a plugin version
-    // ref: https://stackoverflow.com/questions/37555196/in-gradle-how-to-use-a-variable-for-a-plugin-version
     id "architectury-plugin" version "3.4-SNAPSHOT"
+    // From developers of architectury: "shouldn't hardcode the loom version, just put *-SNAPSHOT"
     // ref: https://maven.architectury.dev/dev/architectury/architectury-loom/
-    // From developers of architectury: "shouldn?t hardcode the loom version, just put *-SNAPSHOT"
-    id "dev.architectury.loom" version "1.4-SNAPSHOT" apply false
+    // Loom 1.6: "Developers should use Loom 1.6 (at the time of writing) to develop mods for Minecraft 1.20.5."
+    // ref: https://fabricmc.net/2024/04/19/1205.html
+    id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
 }
 
 architectury {
@@ -43,7 +45,9 @@ allprojects {
 
     tasks.withType(JavaCompile).configureEach {
         options.encoding = "UTF-8"
-        options.release = 17
+        // Minecraft 1.20.5 now requires Java 21 to run.
+        // ref: https://fabricmc.net/2024/04/19/1205.html
+        options.release = 21
     }
 
     java {

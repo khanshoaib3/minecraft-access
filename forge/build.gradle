@@ -1,5 +1,12 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    // The shadow gradle plugin assists with repackaging a 3rd-party library jar within your own jar
+    // In addition to ensuring that your end-users have the library available when they use your own thing,
+    // it also helps avoid collisions with other things that are also using the same library.
+    // ref: https://gist.github.com/SizableShrimp/949e7c219bfc94487a45226b64ac7749
+    //
+    // Latest Test Compatibility: gradle version 8.x shadow version 8.0.0+
+    // ref: https://github.com/johnrengelman/shadow
+    id "com.github.johnrengelman.shadow" version "8.1.1"
 }
 
 architectury {
