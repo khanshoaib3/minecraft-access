@@ -12,18 +12,18 @@ If you know where this tutorial could be improved, please let us know in Discord
 ## Index
 
 1. [Purchase the Game and Download the Launcher](#purchase-the-game-and-download-the-launcher)
-   1. [Purchase the Game](#purchase-the-game)
-   2. [Download the Launcher](#download-the-launcher)
+    1. [Purchase the Game](#purchase-the-game)
+    2. [Download the Launcher](#download-the-launcher)
 2. [Choose and Install the Mod Framework](#choose-and-install-the-mod-framework)
-   1. [Install the Fabric](#install-the-fabric)
-   2. [Install the Forge](#install-the-forge)
+    1. [Install the Fabric](#install-the-fabric)
+    2. [Install the Forge](#install-the-forge)
 3. [Install Mods](#install-mods)
 4. [Additional Installation for Windows](#additional-installation-for-windows)
 5. [Start the Game](#start-the-game)
 6. [Upgrade the Game and Mods](#upgrade-the-game-and-mods)
 7. [Some Helpful Resources](#some-helpful-resources)
-   1. [Quality of Life Mods](#quality-of-life-mods)
-   2. [A Very Simple Beginner Guide](#a-very-simple-beginner-guide)
+    1. [Quality of Life Mods](#quality-of-life-mods)
+    2. [A Very Simple Beginner Guide](#a-very-simple-beginner-guide)
 
 ## Purchase the Game and Download the Launcher
 
@@ -33,18 +33,18 @@ Before you purchase the game, make sure you have a computer with a 64-bit proces
 Below are system requirements from [the official website](https://www.minecraft.net/en-us/store/minecraft-java-bedrock-edition-pc):
 
 1. Minimum:
-   * OS: Windows 7 and up
-   * Architecture: ARM, x64, x86
-   * Memory: 2 GB
-   * Processor: Intel Core i3-3210 3.2 GHz | AMD A8-7600 APU 3.1 GHz | Apple M1 or equivalent
-   * Graphics: Intel HD Graphics 4000 | AMD Radeon R5
+    * OS: Windows 7 and up
+    * Architecture: ARM, x64, x86
+    * Memory: 2 GB
+    * Processor: Intel Core i3-3210 3.2 GHz | AMD A8-7600 APU 3.1 GHz | Apple M1 or equivalent
+    * Graphics: Intel HD Graphics 4000 | AMD Radeon R5
 
 2. Optimum:
-   * OS: Windows 10 and up
-   * Architecture: ARM, x64, x86
-   * Memory: 4 GB
-   * Processor: Intel Core i5-4690 3.5 GHz | AMD A10-7800 APU 3.5 GHz | Apple M1 or equivalent
-   * Graphics: NVIDIA GeForce 700 series or AMD Radeon Rx 200 series (excluding integrated chipsets) with OpenGL 4.45
+    * OS: Windows 10 and up
+    * Architecture: ARM, x64, x86
+    * Memory: 4 GB
+    * Processor: Intel Core i5-4690 3.5 GHz | AMD A10-7800 APU 3.5 GHz | Apple M1 or equivalent
+    * Graphics: NVIDIA GeForce 700 series or AMD Radeon Rx 200 series (excluding integrated chipsets) with OpenGL 4.45
 
 > To be honest, you can play the Minecraft without buying it, the game itself is easy-to-get, given the long and proven community building.
 > The money we spend, in my option, is mainly used to buy a verified account, then you can join multiplayer servers with the official authentication turned on.
@@ -215,7 +215,7 @@ Please always keep this in mind when downloading mods, as incompatible mods will
 It is worth mentioning that some mods can support multiple versions with one same mod file, and generally this will be reflected in the mod file name.
 
 For downloading this mod and the dependencies of this mod, I recommend you download them at the [release page](https://github.com/khanshoaib3/minecraft-access/releases), where we'll prepare download links of suitable version of mods, under `Mod Version Compatibility` section of each release.
-For Fabric, you'll need three mods: 
+For Fabric, you'll need three mods:
 
 1. this mod as `minecraft-access`, and two dependencies,
 2. `Fabric Api`
@@ -310,7 +310,16 @@ For this type of error, there is a simple, common, cumbersome, no-better-choice 
 
 ### Quality of Life Mods
 
-* Presence Footsteps [Fabric](https://modrinth.com/mod/presence-footsteps), [Forge port](https://www.curseforge.com/minecraft/mc-mods/presence-footsteps-forge) - Footstep sound enhancement mod, highly recommend. Note that currently the Forge port isn't support for `1.20.*` yet, so you need to ["install" (put under another folder)](https://minecraft.wiki/w/Tutorials/Loading_a_resource_pack) this resource pack instead: [Presence Footsteps: Remastered Sounds Pack](https://modrinth.com/resourcepack/presense-footsteps-sounds).
+1. Client side, which you can use in both single-player and multiplayer game:
+    * Presence Footsteps ([Fabric](https://modrinth.com/mod/presence-footsteps), [Forge port](https://www.curseforge.com/minecraft/mc-mods/presence-footsteps-forge)): Footstep sound enhancement mod. If the mod has not supported your game version, you would consider to ["install" (put under another folder)](https://minecraft.wiki/w/Tutorials/Loading_a_resource_pack) this resource pack
+      instead: [Presence Footsteps: Remastered Sounds Pack](https://modrinth.com/resourcepack/presense-footsteps-sounds).
+    * Just Enough Items ([Fabric and Forge](https://modrinth.com/mod/jei)): Item and recipe viewing mod, far better than similar recipe book feature in original game (but this mod hasn't been 100% accessible by us, you need some vision to use it).
+    * Sound Physics Remastered ([Fabric and Forge](https://modrinth.com/mod/sound-physics-remastered)): Provides realistic sound attenuation, reverberation, and absorption through blocks. I'm sure this mod consumes resources, so install it only when you're confident in your PC hardware.
+
+2. Server side, which you can only use in single-player game (unless the multiplayer server admins add them into the server):
+    * Tree Harvester ([Fabric and Forge](https://modrinth.com/mod/tree-harvester)): Harvest trees and huge mushrooms instantly with an axe. It's a common scenario in Minecraft that you can't reach the logs and leaves at higher place when standing on the ground, with this mod, you won't bother yourself with stepping yourself up.
+    * Carry On ([Fabric and Forge](https://modrinth.com/mod/carry-on)): Allowing players to pick up, carry, and place some blocks (such as Chests) and animals without breaking blocks or guiding animals with a leash.
+    * FTB Ultimine ([Fabric](https://www.curseforge.com/minecraft/mc-mods/ftb-ultimine-fabric), [Forge](https://www.curseforge.com/minecraft/mc-mods/ftb-ultimine-forge)): This mod can makes you operate on same type blocks around you by operating only once, like harvest crops, mining a vein and chopping trees.
 
 ### A Very Simple Beginner Guide
 
