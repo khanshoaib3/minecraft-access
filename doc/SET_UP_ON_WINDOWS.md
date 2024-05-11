@@ -3,7 +3,7 @@
 This tutorial tries to guide you step by step on how to set the whole thing up. This tutorial is for Windows system.
 
 If you want to chat with other this mod's users and developers, please join [our Discord server](https://discord.gg/yQjjsDqWQX).
-If you know where this tutorial could be improved, please let us know in Discord as well.
+If you know where this tutorial could be improved, please let us know as well.
 
 > The paragraphs in the block quotes are additional nonsense.
 > They do not provide help with the installation, but they can give you a little more insight into things that are relevant.
@@ -47,13 +47,6 @@ Below are system requirements from [the official website](https://www.minecraft.
     * Processor: Intel Core i5-4690 3.5 GHz | AMD A10-7800 APU 3.5 GHz | Apple M1 or equivalent
     * Graphics: NVIDIA GeForce 700 series or AMD Radeon Rx 200 series (excluding integrated chipsets) with OpenGL 4.45
 
-> To be honest, you can play the Minecraft without buying it, the game itself is easy-to-get, given the long and proven community building.
-> The money we spend, in my option, is mainly used to buy a verified account, then you can join multiplayer servers with the official authentication turned on.
-> And yeah, most servers have this authentication turned on.
->
-> It is theoretically possible to install mods for pirated Minecraft, but I don't know how to do it,
-> and for your and your computer's safety we don't recommend playing pirated games, so lets not discuss this further, google it yourself if you insist.
-
 There are two editions of Minecraft: Java Edition and Bedrock Edition.
 This Mod is only available for the Java Edition.
 Don't worry about buying the wrong one, the two editions are sold in a bundle.
@@ -66,14 +59,12 @@ Don't worry about buying the wrong one, the two editions are sold in a bundle.
 >
 > Please also note that the Bedrock Edition in the next purchase link only contains the version that runs on Windows.
 > The Bedrock Edition on other platforms, such as on smartphones, need to be purchased separately in the mobile application store.
->
-> Time to back to the purchase.
 
-By the way, if you've got a redeem code of this game, [here is the redeem page](https://www.minecraft.net/en-us/redeem), no need to buy the game.
+If you've got a redeem code of this game, [here is the redeem page](https://www.minecraft.net/en-us/redeem), no need to buy the game.
 Or if you're Xbox Game Pass member, you can also [get the Minecraft for free](https://help.minecraft.net/hc/en-us/articles/4412266114573-Minecraft-Java-Bedrock-Edition-for-PC-is-on-Xbox-Game-Pass-).
 
 There are currently two purchasable versions of Minecraft, [the Deluxe Collection](https://www.minecraft.net/en-us/store/minecraft-deluxe-collection-pc) and [the bare game](https://www.minecraft.net/store/minecraft-java-bedrock-edition-pc).
-I can't stop you from buying the Deluxe Collection, but I want to remind you that things that the Deluxe Collection has more than the bare game are just virtual currency and items only in the Bedrock Edition, that we can't use and don't care.
+I want to remind you that things that the Deluxe Collection has more than the bare game are just virtual currency and items only in the Bedrock Edition, that we can't use and don't care.
 
 The links will jump to the pages that correspond to the language of your browser, and there is a `CHECKOUT` button.
 Click it, the website will be redirected, then it require you to sign in before the purchase with a... Microsoft account, well, makes sense.
@@ -84,15 +75,17 @@ Keep going after you have logged in, I don't know how to describe the purchase p
 
 > The launcher is something that inherited all the way from old version of Minecraft.
 > Like the launchers for some old PC games, you can use the launcher to choose which version of Minecraft you want to run, or to modify the game launch configuration.
-> There are many kinds of launchers, anyone can write their own launcher to provide customized Minecraft game experience.
+> There are many kinds of launchers, anyone can write their own launcher to provide customized Minecraft game launching experience.
 > The launcher we will download is provided by Microsoft, let's call it the official launcher.
 
 At the end of the purchase process there will be a `Download Game` button to download the launcher.
 If you've missed it, [here is the launcher installer download page](https://www.minecraft.net/download).
 Note that Microsoft has replaced old official launcher installer (`MinecraftInstaller.msi`, that "Download Windows Legacy Launcher" button provided) with their new launcher installer for Microsoft store (`MinecraftInstaller.exe`, that "Download Launcher for Windows 10/11" button provided).
+
 Both two launcher installers installs the (same?) launcher that can run the Java Edition game that this mod required, and subsequent mod installation steps are same.
 The new launcher installer will let you log into Microsoft Store first before installing the launcher.
 So if you have problem with Microsoft Store service, please download the older one (the `MinecraftInstaller.msi`).
+
 The launcher installer is a normal executable file, run it and wait for the finish.
 If the installation is successful, you will now have a new application called `Minecraft Launcher`.
 
@@ -108,35 +101,27 @@ At the first time you start the launcher it requires you to sign in with your Mi
 
 In order to use this mod, you need to modify the game, or to be precise, install a copy of the modified game that is ready for use, the mod framework installer will download and install it for you.
 
-There are currently two mod frameworks: the old and mature Forge, the young and flexible Fabric.
-The mod framework itself and mods of Fabric and Forge are not compatible with each other.
+There are currently four mod frameworks: the old and mature Forge (MinecraftForge), the young and flexible Fabric, more younger Quilt which splits from Fabric, and the youngest NeoForge which splits from Forge.
+The mod framework itself and mods for Fabric and Forge are not compatible with each other.
 Also, the same framework for different game versions are not compatible with mod files which support other game versions.
+This mod supports for both Forge and Fabric, it might also support the other two if there is enough demand.
 
-This mod supports for both Forge and Fabric.
-
-> There is a third even younger mod framework, the Quilt. Quilt is currently compatible with Fabric mods, for now.
-> It is still under development, so this tutorial will not give corresponding installation guide.
-
-I really don't know how to briefly describe the two, as time goes by, the difference between the two becomes smaller and smaller.
-
-Forge is an old school framework, existed almost as long as Minecraft.
-Years of development have made it huge and stable, for example, its support for new game versions will be slower than Fabric, but making mod for Forge is easier.
-
-Fabric is a modern framework with a lightweight design, fast support for new game versions.
-It may require more frequent mod file upgrades (downloads and replaces) for users.
-
-Originally there are many famous heavy mods only on Forge, they can modify Minecraft into almost another game, developing such mods on Fabric will be more difficult.
-But as time passing by, many heavy mods have provided Fabric version.
-And, there are many new good mods only provide Fabric version (some good people will port them onto Forge).
+> I really don't know how to briefly describe the two, as time goes by, the difference between the two becomes smaller and smaller.
+> Forge is an old school framework, existed almost as long as Minecraft.
+> Years of development have made it huge and stable, for example, its support for new game versions will be slower than Fabric, but making mod for Forge is easier.
+> Fabric is a modern framework with a lightweight design, fast support for new game versions.
+> It may require more frequent mod file upgrades (downloads and replaces) for users.
+>
+> Originally there are many famous heavy mods only on Forge, they can modify Minecraft into almost another game, developing such mods on Fabric will be more difficult.
+> But as time passing by, many heavy mods have provided Fabric version.
+> And, there are many new good mods only provide Fabric version (some good people will port them onto Forge).
 
 Which one would you choose, Forge or Fabric? Basically you can only choose one, and expect all the mods you want to use support that framework.
 I recommend Fabric because I have observed that most of the users of this mod use Fabric.
-However, if you want to play on a specific multiplayer server, ask the administrator in advance what framework they need the client (i.e. your local game) to install.
-By the way, the vanilla servers do not require the client to install a specified framework.
+However, if you want to play on a specific multiplayer server, ask the administrator in advance what framework they need the client (i.e. your local game) to install, the vanilla servers do not require the client to install a specified framework.
 
 In fact, you can keep two frameworks at the same time within the official launcher.
 But for bad historical design reason, you need to replace the contents of the `mods` folder with the corresponding mod files everytime before switching (i.e. running a game based on a different framework), which is a pain.
-Also, this does not mean that you can load mod files for one framework on another framework, as we have mentioned earlier, they are not compatible with each other.
 
 ### Install the Java
 
@@ -179,16 +164,12 @@ Start the installer, a window pops up for you to choose the installation configu
 
 ### Install the Forge
 
-#### Download the Forge
-
 Forge requires you to select the right version of the game at the time of download the installer.
 Reports have been received that higher versions of Forge that are compatible with the game version may not be compatible with this mod (this mod is always built on one specific Forge version), so it is recommended to download the tested version of Forge with link in the [releases page](https://github.com/khanshoaib3/minecraft-access/releases) (under `Mod Version Compatibility` section).
 If you still want to download the latest version of Forge for some reason, [here is the download page for that version of Forge](https://files.minecraftforge.net/net/minecraftforge/forge/).
 Select the `Installer` button under the `Download Recommended` sector.
 Then the website will redirect you to a Minecraft server provider's advertising page, in which you'll find a `SKIP` button, click it to trigger the real downloading process.
 An executable jar file will be downloaded, named as `forge-<game-version>-<forge-version>-installer.jar`, for example `forge-1.20.1-47.1.0-installer.jar`.
-
-#### Then Install the Forge
 
 We have received reports that some screen readers such as NVDA cannot read the installer's interface if your current input method is not English.
 Try to switch to English input method first then start the Forge installer.
@@ -231,11 +212,10 @@ For Forge, you'll need two mods:
 By the way, you may be interested in the mods [provided at the end of this tutorial](#quality-of-life-mods), they are good mods that our visually impaired users have found and tested through practice.
 
 After all download works, let's put them into right location.
-Here it is: `%appdata%\.minecraft`, you can directly paste it into File Explorer then press enter key to jump into it.
-Open that minecraft folder in the File Explorer, under this folder there are sub-folders like `assets`, `bin`, `config`......
-What we want to find is the `mods` folder, we'll put downloaded mod files inside it, both Fabric and Forge will load mods from this folder.
+Here it is: `%appdata%\.minecraft\mods`, you can directly paste it into File Explorer then press enter key to jump into it.
+We'll put downloaded mod files inside it, both Fabric and Forge will load mods from this folder.
 We've learned from user report that we need to start the launcher once after installing the mod framework for the `mods` folder to be created.
-Haven't experimented but, I think it's ok to create it manually yourself.
+Haven't experimented but, I think it's ok to create it manually.
 It worth to note that all mod files (and resource pack files) have the "jar" extension, some downloader or browsers may download files as a compressed file like zip format, you'd extract the real mod file from the compressed one.
 
 ## Additional Installation for Windows
@@ -254,8 +234,7 @@ We've implemented the automatic set-up process inside the mod, it will set up th
 
 ## Start the Game
 
-Microsoft launcher, or the official launcher is a bit complicated and I think we need some words to describe it.
-At the first time you start the launcher, it requires you to sign in with your Microsoft account.
+Microsoft launcher, or the official launcher, at the first time you start the launcher, it requires you to sign in with your Microsoft account.
 
 The launcher's sidebar contains not only the Java Edition, it also includes `Minecraft for Windows`, and even two derivative games of Minecraft - `Minecraft Dungeons` and `Minecraft Legends`.
 The sidebar also contains an entry for the settings of the launcher itself.
@@ -270,11 +249,11 @@ The main screen of `Minecraft Java Edition` contains four tabs:
 
 Select the profile created by the mod framework installer and start it, for Fabric, the profile name is `fabric-loader-<game-version>`, for Forge, the name is simply `forge` but the subtitle contains the game version. If everything is fine, you can start exploring the game.
 
-Please note that you may have to enable the narrator configuration from within minecraft in the first startup.
-When the mod speaks "Initializing minecraft access" but does not speak anything else, then you'll have to use `control + b` to enable the narrator, after you hear the music which means that you have entered the main screen.
-Keep pressing to switch it to `Narrator Narrates All`.
+Please note that you need to enable the narrator configuration from within minecraft after you enter the main screen of game (when you hear the music), there will be an accessible setting guide for this purpose, that's a game built-in function.
+You can also press `Control + B` to enable the narrator, keep pressing to switch it to `Narrator Narrates All`.
 
 If the game crashes and a bunch of error logs pop up, the biggest probability is that there is an incompatibility between mod files and mod framework, or between mod files and game version, please read the [Upgrade the Game and Mods](#upgrade-the-game-and-mods) section.
+And [here is a complex self-helped FAQ](./FAQ.md#self-help-guide-for-abnormal-situation) for you to address the problem, from can't hear the narration to crash.
 
 ## Upgrade the Game and Mods
 
@@ -312,8 +291,8 @@ For this type of error, there is a simple, common, cumbersome, no-better-choice 
 ### Quality of Life Mods
 
 1. Client side, which you can use in both single-player and multiplayer game:
-    * Presence Footsteps ([Fabric](https://modrinth.com/mod/presence-footsteps), [Forge port](https://www.curseforge.com/minecraft/mc-mods/presence-footsteps-forge)): Footstep sound enhancement mod. If the mod has not supported your game version, you would consider to ["install" (put under another folder)](https://minecraft.wiki/w/Tutorials/Loading_a_resource_pack) this resource pack
-      instead: [Presence Footsteps: Remastered Sounds Pack](https://modrinth.com/resourcepack/presense-footsteps-sounds).
+    * Presence Footsteps ([Fabric](https://modrinth.com/mod/presence-footsteps), [Forge port](https://www.curseforge.com/minecraft/mc-mods/presence-footsteps-forge)): Footstep sound enhancement mod. If the mod has not supported your game version, you would consider to use this resource pack
+      instead: [Presence Footsteps: Remastered Sounds Pack](https://modrinth.com/resourcepack/presense-footsteps-sounds), put it under `%appdata%\.minecraft\resourcepacks` folder.
     * Just Enough Items ([Fabric and Forge](https://modrinth.com/mod/jei)): Item and recipe viewing mod, far better than similar recipe book feature in original game (but this mod hasn't been 100% accessible by us, you need some vision to use it).
     * Sound Physics Remastered ([Fabric and Forge](https://modrinth.com/mod/sound-physics-remastered)): Provides realistic sound attenuation, reverberation, and absorption through blocks. I'm sure this mod consumes resources, so install it only when you're confident in your PC hardware.
 
@@ -326,5 +305,6 @@ For this type of error, there is a simple, common, cumbersome, no-better-choice 
 
 Try reading [text tutorials for beginners on Minecraft Wiki](https://minecraft.wiki/w/Tutorials), if you find out that listening YouTube videos to learn to play this game is slow or difficult.
 Because Minecraft's world generation is randomized, you may run into the difficulty of trying to generate multiple worlds but all of their spawn location are bad. You can search good [world generation seeds](https://minecraft.wiki/w/Seed_(level_generation)) [on Google](https://www.google.com/search?client=firefox-b-d&q=minecraft+good+seed) and set them when you're creating single player worlds.
+
 I highly recommend you lower the difficulty of the game to get better experience, such as change the [difficulty](https://minecraft.wiki/w/Difficulty) to `Peaceful` to avoid monster spawning, or [use](https://www.minecraft.net/en-us/article/minecraft-commands) [commands](https://minecraft.wiki/w/Commands) to gain advantages (remember to turn on `Allow Cheats` option when you create the world).
-Some commands are very convenient when you're playing single player worlds, such as `/tp` to teleport to another location, `/locate village` to find the nearest village, etc.
+Some commands are very convenient when you're playing single player worlds, such as ` /gamerule keepInventory true` to keep your inventory (highly recommended), `/tp` to teleport to another location, `/locate village` to find the nearest village, `/attribute @p minecraft:generic.max_health base set 1000` to make you take more damage so you can explore the game features freely, etc.
