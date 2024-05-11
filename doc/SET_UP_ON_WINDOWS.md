@@ -15,8 +15,9 @@ If you know where this tutorial could be improved, please let us know in Discord
     1. [Purchase the Game](#purchase-the-game)
     2. [Download the Launcher](#download-the-launcher)
 2. [Choose and Install the Mod Framework](#choose-and-install-the-mod-framework)
-    1. [Install the Fabric](#install-the-fabric)
-    2. [Install the Forge](#install-the-forge)
+    1. [Install the Java](#install-the-java)
+    2. [Install the Fabric](#install-the-fabric)
+    3. [Install the Forge](#install-the-forge)
 3. [Install Mods](#install-mods)
 4. [Additional Installation for Windows](#additional-installation-for-windows)
 5. [Start the Game](#start-the-game)
@@ -137,6 +138,20 @@ In fact, you can keep two frameworks at the same time within the official launch
 But for bad historical design reason, you need to replace the contents of the `mods` folder with the corresponding mod files everytime before switching (i.e. running a game based on a different framework), which is a pain.
 Also, this does not mean that you can load mod files for one framework on another framework, as we have mentioned earlier, they are not compatible with each other.
 
+### Install the Java
+
+> Java is a programming language, the Minecraft Java Edition and mod frameworks are written in this language.
+> To be more precise, installing Java here means installing the JRE, the Java Runtime Environment which allows you to run Java written things, the jar file we just downloaded for example.
+> It's like installing a driver on your computer in order to use a hardware.
+> But actually we'll install the JDK, the Java Development Kit, which contains JRE, because Oracle, the former owner of Java, no longer offers a separate JRE installer.
+
+Both Fabric and Forge requires the Java to be installed on your PC previously.
+Minecraft 1.20.5 requires Java 21 to run, but you can also run previous game version with Java 21.
+[Here is the download page for Java 21](https://www.oracle.com/java/technologies/downloads/#jdk21-windows).
+Also, if you think the download page is complicated, [here is the direct link to download the JDK21 installer for the x64 architecture PC](https://download.oracle.com/java/21/latest/jdk-21_windows-x64_bin.msi).
+Just run the installer and keep clicking Next, there's nothing to say.
+Restart your computer after the installation is completed.
+
 ### Install the Fabric
 
 [Here is the download page for the Fabric loader](https://fabricmc.net/use/installer/).
@@ -172,21 +187,8 @@ If you still want to download the latest version of Forge for some reason, [here
 Select the `Installer` button under the `Download Recommended` sector.
 Then the website will redirect you to a Minecraft server provider's advertising page, in which you'll find a `SKIP` button, click it to trigger the real downloading process.
 An executable jar file will be downloaded, named as `forge-<game-version>-<forge-version>-installer.jar`, for example `forge-1.20.1-47.1.0-installer.jar`.
-You can't run it yet until you install the Java on your computer.
 
-#### Install the Java
-
-> Java is a programming language, the Minecraft Java Edition and mod frameworks are written in this language.
-> To be more precise, installing Java here means installing the JRE, the Java Runtime Environment which allows you to run Java written things, the jar file we just downloaded for example.
-> It's like installing a driver on your computer in order to use a hardware.
-> But actually we'll install the JDK, the Java Development Kit, which contains JRE, because Oracle, the former owner of Java, no longer offers a separate JRE installer.
-
-[Here is the download page for Java](https://www.oracle.com/java/technologies/downloads/), the version doesn't matter, they can all run.
-Also, if you think the download page is complicated, [here is the direct link to download the JDK17 installer for the x64 architecture PC](https://download.oracle.com/java/17/latest/jdk-17_windows-x64_bin.exe).
-Just run the installer and keep clicking Next, there's nothing to say.
-Restart your computer after the installation completed.
-
-#### Continue to Install the Forge
+#### Then Install the Forge
 
 We have received reports that some screen readers such as NVDA cannot read the installer's interface if your current input method is not English.
 Try to switch to English input method first then start the Forge installer.
@@ -212,7 +214,7 @@ Now let's download mod files.
 There are several popular mod download platforms, such as [CurseForge](https://legacy.curseforge.com/minecraft/mc-mods), [Modrinth](https://modrinth.com/mods), generally mod developers will release their works on multiple platforms at the same time.
 Mod developers will release mod files that are compatible with different game versions.
 Please always keep this in mind when downloading mods, as incompatible mods will crash the game at startup.
-It is worth mentioning that some mods can support multiple versions with one same mod file, and generally this will be reflected in the mod file name.
+It is worth mentioning that some mods can support multiple versions with one same mod file, and generally this will be mentioned in the mod file name.
 
 For downloading this mod and the dependencies of this mod, I recommend you download them at the [release page](https://github.com/khanshoaib3/minecraft-access/releases), where we'll prepare download links of suitable version of mods, under `Mod Version Compatibility` section of each release.
 For Fabric, you'll need three mods:
@@ -229,13 +231,12 @@ For Forge, you'll need two mods:
 By the way, you may be interested in the mods [provided at the end of this tutorial](#quality-of-life-mods), they are good mods that our visually impaired users have found and tested through practice.
 
 After all download works, let's put them into right location.
-Do you still have the path of the minecraft folder you just copied?
-If you don't, here it is: `%appdata%\.minecraft`, it's a short version of that path, and you can directly paste it into File Explorer then press enter key to jump into it.
-
+Here it is: `%appdata%\.minecraft`, you can directly paste it into File Explorer then press enter key to jump into it.
 Open that minecraft folder in the File Explorer, under this folder there are sub-folders like `assets`, `bin`, `config`......
 What we want to find is the `mods` folder, we'll put downloaded mod files inside it, both Fabric and Forge will load mods from this folder.
-We've learned that we need to start the launcher once after installing the mod framework for the `mods` folder to be created.
+We've learned from user report that we need to start the launcher once after installing the mod framework for the `mods` folder to be created.
 Haven't experimented but, I think it's ok to create it manually yourself.
+It worth to note that all mod files (and resource pack files) have the "jar" extension, some downloader or browsers may download files as a compressed file like zip format, you'd extract the real mod file from the compressed one.
 
 ## Additional Installation for Windows
 
