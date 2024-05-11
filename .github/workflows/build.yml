@@ -76,6 +76,13 @@ jobs:
           repository: 'khanshoaib3/minecraft-access-i18n'
           path: './common/src/main/resources/assets/minecraft_access/lang'
 
+      - name: Remove Unnecessary Lang Repository Files
+        run: |
+          pushd .
+          cd ./common/src/main/resources/assets/minecraft_access/lang
+          ls | grep -vE "??_??\.json" | xargs rm
+          popd
+
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:

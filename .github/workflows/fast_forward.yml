@@ -1,0 +1,48 @@
+name: Fast-forward
+# Triggered by "/fast-forward" comment in PR.
+# Copied from https://github.com/khanshoaib3/stardew-access/blob/development/.github/workflows/fast-forward.yml
+#
+# ref:
+# https://github.com/orgs/community/discussions/4618#discussioncomment-2795556
+# https://medium.com/@_samkitjain/override-githubs-merge-strategies-cea7eb789e23
+
+on:
+  issue_comment:
+    types: [ created, edited ]
+
+jobs:
+  fast_forward:
+    name: Fast-forward
+    runs-on: ubuntu-latest
+    if: |
+      github.event.issue.pull_request &&
+      !github.event.issue.closed_at &&
+      github.event.issue.state == 'open' &&
+      (github.event.comment.author_association == 'OWNER' || github.event.comment.author_association == 'COLLABORATOR') && 
+      contains(github.event.comment.body, '/fast-forward')
+
+    steps:
+      - name: Generate access token
+        uses: tibdex/github-app-token@v2
+        id: generate-token
+        with:
+          app_id: ${{ secrets.LOKSMITH_ID }}
+          private_key: ${{ secrets.LOCKSMITH_PRIVATE_KEY }}
+
+      - name: Fetch repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          fetch-depth: 0
+
+      - name: Checkout pull request
+        run: gh pr checkout ${{ github.event.issue.number }}
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+
+      - name: Fast-forward & push
+        run: |
+          export PR_COMMIT=$(git rev-parse HEAD)
+          git checkout ${{ github.event.pull_request.base.ref }}
+          git merge --ff-only "$PR_COMMIT"
+          git push origin ${{ github.event.pull_request.base.ref }}

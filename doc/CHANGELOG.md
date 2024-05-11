@@ -1,3 +1,10 @@
+Release v1.6.0 (2024-xx)
+---------------------------
+
+### Refactoring, Documentation and Chores
+
+* Add Fast-forward workflow.
+
 Release v1.5.4 (2024-03)
 ---------------------------
 
