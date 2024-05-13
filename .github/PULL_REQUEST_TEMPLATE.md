@@ -1,9 +1,21 @@
-## Pull Request Checklist
+[//]: # (The changelog will be added into CHANGELOG.md file automatically by fast-forward workflow.)
 
-[//]: # (Use `~~ -[ ] ... ~~` markdown deletion syntax to cross out unrelated entries)
+[//]: # (Please delete unrelevant changelog sections.)
 
-- [ ] A new fragment is added in `./doc/news` that describes what is new (refer to issue #174).
+## Changelog
 
-## Describe what you have changed in this PR
+### New Features
 
-[//]: # (See commit messages.)
+### Feature Updates
+
+### Bug Fixes
+
+### Translation Changes
+
+### Others
+
+[//]: # (The "Development Chores" section won't be included as release notes, it's recorded for developers only.)
+
+### Development Chores
+
+[//]: # (## Keep Writting If You Have Anything Else To Say)

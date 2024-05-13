@@ -1,7 +1,7 @@
 Release v1.6.0 (2024-xx)
 ---------------------------
 
-### Refactoring, Documentation and Chores
+### Development Chores
 
 * Add Fast-forward workflow.
 
