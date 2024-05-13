@@ -3,7 +3,7 @@ Release v1.6.0 (2024-xx)
 
 ### Development Chores
 
-* Add Fast-forward workflow.
+- Add Fast-forward workflow.
 
 Release v1.5.4 (2024-03)
 ---------------------------
@@ -21,6 +21,16 @@ Release v1.5.3 (2024-02)
 * When locking on an entity, POI Locking feature will always try to target at a valid position that you can interact with, thus you can attack a monster even it expose small part of its body to you.
 * Now POI Locking feature will never let you make eye contact with an [Enderman](https://minecraft.wiki/w/Enderman).
 * [Boat](https://minecraft.wiki/w/Boat), [mine cart](https://minecraft.wiki/w/Minecart), [slime](https://minecraft.wiki/w/Slime), [magma cube](https://minecraft.wiki/w/Magma_cube), and [ancient debris](https://minecraft.wiki/w/Ancient_debris) can be scanned and locked with POI feature now. [#157](https://github.com/khanshoaib3/minecraft_access/issues/157) [#203](https://github.com/khanshoaib3/minecraft_access/issues/203) [#215](https://github.com/khanshoaib3/minecraft_access/issues/215)
+
+- aoNIWDn
+- aOINDWo21
+- aOINDWo21
+
+### Feature Updates
+
+- AONO@Nlkdn21lk
+- aoNIWDn
+- AONO@Nlkdn21lk
 
 ### Bug Fixes
 
@@ -199,7 +209,7 @@ Release v1.2.0 (2023-08-30)
 ### New Features
 
 * Camera Look straight Up and Down. [#131](https://github.com/khanshoaib3/minecraft-access/pull/131) [#132](https://github.com/khanshoaib3/minecraft-access/pull/132) [#133](https://github.com/khanshoaib3/minecraft-access/pull/133) [#135](https://github.com/khanshoaib3/minecraft-access/pull/135)
-* New Brazilian Portuguese Translation. https://github.com/khanshoaib3/minecraft-access-i18n/pull/18
+* New Brazilian Portuguese Translation. <https://github.com/khanshoaib3/minecraft-access-i18n/pull/18>
 
 ### Changes and Fixes
 
@@ -242,7 +252,7 @@ Release v1.1.0-beta.2 (for 1.20.1) v1.0.2 (for 1.19.3) (2023-07-08)
 * Fix the failure that mouse click event is performed before mouse cursor moving event in Windows. [#65](https://github.com/khanshoaib3/minecraft-access/pull/65) [#66](https://github.com/khanshoaib3/minecraft-access/pull/66)
 * Fix a bug about KeyBindingsHandler's initialization. [#63](https://github.com/khanshoaib3/minecraft-access/pull/63) [#64](https://github.com/khanshoaib3/minecraft-access/pull/64)
 
-**Full Changelog**: https://github.com/khanshoaib3/minecraft-access/compare/v1.1.0-beta.1...v1.1.0-beta.2
+**Full Changelog**: <https://github.com/khanshoaib3/minecraft-access/compare/v1.1.0-beta.1...v1.1.0-beta.2>
 
 Release v1.1.0-beta.1 (for 1.20.1) (2023-07-02)
 ---------------------------
@@ -252,64 +262,64 @@ Release v1.1.0-beta.1 (for 1.20.1) (2023-07-02)
 * Added sign's front and back text narration.
 * Added torch flower and pitcher crop's ripe level info in `Read Crosshair`.
 
-**Full Changelog**: https://github.com/khanshoaib3/minecraft-access/compare/v1.0.1...v1.1.0-beta.1
+**Full Changelog**: <https://github.com/khanshoaib3/minecraft-access/compare/v1.0.1...v1.1.0-beta.1>
 
 Release v1.0.1 (for 1.19.3) (2023-07-01)
 ---------------------------
 
 ### New Features
 
-- Fall detector is back but in this version instead of speaking "warning fall detected", a sound is played at block (Anvil Block Hit sound to be specific). There will be an alternate sound option in the next update.
-- The mod now automatically setups the screen reader libraries. You would still need to download the other required mods (fabric api and architectury api).
-- Narrator menu hotkeys - You can now trigger the narrator menu options without opening the menu. More about this [here](https://github.com/khanshoaib3/minecraft-access#narrator-menu).
-- Added a mod configuration menu. You can open this menu from the `Open Config Menu` option in Narrator/F4 Menu.
-- POI marking feature, with this feature you can select to only detect a specific type of block/entity, more on this [here](https://github.com/khanshoaib3/minecraft-access#points-of-interest)
-- The mod now reports the items picked up when fishing.
+* Fall detector is back but in this version instead of speaking "warning fall detected", a sound is played at block (Anvil Block Hit sound to be specific). There will be an alternate sound option in the next update.
+* The mod now automatically setups the screen reader libraries. You would still need to download the other required mods (fabric api and architectury api).
+* Narrator menu hotkeys - You can now trigger the narrator menu options without opening the menu. More about this [here](https://github.com/khanshoaib3/minecraft-access#narrator-menu).
+* Added a mod configuration menu. You can open this menu from the `Open Config Menu` option in Narrator/F4 Menu.
+* POI marking feature, with this feature you can select to only detect a specific type of block/entity, more on this [here](https://github.com/khanshoaib3/minecraft-access#points-of-interest)
+* The mod now reports the items picked up when fishing.
 
 ## Changes and Fixes
 
-- Chat message reader improvements, now you can use alt + number keys to speak last 9 chat messages.
-- Added configs to disable speaking action bar updates, speak time in 12 hour format and to repeat speaking the block/entity name.
-- Simplified Chinese translations.
-- Added sculk sensor/catalyst/shrieker to poi blocks
-- The group names in inventory controls are now internationalized.
-- Added beehive info to the read crosshair feature.
-- Added narration about crops ripe level and farmland wet state
-- Fixed default narrator override in forge version.
-- Fixed enchant name not being spoken when in non-creative world.
-- Removed the power level info from comparators because it isn't working.
+* Chat message reader improvements, now you can use alt + number keys to speak last 9 chat messages.
+* Added configs to disable speaking action bar updates, speak time in 12 hour format and to repeat speaking the block/entity name.
+* Simplified Chinese translations.
+* Added sculk sensor/catalyst/shrieker to poi blocks
+* The group names in inventory controls are now internationalized.
+* Added beehive info to the read crosshair feature.
+* Added narration about crops ripe level and farmland wet state
+* Fixed default narrator override in forge version.
+* Fixed enchant name not being spoken when in non-creative world.
+* Removed the power level info from comparators because it isn't working.
 
 <details><summary>Auto Generated Release Notes</summary>
 <p>
 
 ## What's Changed
 
-* Added config option to speak time in 12 hour format by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/21
-* Chat History Reader by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/23
-* Misc by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/24
-* Bug Fixes by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/28
-* Auto Library Installer by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/29
-* I18N SlotsGroup by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/30
-* Mainly move facing-direction functions by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/31
-* Reset previousQuery after every 5000ms by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/32
-* Fix some SlotGroups non-config-key groupNames. by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/34
-* Bee Hive Info by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/40
-* Chore Narration improvements by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/38
-* Add FluidDetector config. by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/37
-* Config Menu by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/45
-* Add narration about crops ripe level and farmland wet state. Refactor block narration methods. close [#44](https://github.com/khanshoaib3/minecraft-access/pull/44) by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/46
-* Add Narrator Menu hotkey and Narrator Menu number key listening by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/47
-* Add speak harvest of fishing feature, to be clear it will report what your picked up when you're holding a fishing rod. by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/52
-* Comparator info fix; Bug fix for redstone related blocks; Refactored i18n entries; by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/53
-* Add speak harvest of fishing config by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/54
-* Fix debugMode dynamic config. close [#50](https://github.com/khanshoaib3/minecraft-access/pull/50) by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/57
-* Add marked poi scan feature by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/59
-* Refactor key related code by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/56
-* Fixes buggy Time Utils with camera and inventory controls key inputs. by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/63
+* Added config option to speak time in 12 hour format by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/21>
+* Chat History Reader by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/23>
+* Misc by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/24>
+* Bug Fixes by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/28>
+* Auto Library Installer by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/29>
+* I18N SlotsGroup by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/30>
+* Mainly move facing-direction functions by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/31>
+* Reset previousQuery after every 5000ms by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/32>
+* Fix some SlotGroups non-config-key groupNames. by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/34>
+* Bee Hive Info by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/40>
+* Chore Narration improvements by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/38>
+* Add FluidDetector config. by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/37>
+* Config Menu by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/45>
+* Add narration about crops ripe level and farmland wet state. Refactor block narration methods. close [#44](https://github.com/khanshoaib3/minecraft-access/pull/44) by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/46>
+* Add Narrator Menu hotkey and Narrator Menu number key listening by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/47>
+* Add speak harvest of fishing feature, to be clear it will report what your picked up when you're holding a fishing rod. by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/52>
+* Comparator info fix; Bug fix for redstone related blocks; Refactored i18n entries; by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/53>
+* Add speak harvest of fishing config by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/54>
+* Fix debugMode dynamic config. close [#50](https://github.com/khanshoaib3/minecraft-access/pull/50) by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/57>
+* Add marked poi scan feature by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/59>
+* Refactor key related code by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/56>
+* Fixes buggy Time Utils with camera and inventory controls key inputs. by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/63>
 
-**Full Changelog**: https://github.com/khanshoaib3/minecraft-access/compare/v1.0.0...v1.0.1
+**Full Changelog**: <https://github.com/khanshoaib3/minecraft-access/compare/v1.0.0...v1.0.1>
 </p>
-</details> 
+</details>
 
 Beta 1.0.1-beta.2 (for 1.19.3) (2023-06-18)
 ---------------------------
@@ -335,22 +345,22 @@ Note that you may face issue in accessing the F4 menu, this can be resolved by d
 
 ### What's Changed
 
-* Bug Fixes by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/28
-* Auto Library Installer by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/29
-* I18N SlotsGroup by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/30
-* Mainly move facing-direction functions by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/31
-* Reset previousQuery after every 5000ms by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/32
-* Fix some SlotGroups non-config-key groupNames. by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/34
-* Bee Hive Info by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/40
-* Chore Narration improvements by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/38
-* Add FluidDetector config. by @boholder in https://github.com/khanshoaib3/minecraft-access/pull/37
-* Config Menu by @khanshoaib3 in https://github.com/khanshoaib3/minecraft-access/pull/45
+* Bug Fixes by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/28>
+* Auto Library Installer by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/29>
+* I18N SlotsGroup by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/30>
+* Mainly move facing-direction functions by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/31>
+* Reset previousQuery after every 5000ms by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/32>
+* Fix some SlotGroups non-config-key groupNames. by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/34>
+* Bee Hive Info by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/40>
+* Chore Narration improvements by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/38>
+* Add FluidDetector config. by @boholder in <https://github.com/khanshoaib3/minecraft-access/pull/37>
+* Config Menu by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/45>
 
 ### New Contributors
 
-* @boholder made their first contribution in https://github.com/khanshoaib3/minecraft-access/pull/30
+* @boholder made their first contribution in <https://github.com/khanshoaib3/minecraft-access/pull/30>
 
-**Full Changelog**: https://github.com/khanshoaib3/minecraft-access/compare/v1.0.1-beta.1...v1.0.1-beta.2
+**Full Changelog**: <https://github.com/khanshoaib3/minecraft-access/compare/v1.0.1-beta.1...v1.0.1-beta.2>
 
 </p>
 </details>
@@ -360,16 +370,16 @@ Beta 1.0.1-beta.1 (for 1.19.3) (2023-04-30)
 
 ### New Features
 
-- Simplified Chinese translations (thanks to @onion108 for this).
-- Fall detector is back but in this version instead of speaking "warning fall detected", a sound is played at block (Anvil Block Hit sound to be specific). Do let me know if you think that previous implementation was better :)
+* Simplified Chinese translations (thanks to @onion108 for this).
+* Fall detector is back but in this version instead of speaking "warning fall detected", a sound is played at block (Anvil Block Hit sound to be specific). Do let me know if you think that previous implementation was better :)
 
 ## Changes and Fixes
 
-- Chat Message Reader, now you can use alt + number keys to speak last 9 chat messages (this atm does not include any system sent messages).
-- Added config to disable speaking action bar updates.
-- Added sculk sensor/catalyst/shrieker to poi blocks
+* Chat Message Reader, now you can use alt + number keys to speak last 9 chat messages (this atm does not include any system sent messages).
+* Added config to disable speaking action bar updates.
+* Added sculk sensor/catalyst/shrieker to poi blocks
 
-**Full Changelog**: https://github.com/khanshoaib3/minecraft-access/compare/v1.0.0...v1.0.1-beta.1
+**Full Changelog**: <https://github.com/khanshoaib3/minecraft-access/compare/v1.0.0...v1.0.1-beta.1>
 
 Release 1.0.0 (for 1.19.3) (2023-02-05)
 ---------------------------
@@ -378,15 +388,15 @@ This marks the release of Minecraft Access. All the features from the previous m
 
 ### Noticeable Changes
 
-- The mod now works with both fabric and forge now.
-- The mod now uses [Tolk](https://github.com/ndarilek/tolk) library for accessing screen reader in Windows and [libSpeechdWrapper](https://github.com/khanshoaib3/libspeechdwrapper) for Linux.
-- Inventory controls key mapping is changed and now supports all the menus (including creative inventory)
-- Key mappings for camera controls have also been updated to better suit keyboard with no numpad/keypad.
-- The feature that reads the crosshair target also gives additional information like whether a block is being powered by a redstone source, a door is open or closed, sheep's color, etc.
-- The narrator menu now has a few more options including time of day which now works for servers/multiplayer also.
-- There is no longer a dedicated menu for mod customization, instead we have to manually edit the config.json file. (more on this [here](https://github.com/khanshoaib3/minecraft-access#mod-configuration))
+* The mod now works with both fabric and forge now.
+* The mod now uses [Tolk](https://github.com/ndarilek/tolk) library for accessing screen reader in Windows and [libSpeechdWrapper](https://github.com/khanshoaib3/libspeechdwrapper) for Linux.
+* Inventory controls key mapping is changed and now supports all the menus (including creative inventory)
+* Key mappings for camera controls have also been updated to better suit keyboard with no numpad/keypad.
+* The feature that reads the crosshair target also gives additional information like whether a block is being powered by a redstone source, a door is open or closed, sheep's color, etc.
+* The narrator menu now has a few more options including time of day which now works for servers/multiplayer also.
+* There is no longer a dedicated menu for mod customization, instead we have to manually edit the config.json file. (more on this [here](https://github.com/khanshoaib3/minecraft-access#mod-configuration))
 
-**Full Changelog**: https://github.com/khanshoaib3/minecraft-access/compare/v0.1.6-beta...v1.0.0
+**Full Changelog**: <https://github.com/khanshoaib3/minecraft-access/compare/v0.1.6-beta...v1.0.0>
 
 Beta Release 0.1.6 (for 1.19.3) (2023-01-07)
 ---------------------------
@@ -395,25 +405,25 @@ _Note that this will only work on 1.19.3 and for fabric it is recommended to use
 
 ### Changelog
 
-- Patched book screen.
-    - Use Left alt + r to repeat the contents of current page
-- Added health and hunger feature (keybind: R)
-- Added fluid block detection in read crosshair feature
-- Added player warnings feature
-- Added point of interest feature with keybind to lock on to nearest entity or block. Use Y to lock and alt + Y to unlock.
+* Patched book screen.
+    * Use Left alt + r to repeat the contents of current page
+* Added health and hunger feature (keybind: R)
+* Added fluid block detection in read crosshair feature
+* Added player warnings feature
+* Added point of interest feature with keybind to lock on to nearest entity or block. Use Y to lock and alt + Y to unlock.
 
-**Full Changelog**: https://github.com/khanshoaib3/minecraft-access/compare/v0.1.0-beta...v0.1.6-beta
+**Full Changelog**: <https://github.com/khanshoaib3/minecraft-access/compare/v0.1.0-beta...v0.1.6-beta>
 
 Beta Release 0.1.0 (for 1.19.3) (2022-11-20)
 ---------------------------
 
 ### Changelog
 
-- Camera Controls
-- Inventory Controls
-- Read Block
-- Position Narrator
-- Facing Direction
-- Biome Indicator
+* Camera Controls
+* Inventory Controls
+* Read Block
+* Position Narrator
+* Facing Direction
+* Biome Indicator
 
-**Full Changelog**: https://github.com/khanshoaib3/minecraft-access/compare/v0.0.1...v0.1.0-beta
+**Full Changelog**: <https://github.com/khanshoaib3/minecraft-access/compare/v0.0.1...v0.1.0-beta>

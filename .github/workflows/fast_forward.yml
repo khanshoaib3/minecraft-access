@@ -40,7 +40,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       # API: https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#get-a-pull-request
-      - name: Get PR deatils
+      - name: Get PR details
         uses: octokit/request-action@v2.x
         id: get-pr-details
         with:
@@ -49,20 +49,6 @@ jobs:
           pull_number: ${{ github.event.issue.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # For running the script that copies the changelogs to docs/changelogs/latest.md file
-      - name: Install python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      # - name: View PR Details
-      #   run: echo '${{ steps.get-pr-details.outputs.data }}'
-
-      # - name: View the github context
-      #   run: echo "$GITHUB_CONTEXT"
-      #   env:
-      #     GITHUB_CONTEXT: ${{ toJson(github) }}
 
       - name: Set environment variables
         run: |
@@ -78,8 +64,8 @@ jobs:
       - name: Merge the head branch into base in a fast forward manner only
         if: ${{ env.MERGE_STATUS == 'clean' }}
         run: |
-          git config --global user.email "<>"
-          git config --global user.name "GitHub Actions [Bot]"
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
           git checkout ${{ env.BASE_REF }}
           git pull origin ${{ env.BASE_REF }}
           if ${{ fromJson(steps.get-pr-details.outputs.data).head.repo.fork }}; then
@@ -102,10 +88,8 @@ jobs:
         run: |
           cd ./docs/changelogs
           echo "$ISSUE_BODY" > pr_msg.txt
-          sed -i '/## Changelog/,$!d' ./pr_msg.txt
-          python ./scripts/copy_changelogs_to.py ./pr_msg.txt ./latest.md > ../../response.txt
+          python copy_changelogs_to.py pr_msg.txt latest.md > ../../response.txt
           cat ../../response.txt
-          rm ./pr_msg.txt
           cd ../../
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
@@ -118,8 +102,8 @@ jobs:
             echo "COMMENT=${{ env.COMMENT }}\nNo changelogs found..." >> $GITHUB_ENV
           else
             git add docs/changelogs/latest.md
-            git commit -m ":memo: Add changelogs from #${{ github.event.issue.number }} to latest.md"
-            echo "COMMENT=${{ env.COMMENT }}\nCopied the changelogs from pull request body to docs/changelogs/latest.md..." >> $GITHUB_ENV
+            git commit -m "chore(ff ci): add changelogs from #${{ github.event.issue.number }} to CHANGELOG.md"
+            echo "COMMENT=${{ env.COMMENT }}\nCopied the changelogs from pull request body to doc/CHANGELOG.md..." >> $GITHUB_ENV
           fi
 
       - name: Push to origin

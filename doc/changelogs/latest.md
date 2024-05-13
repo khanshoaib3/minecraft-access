@@ -1,4 +1,4 @@
-[//]: # (Manually copy this file to CHANGELOG.md, then copy the default.md to this file at every release time.)
+[//]: # (Manually copy the latest.md to CHANGELOG.md, then copy the default.md to the latest.md at every release time (when changing the version number of this mod).)
 
 ### New Features
 
