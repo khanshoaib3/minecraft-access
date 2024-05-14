@@ -19,8 +19,10 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOfferList;
+import net.minecraft.village.TradedItem;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SlotItem {
     public SlotItem upSlotItem = null;
@@ -87,7 +89,7 @@ public class SlotItem {
 
             int scrollOffset = ((StonecutterScreenAccessor) stonecutterScreen).getScrollOffset();
             ItemStack item = list.get(recipeOrTradeIndex + scrollOffset).value().getResult(DynamicRegistryManager.EMPTY);
-            List<Text> toolTip = Screen.getTooltipFromItem(MinecraftClient.getInstance(),item);
+            List<Text> toolTip = Screen.getTooltipFromItem(MinecraftClient.getInstance(), item);
             StringBuilder toolTipString = new StringBuilder();
             for (Text text : toolTip) {
                 toolTipString.append(text.getString()).append("\n");
@@ -102,13 +104,15 @@ public class SlotItem {
             TradeOffer tradeOffer = tradeOfferList.get(recipeOrTradeIndex + ((MerchantScreenAccessor) merchantScreen).getIndexStartOffset());
 
             ItemStack firstBuyItem = tradeOffer.getOriginalFirstBuyItem();
-            ItemStack secondBuyItem = tradeOffer.getSecondBuyItem();
+            Optional<TradedItem> secondBuyItem = tradeOffer.getSecondBuyItem();
             ItemStack sellItem = tradeOffer.getSellItem();
 
             String firstBuyItemString = firstBuyItem.getCount() + tradeOffer.getSpecialPrice() + firstBuyItem.getName().getString();
             String secondBuyItemString = "";
-            if (!secondBuyItem.isEmpty())
-                secondBuyItemString = secondBuyItem.getCount() + secondBuyItem.getName().getString();
+            if (secondBuyItem.isPresent()) {
+                ItemStack item = secondBuyItem.get().itemStack();
+                secondBuyItemString = item.getCount() + item.getName().getString();
+            }
             String sellItemString = sellItem.getCount() + sellItem.getName().getString();
 
             String tradeText;
