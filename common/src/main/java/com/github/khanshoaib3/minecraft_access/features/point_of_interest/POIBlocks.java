@@ -4,7 +4,6 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.POIBlocksConfi
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
-import com.google.common.collect.ImmutableSet;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
@@ -224,7 +223,7 @@ public class POIBlocks {
             leverBlocks.put(diff, blockVec3dPos);
             soundType = "blocks";
         } else if (block instanceof DoorBlock) {
-            ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = blockState.getEntries().entrySet();
+            Set<Map.Entry<Property<?>, Comparable<?>>> entries = blockState.getEntries().entrySet();
             for (Map.Entry<Property<?>, Comparable<?>> i : entries) {
 
                 if (i.getKey().getName().equals("half")) {

@@ -1,7 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
-import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.state.property.Property;
@@ -10,6 +9,7 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * The position of the block (blockPos.toCenterPos()) is generally considered to be the center of the block (x.5,y.5,z.5).
@@ -19,7 +19,7 @@ import java.util.Map;
 public class NonCubeBlockAbsolutePositions {
     public static Vec3d getTrapDoorPos(Vec3d blockPos) {
         ClientWorld world = WorldUtils.getClientWorld();
-        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world);
+        Set<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world);
 
         String half = "", facing = "", open = "";
 
@@ -60,7 +60,7 @@ public class NonCubeBlockAbsolutePositions {
 
     public static Vec3d getLeverPos(Vec3d blockPos) {
         ClientWorld world = WorldUtils.getClientWorld();
-        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world);
+        Set<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world);
 
         String face = "", facing = "";
 
@@ -99,7 +99,7 @@ public class NonCubeBlockAbsolutePositions {
 
     public static Vec3d getLadderPos(Vec3d blockPos) {
         ClientWorld world = WorldUtils.getClientWorld();
-        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world);
+        Set<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world);
 
         String facing = "";
 
@@ -130,7 +130,7 @@ public class NonCubeBlockAbsolutePositions {
 
     public static Vec3d getButtonPos(Vec3d blockPos) {
         ClientWorld world = WorldUtils.getClientWorld();
-        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world);
+        Set<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world);
 
         double x = blockPos.getX();
         double y = blockPos.getY();
@@ -168,7 +168,7 @@ public class NonCubeBlockAbsolutePositions {
 
     public static Vec3d getDoorPos(Vec3d blockPos) {
         ClientWorld world = WorldUtils.getClientWorld();
-        ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world);
+        Set<Map.Entry<Property<?>, Comparable<?>>> entries = getEntries(blockPos, world);
 
         String facing = "", hinge = "", open = "";
 
@@ -222,7 +222,7 @@ public class NonCubeBlockAbsolutePositions {
     }
 
     @NotNull
-    private static ImmutableSet<Map.Entry<Property<?>, Comparable<?>>> getEntries(Vec3d blockPos, ClientWorld world) {
+    private static Set<Map.Entry<Property<?>, Comparable<?>>> getEntries(Vec3d blockPos, ClientWorld world) {
         BlockState blockState = world.getBlockState(BlockPos.ofFloored(blockPos.x, blockPos.y, blockPos.z));
         return blockState.getEntries().entrySet();
     }
