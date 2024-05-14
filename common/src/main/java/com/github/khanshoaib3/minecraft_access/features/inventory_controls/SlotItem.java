@@ -80,7 +80,8 @@ public class SlotItem {
             int p = row + ((LoomScreenAccessor) loomScreen).getVisibleTopRow();
             int q = p * 4 + column;
 
-            return list.get(q).value().getId();
+            BannerPattern pattern = list.get(q).value();
+            return I18n.translate(pattern.translationKey());
         }
 
         if (MinecraftClient.getInstance().currentScreen instanceof StonecutterScreen stonecutterScreen) {
