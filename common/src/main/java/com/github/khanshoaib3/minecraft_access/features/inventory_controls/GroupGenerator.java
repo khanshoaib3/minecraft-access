@@ -322,13 +322,13 @@ public class GroupGenerator {
             beaconConfirmButtonsGroup.slotItems.add(new SlotItem(173, screen.getY() + 107, "Done Button"));
             beaconConfirmButtonsGroup.slotItems.add(new SlotItem(199, screen.getY() + 107, "Cancel Button"));
             for (i = 0; i <= 2; ++i) {
-                j = BeaconBlockEntity.EFFECTS_BY_LEVEL[i].length;
+                j = BeaconBlockEntity.EFFECTS_BY_LEVEL.get(i).size();
                 k = j * 22 + (j - 1) * 2;
                 for (l = 0; l < j; ++l) {
                     primaryBeaconPowersButtonsGroup.slotItems.add(new SlotItem(85 + l * 24 - k / 2, screen.getY() + 22 + i * 25));
                 }
             }
-            j = BeaconBlockEntity.EFFECTS_BY_LEVEL[3].length + 1;
+            j = BeaconBlockEntity.EFFECTS_BY_LEVEL.get(3).size() + 1;
             k = j * 22 + (j - 1) * 2;
             for (l = 0; l < j - 1; ++l) {
                 secondaryBeaconPowersButtonsGroup.slotItems.add(new SlotItem(176 + l * 24 - k / 2, screen.getY() + 47));
