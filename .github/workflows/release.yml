@@ -28,7 +28,7 @@ on:
         type: string
 
 env:
-  JAVA_VERSION: '17'
+  JAVA_VERSION: '21'
   UPLOAD_PATH: upload
   CHANGELOG_FILE_PATH: ./doc/CHANGELOG.md
   MOD_COMPATIBILITY_INFO_FILE_PATH: ./doc/MOD_COMPATIBILITY.md
@@ -44,7 +44,7 @@ jobs:
     name: Test and Build
     uses: ./.github/workflows/build.yml
     with:
-      jdk-version: '17'
+      jdk-version: '21'
       build-files-cache-key: ${{ github.run_id }}
       version: ${{ inputs.version }}
 

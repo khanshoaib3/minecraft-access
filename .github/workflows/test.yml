@@ -12,7 +12,7 @@ on:
   workflow_call:
     inputs:
       jdk-version:
-        default: '17'
+        default: '21'
         required: false
         type: string
       version:
@@ -32,7 +32,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: ${{ inputs.jdk-version || '17' }}
+          java-version: ${{ inputs.jdk-version || '21' }}
           distribution: 'temurin'
           cache: 'gradle'
 

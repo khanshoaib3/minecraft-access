@@ -33,7 +33,7 @@ env:
   FORGE_PATH: forge/build/libs
   MOD_FILE_PREFIX: minecraft-access-
   UPLOAD_PATH: upload
-  JDK_VERSION: ${{ inputs.jdk-version || '17' }}
+  JDK_VERSION: ${{ inputs.jdk-version || '21' }}
 
 jobs:
   test:
@@ -43,7 +43,7 @@ jobs:
       # Context "env" is not allowed here
       # Available contexts are "github", "inputs", "matrix", "needs", "strategy", "vars"
       # ref: https://docs.github.com/en/actions/learn-github-actions/contexts#context-availability
-      jdk-version: ${{ inputs.jdk-version || '17' }}
+      jdk-version: ${{ inputs.jdk-version || '21' }}
 
   build:
     # Run build job only if test job is successfully passed
