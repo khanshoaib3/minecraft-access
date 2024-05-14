@@ -14,8 +14,9 @@ import net.minecraft.client.gui.screen.recipebook.RecipeBookProvider;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.ToggleButtonWidget;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.item.TooltipType;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.item.Item.TooltipContext;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.text.Text;
@@ -519,7 +520,7 @@ public class InventoryControls {
 
         String info = "%s %d".formatted(currentGroup.getSlotPrefix(currentSlotItem.slot), currentSlotItem.slot.getStack().getCount());
         StringBuilder toolTipString = new StringBuilder();
-        List<Text> toolTipList = currentSlotItem.slot.getStack().getTooltip(minecraftClient.player, TooltipContext.Default.BASIC);
+        List<Text> toolTipList = currentSlotItem.slot.getStack().getTooltip(TooltipContext.DEFAULT, minecraftClient.player, TooltipType.BASIC);
         for (Text line : toolTipList) {
             toolTipString.append(line.getString());
         }
