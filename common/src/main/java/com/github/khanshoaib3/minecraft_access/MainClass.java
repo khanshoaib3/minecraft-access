@@ -9,7 +9,6 @@ import com.github.khanshoaib3.minecraft_access.features.point_of_interest.POIMar
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
 import com.mojang.text2speech.Narrator;
-import dev.architectury.event.events.client.ClientTickEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
@@ -68,8 +67,6 @@ public class MainClass {
         MainClass.playerWarnings = new PlayerWarnings();
         MainClass.narratorMenu = new NarratorMenu();
         MainClass.fluidDetector = new FluidDetector();
-
-        ClientTickEvent.CLIENT_POST.register(MainClass::clientTickEventsMethod);
 
         // This executes when minecraft closes
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
