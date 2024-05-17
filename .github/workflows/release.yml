@@ -93,7 +93,6 @@ jobs:
           
           echo "release-tag=${GIT_VERSION_TAG}" >> $GITHUB_OUTPUT
           
-          echo "ARCHY_VERSION=$(grep "architectury_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
           echo "FABRIC_API_VERSION=$(grep "fabric_api_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
 
       # Create temp changelog files, add content from input and documentation files
@@ -158,7 +157,6 @@ jobs:
           java: ${{ env.JAVA_VERSION }}
           dependencies: |
             fabric-api@${{ env.FABRIC_API_VERSION }}(required)
-            architectury-api@${{ env.ARCHY_VERSION }}+fabric(required)
           retry-attempts: 2
           retry-delay: 60000
 
@@ -178,8 +176,6 @@ jobs:
           loaders: forge
           game-versions: ${{ env.MINECRAFT_VERSION }}
           java: ${{ env.JAVA_VERSION }}
-          dependencies: |
-            architectury-api@${{ env.ARCHY_VERSION }}+minecraftforge(required)
           retry-attempts: 2
           retry-delay: 60000
 
