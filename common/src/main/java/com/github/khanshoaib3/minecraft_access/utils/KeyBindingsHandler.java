@@ -1,6 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.utils;
 
-import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
+import lombok.Getter;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
@@ -64,6 +64,7 @@ public class KeyBindingsHandler {
     private static final String MOUSE_SIMULATION_KEY = "minecraft_access.keys.mouse_simulation.group_name";
     private static final String AREA_MAP_GROUP_KEY = "minecraft_access.keys.area_map.group_name";
 
+    @Getter
     private static final KeyBindingsHandler instance;
 
     /**
@@ -83,10 +84,6 @@ public class KeyBindingsHandler {
         } catch (Exception e) {
             throw new RuntimeException("Exception occurred in creating KeyBindingsHandler instance", e);
         }
-    }
-
-    public static KeyBindingsHandler getInstance() {
-        return instance;
     }
 
     /**
@@ -459,34 +456,34 @@ public class KeyBindingsHandler {
         );
     }
 
-    public void registerAllKeys() {
-        Set.of(inventoryControlsGroupKey,
-                        inventoryControlsUpKey,
-                        inventoryControlsRightKey,
-                        inventoryControlsDownKey,
-                        inventoryControlsLeftKey,
-                        inventoryControlsSwitchTabKey,
-                        inventoryControlsToggleCraftableKey,
-                        cameraControlsUp,
-                        cameraControlsRight,
-                        cameraControlsDown,
-                        cameraControlsLeft,
-                        cameraControlsAlternateUp,
-                        cameraControlsAlternateRight,
-                        cameraControlsAlternateDown,
-                        cameraControlsAlternateLeft,
-                        cameraControlsNorth,
-                        cameraControlsEast,
-                        cameraControlsWest,
-                        cameraControlsSouth,
-                        cameraControlsStraightUp,
-                        cameraControlsStraightDown,
-                        cameraControlsCenterCamera,
-                        mouseSimulationLeftMouseKey,
-                        mouseSimulationRightMouseKey,
-                        mouseSimulationMiddleMouseKey,
-                        mouseSimulationScrollUpKey,
-                        mouseSimulationScrollDownKey,
+    public Set<KeyBinding> getKeys() {
+        return Set.of(inventoryControlsGroupKey,
+                inventoryControlsUpKey,
+                inventoryControlsRightKey,
+                inventoryControlsDownKey,
+                inventoryControlsLeftKey,
+                inventoryControlsSwitchTabKey,
+                inventoryControlsToggleCraftableKey,
+                cameraControlsUp,
+                cameraControlsRight,
+                cameraControlsDown,
+                cameraControlsLeft,
+                cameraControlsAlternateUp,
+                cameraControlsAlternateRight,
+                cameraControlsAlternateDown,
+                cameraControlsAlternateLeft,
+                cameraControlsNorth,
+                cameraControlsEast,
+                cameraControlsWest,
+                cameraControlsSouth,
+                cameraControlsStraightUp,
+                cameraControlsStraightDown,
+                cameraControlsCenterCamera,
+                mouseSimulationLeftMouseKey,
+                mouseSimulationRightMouseKey,
+                mouseSimulationMiddleMouseKey,
+                mouseSimulationScrollUpKey,
+                mouseSimulationScrollDownKey,
 //                        areaMapMenuKey,
 //                        areaMapNorthKey,
 //                        areaMapSouthKey,
@@ -496,12 +493,11 @@ public class KeyBindingsHandler {
 //                        areaMapDownKey,
 //                        areaMapResetCursorKey,
 //                        areaMapMapLockKey,
-                        healthNHungerNarrationKey,
-                        lockingHandlerKey,
-                        positionNarrationKey,
-                        narratorMenuKey,
-                        narratorMenuHotKey,
-                        directionNarrationKey)
-                .forEach(KeyMappingRegistry::register);
+                healthNHungerNarrationKey,
+                lockingHandlerKey,
+                positionNarrationKey,
+                narratorMenuKey,
+                narratorMenuHotKey,
+                directionNarrationKey);
     }
 }
