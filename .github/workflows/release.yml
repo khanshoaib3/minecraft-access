@@ -100,7 +100,7 @@ jobs:
       #
       # Extract changelog from CHANGELOG.md, match content between two "*Release*" lines
       # Extract mod compatibility info from MOD_COMPATIBILITY.md, match content between two "Compatibility For" lines
-      # Remove "Dependencies Changes" and "Refactoring, Documentation and Chores" from extracted changelog
+      # Remove "Development Chores" from extracted changelog
       # Replace "###" with "##" in changelog for higher head level
       #
       # Release message for GitHub release: note + changelog + mod compatibility
@@ -111,8 +111,7 @@ jobs:
           if [ "${{ inputs.note }}" != '' ] ; then printf "${{ inputs.note }}" > .changelog_temp ; fi
           awk '/Release v${{ env.MOD_VERSION }}/{flag=1;next}/----/{next}/Release/{if (flag==1)exit}flag' \
             ${{ env.CHANGELOG_FILE_PATH }} >> .changelog_temp
-          sed -i '/^### Dependencies.*$/,/\Z/d' .changelog_temp
-          sed -i '/^### Refactoring.*$/,/\Z/d' .changelog_temp
+          sed -i '/^### Development Chores.*$/,/\Z/d' .changelog_temp
           sed -i 's/^###/##/' .changelog_temp
           
           cp .changelog_temp ${{ env.CHANGELOG_TEMP_GITHUB }}
