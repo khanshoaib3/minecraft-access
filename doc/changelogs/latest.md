@@ -10,4 +10,6 @@
 
 ### Others
 
+- Remove `architectury-api` denpendence
+
 ### Development Chores
