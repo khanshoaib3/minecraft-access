@@ -9,15 +9,6 @@ jobs:
   fast_forward:
     name: fast-forward
 
-    # Ref: https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs
-    # contents: For adding the commit
-    # issues: For adding the success/failure comments
-    # pull-requests: For some reason, even though I gave write perms to issues, it wasn't able to send the success/failure comment to PR, so maybe having pull-requests to write will?
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-
     runs-on: ubuntu-latest
 
     # Only run the job if:-
@@ -37,7 +28,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_TOKEN }}
 
       # API: https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#get-a-pull-request
       - name: Get PR details
@@ -48,7 +39,7 @@ jobs:
           repository: ${{ github.repository }}
           pull_number: ${{ github.event.issue.number }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Set environment variables
         run: |
@@ -121,7 +112,7 @@ jobs:
           issue_number: ${{ github.event.issue.number }}
           body: ${{ env.COMMENT }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       # Post a failure message when any of the previous steps fail.
       - name: Add failure comment to PR
@@ -133,4 +124,4 @@ jobs:
           issue_number: ${{ github.event.issue.number }}
           body: \[Fast Forward CI\] PR cannot be merged in. Check the Actions tab for details.
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
