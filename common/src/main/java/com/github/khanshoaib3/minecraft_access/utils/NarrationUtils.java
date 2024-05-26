@@ -31,6 +31,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -43,22 +44,25 @@ public class NarrationUtils {
     public static final Predicate<BlockState> IS_REDSTONE_WIRE = (BlockState state) -> state.getBlock() instanceof RedstoneWireBlock;
 
     public static String narrateEntity(Entity entity) {
-        String text = entity.getName().getString();
+        // When the entity is named, this value is its custom name,
+        // otherwise it is its type.
+        String nameOrType = entity.getName().getString();
+        String type = entity.hasCustomName() ? I18n.translate(entity.getType().getTranslationKey()) : nameOrType;
+
+        String variant = getVariantInfo(entity);
+        if (!Strings.isBlank(variant)) {
+            Map<String, String> map = Map.of("variant", variant, "animal", type);
+            //noinspection SuperfluousFormat
+            type = I18n.translate("minecraft_access.animal_variant_format", map);
+        }
 
         // Add its type in front of its name if it has been renamed with name tag,
         // so even if there are two different types of entities that named the same name,
         // the mod can make the player tell the difference:
-        // "Cat Neko", "Dog Neko"...
-        if (entity.hasCustomName()) {
-            text = I18n.translate(entity.getType().getTranslationKey()) + " " + text;
-        }
+        // "Cat Neko", "Dog Neko"... where "Neko" is the entity's name and "Cat" or "Dog" is its type
+        String text = entity.hasCustomName() ? type + " " + nameOrType : type;
 
         if (entity instanceof AnimalEntity animalEntity) {
-            String variant = getVariantInfo(animalEntity);
-            if (!Strings.isBlank(variant)) {
-                text = variant + " " + text;
-            }
-
             switch (animalEntity) {
                 case SheepEntity sheepEntity -> text = getSheepInfo(sheepEntity, text);
                 case TameableEntity tameableEntity -> {
@@ -94,7 +98,7 @@ public class NarrationUtils {
     /**
      * Get variant text of wolf, cat, axolotl
      */
-    private static String getVariantInfo(AnimalEntity animal) {
+    private static String getVariantInfo(Entity animal) {
         return switch (animal) {
             case WolfEntity wolf -> getDogCatVariantInfo(wolf.getVariant());
             case CatEntity cat -> getDogCatVariantInfo(cat.getVariant());
