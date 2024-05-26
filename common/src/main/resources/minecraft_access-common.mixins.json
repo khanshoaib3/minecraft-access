@@ -20,6 +20,7 @@
     "EntityAccessor",
     "EyeOfEnderEntityMixin",
     "HandledScreenAccessor",
+    "I18NAccessor",
     "I18nMixin",
     "InGameHudMixin",
     "KeyBindingAccessor",
