@@ -22,6 +22,7 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -53,25 +54,24 @@ public class NarrationUtils {
         }
 
         if (entity instanceof AnimalEntity animalEntity) {
-
-            if (animalEntity instanceof TameableEntity tameableEntity) {
-                text = tameableEntity.isTamed() ? I18n.translate("minecraft_access.read_crosshair.is_tamed", text) : text;
+            String variant = getVariantInfo(animalEntity);
+            if (!Strings.isBlank(variant)) {
+                text = variant + " " + text;
             }
 
-            if (animalEntity instanceof SheepEntity sheepEntity) {
-                text = getSheepInfo(sheepEntity, text);
-            } else if (animalEntity instanceof CatEntity catEntity) {
-                text = catEntity.isInSittingPose() ? addSittingInfo(text) : text;
-            } else if (animalEntity instanceof WolfEntity wolfEntity) {
-                text = wolfEntity.isInSittingPose() ? addSittingInfo(text) : text;
-            } else if (animalEntity instanceof FoxEntity foxEntity) {
-                text = foxEntity.isSitting() ? addSittingInfo(text) : text;
-            } else if (animalEntity instanceof ParrotEntity parrotEntity) {
-                text = parrotEntity.isInSittingPose() ? addSittingInfo(text) : text;
-            } else if (animalEntity instanceof PandaEntity pandaEntity) {
-                text = pandaEntity.isSitting() ? addSittingInfo(text) : text;
-            } else if (animalEntity instanceof CamelEntity camelEntity) {
-                text = camelEntity.isSitting() ? addSittingInfo(text) : text;
+            switch (animalEntity) {
+                case SheepEntity sheepEntity -> text = getSheepInfo(sheepEntity, text);
+                case TameableEntity tameableEntity -> {
+                    // wolf, cat, parrot
+                    String isTamedText = I18n.translate("minecraft_access.read_crosshair.is_tamed", text);
+                    text = tameableEntity.isTamed() ? isTamedText : text;
+                    text = tameableEntity.isInSittingPose() ? addSittingInfo(text) : text;
+                }
+                case FoxEntity foxEntity -> text = foxEntity.isSitting() ? addSittingInfo(text) : text;
+                case PandaEntity pandaEntity -> text = pandaEntity.isSitting() ? addSittingInfo(text) : text;
+                case CamelEntity camelEntity -> text = camelEntity.isSitting() ? addSittingInfo(text) : text;
+                default -> {
+                }
             }
 
             if (animalEntity.isBaby())
@@ -89,6 +89,36 @@ public class NarrationUtils {
         }
 
         return text;
+    }
+
+    /**
+     * Get variant text of wolf, cat, axolotl
+     */
+    private static String getVariantInfo(AnimalEntity animal) {
+        return switch (animal) {
+            case WolfEntity wolf -> getDogCatVariantInfo(wolf.getVariant());
+            case CatEntity cat -> getDogCatVariantInfo(cat.getVariant());
+            case AxolotlEntity axolotl -> {
+                String color = axolotl.getVariant().getName();
+                yield I18n.translate("minecraft_access.axolotl_variant." + color);
+            }
+            default -> "";
+        };
+    }
+
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    private static String getDogCatVariantInfo(RegistryEntry<?> entry) {
+        var variantType = entry.value();
+        String variantTypeName = switch (variantType) {
+            case WolfVariant ignored -> "wolf_variant";
+            case CatVariant ignored -> "cat_variant";
+            default -> "";
+        };
+
+        Identifier variant = entry.getKey().get().getValue();
+        String color = variant.toShortTranslationKey();
+        String transKey = "minecraft_access." + variantTypeName + "." + color;
+        return I18n.translate(transKey);
     }
 
     private static String addSittingInfo(String currentQuery) {
