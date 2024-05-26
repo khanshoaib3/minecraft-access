@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screen.ingame.LoomScreen;
 import net.minecraft.client.gui.screen.ingame.MerchantScreen;
 import net.minecraft.client.gui.screen.ingame.StonecutterScreen;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.StonecuttingRecipe;
@@ -17,6 +18,7 @@ import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
+import net.minecraft.util.DyeColor;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOfferList;
 import net.minecraft.village.TradedItem;
@@ -81,7 +83,14 @@ public class SlotItem {
             int q = p * 4 + column;
 
             BannerPattern pattern = list.get(q).value();
-            return I18n.translate(pattern.translationKey());
+
+            ItemStack dyeItemStack = ((LoomScreenAccessor) loomScreen).getDye();
+            DyeItem dyeItem = (DyeItem) dyeItemStack.getItem();
+            DyeColor color = dyeItem.getColor();
+
+            // banner pattern trans key = banner pattern name + color name
+            String transKey = pattern.translationKey() + "." + color.name().toLowerCase();
+            return I18n.translate(transKey);
         }
 
         if (MinecraftClient.getInstance().currentScreen instanceof StonecutterScreen stonecutterScreen) {
@@ -117,8 +126,10 @@ public class SlotItem {
             String sellItemString = sellItem.getCount() + sellItem.getName().getString();
 
             String tradeText;
-            if(secondBuyItem.isEmpty()) tradeText = I18n.translate("minecraft_access.inventory_controls.trade_text_format", firstBuyItemString, sellItemString);
-            else tradeText = I18n.translate("minecraft_access.inventory_controls.trade_text_format_with_second_item", firstBuyItemString, secondBuyItemString, sellItemString);
+            if (secondBuyItem.isEmpty())
+                tradeText = I18n.translate("minecraft_access.inventory_controls.trade_text_format", firstBuyItemString, sellItemString);
+            else
+                tradeText = I18n.translate("minecraft_access.inventory_controls.trade_text_format_with_second_item", firstBuyItemString, secondBuyItemString, sellItemString);
 
             return tradeText;
         }
