@@ -54,7 +54,7 @@ public class NarrationUtils {
         if (!Strings.isBlank(variant)) {
             Map<String, String> map = Map.of("variant", variant, "animal", type);
             //noinspection SuperfluousFormat
-            type = I18n.translate("minecraft_access.animal_variant_format", map);
+            type = I18n.translate("minecraft_access.other.animal_variant_format", map);
         }
 
         // Add its type in front of its name if it has been renamed with name tag,
