@@ -1,19 +1,18 @@
 package com.github.khanshoaib3.minecraft_access.utils;
 
+import java.util.Map;
+import java.util.regex.Pattern;
+
 /**
  * Better than using string.format(),
  * placeholders makes translators know the context better.
  * ref: <a href="https://codereview.stackexchange.com/a/194454">source</a>
  */
-
-import java.util.Map;
-import java.util.regex.Pattern;
-
 public class NamedFormatter {
     private static final Pattern RE = Pattern.compile(
             "\\\\(.)" + // Treat any character after a backslash literally
                     "|" +
-                    "(\\{([^)]+?)})"  // Look for {keys} to replace, ? for non-greedy
+                    "(\\{([^)]+?)})"  // Look for {keys} to replace, "?" for non-greedy
     );
 
     private NamedFormatter() {
