@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.utils.position;
 
 import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
+import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
@@ -58,7 +59,7 @@ public class PlayerPositionUtils {
         Optional<Vec3d> op = getPlayerPosition();
         if (op.isEmpty()) return Optional.empty();
         Vec3d p = op.get();
-        return Optional.of(BlockPos.ofFloored(p.x, p.y, p.z));
+        return Optional.of(WorldUtils.blockPosOf(p));
     }
 
     public static String getI18NPosition() {
@@ -172,6 +173,6 @@ public class PlayerPositionUtils {
     }
 
     public static String getOppositeDirectionKey(String originalDirectionKey) {
-        return  Orientation.of(originalDirectionKey).getOpposite().toString();
+        return Orientation.of(originalDirectionKey).getOpposite().toString();
     }
 }

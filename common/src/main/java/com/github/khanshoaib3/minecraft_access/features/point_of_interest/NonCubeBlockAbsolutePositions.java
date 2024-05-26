@@ -4,7 +4,6 @@ import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.state.property.Property;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 
@@ -223,7 +222,7 @@ public class NonCubeBlockAbsolutePositions {
 
     @NotNull
     private static Set<Map.Entry<Property<?>, Comparable<?>>> getEntries(Vec3d blockPos, ClientWorld world) {
-        BlockState blockState = world.getBlockState(BlockPos.ofFloored(blockPos.x, blockPos.y, blockPos.z));
+        BlockState blockState = world.getBlockState(WorldUtils.blockPosOf(blockPos));
         return blockState.getEntries().entrySet();
     }
 }

@@ -16,6 +16,10 @@ import net.minecraft.util.math.Vec3d;
 import java.util.function.Predicate;
 
 public class WorldUtils {
+
+    public static BlockPos blockPosOf(Vec3d accuratePos) {
+        return BlockPos.ofFloored(accuratePos);
+    }
     public record BlockInfo(BlockPos pos, BlockState state, Block type, BlockEntity entity) {
     }
 
