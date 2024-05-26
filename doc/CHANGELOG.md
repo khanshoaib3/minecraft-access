@@ -1,6 +1,10 @@
 Release v1.6.0 (2024-xx)
 ---------------------------
 
+### Translation Changes
+
+- Add Italian translation thanks to Discord user Vabax_YT.
+
 ### Development Chores
 
 - Add Fast-forward workflow.
