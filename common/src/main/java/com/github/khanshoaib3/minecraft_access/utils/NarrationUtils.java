@@ -14,6 +14,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.entity.passive.*;
@@ -62,6 +63,8 @@ public class NarrationUtils {
         // "Cat Neko", "Dog Neko"... where "Neko" is the entity's name and "Cat" or "Dog" is its type
         String text = entity.hasCustomName() ? type + " " + nameOrType : type;
 
+        StringBuilder equipments = new StringBuilder();
+
         if (entity instanceof AnimalEntity animalEntity) {
             switch (animalEntity) {
                 case SheepEntity sheepEntity -> text = getSheepInfo(sheepEntity, text);
@@ -84,12 +87,28 @@ public class NarrationUtils {
                 text = I18n.translate("minecraft_access.read_crosshair.animal_entity_leashed", text);
         }
 
+        if (entity instanceof LivingEntity livingEntity) {
+            String wordConnection = I18n.translate("minecraft_access.other.words_connection");
+            for (var equipment : livingEntity.getEquippedItems()) {
+                if (equipment.isEmpty())
+                    continue;
+                String equipmentName = I18n.translate(equipment.getTranslationKey());
+                equipments.append(equipmentName).append(wordConnection);
+            }
+        }
+
         if (entity instanceof HostileEntity) {
             if (entity instanceof ZombieVillagerEntity zombieVillagerEntity) {
                 text = zombieVillagerEntity.isConverting() ?
                         I18n.translate("minecraft_access.read_crosshair.zombie_villager_is_curing", text) :
                         text;
             }
+        }
+
+        if (!Strings.isBlank(equipments.toString())) {
+            var values = Map.of("entity", text, "equipments", equipments.toString());
+            //noinspection SuperfluousFormat
+            text = I18n.translate("minecraft_access.other.entity_with_equipments", values);
         }
 
         return text;
