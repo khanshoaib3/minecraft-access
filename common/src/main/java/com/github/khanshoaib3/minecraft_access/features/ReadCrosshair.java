@@ -34,7 +34,7 @@ import java.util.function.Predicate;
  */
 @Slf4j
 public class ReadCrosshair {
-    private static final double RAY_CAST_DISTANCE = 6.0;
+    private double rayCastDistance = 6.0;
     private static ReadCrosshair instance;
     private boolean enabled;
     private String previousQuery = "";
@@ -81,7 +81,8 @@ public class ReadCrosshair {
             loadConfigurations();
             if (!enabled) return;
 
-            HitResult hit = PlayerUtils.crosshairTarget(RAY_CAST_DISTANCE);
+            this.rayCastDistance = PlayerUtils.getInteractionRange();
+            HitResult hit = PlayerUtils.crosshairTarget(rayCastDistance);
             if (hit == null) return;
             checkForBlockAndEntityHit(hit);
 
@@ -161,7 +162,7 @@ public class ReadCrosshair {
         boolean focusChanged = !getPreviousQuery().equalsIgnoreCase(currentQuery);
         if (focusChanged) {
             if (this.enableRelativePositionSoundCue && !this.previousSoundPos.equals(targetPosition)) {
-                WorldUtils.playRelativePositionSoundCue(targetPosition, RAY_CAST_DISTANCE,
+                WorldUtils.playRelativePositionSoundCue(targetPosition, rayCastDistance,
                         SoundEvents.BLOCK_NOTE_BLOCK_HARP, this.minSoundVolume, this.maxSoundVolume);
                 this.previousSoundPos = targetPosition;
             }

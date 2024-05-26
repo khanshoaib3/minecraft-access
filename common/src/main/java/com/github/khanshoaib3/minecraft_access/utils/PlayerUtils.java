@@ -163,4 +163,14 @@ public class PlayerUtils {
 
         return (BlockHitResult) hit;
     }
+
+    /**
+     * Players have dynamic interaction range since 1.20.6.
+     *
+     * @return minimum value between block range and entity range
+     */
+    public static double getInteractionRange() {
+        ClientPlayerEntity player = WorldUtils.getClientPlayer();
+        return Math.min(player.getBlockInteractionRange(), player.getEntityInteractionRange());
+    }
 }
