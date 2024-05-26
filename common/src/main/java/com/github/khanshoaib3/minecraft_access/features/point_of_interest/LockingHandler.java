@@ -9,6 +9,7 @@ import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
@@ -31,6 +32,7 @@ import java.util.TreeMap;
  */
 @Slf4j
 public class LockingHandler {
+    @Getter
     private static final LockingHandler instance;
     private boolean enabled = true;
     private Entity lockedOnEntity = null;
@@ -49,10 +51,6 @@ public class LockingHandler {
     }
 
     private LockingHandler() {
-    }
-
-    public static LockingHandler getInstance() {
-        return instance;
     }
 
     public void update(boolean onMarking) {
