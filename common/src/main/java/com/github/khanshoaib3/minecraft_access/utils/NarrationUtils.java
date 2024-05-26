@@ -31,6 +31,7 @@ import net.minecraft.util.math.Vec3d;
 import org.apache.logging.log4j.util.Strings;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -63,7 +64,7 @@ public class NarrationUtils {
         // "Cat Neko", "Dog Neko"... where "Neko" is the entity's name and "Cat" or "Dog" is its type
         String text = entity.hasCustomName() ? type + " " + nameOrType : type;
 
-        StringBuilder equipments = new StringBuilder();
+        List<String> equipments = new ArrayList<>();
 
         if (entity instanceof AnimalEntity animalEntity) {
             switch (animalEntity) {
@@ -88,12 +89,11 @@ public class NarrationUtils {
         }
 
         if (entity instanceof LivingEntity livingEntity) {
-            String wordConnection = I18n.translate("minecraft_access.other.words_connection");
             for (var equipment : livingEntity.getEquippedItems()) {
                 if (equipment.isEmpty())
                     continue;
                 String equipmentName = I18n.translate(equipment.getTranslationKey());
-                equipments.append(equipmentName).append(wordConnection);
+                equipments.add(equipmentName);
             }
         }
 
@@ -106,7 +106,8 @@ public class NarrationUtils {
         }
 
         if (!Strings.isBlank(equipments.toString())) {
-            var values = Map.of("entity", text, "equipments", equipments.toString());
+            String wordConnection = I18n.translate("minecraft_access.other.words_connection");
+            var values = Map.of("entity", text, "equipments", String.join(wordConnection, equipments));
             //noinspection SuperfluousFormat
             text = I18n.translate("minecraft_access.other.entity_with_equipments", values);
         }
