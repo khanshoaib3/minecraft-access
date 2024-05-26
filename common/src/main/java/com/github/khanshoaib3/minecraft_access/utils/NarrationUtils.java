@@ -468,31 +468,37 @@ public class NarrationUtils {
     private static @NotNull Pair<String, String> getCropsInfo(Block block, BlockState blockState, String toSpeak, String currentQuery) {
         int currentAge, maxAge;
 
-        if (block instanceof CropBlock) {
-            if (block instanceof BeetrootsBlock) {
-                // Beetroots has a different max_age as 3
-                currentAge = blockState.get(BeetrootsBlock.AGE);
-                maxAge = BeetrootsBlock.BEETROOTS_MAX_AGE;
-            } else if (block instanceof TorchflowerBlock) {
-                currentAge = blockState.get(TorchflowerBlock.AGE);
-                maxAge = 2;
-            } else {
-                // While wheat, carrots, potatoes has max_age as 7
-                currentAge = blockState.get(CropBlock.AGE);
-                maxAge = CropBlock.MAX_AGE;
+        switch (block) {
+            case CropBlock ignored -> {
+                if (block instanceof BeetrootsBlock) {
+                    // Beetroots has a different max_age as 3
+                    currentAge = blockState.get(BeetrootsBlock.AGE);
+                    maxAge = BeetrootsBlock.BEETROOTS_MAX_AGE;
+                } else if (block instanceof TorchflowerBlock) {
+                    currentAge = blockState.get(TorchflowerBlock.AGE);
+                    maxAge = 2;
+                } else {
+                    // While wheat, carrots, potatoes has max_age as 7
+                    currentAge = blockState.get(CropBlock.AGE);
+                    maxAge = CropBlock.MAX_AGE;
+                }
             }
-        } else if (block instanceof CocoaBlock) {
-            currentAge = blockState.get(CocoaBlock.AGE);
-            maxAge = CocoaBlock.MAX_AGE;
-        } else if (block instanceof NetherWartBlock) {
-            currentAge = blockState.get(NetherWartBlock.AGE);
-            // The max_age of NetherWartBlock hasn't been translated, for future compatibility, hard code it.
-            maxAge = 3;
-        } else if (block instanceof PitcherCropBlock) {
-            currentAge = blockState.get(PitcherCropBlock.AGE);
-            maxAge = 4;
-        } else {
-            return new Pair<>(toSpeak, currentQuery);
+            case CocoaBlock ignored -> {
+                currentAge = blockState.get(CocoaBlock.AGE);
+                maxAge = CocoaBlock.MAX_AGE;
+            }
+            case NetherWartBlock ignored -> {
+                currentAge = blockState.get(NetherWartBlock.AGE);
+                // The max_age of NetherWartBlock hasn't been translated, for future compatibility, hard code it.
+                maxAge = 3;
+            }
+            case PitcherCropBlock ignored -> {
+                currentAge = blockState.get(PitcherCropBlock.AGE);
+                maxAge = 4;
+            }
+            case null, default -> {
+                return new Pair<>(toSpeak, currentQuery);
+            }
         }
 
         String configKey = checkCropRipeLevel(currentAge, maxAge);
