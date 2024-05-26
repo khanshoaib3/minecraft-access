@@ -117,13 +117,15 @@ public class SlotItem {
             Optional<TradedItem> secondBuyItem = tradeOffer.getSecondBuyItem();
             ItemStack sellItem = tradeOffer.getSellItem();
 
-            String firstBuyItemString = firstBuyItem.getCount() + tradeOffer.getSpecialPrice() + firstBuyItem.getName().getString();
+            // base price - discount
+            int price = firstBuyItem.getCount() + tradeOffer.getSpecialPrice();
+            String firstBuyItemString = price + " " + firstBuyItem.getName().getString();
             String secondBuyItemString = "";
             if (secondBuyItem.isPresent()) {
                 ItemStack item = secondBuyItem.get().itemStack();
-                secondBuyItemString = item.getCount() + item.getName().getString();
+                secondBuyItemString = item.getCount() + " " + item.getName().getString();
             }
-            String sellItemString = sellItem.getCount() + sellItem.getName().getString();
+            String sellItemString = sellItem.getCount() + " " + sellItem.getName().getString();
 
             String tradeText;
             if (secondBuyItem.isEmpty())
