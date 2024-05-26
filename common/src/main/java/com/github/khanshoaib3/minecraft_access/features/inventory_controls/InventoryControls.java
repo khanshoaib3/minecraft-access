@@ -522,7 +522,7 @@ public class InventoryControls {
         StringBuilder toolTipString = new StringBuilder();
         List<Text> toolTipList = currentSlotItem.slot.getStack().getTooltip(TooltipContext.DEFAULT, minecraftClient.player, TooltipType.BASIC);
         for (Text line : toolTipList) {
-            toolTipString.append(line.getString());
+            toolTipString.append(line.getString()).append(" ");
         }
 
         return "%s %s".formatted(info, toolTipString.toString());
