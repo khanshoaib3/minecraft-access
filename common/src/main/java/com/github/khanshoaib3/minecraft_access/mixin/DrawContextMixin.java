@@ -16,40 +16,43 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Speak hovered tooltip when Inventory Controls is disabled.
+ */
 @Mixin(DrawContext.class)
 public class DrawContextMixin {
-    @Unique private static String previousToooltipText = "";
+    @Unique private static String minecraft_access$previousTooltipText = "";
 
     @Inject(at = @At("HEAD"), method = "drawTooltip(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;II)V")
-    private void speakDrawnTooltip1(TextRenderer textRenderer, Text text, int x, int y, CallbackInfo ci) {
+    private void speakHoveredTooltip(TextRenderer textRenderer, Text text, int x, int y, CallbackInfo ci) {
         if (MinecraftClient.getInstance() == null) return;
         if (MinecraftClient.getInstance().currentScreen == null) return;
         if (InventoryControlsConfigMap.getInstance().isEnabled()) return;
 
-        checkAndSpeak(text.getString());
+        minecraft_access$checkAndSpeak(text.getString());
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @Inject(at = @At("HEAD"), method = "drawTooltip(Lnet/minecraft/client/font/TextRenderer;Ljava/util/List;Ljava/util/Optional;II)V")
-    private void speakDrawnTooltip2(TextRenderer textRenderer, List<Text> text, Optional<TooltipData> data, int x, int y, CallbackInfo ci) {
+    private void speakHoveredTooltip2(TextRenderer textRenderer, List<Text> text, Optional<TooltipData> data, int x, int y, CallbackInfo ci) {
         if (MinecraftClient.getInstance() == null) return;
         if (MinecraftClient.getInstance().currentScreen == null) return;
         if (InventoryControlsConfigMap.getInstance().isEnabled()) return;
 
         StringBuilder toSpeak = new StringBuilder();
-        for (Text t: text) {
+        for (Text t : text) {
             toSpeak.append(t.getString()).append("\n");
         }
 
-        checkAndSpeak(toSpeak.toString());
+        minecraft_access$checkAndSpeak(toSpeak.toString());
     }
 
     @Unique
-    private static void checkAndSpeak(String toSpeak) {
-        if (previousToooltipText.equals(toSpeak)) return;
+    private static void minecraft_access$checkAndSpeak(String toSpeak) {
+        if (minecraft_access$previousTooltipText.equals(toSpeak)) return;
         if (toSpeak.isBlank()) return;
 
-        previousToooltipText = toSpeak;
-        MainClass.speakWithNarrator(previousToooltipText, true);
+        minecraft_access$previousTooltipText = toSpeak;
+        MainClass.speakWithNarrator(minecraft_access$previousTooltipText, true);
     }
 }
