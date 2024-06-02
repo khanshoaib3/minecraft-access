@@ -9,9 +9,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Arrays;
 import java.util.IllegalFormatException;
 import java.util.Map;
-import java.util.Objects;
 
 @Mixin(I18n.class)
 public class I18nMixin {
@@ -26,13 +26,15 @@ public class I18nMixin {
     @Inject(at = @At("HEAD"), method = "translate", cancellable = true)
     private static void useNamedFormatter(String key, Object[] args, CallbackInfoReturnable<String> cir) {
         if (args.length == 1 && args[0] instanceof Map) {
-            String pattern = I18NAccessor.getLanguage().get(key);
-            Map<String, Object> values = (Map<String, Object>) args[0];
-            String result = NamedFormatter.format(pattern, values);
+            Map<String, Object> params = (Map<String, Object>) args[0];
 
-            // fallback to english
+            String pattern = I18NAccessor.getLanguage().get(key);
+            String result = NamedFormatter.format(pattern, params);
+
+            // fallback to English
             if (result.startsWith("minecraft_access")) {
-                result = minecraft_access$translateEn(key, args);
+                pattern = minecraft_access$getEnglishI18Nof(key);
+                result = NamedFormatter.format(pattern, params);
             }
 
             cir.setReturnValue(result);
@@ -45,31 +47,25 @@ public class I18nMixin {
      */
     @Inject(at = @At("RETURN"), method = "translate", cancellable = true)
     private static void fallbackFailedI18NToEnglish(String key, Object[] args, CallbackInfoReturnable<String> cir) {
-        // if result still is config key, That's because I18n failed, fallback to english
+        // if result still is config key, That's because I18n failed, fallback to English
         if (cir.getReturnValue().startsWith("minecraft_access")) {
-            cir.setReturnValue(minecraft_access$translateEn(key, args));
-            cir.cancel();
+            String pattern = minecraft_access$getEnglishI18Nof(key);
+            try {
+                String result = String.format(pattern, args);
+                cir.setReturnValue(result);
+            } catch (IllegalFormatException illegalFormatException) {
+                cir.setReturnValue("Format error: key:[" + key + "] args:[" + Arrays.toString(args) + "]");
+            }
         }
     }
 
-    /**
-     * Copied from original code
-     */
+
     @Unique
-    private static String minecraft_access$translateEn(String key, Object... args) {
+    private static String minecraft_access$getEnglishI18Nof(String key) {
         if (minecraft_access$enLanguage == null) {
-            minecraft_access$loadEnLanguage();
+            minecraft_access$enLanguage = Language.getInstance();
         }
-        String string = Objects.requireNonNull(minecraft_access$enLanguage).get(key);
-        try {
-            return String.format(string, args);
-        } catch (IllegalFormatException illegalFormatException) {
-            return "Format error: " + string;
-        }
+        return minecraft_access$enLanguage.get(key);
     }
 
-    @Unique
-    private static void minecraft_access$loadEnLanguage() {
-        minecraft_access$enLanguage = Language.getInstance();
-    }
 }
