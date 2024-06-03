@@ -291,7 +291,7 @@ For this type of error, there is a simple, common, cumbersome, no-better-choice 
 ### Quality of Life Mods
 
 1. Client side, which you can use in both single-player and multiplayer game:
-    * Presence Footsteps ([Fabric](https://modrinth.com/mod/presence-footsteps), [Forge port](https://www.curseforge.com/minecraft/mc-mods/presence-footsteps-forge)): Footstep sound enhancement mod. If the mod has not supported your game version, you would consider to use this resource pack
+    * Presence Footsteps ([Fabric](https://modrinth.com/mod/presence-footsteps), [Forge port](https://www.curseforge.com/minecraft/mc-mods/presence-footsteps-forge)): Footstep sound enhancement mod. If the Fabric version of mod isn't work, select `Default sound pack` in the resource pack menu. If the mod has not supported your game version, you would consider to use this resource pack
       instead: [Presence Footsteps: Remastered Sounds Pack](https://modrinth.com/resourcepack/presense-footsteps-sounds), put it under `%appdata%\.minecraft\resourcepacks` folder.
     * Just Enough Items ([Fabric and Forge](https://modrinth.com/mod/jei)): Item and recipe viewing mod, far better than similar recipe book feature in original game (but this mod hasn't been 100% accessible by us, you need some vision to use it).
     * Sound Physics Remastered ([Fabric and Forge](https://modrinth.com/mod/sound-physics-remastered)): Provides realistic sound attenuation, reverberation, and absorption through blocks. I'm sure this mod consumes resources, so install it only when you're confident in your PC hardware.
