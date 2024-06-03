@@ -1,13 +1,32 @@
-Release v1.6.0 (2024-xx)
+Release v1.6.0 (2024-06)
 ---------------------------
+
+### New Features
+
+- Speak variant of dog, cat, axolotl
+- Speak animals and monsters currently wearing equipment
+- Speak enchant cost in anvil [#277](https://github.com/khanshoaib3/minecraft-access/pull/277)
+- Speak hovered tooltip when `Inventory Control` feature is disabled [#281](https://github.com/khanshoaib3/minecraft-access/pull/281)
+
+### Bug Fixes
+
+- Fix broken logic after upgrading to 1.20.6
 
 ### Translation Changes
 
-- Add Italian translation thanks to Discord user Vabax_YT.
+- Add Italian translation thanks to Discord user Vabax_YT
+- New field: entity wearing equipment format
+- New field: animal variant format
+- New field: variant of dog, cat, axolotl
+
+### Others
+
+- Remove `architectury-api` denpendence
 
 ### Development Chores
 
 - Add Fast-forward workflow.
+- New `NamedFormatter` class with modifications to `I18NMixin`, for easier I18N translation
 
 Release v1.5.4 (2024-03)
 ---------------------------
