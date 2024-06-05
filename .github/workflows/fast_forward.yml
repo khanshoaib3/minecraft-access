@@ -89,7 +89,7 @@ jobs:
       - name: Commit the changes (if any)
         if: ${{ env.MERGE_STATUS }}
         run: |
-          if [[ "$( tail ./response.txt -n 1 )" = "No changes to write\!" ]] || [[ "$( tail ./response.txt -n 1 )" =~ "File \`(.*?)\` not found\!" ]]; then
+          if [[ "$( tail ./response.txt -n 1 )" == 'No changes to write!' ]] || [[ "$( tail ./response.txt -n 1 )" =~ "File \`(.*?)\` not found\!" ]]; then
             echo "COMMENT=${{ env.COMMENT }}\nNo changelogs found..." >> $GITHUB_ENV
           else
             git add doc/changelogs/latest.md
