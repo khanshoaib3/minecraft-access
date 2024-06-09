@@ -182,30 +182,26 @@ Now you can run the forge jar file like normal executable file, a window pops up
 
 ## Install Mods
 
-In fact there is no installation step, actually we just download and place the mod files into a special folder, let the mod frameworks know what mods we'd like to load.
-
-The mod framework itself does not provide the ability to manage mod files, you need to manage them manually.
-Some applications, like [CurseForge for Windows](https://www.curseforge.com/download/app), make it easier to manage mod files, but I haven't used them, so I don't know if they work well.
-You can write Powershell or batch scripts to implement automatic file replacement, but this is a complex topic and will not be expanded here.
-
-Now let's download mod files.
 There are several popular mod download platforms, such as [CurseForge](https://legacy.curseforge.com/minecraft/mc-mods), [Modrinth](https://modrinth.com/mods), generally mod developers will release their works on multiple platforms at the same time.
 Mod developers will release mod files that are compatible with different game versions.
-Please always keep this in mind when downloading mods, as incompatible mods will crash the game at startup.
+Please always keep in mind when downloading mods, as incompatible mods will crash the game at startup.
 It is worth mentioning that some mods can support multiple versions with one same mod file, and generally this will be mentioned in the mod file name.
+It worth to note that all mod files (and resource pack files) have the "jar" extension, some downloader or browsers may download files as a compressed file like zip format, you'd extract the real mod file from the compressed one.
 
+Neither mod frameworks nor the original game provide the ability to manage mod files, you need to manage them manually.
+This guide will describe how to download and install mods manually, you can also manage them automatically with an extra application such as [Modrinth](https://modrinth.com/app) or [CurseForge for Windows](https://www.curseforge.com/download/app).
+In fact there is no installation step, actually we just download and place the mod files into a special folder, let the mod frameworks know what mods we'd like to load.
+
+Now let's download mod files.
 For downloading this mod and the dependencies of this mod, I recommend you download them at the [release page](https://github.com/khanshoaib3/minecraft-access/releases), where we'll prepare download links of suitable version of mods, under `Mod Version Compatibility` section of each release.
 Older versions of this mod used to depend on `fabric-api` and `architectury-api`, they are no longer needed since game version `1.20.6`.
-This mod's jar file is the only one which is necessary to play with this mod.
-
 By the way, you may be interested in the mods [provided in good resources page](/doc/GOOD_RESOURCES.md#quality-of-life-mods), they are good mods that our visually impaired users have found and tested through practice.
 
-After all download works, let's put them into right location.
-Here it is: `%appdata%\.minecraft\mods`, you can directly paste it into File Explorer then press enter key to jump into it.
+After all downloads, let's put them into right location.
+Here it is: `%appdata%\.minecraft\mods` (the `%appdata%` is shortcut for `C:\Users\username\AppData\Roaming`), you can directly paste it into File Explorer then press enter key to jump to it.
 We'll put downloaded mod files inside it, both Fabric and Forge will load mods from this folder.
 We've learned from user report that we need to start the launcher once after installing the mod framework for the `mods` folder to be created.
 Haven't experimented but, I think it's ok to create it manually.
-It worth to note that all mod files (and resource pack files) have the "jar" extension, some downloader or browsers may download files as a compressed file like zip format, you'd extract the real mod file from the compressed one.
 
 ## Additional Installation for Windows
 
