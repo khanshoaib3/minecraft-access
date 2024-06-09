@@ -198,16 +198,8 @@ Please always keep this in mind when downloading mods, as incompatible mods will
 It is worth mentioning that some mods can support multiple versions with one same mod file, and generally this will be mentioned in the mod file name.
 
 For downloading this mod and the dependencies of this mod, I recommend you download them at the [release page](https://github.com/khanshoaib3/minecraft-access/releases), where we'll prepare download links of suitable version of mods, under `Mod Version Compatibility` section of each release.
-For Fabric, you'll need three mods:
-
-1. this mod as `minecraft-access`, and two dependencies,
-2. `Fabric Api`
-3. `Architectury Api` for fabric
-
-For Forge, you'll need two mods:
-
-1. this mod as `minecraft-access`, and one dependency,
-2. `Architectury Api` for forge
+Older versions of this mod used to depend on `fabric-api` and `architectury-api`, they are no longer needed since game version `1.20.6`.
+This mod's jar file is the only one which is necessary to play with this mod.
 
 By the way, you may be interested in the mods [provided at the end of this tutorial](#quality-of-life-mods), they are good mods that our visually impaired users have found and tested through practice.
 
