@@ -122,3 +122,4 @@ It might be a bug of this mod, or something in mod manual is misleading, or you 
 * [Features](/doc/FEATURES.md)
 * [Keybindings](/doc/KEYBINDINGS.md)
 * [Configuration](/doc/CONFIG.md)
+* [Good Resources](/doc/GOOD_RESOURCES.md)

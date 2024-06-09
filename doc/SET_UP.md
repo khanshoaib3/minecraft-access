@@ -29,7 +29,9 @@ Follow the [instruction](https://github.com/jordansissel/xdotool#installation) t
 
 ## Other Pages
 
+* [Home](/README.md)
 * [Features](/doc/FEATURES.md)
 * [Keybindings](/doc/KEYBINDINGS.md)
 * [Configuration](/doc/CONFIG.md)
 * [FAQ](/doc/FAQ.md)
+* [Good Resources](/doc/GOOD_RESOURCES.md)
