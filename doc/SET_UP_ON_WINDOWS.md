@@ -194,7 +194,8 @@ In fact there is no installation step, actually we just download and place the m
 
 Now let's download mod files.
 For downloading this mod and the dependencies of this mod, I recommend you download them at the [release page](https://github.com/khanshoaib3/minecraft-access/releases), where we'll prepare download links of suitable version of mods, under `Mod Version Compatibility` section of each release.
-Older versions of this mod used to depend on `fabric-api` and `architectury-api`, they are no longer needed since game version `1.20.6`.
+Older versions of this mod used to depend on `architectury-api`, it's no longer needed since game version `1.20.6`.
+For Fabric, you'll need an extra mod `Fabric Api`, forge doesn't require it.
 By the way, you may be interested in the mods [provided in good resources page](/doc/GOOD_RESOURCES.md#quality-of-life-mods), they are good mods that our visually impaired users have found and tested through practice.
 
 After all downloads, let's put them into right location.
