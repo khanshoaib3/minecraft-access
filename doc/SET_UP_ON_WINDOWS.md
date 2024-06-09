@@ -194,8 +194,7 @@ In fact there is no installation step, actually we just download and place the m
 
 Now let's download mod files.
 For downloading this mod and the dependencies of this mod, I recommend you download them at the [release page](https://github.com/khanshoaib3/minecraft-access/releases), where we'll prepare download links of suitable version of mods, under `Mod Version Compatibility` section of each release.
-Older versions of this mod used to depend on `architectury-api`, it's no longer needed since game version `1.20.6`.
-For Fabric, you'll need an extra mod `Fabric Api`, forge doesn't require it.
+Older versions of this mod used to depend on `fabric-api` and `architectury-api`, it's no longer needed since game version `1.20.6`.
 By the way, you may be interested in the mods [provided in good resources page](/doc/GOOD_RESOURCES.md#quality-of-life-mods), they are good mods that our visually impaired users have found and tested through practice.
 
 After all downloads, let's put them into right location.
@@ -261,7 +260,6 @@ Some examples to help you understand:
 
 According to these conditions, if you want to upgrade some mods version while keeping the game version unchanged, you just need to replace the corresponding mod files.
 For mods that have dependencies like this mod, you also need to be aware of that whether the version of dependent mods have changed.
-For example, when upgrading this mod, you should be also aware the version changes of `Fabric Api` and `Architectury Api` mods.
 
 Another situation that causes the game to crash or misbehave is conflict between mods, which is difficult to reflect in the error log because it is hard to predict.
 For this type of error, there is a simple, common, cumbersome, no-better-choice method for all modded games: move all mod files into a temporal folder, then add them back one by one, try to start the game every time you move back a file.

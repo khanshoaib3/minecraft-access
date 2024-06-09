@@ -4,7 +4,6 @@ Compatibility For 1.20.6
 * Minecraft: 1.20.6 ([read setup guide](/doc/SET_UP.md))
 * Java: >=21 ([download x64 Windows installer](https://download.oracle.com/java/21/latest/jdk-21_windows-x64_bin.msi), [download page for all Operating Systems](https://www.oracle.com/java/technologies/downloads/#java21))
 * Fabric Loader: >=0.15.11 ([download Fabric Loader](https://fabricmc.net/use/installer/))
-* Fabric API: 0.98.0+1.20.6 ([download Fabric API](https://cdn.modrinth.com/data/P7dR8mSH/versions/191HCCtF/fabric-api-0.98.0%2B1.20.6.jar))
 * Forge: 1.20.6-50.0.* ([download Forge installer](https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.6-50.0.31/forge-1.20.6-50.0.31-installer.jar))
 
 Compatibility For 1.20.4
