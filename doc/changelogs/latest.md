@@ -2,9 +2,6 @@
 
 ### New Features
 
-- Speak enchant cost in anvil [#277](https://github.com/khanshoaib3/minecraft-access/pull/277)
-- Speak hovered tooltip when `Inventory Control` feature is disabled [#281](https://github.com/khanshoaib3/minecraft-access/pull/281)
-
 ### Feature Updates
 
 ### Bug Fixes

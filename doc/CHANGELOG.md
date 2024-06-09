@@ -1,3 +1,11 @@
+Release v1.6.1 (2024-06)
+---------------------------
+
+### Others
+
+- New guide page: [Good Resources](/doc/GOOD_RESOURCES.md)
+- Remove `fabric-api` dependence for Fabric
+
 Release v1.6.0 (2024-06)
 ---------------------------
 
@@ -21,7 +29,7 @@ Release v1.6.0 (2024-06)
 
 ### Others
 
-- Remove `architectury-api` denpendence
+- Remove `architectury-api` dependence
 
 ### Development Chores
 
