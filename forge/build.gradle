@@ -40,6 +40,11 @@ configurations {
     developmentForge.extendsFrom common
 }
 
+// since 1.20.6
+configurations.configureEach {
+    resolutionStrategy.force("net.sf.jopt-simple:jopt-simple:5.0.4")
+}
+
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
 
@@ -64,6 +69,8 @@ shadowJar {
 }
 
 remapJar {
+    // since 1.20.6
+    enabled false
     //noinspection GrDeprecatedAPIUsage
     input.set shadowJar.archiveFile
     dependsOn shadowJar
