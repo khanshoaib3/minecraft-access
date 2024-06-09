@@ -92,8 +92,6 @@ jobs:
           echo "GIT_VERSION_TAG=${GIT_VERSION_TAG}" >> $GITHUB_ENV
           
           echo "release-tag=${GIT_VERSION_TAG}" >> $GITHUB_OUTPUT
-          
-          echo "FABRIC_API_VERSION=$(grep "fabric_api_version" gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
 
       # Create temp changelog files, add content from input and documentation files
       #
@@ -155,8 +153,6 @@ jobs:
           loaders: fabric
           game-versions: ${{ env.MINECRAFT_VERSION }}
           java: ${{ env.JAVA_VERSION }}
-          dependencies: |
-            fabric-api@${{ env.FABRIC_API_VERSION }}(required)
           retry-attempts: 2
           retry-delay: 60000
 
