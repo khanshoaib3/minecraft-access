@@ -236,6 +236,7 @@ See also: [Feature Description](/doc/FEATURES.md#other-small-features)
 
 ## Other Pages
 
+* [Home](/README.md)
 * [Set Up](/doc/SET_UP.md)
 * [Features](/doc/FEATURES.md)
 * [Keybindings](/doc/KEYBINDINGS.md)

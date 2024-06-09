@@ -114,3 +114,11 @@ Please provide these information to developers in "mc-issues" channel:
 * In case the developers asking for log files: there would be log files under the `logs` folder in your `.minecraft` folder, developers need the `debug.log` file, please upload it to wherever that developers can view.
 
 It might be a bug of this mod, or something in mod manual is misleading, or you misunderstand how the game works like.
+
+## Other Pages
+
+* [Home](/README.md)
+* [Set Up](/doc/SET_UP.md)
+* [Features](/doc/FEATURES.md)
+* [Keybindings](/doc/KEYBINDINGS.md)
+* [Configuration](/doc/CONFIG.md)
