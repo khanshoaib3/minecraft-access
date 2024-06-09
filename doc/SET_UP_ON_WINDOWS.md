@@ -209,12 +209,13 @@ It worth to note that all mod files (and resource pack files) have the "jar" ext
 
 ## Additional Installation for Windows
 
-Given the specificity of this mod, we need to install a few extra things to make this mod work.
-For Windows, we need the [tolk](https://github.com/ndarilek/tolk) extension, which enable the mod to speak through multiple screen readers such as [NVDA](https://www.nvaccess.org/download/) and [JAWS](https://www.freedomscientific.com/products/software/jaws/).
-We need to download the tolk extension files and place it under the minecraft folder.
-We've implemented the automatic set-up process inside the mod, it will set up the tolk for you at the first time you starting the modded game.
+We've implemented the automatic set-up process inside the mod, it will set up the tolk for you at the first time you starting the modded game, there is no need to do it manually unless something goes wrong.
 
 > Here is the original guide for manually installing tolk, I put it here in case you need to adjust the tolk's files manually:
+>
+> Given the specificity of this mod, we need to install a few extra things to make this mod work.
+> For Windows, we need the [tolk](https://github.com/ndarilek/tolk) extension, which enable the mod to speak through multiple screen readers such as [NVDA](https://www.nvaccess.org/download/) and [JAWS](https://www.freedomscientific.com/products/software/jaws/).
+> We need to download the tolk extension files and place it under the minecraft folder.
 >
 > 1. Download the latest build zip - here.
 > 2. Extract the downloaded zip file anywhere you like, the Downloads folder should be fine.
