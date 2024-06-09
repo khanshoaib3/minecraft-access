@@ -6,9 +6,10 @@
   "mixins": [
   ],
   "client": [
+    "KeyBindingAccessor",
+    "MinecraftClientMixin",
     "NarratorLinuxMixin",
-    "NarratorWindowsMixin",
-    "KeyBindingAccessor"
+    "NarratorWindowsMixin"
   ],
   "injectors": {
     "defaultRequire": 1
