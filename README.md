@@ -26,8 +26,6 @@ Each version of mod will be pre-released on [GitHub](https://github.com/khanshoa
 
 ## Useful Links
 
-* [Minecraft Wiki](https://minecraft.wiki) - Has details and guides on everything about Minecraft.
-* [Minecraft Survival Guide (Season 3)](https://www.youtube.com/watch?v=VfpHTJsn9I4&list=PLgENJ0iY3XBjmydGuzYTtDwfxuR6lN8KC) - A great series by Pixlriffs, highly recommend for beginners.
 * [Playability Discord server](https://discord.gg/yQjjsDqWQX) - Join our Discord server if you want to chat with other this mod's users and developers.
 * [Twitter](https://twitter.com/shoaib_mk0) - You can follow the developer on Twitter to get notification when a new update drops.
 * [Patreon](https://www.patreon.com/shoaibkhan)
