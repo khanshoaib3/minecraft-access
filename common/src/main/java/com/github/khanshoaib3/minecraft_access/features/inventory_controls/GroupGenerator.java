@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features.inventory_controls;
 
 import com.github.khanshoaib3.minecraft_access.mixin.*;
+import com.google.common.base.CaseFormat;
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
 import net.minecraft.block.entity.BannerPattern;
@@ -27,9 +28,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.village.TradeOfferList;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class GroupGenerator {
 
@@ -73,7 +72,7 @@ public class GroupGenerator {
         SlotsGroup secondaryBeaconPowersButtonsGroup = new SlotsGroup("secondary_beacon_powers_buttons", null);
         SlotsGroup lapisLazuliInputGroup = new SlotsGroup("lapis_lazuli_input", null);
         SlotsGroup enchantsGroup = new SlotsGroup("enchants", null);
-        SlotsGroup unknownGroup = new SlotsGroup("unknown", null);
+        List<SlotItem> unknownSlots = new ArrayList<>(slots.size());
 
         for (Slot s : slots) {
             int index = ((SlotAccessor) s).getIndex();
@@ -263,7 +262,7 @@ public class GroupGenerator {
             }
             //</editor-fold>
 
-            unknownGroup.slotItems.add(new SlotItem(s));
+            unknownSlots.add(new SlotItem(s));
         }
 
         //<editor-fold desc="Group recipe group slot items if any">
@@ -467,8 +466,46 @@ public class GroupGenerator {
             foundGroups.add(itemOutputGroup);
         }
 
-        if (unknownGroup.slotItems.size() > 0) {
-            foundGroups.add(unknownGroup);
+        // Adjacency is used here instead of slot.inventory because some mods have non-adjacent slots in the same
+        // inventory and adjacent slots in different inventories
+        List<List<SlotItem>> unknownGroups = new ArrayList<>(unknownSlots.size());
+        for (SlotItem slot : unknownSlots) {
+            unknownGroups.stream()
+                    .filter(group ->
+                            group.stream()
+                                    .anyMatch(groupSlot ->
+                                            groupSlot.x == slot.x && (groupSlot.y == slot.y + 18 || groupSlot.y == slot.y - 18)
+                                            || groupSlot.y == slot.y && (groupSlot.x == slot.x + 18 || groupSlot.x == slot.x - 18)
+                                    )
+                    )
+                    .findFirst()
+                    .or(() -> {
+                        List<SlotItem> group = new ArrayList<>(unknownSlots.size());
+                        unknownGroups.add(group);
+                        return Optional.of(group);
+                    })
+                    .get()
+                    .add(slot);
+        }
+        Map<String, Byte> usedNames = new HashMap<>(unknownGroups.size());
+        for (List<SlotItem> group : unknownGroups) {
+            if (group.stream()
+                    .map(slot -> slot.slot.getClass().getSimpleName())
+                    .distinct()
+                    .limit(2)
+                    .count() == 1) {
+                String groupName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, group.get(0).slot.getClass().getSimpleName());
+                if (usedNames.containsKey(groupName)) {
+                    byte n = (byte) (usedNames.get(groupName) + 1);
+                    usedNames.put(groupName, n);
+                    groupName += String.format("_%d", n);
+                } else {
+                    usedNames.put(groupName, (byte) 1);
+                }
+                foundGroups.add(new SlotsGroup(groupName, group));
+            } else {
+                foundGroups.add(new SlotsGroup("unknown_group", group));
+            }
         }
         //</editor-fold>
 
