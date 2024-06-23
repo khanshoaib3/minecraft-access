@@ -489,23 +489,28 @@ public class GroupGenerator {
         }
         Map<String, Byte> usedNames = new HashMap<>(unknownGroups.size());
         for (List<SlotItem> group : unknownGroups) {
+            String groupName;
             if (group.stream()
                     .map(slot -> slot.slot.getClass().getSimpleName())
                     .distinct()
                     .limit(2)
                     .count() == 1) {
-                String groupName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, group.get(0).slot.getClass().getSimpleName());
-                if (usedNames.containsKey(groupName)) {
-                    byte n = (byte) (usedNames.get(groupName) + 1);
-                    usedNames.put(groupName, n);
-                    groupName += String.format("_%d", n);
-                } else {
-                    usedNames.put(groupName, (byte) 1);
+                groupName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, group.get(0).slot.getClass().getSimpleName());
+		// Don't use vanilla obfuscated class names
+                if (groupName.startsWith("class_")) {
+                    groupName = "unknown_group";
                 }
-                foundGroups.add(new SlotsGroup(groupName, group));
             } else {
-                foundGroups.add(new SlotsGroup("unknown_group", group));
+                groupName = "unknown_group";
             }
+            if (usedNames.containsKey(groupName)) {
+                byte n = (byte) (usedNames.get(groupName) + 1);
+                usedNames.put(groupName, n);
+                groupName += String.format("_%d", n);
+            } else {
+                usedNames.put(groupName, (byte) 1);
+            }
+            foundGroups.add(new SlotsGroup(groupName, group));
         }
         //</editor-fold>
 
