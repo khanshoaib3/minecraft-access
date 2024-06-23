@@ -490,13 +490,14 @@ public class GroupGenerator {
         Map<String, Byte> usedNames = new HashMap<>(unknownGroups.size());
         for (List<SlotItem> group : unknownGroups) {
             String groupName;
-            if (group.stream()
-                    .map(slot -> slot.slot.getClass().getSimpleName())
+            boolean isOfSingularSlotType = group.stream()
+                    .map(slot -> slot.slot.getClass())
                     .distinct()
                     .limit(2)
-                    .count() == 1) {
+                    .count() == 1;
+            if (isOfSingularSlotType) {
                 groupName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, group.get(0).slot.getClass().getSimpleName());
-		// Don't use vanilla obfuscated class names
+                // Don't use vanilla obfuscated class names
                 if (groupName.startsWith("class_")) {
                     groupName = "unknown_group";
                 }
