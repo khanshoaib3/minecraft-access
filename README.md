@@ -41,7 +41,8 @@ Each version of mod will be pre-released on [GitHub](https://github.com/khanshoa
 Any type of contribution is welcome:
 
 * Take the first bite of the new versions and help us detect bugs and inconvenience.
-* Improve this mod's manual (pages including this one) for better readability and accessibility.
+* Improve this mod's manual for better readability and accessibility.
 * Help us [translate](/doc/FAQ.md#how-can-i-contribute-to-i18n) this mod into other languages.
-* Create more text or video based tutorials to teach visually impaired players how to use this mod or how to play the game.
+* Create more text or video tutorials about how to play the game with this mod ([examples](/doc/GOOD_RESOURCES.md#gameplay-with-this-mod)).
+* Make sound effects for this mod.
 * For development contribution, please go to the [issues page](https://github.com/khanshoaib3/minecraft-access/issues) for more details.
