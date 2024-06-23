@@ -523,36 +523,37 @@ public class GroupGenerator {
     }
 
     /**
-     * Separate unknown slots into groups according to their position on the screen.
-     * Coordinates adjacency is used instead of slot.inventory() to calculate group belonging
-     * because some mods have: 1. non-adjacent slots in the same inventory 2. adjacent slots in different inventories.
+     * Separate unknown slots into groups according to their position on the screen,
+     * and give these group names according to slot instances' classes.
      *
      * @return Separation result
      */
     @NotNull
-    private static List<SlotsGroup> separateUnknownSlotsIntoGroups(List<SlotItem> unknownSlots) {
-        List<SlotsGroup> groupsOfUnknownSlots = new ArrayList<>();
-        List<List<SlotItem>> unknownGroups = new ArrayList<>(unknownSlots.size());
-        for (SlotItem slot : unknownSlots) {
-            unknownGroups.stream()
-                    .filter(group ->
-                            group.stream()
-                                    .anyMatch(groupSlot ->
-                                            groupSlot.x == slot.x && (groupSlot.y == slot.y + 18 || groupSlot.y == slot.y - 18)
-                                                    || groupSlot.y == slot.y && (groupSlot.x == slot.x + 18 || groupSlot.x == slot.x - 18)
-                                    )
-                    )
+    private static List<SlotsGroup> separateUnknownSlotsIntoGroups(List<SlotItem> slots) {
+        // Separate unknown slots into groups.
+        // Coordinates adjacency is used instead of slot.inventory() to calculate grouping
+        // because some mods have: 1. non-adjacent slots in the same inventory 2. adjacent slots in different inventories.
+        List<List<SlotItem>> separatedSlots = new ArrayList<>(slots.size());
+        for (SlotItem current : slots) {
+            // Search for a group which already has one slot that is adjacent to the current slot,
+            // or create a new group if there is no such group.
+            Optional<List<SlotItem>> targetGroup = separatedSlots.stream()
+                    .filter(group -> group.stream().anyMatch(groupSlot -> twoSlotsAreAdjacent(current, groupSlot)))
                     .findFirst()
                     .or(() -> {
-                        List<SlotItem> group = new ArrayList<>(unknownSlots.size());
-                        unknownGroups.add(group);
+                        List<SlotItem> group = new ArrayList<>(slots.size());
+                        separatedSlots.add(group);
                         return Optional.of(group);
-                    })
-                    .get()
-                    .add(slot);
+                    });
+            // Add the current slot to this group
+            targetGroup.ifPresent(group -> group.add(current));
         }
-        Map<String, Byte> usedNames = new HashMap<>(unknownGroups.size());
-        for (List<SlotItem> group : unknownGroups) {
+
+        List<SlotsGroup> result = new ArrayList<>();
+
+        // Naming groups
+        Map<String, Byte> usedNames = new HashMap<>(separatedSlots.size());
+        for (List<SlotItem> group : separatedSlots) {
             String groupName;
             boolean isOfSingularSlotType = group.stream()
                     .map(slot -> slot.slot.getClass())
@@ -575,10 +576,16 @@ public class GroupGenerator {
             } else {
                 usedNames.put(groupName, (byte) 1);
             }
-            groupsOfUnknownSlots.add(new SlotsGroup(groupName, group));
+            result.add(new SlotsGroup(groupName, group));
         }
 
-        return groupsOfUnknownSlots;
+        return result;
+    }
+
+    private static boolean twoSlotsAreAdjacent(SlotItem currSlot, SlotItem groupSlot) {
+        boolean adjacentOnX = groupSlot.x == currSlot.x && (groupSlot.y == currSlot.y + 18 || groupSlot.y == currSlot.y - 18);
+        boolean adjacentOnY = groupSlot.y == currSlot.y && (groupSlot.x == currSlot.x + 18 || groupSlot.x == currSlot.x - 18);
+        return adjacentOnX || adjacentOnY;
     }
 
     private static @NotNull List<SlotsGroup> inventoryAndCraftingScreensGroups(@NotNull HandledScreenAccessor screen) {
