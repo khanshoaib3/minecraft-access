@@ -524,7 +524,7 @@ public class GroupGenerator {
 
     /**
      * Separate unknown slots into groups according to their position on the screen,
-     * and give these group names according to slot instances' classes.
+     * and give these group names according to slot instances' types (classes).
      *
      * @return Separation result
      */
@@ -552,16 +552,18 @@ public class GroupGenerator {
         List<SlotsGroup> result = new ArrayList<>();
 
         // Naming groups
-        Map<String, Byte> usedNames = new HashMap<>(separatedSlots.size());
+        Map<String, Byte> duplicateCounters = new HashMap<>(separatedSlots.size());
         for (List<SlotItem> group : separatedSlots) {
             String groupName;
-            boolean isOfSingularSlotType = group.stream()
+            boolean allSlotsHaveSameType = group.stream()
                     .map(slot -> slot.slot.getClass())
                     .distinct()
                     .limit(2)
                     .count() == 1;
-            if (isOfSingularSlotType) {
-                groupName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, group.get(0).slot.getClass().getSimpleName());
+            if (allSlotsHaveSameType) {
+                // Set group name to unique slot class name
+                // e.g. ModAbcSlot -> mod_abc_slot
+                groupName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, group.getFirst().slot.getClass().getSimpleName());
                 // Don't use vanilla obfuscated class names
                 if (groupName.startsWith("class_")) {
                     groupName = "unknown_group";
@@ -569,13 +571,17 @@ public class GroupGenerator {
             } else {
                 groupName = "unknown_group";
             }
-            if (usedNames.containsKey(groupName)) {
-                byte n = (byte) (usedNames.get(groupName) + 1);
-                usedNames.put(groupName, n);
+
+            // Already have a group with the same name
+            if (duplicateCounters.containsKey(groupName)) {
+                byte n = (byte) (duplicateCounters.get(groupName) + 1);
+                duplicateCounters.put(groupName, n);
+                // Add a number suffix
                 groupName += String.format("_%d", n);
             } else {
-                usedNames.put(groupName, (byte) 1);
+                duplicateCounters.put(groupName, (byte) 1);
             }
+
             result.add(new SlotsGroup(groupName, group));
         }
 
