@@ -466,53 +466,10 @@ public class GroupGenerator {
             foundGroups.add(itemOutputGroup);
         }
 
-        // Adjacency is used here instead of slot.inventory because some mods have non-adjacent slots in the same
-        // inventory and adjacent slots in different inventories
-        List<List<SlotItem>> unknownGroups = new ArrayList<>(unknownSlots.size());
-        for (SlotItem slot : unknownSlots) {
-            unknownGroups.stream()
-                    .filter(group ->
-                            group.stream()
-                                    .anyMatch(groupSlot ->
-                                            groupSlot.x == slot.x && (groupSlot.y == slot.y + 18 || groupSlot.y == slot.y - 18)
-                                            || groupSlot.y == slot.y && (groupSlot.x == slot.x + 18 || groupSlot.x == slot.x - 18)
-                                    )
-                    )
-                    .findFirst()
-                    .or(() -> {
-                        List<SlotItem> group = new ArrayList<>(unknownSlots.size());
-                        unknownGroups.add(group);
-                        return Optional.of(group);
-                    })
-                    .get()
-                    .add(slot);
-        }
-        Map<String, Byte> usedNames = new HashMap<>(unknownGroups.size());
-        for (List<SlotItem> group : unknownGroups) {
-            String groupName;
-            boolean isOfSingularSlotType = group.stream()
-                    .map(slot -> slot.slot.getClass())
-                    .distinct()
-                    .limit(2)
-                    .count() == 1;
-            if (isOfSingularSlotType) {
-                groupName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, group.get(0).slot.getClass().getSimpleName());
-                // Don't use vanilla obfuscated class names
-                if (groupName.startsWith("class_")) {
-                    groupName = "unknown_group";
-                }
-            } else {
-                groupName = "unknown_group";
-            }
-            if (usedNames.containsKey(groupName)) {
-                byte n = (byte) (usedNames.get(groupName) + 1);
-                usedNames.put(groupName, n);
-                groupName += String.format("_%d", n);
-            } else {
-                usedNames.put(groupName, (byte) 1);
-            }
-            foundGroups.add(new SlotsGroup(groupName, group));
-        }
+        // Unknown slots come from screens in other mods (or unsupported original screens)
+        // that use original SlotItem class to represent item slots.
+        // One SlotItem represents one slot.
+        foundGroups.addAll(separateUnknownSlotsIntoGroups(unknownSlots));
         //</editor-fold>
 
         // Then the non-item-related groups you want to interact with (after you put items into input slots, enchant for example).
@@ -563,6 +520,65 @@ public class GroupGenerator {
         //</editor-fold>
 
         return foundGroups;
+    }
+
+    /**
+     * Separate unknown slots into groups according to their position on the screen.
+     * Coordinates adjacency is used instead of slot.inventory() to calculate group belonging
+     * because some mods have: 1. non-adjacent slots in the same inventory 2. adjacent slots in different inventories.
+     *
+     * @return Separation result
+     */
+    @NotNull
+    private static List<SlotsGroup> separateUnknownSlotsIntoGroups(List<SlotItem> unknownSlots) {
+        List<SlotsGroup> groupsOfUnknownSlots = new ArrayList<>();
+        List<List<SlotItem>> unknownGroups = new ArrayList<>(unknownSlots.size());
+        for (SlotItem slot : unknownSlots) {
+            unknownGroups.stream()
+                    .filter(group ->
+                            group.stream()
+                                    .anyMatch(groupSlot ->
+                                            groupSlot.x == slot.x && (groupSlot.y == slot.y + 18 || groupSlot.y == slot.y - 18)
+                                                    || groupSlot.y == slot.y && (groupSlot.x == slot.x + 18 || groupSlot.x == slot.x - 18)
+                                    )
+                    )
+                    .findFirst()
+                    .or(() -> {
+                        List<SlotItem> group = new ArrayList<>(unknownSlots.size());
+                        unknownGroups.add(group);
+                        return Optional.of(group);
+                    })
+                    .get()
+                    .add(slot);
+        }
+        Map<String, Byte> usedNames = new HashMap<>(unknownGroups.size());
+        for (List<SlotItem> group : unknownGroups) {
+            String groupName;
+            boolean isOfSingularSlotType = group.stream()
+                    .map(slot -> slot.slot.getClass())
+                    .distinct()
+                    .limit(2)
+                    .count() == 1;
+            if (isOfSingularSlotType) {
+                groupName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, group.get(0).slot.getClass().getSimpleName());
+                // Don't use vanilla obfuscated class names
+                if (groupName.startsWith("class_")) {
+                    groupName = "unknown_group";
+                }
+            } else {
+                groupName = "unknown_group";
+            }
+            if (usedNames.containsKey(groupName)) {
+                byte n = (byte) (usedNames.get(groupName) + 1);
+                usedNames.put(groupName, n);
+                groupName += String.format("_%d", n);
+            } else {
+                usedNames.put(groupName, (byte) 1);
+            }
+            groupsOfUnknownSlots.add(new SlotsGroup(groupName, group));
+        }
+
+        return groupsOfUnknownSlots;
     }
 
     private static @NotNull List<SlotsGroup> inventoryAndCraftingScreensGroups(@NotNull HandledScreenAccessor screen) {
