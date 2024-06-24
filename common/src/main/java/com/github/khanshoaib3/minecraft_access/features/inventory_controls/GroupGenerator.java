@@ -530,23 +530,26 @@ public class GroupGenerator {
      */
     @NotNull
     private static List<SlotsGroup> separateUnknownSlotsIntoGroups(List<SlotItem> slots) {
+        // An unsorted list may result in many groups being created where there should only be one
+        slots.sort(Comparator.comparing(slot -> ((SlotItem) slot).y).thenComparing(slot -> ((SlotItem) slot).x));
+
         // Separate unknown slots into groups.
-        // Coordinates adjacency is used instead of slot.inventory() to calculate grouping
+        // Coordinates adjacency is used instead of slot.inventory to calculate grouping
         // because some mods have: 1. non-adjacent slots in the same inventory 2. adjacent slots in different inventories.
         List<List<SlotItem>> separatedSlots = new ArrayList<>(slots.size());
         for (SlotItem current : slots) {
             // Search for a group which already has one slot that is adjacent to the current slot,
             // or create a new group if there is no such group.
-            Optional<List<SlotItem>> targetGroup = separatedSlots.stream()
+            List<SlotItem> targetGroup = separatedSlots.stream()
                     .filter(group -> group.stream().anyMatch(groupSlot -> twoSlotsAreAdjacent(current, groupSlot)))
                     .findFirst()
-                    .or(() -> {
+                    .orElseGet(() -> {
                         List<SlotItem> group = new ArrayList<>(slots.size());
                         separatedSlots.add(group);
-                        return Optional.of(group);
+                        return group;
                     });
             // Add the current slot to this group
-            targetGroup.ifPresent(group -> group.add(current));
+            targetGroup.add(current);
         }
 
         List<SlotsGroup> result = new ArrayList<>();
