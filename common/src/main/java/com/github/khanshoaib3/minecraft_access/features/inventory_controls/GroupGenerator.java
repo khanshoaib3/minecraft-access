@@ -27,6 +27,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.village.TradeOfferList;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -557,7 +558,9 @@ public class GroupGenerator {
         // Naming groups
         Map<String, Byte> duplicateCounters = new HashMap<>(separatedSlots.size());
         for (List<SlotItem> group : separatedSlots) {
-            String groupName;
+            String groupKey;
+            @Nullable String groupName;
+            @Nullable Byte index;
             boolean allSlotsHaveSameType = group.stream()
                     .map(slot -> slot.slot.getClass())
                     .distinct()
@@ -567,25 +570,28 @@ public class GroupGenerator {
                 // Set group name to unique slot class name
                 // e.g. ModAbcSlot -> mod_abc_slot
                 groupName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, group.getFirst().slot.getClass().getSimpleName());
+                groupKey = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, group.getFirst().slot.getClass().getCanonicalName());
                 // Don't use vanilla obfuscated class names
                 if (groupName.startsWith("class_")) {
-                    groupName = "unknown_group";
+                    groupKey = "unknown";
+                    groupName = null;
                 }
             } else {
-                groupName = "unknown_group";
+                groupKey = "unknown";
+                groupName = null;
             }
 
             // Already have a group with the same name
-            if (duplicateCounters.containsKey(groupName)) {
-                byte n = (byte) (duplicateCounters.get(groupName) + 1);
-                duplicateCounters.put(groupName, n);
-                // Add a number suffix
-                groupName += String.format("_%d", n);
+            if (duplicateCounters.containsKey(groupKey)) {
+                byte n = (byte) (duplicateCounters.get(groupKey) + 1);
+                duplicateCounters.put(groupKey, n);
+                index = n;
             } else {
                 duplicateCounters.put(groupName, (byte) 1);
+                index = null;
             }
 
-            result.add(new SlotsGroup(groupName, group));
+            result.add(new SlotsGroup(groupKey, groupName, index, group));
         }
 
         return result;

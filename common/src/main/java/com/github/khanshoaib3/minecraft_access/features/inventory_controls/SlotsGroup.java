@@ -4,6 +4,7 @@ import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.screen.slot.Slot;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,16 +12,28 @@ import java.util.List;
 import java.util.Objects;
 
 public class SlotsGroup {
-    private final String groupName;
+    private final @NotNull String groupKey;
+    private final @Nullable String groupName;
+    private final @Nullable Byte index;
     public List<SlotItem> slotItems;
     public boolean isScrollable = false;
 
     private final HashMap<Slot, String> slotNamePrefixMap;
 
-    public SlotsGroup(String groupName, List<SlotItem> slotItems) {
+    public SlotsGroup(@NotNull String groupKey, @Nullable String groupName, @Nullable Byte index, @Nullable List<SlotItem> slotItems) {
         this.slotNamePrefixMap = new HashMap<>();
+        this.groupKey = groupKey;
         this.groupName = groupName;
+        this.index = index;
         this.slotItems = Objects.requireNonNullElseGet(slotItems, ArrayList::new);
+    }
+
+    public SlotsGroup(@NotNull String groupKey, @Nullable List<SlotItem> slotItems) {
+        this(groupKey, null, null, slotItems);
+    }
+
+    public SlotsGroup(@NotNull String groupKey) {
+        this(groupKey, null, null, null);
     }
 
     public void setSlotPrefix(Slot slot, String prefix) {
@@ -112,6 +125,8 @@ public class SlotsGroup {
     }
 
     public String getGroupName() {
-        return I18n.translate("minecraft_access.slot_group." + this.groupName);
+        String key = String.format("minecraft_access.slot_group.%s", groupKey);
+        String translation = groupName == null || I18n.hasTranslation(key) ? I18n.translate(key) : groupName;
+        return index == null ? translation : String.format("%s %d", translation, index);
     }
 }
