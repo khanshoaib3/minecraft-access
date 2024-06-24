@@ -4,7 +4,11 @@
 
 ### Feature Updates
 
+- Added better naming for unknown (modded) item groups in GUIs
+
 ### Bug Fixes
+
+- Fixed detection of unknown (modded) item groups in GUIs
 
 ### Translation Changes
 
