@@ -14,4 +14,6 @@
 
 ### Others
 
+- Update good resource page to include TrueBlindGaming tutorial videos, update beginner guide
+
 ### Development Chores
