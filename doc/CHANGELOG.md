@@ -5,6 +5,11 @@ Release v1.6.1 (2024-06)
 
 - New guide page: [Good Resources](/doc/GOOD_RESOURCES.md)
 - Remove `fabric-api` dependence for Fabric
+- forge_version: `1.20.6-50.0.0` -> `1.20.6-50.1.0`
+- architectury_loom_version: `1.6-SNAPSHOT` -> `1.7-SNAPSHOT`
+- grade: `8.6` -> `8.8` (required by loom 1.7)
+- fabric_yarn_version: `1.20.6+build.1:v2` -> `1.20.6+build.3:v2`
+- Add mixin dependency `io.github.llamalad7:mixinextras:0.4.0` for forge
 
 Release v1.6.0 (2024-06)
 ---------------------------
@@ -30,6 +35,10 @@ Release v1.6.0 (2024-06)
 ### Others
 
 - Remove `architectury-api` dependence
+- minecraft_version: `1.20.4` -> `1.20.6`
+- forge_version: `1.20.4-49.0.19` -> `1.20.6-50.0.31`
+- architectury_loom_version: `1.4-SNAPSHOT` -> `1.6-SNAPSHOT`
+- fabric_loader_version: `0.15.1` -> `0.15.11`
 
 ### Development Chores
 
@@ -52,16 +61,6 @@ Release v1.5.3 (2024-02)
 * When locking on an entity, POI Locking feature will always try to target at a valid position that you can interact with, thus you can attack a monster even it expose small part of its body to you.
 * Now POI Locking feature will never let you make eye contact with an [Enderman](https://minecraft.wiki/w/Enderman).
 * [Boat](https://minecraft.wiki/w/Boat), [mine cart](https://minecraft.wiki/w/Minecart), [slime](https://minecraft.wiki/w/Slime), [magma cube](https://minecraft.wiki/w/Magma_cube), and [ancient debris](https://minecraft.wiki/w/Ancient_debris) can be scanned and locked with POI feature now. [#157](https://github.com/khanshoaib3/minecraft_access/issues/157) [#203](https://github.com/khanshoaib3/minecraft_access/issues/203) [#215](https://github.com/khanshoaib3/minecraft_access/issues/215)
-
-- aoNIWDn
-- aOINDWo21
-- aOINDWo21
-
-### Feature Updates
-
-- AONO@Nlkdn21lk
-- aoNIWDn
-- AONO@Nlkdn21lk
 
 ### Bug Fixes
 
