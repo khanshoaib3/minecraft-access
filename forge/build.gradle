@@ -50,6 +50,13 @@ dependencies {
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+
+    // https://github.com/LlamaLad7/MixinExtras
+    // fabric has this dependency,
+    // we already used this dependency in common module,
+    // so let forge use it too
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.0"))
+    implementation(include("io.github.llamalad7:mixinextras-forge:0.4.0"))
 }
 
 processResources {
@@ -68,14 +75,7 @@ shadowJar {
     archiveClassifier = "dev-shadow"
 }
 
-remapJar {
-    // since 1.20.6
-    enabled false
-    //noinspection GrDeprecatedAPIUsage
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
-    archiveClassifier = null
-}
+// Forge doesn't need remap since 1.20.6
 
 jar {
     archiveClassifier = "dev"
