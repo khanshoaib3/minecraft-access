@@ -6,7 +6,7 @@ plugins {
     // ref: https://maven.architectury.dev/dev/architectury/architectury-loom/
     // Loom 1.6: "Developers should use Loom 1.6 (at the time of writing) to develop mods for Minecraft 1.20.5."
     // ref: https://fabricmc.net/2024/04/19/1205.html
-    id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.7-SNAPSHOT" apply false
 }
 
 architectury {
