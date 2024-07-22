@@ -75,7 +75,14 @@ shadowJar {
     archiveClassifier = "dev-shadow"
 }
 
-// Forge doesn't need remap since 1.20.6
+remapJar {
+    // Forge doesn't need remap since 1.20.6
+    enabled false
+    //noinspection GrDeprecatedAPIUsage
+    input.set shadowJar.archiveFile
+    dependsOn shadowJar
+    archiveClassifier = null
+}
 
 jar {
     archiveClassifier = "dev"
