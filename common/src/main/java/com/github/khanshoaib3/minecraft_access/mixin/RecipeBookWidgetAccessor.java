@@ -34,7 +34,7 @@ public interface RecipeBookWidgetAccessor {
     RecipeMatcher getRecipeFinder();
 
     @Accessor
-    AbstractRecipeScreenHandler<?> getCraftingScreenHandler();
+    AbstractRecipeScreenHandler<?, ?> getCraftingScreenHandler();
 
     @Accessor
     ToggleButtonWidget getToggleCraftableButton();

@@ -1,11 +1,11 @@
 package com.github.khanshoaib3.minecraft_access.mixin;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.item.TooltipType;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item.TooltipContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;

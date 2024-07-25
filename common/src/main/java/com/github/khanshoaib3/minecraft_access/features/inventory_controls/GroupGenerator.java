@@ -11,6 +11,7 @@ import net.minecraft.client.gui.screen.ingame.*;
 import net.minecraft.client.gui.screen.recipebook.AnimatedResultButton;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.client.gui.screen.recipebook.RecipeResultCollection;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.search.SearchManager;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.PlayerInventory;
@@ -18,6 +19,7 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.*;
 import net.minecraft.screen.slot.FurnaceOutputSlot;
@@ -338,16 +340,17 @@ public class GroupGenerator {
         //</editor-fold>
 
         //<editor-fold desc="Group enchantment screen enchant buttons (EnchantScreen.java -->> render())">
-        if (MinecraftClient.getInstance().player != null && screen.getHandler() instanceof EnchantmentScreenHandler enchantmentScreenHandler) {
+        if (MinecraftClient.getInstance().player != null && MinecraftClient.getInstance().world != null
+                && screen.getHandler() instanceof EnchantmentScreenHandler enchantmentScreenHandler) {
             boolean bl = MinecraftClient.getInstance().player.getAbilities().creativeMode;
             int i = enchantmentScreenHandler.getLapisCount();
             for (int j = 0; j < 3; ++j) {
                 int k = enchantmentScreenHandler.enchantmentPower[j];
-                Enchantment enchantment = Enchantment.byRawId(enchantmentScreenHandler.enchantmentId[j]);
+                Optional<RegistryEntry.Reference<Enchantment>> optional = MinecraftClient.getInstance().world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(enchantmentScreenHandler.enchantmentId[j]);
                 int l = enchantmentScreenHandler.enchantmentLevel[j];
                 int m = j + 1;
-                if (enchantment == null) break;
-                StringBuilder clueText = new StringBuilder(Text.translatable("container.enchant.clue", enchantment.getName(l)).formatted(Formatting.WHITE).getString());
+                if (optional.isEmpty()) break;
+                StringBuilder clueText = new StringBuilder(Text.translatable("container.enchant.clue", Enchantment.getName(optional.get(), l)).formatted(Formatting.WHITE).getString());
                 if (!bl) {
                     if (MinecraftClient.getInstance().player.experienceLevel < k) {
                         clueText.append(Text.translatable("container.enchant.level.requirement", enchantmentScreenHandler.enchantmentPower[j]).formatted(Formatting.RED).getString());
@@ -388,7 +391,7 @@ public class GroupGenerator {
         // Inventory groups first, you always start a process with picking up items.
         //<editor-fold desc="Add Normal Inventory Groups to foundGroups">
         // Container inventory first (you open a container for items inside it)
-        if (blockInventoryGroup.slotItems.size() > 0) {
+        if (!blockInventoryGroup.slotItems.isEmpty()) {
             if (screen.getHandler() instanceof Generic3x3ContainerScreenHandler)
                 blockInventoryGroup.mapTheGroupList(3);
             else if (screen.getHandler() instanceof GenericContainerScreenHandler)
@@ -399,13 +402,13 @@ public class GroupGenerator {
         }
 
         // Then normal inventory (you open inventory screen for items inside it)
-        if (playerInventoryGroup.slotItems.size() > 0) {
+        if (!playerInventoryGroup.slotItems.isEmpty()) {
             playerInventoryGroup.mapTheGroupList(9);
             foundGroups.add(playerInventoryGroup);
         }
 
         // Finally the hotbar (you may want to put picked items on the hotbar (num-key hotkeys are fast, yup))
-        if (hotbarGroup.slotItems.size() > 0) {
+        if (!hotbarGroup.slotItems.isEmpty()) {
             hotbarGroup.mapTheGroupList(9);
             foundGroups.add(hotbarGroup);
         }
@@ -413,56 +416,56 @@ public class GroupGenerator {
 
         // Then the input and output groups, you may want to put picked items into the input slots and get the result from output slots.
         //<editor-fold desc="Add Input Groups to foundGroups">
-        if (craftingInputGroup.slotItems.size() > 0) {
+        if (!craftingInputGroup.slotItems.isEmpty()) {
             craftingInputGroup.setRowColumnPrefixForSlots();
             foundGroups.add(craftingInputGroup);
         }
 
-        if (itemInputGroup.slotItems.size() > 0) {
+        if (!itemInputGroup.slotItems.isEmpty()) {
             itemInputGroup.mapTheGroupList(4);
             foundGroups.add(itemInputGroup);
         }
 
-        if (fuelInputGroup.slotItems.size() > 0) {
+        if (!fuelInputGroup.slotItems.isEmpty()) {
             foundGroups.add(fuelInputGroup);
         }
 
-        if (ingredientGroup.slotItems.size() > 0) {
+        if (!ingredientGroup.slotItems.isEmpty()) {
             foundGroups.add(ingredientGroup);
         }
 
-        if (potionGroup.slotItems.size() > 0) {
+        if (!potionGroup.slotItems.isEmpty()) {
             potionGroup.mapTheGroupList(3);
             foundGroups.add(potionGroup);
         }
 
-        if (netheriteIngotInputGroup.slotItems.size() > 0) {
+        if (!netheriteIngotInputGroup.slotItems.isEmpty()) {
             foundGroups.add(netheriteIngotInputGroup);
         }
 
-        if (bannerInputGroup.slotItems.size() > 0) {
+        if (!bannerInputGroup.slotItems.isEmpty()) {
             foundGroups.add(bannerInputGroup);
         }
 
-        if (dyeInputGroup.slotItems.size() > 0) {
+        if (!dyeInputGroup.slotItems.isEmpty()) {
             foundGroups.add(dyeInputGroup);
         }
 
-        if (patternInputGroup.slotItems.size() > 0) {
+        if (!patternInputGroup.slotItems.isEmpty()) {
             foundGroups.add(patternInputGroup);
         }
 
-        if (lapisLazuliInputGroup.slotItems.size() > 0) {
+        if (!lapisLazuliInputGroup.slotItems.isEmpty()) {
             foundGroups.add(lapisLazuliInputGroup);
         }
         //</editor-fold>
 
         //<editor-fold desc="Add Output Groups to foundGroups">
-        if (craftingOutputGroup.slotItems.size() > 0) {
+        if (!craftingOutputGroup.slotItems.isEmpty()) {
             foundGroups.add(craftingOutputGroup);
         }
 
-        if (itemOutputGroup.slotItems.size() > 0) {
+        if (!itemOutputGroup.slotItems.isEmpty()) {
             itemOutputGroup.mapTheGroupList(4);
             foundGroups.add(itemOutputGroup);
         }
@@ -475,33 +478,33 @@ public class GroupGenerator {
 
         // Then the non-item-related groups you want to interact with (after you put items into input slots, enchant for example).
         //<editor-fold desc="Add Screen Specific Groups">
-        if (recipesGroup.slotItems.size() > 0) {
+        if (!recipesGroup.slotItems.isEmpty()) {
             recipesGroup.isScrollable = true;
             recipesGroup.mapTheGroupList(4);
             foundGroups.add(recipesGroup);
         }
 
-        if (beaconConfirmButtonsGroup.slotItems.size() > 0) {
+        if (!beaconConfirmButtonsGroup.slotItems.isEmpty()) {
             beaconConfirmButtonsGroup.mapTheGroupList(2);
             foundGroups.add(beaconConfirmButtonsGroup);
         }
 
-        if (primaryBeaconPowersButtonsGroup.slotItems.size() > 0) {
+        if (!primaryBeaconPowersButtonsGroup.slotItems.isEmpty()) {
             primaryBeaconPowersButtonsGroup.mapTheGroupList(2);
             foundGroups.add(primaryBeaconPowersButtonsGroup);
         }
 
-        if (secondaryBeaconPowersButtonsGroup.slotItems.size() > 0) {
+        if (!secondaryBeaconPowersButtonsGroup.slotItems.isEmpty()) {
             secondaryBeaconPowersButtonsGroup.mapTheGroupList(2);
             foundGroups.add(secondaryBeaconPowersButtonsGroup);
         }
 
-        if (enchantsGroup.slotItems.size() > 0) {
+        if (!enchantsGroup.slotItems.isEmpty()) {
             enchantsGroup.mapTheGroupList(3, true);
             foundGroups.add(enchantsGroup);
         }
 
-        if (tradesGroup.slotItems.size() > 0) {
+        if (!tradesGroup.slotItems.isEmpty()) {
             tradesGroup.isScrollable = true;
             tradesGroup.mapTheGroupList(7, true);
             foundGroups.add(tradesGroup);
@@ -510,11 +513,11 @@ public class GroupGenerator {
 
         // Finally, the armour groups, low interactive frequency, will only show in inventory screen.
         //<editor-fold desc="Add Armour Inventory Groups">
-        if (armourGroup.slotItems.size() > 0) {
+        if (!armourGroup.slotItems.isEmpty()) {
             foundGroups.add(armourGroup);
         }
 
-        if (offHandGroup.slotItems.size() > 0) {
+        if (!offHandGroup.slotItems.isEmpty()) {
             foundGroups.add(offHandGroup);
         }
         //</editor-fold>
@@ -629,8 +632,11 @@ public class GroupGenerator {
         finalRecipeSearchResultList.removeIf(resultCollection -> !resultCollection.hasFittingRecipes());
         String string = recipeBookWidgetAccessor.getSearchField().getText();
         if (!string.isEmpty()) {
-            ObjectLinkedOpenHashSet<RecipeResultCollection> objectSet = new ObjectLinkedOpenHashSet<>(MinecraftClient.getInstance().getSearchProvider(SearchManager.RECIPE_OUTPUT).findAll(string.toLowerCase(Locale.ROOT)));
-            finalRecipeSearchResultList.removeIf(recipeResultCollection -> !objectSet.contains(recipeResultCollection));
+            ClientPlayNetworkHandler clientPlayNetworkHandler = MinecraftClient.getInstance().getNetworkHandler();
+            if (clientPlayNetworkHandler != null) {
+                ObjectLinkedOpenHashSet<RecipeResultCollection> objectSet = new ObjectLinkedOpenHashSet<>(clientPlayNetworkHandler.getSearchManager().getRecipeOutputReloadFuture().findAll(string.toLowerCase(Locale.ROOT)));
+                finalRecipeSearchResultList.removeIf(recipeResultCollection -> !objectSet.contains(recipeResultCollection));
+            }
         }
         if (recipeBookWidgetAccessor.getRecipeBook().isFilteringCraftable(recipeBookWidgetAccessor.getCraftingScreenHandler())) {
             finalRecipeSearchResultList.removeIf(resultCollection -> !resultCollection.hasCraftableRecipes());
@@ -644,7 +650,7 @@ public class GroupGenerator {
             recipesGroup.slotItems.add(new SlotItem(realX, realY));
         }
 
-        if (recipesGroup.slotItems.size() > 0) {
+        if (!recipesGroup.slotItems.isEmpty()) {
             recipesGroup.isScrollable = true;
             recipesGroup.mapTheGroupList(5);
 
