@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[51,)"
+loaderVersion = "[4,)"
 #issueTrackerURL = ""
 license = "GNU GPLv3"
 
@@ -7,16 +7,16 @@ license = "GNU GPLv3"
 modId = "minecraft_access"
 version = "${version}"
 displayName = "Minecraft Access"
-authors = "Shoaib"
+authors = "Shoaib, Boholder"
 description = '''
 A mod for minecraft java that adds accessibility feature.
 '''
 #logoFile = ""
 
 [[dependencies.minecraft_access]]
-modId = "forge"
+modId = "neoforge"
 mandatory = true
-versionRange = "[51,)"
+versionRange = "[21.0.0-beta,)"
 ordering = "NONE"
 side = "BOTH"
 
@@ -26,3 +26,9 @@ mandatory = true
 versionRange = "[1.21,)"
 ordering = "NONE"
 side = "BOTH"
+
+#[[mixins]]
+#config = "minecraft_access.mixins.json"
+
+#[[mixins]]
+#config = "minecraft_access-common.mixins.json"

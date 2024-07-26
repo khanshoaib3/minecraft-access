@@ -31,7 +31,7 @@ public class MainClass {
     public static NarratorMenu narratorMenu = null;
     public static FluidDetector fluidDetector = null;
 
-    public static boolean isForge = false;
+    public static boolean isNeoForge = false;
     public static boolean interrupt = true;
     private static boolean alreadyDisabledAdvancementKey = false;
 
@@ -168,7 +168,7 @@ public class MainClass {
 
     public static void speakWithNarrator(String text, boolean interrupt) {
         MainClass.interrupt = interrupt;
-        if (isForge) {
+        if (isNeoForge) {
             MinecraftClient.getInstance().getNarratorManager().narrate(text);
             return;
         }

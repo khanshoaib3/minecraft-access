@@ -20,7 +20,11 @@ subprojects {
 
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-        mappings "net.fabricmc:yarn:${rootProject.fabric_yarn_version}"
+        // Ref: https://discord.com/channels/792699517631594506/1255221515964911626/1256712441329614942
+        mappings loom.layered {
+            it.mappings("net.fabricmc:yarn:${rootProject.fabric_yarn_version}")
+            it.mappings("dev.architectury:yarn-mappings-patch-neoforge:$rootProject.yarn_mappings_patch_neoforge_version")
+        }
     }
 }
 

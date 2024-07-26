@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.forge.mixin;
+package com.github.khanshoaib3.minecraft_access.neoforge.mixin;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import net.minecraft.client.MinecraftClient;

@@ -11,7 +11,7 @@ plugins {
 
 architectury {
     platformSetupLoomIde()
-    forge()
+    neoForge()
 }
 
 loom {
@@ -22,14 +22,6 @@ loom {
     // ref: https://fabricmc.net/wiki/documentation:fabric_loom
     // (although we're using the architectury fork of fabric loom, this config remains unchanged)
     log4jConfigs.from(file("../common/src/main/resources/log4j.xml"))
-
-    forge {
-        convertAccessWideners = true
-        extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
-
-        mixinConfig "minecraft_access-common.mixins.json"
-        mixinConfig "minecraft_access.mixins.json"
-    }
 }
 
 configurations {
@@ -37,16 +29,24 @@ configurations {
     shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
-    developmentForge.extendsFrom common
+    developmentNeoForge.extendsFrom common
 }
 
 // since 1.20.6
-configurations.configureEach {
-    resolutionStrategy.force("net.sf.jopt-simple:jopt-simple:5.0.4")
+//configurations.configureEach {
+//    resolutionStrategy.force("net.sf.jopt-simple:jopt-simple:5.0.4")
+//
+//}
+
+repositories {
+    maven {
+        name = 'NeoForged'
+        url = 'https://maven.neoforged.net/releases'
+    }
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
+    neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
@@ -55,14 +55,13 @@ dependencies {
     // fabric has this dependency,
     // we already used this dependency in common module,
     // so let forge use it too
-    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.0"))
-    implementation(include("io.github.llamalad7:mixinextras-forge:0.4.0"))
+//    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.0"))
 }
 
 processResources {
     inputs.property "version", project.version
 
-    filesMatching("META-INF/mods.toml") {
+    filesMatching("META-INF/neoforge.mods.toml") {
         expand "version": project.version
     }
 }
@@ -77,7 +76,7 @@ shadowJar {
 
 remapJar {
     // Forge doesn't need remap since 1.20.6
-    enabled false
+//    enabled false
     //noinspection GrDeprecatedAPIUsage
     input.set shadowJar.archiveFile
     dependsOn shadowJar
