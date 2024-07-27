@@ -49,7 +49,7 @@ dependencies {
     neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 
     // https://github.com/LlamaLad7/MixinExtras
     // fabric has this dependency,
