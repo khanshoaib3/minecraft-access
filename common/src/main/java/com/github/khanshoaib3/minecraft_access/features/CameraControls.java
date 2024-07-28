@@ -118,12 +118,12 @@ public class CameraControls {
         straightDownDoubleClick.updateStateForNextTick();
 
         // these two blocks of logic should be ahead of the normal up/down logic
-        if (isStraightUpKeyPressed && isRightAltPressed) {
+        if (isStraightUpKeyPressed) {
             rotateCameraTo(Orientation.UP);
             return true;
         }
 
-        if (isStraightDownKeyPressed && isRightAltPressed) {
+        if (isStraightDownKeyPressed) {
             rotateCameraTo(Orientation.DOWN);
             return true;
         }
