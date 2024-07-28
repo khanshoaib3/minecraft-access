@@ -140,7 +140,7 @@ You can use TrueBlind's "reference point" method to remember a coordinates as a 
 From time to time, you can pick up the mouse and move it horizontally (or keep pressing one camera horizontally controlling keys) to turn your head around, or press A D while walking thus you move in a Zig-Zag pattern.
 All these actions are to increase the range of the world you are viewing (mod scanning).
 
-Once you find a log block, you can use the [POI Marking feature](https://github.com/khanshoaib3/minecraft-access/blob/1.20/doc/FEATURES.md#poi-marking).
+Once you find a log block, you can use the [POI Marking feature](/doc/FEATURES.md#poi-marking).
 When you are targeting at a log block, press `Ctrl + Y` to mark that log block type, the POI feature will only hint for the log blocks that are around you with sounds, instead of hinting preset POI blocks.
 When you no longer want to find trees, press `Ctrl + Alt + Y` to cancel the marking, you don't need to target at the marked target when canceling.
 
@@ -163,5 +163,5 @@ Remember to turn on `Allow Cheats` option when you create the world).
 * [Features](/doc/FEATURES.md)
 * [Keybindings](/doc/KEYBINDINGS.md)
 * [Configuration](/doc/CONFIG.md)
-* [Sound Effects](https://html-preview.github.io/?url=https://github.com/khanshoaib3/minecraft-access/blob/1.20/doc/SOUND.html)
+* [Sound Effects](https://html-preview.github.io/?url=https://github.com/khanshoaib3/minecraft-access/blob/1.21/doc/SOUND.html)
 * [FAQ](/doc/FAQ.md)
