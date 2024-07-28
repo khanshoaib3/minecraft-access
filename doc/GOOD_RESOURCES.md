@@ -29,11 +29,13 @@ There are guides about [installing](/doc/SET_UP_ON_WINDOWS.md#install-mods) and 
       instead: [Presence Footsteps: Remastered Sounds Pack](https://modrinth.com/resourcepack/presense-footsteps-sounds), put it under `%appdata%\.minecraft\resourcepacks` folder.
     * Just Enough Items ([Fabric and Forge](https://modrinth.com/mod/jei)): Item and recipe viewing mod, far better than similar recipe book feature in original game (but this mod hasn't been 100% accessible by us, you need some vision to use it).
     * Sound Physics Remastered ([Fabric and Forge](https://modrinth.com/mod/sound-physics-remastered)): Provides realistic sound attenuation, reverberation, and absorption through blocks. I'm sure this mod consumes resources, so install it only when you're confident in your PC hardware.
+    * Jade ([Fabric, Forge, NeoForge](https://modrinth.com/mod/jade)): Shows information about what you are looking at.
 
 2. Server side, which you can only use in single-player game (unless the multiplayer server admins add them into the server):
     * Tree Harvester ([Fabric and Forge](https://modrinth.com/mod/tree-harvester)): Harvest trees and huge mushrooms instantly with an axe. It's a common scenario in Minecraft that you can't reach the logs and leaves at higher place when standing on the ground, with this mod, you won't bother yourself with stepping yourself up.
     * Carry On ([Fabric and Forge](https://modrinth.com/mod/carry-on)): Allowing players to pick up, carry, and place some blocks (such as Chests) and animals without breaking blocks or guiding animals with a leash.
     * FTB Ultimine ([Fabric](https://www.curseforge.com/minecraft/mc-mods/ftb-ultimine-fabric), [Forge](https://www.curseforge.com/minecraft/mc-mods/ftb-ultimine-forge)): This mod can makes you operate on same type blocks around you by operating only once, like harvest crops, mining a vein and chopping trees.
+    * Simple Voice Chat ([Fabric, Forge, NeoForge](https://modrinth.com/plugin/simple-voice-chat): A proximity voice chat for Minecraft.
 
 ## Tutorial Resources
 
