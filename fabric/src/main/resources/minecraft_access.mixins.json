@@ -6,7 +6,6 @@
   "mixins": [
   ],
   "client": [
-    "KeyBindingAccessor",
     "MinecraftClientMixin",
     "NarratorLinuxMixin",
     "NarratorWindowsMixin"
