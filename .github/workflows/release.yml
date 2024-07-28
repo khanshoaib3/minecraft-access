@@ -131,7 +131,7 @@ jobs:
           github-prerelease: ${{ inputs.pre-release }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           files: ${{ env.UPLOAD_PATH }}/*.jar
-          name: Release v${{ env.MOD_VERSION }} for ${{ env.MINECRAFT_VERSION }} [Fabric/Forge]
+          name: Release v${{ env.MOD_VERSION }} for ${{ env.MINECRAFT_VERSION }} [Fabric/NeoForge]
           changelog-file: ${{ env.CHANGELOG_TEMP_GITHUB }}
 
       # For example: [Fabric 1.20.4] v1.5.2
@@ -157,7 +157,7 @@ jobs:
           retry-attempts: 2
           retry-delay: 60000
 
-      - name: Publish Forge Version to Modrinth and CurseForge
+      - name: Publish NeoForge Version to Modrinth and CurseForge
         if: ${{ !inputs.pre-release }}
         uses: Kir-Antipov/mc-publish@v3.3
         with:
@@ -165,12 +165,12 @@ jobs:
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           curseforge-id: ${{ env.CURSEFORGE_ID }}
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-          name: "[Forge ${{ env.MINECRAFT_VERSION }}] v${{ env.MOD_VERSION }}"
+          name: "[NeoForge ${{ env.MINECRAFT_VERSION }}] v${{ env.MOD_VERSION }}"
           modrinth-featured: false
           changelog-file: ${{ env.CHANGELOG_TEMP_PLATFORM }}
-          files: ${{ env.UPLOAD_PATH }}/*-forge.jar
-          version: ${{ env.MOD_GAME_VERSION }}-forge
-          loaders: forge
+          files: ${{ env.UPLOAD_PATH }}/*-neoforge.jar
+          version: ${{ env.MOD_GAME_VERSION }}-neoforge
+          loaders: neoforge
           game-versions: ${{ env.MINECRAFT_VERSION }}
           java: ${{ env.JAVA_VERSION }}
           retry-attempts: 2
