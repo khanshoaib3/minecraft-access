@@ -27,8 +27,8 @@ versionRange = "[1.21,)"
 ordering = "NONE"
 side = "BOTH"
 
-#[[mixins]]
-#config = "minecraft_access.mixins.json"
+[[mixins]]
+config = "minecraft_access.mixins.json"
 
-#[[mixins]]
-#config = "minecraft_access-common.mixins.json"
+[[mixins]]
+config = "minecraft_access-common.mixins.json"
