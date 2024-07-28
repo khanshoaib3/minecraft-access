@@ -1,3 +1,11 @@
+Compatibility For 1.21
+---------------------------
+
+* Minecraft: 1.20.6 ([read setup guide](/doc/SET_UP.md))
+* Java: >=21 ([download x64 Windows installer](https://download.oracle.com/java/21/latest/jdk-21_windows-x64_bin.msi), [download page for all Operating Systems](https://www.oracle.com/java/technologies/downloads/#java21))
+* Fabric Loader: >=0.15.11 ([download Fabric Loader](https://fabricmc.net/use/installer/))
+* NeoForge: 21.0.140-beta ([download NeoForge installer](https://maven.neoforged.net/releases/net/neoforged/neoforge/21.0.140-beta/neoforge-21.0.140-beta-installer.jar))
+
 Compatibility For 1.20.6
 ---------------------------
 
