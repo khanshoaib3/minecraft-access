@@ -17,7 +17,8 @@
 
 * [The manual of this mod](https://github.com/khanshoaib3/minecraft-access) - Check what features this mod provides.
 * [Twitter](https://twitter.com/shoaib_mk0) - You can follow the developer on Twitter to get notification when a new update drops.
-* [Playability Discord server](https://discord.gg/yQjjsDqWQX) - Again, you can join our Discord server if you need help in setting up the mod or any issue related to Minecraft Java.
+* [Playability Discord server](https://discord.gg/yQjjsDqWQX) - You can join our Discord server if you need help in setting up the mod or any issue related to Minecraft Java.
+* [Visually Impaired Access Mods](https://modrinth.com/modpack/vi-access) - A mod pack that contains this mod and some quality of life mods, made by BrailleBennett with heart.
 
 ## Quality of Life Mods
 
