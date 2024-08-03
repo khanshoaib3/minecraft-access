@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.utils.position;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,6 +18,7 @@ import java.util.stream.Stream;
 /**
  * Functions about getting player entity's position, facing direction etc.
  */
+@Slf4j
 public class PlayerPositionUtils {
     private final PlayerEntity player;
 
@@ -89,6 +91,9 @@ public class PlayerPositionUtils {
         return NarrationUtils.narrateNumber(getZ()) + "z";
     }
 
+    /**
+     * @return -90 (head up) ~ 90 (head down)
+     */
     public int getVerticalFacingDirection() {
         assert player != null;
         return (int) player.getRotationClient().x;
@@ -106,16 +111,21 @@ public class PlayerPositionUtils {
         int angle = getVerticalFacingDirection();
         if (angle == -999) return null;
 
-        String angleInWords = null;
+        if (isBetween(angle, -90, -88)) {
+            return I18n.translate("minecraft_access.direction.up");
+        } else if (isBetween(angle, -87, -3)) {
+            return I18n.translate("minecraft_access.direction.degrees", -angle) + " " + I18n.translate("minecraft_access.direction.up");
+        } else if (isBetween(angle, -2, 2)) {
+            return I18n.translate("minecraft_access.direction.straight");
+        } else if (isBetween(angle, 3, 97)) {
+            return I18n.translate("minecraft_access.direction.degrees", angle) + " " + I18n.translate("minecraft_access.direction.down");
+        } else if (isBetween(angle, 88, 90)) {
+            return I18n.translate("minecraft_access.direction.down");
+        } else return null;
+    }
 
-        if (angle >= -2 && angle <= 2)
-            angleInWords = I18n.translate("minecraft_access.direction.straight");
-        else if (angle <= -88 && angle >= -90)
-            angleInWords = I18n.translate("minecraft_access.direction.up");
-        else if (angle >= 88 && angle <= 90)
-            angleInWords = I18n.translate("minecraft_access.direction.down");
-
-        return angleInWords;
+    public static boolean isBetween(int x, int lower, int upper) {
+        return lower <= x && x <= upper;
     }
 
     public int getHorizontalFacingDirectionInDegrees() {
