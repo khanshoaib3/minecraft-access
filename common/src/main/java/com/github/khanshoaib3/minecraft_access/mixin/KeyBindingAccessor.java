@@ -9,4 +9,10 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface KeyBindingAccessor {
     @Accessor
     InputUtil.Key getBoundKey();
+
+    @Accessor
+    int getTimesPressed();
+
+    @Accessor
+    void setTimesPressed(int timesPressed);
 }

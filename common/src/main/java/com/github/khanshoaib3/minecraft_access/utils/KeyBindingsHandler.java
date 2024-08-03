@@ -74,7 +74,7 @@ public class KeyBindingsHandler {
         initializeCameraControlsKeybindings();
         initializeInventoryControlsKeybindings();
         initializeMouseSimulationKeybindings();
-        initializeAreaMapKeybindings();
+//        initializeAreaMapKeybindings();
         initializeOtherKeybindings();
     }
 
@@ -334,6 +334,7 @@ public class KeyBindingsHandler {
      * 6. Cursor Up Key (default: U) = Moves the map cursor one block up.
      * 7. Cursor Down Key (default: O) = Moves the map cursor one block down.
      */
+    @SuppressWarnings("unused")
     private void initializeAreaMapKeybindings() {
         areaMapMenuKey = new KeyBinding(
                 "minecraft_access.keys.area_map.menu_key_name",
