@@ -2,11 +2,16 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
+import com.github.khanshoaib3.minecraft_access.features.inventory_controls.InventoryControls;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.item.ItemStack;
 
 import java.util.function.Function;
 
+/**
+ * This class is responsible for speaking hotbar when no inventory screen is opened.
+ * For speaking hotbar when any inventory screen is opened, see {@link InventoryControls#getCurrentSlotNarrationText()}
+ */
 public class SpeakHeldItem {
     private String previousItemName = "";
     private int previousItemCount = 0;

@@ -15,10 +15,13 @@ import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.ToggleButtonWidget;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item.TooltipContext;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.NotNull;
@@ -27,6 +30,7 @@ import org.lwjgl.glfw.GLFW;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * This features lets us use keyboard in inventory screens. Works with all default minecraft screens.
@@ -510,21 +514,32 @@ public class InventoryControls {
     private String getCurrentSlotNarrationText() {
         if (currentSlotItem == null) return "";
 
-        if (currentSlotItem.slot == null) {
+        Slot slot = currentSlotItem.slot;
+        if (slot == null) {
             return Objects.requireNonNullElse(currentSlotItem.getNarratableText(), I18n.translate("minecraft_access.inventory_controls.Unknown"));
         }
-
-        if (!currentSlotItem.slot.hasStack()) {
-            return I18n.translate("minecraft_access.inventory_controls.empty_slot", currentGroup.getSlotPrefix(currentSlotItem.slot));
+        if (!slot.hasStack()) {
+            return I18n.translate("minecraft_access.inventory_controls.empty_slot", currentGroup.getSlotPrefix(slot));
         }
 
-        String info = "%s %d".formatted(currentGroup.getSlotPrefix(currentSlotItem.slot), currentSlotItem.slot.getStack().getCount());
+        ItemStack itemStack = slot.getStack();
+        // <slot row col prefix> <count>
+        String info = "%s %d".formatted(currentGroup.getSlotPrefix(slot), itemStack.getCount());
+
+        // <name> <description>
         StringBuilder toolTipString = new StringBuilder();
-        List<Text> toolTipList = currentSlotItem.slot.getStack().getTooltip(TooltipContext.DEFAULT, minecraftClient.player, TooltipType.BASIC);
+        List<Text> toolTipList = itemStack.getTooltip(TooltipContext.DEFAULT, minecraftClient.player, TooltipType.BASIC);
         for (Text line : toolTipList) {
             toolTipString.append(line.getString()).append(" ");
         }
 
+        // issue #311 after 1.21: Can't get Music Discs' name from Tooltip, use this instead
+        Optional.ofNullable(itemStack.get(DataComponentTypes.JUKEBOX_PLAYABLE)).ifPresent((jukeboxPlayableComponent) -> {
+            String discNumber = jukeboxPlayableComponent.song().key().getValue().getPath();
+            toolTipString.append(" ").append(I18n.translate("jukebox_song.minecraft." + discNumber));
+        });
+
+        // <slot row col prefix> <count> <name> <description>
         return "%s %s".formatted(info, toolTipString.toString());
     }
 
