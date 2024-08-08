@@ -17,3 +17,5 @@
 - Add Braille Bennett's modpack to good resource page
 
 ### Development Chores
+
+- Add new `CONTRIBUTING.md` doc
