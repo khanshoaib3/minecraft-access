@@ -150,7 +150,8 @@ The fabric installer supports multiple languages. Unlike NeoForge, the language 
 2. The first combo box is for selecting the game version you want to install, please refer to the current game version that supported by this mod on [releases page](https://github.com/khanshoaib3/minecraft-access/releases) (under `Mod Version Compatibility` section), and change the combo box to select that game version.
 3. Next is a checkbox for showing game snapshot versions, just ignore it, it's for mod developers.
 4. The second combo box is for selecting the Fabric loader version, the latest version is selected by default and no need to change.
-5. Then there is an input field for specifying the installation location, normally the installer will automatically recognize the official loader's folder, do   for example `C:\Users\username\AppData\Roaming\.minecraft`, that's where we want it to install so no need to change again.
+5. Then there is an input field for specifying the installation location, normally the installer will automatically recognize the official loader's folder.
+ Do   for example `C:\Users\username\AppData\Roaming\.minecraft`, that's where we want it to install so no need to change again.
    Copy this path to somewhere like the Notepad for further usage when installing mod files.
 6. And then a checkbox for `Create profile`, checked by default, we want it to create a profile in the official launcher, no need to change.
 7. Finally, click `Install` button to start the installation.
@@ -169,8 +170,8 @@ Before running the installer, download and run the patch file from [here](https:
 Now you can run the NeoForge jar file like normal executable file, a window pops up for you to choose the installation configurations:
 The NeoForge installer supports multiple languages, so if you want to change the language, you can do so by pressing Shift Tab on the radio button.
 1. First is a radio box for selecting install client or server, `Install client` is selected by default, yeah we want to install the client, no need to change it.
-2. Then there is an input field for specifying the installation location, normally the installer will automatically recognize the official loader's folder,
-   for example `C:\Users\username\AppData\Roaming\.minecraft`, that's where we want it to install so no need to change again.
+2. Then there is an input field for specifying the installation location, normally the installer will automatically recognize the official loader's folder.
+   For example `C:\Users\username\AppData\Roaming\.minecraft`, that's where we want it to install so no need to change again.
    Copy this path to somewhere like the Notepad for further usage when installing mod files.
 3. Now click the `OK` button to start the installation.
    It will download some files from the Internet, if the network is fast, the installation takes about three or two minutes.
