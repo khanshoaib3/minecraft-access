@@ -111,19 +111,21 @@ public class CameraControls {
                 || (isDownKeyPressed && isRightAltPressed && !isLeftAltPressed);
         boolean isCenterCameraKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsCenterCamera);
 
-        boolean isStraightUpKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsStraightUp) || straightUpDoubleClick.canBeTriggered();
-        boolean isStraightDownKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsStraightDown) || straightDownDoubleClick.canBeTriggered();
+        boolean isStraightUpKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsStraightUp);
+        boolean isUpKeyDoublePressedWithRightAlt = isRightAltPressed && straightUpDoubleClick.canBeTriggered();
+        boolean isStraightDownKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsStraightDown);
+        boolean isDownKeyDoublePressedWithRightAlt = isRightAltPressed && straightDownDoubleClick.canBeTriggered();
 
         straightUpDoubleClick.updateStateForNextTick();
         straightDownDoubleClick.updateStateForNextTick();
 
         // these two blocks of logic should be ahead of the normal up/down logic
-        if (isStraightUpKeyPressed) {
+        if (isStraightUpKeyPressed || isUpKeyDoublePressedWithRightAlt) {
             rotateCameraTo(Orientation.UP);
             return true;
         }
 
-        if (isStraightDownKeyPressed) {
+        if (isStraightDownKeyPressed || isDownKeyDoublePressedWithRightAlt) {
             rotateCameraTo(Orientation.DOWN);
             return true;
         }
@@ -210,7 +212,7 @@ public class CameraControls {
         minecraftClient.player.changeLookDirection(horizontalAngleDelta, verticalAngleDelta);
 
         // log and speak new facing direction
-       log.debug("Rotating camera by x:%d y:%d".formatted((int) horizontalAngleDelta, (int) verticalAngleDelta));
+        log.debug("Rotating camera by x:%d y:%d".formatted((int) horizontalAngleDelta, (int) verticalAngleDelta));
 
         PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
         String horizontalDirection = pUtil.getHorizontalFacingDirectionInCardinal();
@@ -236,7 +238,7 @@ public class CameraControls {
         minecraftClient.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, targetBlockPosition);
 
         // log and speak new facing direction
-       log.debug("Rotating camera to: %s".formatted(direction.name()));
+        log.debug("Rotating camera to: %s".formatted(direction.name()));
 
         PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
 
