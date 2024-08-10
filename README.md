@@ -7,7 +7,7 @@ Currently, this mod [has enough features](doc/FAQ.md#is-the-mod-enough-to-play-t
 
 This mod supports:
 
-* Game version `1.19.3`, `1.20.1`, `1.20.4`, `1.20.6`
+* Game version `1.21`, `1.20.6`, `1.20.4`, `1.20.1`, `1.19.3`
 * On [Fabric](https://fabricmc.net/use/installer/) and [Forge](https://files.minecraftforge.net/net/minecraftforge/forge/) modding platform
 * On Windows and Linux operating system ([Help us on macOS porting](https://github.com/khanshoaib3/minecraft-access/issues/22))
 * Works despite the language setting of the game (but the mod specific narration will [fall back to English](/doc/FEATURES.md#i18n-fallback-mechanism) if the mod does not support the language yet)
@@ -45,4 +45,4 @@ Any type of contribution is welcome:
 * Help us [translate](/doc/FAQ.md#how-can-i-contribute-to-i18n) this mod into other languages.
 * Create more text or video tutorials about how to play the game with this mod ([examples](/doc/GOOD_RESOURCES.md#gameplay-with-this-mod)).
 * Make sound effects for this mod.
-* For development contribution, please go to the [issues page](https://github.com/khanshoaib3/minecraft-access/issues) for more details.
+* For development contribution, please read [CONTRIBUTING.md](CONTRIBUTING.md) for more details.

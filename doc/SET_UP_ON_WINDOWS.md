@@ -151,7 +151,7 @@ The fabric installer supports multiple languages. Unlike NeoForge, the language 
 3. Next is a checkbox for showing game snapshot versions, just ignore it, it's for mod developers.
 4. The second combo box is for selecting the Fabric loader version, the latest version is selected by default and no need to change.
 5. Then there is an input field for specifying the installation location, normally the installer will automatically recognize the official loader's folder.
- Do   for example `C:\Users\username\AppData\Roaming\.minecraft`, that's where we want it to install so no need to change again.
+ The default location is `C:\Users\username\AppData\Roaming\.minecraft`, that's where we want it to install so no need to change again.
    Copy this path to somewhere like the Notepad for further usage when installing mod files.
 6. And then a checkbox for `Create profile`, checked by default, we want it to create a profile in the official launcher, no need to change.
 7. Finally, click `Install` button to start the installation.
