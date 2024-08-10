@@ -15,6 +15,7 @@
 ### Others
 
 - Add Braille Bennett's modpack to good resource page
+Updated Windows Setup guide
 
 ### Development Chores
 
