@@ -2,264 +2,193 @@
 
 This tutorial tries to guide you step by step on how to set the whole thing up. This tutorial is for Windows system.
 
-If you want to chat with other this mod's users and developers, please join [our Discord server](https://discord.gg/yQjjsDqWQX).
+If you want to chat with this mod's users and developers, please join [our Discord server](https://discord.gg/yQjjsDqWQX).
 If you know where this tutorial could be improved, please let us know as well.
 
 > The paragraphs in the block quotes are additional nonsense.
 > They do not provide help with the installation, but they can give you a little more insight into things that are relevant.
-> If you don't want to read them, skip and move on, you won't miss anything important.
+> If you don't want to read them, skip them and move on, you won't miss anything important.
 
 ## Index
 
 1. [Purchase the Game and Download the Launcher](#purchase-the-game-and-download-the-launcher)
     1. [Purchase the Game](#purchase-the-game)
     2. [Download the Launcher](#download-the-launcher)
-2. [Choose and Install the Mod Framework](#choose-and-install-the-mod-framework)
-    1. [Install the Java](#install-the-java)
-    2. [Install the Fabric](#install-the-fabric)
-    3. [Install the NeoForge](#install-the-neoforge)
-3. [Install Mods](#install-mods)
-4. [Additional Installation for Windows](#additional-installation-for-windows)
+2. [Choose and Install Your Chosen Mod Loader](#choose-and-install-your-chosen-mod-loader)
+    2. [Install Fabric](#install-fabric)
+    3. [Install NeoForge](#install-neoforge)
+3. [Install Your Mods](#install-your-mods)
 5. [Start the Game](#start-the-game)
-6. [Upgrade the Game and Mods](#upgrade-the-game-and-mods)
+6. [Update the Game and Mods](#update-the-game-and-mods)
 
 ## Purchase the Game and Download the Launcher
 
 ### Purchase the Game
 
-Before you purchase the game, make sure you have a computer with a 64-bit processor. [Minecraft no longer supports 32-bit computers around 2022](https://www.minecraftforum.net/forums/minecraft-java-edition/recent-updates-and-snapshots/3140967-the-end-of-minecraft-32-bit).
+Before you purchase the game, make sure you have a computer with a 64-bit processor, [Minecraft no longer supports 32-bit computers around 2022](https://www.minecraftforum.net/forums/minecraft-java-edition/recent-updates-and-snapshots/3140967-the-end-of-minecraft-32-bit).
 Below are system requirements from [the official website](https://www.minecraft.net/en-us/store/minecraft-java-bedrock-edition-pc):
 
 1. Minimum:
-    * OS: Windows 7
-    * Architecture: ARM64, x64
+    * OS: Windows 7 and up
+    * Architecture: ARM, x64, x86
     * Memory: 2 GB
-    * Processor: Intel Core i3-3210 3.2 GHz | AMD A8-7600 APU 3.1 GHz | Apple M1
+    * Processor: Intel Core i3-3210 3.2 GHz | AMD A8-7600 APU 3.1 GHz | Apple M1 or equivalent
     * Graphics: Intel HD Graphics 4000 | AMD Radeon R5
 
 2. Optimum:
-    * OS: Windows 10
-    * Architecture: ARM64, x64
+    * OS: Windows 10 and up
+    * Architecture: ARM, x64, x86
     * Memory: 4 GB
-    * Processor: Intel Core i5-4690 3.5 GHz | AMD A10-7800 APU 3.5 GHz | Apple M1
+    * Processor: Intel Core i5-4690 3.5 GHz | AMD A10-7800 APU 3.5 GHz | Apple M1 or equivalent
     * Graphics: NVIDIA GeForce 700 series or AMD Radeon Rx 200 series (excluding integrated chipsets) with OpenGL 4.45
 
-There are two editions of Minecraft: Java Edition and Bedrock Edition.
+There are two editions of Minecraft: Minecraft: Java Edition and Minecraft for Windows/Bedrock Edition (usually just referred to as Minecraft).
 This Mod is only available for the Java Edition.
 Don't worry about buying the wrong one, the two editions are sold in a bundle.
 
 > While we need not concern ourselves with the Bedrock Edition, I would like you to know the differences between the two editions:
 >
-> At one time the Minecraft only had one edition, the Java Edition. Since Microsoft acquired Mojang Studios, they have launched a new Bedrock Edition.
-> The Java Edition is available for PC (Windows, Mac and Linux), while new Bedrock Edition is available for smartphones, game consoles, etc.
-> Microsoft makes the Bedrock Edition playable on Windows as well, and named it as `Minecraft for Windows` which increase the confusion.
+> At one time Minecraft only had one edition, the Java Edition. Since Microsoft acquired Mojang Studios, they have launched a new Bedrock Edition.
+> The Java Edition is available for PC (Windows, Mac and Linux), while the newer Bedrock Edition is available for windows, smartphones, game consoles, etc.
 >
 > Please also note that the Bedrock Edition in the next purchase link only contains the version that runs on Windows.
-> The Bedrock Edition on other platforms, such as on smartphones, need to be purchased separately in the mobile application store.
+> Bedrock Edition on other platforms, such as on smartphones, needs to be purchased separately in the platform's respective application store.
 
-If you've got a redeem code of this game, [here is the redeem page](https://www.minecraft.net/redeem), no need to buy the game.
-Or if you're Xbox Game Pass member, you can also get the Minecraft for free. Unfortunately, the help link is dead.
+If you have a redeem code for this game, [here is the redeem page](https://www.minecraft.net/en-us/redeem), no need to buy the game.
+Or if you're a Xbox Game Pass member, you can also get Minecraft using your active subscription.
 
-There are currently two purchasable versions of Minecraft, [the Deluxe Collection](https://www.minecraft.net/store/minecraft-deluxe-collection-pc) and [the bare game](https://www.minecraft.net/store/minecraft-java-bedrock-edition-pc).
-I want to remind you that things that the Deluxe Collection has more than the bare game are just virtual currency and items only in the Bedrock Edition, that we can't use and don't care.
+There are currently two purchasable versions of Minecraft, [the Deluxe Collection](https://www.minecraft.net/en-us/store/minecraft-deluxe-collection-pc) and [the bare game](https://www.minecraft.net/store/minecraft-java-bedrock-edition-pc).
+I want to remind you that things that the Deluxe Collection has included that the bare game doesn't are just virtual currency (minecoins) and items only usable in the Bedrock Edition that we can't use in the Java Edition.
 
 The links will jump to the pages that correspond to the language of your browser, and there is a `CHECKOUT` button.
-Click it, the website will be redirected, then it require you to sign in before the purchase with a... Microsoft account, well, makes sense.
+Click it, and then the webpage will redirect you to the payment flow, then it will require you to sign in with Microsoft.
 Your purchase will be tied to a Microsoft account, when you log into the launcher, you also need to log into this account.
 Keep going after you have logged in, I don't know how to describe the purchase page, fill in the purchase information and click on confirm, that's all.
 
 ### Download the Launcher
 
-> The launcher is something that inherited all the way from old version of Minecraft.
 > Like the launchers for some old PC games, you can use the launcher to choose which version of Minecraft you want to run, or to modify the game launch configuration.
-> There are many kinds of launchers, anyone can write their own launcher to provide customized Minecraft game launching experience.
+> There are many kinds of launchers, anyone can write their own launcher to provide a customized Minecraft game launching experience.
 > The launcher we will download is provided by Microsoft, let's call it the official launcher.
 
 At the end of the purchase process there will be a `Download Game` button to download the launcher.
-If you've missed it, [here is the launcher installer download page](https://www.minecraft.net/download). Or If you know how to use the Microsoft Store or Xbox, you can download it from there.
-Note that Microsoft has replaced old official launcher installer (`MinecraftInstaller.msi`, that "Download Windows Legacy Launcher" button provided) with their new launcher installer for Microsoft store (`MinecraftInstaller.exe`, that "Download Launcher for Windows 10/11" button provided).
+If you've missed it, [here is the launcher installer download page](https://www.minecraft.net/download).
 
-Both two launcher installers installs the same(?) launcher that can run the Java Edition game that this mod required, and subsequent mod installation steps are same.
 
-The launcher installer is a normal executable file, run it and wait for the finish.
+The launcher installer is a normal executable file, run it and wait for it to finish.
 If the installation is successful, you will now have a new application called `Minecraft Launcher`.
 
-The next steps require starting the launcher once first to let it generate the game folder, so try [starting the launcher](#start-the-game), then start whatever version of the Java Edition Minecraft (the latest version by default).
-Something may need to be prepared every time the launcher starts, especially at the first time the whole game need to be downloaded.
-This may take a few minutes, and you can listen to the screen reader's progress bar sound effect to know the progress.
-At the first time you start the launcher it requires you to sign in with your Microsoft account.
+The next steps require starting the launcher once first before installing the mod loader to let it generate the game folder, so try [starting the launcher](#start-the-game), then start Minecraft: Java Edition.
+Something may need to be prepared every time the launcher starts, especially the first time you launch it as it has to install the entire game.
+This may take a few minutes, and you can listen to the screen reader's progress bar sound effect to find out the progress.
+The first time you start the launcher it will require you to sign in with your Microsoft account.
 
-## Choose and Install the Mod Framework
+## Choose and Install Your Mod Loader
 
-> The original Java Edition doesn't support modding, but the community makes it possible.
 > Like any other game, the mod loader is responsible for loading the mod files into the game at launch.
+The two mod loaders that Minecraft Access currently supports are Fabric and NeoForge.
 
-In order to use this mod, you need to modify the game, or to be precise, install a copy of the modified game that is ready for use, the mod framework installer will download and install it for you.
 
-There are currently three mod frameworks: the young and flexible Fabric, more younger Quilt which splits from Fabric, and the youngest NeoForge which splits from Forge. Forge was effectively destroyed in 2023, when a conflict broke out and NeoForge was created.
-The mod framework itself and mods for Fabric and NeoForge are not compatible with each other.
-Also, the same framework for different game versions are not compatible with mod files which support other game versions.
-This mod supports for both NeoForge and Fabric, it might also support the other one if there is enough demand.
+Mods for Fabric and NeoForge are not compatible with each other.
+Also, the same loader for a certain game version is almost always not compatible with mod files which support other game versions.
+E.G.: if I install a mod for 1.17, it usually will not work on later or earlier versions of the game like 1.16 or 1.18.
 
-> I really don't know how to briefly describe the two, as time goes by, the difference between the two becomes smaller and smaller.
-> Forge is an old school framework, existed almost as long as Minecraft.
-> Years of development have made it huge and stable, for example, its support for new game versions will be slower than Fabric, but making mod for Forge is easier.
-> Fabric is a modern framework with a lightweight design, fast support for new game versions.
-> It may require more frequent mod file upgrades (downloads and replaces) for users.
->
-> Originally there are many famous heavy mods only on Forge, they can modify Minecraft into almost another game, developing such mods on Fabric will be more difficult.
-> But as time passing by, many heavy mods have provided Fabric version.
-> And, there are many new good mods only provide Fabric version (some good people will port them onto Forge).
+Which one should you choose? Fabric or NeoForge?
+Fabric is the preferred loader for most of this mod's users, as it has a simple installer and fast updates to the latest game version. If you are new to Minecraft, Fabric will be easier to set up and provide you with all of the mods you will need.
 
-Which one would you choose, NeoForge or Fabric? Basically you can only choose one, and expect all the mods you want to use support that framework.
-I recommend Fabric because I have observed that most of the users of this mod use Fabric.
-However, if you want to play on a specific multiplayer server, ask the administrator in advance what framework they need the client (i.e. your local game) to install, the vanilla servers do not require the client to install a specified framework.
-
-In fact, you can keep two frameworks at the same time within the official launcher.
-But for bad historical design reason, you need to replace the contents of the `mods` folder with the corresponding mod files everytime before switching (i.e. running a game based on a different framework), which is a pain.
-
-### Install the Java
-
-> Java is a programming language, the Minecraft Java Edition and mod frameworks are written in this language.
-> To be more precise, installing Java here means installing the JRE, the Java Runtime Environment which allows you to run Java written things, the jar file we just downloaded for example.
-> It's like installing a driver on your computer in order to use a hardware.
-> But actually we'll install the JDK, the Java Development Kit, which contains JRE, because Oracle, the former owner of Java, no longer offers a separate JRE installer.
-
-Both Fabric and NeoForge requires the Java to be installed on your PC previously.
-Minecraft 1.20.5 requires Java 21 to run, but you can also run previous game version with Java 21.
-Do not install Java 22 yet. In some Java applications, keyboard input may not work properly (for example, test is typed as tst).
-[Here is the download page for Java 21](https://www.oracle.com/java/technologies/downloads/#jdk21-windows).
-Also, if you think the download page is complicated, [here is the direct link to download the JDK21 installer for the x64 architecture PC](https://download.oracle.com/java/21/latest/jdk-21_windows-x64_bin.msi).
-Just run the installer and keep clicking Next, there's nothing to say.
-Restart your computer after the installation is completed. Otherwise, installing the mod framework will not work properly with screen readers such as nvda.
-
-### Install the Fabric
+### Install Fabric
 
 [Here is the download page for the Fabric loader](https://fabricmc.net/use/installer/).
-Click the Download universal jar button to start downloading. You can also click the Download for Windows button to download the installer for Windows, but it may not work properly with some screen readers.
-The executable jar file is named as `fabric-installer-<installer-version-number>.jar`, for example, `fabric-installer-1.0.1.jar`.
+Fabric provides an executable installer for Windows, click the `Download for Windows` button to download it.
+The executable file is named as `fabric-installer-<installer-version-number>.exe`, for example, `fabric-installer-0.11.2.exe`.
+We have received reports that some screen readers such as NVDA cannot read the installer's interface if your current input method is not English.
+Try to switch to English input method first, if the problem still persists, please download the jar form of the installer by clicking the `Download universal jar` button, just below the `Download for Windows` button.
 
-> In addition to the official launcher, there are a number of ways to install Fabric on other launchers available at the bottom of this download page.
-> macOS and Linux users need to first install Java separately then download and run the `universal jar`, which is more troublesome than Windows.
-
-Before running the installer, download and run the patch file from [here](https://johann.loefflmann.net/en/software/jarfix/index.html) so that you can run the jar file directly in Windows File Explorer. If you downloaded the installer for Windows, skip this step.
 Start the installer, a window pops up for you to choose the installation configurations:
 
-The fabric installer supports multiple languages. Unlike NeoForge, the language is automatically set to the configured Windows language.
-1. The `Client` tab is selected by default, yeah we want to install the client, don't change it.
-2. The first combo box is for selecting the game version you want to install, please refer to the current game version that supported by this mod on [releases page](https://github.com/khanshoaib3/minecraft-access/releases) (under `Mod Version Compatibility` section), and change the combo box to select that game version.
-3. Next is a checkbox for showing game snapshot versions, just ignore it, it's for mod developers.
-4. The second combo box is for selecting the Fabric loader version, the latest version is selected by default and no need to change.
-5. Then there is an input field for specifying the installation location, normally the installer will automatically recognize the official loader's folder.
- The default location is `C:\Users\username\AppData\Roaming\.minecraft`, that's where we want it to install so no need to change again.
+1. The `Client` tab is selected by default, don't change it.
+2. The first combo box is for selecting the game version you want to install, please refer to the current game version that is supported by this mod on the [releases page](https://github.com/khanshoaib3/minecraft-access/releases) (under the `Mod Version Compatibility` section), and change the combo box to select that game version.
+3. Next is a checkbox for showing game snapshot versions, just ignore it.
+4. The second combo box is for selecting the Fabric loader version, the latest version is selected by default and you should also not touch this either.
+5. Then there is an input field for specifying the installation location, the installer will recognize the correct folder automatically if you have been following this guide correctly,
+   for example `C:\Users\username\AppData\Roaming\.minecraft`, that's where we want it to install so no need to change this either.
    Copy this path to somewhere like the Notepad for further usage when installing mod files.
-6. And then a checkbox for `Create profile`, checked by default, we want it to create a profile in the official launcher, no need to change.
-7. Finally, click `Install` button to start the installation.
+6. And then a checkbox for `Create profile`, checked by default, we want it to create a profile in the official launcher, so there is no need to change this option either.
+7. Finally, click the `Install` button to start the installation.
    It will download some files from the Internet, if the network is fast, the installation takes less than a minute.
-   A pop-up will show up to remind you that the installation is successful.
+   A pop-up will show up to notify you that the installation is successful.
 
-### Install the NeoForge
+### Install NeoForge
 
-NeoForge requires you to select the right version of the game at the time of download the installer.
-Reports have been received that higher versions of NeoForge that are compatible with the game version may not be compatible with this mod (this mod is always built on one specific Forge version), so it is recommended to download the tested version of Forge with link in the [releases page](https://github.com/khanshoaib3/minecraft-access/releases) (under `Mod Version Compatibility` section).
-If you still want to download the latest version of NeoForge for some reason, [here is the download page for that version of NeoForge](https://neoforged.net/).
-Select the `Installer` button under the `Download Recommended` sector.
-An executable jar file will be downloaded, named as `neoforge-<neoforge-version>-installer.jar`, for example `neoforge-21.1.4-installer.jar`.
-
-Before running the installer, download and run the patch file from [here](https://johann.loefflmann.net/en/software/jarfix/index.html) so that you can run the jar file directly in Windows File Explorer. If you downloaded the installer for Windows, skip this step.
-Now you can run the NeoForge jar file like normal executable file, a window pops up for you to choose the installation configurations:
-The NeoForge installer supports multiple languages, so if you want to change the language, you can do so by pressing Shift Tab on the radio button.
-1. First is a radio box for selecting install client or server, `Install client` is selected by default, yeah we want to install the client, no need to change it.
-2. Then there is an input field for specifying the installation location, normally the installer will automatically recognize the official loader's folder.
-   For example `C:\Users\username\AppData\Roaming\.minecraft`, that's where we want it to install so no need to change again.
-   Copy this path to somewhere like the Notepad for further usage when installing mod files.
-3. Now click the `OK` button to start the installation.
-   It will download some files from the Internet, if the network is fast, the installation takes about three or two minutes.
-   A pop-up will show up to remind you that the installation is successful.
+This guide does not provide exact instructions for installing NeoForge, as it is a more advanced mod loader with many existing tutorials and walk throughs online. Fabric is the recommended experience for new players who are using this guide.
+NeoForge is only needed for advanced users or those wishing to heavily modify their game.
 
 ## Install Mods
 
-There are several popular mod download platforms, such as [CurseForge](https://legacy.curseforge.com/minecraft/mc-mods), [Modrinth](https://modrinth.com/mods), generally mod developers will release their works on multiple platforms at the same time.
+There are several popular mod download platforms, such as [Modrinth](https://modrinth.com/mods) and [CurseForge](https://legacy.curseforge.com/minecraft/mc-mods), generally mod developers will release their work on multiple mod listing platforms at the same time.
 Mod developers will release mod files that are compatible with different game versions.
-Please always keep in mind when downloading mods, as incompatible mods will crash the game at startup.
+Please always keep this in mind when downloading mods, as incompatible mods will crash the game at startup.
 It is worth mentioning that some mods can support multiple versions with one same mod file, and generally this will be mentioned in the mod file name.
-It worth to note that all mod files (and resource pack files) have the "jar" extension, some downloader or browsers may download files as a compressed file like zip format, you'd extract the real mod file from the compressed one.
+It is also good to note that all mod files have the ".jar" extension, but some downloaders or browsers may download these files in a compressed format like ".zip", in this case you will have to extract the real mod file from the compressed one.
 
-Neither mod frameworks nor the original game provide the ability to manage mod files, you need to manage them manually.
+Neither mod loaders nor the original game provide the ability to manage mod files, you need to manage them manually.
 This guide will describe how to download and install mods manually, you can also manage them automatically with an extra application such as [Modrinth](https://modrinth.com/app) or [CurseForge for Windows](https://www.curseforge.com/download/app).
-In fact there is no installation step, actually we just download and place the mod files into a special folder, let the mod frameworks know what mods we'd like to load.
 
 Now let's download mod files.
-For downloading this mod and the dependencies of this mod, I recommend you download them at the [release page](https://github.com/khanshoaib3/minecraft-access/releases), where we'll prepare download links of suitable version of mods, under `Mod Version Compatibility` section of each release.
-Older versions of this mod used to depend on `fabric-api` and `architectury-api`, it's no longer needed since game version `1.20.6`.
+To download this mod and the dependencies of this mod, it is recommended you download them from the Minecraft Access's official [releases page](https://github.com/khanshoaib3/minecraft-access/releases/latest), where you can find download links of suitable versions of the required mods, under the `Mod Version Compatibility` section of each release.
 By the way, you may be interested in the mods [provided in good resources page](/doc/GOOD_RESOURCES.md#quality-of-life-mods), they are good mods that our visually impaired users have found and tested through practice.
 
-After all downloads, let's put them into right location.
-Here it is: `%appdata%\.minecraft\mods` (the `%appdata%` is shortcut for `C:\Users\username\AppData\Roaming`), you can directly paste it into File Explorer then press enter key to jump to it.
-We'll put downloaded mod files inside it, both Fabric and NeoForge will load mods from this folder.
-We've learned from user report that we need to start the launcher once after installing the mod framework for the `mods` folder to be created.
-Haven't experimented but, I think it's ok to create it manually.
-
-## Additional Installation for Windows
-
-We've implemented the automatic set-up process inside the mod, it will set up the tolk for you at the first time you starting the modded game, there is no need to do it manually unless something goes wrong.
-
-> Here is the original guide for manually installing tolk, I put it here in case you need to adjust the tolk's files manually:
->
-> Given the specificity of this mod, we need to install a few extra things to make this mod work.
-> For Windows, we need the [tolk](https://github.com/ndarilek/tolk) extension, which enable the mod to speak through multiple screen readers such as [NVDA](https://www.nvaccess.org/download/) and [JAWS](https://www.freedomscientific.com/products/software/jaws/).
-> We need to download the tolk extension files and place it under the minecraft folder.
->
-> 1. Download the latest build zip - here.
-> 2. Extract the downloaded zip file anywhere you like, the Downloads folder should be fine.
-> 3. Open the extracted folder and in that folder you'll find a folder called x64 and another called x86.
-> 4. Based on your operating system, x64 for 64-bit OS and x86 for 32-bit OS, copy all the files present in the folder and paste them into the minecraft root folder (the folder containing the mods folder). The default location is `%appdata%\.minecraft`
+After all the mods you want are downloaded, you can move on to putting them into the right location for the mod loader to recognize them.
+The default path is: `%appdata%\.minecraft\mods` (the `%appdata%` is a shortcut for `C:\Users\username\AppData\Roaming`), you can directly paste it into File Explorer then press the enter key to jump to it or paste it into the run box accessed with the Windows+R keys and click enter.
+We'll put downloaded mod files inside it, both Fabric and NeoForge will load mods from this folder by default if installed. You can look up how to use alternate installation locations if you wish to maintain both Fabric and NeoForge installations at the same time.
+You will need to start the game once after installing the mod loader for the `mods` folder to be created.
 
 ## Start the Game
 
-Microsoft launcher, or the official launcher, at the first time you start the launcher, it requires you to sign in with your Microsoft account.
+The first time you start the launcher, it requires you to sign in with your Microsoft account.
 
-The launcher's sidebar contains not only the Java Edition, it also includes `Minecraft for Windows`, and even two derivative games of Minecraft - `Minecraft Dungeons` and `Minecraft Legends`.
+The launcher's sidebar contains not only `Minecraft: Java Edition`, it also includes `Minecraft for Windows`, and even two derivative games of Minecraft.
 The sidebar also contains an entry for the settings of the launcher itself.
-If you want to change your name in the multiplayer game of the Java Edition, you need to go to the launcher settings screen, `Accounts` tab, select your account, `More Options` button, `Manage Minecraft: Java Edition profile`, then a web page will be opened in your browser which leads you to the profile management page. Good UI design, Microsoft.
+If you want to change your username or player appearance, for Java Edition, you need to go to the launcher settings screen, `Accounts` tab, select your account, `More Options` button, `Manage Minecraft: Java Edition profile`, then a web page will be opened in your browser which leads you to the profile management page.
 
-The main screen of `Minecraft Java Edition` contains four tabs:
+The main screen of `Minecraft: Java Edition` in the launcher contains four tabs:
 
 * `Play` - Where you can choose which profile to play and start the game.
-* `Installations` - You can have different game profiles for different game version or game configuration, you can manage them here.
+* `Installations` - Where you can manage different game profiles for different game versions or game configurations.
 * `Skins` - You can upload skin files here to change your appearance in game.
 * `Patch Notes` - Update logs about the game.
 
-Select the profile created by the mod framework installer and start it, for Fabric, the profile name is `fabric-loader-<game-version>`, for NeoForge, the name is simply `neoforge` but the subtitle contains the game version. If everything is fine, you can start exploring the game.
+Select the profile created by the mod loader installer and start it, for Fabric, the profile name is `fabric-loader-<game-version>`, for NeoForge, the name is simply `NeoForge` but the subtitle contains the game version. If everything worked correctly, you can start exploring the game.
 
-Please note that you need to enable the narrator configuration from within minecraft after you enter the main screen of game (when you hear the music), there will be an accessible setting guide for this purpose, that's a game built-in function.
-You can also press `Control + B` to enable the narrator, keep pressing to switch it to `Narrator Narrates All`.
+Please note, the first time you launch a new profile that you will need to enable the narrator option from within minecraft after you enter the main screen of the game (when you hear the music), there will be an accessible popup for this purpose, that's a built in function of the game.
+You can also press `Control+B` to enable the narrator, keep pressing until it switches to `Narrator Narrates All`.
 
-If the game crashes and a bunch of error logs pop up, the biggest probability is that there is an incompatibility between mod files and mod framework, or between mod files and game version, please read the [Upgrade the Game and Mods](#upgrade-the-game-and-mods) section.
-And [here is a complex self-helped FAQ](./FAQ.md#self-help-guide-for-abnormal-situation) for you to address the problem, from can't hear the narration to crash.
+If the game crashes and a bunch of error logs pop up, the biggest probability is that there is an incompatibility between the mod files and mod loader, or between the mod files and game version, please read the [Update the Game and Mods](#update-the-game-and-mods) section.
+And here is a [complex self-helped FAQ](./FAQ.md#self-help-guide-for-abnormal-situation) for you to address the problem, from not being able to hear the narration to a full game crash.
 
-## Upgrade the Game and Mods
+## Update the Game and Mods
 
-Upgrade the game is simple, for [Fabric](#install-the-fabric), change the preferring installing game version in Fabric installer screen, for [NeoForge](#install-the-neoforge), download another installer for the game version you want and install it.
+Updating the game is simple, for [Fabric](#install-fabric), run the fabric installer again and change the installed game version in the Fabric installer screen, for [NeoForge](#install-forge), download another installer for the game version you want and install it.
 You need to check all mod files in the `mods` folder for compatibility with the new game version, and replace or remove incompatible mods.
 
-Now let's talk about how to upgrade mods, recall what is mentioned above:
+Now let's talk about how to update mods, recall what is mentioned above:
 
-1. The mod framework itself and mods of Fabric and Forge are not compatible with each other.
-2. The same framework for different game versions are not compatible with mod files which support other game versions.
-3. Both Fabric and Forge load mods from the folder `%appdata%\.minecraft\mods`.
+1. Mods of Fabric and NeoForge are not compatible with each other.
+2. The same loader for a certain game version is almost always not compatible with mod files which support other game versions.
+E.G.: if I install a mod for 1.17, it usually will not work on later or earlier versions of the game like 1.16 or 1.18.
+3. Both Fabric and NeoForge load mods from the folder `%appdata%\.minecraft\mods` by default.
 
-Some examples to help you understand:
+Here are some examples to help you understand:
 
-* Fabric loader with any Forge mod file in the `mods` folder, crush, vice versa.
-* Fabric loader for game version `1.19.3`, with a Fabric mod file for game `1.20.1` in the `mods` folder, crush.
+* Fabric loader with any NeoForge mod file in the `mods` folder, will crash, and vice versa.
+* Fabric loader for game version `1.19.3`, with a Fabric mod file for game version `1.20.1` will crash.
 * All mod files in the `mods` folder need to be conflict free for the game to start.
 
-According to these conditions, if you want to upgrade some mods version while keeping the game version unchanged, you just need to replace the corresponding mod files.
-For mods that have dependencies like this mod, you also need to be aware of that whether the version of dependent mods have changed.
+Based on these conditions, if you want to update some mods versions while keeping the game version unchanged, you just need to replace the corresponding mod files.
+For mods that have dependencies like Minecraft Access, you also need to be aware of whether the version of dependent mods have also changed.
 
-Another situation that causes the game to crash or misbehave is conflict between mods, which is difficult to reflect in the error log because it is hard to predict.
-For this type of error, there is a simple, common, cumbersome, no-better-choice method for all modded games: move all mod files into a temporal folder, then add them back one by one, try to start the game every time you move back a file.
+Another situation that causes the game to crash or misbehave is conflict between mods, which is difficult to show in the error log because it is hard to predict.
+For this type of error, there is a simple yet cumbersome method for all modded games: move all mod files out of the Mods folder and into a temporary folder, then add them back to the Mods folder one by one, try to start the game every time you move back a file.
 
 ## Other Pages
 
@@ -268,6 +197,6 @@ For this type of error, there is a simple, common, cumbersome, no-better-choice 
 * [Features](/doc/FEATURES.md)
 * [Keybindings](/doc/KEYBINDINGS.md)
 * [Configuration](/doc/CONFIG.md)
-* [Sound Effects](https://html-preview.github.io/?url=https://github.com/khanshoaib3/minecraft-access/blob/1.21/doc/SOUND.html)
+* [Sound Effects](https://html-preview.github.io/?url=https://github.com/khanshoaib3/minecraft-access/blob/1.20/doc/SOUND.html)
 * [FAQ](/doc/FAQ.md)
 * [Good Resources](/doc/GOOD_RESOURCES.md)
