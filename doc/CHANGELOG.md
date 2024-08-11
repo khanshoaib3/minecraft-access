@@ -1,3 +1,24 @@
+Release v1.8.0 (2024-08)
+---------------------------
+
+### Bug Fixes
+
+- Fix binding sprint to the `R` key isn't work [#310](https://github.com/khanshoaib3/minecraft-access/issues/310)
+- Fix can't speak music discs name in inventory screen [#311](https://github.com/khanshoaib3/minecraft-access/issues/311)
+- Improve vertical facing direction speaking [#313](https://github.com/khanshoaib3/minecraft-access/issues/313)
+- Now the two methods of look straight up/down work like what manual says (single `.` and `0`, or hold `Right Alt` then press `Up` nad `Down`) . [#321](https://github.com/khanshoaib3/minecraft-access/issues/321)
+
+### Others
+
+- Game version upgrade to 1.21.1
+- Add Braille Bennett's modpack to good resource page
+- Update Windows Setup guide to catch up mod changes
+
+### Development Chores
+
+- Add new `CONTRIBUTING.md` doc
+
+
 Release v1.7.0 (2024-07)
 ---------------------------
 
