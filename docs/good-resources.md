@@ -23,7 +23,7 @@
 ## Quality of Life Mods
 
 Here are some mods that can improve your game experience.
-There are guides about [installing](/doc/SET_UP_ON_WINDOWS.md#install-mods) and [upgrading](/doc/SET_UP_ON_WINDOWS.md#upgrade-the-game-and-mods) mods.
+There are guides about [installing](/docs/setup/basic.md#install-your-mods) and [upgrading](/docs/setup/basic.md#update-the-game-and-mods) mods.
 
 1. Client side, which you can use in both single-player and multiplayer game:
     * Presence Footsteps ([Fabric](https://modrinth.com/mod/presence-footsteps), [Forge port](https://www.curseforge.com/minecraft/mc-mods/presence-footsteps-forge)): Footstep sound enhancement mod. If the Fabric version of mod isn't work, select `Default sound pack` in the resource pack menu. If the mod has not supported your game version, you would consider to use this resource pack
@@ -36,7 +36,7 @@ There are guides about [installing](/doc/SET_UP_ON_WINDOWS.md#install-mods) and 
     * Tree Harvester ([Fabric and Forge](https://modrinth.com/mod/tree-harvester)): Harvest trees and huge mushrooms instantly with an axe. It's a common scenario in Minecraft that you can't reach the logs and leaves at higher place when standing on the ground, with this mod, you won't bother yourself with stepping yourself up.
     * Carry On ([Fabric and Forge](https://modrinth.com/mod/carry-on)): Allowing players to pick up, carry, and place some blocks (such as Chests) and animals without breaking blocks or guiding animals with a leash.
     * FTB Ultimine ([Fabric](https://www.curseforge.com/minecraft/mc-mods/ftb-ultimine-fabric), [Forge](https://www.curseforge.com/minecraft/mc-mods/ftb-ultimine-forge)): This mod can makes you operate on same type blocks around you by operating only once, like harvest crops, mining a vein and chopping trees.
-    * Simple Voice Chat ([Fabric, Forge, NeoForge](https://modrinth.com/plugin/simple-voice-chat): A proximity voice chat for Minecraft.
+    * Simple Voice Chat ([Fabric, Forge, NeoForge](https://modrinth.com/plugin/simple-voice-chat)): A proximity voice chat for Minecraft.
 
 ## Tutorial Resources
 
@@ -64,8 +64,8 @@ These resources are tutorials and showcases about how to play Minecraft with thi
 
 * Game playing video series on YouTube in English, last updated 2024-06-22: [The TrueBlindCraft Guide Series](https://www.youtube.com/playlist?list=PLXcBFfRlLcpiDpULQB3L2aX-AQb4-Atbq) by TrueBlindGaming. A tutorial series to help visually impaired/blind players use the MineCraft-access mod to play MineCraft. Playing in Minecraft 1.20. Includes world creation, tree finding, navigation and more.
 * Building tutorial video on Bilibili in Chinese (no English subtitle), uploaded 2023-07-01: [一个全盲视障者玩家的基建经验，来教盲人小伙伴们如何修房子](https://www.bilibili.com/video/BV1eh411N7y1) by 红马尾战士紫月sama. A building tutorial about how to build a basic square shape house with this mod.
-* Installation tutorial video on Bilibili in Chinese (no English subtitle), uploaded 2023-05-06: [【我的世界·MC】视障辅助MOD安装与使用教程](https://www.bilibili.com/video/BV1W24y1T7f9) by 红马尾战士紫月sama. A tutorial includes mod installation, game launching and brief instructions on mod usage and game playing. Partial outdated, the tolk will be installed automatically, and this mod doesn't need `fabric-api` mod as dependency for now, see [setup guide](/doc/SET_UP.md).
-* Installation tutorial video on YouTube in English, uploaded 2023-03-21: [How to Install Mine Craft Access, a mine craft java mod for the blind](https://www.youtube.com/watch?v=MTRG3S0xeeg) by Logic Pro X Gaming. A tutorial includes mod installation and game launching. Partial outdated, the tolk will be installed automatically, and this mod doesn't need `fabric-api` mod as dependency for now, see [setup guide](/doc/SET_UP.md).
+* Installation tutorial video on Bilibili in Chinese (no English subtitle), uploaded 2023-05-06: [【我的世界·MC】视障辅助MOD安装与使用教程](https://www.bilibili.com/video/BV1W24y1T7f9) by 红马尾战士紫月sama. A tutorial includes mod installation, game launching and brief instructions on mod usage and game playing. Partial outdated, the tolk will be installed automatically, and this mod doesn't need `fabric-api` mod as dependency for now, see [setup guide](/docs/setup/basic.md).
+* Installation tutorial video on YouTube in English, uploaded 2023-03-21: [How to Install Mine Craft Access, a mine craft java mod for the blind](https://www.youtube.com/watch?v=MTRG3S0xeeg) by Logic Pro X Gaming. A tutorial includes mod installation and game launching. Partial outdated, the tolk will be installed automatically, and this mod doesn't need `fabric-api` mod as dependency for now, see [setup guide](/docs/setup/basic.md).
 
 #### Gameplay with this mod without intentional teaching
 
@@ -112,14 +112,14 @@ If you are unable to see the game screen, it is recommended to use a full-size k
 You can move around with [W A S D](https://en.wikipedia.org/wiki/Arrow_keys#WASD_keys), jump with space, crouch with ctrl, sprint with shift (these are default keybindings).
 A first-person game means the game screen shows from the viewpoint of your in-game character's eyes.
 You can rotate character's view (or "camera", in industry term) smoothly with mouse.
-The term of this mouse controlling system is [Free look (also known as mouselook)](https://en.wikipedia.org/wiki/Free_look).
+The term of this mouse controlling system is [Free look (also known as mouse look)](https://en.wikipedia.org/wiki/Free_look).
 This type of control might be unfamiliar to you if you haven't played similar games before, it's sort of like controlling a tank, moving and looking is separated as two operations, your can operate them at same time.
 The direction you're facing is your "front", so if you want to go back, turn your head 180 degrees to look back then press W to move forward, or press S to move backward while you still looking at front.
 
 You can "target at" (adjust view with mouse until the target is at the center of the view) things you're interested in and interact with mouse click.
 Some operations require continually pressing keys, like pressing W to moving forward, pressing left mouse to break blocks.
 You can learn vanilla game controls on [corresponding wiki page](https://minecraft.wiki/w/Controls#Java_Edition) (ignore the F3 key) or read keybinding settings in game.
-Controls provided by this mod are described in mod manual pages: [Camera Controls](/doc/KEYBINDINGS.md#camera-controls), [Mouse Simulation](/doc/KEYBINDINGS.md#mouse-simulation).
+Controls provided by this mod are described in mod manual pages: [Camera Controls](/docs/keybindings.md#camera-controls), [Mouse Simulation](/docs/keybindings.md#mouse-simulation).
 
 ### Finding Trees
 
@@ -141,7 +141,7 @@ You can use TrueBlind's "reference point" method to remember a coordinates as a 
 From time to time, you can pick up the mouse and move it horizontally (or keep pressing one camera horizontally controlling keys) to turn your head around, or press A D while walking thus you move in a Zig-Zag pattern.
 All these actions are to increase the range of the world you are viewing (mod scanning).
 
-Once you find a log block, you can use the [POI Marking feature](/doc/FEATURES.md#poi-marking).
+Once you find a log block, you can use the [POI Marking feature](/docs/features.md#poi-marking).
 When you are targeting at a log block, press `Ctrl + Y` to mark that log block type, the POI feature will only hint for the log blocks that are around you with sounds, instead of hinting preset POI blocks.
 When you no longer want to find trees, press `Ctrl + Alt + Y` to cancel the marking, you don't need to target at the marked target when canceling.
 
@@ -155,7 +155,7 @@ You can learn this part with the following resources:
 * [Minecraft Wiki: Commands](https://minecraft.wiki/w/Commands)
 
 Some commands are very convenient when you're playing single player worlds. You can use them to gain advantages or to improve your game experience.
-Remember to turn on `Allow Cheats` option when you create the world).
+Remember to turn on `Allow Cheats` option when you create the world.
 
 ## Other Pages
 

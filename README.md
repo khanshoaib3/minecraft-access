@@ -9,15 +9,15 @@ This mod supports:
 
 * Game version `1.21`, `1.20.6`, `1.20.4`, `1.20.1`, `1.19.3`
 * On [Fabric](https://fabricmc.net/use/installer/) and [NeoForge](https://fneoforged.net) mod loaders
-* On Windows and Linux operating systems ([Help us port the mod to MacOS](https://github.com/khanshoaib3/minecraft-access/issues/22))
-* Works despite the language setting of the game (though the mod specific narration will [fall back to English](/docs/FEATURES.md#i18n-fallback-mechanism) if the mod does not support the language yet)
+* On Windows and Linux operating systems ([Help us port the mod to macOS](https://github.com/khanshoaib3/minecraft-access/issues/22))
+* Works despite the language setting of the game (though the mod specific narration will [fall back to English](/docs/features.md#i18n-fallback-mechanism) if the mod does not support the language yet)
 
 Each version of this mod will be pre-released on [GitHub](https://github.com/khanshoaib3/minecraft-access/releases) and announced in the [Playability Discord server](https://discord.gg/yQjjsDqWQX) first as a beta testing stage, after one week of feedback collection, the version will be released on [Modrinth](https://modrinth.com/mod/minecraft-access/versions) and [CurseForge](https://legacy.curseforge.com/minecraft/mc-mods/blind-accessibility/files). 
 
 ## Other Pages
 
 * [Basic Setup](/docs/setup/basic.md)
-* [Modpack Version Setup)[/docs/setup/modpack.md)
+* [Modpack Version Setup](/docs/setup/modpack.md)
 * [Advanced Setup](/docs/setup/advanced.md)
 * [Features](/docs/features.md)
 * [Keybindings](/docs/keybindings.md)
@@ -36,7 +36,7 @@ Each version of this mod will be pre-released on [GitHub](https://github.com/kha
 
 1. The default narrator speaks even if the narrator is turned off.
 2. (Linux only) xdotool is not recognised even if it is installed.
-3. (Linux only) Minecraft says no narrator available even if flite is installed.
+3. (Linux only) Minecraft says no narrator available even if Flite is installed.
 
 ## Contributions
 

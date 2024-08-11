@@ -55,7 +55,7 @@ You may want to take a look at [all the original controls](https://minecraft.wik
 | `Right Alt` + `Look Left Key`                                             | Same as single `Look West Key`, turn the camera to the west                                                                                         |
 | `Left Alt` + `Speak Facing Direction Key`                                 | Speak current vertical facing direction                                                                                                             |
 
-See also: [Feature Description](/doc/FEATURES.md#camera-controls), [Configuration](/doc/CONFIG.md#camera-controls)
+See also: [Feature Description](/docs/features.md#camera-controls), [Configuration](/docs/config.md#camera-controls)
 
 ## Mouse Simulation
 
@@ -67,7 +67,7 @@ See also: [Feature Description](/doc/FEATURES.md#camera-controls), [Configuratio
 | `Mouse Wheel Scroll Up Key`   | ;                  | Simulate mouse wheel scroll up, switching items in Hotbar forward                  |
 | `Mouse Wheel Scroll Down Key` | '                  | Simulate mouse wheel scroll down, switching items in Hotbar backward               |
 
-See also: [Feature Description](/doc/FEATURES.md#mouse-simulation), [Configuration](/doc/CONFIG.md#mouse-simulation)
+See also: [Feature Description](/docs/features.md#mouse-simulation), [Configuration](/docs/config.md#mouse-simulation)
 
 ## Inventory Controls
 
@@ -94,7 +94,7 @@ See also: [Feature Description](/doc/FEATURES.md#mouse-simulation), [Configurati
 Recipe Book page turning only works when "Recipe Book Group" is selected.
 Search on the [wiki](https://minecraft.wiki/?search) for the description of screens if you're not familiar with them.
 
-See also: [Feature Description](/doc/FEATURES.md#inventory-controls), [Configuration](/doc/CONFIG.md#inventory-controls)
+See also: [Feature Description](/docs/features.md#inventory-controls), [Configuration](/docs/config.md#inventory-controls)
 
 ## Point of Interest
 
@@ -108,7 +108,7 @@ See also: [Feature Description](/doc/FEATURES.md#inventory-controls), [Configura
 | `Control` + `Locking Key`         | Mark the block or entity currently targeted with crosshair |
 | `Control` + `Alt` + `Locking Key` | Unmark from the target                                     |
 
-See also: [Feature Description](/doc/FEATURES.md#point-of-interest), [Configuration](/doc/CONFIG.md#point-of-interest)
+See also: [Feature Description](/docs/features.md#point-of-interest), [Configuration](/docs/config.md#point-of-interest)
 
 ## Position Narrator
 
@@ -122,7 +122,7 @@ See also: [Feature Description](/doc/FEATURES.md#point-of-interest), [Configurat
 | `Left Alt` + `X` | Speak the player's x-axis |
 | `Left Alt` + `C` | Speak the player's y-axis |
 
-See also: [Feature Description](/doc/FEATURES.md#position-narrator), [Configuration](/doc/CONFIG.md#position-narrator)
+See also: [Feature Description](/docs/features.md#position-narrator), [Configuration](/docs/config.md#position-narrator)
 
 ## Health n Hunger
 
@@ -130,7 +130,7 @@ See also: [Feature Description](/doc/FEATURES.md#position-narrator), [Configurat
 |--------------------------------------|--------------------|----------------------------------------------|
 | `Speak Player Health and Hunger Key` | R                  | Speak the player's current health and hunger |
 
-See also: [Feature Description](/doc/FEATURES.md#health-n-hunger), [Configuration](/doc/CONFIG.md#health-n-hunger)
+See also: [Feature Description](/docs/features.md#health-n-hunger), [Configuration](/docs/config.md#health-n-hunger)
 
 ## Narrator Menu
 
@@ -144,7 +144,7 @@ See also: [Feature Description](/doc/FEATURES.md#health-n-hunger), [Configuratio
 |-------------------------------------------------------|-------------------------------------------|
 | hold `F4` then press `Narrator Menu Function Hot Key` | Loop selecting functions in Narrator Menu |
 
-See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Configuration](/doc/CONFIG.md#narrator-menu)
+See also: [Feature Description](/docs/features.md#narrator-menu), [Configuration](/docs/config.md#narrator-menu)
 
 ## Book Editing
 
@@ -159,7 +159,7 @@ See also: [Feature Description](/doc/FEATURES.md#narrator-menu), [Configuration]
 | "Done" button                                    | not re-mappable    | Save your unfinished work and quit editing screen                                                           |
 | "Sign" button                                    | not re-mappable    | And enter a title for the book to make it permanently non-editable                                          |
 
-See also: [Feature Description](/doc/FEATURES.md#book-editing)
+See also: [Feature Description](/docs/features.md#book-editing)
 
 ### Speak Chat Messages
 
@@ -172,7 +172,7 @@ These keys are not re-mappable.
 The chat message will be spoken when that message shows up, whether the sender is you or not.
 These keys are used to repeat previous chat messages.
 
-See also: [Feature Description](/doc/FEATURES.md#speak-chat-messages)
+See also: [Feature Description](/docs/features.md#speak-chat-messages)
 
 ## Other Pages
 

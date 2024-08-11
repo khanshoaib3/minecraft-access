@@ -28,7 +28,7 @@ First, this mod does not achieve 100% accessibility.
 For example, you'll find rowing the boat is difficult (since the relevant feature haven't been implemented yet), you can't directly recognize blocks that are placed together as a structure (since you can't see the entire appearance of a group of blocks, and there's very little this mod can do about that).
 We're gradually adding new features, but I'm pessimistic that the Minecraft is too complex to ever achieve 100% accessibility.
 
-Second, the Minecraft, despite the fact that it has a large number of players, is not easy to get started with. You'll need to learn many new concepts and knowledge to play it. You can learn how to play this game by listening the playing video (I recommend [Pixlriffs's Minecraft Survival Guide](https://www.youtube.com/watch?v=VfpHTJsn9I4&list=PLgENJ0iY3XBjmydGuzYTtDwfxuR6lN8KC)), reading [the wiki](https://minecraft.wiki), or read [text tutorials on wiki](https://minecraft.wiki/w/Tutorials), or find someone skilled enough to teach you.
+Second, the Minecraft, despite the fact that it has a large number of players, is not easy to get started with. You'll need to learn many new concepts and knowledge to play it. You can find some good tutorials in [this page](/docs/good-resources.md#tutorial-resources).
 
 So if you haven't bought the game yet and don't know much about Minecraft, think again before paying.
 
@@ -41,7 +41,7 @@ We stick to the pure client-side strategy for now, since you need to install a s
 ## Why nobody answers my questions in Discord?
 
 Sorry for the inconvenience. Here are some self-help materials.
-If you have any question about installing, please read the [set-up guide](/doc/SET_UP.md). 
+If you have any question about installing, please read the [set-up guide](/docs/setup/basic.md).
 If you have any question about original game functions, please search on the [wiki](https://minecraft.wiki/w/Special:Search?scope=internal) or just google it.
 If you want to learn to play the game, there are [some detailed text tutorials on wiki](https://minecraft.wiki/w/Tutorials), you can also listen [Pixlriffs's Minecraft Survival Guide](https://www.youtube.com/watch?v=VfpHTJsn9I4&list=PLgENJ0iY3XBjmydGuzYTtDwfxuR6lN8KC) on YouTube, or just google the question and search answers on forums.
 If you have any question about this mod, please read the [manual](/README.md).
@@ -59,7 +59,7 @@ Yes, it has been uploaded to Modrinth as [Minecraft Access](https://modrinth.com
 
 ## Is this mod supports XX language?
 
-See [I18N Fallback Mechanism Feature](/doc/FEATURES.md#i18n-fallback-mechanism).
+See [I18N Fallback Mechanism Feature](/docs/features.md#i18n-fallback-mechanism).
 
 ## How can I contribute to I18N?
 
@@ -71,20 +71,20 @@ Chose the section that fits your progress:
 
 ### Haven't run the game yet
 
-I assume you have taken a look at the [setup guide](/doc/SET_UP.md).
+I assume you have taken a look at the [setup guide](/docs/setup/basic.md).
 
 If you are walking on a path that the setup guide isn't mentioned (for example, you're not purchasing the game from the official site), developers can't help you since they just can't walk on the same path.
 But you can still ask users in [Discord server](https://discord.gg/yQjjsDqWQX) (mc-help channel) for help with enough description, maybe there are users that solved that problem before.
 Then we can update this path into the setup guide so everyone in the Future can benefit from it.
 
-If you experience is not same as the setup guide describes you should expect when you're completely following the guide, it means there is something wrong or misleading in the setup guide.
+If your experience is not same as the setup guide describes you should expect when you're completely following the guide, it means there is something wrong or misleading in the setup guide.
 Describe which step you currently are, what you find out is not same as the guide says.
 I believe through talking we can find out what's wrong together and fix it.
 
 ### The game crushed when I start it from launcher
 
-Great! Believe it or not, it's easier to be solved than "running but abnormal", game crushed because it KNEW something is wrong, better than  knowing nothing.
-If the crush pop up dialog says something about "mod incompatibility", please refer [this section](/doc/SET_UP_ON_WINDOWS.md#upgrade-the-game-and-mods) in the setup guide.
+Great! Believe it or not, it's easier to be solved than "running but abnormal", game crushed because it KNEW something is wrong, better than knowing nothing.
+If the crush pop up dialog says something about "mod incompatibility", please refer [this section](/docs/setup/basic.md#update-the-game-and-mods) in the setup guide.
 
 If you are using Fabric, there would be crush report files under the `crash-reports` folder in your `.minecraft` folder, developers need the latest `crash-...` file.
 If you are using Forge, there would be log files under the `logs` folder in your `.minecraft` folder, developers need the `debug.log` file.
@@ -97,11 +97,12 @@ Please upload it to wherever that developers can view, for example you can uploa
 Sorry but we don't have enough knowledge to solve this problem on Linux, we haven't got this type of report.
 If you're in Windows, please check:
 
-1. There is no missing ["tolk" files](/doc/SET_UP_ON_WINDOWS.md#additional-installation-for-windows) under the game folder.
+1. There is no missing Tolk files under the game folder.
 2. You're using one of tolk [supported screen readers](https://github.com/ndarilek/tolk?tab=readme-ov-file#supported-screen-readers), please note that Windows built-in Narrator is not supported by tolk.
 3. You have set the ["Narrator"](https://minecraft.wiki/w/Options#Chat_Settings) game setting (under "Options", "Chat Settings") to "All" choice.
 
- Now open the launcher and start the game, when you're at the main screen (in which has "singleplayer game", "multiplayer game"...), close your screen reader and open built-in [Windows Narrator](https://support.microsoft.com/en-us/windows/complete-guide-to-narrator-e4397a0d-ef4f-b386-d8ae-c172f109bdb1) feature. Can you hear the menu selecting narration through Windows Narrator? If so the problem is in your screen reader, maybe the Narrator setting is wrong (for example, you need to close NVDA's keyboard narration setting since it will interrupt the narration of this mod), or there is a compatibility problem between it and "tolk".
+Now open the launcher and start the game, when you're at the main screen (in which has "singleplayer game", "multiplayer game"...), close your screen reader and open built-in [Windows Narrator](https://support.microsoft.com/en-us/windows/complete-guide-to-narrator-e4397a0d-ef4f-b386-d8ae-c172f109bdb1) feature. Can you hear the menu selecting narration through Windows Narrator? If so the problem is in your screen reader, maybe the Narrator setting is wrong (for example, you need to close NVDA's
+keyboard narration setting since it will interrupt the narration of this mod), or there is a compatibility problem between it and "tolk".
 
 #### This mod doesn't work like expected
 

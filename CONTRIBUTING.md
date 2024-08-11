@@ -18,7 +18,7 @@ The Architectury Loom participates as gradle plugin and mod configurations, it w
 For questions about architectury, you'd better asking in [their Discord server](https://discord.architectury.dev/) instead of searching for documentation, but it doesn't harm that do searching before asking.
 Since Architectury Loom is derivatives from Fabric Loom, the Fabric Loom's documentation also applies to Architectury Loom in most cases, which is more detail than the Architectury Loom's.
 
-Then the core framework we're heavily depending on - [SpongePowered Mixin](https://github.com/SpongePowered/Mixin/wiki), "Mixin" in short, a framework for modifying Java bytecode.
+Then the core framework we heavily depend on - [SpongePowered Mixin](https://github.com/SpongePowered/Mixin/wiki), "Mixin" in short, a framework for modifying Java bytecode.
 For convenience of reusing same set of code for all platforms, this mod isn't depending on Forge API or Fabric API, instead we directly modify original game code, injecting our logic into it, same principle as computer virus and cheating tools.
 Well, to be precise, 90% of the code is platform-independent, and in fact the mod uses part of the Fabric API in a jar-in-jar way.
 Mixin is a complex but handy framework, for learning it I recommend reading [tutorial by Fabric](https://fabricmc.net/wiki/tutorial:mixin_introduction) and [the official wiki](https://github.com/SpongePowered/Mixin/wiki).
