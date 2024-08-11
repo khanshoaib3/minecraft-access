@@ -7,23 +7,23 @@ license = "GNU GPLv3"
 modId = "minecraft_access"
 version = "${version}"
 displayName = "Minecraft Access"
-authors = "Shoaib, Boholder"
+authors = "Shoaib, Boholder, TheSuperGamer20578"
 description = '''
-A mod for minecraft java that adds accessibility feature.
+A mod that helps visually impaired players to play Minecraft.
 '''
 #logoFile = ""
 
 [[dependencies.minecraft_access]]
 modId = "neoforge"
 mandatory = true
-versionRange = "[21.0.0-beta,)"
+versionRange = "[${neoforge_version},)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.minecraft_access]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.21,)"
+versionRange = "[${minecraft_version},)"
 ordering = "NONE"
 side = "BOTH"
 

@@ -62,7 +62,9 @@ processResources {
     inputs.property "version", project.version
 
     filesMatching("META-INF/neoforge.mods.toml") {
-        expand "version": project.version
+        expand Map.of("version", project.version,
+                "neoforge_version", rootProject.neoforge_version,
+                "minecraft_version", rootProject.minecraft_version)
     }
 }
 

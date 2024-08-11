@@ -4,9 +4,9 @@
   "version": "${version}",
 
   "name": "Minecraft Access",
-  "description": "A mod for minecraft java that adds accessibility feature.",
+  "description": "A mod that helps visually impaired players to play Minecraft.",
   "authors": [
-    "Shoaib", "Boholder"
+    "Shoaib", "Boholder", "TheSuperGamer20578"
   ],
   "contact": {
     "homepage": "https://github.com/khanshoaib3/minecraft-access",
@@ -30,10 +30,10 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.15.11",
+    "fabricloader": ">=${fabric_loader_version}",
     "fabric-key-binding-api-v1": "*",
     "fabric-resource-loader-v0": "*",
-    "minecraft": "1.21"
+    "minecraft": "${minecraft_version}"
   },
   "suggests": {
     "another-mod": "*"
