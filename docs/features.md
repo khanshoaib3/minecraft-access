@@ -5,7 +5,7 @@ This page contains details of all the features that are currently in the mod.
 If you have any question about original game functions, please search on the [wiki](https://minecraft.wiki/?search) first before asking for help.
 If you have any suggestion on improvements existing features or about a new feature, you can [join the discord server](https://discord.gg/yQjjsDqWQX) or [post an issue](https://github.com/khanshoaib3/minecraft-access/issues).
 
-There is a page for [viewing all sound effects](https://html-preview.github.io/?url=https://github.com/khanshoaib3/minecraft-access/blob/1.21/doc/SOUND.html) used in this mod.
+There is a page for [viewing all sound effects](https://html-preview.github.io/?url=https://github.com/khanshoaib3/minecraft-access/blob/1.21/docs/SOUND.html) used in this mod.
 
 ## Table Of Contents
 
@@ -41,7 +41,7 @@ Like most 3D games, you can rotate the camera 360 degrees freely in the Minecraf
 This feature allows you to control the camera (your in-game facing direction and crosshair) through the keyboard.
 The mod will automatically report the current direction as the camera moves, such as "North" "South East" "Up" "Down" "Straight".
 
-See also: [Keybindings](/doc/KEYBINDINGS.md#camera-controls), [Configuration](/doc/CONFIG.md#camera-controls)
+See also: [Keybindings](/docs/keybindings.md#camera-controls), [Configuration](/docs/config.md#camera-controls)
 
 ## Mouse Simulation
 
@@ -50,7 +50,7 @@ This feature supports continuous key pressing, e.g. destroying a block requires 
 
 You MUST keep the vanilla `Attack/Destroy` key, `Use Item/Place Block` key and `Pick Block` key remain on default mouse keys. This feature will only simulate mouse operations, not directly execute the attack or place operation, it needs mouse key bindings as a medium.
 
-See also: [Keybindings](/doc/KEYBINDINGS.md#mouse-simulation), [Configuration](/doc/CONFIG.md#mouse-simulation)
+See also: [Keybindings](/docs/keybindings.md#mouse-simulation), [Configuration](/docs/config.md#mouse-simulation)
 
 ## Read Crosshair
 
@@ -64,9 +64,9 @@ You can determine your current location with the help of your relative position 
 For simple targets, the mod will only speak the name (and side if it's a block), such as "Pig", "Cow", "Grass Block Up", "Stone North".
 For functional blocks or entities with multiple forms, the mod will also speak current state of the block, such as "Ripe Wheat Crops Up", "White Sheep Shearable", "Opened Oak Door South", "Powered Dispenser West Facing East".
 
-According to [wiki](https://minecraft.wiki/w/Breaking#Basics_of_breaking), the breaking distance in survival mode is 4.5 blocks (in Java Edition), but this `ReadCrosshair` feature will speak targets at most 6 blocks away. So if the mod says something but you can't interact with it, move forward a little closer to it.
+According to [wiki](https://minecraft.wiki/w/Breaking#Basics_of_breaking), the breaking distance in survival mode is 4.5 blocks (in Java Edition), but this `ReadCrosshair` feature will speak targets at most 6 blocks away. So if the mod says something, but you can't interact with it, move forward a little closer to it.
 
-See also: [Configuration](/doc/CONFIG.md#read-crosshair)
+See also: [Configuration](/docs/config.md#read-crosshair)
 
 ### Relative Position Sound Cue
 
@@ -75,13 +75,13 @@ Volume to represent distance, the louder the sound the closer the distance.
 Pitch to represent elevation, the higher the sound the higher the target relative to you.
 You can turn off this feature or change sound volume in config.
 
-See also: [Configuration](/doc/CONFIG.md#relative-position-sound-cue)
+See also: [Configuration](/docs/config.md#relative-position-sound-cue)
 
 ### Partial Speaking
 
 Let the mod only (or only not) speak entities/blocks that you've configured. This feature can be easily misused, so it is not enabled by default. A user said that she didn't want to hear the grass block anymore, this feature is the solution to her problem once and for all.
 
-See also: [Configuration](/doc/CONFIG.md#partial-speaking)
+See also: [Configuration](/docs/config.md#partial-speaking)
 
 ## Inventory Controls
 
@@ -108,7 +108,7 @@ Please note that:
 3. After put things into an [Anvil](https://minecraft.fandom.com/wiki/Anvil), the cursor will be automatically focused onto the rename input text field, all you need to do is pressing "Enter" key to go back to slot selection.
 4. Servers will build custom inventory screens to serve as special option menus, some mods like hypixel will continuously changing the option (item) names, which will cause this mod continuously speaking changed item name. Close "Speak Focused Slot Changes" config to solve this problem.
 
-See also: [Configuration](/doc/CONFIG.md#inventory-controls), [Keybindings](/doc/KEYBINDINGS.md#inventory-controls)
+See also: [Configuration](/docs/config.md#inventory-controls), [Keybindings](/docs/keybindings.md#inventory-controls)
 
 ## Point of Interest
 
@@ -121,7 +121,7 @@ Precious blocks like raw ores can be seen at a glance by sighted players, but vi
 By the same token, entities (players, animals, monsters) are movable, so scanning and locking onto them helps you get close to and interact with them.
 Be aware that if you keep any screen opening, the mod will stop scanning and notifying for entities, for a cleaner screen narration, which may get you in danger if there are monsters around you.
 
-See also: [Configuration](/doc/CONFIG.md#point-of-interest), [Keybindings](/doc/KEYBINDINGS.md#point-of-interest)
+See also: [Configuration](/docs/config.md#point-of-interest), [Keybindings](/docs/keybindings.md#point-of-interest)
 
 ### POI Locking
 
@@ -134,7 +134,7 @@ Note that:
 * The mod will automatically stop locking on ladders when you start climbing on them, so you can directly climb the ladder without manually pressing unlock key.
 * The mod will automatically stop locking on blocks if they are destroyed or changed (for example, a [door](https://minecraft.wiki/w/Door) is opened or clocked, or a [piston](https://minecraft.wiki/w/Piston) is activated).
 
-See also: [Configuration](/doc/CONFIG.md#entitiesblocks-locking), [Keybindings](/doc/KEYBINDINGS.md#point-of-interest)
+See also: [Configuration](/docs/config.md#entitiesblocks-locking), [Keybindings](/docs/keybindings.md#point-of-interest)
 
 ### POI Marking
 
@@ -142,14 +142,14 @@ Sometimes you may need to search for a special type of block or entity that is n
 You can mark one type while you are pointing at one of them (with your crosshair).
 You can set the mod to only scan and notify on marked type, suppress scanning and notifying on pre-configured ones.
 
-See also: [Configuration](/doc/CONFIG.md#entitiesblocks-marking), [Keybindings](/doc/KEYBINDINGS.md#point-of-interest)
+See also: [Configuration](/docs/config.md#entitiesblocks-marking), [Keybindings](/docs/keybindings.md#point-of-interest)
 
 ## Fall Detector
 
 This feature alerts you with a foot stomping sound cue when you're near the edge of a big drop.
 It will play a sound effect at every location meets the set threshold, the louder the sound, the closer you are to the edge.
 
-See also: [Configuration](/doc/CONFIG.md#fall-detector)
+See also: [Configuration](/docs/config.md#fall-detector)
 
 ## Narrator Menu
 
@@ -169,7 +169,7 @@ This menu integrates a number of helper functions, and you can execute them by o
 | 9. Refresh screen Reader              | Refresh the screen Reader                                                                                                                                                                    |
 | 0. Open Config Menu                   | Opens the Config Menu which can be used to change the configs of this mod that take effect immediately                                                                                       |
 
-See also: [Configuration](/doc/CONFIG.md#narrator-menu), [Keybindings](/doc/KEYBINDINGS.md#narrator-menu)
+See also: [Configuration](/docs/config.md#narrator-menu), [Keybindings](/docs/keybindings.md#narrator-menu)
 
 ## Player Status
 
@@ -179,13 +179,13 @@ Some features that help you understand the status of the character you control.
 
 Minecraft has a built-in [absolute coordinate system](https://minecraft.wiki/w/Coordinates), x-axis for the longitude, z for the latitude, and y for the elevation. This feature provides keystrokes to read out coordinates.
 
-See also: [Configuration](/doc/CONFIG.md#position-narrator), [Keybindings](/doc/KEYBINDINGS.md#position-narrator)
+See also: [Configuration](/docs/config.md#position-narrator), [Keybindings](/docs/keybindings.md#position-narrator)
 
 ### Health n Hunger
 
 This feature adds a key to speak your health and hunger.
 
-See also: [Configuration](/doc/CONFIG.md#health-n-hunger), [Keybindings](/doc/KEYBINDINGS.md#health-n-hunger)
+See also: [Configuration](/docs/config.md#health-n-hunger), [Keybindings](/docs/keybindings.md#health-n-hunger)
 
 ### Player Warnings
 
@@ -194,7 +194,7 @@ You'll hear something like "Warning, Health is {current health}".
 If you enable the `Play Sound` config, you'll also hear a sound cue along with the warning words.
 You may want to learn about [the various damage types](https://minecraft.wiki/w/Damage) in the game.
 
-See also: [Configuration](/doc/CONFIG.md#player-warnings)
+See also: [Configuration](/docs/config.md#player-warnings)
 
 ## Book Editing
 
@@ -202,7 +202,7 @@ The [Book Editing Screen](https://minecraft.wiki/w/Book_and_Quill#Writing) is a 
 We've added some not re-mappable keys and narration cues to make it 100% accessible.
 This section as a brief guide on how to use this screen, listing the keys corresponding to the functions.
 
-See also: [Keybindings](/doc/KEYBINDINGS.md#book-editing)
+See also: [Keybindings](/docs/keybindings.md#book-editing)
 
 ## Speak Text Editing
 
@@ -213,19 +213,19 @@ Note that we have to speak whole unfinished book title while signing a book sinc
 The mod also simplifies the original [command](https://minecraft.wiki/w/Commands) suggestion narration for a better typing experience with lesser annoying too-detailed narrations.
 The content of one command suggestion narration will be like "{the order of focused suggestion}x{total number of suggestions} {suggestion} selected", the format can be customized in the config.
 
-See also: [Configuration](/doc/CONFIG.md#other-configurations)
+See also: [Configuration](/docs/config.md#other-configurations)
 
 ## Other Small Features
 
 Some small features that are automatically triggered based on your actions.
 
-See also: [Configuration](/doc/CONFIG.md#other-configurations)
+See also: [Configuration](/docs/config.md#other-configurations)
 
 ### Speak Held Item
 
 When you switch held items, speak the name and number of items in your hand (main hand only).
 The item [durability](https://minecraft.wiki/w/Durability) information is included.
-If you feel that continuous item count reporting is annoying, you can close it in the [configuration](/doc/CONFIG.md#other-configurations).
+If you feel that continuous item count reporting is annoying, you can close it in the [configuration](/docs/config.md#other-configurations).
 
 ### Biome Indicator
 
@@ -244,12 +244,12 @@ In fact this feature will speak the items you pick up while you're holding the r
 Speak [chat](https://minecraft.wiki/w/Chat) messages, so you won't miss your friends' conversation.
 If you feel that too many chat messages are making you feel noisy, you can turn off showing chat messages in the original `Chat Settings...` options, or press "P" to open [Social Interactions Screen](https://minecraft.wiki/w/Social_interactions) to mute particular players.
 
-See also: [Keybindings](/doc/KEYBINDINGS.md#speak-chat-messages)
+See also: [Keybindings](/docs/keybindings.md#speak-chat-messages)
 
 ### Speak Action Bar Messages
 
 Messages shown in the form of [action bar](https://minecraft.wiki/w/Commands/title) are common in modded multiplayer servers, usually they are used as server announcements or showing mod-specific information, for example in hypixel it shows extra "health, defense, mana" values of players.
-When you feel like the mod is repeating action bar messages, that's because the messages are partially updated but the mod will speak the whole sentence, try to open "Only Speak Action Bar Updates" config in the [configuration](/doc/CONFIG.md#other-configurations). It happens when playing some mods like hypixel.
+When you feel like the mod is repeating action bar messages, that's because the messages are partially updated but the mod will speak the whole sentence, try to open "Only Speak Action Bar Updates" config in the [configuration](/docs/config.md#other-configurations). It happens when playing some mods like hypixel.
 
 ### I18N Fallback Mechanism
 

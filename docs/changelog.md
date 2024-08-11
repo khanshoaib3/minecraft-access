@@ -49,7 +49,7 @@ Release v1.6.1 (2024-06)
 
 ### Others
 
-- New guide page: [Good Resources](/doc/GOOD_RESOURCES.md)
+- New guide page: [Good Resources](/docs/good-resources.md)
 - Remove `fabric-api` dependence for Fabric
 - forge_version: `1.20.6-50.0.0` -> `1.20.6-50.1.0`
 - architectury_loom_version: `1.6-SNAPSHOT` -> `1.7-SNAPSHOT`
@@ -96,7 +96,7 @@ Release v1.5.4 (2024-03)
 
 ### Refactoring, Documentation and Chores
 
-* Add [Sound Cue Listening Page](/doc/SOUND.html) for making users refer to the sound cue they heard in the game.
+* Add [Sound Cue Listening Page](/docs/sounds.html) for making users refer to the sound cue they heard in the game.
 
 Release v1.5.3 (2024-02)
 ---------------------------
@@ -144,7 +144,7 @@ Release v1.5.0 (2024-01)
 
 ### Feature Changes
 
-* Breaking change: The mod will speak "unlock" on every unlock (used to be only on manually press unlock key). Config "Play Unlocking Sound" is replaced by ["Play Sound Instead Of Speak"](/doc/CONFIG.md#entitiesblocks-locking), default value is "false", so if you find out speak is annoying, switch this config to "ture" for original base drum sound.
+* Breaking change: The mod will speak "unlock" on every unlock (used to be only on manually press unlock key). Config "Play Unlocking Sound" is replaced by ["Play Sound Instead Of Speak"](/docs/config.md#entitiesblocks-locking), default value is "false", so if you find out speak is annoying, switch this config to "ture" for original base drum sound.
 
 ### Refactoring, Documentation and Chores
 
@@ -205,7 +205,7 @@ Release v1.4.0 (2023-11)
 * Suppress annoying original "speak whole sentence" narration on every text editing operation.
 * Simplify the original command suggestion narration for a better typing experience with lesser annoying too-detailed narrations.
 
-See also: [description of this feature](/doc/FEATURES.md#speak-text-editing) [#187](https://github.com/khanshoaib3/minecraft-access/issues/187)
+See also: [description of this feature](/docs/features.md#speak-text-editing) [#187](https://github.com/khanshoaib3/minecraft-access/issues/187)
 
 #### I18N Fallback Mechanism
 
@@ -216,8 +216,8 @@ If you want to contribute to translating work, we manage the translation of this
 
 ### Feature Changes
 
-* Now whenever you're looking at a block and entity, the mod will play a piano sound cue to indicate relative location between you and target. see also: [description of this feature](/doc/FEATURES.md#relative-position-sound-cue) [#191](https://github.com/khanshoaib3/minecraft-access/issues/191)
-* Now the mod will only speak item count when held item type isn't changed (when picking up or spending items), with a new config "Report Held Items Count When Changed", see the [configuration](/doc/CONFIG.md#other-configurations).
+* Now whenever you're looking at a block and entity, the mod will play a piano sound cue to indicate relative location between you and target. see also: [description of this feature](/docs/features.md#relative-position-sound-cue) [#191](https://github.com/khanshoaib3/minecraft-access/issues/191)
+* Now the mod will only speak item count when held item type isn't changed (when picking up or spending items), with a new config "Report Held Items Count When Changed", see the [configuration](/docs/config.md#other-configurations).
 * Now the mod will speak sitting state of cat, dog, parrot, [and so on](https://minecraft.wiki/w/Sitting#Mechanics) in `Read Crosshair`. [#192](https://github.com/khanshoaib3/minecraft-access/issues/192)
 * Not the mod will speak if an animal is tamed in `Read Crosshair`.
 * Now the mod can tell if a zombie villager is under curing in `Read Crosshair`. [#195](https://github.com/khanshoaib3/minecraft-access/issues/195)
@@ -235,7 +235,7 @@ If you want to contribute to translating work, we manage the translation of this
 
 ### Refactoring, Documentation and Chores
 
-* Now the change log should be added as a small independent markdown file (fragment) under `./doc/news`.
+* Now the change log should be added as a small independent markdown file (fragment) under `./docs/news`.
 * Add introduction of missing chat message feature into manual.
 
 Release v1.3.0 (2023-09)
@@ -355,7 +355,7 @@ Release v1.0.1 (for 1.19.3) (2023-07-01)
 ## Changes and Fixes
 
 * Chat message reader improvements, now you can use alt + number keys to speak last 9 chat messages.
-* Added configs to disable speaking action bar updates, speak time in 12 hour format and to repeat speaking the block/entity name.
+* Added configs to disable speaking action bar updates, speak time in 12 hours format and to repeat speaking the block/entity name.
 * Simplified Chinese translations.
 * Added sculk sensor/catalyst/shrieker to poi blocks
 * The group names in inventory controls are now internationalized.
@@ -370,7 +370,7 @@ Release v1.0.1 (for 1.19.3) (2023-07-01)
 
 ## What's Changed
 
-* Added config option to speak time in 12 hour format by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/21>
+* Added config option to speak time in 12 hours format by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/21>
 * Chat History Reader by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/23>
 * Misc by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/24>
 * Bug Fixes by @khanshoaib3 in <https://github.com/khanshoaib3/minecraft-access/pull/28>
