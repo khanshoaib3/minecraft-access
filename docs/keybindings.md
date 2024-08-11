@@ -176,7 +176,4 @@ See also: [Feature Description](/doc/FEATURES.md#speak-chat-messages)
 
 ## Other Pages
 
-* [Set Up](/doc/SET_UP.md)
-* [Features](/doc/FEATURES.md)
-* [Configuration](/doc/CONFIG.md)
-* [FAQ](/doc/FAQ.md)
+* [Home](/README.md)

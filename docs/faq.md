@@ -118,8 +118,3 @@ It might be a bug of this mod, or something in mod manual is misleading, or you 
 ## Other Pages
 
 * [Home](/README.md)
-* [Set Up](/doc/SET_UP.md)
-* [Features](/doc/FEATURES.md)
-* [Keybindings](/doc/KEYBINDINGS.md)
-* [Configuration](/doc/CONFIG.md)
-* [Good Resources](/doc/GOOD_RESOURCES.md)

@@ -261,8 +261,3 @@ Set the game to your familiar language is recommended, even if it's not supporte
 ## Other Pages
 
 * [Home](/README.md)
-* [Set Up](/doc/SET_UP.md)
-* [Keybindings](/doc/KEYBINDINGS.md)
-* [Configuration](/doc/CONFIG.md)
-* [FAQ](/doc/FAQ.md)
-* [Good Resources](/doc/GOOD_RESOURCES.md)
