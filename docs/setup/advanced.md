@@ -23,7 +23,7 @@ An executable jar file will be downloaded with the name format `neoforge-<neofor
 
 Before running the installer, download and run the patch file from [here](https://johann.loefflmann.net/en/software/jarfix/index.html) so that you can run the jar file directly in Windows File Explorer. If you downloaded the installer for Windows, skip this step.
 Now you can run the NeoForge jar file like a normal executable file, a window will pop up for you to choose the installation configuration:
-The NeoForge installer supports multiple languages, so if you want to change the language.
+The NeoForge installer supports multiple languages, so if you want to change the language you can do this here.
 
 1. First is a radio box for selecting install client or server, `Install client` is selected by default, don't change it.
 2. Then there is an input field for specifying the installation location, normally the installer will automatically recognize the official loader's folder.
