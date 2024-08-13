@@ -1,14 +1,14 @@
 # Mod Setup
 
-Currently, this mod supports Windows and Linux operating systems ([help us to port it to macOS](https://github.com/khanshoaib3/minecraft-access/issues/22)).
+Currently, this mod supports the Windows and Linux operating systems ([help us to port it to macOS](https://github.com/khanshoaib3/minecraft-access/issues/22)).
 The latest version of this mod (as well as other mod dependencies) can be downloaded at the [releases page](https://github.com/khanshoaib3/minecraft-access/releases/latest).
 
 ## Tutorial for Beginners: From Purchasing the Game To Installing This Mod
 
-This tutorial tries to guide you step by step on how to set the whole thing up. This tutorial is for Windows system.
+This tutorial tries to guide you step by step on how to set the whole thing up.
 
 If you want to chat with this mod's users and developers, please join [our Discord server](https://discord.gg/yQjjsDqWQX).
-If you know where this tutorial could be improved, please let us know as well.
+If you know where this tutorial could be improved, please also let us know.
 
 > The paragraphs in the block quotes are additional nonsense.
 > They do not provide help with the installation, but they can give you a little more insight into things that are relevant.
@@ -63,7 +63,7 @@ If you have a redeem code for this game, [here is the redeem page](https://www.m
 Or if you have Xbox Game Pass, you can also get Minecraft using your active subscription.
 
 There are currently two purchasable versions of Minecraft, [the Deluxe Collection](https://www.minecraft.net/en-us/store/minecraft-deluxe-collection-pc) and [the bare game](https://www.minecraft.net/store/minecraft-java-bedrock-edition-pc).
-I want to remind you that things that the Deluxe Collection has included that the bare game doesn't are just virtual currency (minecoins) and items only usable in the Bedrock Edition that we can't use in the Java Edition.
+It is worth noting that things that the Deluxe Collection has included that the bare game doesn't are just virtual currency (minecoins) and items only usable in the Bedrock Edition that we can't use in the Java Edition.
 
 The links will jump to the pages that correspond to the language of your browser, and there is a `CHECKOUT` button.
 Click it, and then the webpage will redirect you to the payment flow, then it will require you to sign in with Microsoft.
@@ -72,7 +72,7 @@ Keep going after you have logged in, I don't know how to describe the purchase p
 
 ### Use a Modpack version of the Mod
 
-The community member @BrailleBennett has created a modpack that contains everything you need to get started with Minecraft. If you wish to use this pack, go to its [guide file](/docs/setup/modpack.md). There is no need to return to this guide after you finish that one, as it is not relevant to the pack.
+The community member [@BrailleBennett](https://github.com/BrailleBennett) has created a modpack that contains everything you need to get started with Minecraft. If you wish to use this pack, go to its [guide file](/docs/setup/modpack.md). There is no need to return to this guide after you finish that one, as it is not relevant to the pack.
 This is usually seen as the easiest and most convenient option for new users.
 
 ### Download the Launcher
@@ -130,9 +130,9 @@ Start the installer, a window pops up for you to choose the installation configu
 
 ### Install NeoForge
 
-This guide does not provide exact instructions for installing NeoForge, as it is a more advanced mod loader with many existing tutorials and walk through online. Fabric is the recommended experience for new players who are using this guide.
+This guide does not provide exact instructions for installing NeoForge, as it is a more advanced mod loader with many existing tutorials and walk throughs online. Fabric is the recommended experience for new players who are using this guide.
 NeoForge is only needed for advanced users or those wishing to heavily modify their game.
-See the [advanced guide](/docs/setup/advanced.md)
+See the [advanced guide](/docs/setup/advanced.md) for some more detailed instructions for installing NeoForge and having more than one mods directory.
 
 ## Install Your Mods
 
@@ -147,7 +147,7 @@ This guide will describe how to download and install mods manually, you can also
 
 Now let's download mod files.
 To download this mod and the dependencies of this mod, it is recommended you download them from the Minecraft Access's official [releases page](https://github.com/khanshoaib3/minecraft-access/releases/latest), where you can find download links of suitable versions of the required mods, under the `Mod Version Compatibility` section of each release.
-By the way, you may be interested in the mods [provided in good resources page](/docs/good-resources.md#quality-of-life-mods), they are good mods that our visually impaired users have found and tested through practice.
+By the way, you may be interested in the mods provided in the [good resources](/docs/good-resources.md#quality-of-life-mods) page of the documentation, they are good mods that our visually impaired users have found and tested through practice.
 
 After all the mods you want are downloaded, you can move on to putting them into the right location for the mod loader to recognize them.
 The default path on Windows is: `%appdata%\.minecraft\mods` (the `%appdata%` is a shortcut for `C:\Users\username\AppData\Roaming`), you can directly paste it into File Explorer then press the enter key to jump to it or paste it into the run box accessed with the Windows+R keys and click enter.
@@ -176,13 +176,13 @@ Please note, the first time you launch a new profile that you will need to enabl
 You can also press `Control+B` to enable the narrator, keep pressing until it switches to `Narrator Narrates All`.
 
 If the game crashes and a bunch of error logs pop up, the biggest probability is that there is an incompatibility between the mod files and mod loader, or between the mod files and game version, please read the [Update the Game and Mods](#update-the-game-and-mods) section.
-And here is a [complex self-helped FAQ](/docs/faq.md#self-help-guide-for-abnormal-situation) for you to address the problem, from not being able to hear the narration to a full game crash.
+And here is a [complex self-help FAQ](/docs/faq.md#self-help-guide-for-abnormal-situation) for you to address the problem, from not being able to hear the narration to a full game crash.
 
 ### Additional Installation for Linux
 
 We need to install a few extra things that this mod depends on after installing the mod to make this mod work properly if you are using Linux.
 
-1. We need to install the [libspeechdwrapper](https://github.com/khanshoaib3/libspeechdwrapper) for invoking screen reader's API.
+1. We need to install the [libspeechdwrapper](https://github.com/khanshoaib3/libspeechdwrapper) for invoking the screen reader's API.
    Download the library from [its GitHub repository](https://github.com/khanshoaib3/libspeechdwrapper/raw/main/lib/libspeechdwrapper.so) and move it into the minecraft directory (default `~/.minecraft`).
 
 2. Although the mod overrides the library used for TTS, minecraft still needs the `flite` library to be installed, so you can install it using your distro's package manager itself.

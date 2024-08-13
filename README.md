@@ -28,8 +28,8 @@ Each version of this mod will be pre-released on [GitHub](https://github.com/kha
 
 ## Useful Links
 
-* [Playability Discord server](https://discord.gg/yQjjsDqWQX) - Join our Discord server if you want to chat with other this mod's users and developers.
-* [X](https://x.com/shoaib_mk0) - You can follow the developer on Twitter to get notification when a new update drops.
+* [Playability Discord server](https://discord.gg/yQjjsDqWQX) - Join our Discord server if you want to chat with this mod's users and developers.
+* [X](https://x.com/shoaib_mk0) - You can follow the developer on X to get notified when a new update drops.
 * [Patreon](https://www.patreon.com/shoaibkhan)
 
 ## Known Issues
