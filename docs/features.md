@@ -2,10 +2,10 @@
 
 This page contains details of all the features that are currently in the mod.
 
-If you have any question about original game functions, please search on the [wiki](https://minecraft.wiki/?search) first before asking for help.
-If you have any suggestion on improvements existing features or about a new feature, you can [join the discord server](https://discord.gg/yQjjsDqWQX) or [post an issue](https://github.com/khanshoaib3/minecraft-access/issues).
+If you have any questions about original game functions, please search on the [Minecraft wiki](https://minecraft.wiki/?search) first before asking for help.
+If you have any suggestions on improvements to existing features or about a new feature, you can [join the discord server](https://discord.gg/yQjjsDqWQX) or [post an issue](https://github.com/khanshoaib3/minecraft-access/issues).
 
-There is a page for [viewing all sound effects](https://html-preview.github.io/?url=https://github.com/khanshoaib3/minecraft-access/blob/1.21/docs/SOUND.html) used in this mod.
+There is a page for [viewing all sound effects](https://html-preview.github.io/?url=https://github.com/khanshoaib3/minecraft-access/blob/1.21/docs/sounds.html) used in this mod.
 
 ## Table Of Contents
 
@@ -37,7 +37,7 @@ There is a page for [viewing all sound effects](https://html-preview.github.io/?
 
 ## Camera Controls
 
-Like most 3D games, you can rotate the camera 360 degrees freely in the Minecraft with mouse, and the direction you look is the direction to go forward while your press the W key.
+Like most 3D games, you can rotate the camera 360 degrees freely in Minecraft with the mouse, and the direction you look is the direction to go forward while you press the W key.
 This feature allows you to control the camera (your in-game facing direction and crosshair) through the keyboard.
 The mod will automatically report the current direction as the camera moves, such as "North" "South East" "Up" "Down" "Straight".
 
@@ -45,10 +45,10 @@ See also: [Keybindings](/docs/keybindings.md#camera-controls), [Configuration](/
 
 ## Mouse Simulation
 
-This feature allows you to simulate five mouse operations (left middle right click, scroll up and down) through the keyboard, while keep original mouse input still working.
-This feature supports continuous key pressing, e.g. destroying a block requires continuous press of the left mouse button against that block.
+This feature allows you to simulate five mouse operations (left middle right click, scroll up and down) through the keyboard, while the original mouse input still works.
+This feature supports continuous key pressing, e.g. destroying a block requires continuous pressing of the left mouse button against that block.
 
-You MUST keep the vanilla `Attack/Destroy` key, `Use Item/Place Block` key and `Pick Block` key remain on default mouse keys. This feature will only simulate mouse operations, not directly execute the attack or place operation, it needs mouse key bindings as a medium.
+You MUST keep the vanilla `Attack/Destroy` key, `Use Item/Place Block` key and `Pick Block` key set to the default mouse keys. This feature will only simulate mouse operations, not directly execute the attack or place operation, it needs the mouse key bindings as a medium.
 
 See also: [Keybindings](/docs/keybindings.md#mouse-simulation), [Configuration](/docs/config.md#mouse-simulation)
 
@@ -64,13 +64,13 @@ You can determine your current location with the help of your relative position 
 For simple targets, the mod will only speak the name (and side if it's a block), such as "Pig", "Cow", "Grass Block Up", "Stone North".
 For functional blocks or entities with multiple forms, the mod will also speak current state of the block, such as "Ripe Wheat Crops Up", "White Sheep Shearable", "Opened Oak Door South", "Powered Dispenser West Facing East".
 
-According to [wiki](https://minecraft.wiki/w/Breaking#Basics_of_breaking), the breaking distance in survival mode is 4.5 blocks (in Java Edition), but this `ReadCrosshair` feature will speak targets at most 6 blocks away. So if the mod says something, but you can't interact with it, move forward a little closer to it.
+According to the [wiki](https://minecraft.wiki/w/Breaking#Basics_of_breaking), the breaking distance in survival mode is 4.5 blocks (in Java Edition), but the `ReadCrosshair` feature will speak targets at most 6 blocks away. So if the mod says something, but you can't interact with it, move forward a little closer to it.
 
 See also: [Configuration](/docs/config.md#read-crosshair)
 
 ### Relative Position Sound Cue
 
-Whenever you're looking at a block and entity, the mod will play a piano sound cue to indicate relative location between you and target.
+Whenever you're looking at a block or entity, the mod will play a piano sound cue to indicate relative location between you and the target.
 Volume to represent distance, the louder the sound the closer the distance.
 Pitch to represent elevation, the higher the sound the higher the target relative to you.
 You can turn off this feature or change sound volume in config.
@@ -79,47 +79,47 @@ See also: [Configuration](/docs/config.md#relative-position-sound-cue)
 
 ### Partial Speaking
 
-Let the mod only (or only not) speak entities/blocks that you've configured. This feature can be easily misused, so it is not enabled by default. A user said that she didn't want to hear the grass block anymore, this feature is the solution to her problem once and for all.
+Make the mod only (or only not) speak entities/blocks that you've configured. This feature can be easily misused, so it is not enabled by default. This works as a whitelist or a blacklist depending on how you choose to set it up. A user said that she didn't want to hear the grass block anymore, this feature is the solution to her problem once and for all.
 
 See also: [Configuration](/docs/config.md#partial-speaking)
 
 ## Inventory Controls
 
 This feature allows you to operate various screens using the keyboard instead of the mouse.
-In fact this is a feature makes almost all screens accessible, not just for the inventory screen.
+In fact this is a feature that makes almost all screens accessible, not just the inventory screen.
 The vast majority of screens contain operations for transferring and using items, so it's appropriate to call this feature `Inventory Controls`.
 
-We divide the various parts of screens into different slot groups, following the original design of screens.
-One slot group contains one to more slots, arranged in a grid shape, each of which may be empty or contain one type of items (one stack at max).
+We divide the various parts of each screen into different slot groups, following the original design of the screens.
+One slot group contains one or more slots, arranged in a grid shape, each of which may be empty or contain one type of items (one stack at max).
 You can switch focusing group, move to different slots within a group, or pick up items from slots in one group and place them into slots in another group (to transfer or use them).
 
-Use mouse simulation keys in [`Mouse Simulation`](#mouse-simulation) feature to preform operations such as item transferring and button clicking.
-Left mouse key will pick up and put down full number of items in the slot.
-Right mouse key will pick up half number of items or put one item down.
-Middle mouse key can be used in creative mode to pick up a full stack of item from the item list.
+Use the mouse simulation keys in the [`Mouse Simulation`](#mouse-simulation) feature to preform operations such as item transferring and button clicking.
+Left mouse key will pick up and put down the full number of items in the slot.
+Right mouse key will pick up half of the items or put one item down if you're already holding a compatible item.
+The middle mouse key can be used in creative mode to pick up a full stack of item from the creative inventory item list.
 The mod will speak what is currently in the slot, such as "Empty Slot" or "64 Stone".
-When you pick up full number of items in a slot, the mod will speak "Empty Slot" to represent current state of the slot.
-When you put down grabbing items in an occupied slot, items in the slot will switch with what in your hand, now you're grabbing the items originally in that slot.
+When you pick up the full number of items in a slot, the mod will speak "Empty Slot" to represent the current state of the slot.
+When you put down selected items in an occupied slot, items in the slot will switch with what's currently selected by the curser, now you're grabbing the items originally in that slot.
 
 Please note that:
 
-1. Item speaking in "Scrollable Recipes Group" under "Crafting Screen" will be delayed about one second, please wait after press the slot moving key to hear the item name.
-2. In "Scrollable Recipes Group" under "Crafting Screen", except the first page, sometimes you will hear nothing while you moving between slots. It's best to keep items you want to craft within the first page of the recipe book by moving unused resource items out of your inventory.
-3. After put things into an [Anvil](https://minecraft.fandom.com/wiki/Anvil), the cursor will be automatically focused onto the rename input text field, all you need to do is pressing "Enter" key to go back to slot selection.
-4. Servers will build custom inventory screens to serve as special option menus, some mods like hypixel will continuously changing the option (item) names, which will cause this mod continuously speaking changed item name. Close "Speak Focused Slot Changes" config to solve this problem.
+1. Item speaking in "Scrollable Recipes Group" under the "Crafting Screen" will be delayed about one second, please wait after pressing the move slot key to hear the item name.
+2. In the "Scrollable Recipes Group" On the "Crafting Screen", except the first page, sometimes you will hear nothing while you're moving between slots. It's best to keep items you want to craft within the first page of the recipe book by moving unused items out of your inventory.
+3. After you put things into an [Anvil](https://minecraft.wiki/w/Anvil), the cursor will be automatically focused onto the rename input text field, all you need to do is press the "Enter" key to go back to slot selection.
+4. Servers will build custom inventory screens to serve as special option menus, some servers like hypixel will continuously change the option (item) names, which will cause this mod to continuously speak the changed item name. Disable the "Speak Focused Slot Changes" config to solve this problem.
 
 See also: [Configuration](/docs/config.md#inventory-controls), [Keybindings](/docs/keybindings.md#inventory-controls)
 
-## Point of Interest
+## Points of Interest
 
-This feature will scan and notify (with sound cues) you of (pre-configured) special blocks and all types of entity around you. You can listen to the sound cues for different types of blocks and entities on the Sound Demo page.
+This feature will scan and notify (with sound cues) you of (pre-configured) special blocks and all types of entities around you. You can listen to the sound cues for different types of blocks and entities on the Sound Demo page.
 
 What blocks are considered special? Those you tend to miss.
-In Minecraft, not every block is cube shaped, for example buttons are tiny, single glass block is a thin bar, ladders is a thin layer attached to the wall, you'll find it difficult to point precisely at these blocks.
+In Minecraft, not every block is cube shaped, for example buttons are tiny, glass pains are thin bars, ladders are a thin layer attached to another block, you'll find it difficult to point precisely at these blocks.
 Precious blocks like raw ores can be seen at a glance by sighted players, but visually impaired players will need to point at them to know their existence.
 
-By the same token, entities (players, animals, monsters) are movable, so scanning and locking onto them helps you get close to and interact with them.
-Be aware that if you keep any screen opening, the mod will stop scanning and notifying for entities, for a cleaner screen narration, which may get you in danger if there are monsters around you.
+By the same logic, entities (players, animals, monsters) are movable, so scanning and locking onto them helps you get close to and interact with them.
+Be aware that if you keep any menu screen open, the mod will stop scanning and notifying you of entities for a cleaner screen narration, which may get you in danger if there are monsters around you.
 
 See also: [Configuration](/docs/config.md#point-of-interest), [Keybindings](/docs/keybindings.md#point-of-interest)
 
@@ -130,24 +130,24 @@ For example when you want to mine an ore, capture an animal or fight a monster.
 
 Note that:
 
-* The mod will continue locking on the position where the eye of ender disappears (if you enabled "Auto Lock on to Eye of Ender when Used" config).
-* The mod will automatically stop locking on ladders when you start climbing on them, so you can directly climb the ladder without manually pressing unlock key.
-* The mod will automatically stop locking on blocks if they are destroyed or changed (for example, a [door](https://minecraft.wiki/w/Door) is opened or clocked, or a [piston](https://minecraft.wiki/w/Piston) is activated).
+* The mod will continue locking on the position where the eye of ender disappears (if you enabled "Auto Lock on to Eye of Ender when Used" in the config).
+* The mod will automatically stop locking on ladders when you start climbing them, so you can directly climb the ladder without manually pressing the unlock key.
+* The mod will automatically stop locking on blocks if they are destroyed or changed (for example, a [door](https://minecraft.wiki/w/Door) is opened or closed, or a [piston](https://minecraft.wiki/w/Piston) is activated).
 
 See also: [Configuration](/docs/config.md#entitiesblocks-locking), [Keybindings](/docs/keybindings.md#point-of-interest)
 
 ### POI Marking
 
 Sometimes you may need to search for a special type of block or entity that is not in the pre-configured list, here is the feature you want.
-You can mark one type while you are pointing at one of them (with your crosshair).
-You can set the mod to only scan and notify on marked type, suppress scanning and notifying on pre-configured ones.
+You can mark the type while you are pointing at it (with your crosshair).
+You can set the mod to only scan and notify for marked type or suppress scanning and notifying for pre-configured types.
 
 See also: [Configuration](/docs/config.md#entitiesblocks-marking), [Keybindings](/docs/keybindings.md#point-of-interest)
 
 ## Fall Detector
 
-This feature alerts you with a foot stomping sound cue when you're near the edge of a big drop.
-It will play a sound effect at every location meets the set threshold, the louder the sound, the closer you are to the edge.
+This feature will alert you with a foot stomping sound cue when you're near the edge of a big drop.
+It will play a sound effect for every location that meets the set threshold distance, the louder the sound, the closer you are to the edge.
 
 See also: [Configuration](/docs/config.md#fall-detector)
 
@@ -163,8 +163,8 @@ This menu integrates a number of helper functions, and you can execute them by o
 | 3. Light level                        | Speak the [light](https://minecraft.wiki/w/Light) level of the player's position                                                                                                             |
 | 4. Find Closest Water Source          | Find the closest [water](https://minecraft.wiki/w/Water) source block in the set range, play a [Item plops](https://minecraft.wiki/w/Item_(entity)#Sounds) bubbling sound at target position |
 | 5. Find Closest Lava Source           | Find the closest [lava](https://minecraft.wiki/w/Lava) source block in the set range,  play a [Item plops](https://minecraft.wiki/w/Item_(entity)#Sounds) bubbling sound at target position  |
-| 6. Biome                              | Speak the name of [biome](https://minecraft.wiki/w/Biome) the player is currently in                                                                                                         |
-| 7. Time of Day                        | Speak current time of the in-game [Daylight Cycle](https://minecraft.wiki/w/Daylight_cycle)                                                                                                  |
+| 6. Biome                              | Speak the name of the [biome](https://minecraft.wiki/w/Biome) that the player is currently in                                                                                                         |
+| 7. Time of Day                        | Speak the current time of the in-game [Daylight Cycle](https://minecraft.wiki/w/Daylight_cycle)                                                                                                  |
 | 8. XP                                 | Speak the player's current [experience](https://minecraft.wiki/w/Experience) level and progress                                                                                              |
 | 9. Refresh screen Reader              | Refresh the screen Reader                                                                                                                                                                    |
 | 0. Open Config Menu                   | Opens the Config Menu which can be used to change the configs of this mod that take effect immediately                                                                                       |
@@ -189,14 +189,14 @@ See also: [Configuration](/docs/config.md#health-n-hunger), [Keybindings](/docs/
 
 ### Player Warnings
 
-This feature warns you with the sound of metal when your [health](https://minecraft.wiki/w/Health), [hunger](https://minecraft.wiki/w/Hunger) and [air](https://minecraft.wiki/w/Damage#Drowning) (when you're submerged in water) below the set thresholds.
+This feature warns you with the sound of metal when your [air](https://minecraft.wiki/w/Damage#Drowning) (only tracked when you're submerged in water), [health](https://minecraft.wiki/w/Health), or [hunger](https://minecraft.wiki/w/Hunger) fall below the set thresholds.
 You'll hear something like "Warning, Health is {current health}".
 If you enable the `Play Sound` config, you'll also hear a sound cue along with the warning words.
-You may want to learn about [the various damage types](https://minecraft.wiki/w/Damage) in the game.
+You may also want to learn about [the various damage types](https://minecraft.wiki/w/Damage) in the game.
 
 See also: [Configuration](/docs/config.md#player-warnings)
 
-## Book Editing
+# Book Editing
 
 The [Book Editing Screen](https://minecraft.wiki/w/Book_and_Quill#Writing) is a special screen that has nothing to do with item management thus has no slot group.
 We've added some not re-mappable keys and narration cues to make it 100% accessible.
@@ -204,11 +204,11 @@ This section as a brief guide on how to use this screen, listing the keys corres
 
 See also: [Keybindings](/docs/keybindings.md#book-editing)
 
-## Speak Text Editing
+### Speak Text Editing
 
 The mod will simulate the feedback you get when typing text in other software's input boxes.
-It will speak the text that you delete, select, pass with cursor on [Chat Screen](https://minecraft.wiki/w/Chat), [Book Edit Screen](#book-editing), [Command Block Screen](https://minecraft.wiki/w/Command_Block#Modification) and so on.
-Note that we have to speak whole unfinished book title while signing a book since you can't move the cursor in that state, which means that the cursor will stay at the end of title and ignoring your cursor moving operations.
+It will speak the text that you delete, select, curser over on the [Chat Screen](https://minecraft.wiki/w/Chat), [Book Edit Screen](#book-editing), [Command Block Screen](https://minecraft.wiki/w/Command_Block#Modification) and so on.
+Note that we have to speak the whole unfinished book title while signing a book since you can't move the cursor in that state, which means that the cursor will stay at the end of the title and ignoring your cursor movement operations.
 
 The mod also simplifies the original [command](https://minecraft.wiki/w/Commands) suggestion narration for a better typing experience with lesser annoying too-detailed narrations.
 The content of one command suggestion narration will be like "{the order of focused suggestion}x{total number of suggestions} {suggestion} selected", the format can be customized in the config.
@@ -225,11 +225,11 @@ See also: [Configuration](/docs/config.md#other-configurations)
 
 When you switch held items, speak the name and number of items in your hand (main hand only).
 The item [durability](https://minecraft.wiki/w/Durability) information is included.
-If you feel that continuous item count reporting is annoying, you can close it in the [configuration](/docs/config.md#other-configurations).
+If you feel that continuous item count reporting is annoying, you can disable it in the [configuration](/docs/config.md#other-configurations).
 
 ### Biome Indicator
 
-Speak the name of the [biome](https://minecraft.wiki/w/Biome) when you're entering one.
+Speak the name of the [biome](https://minecraft.wiki/w/Biome) when you enter one.
 
 ### XP Indicator
 
@@ -237,26 +237,26 @@ Speak when your [experience](https://minecraft.wiki/w/Experience) level is incre
 
 ### Speak Harvest Of Fishing
 
-In fact this feature will speak the items you pick up while you're holding the rod, whether you're actually fishing or not.
+This feature will speak the items you pick up while you're holding the fishing rod, whether you're actually fishing or not.
 
 ### Speak Chat Messages
 
 Speak [chat](https://minecraft.wiki/w/Chat) messages, so you won't miss your friends' conversation.
-If you feel that too many chat messages are making you feel noisy, you can turn off showing chat messages in the original `Chat Settings...` options, or press "P" to open [Social Interactions Screen](https://minecraft.wiki/w/Social_interactions) to mute particular players.
+If you feel that too many chat messages are to noisy, you can turn off showing chat messages in the original `Chat Settings...` options, or press "P" to open the [Social Interactions Screen](https://minecraft.wiki/w/Social_interactions) to mute particular players.
 
 See also: [Keybindings](/docs/keybindings.md#speak-chat-messages)
 
 ### Speak Action Bar Messages
 
-Messages shown in the form of [action bar](https://minecraft.wiki/w/Commands/title) are common in modded multiplayer servers, usually they are used as server announcements or showing mod-specific information, for example in hypixel it shows extra "health, defense, mana" values of players.
-When you feel like the mod is repeating action bar messages, that's because the messages are partially updated but the mod will speak the whole sentence, try to open "Only Speak Action Bar Updates" config in the [configuration](/docs/config.md#other-configurations). It happens when playing some mods like hypixel.
+Messages shown in the form of the [action bar](https://minecraft.wiki/w/Commands/title) are common in modded multiplayer servers, usually they are used as server announcements or for showing mod-specific information, for example in hypixel it shows extra "health, defense, mana" values of players.
+When you feel like the mod is repeating action bar messages, that's because the messages are partially updated but the mod will speak the whole sentence, try enabling the "Only Speak Action Bar Updates" config in the [configuration](/docs/config.md#other-configurations) and find what you like the most.
 
 ### I18N Fallback Mechanism
 
-Minecraft has supported many languages, when referring languages that this mod supports, we mean text that introduced by this mod and don't exist in original game.
-This mod has a fallback mechanism on I18n in case it fails on unsupported languages, or text that not translated in time in supported languages.
-If any text I18N failed on your language, the mod will use the English version instead.
-Set the game to your familiar language is recommended, even if it's not supported by this mod, since you can still be benefited from translatable game original text, such as name of blocks or creatures.
+Minecraft has support for many languages, when referring to languages that this mod supports, we mean text that is introduced by this mod and doesn't exist in the original game.
+This mod has a fallback mechanism for I18n in case it fails on unsupported languages, or text that is not currently translated in supported languages.
+If any text I18N fails on your language, the mod will use the English version instead.
+Setting the game to your familiar language is recommended, even if it's not supported by this mod, since you can still be benefited by translated game original text, such as the names of blocks or entities.
 
 ## Other Pages
 
