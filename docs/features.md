@@ -1,11 +1,11 @@
 # Minecraft Access Features
 
-This page contains details of all the features that are currently in the mod.
+This page contains details for all of the features that are currently in the mod.
 
 If you have any questions about original game functions, please search on the [Minecraft wiki](https://minecraft.wiki/?search) first before asking for help.
 If you have any suggestions on improvements to existing features or about a new feature, you can [join the discord server](https://discord.gg/yQjjsDqWQX) or [post an issue](https://github.com/khanshoaib3/minecraft-access/issues).
 
-There is a page for [viewing all sound effects](https://html-preview.github.io/?url=https://github.com/khanshoaib3/minecraft-access/blob/1.21/docs/sounds.html) used in this mod.
+There is also a page for [viewing all sound effects](https://html-preview.github.io/?url=https://github.com/khanshoaib3/minecraft-access/blob/1.21/docs/sounds.html) used in this mod.
 
 ## Table Of Contents
 
@@ -15,7 +15,7 @@ There is a page for [viewing all sound effects](https://html-preview.github.io/?
     * [Relative Position Sound Cue](#relative-position-sound-cue)
     * [Partial Speaking](#partial-speaking)
 4. [Inventory Controls](#inventory-controls)
-5. [Point of Interest](#point-of-interest)
+5. [Points of Interest](#points-of-interest)
     * [POI Locking](#poi-locking)
     * [POI Marking](#poi-marking)
 6. [Fall Detector](#fall-detector)
