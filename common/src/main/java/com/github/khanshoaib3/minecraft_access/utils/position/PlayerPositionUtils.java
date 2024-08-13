@@ -6,10 +6,8 @@ import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -20,11 +18,6 @@ import java.util.stream.Stream;
  */
 @Slf4j
 public class PlayerPositionUtils {
-    private final PlayerEntity player;
-
-    public PlayerPositionUtils(MinecraftClient client) {
-        this.player = client.player;
-    }
 
     public static double getX() {
         String tempPosX = String.valueOf(getPlayerPosition().orElseThrow().x);
@@ -94,9 +87,8 @@ public class PlayerPositionUtils {
     /**
      * @return -90 (head up) ~ 90 (head down)
      */
-    public int getVerticalFacingDirection() {
-        assert player != null;
-        return (int) player.getRotationClient().x;
+    public static int getVerticalFacingDirection() {
+        return (int) WorldUtils.getClientPlayer().getRotationClient().x;
     }
 
     /**
@@ -104,13 +96,8 @@ public class PlayerPositionUtils {
      *
      * @return the vertical direction in words. null on error.
      */
-    public @Nullable String getVerticalFacingDirectionInWords() {
-        if (MinecraftClient.getInstance() == null) return null;
-        if (MinecraftClient.getInstance().player == null) return null;
-
+    public static String getVerticalFacingDirectionInWords() {
         int angle = getVerticalFacingDirection();
-        if (angle == -999) return null;
-
         if (isBetween(angle, -90, -88)) {
             return I18n.translate("minecraft_access.direction.up");
         } else if (isBetween(angle, -87, -3)) {
@@ -128,17 +115,14 @@ public class PlayerPositionUtils {
         return lower <= x && x <= upper;
     }
 
-    public int getHorizontalFacingDirectionInDegrees() {
-        assert player != null;
-        int angle = (int) player.getRotationClient().y;
-
+    public static int getHorizontalFacingDirectionInDegrees() {
+        int angle = (int) WorldUtils.getClientPlayer().getRotationClient().y;
         while (angle >= 360) angle -= 360;
         while (angle <= -360) angle += 360;
-
         return angle;
     }
 
-    public String getHorizontalFacingDirectionInCardinal() {
+    public static String getHorizontalFacingDirectionInCardinal() {
         return getHorizontalFacingDirectionInCardinal(false, false);
     }
 
@@ -154,9 +138,7 @@ public class PlayerPositionUtils {
      * @param oppositeDirection output the opposite direction instead.
      * @return onlyDirectionKey ? direction word : translated direction
      */
-    public String getHorizontalFacingDirectionInCardinal(boolean onlyDirectionKey, boolean oppositeDirection) {
-        assert player != null;
-
+    public static String getHorizontalFacingDirectionInCardinal(boolean onlyDirectionKey, boolean oppositeDirection) {
         int angle = getHorizontalFacingDirectionInDegrees();
         String direction;
 
@@ -173,7 +155,7 @@ public class PlayerPositionUtils {
             // Looking North West
             direction = "north_west";
         } else {
-            direction = player.getHorizontalFacing().asString().toLowerCase();
+            direction = WorldUtils.getClientPlayer().getHorizontalFacing().asString().toLowerCase();
         }
 
         if (oppositeDirection) direction = getOppositeDirectionKey(direction);

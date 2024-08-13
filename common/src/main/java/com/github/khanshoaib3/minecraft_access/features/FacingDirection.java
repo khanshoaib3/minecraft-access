@@ -28,10 +28,10 @@ public class FacingDirection {
 
             String toSpeak;
             if (isLeftAltPressed) {
-                String t = new PlayerPositionUtils(minecraftClient).getVerticalFacingDirectionInWords();
+                String t = PlayerPositionUtils.getVerticalFacingDirectionInWords();
                 toSpeak = I18n.translate("minecraft_access.other.facing_direction", t);
             } else {
-                String string = new PlayerPositionUtils(minecraftClient).getHorizontalFacingDirectionInCardinal();
+                String string = PlayerPositionUtils.getHorizontalFacingDirectionInCardinal();
                 toSpeak = I18n.translate("minecraft_access.other.facing_direction", string);
             }
 

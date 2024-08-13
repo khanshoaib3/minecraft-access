@@ -215,9 +215,8 @@ public class CameraControls {
         // log and speak new facing direction
         log.debug("Rotating camera by x:%d y:%d".formatted((int) horizontalAngleDelta, (int) verticalAngleDelta));
 
-        PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
-        String horizontalDirection = pUtil.getHorizontalFacingDirectionInCardinal();
-        String verticalDirection = pUtil.getVerticalFacingDirectionInWords();
+        String horizontalDirection = PlayerPositionUtils.getHorizontalFacingDirectionInCardinal();
+        String verticalDirection = PlayerPositionUtils.getVerticalFacingDirectionInWords();
 
         if (OtherConfigsMap.getInstance().isFacingDirectionEnabled()) {
             if (direction.isRotatingHorizontal && horizontalDirection != null)
@@ -243,13 +242,11 @@ public class CameraControls {
         // log and speak new facing direction
         log.debug("Rotating camera to: %s".formatted(direction.name()));
 
-        PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
-
         if (OtherConfigsMap.getInstance().isFacingDirectionEnabled()) {
             if (direction.in(Orientation.LAYER.MIDDLE)) {
-                MainClass.speakWithNarrator(pUtil.getHorizontalFacingDirectionInCardinal(), true);
+                MainClass.speakWithNarrator(PlayerPositionUtils.getHorizontalFacingDirectionInCardinal(), true);
             } else {
-                MainClass.speakWithNarrator(pUtil.getVerticalFacingDirectionInWords(), true);
+                MainClass.speakWithNarrator(PlayerPositionUtils.getVerticalFacingDirectionInWords(), true);
             }
         }
     }
@@ -261,7 +258,7 @@ public class CameraControls {
      */
     private void centerCamera(boolean lookOpposite) {
         if (minecraftClient.player == null) return;
-        String direction = new PlayerPositionUtils(minecraftClient).getHorizontalFacingDirectionInCardinal(true, lookOpposite);
+        String direction = PlayerPositionUtils.getHorizontalFacingDirectionInCardinal(true, lookOpposite);
         Orientation o = Orientation.of(direction);
         rotateCameraTo(lookOpposite ? o.getOpposite() : o);
     }
