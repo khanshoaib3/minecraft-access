@@ -129,7 +129,7 @@ jobs:
       - name: Upload Mod Files To Artifact
         # Only run artifact upload when triggered manually
         if: ${{ !inputs.build-files-cache-key }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           # Name of zip file that we download from workflow result page
           name: minecraft-access-mod-${{ env.BUILD_TIME }}
