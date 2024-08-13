@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControlsConfigMap;
+import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.condition.DoubleClick;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
@@ -218,10 +219,12 @@ public class CameraControls {
         String horizontalDirection = pUtil.getHorizontalFacingDirectionInCardinal();
         String verticalDirection = pUtil.getVerticalFacingDirectionInWords();
 
-        if (direction.isRotatingHorizontal && horizontalDirection != null)
-            MainClass.speakWithNarrator(horizontalDirection, true);
-        else if (!direction.isRotatingHorizontal && verticalDirection != null)
-            MainClass.speakWithNarrator(verticalDirection, true);
+        if (OtherConfigsMap.getInstance().isFacingDirectionEnabled()) {
+            if (direction.isRotatingHorizontal && horizontalDirection != null)
+                MainClass.speakWithNarrator(horizontalDirection, true);
+            else if (!direction.isRotatingHorizontal && verticalDirection != null)
+                MainClass.speakWithNarrator(verticalDirection, true);
+        }
     }
 
     /**
@@ -242,10 +245,12 @@ public class CameraControls {
 
         PlayerPositionUtils pUtil = new PlayerPositionUtils(this.minecraftClient);
 
-        if (direction.in(Orientation.LAYER.MIDDLE)) {
-            MainClass.speakWithNarrator(pUtil.getHorizontalFacingDirectionInCardinal(), true);
-        } else {
-            MainClass.speakWithNarrator(pUtil.getVerticalFacingDirectionInWords(), true);
+        if (OtherConfigsMap.getInstance().isFacingDirectionEnabled()) {
+            if (direction.in(Orientation.LAYER.MIDDLE)) {
+                MainClass.speakWithNarrator(pUtil.getHorizontalFacingDirectionInCardinal(), true);
+            } else {
+                MainClass.speakWithNarrator(pUtil.getVerticalFacingDirectionInWords(), true);
+            }
         }
     }
 

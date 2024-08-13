@@ -119,8 +119,7 @@ public class MainClass {
         if (xpIndicator != null && otherConfigsMap.isXpIndicatorEnabled())
             xpIndicator.update();
 
-        if (facingDirection != null && otherConfigsMap.isFacingDirectionEnabled())
-            facingDirection.update();
+        facingDirection.update();
 
         PositionNarrator.getInstance().update();
 
