@@ -15,63 +15,63 @@
 
 ## Helpful Links
 
-* [The manual of this mod](https://github.com/khanshoaib3/minecraft-access) - Check what features this mod provides.
-* [Twitter](https://twitter.com/shoaib_mk0) - You can follow the developer on Twitter to get notification when a new update drops.
-* [Playability Discord server](https://discord.gg/yQjjsDqWQX) - You can join our Discord server if you need help in setting up the mod or any issue related to Minecraft Java.
-* [Visually Impaired Access Mods](https://modrinth.com/modpack/vi-access) - A mod pack that contains this mod and some quality of life mods, made by BrailleBennett with heart.
+* [The documentation of this mod](https://github.com/khanshoaib3/minecraft-access) - Check what features this mod provides.
+* [X](https://x.com/shoaib_mk0) - You can follow the developer on X to get notified when a new update drops.
+* [Playability Discord server](https://discord.gg/yQjjsDqWQX) - You can join our Discord server if you need help setting up the mod or with any issue related to Minecraft Java Edition.
+* [Visually Impaired Access Modpack.md](docs/setup/modpack) - A mod pack that contains this mod and some quality of life mods, made with heart by [@BrailleBennett](https://github.com/BrailleBennett) for the Fabric mod loader.
 
 ## Quality of Life Mods
 
 Here are some mods that can improve your game experience.
 There are guides about [installing](/docs/setup/basic.md#install-your-mods) and [upgrading](/docs/setup/basic.md#update-the-game-and-mods) mods.
 
-1. Client side, which you can use in both single-player and multiplayer game:
-    * Presence Footsteps ([Fabric](https://modrinth.com/mod/presence-footsteps), [Forge port](https://www.curseforge.com/minecraft/mc-mods/presence-footsteps-forge)): Footstep sound enhancement mod. If the Fabric version of mod isn't work, select `Default sound pack` in the resource pack menu. If the mod has not supported your game version, you would consider to use this resource pack
-      instead: [Presence Footsteps: Remastered Sounds Pack](https://modrinth.com/resourcepack/presense-footsteps-sounds), put it under `%appdata%\.minecraft\resourcepacks` folder.
-    * Just Enough Items ([Fabric and Forge](https://modrinth.com/mod/jei)): Item and recipe viewing mod, far better than similar recipe book feature in original game (but this mod hasn't been 100% accessible by us, you need some vision to use it).
-    * Sound Physics Remastered ([Fabric and Forge](https://modrinth.com/mod/sound-physics-remastered)): Provides realistic sound attenuation, reverberation, and absorption through blocks. I'm sure this mod consumes resources, so install it only when you're confident in your PC hardware.
-    * Jade ([Fabric, Forge, NeoForge](https://modrinth.com/mod/jade)): Shows information about what you are looking at.
+1. Client side, which you can use in both a single-player and multiplayer game:
+    * Presence Footsteps ([Fabric](https://modrinth.com/mod/presence-footsteps), [NeoForge port](https://www.curseforge.com/minecraft/mc-mods/presence-footsteps-forge)): Footstep sound enhancement mod. If the Fabric version of the mod isn't working, select `Default sound pack` in the resource pack menu of your game. If the mod does not support your game version, you should use this resource pack
+      instead: [Presence Footsteps: Remastered Sounds Pack](https://modrinth.com/resourcepack/presense-footsteps-sounds), put it in the `%appdata%\.minecraft\resourcepacks` folder.
+    * Just Enough Items ([Fabric and NeoForge](https://modrinth.com/mod/jei)): Item and recipe viewing mod, far better than the similar recipe book feature in the original game (but this mod isn't 100% accessible with Minecraft Access, you need some vision to use it).
+    * Sound Physics Remastered ([Fabric and NeoForge](https://modrinth.com/mod/sound-physics-remastered)): Provides realistic sound attenuation, reverberation, and absorption through blocks. I'm sure this mod consumes resources, so install it only when you're confident in your PC hardware.
+    * Jade ([Fabric and NeoForge](https://modrinth.com/mod/jade)): Shows/speaks more detailed information about what you are looking at when you press the narration key. You must remap the Jade keys to not conflict with this mod's numpad mappings. Fully accessible in game config menu to change what types of information the mod shares.
 
-2. Server side, which you can only use in single-player game (unless the multiplayer server admins add them into the server):
-    * Tree Harvester ([Fabric and Forge](https://modrinth.com/mod/tree-harvester)): Harvest trees and huge mushrooms instantly with an axe. It's a common scenario in Minecraft that you can't reach the logs and leaves at higher place when standing on the ground, with this mod, you won't bother yourself with stepping yourself up.
-    * Carry On ([Fabric and Forge](https://modrinth.com/mod/carry-on)): Allowing players to pick up, carry, and place some blocks (such as Chests) and animals without breaking blocks or guiding animals with a leash.
-    * FTB Ultimine ([Fabric](https://www.curseforge.com/minecraft/mc-mods/ftb-ultimine-fabric), [Forge](https://www.curseforge.com/minecraft/mc-mods/ftb-ultimine-forge)): This mod can makes you operate on same type blocks around you by operating only once, like harvest crops, mining a vein and chopping trees.
-    * Simple Voice Chat ([Fabric, Forge, NeoForge](https://modrinth.com/plugin/simple-voice-chat)): A proximity voice chat for Minecraft.
+2. Server side, which you can only use in a single-player game (unless the multiplayer server admins add them to the server as well):
+    * Tree Harvester ([Fabric and NeoForge](https://modrinth.com/mod/tree-harvester)): Harvest trees and huge mushrooms instantly with an axe. It's a common scenario in Minecraft that you can't reach the logs and leaves at a higher place when standing on the ground, with this mod, you won't bother yourself with getting yourself up to reach them.
+    * Carry On ([Fabric and NeoForge](https://modrinth.com/mod/carry-on)): Allows players to pick up, carry, and place some blocks (such as Chests) and animals without breaking blocks or guiding animals with a leash.
+    * FTB Ultimine ([Fabric](https://www.curseforge.com/minecraft/mc-mods/ftb-ultimine-fabric)): This mod can makes you operate on the same type of blocks around you by operating only once, like harvesting crops, mining a vein, and chopping trees.
+    * Simple Voice Chat ([Fabric and NeoForge](https://modrinth.com/plugin/simple-voice-chat)): A proximity voice chat for Minecraft.
 
 ## Tutorial Resources
 
 ### General Minecraft tutorials
 
-These resources teach you how to play Minecraft, but lack of detail about game controlling since they are playing without this mod.
-My suggestion is learning how to use of this mod first, then learning how to play the game.
-Minecraft has a long history since 2009 and there are many tutorials about it, almost every question already had been answered several times on the Internet.
-But due to same reason, there are lots of outdated information about this game, keep in mind add game verion as keyword while searching.
+These resources teach you how to play Minecraft, but lack detail about controlling using this mod since they are playing without this mod.
+It is recommended to learn how to use this mod first, then learn how to play the game.
+Minecraft has a long history since 2009 and there are many tutorials about it, almost every question has already been answered several times on the Internet.
+But due to this long history, there is lots of outdated information about this game as well, keep in mind to add game variant as a keyword while searching. (example: java 1.21)
 
 * Wiki website in multiple languages, continually updated: [Minecraft Wiki](https://minecraft.wiki/w/Minecraft_Wiki) by hardworking volunteers. Has details and guides on everything about Minecraft, it also has [many text tutorials](https://minecraft.wiki/w/Tutorials) on it.
-* Tutorial video series on YouTube in English, last updated 2024-06-21: [Minecraft Survival Guide (Season 3)](https://www.youtube.com/watch?v=VfpHTJsn9I4&list=PLgENJ0iY3XBjmydGuzYTtDwfxuR6lN8KC) by [Pixlriffs](https://www.youtube.com/@Pixlriffs). A tutorial series on survival mode in Minecraft 1.20 (and later in 1.21), includes lots of topics.
+* Tutorial video series on YouTube in English, last updated 2024-06-21: [Minecraft Survival Guide (Season 3)](https://www.youtube.com/watch?v=VfpHTJsn9I4&list=PLgENJ0iY3XBjmydGuzYTtDwfxuR6lN8KC) by [Pixlriffs](https://www.youtube.com/@Pixlriffs). A tutorial series on survival mode in Minecraft 1.20 (and later on 1.21), includes a lot of topics.
 
 For a specific question, you can:
 
-* Ask AI, no kidding, AI + search engine platforms like [Perplexity](https://www.perplexity.ai/), [Bing AI](https://www.bing.com/chat) and [Google Gemini](https://gemini.google.com/app) do know much about Minecraft since they are fed with huge amount of knowledge about it.
-* Read corresponding [wiki](https://minecraft.wiki/) page, wiki describes every detail of a topic, you may find it's too lengthy.
-* Traditional way, search on search engines.
+* Ask AI, no kidding, AI + search engine platforms like [Perplexity](https://www.perplexity.ai/), [Bing AI](https://www.bing.com/chat) and [Google Gemini](https://gemini.google.com/app) do know a lot about Minecraft since they are fed with a huge amount of knowledge about it.
+* Read the corresponding [wiki](https://minecraft.wiki/) page. The wiki describes every detail of a topic, but you may find it's too lengthy.
+* Traditional way, search on search engines like Google.
 
 ### Gameplay with this mod
 
-These resources are tutorials and showcases about how to play Minecraft with this mod (many thanks for making them, creators), resources are ordered in reverse time order, first is newest.
+These resources are tutorials and showcases about how to play Minecraft with this mod (many thanks for making them, creators), resources are ordered in reverse chronological order, first is newest.
 
 #### Tutorial with this mod
 
-* Game playing video series on YouTube in English, last updated 2024-06-22: [The TrueBlindCraft Guide Series](https://www.youtube.com/playlist?list=PLXcBFfRlLcpiDpULQB3L2aX-AQb4-Atbq) by TrueBlindGaming. A tutorial series to help visually impaired/blind players use the MineCraft-access mod to play MineCraft. Playing in Minecraft 1.20. Includes world creation, tree finding, navigation and more.
-* Building tutorial video on Bilibili in Chinese (no English subtitle), uploaded 2023-07-01: [一个全盲视障者玩家的基建经验，来教盲人小伙伴们如何修房子](https://www.bilibili.com/video/BV1eh411N7y1) by 红马尾战士紫月sama. A building tutorial about how to build a basic square shape house with this mod.
-* Installation tutorial video on Bilibili in Chinese (no English subtitle), uploaded 2023-05-06: [【我的世界·MC】视障辅助MOD安装与使用教程](https://www.bilibili.com/video/BV1W24y1T7f9) by 红马尾战士紫月sama. A tutorial includes mod installation, game launching and brief instructions on mod usage and game playing. Partial outdated, the tolk will be installed automatically, and this mod doesn't need `fabric-api` mod as dependency for now, see [setup guide](/docs/setup/basic.md).
-* Installation tutorial video on YouTube in English, uploaded 2023-03-21: [How to Install Mine Craft Access, a mine craft java mod for the blind](https://www.youtube.com/watch?v=MTRG3S0xeeg) by Logic Pro X Gaming. A tutorial includes mod installation and game launching. Partial outdated, the tolk will be installed automatically, and this mod doesn't need `fabric-api` mod as dependency for now, see [setup guide](/docs/setup/basic.md).
+* Game play video series on YouTube in English, last updated 2024-06-22: [The TrueBlindCraft Guide Series](https://www.youtube.com/playlist?list=PLXcBFfRlLcpiDpULQB3L2aX-AQb4-Atbq) by TrueBlindGaming. A tutorial series to help visually impaired/blind players who use the MineCraft Access mod to play MineCraft. Playing in Minecraft 1.20. Includes world creation, tree finding, navigation, and more.
+* Building tutorial video on Bilibili in Chinese (no English subtitles), uploaded 2023-07-01: [一个全盲视障者玩家的基建经验，来教盲人小伙伴们如何修房子](https://www.bilibili.com/video/BV1eh411N7y1) by 红马尾战士紫月sama. A building tutorial about how to build a basic square shape house with this mod.
+* Installation tutorial video on Bilibili in Chinese (no English subtitles), uploaded 2023-05-06: [【我的世界·MC】视障辅助MOD安装与使用教程](https://www.bilibili.com/video/BV1W24y1T7f9) by 红马尾战士紫月sama. The tutorial includes mod installation, game launching, and brief instructions on mod usage and game playing. Partially outdated, tolk is now installed automatically, and this mod doesn't need the `fabric-api` mod as a dependency for now, see the [setup guide](/docs/setup/basic.md) for full current instructions in text form.
+* Installation tutorial video on YouTube in English, uploaded 2023-03-21: [How to Install Mine Craft Access, a mine craft java mod for the blind](https://www.youtube.com/watch?v=MTRG3S0xeeg) by Logic Pro X Gaming. A tutorial includes mod installation and game launching. Partially outdated, tolk is now installed automatically, and this mod doesn't need the `fabric-api` mod as a dependency for now, see the [setup guide](/docs/setup/basic.md) for full current instructions in text form.
 
 #### Gameplay with this mod without intentional teaching
 
-* Video on Bilibili in Chinese (no English subtitle), uploaded 2023-04-16: [视障者要怎么玩我的世界，除了有无障碍辅助还要有对空间的理解力有要求吧？mc无障碍mod展示](https://www.bilibili.com/video/BV1Dc411n738) by 红马尾战士紫月sama. Brief showcase of playing Minecraft with this mod.
-* Video series on YouTube in English, last updated 2022-03-30: [TrueBlindCraft](https://www.youtube.com/playlist?list=PLXcBFfRlLcpipJM2GK6cV4wrQmAM34AWG) by TrueBlindGaming. Including all minecraft gameplay videos in TrueBlindGaming channel since 2021.
-* Video series on YouTube in English, last updated 2022-02-09: [The oldest blind server in mine craft](https://www.youtube.com/playlist?list=PL2nN_7cg-MaHB7b8wC3VJuwxLKSB4OBH5) by Logic Pro X Gaming. Including all minecraft gameplay videos in Logic Pro channel since 2019. "This is a playlist from the start to current of the footage on the blind craft server that we did not lose. Enjoy"
+* Video on Bilibili in Chinese (no English subtitles), uploaded 2023-04-16: [视障者要怎么玩我的世界，除了有无障碍辅助还要有对空间的理解力有要求吧？mc无障碍mod展示](https://www.bilibili.com/video/BV1Dc411n738) by 红马尾战士紫月sama. Brief showcase of playing Minecraft with this mod.
+* Video series on YouTube in English, last updated 2022-03-30: [TrueBlindCraft](https://www.youtube.com/playlist?list=PLXcBFfRlLcpipJM2GK6cV4wrQmAM34AWG) by TrueBlindGaming. This playlist Includes all minecraft gameplay videos on TrueBlindGaming's channel since 2021.
+* Video series on YouTube in English, last updated 2022-02-09: [The oldest blind server in mine craft](https://www.youtube.com/playlist?list=PL2nN_7cg-MaHB7b8wC3VJuwxLKSB4OBH5) by Logic Pro X Gaming. This playlist includes all minecraft gameplay videos on Logic Pro's channel since 2019. "This is a playlist from the start to current footage on the blind craft server that we did not lose. Enjoy"
 
 ## A Very Simple Beginner Guide
 
@@ -130,7 +130,7 @@ You can learn this part with the following resources:
 * [Minecraft Wiki: Biome](https://minecraft.wiki/w/Biome)
 * [Minecraft Wiki: Tree](https://minecraft.wiki/w/Tree)
 
-Trees are consists of log blocks and leaves blocks, we need log blocks as a resource for crafting.
+Trees consist of log blocks and leaves blocks, we need log blocks as a resource for crafting.
 Although each tree has a straight log block trunk and a canopy made of leaves blocks, the height and shape of the tree is randomly generated; some short trees will have leaves that come down low to the ground and enclose the logs two or three layers (as TrueBlind encounters in his guide episode 2), and some taller trees may have logs which float up high that you can't collect from the ground (they're used to mimic tree branches).
 If you are targeting at a tree, you will hear the mod speak log block or leaves block.
 

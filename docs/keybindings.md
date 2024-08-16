@@ -1,8 +1,8 @@
 # Minecraft Access Keybindings
 
-This page contains all of keybindings added by the mod, and key combinations for all features.
+This page contains all of the keybindings added by the mod, and key combinations for all features.
 
-You can change these keybindings in the settings (open `Options...` then `Controls..` then `Key Binds..`), all keybinding setting groups that provided by this mod have a `Minecraft Access:` prefix to differentiate them from the original keybinding settings.
+You can change these keybindings in the settings (open `Options...` then `Controls..` then `Key Binds..`), all keybinding setting groups that are provided by this mod have a `Minecraft Access:` prefix to differentiate them from the original keybinding settings.
 
 You may find that some features have duplicate keys, such as I, J, K, L as the arrow keys in various features.
 It's ok since the same key takes effect in different interfaces for different functions.
