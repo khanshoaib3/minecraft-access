@@ -1,7 +1,7 @@
 # Using the Visually Impaired Access Modpack
 
 This modpack is a community project created by [@BrailleBennett](https://github.com/BrailleBennett).
-It was made for the Fabric mod loader for usage on the client side only.
+It was made for the Fabric mod loader for usage on the client side only. Here is a link to it's [official Modrinth page](https://modrinth.com/modpack/vi-access), where you can read more about it.
 
 ## Installing the Modpack
 
