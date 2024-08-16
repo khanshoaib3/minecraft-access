@@ -18,7 +18,7 @@ Overall, the mod is enough for basic playing, but that doesn't mean you can play
 We can claim that the current functionality of the mod is sufficient for normal play, given that even totally blind users have already played with the help of this mod. Some of them are streaming, so you can listen to the uploaded videos: [Logic Pro X Gaming](https://www.youtube.com/@LogicProXGaming/search?query=minecraft), [TrueBlindGaming](https://www.youtube.com/@TrueBlindGaming/search?query=minecraft).
 
 The mod primarily borrows the help of a screen reader to describe the game interface, and incorporates sound cues to provide orientation perception in this 3D world.
-Currently, the Mod has implemented such functions as `Read Crosshair` (read out blocks and creatures you're pointing at), 100% accessibility for all screens, `Camera Controls` and `Mouse Simulation` with keyboard, `Points of Interest` (scan nearby special blocks and creatures and lock on them), and a new F4 `Narrator Menu` which contains assistant functions like "Read Light Level", "Find Closest Water Source", etc.
+Currently, the Mod has implemented such functions as `Read Crosshair` (read out blocks and creatures you're pointing at), `100% accessibility for all screens`, `Camera Controls`, and `Mouse Simulation` with keyboard, `Points of Interest` (scan nearby special blocks and creatures and lock on them), and a new F4 `Narrator Menu` which contains assistant functions like "Read Light Level", "Find Closest Water Source", etc.
 
 You can play the game within the keyboard's main typing part (which means a number pad isn't necessary), without a mouse. You can walk around the world, gather materials, farm the land, raise animals, mine, fight monsters, and even build buildings and redstone machines.
 
@@ -79,7 +79,7 @@ Then we can add your question and working solution to the setup guide so everyon
 
 If your experience is not the same as the setup guide describes, it means there is something wrong or misleading in the setup guide.
 Describe which step you are currently on and what you found that is not the same as the guide says.
-Through talking to the developers and community of this mod, they can help you find out what's wrong together and fix it.
+Through talking to the developers and community of this mod, they can help figure out what's wrong and help you fix it.
 
 ### The game crashed when I started it from the launcher
 
@@ -110,9 +110,9 @@ I will assume you have searched on the [Minecraft wiki](https://minecraft.wiki) 
 Please provide, at minimum, this information in the "mc-issues" channel of the Playability Discord:
 
 * Your operation
-* What you expected or what the mod docs premises
+* What you expected to happen or what mod docs step you were on
 * What feedback the game and mod gave you
-* In case you are asked to provide log files: you can find them under the `logs` folder in your `.minecraft` folder, developers need the `debug.log` file, please upload it to you asked your question.
+* In case you are asked to provide log files: you can find them under the `logs` folder in your `.minecraft` folder, developers need the `debug.log` file, please upload it to where you asked your question.
 
 It might be a bug in this mod, something in the mod docs is misleading, or you misunderstand how the game works.
 
