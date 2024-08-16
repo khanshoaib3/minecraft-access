@@ -61,7 +61,7 @@ Yes, it has been uploaded to Modrinth as [Minecraft Access](https://modrinth.com
 
 See the [I18N Fallback Mechanism](/docs/features.md#i18n-fallback-mechanism) feature.
 
-## How can I contribute to the I18N?
+## How can I contribute to I18N?
 
 We manage the translation of this mod in [another GitHub repository](https://github.com/khanshoaib3/minecraft-access-i18n#minecraft-access-i18n), take a look.
 
