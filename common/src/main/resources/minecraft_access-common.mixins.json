@@ -21,6 +21,7 @@
     "DurabilityMixin",
     "EntityAccessor",
     "EyeOfEnderEntityMixin",
+    "GameOptionsMixin",
     "HandledScreenAccessor",
     "I18NAccessor",
     "I18nMixin",
