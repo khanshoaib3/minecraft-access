@@ -64,6 +64,10 @@ public enum Orientation {
         }
     }
 
+    public static String getOppositeDirectionKey(String originalDirectionKey) {
+        return of(originalDirectionKey).getOpposite().toString();
+    }
+
     @Override
     public String toString() {
         return name().toLowerCase();

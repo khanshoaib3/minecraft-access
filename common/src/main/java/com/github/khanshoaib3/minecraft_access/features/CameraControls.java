@@ -258,7 +258,7 @@ public class CameraControls {
      */
     private void centerCamera(boolean lookOpposite) {
         if (minecraftClient.player == null) return;
-        String direction = PlayerPositionUtils.getHorizontalFacingDirectionInCardinal(true, lookOpposite);
+        String direction = PlayerPositionUtils.getHorizontalFacingDirectionInCardinal(true);
         Orientation o = Orientation.of(direction);
         rotateCameraTo(lookOpposite ? o.getOpposite() : o);
     }

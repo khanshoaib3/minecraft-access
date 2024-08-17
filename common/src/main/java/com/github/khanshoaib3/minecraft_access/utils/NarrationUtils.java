@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.utils;
 
 import com.github.khanshoaib3.minecraft_access.mixin.MobSpawnerLogicAccessor;
-import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.position.Orientation;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BeehiveBlockEntity;
@@ -388,7 +388,7 @@ public class NarrationUtils {
         } else if (block instanceof ComparatorBlock) {
             ComparatorMode mode = blockState.get(ComparatorBlock.MODE);
             Direction facing = blockState.get(ComparatorBlock.FACING);
-            String correctFacing = I18n.translate("minecraft_access.direction." + PlayerPositionUtils.getOppositeDirectionKey(facing.getName()).toLowerCase());
+            String correctFacing = I18n.translate("minecraft_access.direction." + Orientation.getOppositeDirectionKey(facing.getName()).toLowerCase());
             toSpeak = I18n.translate("minecraft_access.read_crosshair.comparator_info", toSpeak, correctFacing, mode);
             if (isReceivingPower) {
                 toSpeak = I18n.translate("minecraft_access.read_crosshair.powered", toSpeak);
@@ -399,7 +399,7 @@ public class NarrationUtils {
             boolean locked = blockState.get(RepeaterBlock.LOCKED);
             int delay = blockState.get(RepeaterBlock.DELAY);
             Direction facing = blockState.get(ComparatorBlock.FACING);
-            String correctFacing = I18n.translate("minecraft_access.direction." + PlayerPositionUtils.getOppositeDirectionKey(facing.getName()).toLowerCase());
+            String correctFacing = I18n.translate("minecraft_access.direction." + Orientation.getOppositeDirectionKey(facing.getName()).toLowerCase());
 
             toSpeak = I18n.translate("minecraft_access.read_crosshair.repeater_info", toSpeak, correctFacing, delay);
             currentQuery += "delay:" + delay + " facing:" + correctFacing;

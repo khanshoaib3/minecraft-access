@@ -123,22 +123,16 @@ public class PlayerPositionUtils {
     }
 
     public static String getHorizontalFacingDirectionInCardinal() {
-        return getHorizontalFacingDirectionInCardinal(false, false);
-    }
-
-    @SuppressWarnings("unused")
-    public String getHorizontalFacingDirectionInCardinal(boolean onlyDirectionKey) {
-        return getHorizontalFacingDirectionInCardinal(onlyDirectionKey, false);
+        return getHorizontalFacingDirectionInCardinal(false);
     }
 
     /**
      * Get the horizontal direction in words.
      *
-     * @param onlyDirectionKey  directly return the direction word without i18n it.
-     * @param oppositeDirection output the opposite direction instead.
+     * @param onlyDirectionKey directly return the direction word without i18n it.
      * @return onlyDirectionKey ? direction word : translated direction
      */
-    public static String getHorizontalFacingDirectionInCardinal(boolean onlyDirectionKey, boolean oppositeDirection) {
+    public static String getHorizontalFacingDirectionInCardinal(boolean onlyDirectionKey) {
         int angle = getHorizontalFacingDirectionInDegrees();
         String direction;
 
@@ -158,13 +152,8 @@ public class PlayerPositionUtils {
             direction = WorldUtils.getClientPlayer().getHorizontalFacing().asString().toLowerCase();
         }
 
-        if (oppositeDirection) direction = getOppositeDirectionKey(direction);
-
         if (onlyDirectionKey) return direction;
         else return I18n.translate("minecraft_access.direction." + direction);
     }
 
-    public static String getOppositeDirectionKey(String originalDirectionKey) {
-        return Orientation.of(originalDirectionKey).getOpposite().toString();
-    }
 }
