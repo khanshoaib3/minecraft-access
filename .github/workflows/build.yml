@@ -105,13 +105,20 @@ jobs:
         # Add platform suffix for fabric and neoforge build files with mv command
         # Copy build files into upload directory
         run: |
-          mkdir -p ${{ env.UPLOAD_PATH }}
-          cd ${{ github.WORKSPACE }}/${{ env.FABRIC_PATH }}
-          for f in *.jar; do mv -- "$f" "${f%.jar}-fabric.jar"; done
-          cp *.jar "${{ github.WORKSPACE }}/${{ env.UPLOAD_PATH }}"
-          cd ${{ github.WORKSPACE }}/${{ env.NEOFORGE_PATH }}
-          for f in *.jar; do mv -- "$f" "${f%.jar}-neoforge.jar"; done
-          cp *.jar "${{ github.WORKSPACE }}/${{ env.UPLOAD_PATH }}"
+          upload_path=${{ github.WORKSPACE }}/${{ env.UPLOAD_PATH }}
+          mkdir -p ${upload_path}
+          fabric_lib_path=${{ github.WORKSPACE }}/${{ env.FABRIC_PATH }}
+          neoforge_lib_path=${{ github.WORKSPACE }}/${{ env.NEOFORGE_PATH }}
+          if [ -d ${fabric_lib_path} ]; then
+            cd ${fabric_lib_path}
+            for f in *.jar; do mv -- "$f" "${f%.jar}-fabric.jar"; done
+            cp *.jar ${upload_path}
+          fi
+          if [ -d ${neoforge_lib_path} ]; then
+            cd ${{ github.WORKSPACE }}/${{ env.NEOFORGE_PATH }}
+            for f in *.jar; do mv -- "$f" "${f%.jar}-neoforge.jar"; done
+            cp *.jar ${upload_path}
+          fi
 
       - name: Move Only Mod Files to Upload Directory
         if: ${{ inputs.build-files-cache-key }}
@@ -120,10 +127,15 @@ jobs:
         # Copy mod files into upload directory
         run: |
           mkdir -p ${{ env.UPLOAD_PATH }}
-          mv ${{ env.FABRIC_PATH }}/${{ env.MOD_FILE_PREFIX }}${{ env.MOD_VERSION }}.jar \
-            ${{ env.UPLOAD_PATH }}/${{ env.MOD_FILE_PREFIX }}${{ env.MOD_VERSION }}-fabric.jar
-          mv ${{ env.NEOFORGE_PATH }}/${{ env.MOD_FILE_PREFIX }}${{ env.MOD_VERSION }}.jar \
-            ${{ env.UPLOAD_PATH }}/${{ env.MOD_FILE_PREFIX }}${{ env.MOD_VERSION }}-neoforge.jar
+          fabric_mod_path=${{ env.FABRIC_PATH }}/${{ env.MOD_FILE_PREFIX }}${{ env.MOD_VERSION }}.jar
+          neoforge_mod_path=${{ env.NEOFORGE_PATH }}/${{ env.MOD_FILE_PREFIX }}${{ env.MOD_VERSION }}.jar
+          upload_path=${{ env.UPLOAD_PATH }}/${{ env.MOD_FILE_PREFIX }}${{ env.MOD_VERSION }}
+          if [ -f ${fabric_mod_path} ]; then
+            mv ${fabric_mod_path} ${upload_path}-fabric.jar
+          fi
+          if [ -f ${neoforge_mod_path} ]; then
+            mv ${neoforge_mod_path} ${upload_path}-neoforge.jar
+          fi
 
       # Then we can download them from workflow result page
       - name: Upload Mod Files To Artifact
