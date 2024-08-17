@@ -215,7 +215,7 @@ public class CameraControls {
         // log and speak new facing direction
         log.debug("Rotating camera by x:%d y:%d".formatted((int) horizontalAngleDelta, (int) verticalAngleDelta));
 
-        String horizontalDirection = PlayerPositionUtils.getHorizontalFacingDirectionInCardinal();
+        String horizontalDirection = PlayerPositionUtils.getHorizontalFacingDirectionInCardinal(false);
         String verticalDirection = PlayerPositionUtils.getVerticalFacingDirectionInWords();
 
         if (OtherConfigsMap.getInstance().isFacingDirectionEnabled()) {
@@ -244,7 +244,7 @@ public class CameraControls {
 
         if (OtherConfigsMap.getInstance().isFacingDirectionEnabled()) {
             if (direction.in(Orientation.LAYER.MIDDLE)) {
-                MainClass.speakWithNarrator(PlayerPositionUtils.getHorizontalFacingDirectionInCardinal(), true);
+                MainClass.speakWithNarrator(PlayerPositionUtils.getHorizontalFacingDirectionInCardinal(false), true);
             } else {
                 MainClass.speakWithNarrator(PlayerPositionUtils.getVerticalFacingDirectionInWords(), true);
             }

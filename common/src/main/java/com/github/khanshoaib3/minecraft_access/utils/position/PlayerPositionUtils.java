@@ -122,10 +122,6 @@ public class PlayerPositionUtils {
         return angle;
     }
 
-    public static String getHorizontalFacingDirectionInCardinal() {
-        return getHorizontalFacingDirectionInCardinal(false);
-    }
-
     /**
      * Get the horizontal direction in words.
      *
