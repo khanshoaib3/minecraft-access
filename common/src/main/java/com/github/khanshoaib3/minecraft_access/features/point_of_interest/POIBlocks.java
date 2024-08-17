@@ -4,6 +4,7 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.POIBlocksConfi
 import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
@@ -23,6 +24,7 @@ import java.util.function.Predicate;
  */
 @Slf4j
 public class POIBlocks {
+    @Getter
     private static final POIBlocks instance;
     private ClientPlayerEntity player;
     private ClientWorld world;
@@ -42,7 +44,9 @@ public class POIBlocks {
             Blocks.SCULK_SHRIEKER,
             Blocks.SCULK_CATALYST,
             Blocks.CALIBRATED_SCULK_SENSOR,
-            Blocks.SCULK_SENSOR
+            Blocks.SCULK_SENSOR,
+            Blocks.VAULT,
+            Blocks.TRIAL_SPAWNER
     };
 
     private static final List<Predicate<BlockState>> poiBlockPredicates = Arrays.stream(POI_BLOCKS)
@@ -102,10 +106,6 @@ public class POIBlocks {
         } catch (Exception e) {
             throw new RuntimeException("Exception occurred in creating POIBlocks instance", e);
         }
-    }
-
-    public static POIBlocks getInstance() {
-        return instance;
     }
 
     private POIBlocks() {
