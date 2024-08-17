@@ -117,9 +117,7 @@ public class PlayerPositionUtils {
 
     public static int getHorizontalFacingDirectionInDegrees() {
         int angle = (int) WorldUtils.getClientPlayer().getRotationClient().y;
-        while (angle >= 360) angle -= 360;
-        while (angle <= -360) angle += 360;
-        return angle;
+        return angle % 360;
     }
 
     /**
