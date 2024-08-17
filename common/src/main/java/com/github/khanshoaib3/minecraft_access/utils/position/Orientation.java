@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.utils.position;
 
+import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import net.minecraft.util.math.Vec3i;
 
 import java.util.Arrays;
@@ -66,6 +67,23 @@ public enum Orientation {
 
     public static String getOppositeDirectionKey(String originalDirectionKey) {
         return of(originalDirectionKey).getOpposite().toString();
+    }
+
+    public static Orientation ofHorizontal(int angle) {
+        angle = angle % 360;
+        if ((angle >= -150 && angle <= -120) || (angle >= 210 && angle <= 240)) {
+            return Orientation.NORTH_EAST;
+        } else if ((angle >= -60 && angle <= -30) || (angle >= 300 && angle <= 330)) {
+            return Orientation.SOUTH_EAST;
+        } else if ((angle >= 30 && angle <= 60) || (angle >= -330 && angle <= -300)) {
+            return Orientation.SOUTH_WEST;
+        } else if ((angle >= 120 && angle <= 150) || (angle >= -240 && angle <= -210)) {
+            return Orientation.NORTH_WEST;
+        } else {
+            // edge case
+            String direction = WorldUtils.getClientPlayer().getHorizontalFacing().asString().toUpperCase();
+            return Orientation.of(direction);
+        }
     }
 
     @Override

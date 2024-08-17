@@ -107,34 +107,12 @@ public class PlayerPositionUtils {
         return angle % 360;
     }
 
-    /**
-     * Get the horizontal direction in words.
-     *
-     * @param onlyDirectionKey directly return the direction word without i18n it.
-     * @return onlyDirectionKey ? direction word : translated direction
-     */
-    public static String getHorizontalFacingDirectionInCardinal(boolean onlyDirectionKey) {
+    public static Orientation getHorizontalFacing() {
         int angle = getHorizontalFacingDirectionInDegrees();
-        String direction;
-
-        if ((angle >= -150 && angle <= -120) || (angle >= 210 && angle <= 240)) {
-            // Looking North East
-            direction = "north_east";
-        } else if ((angle >= -60 && angle <= -30) || (angle >= 300 && angle <= 330)) {
-            // Looking South East
-            direction = "south_east";
-        } else if ((angle >= 30 && angle <= 60) || (angle >= -330 && angle <= -300)) {
-            // Looking South West
-            direction = "south_west";
-        } else if ((angle >= 120 && angle <= 150) || (angle >= -240 && angle <= -210)) {
-            // Looking North West
-            direction = "north_west";
-        } else {
-            direction = WorldUtils.getClientPlayer().getHorizontalFacing().asString().toLowerCase();
-        }
-
-        if (onlyDirectionKey) return direction;
-        else return I18n.translate("minecraft_access.direction." + direction);
+        return Orientation.ofHorizontal(angle);
     }
 
+    public static String getHorizontalFacingDirectionInWords() {
+        return I18n.translate("minecraft_access.direction." + getHorizontalFacing());
+    }
 }

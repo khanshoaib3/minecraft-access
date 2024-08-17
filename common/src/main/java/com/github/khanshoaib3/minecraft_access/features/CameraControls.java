@@ -215,7 +215,7 @@ public class CameraControls {
         // log and speak new facing direction
         log.debug("Rotating camera by x:%d y:%d".formatted((int) horizontalAngleDelta, (int) verticalAngleDelta));
 
-        String horizontalDirection = PlayerPositionUtils.getHorizontalFacingDirectionInCardinal(false);
+        String horizontalDirection = PlayerPositionUtils.getHorizontalFacingDirectionInWords();
         String verticalDirection = PlayerPositionUtils.getVerticalFacingDirectionInWords();
 
         if (OtherConfigsMap.getInstance().isFacingDirectionEnabled()) {
@@ -244,7 +244,7 @@ public class CameraControls {
 
         if (OtherConfigsMap.getInstance().isFacingDirectionEnabled()) {
             if (direction.in(Orientation.LAYER.MIDDLE)) {
-                MainClass.speakWithNarrator(PlayerPositionUtils.getHorizontalFacingDirectionInCardinal(false), true);
+                MainClass.speakWithNarrator(PlayerPositionUtils.getHorizontalFacingDirectionInWords(), true);
             } else {
                 MainClass.speakWithNarrator(PlayerPositionUtils.getVerticalFacingDirectionInWords(), true);
             }
@@ -258,8 +258,7 @@ public class CameraControls {
      */
     private void centerCamera(boolean lookOpposite) {
         if (minecraftClient.player == null) return;
-        String direction = PlayerPositionUtils.getHorizontalFacingDirectionInCardinal(true);
-        Orientation o = Orientation.of(direction);
+        Orientation o = PlayerPositionUtils.getHorizontalFacing();
         rotateCameraTo(lookOpposite ? o.getOpposite() : o);
     }
 }

@@ -31,7 +31,7 @@ public class FacingDirection {
                 String t = PlayerPositionUtils.getVerticalFacingDirectionInWords();
                 toSpeak = I18n.translate("minecraft_access.other.facing_direction", t);
             } else {
-                String string = PlayerPositionUtils.getHorizontalFacingDirectionInCardinal(false);
+                String string = PlayerPositionUtils.getHorizontalFacingDirectionInWords();
                 toSpeak = I18n.translate("minecraft_access.other.facing_direction", string);
             }
 
