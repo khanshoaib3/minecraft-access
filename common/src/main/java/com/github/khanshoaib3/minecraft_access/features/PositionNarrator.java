@@ -6,6 +6,7 @@ import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import org.lwjgl.glfw.GLFW;
@@ -20,6 +21,7 @@ import org.lwjgl.glfw.GLFW;
  */
 @Slf4j
 public class PositionNarrator {
+    @Getter
     private static final PositionNarrator instance;
     public static Keystroke KeyX = new Keystroke(() -> KeyUtils.isAnyPressed(GLFW.GLFW_KEY_X));
     public static Keystroke KeyC = new Keystroke(() -> KeyUtils.isAnyPressed(GLFW.GLFW_KEY_C));
@@ -32,10 +34,6 @@ public class PositionNarrator {
     }
 
     private PositionNarrator() {
-    }
-
-    public static PositionNarrator getInstance() {
-        return instance;
     }
 
     public void update() {

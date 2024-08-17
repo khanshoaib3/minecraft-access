@@ -9,7 +9,6 @@ import java.util.Comparator;
 /**
  * The {@link net.minecraft.util.math.Direction} is not enough for this mod.
  */
-@SuppressWarnings("unused")
 public enum Orientation {
     CENTER(0, 0, LAYER.MIDDLE, new Vec3i(0, 0, 0)),
     NORTH(1, 2, LAYER.MIDDLE, new Vec3i(0, 0, -1)),
