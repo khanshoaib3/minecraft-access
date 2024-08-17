@@ -1,4 +1,4 @@
-[//]: # (Manually copy the latest.md to CHANGELOG.md, then copy the default.md to the latest.md at every release time.)
+[//]: # (Manually copy the latest.md to /docs/changelog.md, then copy the default.md to the latest.md at every release time.)
 
 ### New Features
 

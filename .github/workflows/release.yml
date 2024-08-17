@@ -30,8 +30,8 @@ on:
 env:
   JAVA_VERSION: '21'
   UPLOAD_PATH: upload
-  CHANGELOG_FILE_PATH: ./doc/CHANGELOG.md
-  MOD_COMPATIBILITY_INFO_FILE_PATH: ./doc/MOD_COMPATIBILITY.md
+  CHANGELOG_FILE_PATH: ./docs/changelog.md
+  MOD_COMPATIBILITY_INFO_FILE_PATH: ./docs/mod-compatibility.md
   # Release body for GitHub release
   CHANGELOG_TEMP_GITHUB: .changelog_github.md
   # Release body for modrinth, curseforge
@@ -95,8 +95,8 @@ jobs:
 
       # Create temp changelog files, add content from input and documentation files
       #
-      # Extract changelog from CHANGELOG.md, match content between two "*Release*" lines
-      # Extract mod compatibility info from MOD_COMPATIBILITY.md, match content between two "Compatibility For" lines
+      # Extract changelog from changelog.md, match content between two "*Release*" lines
+      # Extract mod compatibility info from mod-compatibility.md, match content between two "Compatibility For" lines
       # Remove "Development Chores" from extracted changelog
       # Replace "###" with "##" in changelog for higher head level
       #
