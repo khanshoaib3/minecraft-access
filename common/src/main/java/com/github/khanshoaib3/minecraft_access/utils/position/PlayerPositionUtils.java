@@ -1,6 +1,5 @@
 package com.github.khanshoaib3.minecraft_access.utils.position;
 
-import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -9,15 +8,14 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * Functions about getting player entity's position, facing direction etc.
  */
 @Slf4j
 public class PlayerPositionUtils {
+    private static final String POSITION_FORMAT = "{x}, {y}, {z}";
 
     public static double getX() {
         String tempPosX = String.valueOf(getPlayerPosition().orElseThrow().x);
@@ -57,19 +55,8 @@ public class PlayerPositionUtils {
         return Optional.of(WorldUtils.blockPosOf(p));
     }
 
-    public static String getI18NPosition() {
-        String format = OtherConfigsMap.getInstance().getPositionNarratorFormat();
-
-        // check if configured format is valid
-        if (Objects.isNull(format) || !Stream.of("{x}", "{y}", "{z}").allMatch(format::contains)) {
-            format = OtherConfigsMap.DEFAULT_POSITION_FORMAT;
-        }
-
-        String posX = NarrationUtils.narrateNumber(getX());
-        String posY = NarrationUtils.narrateNumber(getY());
-        String posZ = NarrationUtils.narrateNumber(getZ());
-
-        return format.replace("{x}", posX).replace("{y}", posY).replace("{z}", posZ);
+    public static String getNarratableXYZPosition() {
+        return POSITION_FORMAT.replace("{x}", getNarratableXPos()).replace("{y}", getNarratableYPos()).replace("{z}", getNarratableZPos());
     }
 
     public static String getNarratableXPos() {

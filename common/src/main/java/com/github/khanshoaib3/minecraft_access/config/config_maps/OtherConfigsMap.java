@@ -15,7 +15,6 @@ public class OtherConfigsMap {
     @Setter
     private static OtherConfigsMap instance;
 
-    public static final String DEFAULT_POSITION_FORMAT = "{x}x, {y}y, {z}z";
     private static final String DEFAULT_COMMAND_SUGGESTION_FORMAT = "%dx%d %s";
     private static final Pattern TWO_NUMBER_IN_FORMAT = Pattern.compile("(.*%d.*){2}");
     private static final Pattern ONE_STRING_IN_FORMAT = Pattern.compile(".*%s.*");
@@ -30,8 +29,6 @@ public class OtherConfigsMap {
     private boolean healthNHungerEnabled;
     @SerializedName("Enable Position Narrator")
     private boolean positionNarratorEnabled;
-    @SerializedName("Position Narrator Format")
-    private String positionNarratorFormat;
     @SerializedName("Command Suggestion Narrator Format")
     private String commandSuggestionNarratorFormat;
     @SerializedName("Use 12 Hour Time Format")
@@ -91,7 +88,6 @@ public class OtherConfigsMap {
         defaultOtherConfigsMap.setFacingDirectionEnabled(true);
         defaultOtherConfigsMap.setHealthNHungerEnabled(true);
         defaultOtherConfigsMap.setPositionNarratorEnabled(true);
-        defaultOtherConfigsMap.setPositionNarratorFormat(DEFAULT_POSITION_FORMAT);
         defaultOtherConfigsMap.setCommandSuggestionNarratorFormat(DEFAULT_COMMAND_SUGGESTION_FORMAT);
         defaultOtherConfigsMap.setUse12HourTimeFormat(false);
         defaultOtherConfigsMap.setActionBarEnabled(true);

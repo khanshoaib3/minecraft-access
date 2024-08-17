@@ -91,18 +91,6 @@ public class OtherConfigMenu extends BaseScreen {
                 });
         this.addDrawableChild(positionNarratorButton);
 
-        ValueEntryMenu.ValueConfig c1 = new ValueEntryMenu.ValueConfig(() -> OtherConfigsMap.getInstance().getPositionNarratorFormat(),
-                (v) -> OtherConfigsMap.getInstance().setPositionNarratorFormat(v),
-                ValueEntryMenu.ValueType.STRING);
-        ButtonWidget positionNarratorFormatButton = this.buildButtonWidget(
-                I18n.translate("minecraft_access.gui.common.button.button_with_string_value",
-                        I18n.translate("minecraft_access.gui.other_config_menu.button.position_narrator_format_button"),
-                        initMap.getPositionNarratorFormat()
-                ),
-                (button) -> this.client.setScreen(new ValueEntryMenu(c1, this)));
-        positionNarratorFormatButton.active = false;
-        this.addDrawableChild(positionNarratorFormatButton);
-
         ValueEntryMenu.ValueConfig c2 = new ValueEntryMenu.ValueConfig(() -> OtherConfigsMap.getInstance().getCommandSuggestionNarratorFormat(),
                 (v) -> OtherConfigsMap.getInstance().setCommandSuggestionNarratorFormat(v),
                 ValueEntryMenu.ValueType.STRING);

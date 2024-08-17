@@ -59,7 +59,7 @@ public class PositionNarrator {
             }
 
             if (positionNarrationKey.canBeTriggered()) {
-                MainClass.speakWithNarrator(PlayerPositionUtils.getI18NPosition(), true);
+                MainClass.speakWithNarrator(PlayerPositionUtils.getNarratableXYZPosition(), true);
             }
 
             KeyX.updateStateForNextTick();

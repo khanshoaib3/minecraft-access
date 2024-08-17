@@ -190,6 +190,6 @@ public class AreaMapMenu {
 
     private void resetCursorToPlayerPosition(boolean interruptNarration) {
         cursor = PlayerPositionUtils.getPlayerBlockPosition().orElseThrow();
-        MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.cursor_reset", PlayerPositionUtils.getI18NPosition()), interruptNarration);
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.cursor_reset", PlayerPositionUtils.getNarratableXYZPosition()), interruptNarration);
     }
 }
