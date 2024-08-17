@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.utils.position;
 
 import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 
 import java.util.Arrays;
@@ -64,6 +65,10 @@ public enum Orientation {
         }
     }
 
+    public static Orientation of(Direction direction) {
+        return of(direction.asString().toUpperCase());
+    }
+
     public static String getOppositeDirectionKey(String originalDirectionKey) {
         return of(originalDirectionKey).getOpposite().toString();
     }
@@ -80,8 +85,7 @@ public enum Orientation {
             return Orientation.NORTH_WEST;
         } else {
             // edge case
-            String direction = WorldUtils.getClientPlayer().getHorizontalFacing().asString().toUpperCase();
-            return Orientation.of(direction);
+            return Orientation.of(WorldUtils.getClientPlayer().getHorizontalFacing());
         }
     }
 
