@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features.read_crosshair;
 
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 
@@ -17,7 +18,7 @@ public class MCAccess implements CrosshairNarrator {
     }
 
     @Override
-    public String narrate(BlockHitResult hit, boolean speakSide) {
+    public String narrate(BlockHitResult hit, ClientWorld world, boolean speakSide) {
         String side = speakSide ? hit.getSide().getName() : "";
         return NarrationUtils.narrateBlockForContentChecking(hit.getBlockPos(), side).getLeft();
     }

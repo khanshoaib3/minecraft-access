@@ -10,6 +10,7 @@ import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.Registries;
@@ -81,7 +82,7 @@ public class ReadCrosshair {
             this.rayCastDistance = PlayerUtils.getInteractionRange();
             HitResult hit = PlayerUtils.crosshairTarget(rayCastDistance);
             if (hit == null) return;
-            narrate(hit);
+            narrate(hit, minecraftClient.world);
         } catch (Exception e) {
             log.error("Error occurred in read block feature.", e);
         }
@@ -127,14 +128,17 @@ public class ReadCrosshair {
     }
 
     private CrosshairNarrator getNarrator() {
-        return MCAccess.getInstance();
+        try {
+            return Jade.getInstance();
+        } catch (NoClassDefFoundError e) {
+            return MCAccess.getInstance();
+        }
     }
 
-    private void narrate(HitResult blockHit) {
+    private void narrate(HitResult blockHit, ClientWorld world) {
         switch (blockHit.getType()) {
-            case MISS -> {
-            }
-            case BLOCK -> narrateBlock((BlockHitResult) blockHit);
+            case MISS -> {}
+            case BLOCK -> narrateBlock((BlockHitResult) blockHit, world);
             case ENTITY -> narrateEntity((EntityHitResult) blockHit);
         }
     }
@@ -172,7 +176,7 @@ public class ReadCrosshair {
         }
     }
 
-    private void narrateBlock(BlockHitResult hit) {
+    private void narrateBlock(BlockHitResult hit, ClientWorld world) {
         BlockPos blockPos = hit.getBlockPos();
         WorldUtils.BlockInfo blockInfo = WorldUtils.getBlockInfo(blockPos);
         // In Minecraft resource location format, for example, "oak_door" for Oak Door.
@@ -189,7 +193,7 @@ public class ReadCrosshair {
         // Class name in production environment can be different
         if (this.speakingConsecutiveBlocks) currentQuery += blockPos.toString();
 
-        String narration = getNarrator().narrate(hit, this.speakSide);
+        String narration = getNarrator().narrate(hit, world, this.speakSide);
         speakIfFocusChanged(currentQuery, narration, Vec3d.of(blockPos));
     }
 
