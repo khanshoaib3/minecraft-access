@@ -22,7 +22,7 @@ Each version of this mod will be pre-released on [GitHub](https://github.com/kha
 * [Features](/docs/features.md)
 * [Keybindings](/docs/keybindings.md)
 * [Minecraft Access Configuration](/docs/config.md)
-* [Sound Effects Used in the Mod](https://html-preview.github.io/?url=https://github.com/khanshoaib3/minecraft-access/blob/1.21/doc/sounds.html)
+* [Sound Effects Used in the Mod](https://html-preview.github.io/?url=https://github.com/khanshoaib3/minecraft-access/blob/1.21/docs/sounds.html)
 * [FAQ](/docs/faq.md)
 * [Good Resources](/docs/good-resources.md)
 
