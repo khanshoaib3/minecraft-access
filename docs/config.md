@@ -5,10 +5,11 @@ This page contains all the configuration that controls the features on-off and b
 The configuration can be modified in two ways: via the config menu or directly editing the configuration file.
 The `Config Menu` can be opened via opening the `Narrator Menu` (press F4) then click `Open Config Menu` button.
 The configuration file (named as `config.json`) can be found in the `{minecraft directory}/config/minecraft_access/` directory.
-You can use notepad or any text editor to edit the file.
-You can also use online json editor like [Json Editor Online](https://jsoneditoronline.org/), [Json Formatter](https://jsonformatter.org/json-editor) or [Code Beautify Json Online Editor](https://jsonformatter.org/json-editor).
+You can use Notepad or any text editor to edit the file.
+You can also use online JSON editor like [Json Editor Online](https://jsoneditoronline.org/), [Json Formatter](https://jsonformatter.org/json-editor) or [Code Beautify JSON Online Editor](https://jsonformatter.org/json-editor).
 
-If you want to reset the config back to default values, simply delete the configuration file while the game is not running, or click `Reset Config` button in the `Config Menu`.
+If you want to reset the config back to default values, delete the configuration file while the game is not running,
+or click `Reset Config` button in the `Config Menu`.
 
 ## Table Of Contents
 
@@ -36,7 +37,7 @@ If you want to reset the config back to default values, simply delete the config
 | Modified Rotating Angle | 11.25         | The rotation angle when we press the camera moving keys while holding down the `Left Alt` key |
 | Delay (in milliseconds) | 250           | Cooldown between two feature executions                                                       |
 
-This config is under "Other Configurations" section in the config file and config menu.
+This config is under `Other Configurations` section in the config file and config menu.
 
 | Configuration           | Default Value | Description                                                              |
 |-------------------------|---------------|--------------------------------------------------------------------------|
@@ -62,7 +63,8 @@ See also: [Feature Description](/docs/features.md#mouse-simulation), [keybinding
 | Disable Speaking Consecutive Blocks With Same Name | false                 | Disable speaking the block if the previous block was also same                  |
 | Repeat Speaking Interval (in milliseconds)         | 0 (for tuning it off) | Repeat speaking for the given amount of time, even you haven't moved the camera |
 
-Config `Disable Speaking Consecutive Blocks With Same Name` is useful when you don't want to hear a repetitive speaking of a large area of the same block.
+Config `Disable Speaking Consecutive Blocks With Same Name` option can be useful
+when you don't want to hear repetitive speaking of a large area with the same block type.
 
 See also: [Feature Description](/docs/features.md#read-crosshair)
 
@@ -82,14 +84,18 @@ See also: [Feature Description](/docs/features.md#relative-position-sound-cue)
 |-----------------|------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
 | Enabled         | true                                     | Whether to enable this feature                                                                                         |
 | White List Mode | true                                     | If true, only speak what have been configured. Set to false for blacklist mode, only not speak what you've configured  |
-| Fuzzy Mode      | true                                     | Whether to do fuzzy matching, for example "bed" will match all colors of beds, "door" will match all textures of doors |
-| Target Mode     | "block"                                  | Which type would you like to apply this feature to, either "all", "entity" or "block"                                  |
-| Targets         | ["slab","planks","block","stone","sign"] | Indicated what to be spoken                                                                                            |
+| Fuzzy Mode      | true                                     | Whether to do fuzzy matching, for example `bed` will match all colors of beds, `door` will match all textures of doors |
+| Target Mode     | `block`                                  | Which type would you like to apply this feature to, either `all`, `entity` or `block`                                  |
+| Targets         | [`slab`,`planks`,`block`,`stone`,`sign`] | Indicated what to be spoken                                                                                            |
 
 The `Targets` config can only be configured in `config.json` file.
-Values are written in Minecraft resource location format, the so-called "snake_case" (consists of lowercase letters with underscores).
-For example, the White Bed is written in "white_bed".
-There are lots of exceptions, the "Smooth Quartz Block" is written in "smooth_quartz", the "Block of Diamond" is written in "diamond_block", so please check the correct values in [this wiki link](https://minecraft.wiki/w/Java_Edition_data_values#Blocks) (expand to show the list by clicking "Blocks[show]" then "Item form's ID[show]").
+Values are written in Minecraft resource location format, the so-called
+`snake_case` (consists of lowercase letters with underscores).
+For example, the White Bed is written in `white_bed`.
+There are lots of exceptions, the `Smooth Quartz Block` is written in `smooth_quartz`,
+the `Block of Diamond` is written in `diamond_block`,
+so please check the correct values in [this wiki link](https://minecraft.wiki/w/Java_Edition_data_values#Blocks)
+(expand to show the list by clicking `Blocks[show]` then `Item form's ID[show]`).
 
 See also: [Feature Description](/docs/features.md#partial-speaking)
 
@@ -100,18 +106,19 @@ See also: [Feature Description](/docs/features.md#partial-speaking)
 | Enabled                                                                                   | true          | Whether to enable this feature                                                                                                                                     |
 | Auto Open Recipe Book                                                                     | true          | Automatically opens the recipe                                                                                                                                     |
 | book on opening the inventory (in creative/survival inventory screen and crafting screen) |               |                                                                                                                                                                    |
-| Row and Column Format in Crafting Input Slots                                             | "%dx%d"       | The speaking format of row and column prefix, two "%d" are representing the position of row and column                                                             |
-| Speak Focused Slot Changes                                                                | true          | Speak if the content of focused slot changes, close it if you hear the mod is continuously repeating changes of item name, some mods like hypixel will cause that. |
+| Row and Column Format in Crafting Input Slots                                             | `%dx%d`       | The speaking format of row and column prefix, two `%d` are representing the position of row and column                                                             |
+| Speak Focused Slot Changes                                                                | true          | Speak if the content of focused slot changes, close it if you hear the mod is continuously repeating changes of item name, some mods like Hypixel will cause that. |
 | Delay (in milliseconds)                                                                   | 250           | Cooldown between two feature executions                                                                                                                            |
 
 Most recipes [require](https://minecraft.wiki/w/Crafting) their ingredients to be arranged in a specific way on the crafting grid (a.k.a. our crafting input group).
-That's how `Row and Column Format in Crafting Input Slots` config can help you, you'll hear something like "1x2 Empty Slot" which represent you're locating at row one and column two slot inside the crafting input group, and it contains nothing.
+That's how `Row and Column Format in Crafting Input Slots` config can help you, you'll hear something like `1x2 Empty Slot` which represent you're locating at row one and column two slot inside the crafting input group, and it contains nothing.
 
 See also: [Feature Description](/docs/features.md#inventory-controls), [keybindings](/docs/keybindings.md#inventory-controls)
 
 ## Point of Interest
 
-See also: [Feature Description](/docs/features.md#point-of-interest), [keybindings](/docs/keybindings.md#point-of-interest)
+See also: [Feature Description](/docs/features.md#points-of-interest),
+[keybindings](/docs/keybindings.md#point-of-interest)
 
 ### Blocks
 
@@ -143,7 +150,7 @@ See also: [Feature Description](/docs/features.md#point-of-interest), [keybindin
 | Lock on Blocks                          | true          | Enable lock on POI blocks as well, if false, only entities can be locked                     |
 | Play Sound                              | true          | Play a sound cue at positions of detected entities                                           |
 | Speak Relative Distance to Entity/Block | false         | Speak relative distance to the target when locking on                                        |
-| Play Sound Instead Of Speak             | false         | Play a base drum sound cue on unlock instead of speak "unlock"                               |
+| Play Sound Instead Of Speak             | false         | Play a base drum sound cue on unlock instead of speak `unlock`                               |
 | Auto Lock on to Eye of Ender when Used  | true          | Automatically lock on to the [Eye of Ender](https://minecraft.wiki/w/Eye_of_Ender) when used |
 | Delay (in milliseconds)                 | 100           | Cooldown between two feature executions                                                      |
 
@@ -156,18 +163,18 @@ See also: [Feature Description](/docs/features.md#point-of-interest), [keybindin
 
 ## Position Narrator
 
-These configs are under "Other Configurations" section in the config file and config menu.
+These configs are under `Other Configurations` section in the config file and config menu.
 
 | Configuration            | Default Value      | Description                                                                                          |
 |--------------------------|--------------------|------------------------------------------------------------------------------------------------------|
 | Enable Position Narrator | true               | Whether to enable this feature                                                                       |
-| Position Narrator Format | "{x}x, {y}y, {z}z" | The speaking format of the position, "{x}", "{y}", "{z}" represent the corresponding axis's position |
+| Position Narrator Format | `{x}x, {y}y, {z}z` | The speaking format of the position, `{x}`, `{y}`, `{z}` represent the corresponding axis's position |
 
 See also: [Feature Description](/docs/features.md#position-narrator), [keybindings](/docs/keybindings.md#position-narrator)
 
 ## Health n Hunger
 
-This config is under "Other Configurations" section in the config file and config menu.
+This config is under `Other Configurations` section in the config file and config menu.
 
 | Configuration          | Default Value | Description                    |
 |------------------------|---------------|--------------------------------|
@@ -222,15 +229,15 @@ See also: [Feature Description](/docs/features.md#narrator-menu), [keybindings](
 |----------------------------------------|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Enable Biome Indicator                 | true          | Whether to enable [`Biome Indicator`](/docs/features.md#biome-indicator) feature                                                                                          |
 | Enable XP Indicator                    | true          | Whether to enable [`XP Indicator`](/docs/features.md#xp-indicator) feature                                                                                                |
-| Command Suggestion Narrator Format     | "%dx%d %s"    | The speaking format of the command suggestion, two "%d" represent the order of focused suggestion and total number of suggestions, "%s" represents the suggestion content |
+| Command Suggestion Narrator Format     | `%dx%d %s`    | The speaking format of the command suggestion, two `%d` represent the order of focused suggestion and total number of suggestions, `%s` represents the suggestion content |
 | Use 12 Hour Time Format                | false         | Whether to use 12 hour time format when speaking the time                                                                                                                 | 
 | Speak Action Bar Messages              | true          | Whether to speak the messages updated in [action bar](https://minecraft.wiki/w/Commands/title), useful when you're in modded multiplayer servers                          |
-| Only Speak Action Bar Updates          | false         | Only speak changed part of action bar message when the message is partially updated, useful for some mods like hypixel                                                    |
+| Only Speak Action Bar Updates          | false         | Only speak changed part of action bar message when the message is partially updated, useful for some mods like Hypixel                                                    |
 | Speak Harvest Of Fishing               | true          | Whether to speak the harvest of fishing                                                                                                                                   |
 | Report Held Items Count When Changed   | true          | Whether to report the number of held items when it changed                                                                                                                |
 | Enable Menu Fix                        | true          | Whether to reset the cursor position when opening a menu (to prevent speak out unnecessary content)                                                                       |
 | Debug Mode                             | true          | Developer config, whether to print debug messages into log                                                                                                                |
-| Multiple Click Speed (in milliseconds) | 750           | The maximum time interval between two keystrokes in multiple click operations like "double-click"                                                                         |
+| Multiple Click Speed (in milliseconds) | 750           | The maximum time interval between two keystrokes in multiple click operations like `double-click`                                                                         |
 
 See also: [Feature Description](/docs/features.md#other-small-features)
 
