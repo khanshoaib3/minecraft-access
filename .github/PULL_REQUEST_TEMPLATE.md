@@ -14,7 +14,7 @@
 
 ### Others
 
-[//]: # (The "Development Chores" section won't be included as release notes, it's recorded for developers only.)
+[//]: # (The `Development Chores` section won't be included as release notes, it's recorded for developers only.)
 
 ### Development Chores
 

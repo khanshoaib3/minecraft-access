@@ -8,9 +8,9 @@ Currently, this mod [has enough features](docs/faq.md#is-the-mod-enough-to-play-
 This mod supports:
 
 * Game version `1.21`, `1.20.6`, `1.20.4`, `1.20.1`, `1.19.3`
-* On [Fabric](https://fabricmc.net/use/installer/) and [NeoForge](https://fneoforged.net) mod loaders
+* On [Fabric](https://fabricmc.net/use/installer/) and [NeoForge](https://neoforged.net) mod loaders
 * On Windows and Linux operating systems ([Help us port the mod to macOS](https://github.com/khanshoaib3/minecraft-access/issues/22))
-* Works despite the language setting of the game (though the mod specific narration will [fall back to English](/docs/features.md#i18n-fallback-mechanism) if the mod does not support the language yet)
+* Works despite the language setting of the game (though the mod-specific narration will [fall back to English](/docs/features.md#i18n-fallback-mechanism) if the mod does not support the language yet)
 
 Each version of this mod will be pre-released on [GitHub](https://github.com/khanshoaib3/minecraft-access/releases) and announced in the [Playability Discord server](https://discord.gg/yQjjsDqWQX) first as a beta testing stage, after one week of feedback collection, the version will be released on [Modrinth](https://modrinth.com/mod/minecraft-access/versions) and [CurseForge](https://legacy.curseforge.com/minecraft/mc-mods/blind-accessibility/files). 
 
@@ -29,14 +29,14 @@ Each version of this mod will be pre-released on [GitHub](https://github.com/kha
 ## Useful Links
 
 * [Playability Discord server](https://discord.gg/yQjjsDqWQX) - Join our Discord server if you want to chat with this mod's users and developers.
-* [X](https://x.com/shoaib_mk0) - You can follow the developer on X to get notified when a new update drops.
+* [Primary developer's X account](https://x.com/shoaib_mk0) - You can follow the developer on X to get notified when a new update drops.
 * [Patreon](https://www.patreon.com/shoaibkhan)
 
 ## Known Issues
 
 1. The default narrator speaks even if the narrator is turned off.
 2. (Linux only) xdotool is not recognised even if it is installed.
-3. (Linux only) Minecraft says no narrator available even if Flite is installed.
+3. (Linux only) Minecraft says no narrator is available even if Flite is installed.
 
 ## Contributions
 

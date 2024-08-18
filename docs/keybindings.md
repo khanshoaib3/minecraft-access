@@ -1,6 +1,6 @@
 # Minecraft Access Keybindings
 
-This page contains all of the keybindings added by the mod, and key combinations for all features.
+This page contains all the keybindings added by the mod.
 
 You can change these keybindings in the settings (open `Options...` then `Controls..` then `Key Binds..`), all keybinding setting groups that are provided by this mod have a `Minecraft Access:` prefix to differentiate them from the original keybinding settings.
 
@@ -64,8 +64,8 @@ See also: [Feature Description](/docs/features.md#camera-controls), [Configurati
 | `Left Mouse Sim Key`          | [                  | Simulate left mouse key, default value of the original `Attack/Destroy` key        |
 | `Middle Mouse Sim Key`        | \                  | Simulate middle mouse key, default value of the original `Pick Block` key          |
 | `Right Mouse Sim Key`         | ]                  | Simulate right mouse key, default value of the original `Use Item/Place Block` key |
-| `Mouse Wheel Scroll Up Key`   | ;                  | Simulate mouse wheel scroll up, switching items in Hotbar forward                  |
-| `Mouse Wheel Scroll Down Key` | '                  | Simulate mouse wheel scroll down, switching items in Hotbar backward               |
+| `Mouse Wheel Scroll Up Key`   | ;                  | Simulate mouse wheel scroll up, switching items in hotbar forward                  |
+| `Mouse Wheel Scroll Down Key` | '                  | Simulate mouse wheel scroll down, switching items in hotbar backward               |
 
 See also: [Feature Description](/docs/features.md#mouse-simulation), [Configuration](/docs/config.md#mouse-simulation)
 
@@ -79,7 +79,7 @@ See also: [Feature Description](/docs/features.md#mouse-simulation), [Configurat
 | `Left Key`             | J                  | Focus to the slot left                                                           |
 | `Group Key`            | C                  | Select next slot group                                                           |
 | `Switch Tab Key`       | V                  | Select next tab                                                                  |
-| `Toggle Craftable Key` | R                  | Switch between "show all" and "show only" craftable recipes in recipe book group |
+| `Toggle Craftable Key` | R                  | Switch between `show all` and `show only` craftable recipes in recipe book group |
 | T                      | not re-mappable    | Select the search box or text box                                                |
 | Enter                  | not re-mappable    | Deselect the search box or text box                                              |
 
@@ -91,7 +91,7 @@ See also: [Feature Description](/docs/features.md#mouse-simulation), [Configurat
 | `Left Shift` + `Down Key`       | Select next page of the Recipe Book     |
 
 `Switch Tab Key`, `Toggle Craftable Key`, `T` key and `Enter` key only works when there is a corresponding component in the opened screen.
-Recipe Book page turning only works when "Recipe Book Group" is selected.
+Recipe Book page turning only works when `Recipe Book Group` is selected.
 Search on the [wiki](https://minecraft.wiki/?search) for the description of screens if you're not familiar with them.
 
 See also: [Feature Description](/docs/features.md#inventory-controls), [Configuration](/docs/config.md#inventory-controls)
@@ -108,7 +108,8 @@ See also: [Feature Description](/docs/features.md#inventory-controls), [Configur
 | `Control` + `Locking Key`         | Mark the block or entity currently targeted with crosshair |
 | `Control` + `Alt` + `Locking Key` | Unmark from the target                                     |
 
-See also: [Feature Description](/docs/features.md#point-of-interest), [Configuration](/docs/config.md#point-of-interest)
+See also: [Feature Description](/docs/features.md#points-of-interest),
+[Configuration](/docs/config.md#point-of-interest)
 
 ## Position Narrator
 
@@ -156,8 +157,8 @@ See also: [Feature Description](/docs/features.md#narrator-menu), [Configuration
 | `Attack/Destroy` (the original keybinding)       | left mouse key     | Same as `Space` key, click selected button                                                                  |
 | Page Up                                          | not re-mappable    | Switch to previous page                                                                                     |
 | Page Down                                        | not re-mappable    | Switch to next page                                                                                         |
-| "Done" button                                    | not re-mappable    | Save your unfinished work and quit editing screen                                                           |
-| "Sign" button                                    | not re-mappable    | And enter a title for the book to make it permanently non-editable                                          |
+| `Done` button                                    | not re-mappable    | Save your unfinished work and quit editing screen                                                           |
+| `Sign` button                                    | not re-mappable    | And enter a title for the book to make it permanently non-editable                                          |
 
 See also: [Feature Description](/docs/features.md#book-editing)
 
@@ -168,7 +169,7 @@ See also: [Feature Description](/docs/features.md#book-editing)
 | Press `Alt` + `1`~`9` | Speak previous chat message (again) corresponding to the number, 1 for the closest message, 2 for second closest message and so on |
 
 This feature only works while the Chat Screen is open.
-These keys are not re-mappable.
+These keys aren’t re-mappable.
 The chat message will be spoken when that message shows up, whether the sender is you or not.
 These keys are used to repeat previous chat messages.
 
