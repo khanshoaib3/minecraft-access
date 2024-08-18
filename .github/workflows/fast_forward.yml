@@ -77,7 +77,7 @@ jobs:
       - name: Copy the changelogs from pr message to latest.md
         if: ${{ env.MERGE_STATUS }}
         run: |
-          cd ./doc/changelogs
+          cd ./docs/changelogs
           echo "$ISSUE_BODY" > pr_msg.txt
           python copy_changelogs_to.py pr_msg.txt latest.md > ../../response.txt
           cat ../../response.txt
