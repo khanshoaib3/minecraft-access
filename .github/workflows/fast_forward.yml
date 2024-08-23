@@ -92,7 +92,7 @@ jobs:
           if [[ "$( tail ./response.txt -n 1 )" == 'No changes to write!' ]] || [[ "$( tail ./response.txt -n 1 )" =~ "File \`(.*?)\` not found\!" ]]; then
             echo "COMMENT=${{ env.COMMENT }}\nNo changelogs found..." >> $GITHUB_ENV
           else
-            git add doc/changelogs/latest.md
+            git add docs/changelogs/latest.md
             git commit -m "chore(ff ci): add changelogs from #${{ github.event.issue.number }} to docs/changelog/latest.md"
             echo "COMMENT=${{ env.COMMENT }} Copied the changelogs from pull request body to docs/changelog/latest.md..." >> $GITHUB_ENV
           fi
