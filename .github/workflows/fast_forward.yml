@@ -24,10 +24,12 @@ jobs:
       (contains(github.event.comment.body, '/fast-forward') || contains(github.event.comment.body, '/ff'))
 
     steps:
-      - name: Fetch repository
+      # Fine-grained PAT with contents:write and workflows:write scopes
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.WORKFLOW_TOKEN }}
 
       # action: https://github.com/actions/github-script
       # API: https://octokit.github.io/rest.js/v21/#pulls-get
