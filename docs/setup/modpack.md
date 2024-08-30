@@ -5,6 +5,13 @@ It was made for the Fabric mod loader for usage on the client side only.
 Here is a link to its [official Modrinth page](https://modrinth.com/modpack/vi-access),
 where you can read more about it.
 
+## Optional Screenreader
+
+You may want to make use of a screenreader, such as one of these:
+1. [NVDA](https://nvaccess.org/) (free and open source)
+2. [JAWS](https://www.freedomscientific.com/products/software/jaws/) (requires payment, not open source)
+The modpack will work fine without a screenreader if you don't need one, but some words on the screen won't be read out to you, such as the names of blocks you are looking at. Using a screenreader is recommended for those with very limited vision who cannot read words on the screen easily.
+
 ## Installing the Modpack
 
 To install the Visually Impaired Access modpack, you're going to want to install the [Modrinth launcher app](https://modrinth.com/app)
