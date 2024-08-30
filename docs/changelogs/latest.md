@@ -20,6 +20,8 @@
 
 ### Others
 
+Updated modpack setup instructions to describe when users might want or need a screenreader such as NVDA or JAWS.
+
 ### Development Chores
 
 - Refactor `PlayerPositionUtils`
