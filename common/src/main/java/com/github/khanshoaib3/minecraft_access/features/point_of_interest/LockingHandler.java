@@ -19,6 +19,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EyeOfEnderEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.item.BowItem;
 
 import java.util.List;
 import java.util.Map.Entry;
@@ -40,10 +41,12 @@ public class LockingHandler {
     private boolean isLockedOnWhereEyeOfEnderDisappears = false;
     private String entriesOfLockedOnBlock = "";
     private Interval interval;
+    private boolean aimAssistActive = false;
 
     private boolean lockOnBlocks;
     private boolean speakDistance;
     private boolean unlockingSound;
+    private boolean aimAssistEnabled;
     private boolean onPOIMarkingNow = false;
 
     static {
@@ -75,6 +78,7 @@ public class LockingHandler {
         this.speakDistance = map.isSpeakDistance();
         this.unlockingSound = map.isUnlockingSound();
         this.interval = Interval.inMilliseconds(map.getDelay(), this.interval);
+        this.aimAssistEnabled = map.isAimAssistEnabled();
     }
 
     private void mainLogic() {
@@ -116,6 +120,21 @@ public class LockingHandler {
             }
         } else if (isLockingKeyPressed) {
             relock();
+        }
+
+        if (aimAssistEnabled && !aimAssistActive && minecraftClient.player.isUsingItem() && minecraftClient.player.getActiveItem().getItem() instanceof BowItem) {
+            TreeMap<Double, Entity> scannedHostileMobsMap = POIEntities.getInstance().getAimAssistTargetCandidates();
+            if (!scannedHostileMobsMap.isEmpty()) {
+                Entity entity = scannedHostileMobsMap.firstEntry().getValue();
+                if (lockOnEntity(entity)) {
+                    aimAssistActive = true;
+                }
+        }
+        }
+
+        if (aimAssistActive && !minecraftClient.player.isUsingItem()) {
+            unlock(false);
+            aimAssistActive = false;
         }
     }
 

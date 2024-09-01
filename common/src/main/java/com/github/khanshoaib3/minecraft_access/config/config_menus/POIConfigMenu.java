@@ -267,6 +267,20 @@ class POILockingConfigMenu extends BaseScreen {
                 I18n.translate("minecraft_access.gui.common.button.delay", initMap.getDelay()),
                 (button) -> this.client.setScreen(new ValueEntryMenu(c1, this)));
         this.addDrawableChild(delayButton);
+
+        ButtonWidget aimAssistButton = this.buildButtonWidget(
+                I18n.translate("minecraft_access.gui.common.button.toggle_button." + (initMap.isAimAssistEnabled() ? "enabled" : "disabled"),
+                        I18n.translate("minecraft_access.gui.poi_locking_config_menu.button.aim_assist_button")
+                ),
+                (button) -> {
+                    POILockingConfigMap map = POILockingConfigMap.getInstance();
+                    map.setAimAssistEnabled(!map.isAimAssistEnabled());
+                    Config.getInstance().writeJSON();
+                    button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (map.isAimAssistEnabled() ? "enabled" : "disabled"),
+                            I18n.translate("minecraft_access.gui.poi_locking_config_menu.button.aim_assist_button")
+                    )));
+                });
+        this.addDrawableChild(aimAssistButton);
     }
 }
 

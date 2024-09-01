@@ -145,6 +145,8 @@ See also: [Configuration](/docs/config.md#point-of-interest), [Keybindings](/doc
 You can lock onto the closest target with a key, then your camera will follow the target as it moves, so you can approach it more easily.
 For example, when you want to mine an ore, capture an animal or fight a monster.
 
+The mod will also automatically temporarily lock onto a nearest monster when using a bow if `Enable bow aim assist` is enabled in config.
+
 Note that:
 
 * The mod will continue locking on the position where the eye of ender disappears (if you enabled `Auto Lock on to Eye of Ender when Used` in the config).

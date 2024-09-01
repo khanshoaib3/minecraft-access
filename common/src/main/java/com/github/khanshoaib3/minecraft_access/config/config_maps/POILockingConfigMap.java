@@ -24,6 +24,8 @@ public class POILockingConfigMap {
     private boolean autoLockEyeOfEnderEntity;
     @SerializedName("Delay (in milliseconds)")
     private int delay;
+    @SerializedName("Bow aim assist")
+    private boolean aimAssistEnabled;
 
     private POILockingConfigMap() {
     }
@@ -41,6 +43,7 @@ public class POILockingConfigMap {
         m.setUnlockingSound(false);
         m.setAutoLockEyeOfEnderEntity(true);
         m.setDelay(100);
+        m.setAimAssistEnabled(true);
 
         setInstance(m);
         return m;
