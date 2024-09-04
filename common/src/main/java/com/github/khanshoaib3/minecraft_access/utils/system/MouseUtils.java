@@ -68,6 +68,7 @@ public class MouseUtils {
     public static void move(int x, int y) {
         doNativeMouseAction("mouse moving", true,
                 "xdotool mousemove %d %d".formatted(x, y),
+                "cliclick m:%d,%d".formatted(x, y),
                 (i) -> {
                     if (!i.SetCursorPos(x, y)) log.error("\nError encountered on moving mouse.");
                 }
@@ -102,6 +103,7 @@ public class MouseUtils {
     public static void leftClick() {
         doNativeMouseAction("left click", true,
                 "xdotool click 1",
+                "cliclick c:.",
                 (i) -> {
                     i.mouse_event(MouseEventFlags.LEFTDOWN.getValue(), 0, 0, 0, 0);
                     i.mouse_event(MouseEventFlags.LEFTUP.getValue(), 0, 0, 0, 0);
@@ -115,6 +117,7 @@ public class MouseUtils {
     public static void leftDown() {
         doNativeMouseAction("left down", true,
                 "xdotool mousedown 1",
+                "cliclick dd:.",
                 (i) -> i.mouse_event(MouseEventFlags.LEFTDOWN.getValue(), 0, 0, 0, 0)
         );
     }
@@ -125,6 +128,7 @@ public class MouseUtils {
     public static void leftUp() {
         doNativeMouseAction("left up", true,
                 "xdotool mouseup 1",
+                "cliclick du:.",
                 (i) -> i.mouse_event(MouseEventFlags.LEFTUP.getValue(), 0, 0, 0, 0)
         );
     }
@@ -136,6 +140,7 @@ public class MouseUtils {
     public static void middleClick() {
         doNativeMouseAction("middle click", true,
                 "xdotool click 2",
+                "cliclick cc:.",
                 (i) -> {
                     i.mouse_event(MouseEventFlags.MIDDLEDOWN.getValue(), 0, 0, 0, 0);
                     i.mouse_event(MouseEventFlags.MIDDLEUP.getValue(), 0, 0, 0, 0);
@@ -149,6 +154,7 @@ public class MouseUtils {
     public static void middleDown() {
         doNativeMouseAction("middle down", true,
                 "xdotool mousedown 2",
+                "cliclick cdd:.",
                 (i) -> i.mouse_event(MouseEventFlags.MIDDLEDOWN.getValue(), 0, 0, 0, 0)
         );
     }
@@ -159,6 +165,7 @@ public class MouseUtils {
     public static void middleUp() {
         doNativeMouseAction("middle up", true,
                 "xdotool mouseup 2",
+                "cliclick cdu:.",
                 (i) -> i.mouse_event(MouseEventFlags.MIDDLEUP.getValue(), 0, 0, 0, 0)
         );
     }
@@ -169,6 +176,7 @@ public class MouseUtils {
     public static void rightClick() {
         doNativeMouseAction("right click", true,
                 "xdotool click 3",
+                "cliclick rc:.",
                 (i) -> {
                     i.mouse_event(MouseEventFlags.RIGHTDOWN.getValue(), 0, 0, 0, 0);
                     i.mouse_event(MouseEventFlags.RIGHTUP.getValue(), 0, 0, 0, 0);
@@ -182,6 +190,7 @@ public class MouseUtils {
     public static void rightDown() {
         doNativeMouseAction("right down", true,
                 "xdotool mousedown 3",
+                "cliclick rdd:.",
                 (i) -> i.mouse_event(MouseEventFlags.RIGHTDOWN.getValue(), 0, 0, 0, 0)
         );
     }
@@ -192,6 +201,7 @@ public class MouseUtils {
     public static void rightUp() {
         doNativeMouseAction("right up", true,
                 "xdotool mouseup 3",
+                "cliclick rdu:.",
                 (i) -> i.mouse_event(MouseEventFlags.RIGHTUP.getValue(), 0, 0, 0, 0)
         );
     }
@@ -202,6 +212,7 @@ public class MouseUtils {
     public static void scrollUp() {
         doNativeMouseAction("scroll up", false,
                 "xdotool click 4",
+                "cliclick su:.",
                 (i) -> i.mouse_event(MouseEventFlags.WHEEL.getValue(), 0, 0, 120, 0)
         );
     }
@@ -212,10 +223,11 @@ public class MouseUtils {
     public static void scrollDown() {
         doNativeMouseAction("scroll down", false,
                 "xdotool click 5",
+                "cliclick sd:.",
                 (i) -> i.mouse_event(MouseEventFlags.WHEEL.getValue(), 0, 0, -120, 0));
     }
 
-    private static void doNativeMouseAction(String name, boolean logCoordinates, String linuxXdotCommand, Consumer<user32dllInterface> windowsAction) {
+    private static void doNativeMouseAction(String name, boolean logCoordinates, String linuxXdotCommand, String macCliclickCommand, Consumer<user32dllInterface> windowsAction) {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
         if (minecraftClient == null)
             return;
@@ -232,6 +244,15 @@ public class MouseUtils {
 
             if (OsUtils.isLinux()) {
                 Runtime.getRuntime().exec(linuxXdotCommand);
+            } else if (OsUtils.isMacOS()) {
+                // When Minecraft is launched on MacOS, it does not inherit
+               // the full PATH variable set in /etc/profile
+                // and other shell initialization scripts.
+                // Running /bin/sh with the -l option sources the default
+                // initialization scripts before running the command, which sets
+                // PATH correctly.
+                String[] macCliclickCommandArray = {"/bin/sh", "-l", "-c", macCliclickCommand};
+                Runtime.getRuntime().exec(macCliclickCommandArray);
             } else if (OsUtils.isWindows()) {
                 if (mainInterface == null) initializeUser32dll();
                 windowsAction.accept(mainInterface);
