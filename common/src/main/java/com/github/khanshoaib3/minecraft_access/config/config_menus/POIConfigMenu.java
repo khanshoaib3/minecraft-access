@@ -281,6 +281,31 @@ class POILockingConfigMenu extends BaseScreen {
                     )));
                 });
         this.addDrawableChild(aimAssistButton);
+
+                ButtonWidget aimAssistAudioCuesButton = this.buildButtonWidget(
+                        I18n.translate("minecraft_access.gui.common.button.toggle_button." + (initMap.isAimAssistAudioCuesEnabled() ? "enabled" : "disabled"),
+                                I18n.translate("minecraft_access.gui.poi_locking_config_menu.button.aim_assist_audio_cues_button")
+                        ),
+                        (button) -> {
+                            POILockingConfigMap map = POILockingConfigMap.getInstance();
+                            map.setAimAssistAudioCuesEnabled(!map.isAimAssistAudioCuesEnabled());
+                            Config.getInstance().writeJSON();
+                            button.setMessage(Text.of(I18n.translate("minecraft_access.gui.common.button.toggle_button." + (map.isAimAssistAudioCuesEnabled() ? "enabled" : "disabled"),
+                                    I18n.translate("minecraft_access.gui.poi_locking_config_menu.button.aim_assist_audio_cues_button")
+                            )));
+                        });
+                this.addDrawableChild(aimAssistAudioCuesButton);
+
+                ValueEntryMenu.ValueConfig aimAssistAudioCuesVolumeConfig = new ValueEntryMenu.ValueConfig(
+                        () -> POILockingConfigMap.getInstance().getAimAssistAudioCuesVolume(),
+                        (v) -> POILockingConfigMap.getInstance().setAimAssistAudioCuesVolume(Float.parseFloat(v)),
+                        ValueEntryMenu.ValueType.FLOAT
+                );
+                ButtonWidget aimAssistAudioCuesVolumeButton = this.buildButtonWidget(
+                        I18n.translate("minecraft_access.gui.poi_locking_config_menu.button.aim_assist_audio_cues_volume", initMap.getAimAssistAudioCuesVolume()),
+                        (button) -> this.client.setScreen(new ValueEntryMenu(aimAssistAudioCuesVolumeConfig, this))
+                );
+                this.addDrawableChild(aimAssistAudioCuesVolumeButton);
     }
 }
 

@@ -153,7 +153,9 @@ See also: [Feature Description](/docs/features.md#points-of-interest),
 | Play Sound Instead Of Speak             | false         | Play a base drum sound cue on unlock instead of speak `unlock`                               |
 | Auto Lock on to Eye of Ender when Used  | true          | Automatically lock on to the [Eye of Ender](https://minecraft.wiki/w/Eye_of_Ender) when used |
 | Delay (in milliseconds)                 | 100           | Cooldown between two feature executions                                                      |
-| Enable bow aim assist | true | Enable automatic temporary locking onto a nearest monster when using a bow                                              |
+| Bow aim assist | true | Enable automatic temporary locking onto the nearest monster when using a bow                                              |
+| Aim assist sound | true | Enables audio cues for bow aim assist                                                                                   |
+| Aim assist sound volume | 0.5 | Controls the volume of the aim assist audio cues                                                                  |
 
 ### Entities/Blocks Marking
 

@@ -18,6 +18,7 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EyeOfEnderEntity;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.item.BowItem;
 
@@ -42,11 +43,17 @@ public class LockingHandler {
     private String entriesOfLockedOnBlock = "";
     private Interval interval;
     private boolean aimAssistActive = false;
+    // 0 = can't shoot, 1 = can shoot
+    private int lastAimAssistCue = -1;
+    // -1 = null, 1 = starting, 2 = half drawn, 3 = fully drawn
+    private int lastBowState = -1;
 
     private boolean lockOnBlocks;
     private boolean speakDistance;
     private boolean unlockingSound;
     private boolean aimAssistEnabled;
+    private boolean aimAssistAudioCuesEnabled;
+    private float aimAssistAudioCuesVolume;
     private boolean onPOIMarkingNow = false;
 
     static {
@@ -79,6 +86,8 @@ public class LockingHandler {
         this.unlockingSound = map.isUnlockingSound();
         this.interval = Interval.inMilliseconds(map.getDelay(), this.interval);
         this.aimAssistEnabled = map.isAimAssistEnabled();
+        this.aimAssistAudioCuesEnabled = map.isAimAssistAudioCuesEnabled();
+        this.aimAssistAudioCuesVolume = map.getAimAssistAudioCuesVolume();
     }
 
     private void mainLogic() {
@@ -135,6 +144,32 @@ public class LockingHandler {
         if (aimAssistActive && !minecraftClient.player.isUsingItem()) {
             unlock(false);
             aimAssistActive = false;
+            lastAimAssistCue = -1;
+            lastBowState = -1;
+        }
+
+        if (aimAssistAudioCuesEnabled && aimAssistActive) {
+            float bowPullingProgress = BowItem.getPullProgress(minecraftClient.player.getItemUseTime());
+
+            int bowState = -1;
+            if (bowPullingProgress >= 0f && bowPullingProgress < 0.50f) bowState = 0;
+            if (bowPullingProgress >= 0.50f && bowPullingProgress < 1f) bowState = 1;
+            if (bowPullingProgress == 1f) bowState = 2;
+
+            if (PlayerUtils.isPlayerCanSee(minecraftClient.player.getEyePos(), PlayerUtils.currentEntityLookingAtPosition, lockedOnEntity)) {
+                if (lastAimAssistCue != 1 || bowState != lastBowState) {
+                    PlayerUtils.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_PLING, aimAssistAudioCuesVolume, bowState);
+                    lastAimAssistCue = 1;
+                }
+            }
+            else {
+                if (lastAimAssistCue != 0 || bowState != lastBowState) {
+                    PlayerUtils.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_BASS, aimAssistAudioCuesVolume, bowState);
+                    lastAimAssistCue = 0;
+                }
+            }
+
+            lastBowState = bowState;
         }
     }
 
