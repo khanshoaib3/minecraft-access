@@ -8,6 +8,7 @@
   "client": [
     "MinecraftClientMixin",
     "NarratorLinuxMixin",
+    "NarratorMacMixin",
     "NarratorWindowsMixin"
   ],
   "injectors": {
