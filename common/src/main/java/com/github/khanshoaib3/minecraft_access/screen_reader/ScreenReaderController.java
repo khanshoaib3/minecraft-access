@@ -14,6 +14,12 @@ public class ScreenReaderController {
             return screenReaderLinux;
         }
 
+        if (OsUtils.isMacOS()) {
+            ScreenReaderMacOS screenReaderMacOS = new ScreenReaderMacOS();
+            screenReaderMacOS.initializeScreenReader();
+            return screenReaderMacOS;
+        }
+
         if (OsUtils.isWindows()) {
             ScreenReaderWindows screenReaderWindows = new ScreenReaderWindows();
             screenReaderWindows.initializeScreenReader();
