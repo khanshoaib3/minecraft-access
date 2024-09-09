@@ -1,5 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.utils.system;
 
+import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Arrays;
 import java.util.List;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.Window;
 
 import java.util.Timer;
@@ -23,6 +25,7 @@ public class MouseUtils {
     private static user32dllInterface user32dllInstance = null;
     private static CoreGraphicsInterface coreGraphicsInstance = null;
     private static CoreFoundationInterface coreFoundationInstance = null;
+    private static ApplicationServicesInterface applicationServicesInstance = null;
 
     /**
      * Move the mouse to the given pixel location and then perform left click.
@@ -454,6 +457,15 @@ public class MouseUtils {
                 Runtime.getRuntime().exec(linuxXdotCommand);
             } else if (OsUtils.isMacOS()) {
                 if (coreGraphicsInstance == null) initializeCoreGraphics();
+
+        // Check if the accessibility permission has been granted
+        // If not, mouse simulation will not work, so inform the user
+        // 0 is false, 1 is true
+        if (applicationServicesInstance.AXIsProcessTrusted() == 0) {
+            MainClass.speakWithNarrator(I18n.translate("minecraft_access.messages.accessibility_permission_not_granted"), false);
+            return;
+        }
+
                 macOSAction.accept(coreGraphicsInstance);
             } else if (OsUtils.isWindows()) {
                 if (user32dllInstance == null) initializeUser32dll();
@@ -517,6 +529,7 @@ public class MouseUtils {
         try {
             coreGraphicsInstance = Native.load("CoreGraphics", CoreGraphicsInterface.class);
             coreFoundationInstance = Native.load("CoreFoundation", CoreFoundationInterface.class);
+            applicationServicesInstance = Native.load("ApplicationServices", ApplicationServicesInterface.class);
         } catch (Exception e) {
             log.error("Error encountered while initializing CoreGraphics or CoreFoundation", e);
         }
@@ -689,5 +702,13 @@ public class MouseUtils {
         public int getValue() {
             return value;
         }
+    }
+
+    /**
+     * Contains the AXIsProcessTrusted function, which checks if the accessibility permission has been enabled
+     */
+    private interface ApplicationServicesInterface extends Library {
+        // https://developer.apple.com/documentation/applicationservices/1460720-axisprocesstrusted
+        byte AXIsProcessTrusted();
     }
 }
