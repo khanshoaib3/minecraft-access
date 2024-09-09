@@ -3,6 +3,9 @@
 ### New Features
 
 - Speak current perspective when switched to [#314](https://github.com/khanshoaib3/minecraft-access/issues/314)
+- Add basic aim assist for bows (temporarily lock onto the nearest hostile mob when drawing a bow, play sounds indicating how much the bow has been drawn and if the target can be shot)
+Closes #212
+Edit: https://github.com/khanshoaib3/minecraft-access-i18n/pull/39 should be merged before this because it contains fields required by this feature
 
 ### Feature Updates
 
