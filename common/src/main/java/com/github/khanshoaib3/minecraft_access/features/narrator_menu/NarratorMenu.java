@@ -32,12 +32,11 @@ import java.util.stream.Stream;
 @Slf4j
 public class NarratorMenu {
     /**
-     * Way more far than the Read Crosshair feature (6 blocks).
+     * Much farther than the Read Crosshair feature (6 blocks).
      */
     public static final double RAY_CAST_DISTANCE = 20.0;
     private static MinecraftClient minecraftClient;
     private static final MenuKeystroke menuKey;
-    private static final Keystroke hotKey;
     /**
      * Prevent the f4 menu open in this situation:
      * press f4 + hot key to trigger function switch, first release the hot key, then release the f4 key.
@@ -52,7 +51,6 @@ public class NarratorMenu {
 
         // config keystroke conditions
         menuKey = new MenuKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().narratorMenuKey));
-        hotKey = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().narratorMenuHotKey), Keystroke.TriggeredAt.PRESSED);
     }
 
     /**
@@ -112,24 +110,47 @@ public class NarratorMenu {
             // will not open the menu under this situation.
             boolean isF3KeyNotPressed = !KeyUtils.isF3Pressed();
 
-            if (menuKey.isPressing() && hotKey.canBeTriggered()) {
-                // Executes immediately, but will not execute twice until release and press the key again
-                hasFunctionSwitchedBeforeF4Released = true;
-                switchHotKeyFunction();
-            } else if (hotKey.canBeTriggered()) {
-                executeHotKeyFunction();
-            } else if (menuKey.canOpenMenu() && isF3KeyNotPressed && !hasFunctionSwitchedBeforeF4Released) {
+if (!menuKey.isPressing() && menuKey.canOpenMenu() && isF3KeyNotPressed && !hasFunctionSwitchedBeforeF4Released) {
                 // The F4 is pressed before and released at current tick
                 // To make the narrator menu open AFTER release the F4 key
                 openNarratorMenu();
             }
+
+            if (KeyBindingsHandler.getInstance().narrateTarget.isPressed())
+                getBlockAndFluidTargetInformation();
+
+            if (KeyBindingsHandler.getInstance().targetPosition.isPressed())
+                getBlockAndFluidTargetPosition();
+
+            if (KeyBindingsHandler.getInstance().lightLevel.isPressed())
+                getLightLevel();
+
+            if (KeyBindingsHandler.getInstance().timeOfDay.isPressed())
+                getTimeOfDay();
+
+            if (KeyBindingsHandler.getInstance().xpLevel.isPressed())
+                getXP();
+
+            if (KeyBindingsHandler.getInstance().currentBiome.isPressed())
+                getBiome();
+
+            if (KeyBindingsHandler.getInstance().closestWaterSource.isPressed())
+                MainClass.fluidDetector.findClosestWaterSource(true);
+
+            if (KeyBindingsHandler.getInstance().closestLavaSource.isPressed())
+                MainClass.fluidDetector.findClosestLavaSource(true);
+
+            if (KeyBindingsHandler.getInstance().refreshScreenReader.isPressed())
+                ScreenReaderController.refreshScreenReader(true);
+
+            if (KeyBindingsHandler.getInstance().openConfigMenu.isPressed())
+                MinecraftClient.getInstance().setScreen(new ConfigMenu("config_menu"));
 
             if (menuKey.isReleased()) {
                 hasFunctionSwitchedBeforeF4Released = false;
             }
 
             menuKey.updateStateForNextTick();
-            hotKey.updateStateForNextTick();
         } catch (Exception e) {
             log.error("An error occurred in NarratorMenu.", e);
         }
@@ -173,7 +194,8 @@ public class NarratorMenu {
             HitResult hit = PlayerUtils.crosshairTarget(RAY_CAST_DISTANCE);
             if (hit == null) return;
             switch (hit.getType()) {
-                case MISS, ENTITY -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
+                case MISS, ENTITY ->
+                        MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
                 case BLOCK -> {
                     try {
                         BlockHitResult blockHit = (BlockHitResult) hit;
@@ -195,7 +217,8 @@ public class NarratorMenu {
             HitResult hit = PlayerUtils.crosshairTarget(RAY_CAST_DISTANCE);
             if (hit == null) return;
             switch (hit.getType()) {
-                case MISS, ENTITY -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
+                case MISS, ENTITY ->
+                        MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
                 case BLOCK -> {
                     try {
                         BlockHitResult blockHitResult = (BlockHitResult) hit;
@@ -247,8 +270,8 @@ public class NarratorMenu {
             minecraftClient.player.closeScreen();
 
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.xp",
-                    PlayerUtils.getExperienceLevel(),
-                    PlayerUtils.getExperienceProgress()),
+                            PlayerUtils.getExperienceLevel(),
+                            PlayerUtils.getExperienceProgress()),
                     true);
         } catch (Exception e) {
             log.error("An error occurred when getting XP.", e);
