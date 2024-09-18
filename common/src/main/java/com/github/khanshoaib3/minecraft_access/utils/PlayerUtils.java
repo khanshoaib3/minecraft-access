@@ -31,6 +31,8 @@ import java.util.Objects;
  * Forgive me for doing this, but it's the most economical way.)
  */
 public class PlayerUtils {
+    // A way to get exactly at what part of the entity the player is looking when locked on it
+    public static Vec3d currentEntityLookingAtPosition = null;
 
     public static void playSoundOnPlayer(RegistryEntry.Reference<SoundEvent> sound, float volume, float pitch) {
         WorldUtils.getClientPlayer().playSound(sound.value(), volume, pitch);
@@ -51,6 +53,7 @@ public class PlayerUtils {
         Vec3d firstPos = targetIsEnderman ? entity.getBlockPos().toCenterPos() : entity.getEyePos();
         if (isPlayerCanSee(playerEyePos, firstPos, entity)) {
             lookAt(firstPos);
+            currentEntityLookingAtPosition = firstPos;
             return;
         }
 
@@ -65,6 +68,7 @@ public class PlayerUtils {
         double initZ = (1.0 - Math.floor(1.0 / stepZ) * stepZ) / 2.0;
         if (stepX < 0.0 || stepY < 0.0 || stepZ < 0.0) {
             lookAt(firstPos);
+            currentEntityLookingAtPosition = firstPos;
             return;
         }
 
@@ -80,6 +84,7 @@ public class PlayerUtils {
                     Vec3d vec3d = new Vec3d(px + initX, py, pz + initZ);
                     if (isPlayerCanSee(playerEyePos, vec3d, entity)) {
                         lookAt(vec3d);
+                        currentEntityLookingAtPosition = vec3d;
                         return;
                     }
                 }
@@ -88,9 +93,10 @@ public class PlayerUtils {
 
         // Make sure to look at entity even the player can't see it.
         lookAt(firstPos);
+        currentEntityLookingAtPosition = firstPos;
     }
 
-    private static boolean isPlayerCanSee(Vec3d playerEyePos, Vec3d somewhereOnEntity, Entity entity) {
+    public static boolean isPlayerCanSee(Vec3d playerEyePos, Vec3d somewhereOnEntity, Entity entity) {
         BlockHitResult hitResult = entity.getWorld().raycast(
                 new RaycastContext(somewhereOnEntity, playerEyePos,
                         RaycastContext.ShapeType.COLLIDER,

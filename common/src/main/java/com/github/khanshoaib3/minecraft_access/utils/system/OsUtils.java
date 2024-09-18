@@ -41,6 +41,14 @@ public class OsUtils {
     }
 
     /**
+     * Checks whether the os is macos or not
+     * @return Returns true if os is macos
+     */
+    public static boolean isMacOS() {
+        return getOsName().startsWith("Mac");
+    }
+
+    /**
      * Checks whether the architecture of JRE is 64 bit or not
      * @return Returns true if the architecture is 64 bit
      */

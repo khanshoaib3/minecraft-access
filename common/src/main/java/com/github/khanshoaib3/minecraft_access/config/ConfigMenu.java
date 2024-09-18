@@ -3,6 +3,7 @@ package com.github.khanshoaib3.minecraft_access.config;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_menus.*;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
+import com.github.khanshoaib3.minecraft_access.utils.system.OsUtils;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 
@@ -15,6 +16,12 @@ public class ConfigMenu extends BaseScreen {
     @Override
     protected void init() {
         super.init();
+
+        if (OsUtils.isMacOS()) {
+            ButtonWidget speechSettingsButton = this.buildButtonWidget("minecraft_access.gui.config_menu.button.speech_settings_button",
+                    (button) -> this.client.setScreen(new SpeechSettingsConfigMenu("speech_settings_config_menu", this)));
+            this.addDrawableChild(speechSettingsButton);
+        }
 
         ButtonWidget cameraControlsButton = this.buildButtonWidget("minecraft_access.gui.config_menu.button.camera_controls_button",
                 (button) -> this.client.setScreen(new CameraControlsConfigMenu("camera_controls_config_menu", this)));

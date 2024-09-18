@@ -165,4 +165,8 @@ public class POIEntities {
             return List.of(hostileEntity, passiveEntity, vehicleEntities);
         }
     }
+
+    public TreeMap<Double, Entity> getAimAssistTargetCandidates() {
+        return hostileEntity;
+    }
 }

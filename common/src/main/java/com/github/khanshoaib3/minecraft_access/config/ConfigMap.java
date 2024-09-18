@@ -12,6 +12,8 @@ public class ConfigMap {
 
     private static ConfigMap instance;
 
+    @SerializedName("Speech Settings")
+    private SpeechSettingsConfigMap speechSettingsConfigMap;
     @SerializedName("Camera Controls")
     private CameraControlsConfigMap cameraControlsConfigMap;
     @SerializedName("Inventory Controls")
@@ -35,6 +37,7 @@ public class ConfigMap {
 
     public static ConfigMap buildDefault() {
         ConfigMap m = new ConfigMap();
+        m.speechSettingsConfigMap = SpeechSettingsConfigMap.buildDefault();
         m.cameraControlsConfigMap = CameraControlsConfigMap.buildDefault();
         m.inventoryControlsConfigMap = InventoryControlsConfigMap.buildDefault();
         m.mouseSimulationConfigMap = MouseSimulationConfigMap.buildDefault();
@@ -49,6 +52,7 @@ public class ConfigMap {
     }
 
     public static void setInstance(ConfigMap map) {
+        SpeechSettingsConfigMap.setInstance(map.speechSettingsConfigMap);
         CameraControlsConfigMap.setInstance(map.cameraControlsConfigMap);
         FallDetectorConfigMap.setInstance(map.fallDetectorConfigMap);
         InventoryControlsConfigMap.setInstance(map.inventoryControlsConfigMap);
@@ -72,6 +76,9 @@ public class ConfigMap {
      * Only reset these missing sections to reduce the burden on users whenever new config section is introduced.
      */
     public void resetMissingSectionsToDefault() {
+        if (Objects.isNull(this.speechSettingsConfigMap)) {
+            this.speechSettingsConfigMap = SpeechSettingsConfigMap.buildDefault();
+        }
         if (Objects.isNull(this.cameraControlsConfigMap)) {
             this.cameraControlsConfigMap = CameraControlsConfigMap.buildDefault();
         }

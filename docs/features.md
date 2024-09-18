@@ -151,6 +151,11 @@ Note that:
 * The mod will automatically stop locking on ladders when you start climbing them, so you can directly climb the ladder without manually pressing the unlock key.
 * The mod will automatically stop locking on blocks if they are destroyed or changed (for example, a [door](https://minecraft.wiki/w/Door) is opened or closed, or a [piston](https://minecraft.wiki/w/Piston) is activated).
 
+#### Bow aim assist
+
+When you start drawing the bow, you will automatically lock onto the nearest hostile mob. A sound will play indicating if you can hit your target and how far the bow has been drawn.
+If the sound playing is a piano, you can shoot the target, and if it's a bass, you can't shoot the target. The sound will increase in pitch 3 times as you draw the bow, stopping when the bow is fully drawn.
+
 See also: [Configuration](/docs/config.md#entitiesblocks-locking), [Keybindings](/docs/keybindings.md#point-of-interest)
 
 ### POI Marking
