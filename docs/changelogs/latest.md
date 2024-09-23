@@ -20,12 +20,14 @@ Edit: https://github.com/khanshoaib3/minecraft-access-i18n/pull/39 should be mer
 
 - Let `Enable Facing Direction` config controls auto direction speaking in `Camera Controls` [#327](https://github.com/khanshoaib3/minecraft-access/issues/327)
 - Make the `Look Straight Back` key combination (left alt + numpad 5) works again [#328](https://github.com/khanshoaib3/minecraft-access/issues/328)
+- Fixed smithing table slots being mislabele
 
 ### Translation Changes
 
 - Add four items for speaking perspectives [I18N PR 37](https://github.com/khanshoaib3/minecraft-access-i18n/pull/37)
 - Add translation identifiers for the speech settings and speech rate buttons in the configuration menu
 - Add a translation identifier for the warning about the accessibility permission not being granted on MacOS
+- Added 2 new keys for the smithing table and removed the now unused one
 
 ### Others
 
@@ -37,3 +39,4 @@ Updated modpack setup instructions to describe when users might want or need a s
 - Enhance `build` workflow's edge case handling
 - My pull request to the minecraft-access-i18n repository is needed for the extra text strings I added in this pull request
 I have implemented speech and mouse simulation support for MacOS using JNA calls to the Objective C runtime and other native MacOS libraries, so no external libraries or tools need to be installed.
+There is a corresponding pull request in the i18n repo that should be merged alongside this
