@@ -3,7 +3,7 @@
 This page contains all the configuration that controls the features on-off and behavior.
 
 The configuration can be modified in two ways: via the config menu or directly editing the configuration file.
-The `Config Menu` can be opened via opening the `Narrator Menu` (press F4) then click `Open Config Menu` button.
+The `Config Menu` can be opened via opening the `Access Menu` (press F4) then click `Open Config Menu` button.
 The configuration file (named as `config.json`) can be found in the `{minecraft directory}/config/minecraft_access/` directory.
 You can use Notepad or any text editor to edit the file.
 You can also use online JSON editor like [Json Editor Online](https://jsoneditoronline.org/), [Json Formatter](https://jsonformatter.org/json-editor) or [Code Beautify JSON Online Editor](https://jsonformatter.org/json-editor).
@@ -24,7 +24,7 @@ or click `Reset Config` button in the `Config Menu`.
 7. [Health n Hunger](#health-n-hunger)
 8. [Player Warnings](#player-warnings)
 9. [Fall Detector](#fall-detector)
-10. [Narrator Menu](#narrator-menu)
+10. [Narrator Menu](#access-menu)
     * [Fluid Detector](#fluid-detector)
 11. [Other Configurations](#other-configurations)
 
@@ -217,7 +217,7 @@ See also: [Feature Description](/docs/features.md#fall-detector)
 |---------------|---------------|--------------------------------|
 | Enabled       | true          | Whether to enable this feature |
 
-See also: [Feature Description](/docs/features.md#narrator-menu), [keybindings](/docs/keybindings.md#narrator-menu)
+See also: [Feature Description](/docs/features.md#access-menu), [keybindings](/docs/keybindings.md#access-menu)
 
 ### Fluid Detector
 

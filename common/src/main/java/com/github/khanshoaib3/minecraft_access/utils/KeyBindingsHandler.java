@@ -14,7 +14,7 @@ public class KeyBindingsHandler {
     public KeyBinding healthNHungerNarrationKey;
     public KeyBinding lockingHandlerKey;
     public KeyBinding positionNarrationKey;
-    public KeyBinding narratorMenuKey;
+    public KeyBinding accessMenuKey;
     public KeyBinding narrateTarget;
     public KeyBinding targetPosition;
     public KeyBinding lightLevel;
@@ -444,78 +444,78 @@ public class KeyBindingsHandler {
                 OTHER_GROUP_TRANSLATION_KEY
         );
 
-        narratorMenuKey = new KeyBinding(
-                "minecraft_access.keys.other.narrator_menu_key_name",
+        accessMenuKey = new KeyBinding(
+                "minecraft_access.keys.other.access_menu_key_name",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_F4,
                 OTHER_GROUP_TRANSLATION_KEY
         );
 
         narrateTarget = new KeyBinding(
-                "minecraft_access.keys.other.narrate_target_name",
+                "minecraft_access.access_menu.gui.button.block_and_fluid_target_info",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_B,
                 OTHER_GROUP_TRANSLATION_KEY
         );
 
         targetPosition = new KeyBinding(
-                "minecraft_access.keys.other.target_position_name",
+                "minecraft_access.access_menu.gui.button.block_and_fluid_target_position",
                 InputUtil.Type.KEYSYM,
                 InputUtil.UNKNOWN_KEY.getCode(),
                 OTHER_GROUP_TRANSLATION_KEY
         );
 
         lightLevel = new KeyBinding(
-                "minecraft_access.keys.other.light_level_name",
+                "minecraft_access.access_menu.gui.button.light_level",
                 InputUtil.Type.KEYSYM,
                 InputUtil.UNKNOWN_KEY.getCode(),
                 OTHER_GROUP_TRANSLATION_KEY
         );
 
         closestWaterSource = new KeyBinding(
-                "minecraft_access.keys.other.closest_water_source_name",
+                "minecraft_access.access_menu.gui.button.find_water",
                 InputUtil.Type.KEYSYM,
                 InputUtil.UNKNOWN_KEY.getCode(),
                 OTHER_GROUP_TRANSLATION_KEY
         );
 
         closestLavaSource = new KeyBinding(
-                "minecraft_access.keys.other.closest_lava_source_name",
+                "minecraft_access.access_menu.gui.button.find_lava",
                 InputUtil.Type.KEYSYM,
                 InputUtil.UNKNOWN_KEY.getCode(),
                 OTHER_GROUP_TRANSLATION_KEY
         );
 
         currentBiome = new KeyBinding(
-                "minecraft_access.keys.other.current_biome_name",
+                "minecraft_access.access_menu.gui.button.biome",
                 InputUtil.Type.KEYSYM,
                 InputUtil.UNKNOWN_KEY.getCode(),
                 OTHER_GROUP_TRANSLATION_KEY
         );
 
         timeOfDay = new KeyBinding(
-                "minecraft_access.keys.other.time_of_day_name",
+                "minecraft_access.access_menu.gui.button.time_of_day",
                 InputUtil.Type.KEYSYM,
                 InputUtil.UNKNOWN_KEY.getCode(),
                 OTHER_GROUP_TRANSLATION_KEY
         );
 
         xpLevel = new KeyBinding(
-                "minecraft_access.keys.other.xp_level_name",
+                "minecraft_access.access_menu.gui.button.xp",
                 InputUtil.Type.KEYSYM,
                 InputUtil.UNKNOWN_KEY.getCode(),
                 OTHER_GROUP_TRANSLATION_KEY
         );
 
         refreshScreenReader = new KeyBinding(
-                "minecraft_access.keys.other.refresh_screen_reader_name",
+                "minecraft_access.access_menu.gui.button.refresh_screen_reader",
                 InputUtil.Type.KEYSYM,
                 InputUtil.UNKNOWN_KEY.getCode(),
                 OTHER_GROUP_TRANSLATION_KEY
         );
 
         openConfigMenu = new KeyBinding(
-                "minecraft_access.keys.other.open_config_menu_name",
+                "minecraft_access.narrator_menu.gui.button.open_config_menu",
                 InputUtil.Type.KEYSYM,
                 InputUtil.UNKNOWN_KEY.getCode(),
                 OTHER_GROUP_TRANSLATION_KEY
@@ -569,7 +569,7 @@ public class KeyBindingsHandler {
                 healthNHungerNarrationKey,
                 lockingHandlerKey,
                 positionNarrationKey,
-                narratorMenuKey,
+                accessMenuKey,
                 narrateTarget,
                 targetPosition,
                 lightLevel,

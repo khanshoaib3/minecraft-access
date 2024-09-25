@@ -347,7 +347,7 @@ Release v1.0.1 (for 1.19.3) (2023-07-01)
 
 * Fall detector is back but in this version instead of speaking `warning fall detected`, a sound is played at block (Anvil Block Hit sound to be specific). There will be an alternate sound option in the next update.
 * The mod now automatically setups the screen reader libraries. You would still need to download the other required mods (fabric api and architectury api).
-* Narrator menu hotkeys - You can now trigger the narrator menu options without opening the menu. More about this [here](https://github.com/khanshoaib3/minecraft-access#narrator-menu).
+* Narrator menu hotkeys - You can now trigger the access menu options without opening the menu. More about this [here](https://github.com/khanshoaib3/minecraft-access#access-menu).
 * Added a mod configuration menu. You can open this menu from the `Open Config Menu` option in Narrator/F4 Menu.
 * POI marking feature, with this feature you can select to only detect a specific type of block/entity, more on this [here](https://github.com/khanshoaib3/minecraft-access#points-of-interest)
 * The mod now reports the items picked up when fishing.
@@ -469,7 +469,7 @@ This marks the release of Minecraft Access. All the features from the previous m
 * Inventory controls key mapping is changed and now supports all the menus (including creative inventory)
 * Key mappings for camera controls have also been updated to better suit keyboard with no numpad/keypad.
 * The feature that reads the crosshair target also gives additional information like whether a block is being powered by a redstone source, a door is open or closed, sheep's color, etc.
-* The narrator menu now has a few more options including time of day which now works for servers/multiplayer also.
+* The access menu now has a few more options including time of day which now works for servers/multiplayer also.
 * There is no longer a dedicated menu for mod customization, instead we have to manually edit the config.json file. (more on this [here](https://github.com/khanshoaib3/minecraft-access#mod-configuration))
 
 **Full Changelog**: <https://github.com/khanshoaib3/minecraft-access/compare/v0.1.6-beta...v1.0.0>

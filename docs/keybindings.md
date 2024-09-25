@@ -142,7 +142,7 @@ See also: [Feature Description](/docs/features.md#health-n-hunger), [Configurati
 | Number Keys                                             | not re-mappable                             | When Narrator Menu is opened, press number keys to execute corresponding desired functions, without pressing `Tab` several times to select                                                                                                                             |
 | All Access Menu Functions                               | not bound by default                        | All functions in the access menu have unique keybinds that can be set in the game's controls settings menu. The only function that is bound by default is the narrate target function, and all other function keys are left up to you to bind if you want to use them. |
 
-See also: [Feature Description](/docs/features.md#narrator-menu), [Configuration](/docs/config.md#access-menu)
+See also: [Feature Description](/docs/features.md#access-menu), [Configuration](/docs/config.md#access-menu)
 
 ## Book Editing
 

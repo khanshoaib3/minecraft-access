@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.features.narrator_menu;
+package com.github.khanshoaib3.minecraft_access.features.access_menu;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.ConfigMenu;
@@ -11,9 +11,9 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
 
 /**
- * GUI screen for the narrator menu.
+ * GUI screen for the access menu.
  */
-public class NarratorMenuGUI extends Screen {
+public class accessMenuGUI extends Screen {
     int centerX;
     int buttonHeight;
     int marginY;
@@ -23,7 +23,7 @@ public class NarratorMenuGUI extends Screen {
     int rightColumnX;
     boolean shouldRenderInLeftColumn;
 
-    public NarratorMenuGUI(String title) {
+    public accessMenuGUI(String title) {
         super(Text.of(I18n.translate("minecraft_access.gui.screen." + title)));
     }
 
@@ -41,43 +41,43 @@ public class NarratorMenuGUI extends Screen {
         shouldRenderInLeftColumn = true;
 
 
-        ButtonWidget blockAndFluidTargetInformationButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_info",
-                (button) -> NarratorMenu.getBlockAndFluidTargetInformation());
+        ButtonWidget blockAndFluidTargetInformationButton = this.buildButtonWidget("1. " + "minecraft_access.access_menu.gui.button.block_and_fluid_target_info",
+                (button) -> AccessMenu.getBlockAndFluidTargetInformation());
         this.addDrawableChild(blockAndFluidTargetInformationButton);
 
-        ButtonWidget blockAndFluidTargetPositionButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_position",
-                (button) -> NarratorMenu.getBlockAndFluidTargetPosition());
+        ButtonWidget blockAndFluidTargetPositionButton = this.buildButtonWidget("2. " + "minecraft_access.access_menu.gui.button.block_and_fluid_target_position",
+                (button) -> AccessMenu.getBlockAndFluidTargetPosition());
         this.addDrawableChild(blockAndFluidTargetPositionButton);
 
-        ButtonWidget lightLevelButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.light_level",
-                (button) -> NarratorMenu.getLightLevel());
+        ButtonWidget lightLevelButton = this.buildButtonWidget("3. " + "minecraft_access.access_menu.gui.button.light_level",
+                (button) -> AccessMenu.getLightLevel());
         this.addDrawableChild(lightLevelButton);
 
-        ButtonWidget findWaterButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.find_water",
+        ButtonWidget findWaterButton = this.buildButtonWidget("4. " + "minecraft_access.access_menu.gui.button.find_water",
                 (button) -> MainClass.fluidDetector.findClosestWaterSource(true));
         this.addDrawableChild(findWaterButton);
 
-        ButtonWidget findLavaButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.find_lava",
+        ButtonWidget findLavaButton = this.buildButtonWidget("5. " + "minecraft_access.access_menu.gui.button.find_lava",
                 (button) -> MainClass.fluidDetector.findClosestLavaSource(true));
         this.addDrawableChild(findLavaButton);
 
-        ButtonWidget biomeButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.biome",
-                (button) -> NarratorMenu.getBiome());
+        ButtonWidget biomeButton = this.buildButtonWidget("6. " + "minecraft_access.access_menu.gui.button.biome",
+                (button) -> AccessMenu.getBiome());
         this.addDrawableChild(biomeButton);
 
-        ButtonWidget timeOfDayButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.time_of_day",
-                (button) -> NarratorMenu.getTimeOfDay());
+        ButtonWidget timeOfDayButton = this.buildButtonWidget("7. " + "minecraft_access.access_menu.gui.button.time_of_day",
+                (button) -> AccessMenu.getTimeOfDay());
         this.addDrawableChild(timeOfDayButton);
 
-        ButtonWidget xpButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.xp",
-                (button) -> NarratorMenu.getXP());
+        ButtonWidget xpButton = this.buildButtonWidget("8. " + "minecraft_access.access_menu.gui.button.xp",
+                (button) -> AccessMenu.getXP());
         this.addDrawableChild(xpButton);
 
-        ButtonWidget refreshScreenReaderButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.refresh_screen_reader",
+        ButtonWidget refreshScreenReaderButton = this.buildButtonWidget("9. " + "minecraft_access.access_menu.gui.button.refresh_screen_reader",
                 (button) -> ScreenReaderController.refreshScreenReader(true));
         this.addDrawableChild(refreshScreenReaderButton);
 
-        ButtonWidget openConfigMenuButton = this.buildButtonWidget("minecraft_access.narrator_menu.gui.button.open_config_menu",
+        ButtonWidget openConfigMenuButton = this.buildButtonWidget("0. " + "minecraft_access.access_menu.gui.button.open_config_menu",
                 (button) -> MinecraftClient.getInstance().setScreen(new ConfigMenu("config_menu")));
         this.addDrawableChild(openConfigMenuButton);
     }

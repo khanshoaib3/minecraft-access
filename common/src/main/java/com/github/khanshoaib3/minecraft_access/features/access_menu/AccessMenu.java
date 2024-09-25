@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.features.narrator_menu;
+package com.github.khanshoaib3.minecraft_access.features.access_menu;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.ConfigMenu;
@@ -8,7 +8,6 @@ import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderControl
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
-import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +26,10 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 /**
- * Opens a menu when F4 button is pressed (configurable) with few helpful options.
+ * Opens a menu when F4 button is pressed (configurable) with helpful options.
  */
 @Slf4j
-public class NarratorMenu {
+public class AccessMenu {
     /**
      * Much farther than the Read Crosshair feature (6 blocks).
      */
@@ -50,41 +49,41 @@ public class NarratorMenu {
         Arrays.fill(LAST_RUN_HAS_DONE_FLAG, true);
 
         // config keystroke conditions
-        menuKey = new MenuKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().narratorMenuKey));
+        menuKey = new MenuKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().accessMenuKey));
     }
 
     /**
      * Should be same order as NarratorMenuGUI.init()
      */
     private static final MenuFunction[] MENU_FUNCTIONS = new MenuFunction[]{
-            new MenuFunction("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_info",
+            new MenuFunction("minecraft_access.access_menu.gui.button.block_and_fluid_target_info",
                     GLFW.GLFW_KEY_1, GLFW.GLFW_KEY_KP_1,
-                    NarratorMenu::getBlockAndFluidTargetInformation),
-            new MenuFunction("minecraft_access.narrator_menu.gui.button.block_and_fluid_target_position",
+                    AccessMenu::getBlockAndFluidTargetInformation),
+            new MenuFunction("minecraft_access.access_menu.gui.button.block_and_fluid_target_position",
                     GLFW.GLFW_KEY_2, GLFW.GLFW_KEY_KP_2,
-                    NarratorMenu::getBlockAndFluidTargetPosition),
-            new MenuFunction("minecraft_access.narrator_menu.gui.button.light_level",
+                    AccessMenu::getBlockAndFluidTargetPosition),
+            new MenuFunction("minecraft_access.access_menu.gui.button.light_level",
                     GLFW.GLFW_KEY_3, GLFW.GLFW_KEY_KP_3,
-                    NarratorMenu::getLightLevel),
-            new MenuFunction("minecraft_access.narrator_menu.gui.button.find_water",
+                    AccessMenu::getLightLevel),
+            new MenuFunction("minecraft_access.access_menu.gui.button.find_water",
                     GLFW.GLFW_KEY_4, GLFW.GLFW_KEY_KP_4,
                     () -> MainClass.fluidDetector.findClosestWaterSource(true)),
-            new MenuFunction("minecraft_access.narrator_menu.gui.button.find_lava",
+            new MenuFunction("minecraft_access.access_menu.gui.button.find_lava",
                     GLFW.GLFW_KEY_5, GLFW.GLFW_KEY_KP_5,
                     () -> MainClass.fluidDetector.findClosestLavaSource(true)),
-            new MenuFunction("minecraft_access.narrator_menu.gui.button.biome",
+            new MenuFunction("minecraft_access.access_menu.gui.button.biome",
                     GLFW.GLFW_KEY_6, GLFW.GLFW_KEY_KP_6,
-                    NarratorMenu::getBiome),
-            new MenuFunction("minecraft_access.narrator_menu.gui.button.time_of_day",
+                    AccessMenu::getBiome),
+            new MenuFunction("minecraft_access.access_menu.gui.button.time_of_day",
                     GLFW.GLFW_KEY_7, GLFW.GLFW_KEY_KP_7,
-                    NarratorMenu::getTimeOfDay),
-            new MenuFunction("minecraft_access.narrator_menu.gui.button.xp",
+                    AccessMenu::getTimeOfDay),
+            new MenuFunction("minecraft_access.access_menu.gui.button.xp",
                     GLFW.GLFW_KEY_8, GLFW.GLFW_KEY_KP_8,
-                    NarratorMenu::getXP),
-            new MenuFunction("minecraft_access.narrator_menu.gui.button.refresh_screen_reader",
+                    AccessMenu::getXP),
+            new MenuFunction("minecraft_access.access_menu.gui.button.refresh_screen_reader",
                     GLFW.GLFW_KEY_9, GLFW.GLFW_KEY_KP_9,
                     () -> ScreenReaderController.refreshScreenReader(true)),
-            new MenuFunction("minecraft_access.narrator_menu.gui.button.open_config_menu",
+            new MenuFunction("minecraft_access.access_menu.gui.button.open_config_menu",
                     GLFW.GLFW_KEY_0, GLFW.GLFW_KEY_KP_0,
                     () -> MinecraftClient.getInstance().setScreen(new ConfigMenu("config_menu"))),
     };
@@ -98,7 +97,7 @@ public class NarratorMenu {
             if (minecraftClient == null) return;
             if (minecraftClient.player == null) return;
 
-            if (minecraftClient.currentScreen instanceof NarratorMenuGUI) {
+            if (minecraftClient.currentScreen instanceof accessMenuGUI) {
                 if (menuKey.closeMenuIfMenuKeyPressing()) return;
                 handleInMenuActions();
             }
@@ -184,7 +183,7 @@ if (!menuKey.isPressing() && menuKey.canOpenMenu() && isF3KeyNotPressed && !hasF
     }
 
     private void openNarratorMenu() {
-        Screen screen = new NarratorMenuGUI("f4_menu");
+        Screen screen = new accessMenuGUI("f4_menu");
         minecraftClient.setScreen(screen); // post 1.18
 //                minecraftClient.openScreen(screen); // pre 1.18
     }
@@ -288,7 +287,7 @@ if (!menuKey.isPressing() && menuKey.canOpenMenu() && isF3KeyNotPressed && !hasF
             int hours = (int) (daytime / 1000) % 24;
             int minutes = (int) ((daytime % 1000) * 60 / 1000);
 
-            String translationKey = "minecraft_access.narrator_menu.time_of_day";
+            String translationKey = "minecraft_access.access_menu.time_of_day";
             if (OtherConfigsMap.getInstance().isUse12HourTimeFormat()) {
                 if (hours > 12) {
                     hours -= 12;

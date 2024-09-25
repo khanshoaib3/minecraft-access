@@ -192,7 +192,7 @@ Note that the individual function keys aren't bound by default, asside from narr
 | 9. Refresh screen Reader              | Refresh the screen Reader                                                                                                                                                                    |
 | 0. Open Config Menu                   | Opens the Config Menu which can be used to change the configs of this mod that take effect immediately                                                                                       |
 
-See also: [Configuration](/docs/config.md#narrator-menu), [Keybindings](/docs/keybindings.md#narrator-menu)
+See also: [Configuration](/docs/config.md#access-menu), [Keybindings](/docs/keybindings.md#access-menu)
 
 ## Player Status
 
