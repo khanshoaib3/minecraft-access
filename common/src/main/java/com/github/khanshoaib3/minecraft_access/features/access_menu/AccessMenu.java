@@ -111,7 +111,7 @@ public class AccessMenu {
 
 if (!menuKey.isPressing() && menuKey.canOpenMenu() && isF3KeyNotPressed && !hasFunctionSwitchedBeforeF4Released) {
                 // The F4 is pressed before and released at current tick
-                // To make the narrator menu open AFTER release the F4 key
+                // To make the access menu open AFTER release the F4 key
                 openNarratorMenu();
             }
 
@@ -170,7 +170,7 @@ if (!menuKey.isPressing() && menuKey.canOpenMenu() && isF3KeyNotPressed && !hasF
         hotKeyFunctionIndex = (hotKeyFunctionIndex + 1) % MENU_FUNCTIONS.length;
         MenuFunction f = MENU_FUNCTIONS[hotKeyFunctionIndex];
         String functionName = I18n.translate(f.configKey());
-        MainClass.speakWithNarrator(I18n.translate("minecraft_access.keys.other.narrator_menu_hot_key_switch", functionName), true);
+        MainClass.speakWithNarrator(I18n.translate("minecraft_access.keys.other.access_menu_hot_key_switch", functionName), true);
     }
 
     private void executeHotKeyFunction() {
@@ -183,7 +183,7 @@ if (!menuKey.isPressing() && menuKey.canOpenMenu() && isF3KeyNotPressed && !hasF
     }
 
     private void openNarratorMenu() {
-        Screen screen = new accessMenuGUI("f4_menu");
+        Screen screen = new accessMenuGUI("access_menu");
         minecraftClient.setScreen(screen); // post 1.18
 //                minecraftClient.openScreen(screen); // pre 1.18
     }
@@ -194,7 +194,7 @@ if (!menuKey.isPressing() && menuKey.canOpenMenu() && isF3KeyNotPressed && !hasF
             if (hit == null) return;
             switch (hit.getType()) {
                 case MISS, ENTITY ->
-                        MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
+                        MainClass.speakWithNarrator(I18n.translate("minecraft_access.access_menu.target_missed"), true);
                 case BLOCK -> {
                     try {
                         BlockHitResult blockHit = (BlockHitResult) hit;
@@ -217,7 +217,7 @@ if (!menuKey.isPressing() && menuKey.canOpenMenu() && isF3KeyNotPressed && !hasF
             if (hit == null) return;
             switch (hit.getType()) {
                 case MISS, ENTITY ->
-                        MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.target_missed"), true);
+                        MainClass.speakWithNarrator(I18n.translate("minecraft_access.access_menu.target_missed"), true);
                 case BLOCK -> {
                     try {
                         BlockHitResult blockHitResult = (BlockHitResult) hit;
@@ -241,7 +241,7 @@ if (!menuKey.isPressing() && menuKey.canOpenMenu() && isF3KeyNotPressed && !hasF
             minecraftClient.player.closeScreen();
 
             int light = minecraftClient.world.getLightLevel(minecraftClient.player.getBlockPos());
-            MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.light_level", light), true);
+            MainClass.speakWithNarrator(I18n.translate("minecraft_access.access_menu.light_level", light), true);
         } catch (Exception e) {
             log.error("An error occurred when getting light level.", e);
         }
@@ -256,7 +256,7 @@ if (!menuKey.isPressing() && menuKey.canOpenMenu() && isF3KeyNotPressed && !hasF
 
             RegistryEntry<Biome> var27 = minecraftClient.world.getBiome(minecraftClient.player.getBlockPos());
             String name = I18n.translate(BiomeIndicator.getBiomeName(var27));
-            MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.biome", name), true);
+            MainClass.speakWithNarrator(I18n.translate("minecraft_access.access_menu.biome", name), true);
         } catch (Exception e) {
             log.error("An error occurred when getting biome.", e);
         }
@@ -268,7 +268,7 @@ if (!menuKey.isPressing() && menuKey.canOpenMenu() && isF3KeyNotPressed && !hasF
 
             minecraftClient.player.closeScreen();
 
-            MainClass.speakWithNarrator(I18n.translate("minecraft_access.narrator_menu.xp",
+            MainClass.speakWithNarrator(I18n.translate("minecraft_access.access_menu.xp",
                             PlayerUtils.getExperienceLevel(),
                             PlayerUtils.getExperienceProgress()),
                     true);

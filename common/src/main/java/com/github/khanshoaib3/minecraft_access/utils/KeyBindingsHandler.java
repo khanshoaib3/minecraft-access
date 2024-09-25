@@ -515,7 +515,7 @@ public class KeyBindingsHandler {
         );
 
         openConfigMenu = new KeyBinding(
-                "minecraft_access.narrator_menu.gui.button.open_config_menu",
+                "minecraft_access.access_menu.gui.button.open_config_menu",
                 InputUtil.Type.KEYSYM,
                 InputUtil.UNKNOWN_KEY.getCode(),
                 OTHER_GROUP_TRANSLATION_KEY
