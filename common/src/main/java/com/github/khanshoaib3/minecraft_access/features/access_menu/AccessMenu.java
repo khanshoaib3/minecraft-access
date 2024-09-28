@@ -8,6 +8,7 @@ import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderControl
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -36,20 +37,38 @@ public class AccessMenu {
     public static final double RAY_CAST_DISTANCE = 20.0;
     private static MinecraftClient minecraftClient;
     private static final MenuKeystroke menuKey;
+
+    private static Keystroke narrateTargetKey;
+    private static Keystroke targetPositionKey;
+    private static Keystroke lightLevelKey;
+    private static Keystroke currentBiomeKey;
+    private static Keystroke xpLevelKey;
+    private static Keystroke closestLavaSourceKey;
+    private static Keystroke closestWaterSourceKey;
+    private static Keystroke timeOfDayKey;
+    private static Keystroke refreshScreenReaderKey;
+    private static Keystroke openConfigMenuKey;
+
     /**
      * Prevent the f4 menu open in this situation:
      * press f4 + hot key to trigger function switch, first release the hot key, then release the f4 key.
      * The user intend to switch the function, not open the menu.
      */
-    private static boolean hasFunctionSwitchedBeforeF4Released = false;
-    private int hotKeyFunctionIndex = 0;
-    private static final boolean[] LAST_RUN_HAS_DONE_FLAG = new boolean[10];
 
     static {
-        Arrays.fill(LAST_RUN_HAS_DONE_FLAG, true);
 
         // config keystroke conditions
         menuKey = new MenuKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().accessMenuKey));
+        narrateTargetKey = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().narrateTarget));
+        targetPositionKey = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().targetPosition));
+        currentBiomeKey = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().currentBiome));
+        lightLevelKey = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().lightLevel));
+        closestLavaSourceKey = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().closestLavaSource));
+        closestWaterSourceKey = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().closestWaterSource));
+        timeOfDayKey = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().timeOfDay));
+        xpLevelKey = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().xpLevel));
+        refreshScreenReaderKey = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().refreshScreenReader));
+        openConfigMenuKey = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().openConfigMenu));
     }
 
     /**
@@ -89,7 +108,7 @@ public class AccessMenu {
     };
 
     private record MenuFunction(String configKey, int numberKeyCode, int keyPadKeyCode, Runnable func) {
-    }
+     }
 
     public void update() {
         try {
@@ -109,47 +128,43 @@ public class AccessMenu {
             // will not open the menu under this situation.
             boolean isF3KeyNotPressed = !KeyUtils.isF3Pressed();
 
-if (!menuKey.isPressing() && menuKey.canOpenMenu() && isF3KeyNotPressed && !hasFunctionSwitchedBeforeF4Released) {
+if (!menuKey.isPressing() && menuKey.canOpenMenu() && isF3KeyNotPressed) {
                 // The F4 is pressed before and released at current tick
                 // To make the access menu open AFTER release the F4 key
-                openNarratorMenu();
+                openAccessMenu();
             }
 
-            if (KeyBindingsHandler.getInstance().narrateTarget.isPressed())
-                getBlockAndFluidTargetInformation();
+            if (KeyBindingsHandler.getInstance().narrateTarget.isPressed() && narrateTargetKey.canBeTriggered()) getBlockAndFluidTargetInformation();
 
-            if (KeyBindingsHandler.getInstance().targetPosition.isPressed())
-                getBlockAndFluidTargetPosition();
+            if (KeyBindingsHandler.getInstance().targetPosition.isPressed() && targetPositionKey.canBeTriggered()) getBlockAndFluidTargetPosition();
 
-            if (KeyBindingsHandler.getInstance().lightLevel.isPressed())
-                getLightLevel();
+            if (KeyBindingsHandler.getInstance().lightLevel.isPressed() && lightLevelKey.canBeTriggered()) getLightLevel();
 
-            if (KeyBindingsHandler.getInstance().timeOfDay.isPressed())
-                getTimeOfDay();
+            if (KeyBindingsHandler.getInstance().timeOfDay.isPressed() && timeOfDayKey.canBeTriggered()) getTimeOfDay();
 
-            if (KeyBindingsHandler.getInstance().xpLevel.isPressed())
-                getXP();
+            if (KeyBindingsHandler.getInstance().xpLevel.isPressed() && xpLevelKey.canBeTriggered()) getXP();
 
-            if (KeyBindingsHandler.getInstance().currentBiome.isPressed())
-                getBiome();
+            if (KeyBindingsHandler.getInstance().currentBiome.isPressed() && currentBiomeKey.canBeTriggered()) getBiome();
 
-            if (KeyBindingsHandler.getInstance().closestWaterSource.isPressed())
-                MainClass.fluidDetector.findClosestWaterSource(true);
+            if (KeyBindingsHandler.getInstance().closestWaterSource.isPressed() && closestWaterSourceKey.canBeTriggered()) MainClass.fluidDetector.findClosestWaterSource(true);
 
-            if (KeyBindingsHandler.getInstance().closestLavaSource.isPressed())
-                MainClass.fluidDetector.findClosestLavaSource(true);
+            if (KeyBindingsHandler.getInstance().closestLavaSource.isPressed() && closestLavaSourceKey.canBeTriggered()) MainClass.fluidDetector.findClosestLavaSource(true);
 
-            if (KeyBindingsHandler.getInstance().refreshScreenReader.isPressed())
-                ScreenReaderController.refreshScreenReader(true);
+            if (KeyBindingsHandler.getInstance().refreshScreenReader.isPressed() && refreshScreenReaderKey.canBeTriggered()) ScreenReaderController.refreshScreenReader(true);
 
-            if (KeyBindingsHandler.getInstance().openConfigMenu.isPressed())
-                MinecraftClient.getInstance().setScreen(new ConfigMenu("config_menu"));
-
-            if (menuKey.isReleased()) {
-                hasFunctionSwitchedBeforeF4Released = false;
-            }
+            if (KeyBindingsHandler.getInstance().openConfigMenu.isPressed() && openConfigMenuKey.canBeTriggered()) MinecraftClient.getInstance().setScreen(new ConfigMenu("config_menu"));
 
             menuKey.updateStateForNextTick();
+            narrateTargetKey.updateStateForNextTick();
+            targetPositionKey.updateStateForNextTick();
+            currentBiomeKey.updateStateForNextTick();
+            xpLevelKey.updateStateForNextTick();
+            closestWaterSourceKey.updateStateForNextTick();
+            closestLavaSourceKey.updateStateForNextTick();
+            lightLevelKey.updateStateForNextTick();
+            timeOfDayKey.updateStateForNextTick();
+            refreshScreenReaderKey.updateStateForNextTick();
+            openConfigMenuKey.updateStateForNextTick();
         } catch (Exception e) {
             log.error("An error occurred in NarratorMenu.", e);
         }
@@ -166,26 +181,9 @@ if (!menuKey.isPressing() && menuKey.canOpenMenu() && isF3KeyNotPressed && !hasF
                 .ifPresent(f -> f.func().run());
     }
 
-    private void switchHotKeyFunction() {
-        hotKeyFunctionIndex = (hotKeyFunctionIndex + 1) % MENU_FUNCTIONS.length;
-        MenuFunction f = MENU_FUNCTIONS[hotKeyFunctionIndex];
-        String functionName = I18n.translate(f.configKey());
-        MainClass.speakWithNarrator(I18n.translate("minecraft_access.keys.other.access_menu_hot_key_switch", functionName), true);
-    }
-
-    private void executeHotKeyFunction() {
-        // in case pressing the key too frequently, only execute when last execution has done
-        if (LAST_RUN_HAS_DONE_FLAG[hotKeyFunctionIndex]) {
-            LAST_RUN_HAS_DONE_FLAG[hotKeyFunctionIndex] = false;
-            MENU_FUNCTIONS[hotKeyFunctionIndex].func.run();
-            LAST_RUN_HAS_DONE_FLAG[hotKeyFunctionIndex] = true;
-        }
-    }
-
-    private void openNarratorMenu() {
+    private void openAccessMenu() {
         Screen screen = new accessMenuGUI("access_menu");
         minecraftClient.setScreen(screen); // post 1.18
-//                minecraftClient.openScreen(screen); // pre 1.18
     }
 
     public static void getBlockAndFluidTargetInformation() {
