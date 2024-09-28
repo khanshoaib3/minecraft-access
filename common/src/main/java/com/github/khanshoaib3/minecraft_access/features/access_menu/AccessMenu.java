@@ -49,15 +49,8 @@ public class AccessMenu {
     private static Keystroke refreshScreenReaderKey;
     private static Keystroke openConfigMenuKey;
 
-    /**
-     * Prevent the f4 menu open in this situation:
-     * press f4 + hot key to trigger function switch, first release the hot key, then release the f4 key.
-     * The user intend to switch the function, not open the menu.
-     */
-
+    // config keystroke conditions
     static {
-
-        // config keystroke conditions
         menuKey = new MenuKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().accessMenuKey));
         narrateTargetKey = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().narrateTarget));
         targetPositionKey = new Keystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().targetPosition));
