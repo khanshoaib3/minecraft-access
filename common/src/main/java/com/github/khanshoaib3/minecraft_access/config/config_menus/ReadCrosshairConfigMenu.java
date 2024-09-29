@@ -5,7 +5,10 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeak
 import com.github.khanshoaib3.minecraft_access.config.config_maps.RCRelativePositionSoundCueConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
+import net.minecraft.client.gui.screen.GameModeSelectionScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.LockButtonWidget;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
 
@@ -32,6 +35,23 @@ public class ReadCrosshairConfigMenu extends BaseScreen {
                     Config.getInstance().writeJSON();
                 });
         this.addDrawableChild(featureToggleButton);
+
+        Function<Boolean, String> useJadeText = featureToggleButtonMessageWith("minecraft_access.gui.read_crosshair_config_menu.button.use_jade_button");
+        ButtonWidget useJadeButton = this.buildButtonWidget(
+                useJadeText.apply(initMap.isUseJade()),
+                (button) -> {
+                    ReadCrosshairConfigMap map = ReadCrosshairConfigMap.getInstance();
+                    map.setUseJade(!map.isUseJade());
+                    button.setMessage(Text.of(useJadeText.apply(map.isUseJade())));
+                    Config.getInstance().writeJSON();
+                });
+        try {
+            Class.forName("snownee.jade.overlay.WailaTickHandler");
+        } catch (ClassNotFoundException e) {
+            useJadeButton.active = false;
+            useJadeButton.setMessage(Text.of(I18n.translate("minecraft_access.gui.config_menu.button.use_jade_button.unavailable")));
+        }
+        addDrawableChild(useJadeButton);
 
         Function<Boolean, String> speakBlockSidesText = featureToggleButtonMessageWith("minecraft_access.gui.read_crosshair_config_menu.button.speak_block_sides_button");
         ButtonWidget speakBlockSidesButton = this.buildButtonWidget(

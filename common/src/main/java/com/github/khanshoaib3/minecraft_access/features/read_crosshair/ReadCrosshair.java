@@ -29,6 +29,7 @@ import java.util.function.Predicate;
 public class ReadCrosshair {
     private static ReadCrosshair instance;
     private boolean enabled;
+    private boolean useJade;
     private @Nullable Object previous = null;
     private Vec3d previousSoundPos = Vec3d.ZERO;
     private boolean speakSide;
@@ -118,6 +119,7 @@ public class ReadCrosshair {
         RCRelativePositionSoundCueConfigMap rcrMap = RCRelativePositionSoundCueConfigMap.getInstance();
 
         this.enabled = rcMap.isEnabled();
+        useJade = rcMap.isUseJade();
         this.speakSide = rcMap.isSpeakSide();
         // affirmation for easier use
         this.speakingConsecutiveBlocks = !rcMap.isDisableSpeakingConsecutiveBlocks();
@@ -148,11 +150,13 @@ public class ReadCrosshair {
     }
 
     private CrosshairNarrator getNarrator() {
-        try {
-            return Jade.getInstance();
-        } catch (NoClassDefFoundError e) {
-            return MCAccess.getInstance();
+        if (useJade) {
+            try {
+                return Jade.getInstance();
+            } catch (NoClassDefFoundError ignored) {
+            }
         }
+        return MCAccess.getInstance();
     }
 
     private boolean isIgnored(Identifier identifier) {
