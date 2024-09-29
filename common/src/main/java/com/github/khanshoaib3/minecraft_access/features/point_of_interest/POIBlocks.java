@@ -100,6 +100,24 @@ public class POIBlocks {
     private Predicate<BlockState> markedBlock = state -> false;
     private boolean onPOIMarkingNow = false;
 
+    public Map<String, POIGroup> builtInGroups = Map.of(
+        "ore", new POIGroup("Ores", SoundEvents.ENTITY_ITEM_PICKUP, -5f, null, (block, pos) -> {
+            return oreBlockPredicates.stream().anyMatch(p -> p.test(block));
+        }),
+
+        "fluid", new POIGroup("Fluids", SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(), 2f, null, (block, pos) -> {
+            return this.detectFluidBlocks && block.getBlock() instanceof FluidBlock && PlayerUtils.isNotInFluid() && block.getFluidState().getLevel() == 8;
+        }),
+
+        "functional", new POIGroup("Functional blocks", SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(), 2f, null, (block, pos) -> {
+            return block.getBlock() instanceof ButtonBlock || block.getBlock() instanceof LeverBlock || poiBlockPredicates.stream().anyMatch(p -> p.test(block));
+        }),
+
+        "gui", new POIGroup("Blocks with interface", SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(), 0f, null, (block, pos) -> {
+            return block.createScreenHandlerFactory(world, pos) != null;
+        })
+    );
+
     static {
         try {
             instance = new POIBlocks();
@@ -187,7 +205,18 @@ public class POIBlocks {
         }
 
         String soundType = checkAndPutIntoMap(blockPos, blockState);
-        playSoundAtBlock(blockPos, soundType);
+        // playSoundAtBlock(blockPos, soundType);
+
+        if (!playSound) return;
+        if (playSoundForOtherBlocks) {
+            for (POIGroup group : builtInGroups.values()) {
+                if (group.isBlockInGroup(blockState, blockPos)) world.playSound(player, blockPos, group.getSound(), SoundCategory.BLOCKS, volume, group.getSoundPitch());
+            }
+        } else {
+            POIGroup oreGroup = builtInGroups.get("ore");
+
+            if (oreGroup.isBlockInGroup(blockState, blockPos)) world.playSound(player, blockPos, oreGroup.getSound(), SoundCategory.BLOCKS, volume, oreGroup.getSoundPitch());
+        }
     }
 
     private String checkAndPutIntoMap(BlockPos blockPos, BlockState blockState) {

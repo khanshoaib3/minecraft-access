@@ -20,6 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Predicate;
 
@@ -42,6 +43,28 @@ public class POIEntities {
     private static final POIEntities instance;
     private boolean onPOIMarkingNow = false;
     private Predicate<Entity> markedEntity = e -> false;
+
+    public Map<String, POIGroup> builtInGroups = Map.of(
+        "passive", new POIGroup("Passive mobs", SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f, entity -> {
+            return entity instanceof PassiveEntity;
+        }, null),
+
+        "hostile", new POIGroup("Hostile entities", SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 2f, entity -> {
+            return entity instanceof HostileEntity;
+        }, null),
+
+        "player", new POIGroup("Players", SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f, entity -> {
+            return entity instanceof PlayerEntity;
+        }, null),
+
+        "vehicle", new POIGroup("Vehicles", SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f, entity -> {
+            return entity instanceof VehicleEntity;
+        }, null),
+
+        "item", new POIGroup("Items", SoundEvents.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON, 2f, entity -> {
+            return entity instanceof ItemEntity && entity.isOnGround();
+        }, null)
+    );
 
     static {
         instance = new POIEntities();
@@ -82,6 +105,14 @@ public class POIEntities {
             Box scanBox = minecraftClient.player.getBoundingBox().expand(range, range, range);
             List<Entity> entities = minecraftClient.world.getOtherEntities(minecraftClient.player, scanBox);
 
+            for (POIGroup group : builtInGroups.values()) {
+                group.filterEntities(entities);
+                for (Entity e : group.getEntities().values()) {
+                    this.playSoundAt(e.getBlockPos(), group.getSound(), group.getSoundPitch());
+                }
+            }
+
+            // legacy code, to be replaced with the new POIGroup class
             for (Entity i : entities) {
                 double distance = minecraftClient.player.distanceTo(i);
                 BlockPos entityPos = i.getBlockPos();
@@ -102,21 +133,21 @@ public class POIEntities {
 
                 if (i instanceof PassiveEntity) {
                     passiveEntity.put(distance, i);
-                    this.playSoundAt(entityPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
+                    // this.playSoundAt(entityPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
                 } else if (i instanceof Monster) {
                     hostileEntity.put(distance, i);
-                    this.playSoundAt(entityPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 2f);
+                    // this.playSoundAt(entityPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 2f);
                 } else if (i instanceof WaterCreatureEntity) {
                     passiveEntity.put(distance, i);
-                    this.playSoundAt(entityPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
+                    // this.playSoundAt(entityPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
                 } else if (i instanceof ItemEntity itemEntity && itemEntity.isOnGround()) {
-                    this.playSoundAt(entityPos, SoundEvents.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON, 2f);
+                    // this.playSoundAt(entityPos, SoundEvents.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON, 2f);
                 } else if (i instanceof PlayerEntity) {
                     passiveEntity.put(distance, i);
-                    this.playSoundAt(entityPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
+                    // this.playSoundAt(entityPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
                 } else if (i instanceof VehicleEntity) {
                     vehicleEntities.put(distance, i);
-                    this.playSoundAt(entityPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
+                    // this.playSoundAt(entityPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), 0f);
                 }
             }
             log.debug("POIEntities end.");
