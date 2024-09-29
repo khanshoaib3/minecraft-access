@@ -2,11 +2,14 @@ package com.github.khanshoaib3.minecraft_access.features.read_crosshair;
 
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
-import snownee.jade.api.BlockAccessor;
-import snownee.jade.api.EntityAccessor;
-import snownee.jade.impl.Tooltip;
-import snownee.jade.impl.WailaClientRegistration;
+import net.minecraft.util.hit.HitResult;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import snownee.jade.api.ui.IElement;
+import snownee.jade.overlay.RayTracing;
+import snownee.jade.overlay.WailaTickHandler;
+
+import java.util.Arrays;
 
 public class Jade implements CrosshairNarrator {
     private static Jade INSTANCE;
@@ -21,31 +24,23 @@ public class Jade implements CrosshairNarrator {
     }
 
     @Override
-    public String narrate(BlockHitResult hit, ClientWorld world, boolean speakSide) {
-        BlockAccessor accessor = WailaClientRegistration.instance().blockAccessor()
-                .blockState(world.getBlockState(hit.getBlockPos()))
-                .blockEntity(world.getBlockEntity(hit.getBlockPos()))
-                .hit(hit)
-                .requireVerification()
-                .build();
-        Tooltip tooltip = new Tooltip();
-        WailaClientRegistration.instance()
-                .getAccessorHandler(accessor.getAccessorType())
-                .gatherComponents(accessor, $ -> tooltip);
-        return tooltip.getMessage();
+    public @NotNull HitResult rayCast() {
+        return RayTracing.INSTANCE.getTarget();
     }
 
     @Override
-    public String narrate(EntityHitResult hit) {
-        EntityAccessor accessor = WailaClientRegistration.instance().entityAccessor()
-                .hit(hit)
-                .entity(hit.getEntity())
-                .requireVerification()
-                .build();
-        Tooltip tooltip = new Tooltip();
-        WailaClientRegistration.instance()
-                .getAccessorHandler(accessor.getAccessorType())
-                .gatherComponents(accessor, $ -> tooltip);
-        return tooltip.getMessage();
+    public @Nullable Object deduplication(@NotNull ClientWorld world, boolean speakSide, boolean speakConsecutiveBlocks) {
+        if (WailaTickHandler.instance().rootElement == null) {
+            return null;
+        }
+        return Arrays.asList(
+                WailaTickHandler.instance().rootElement.getTooltip().lines.getFirst().sortedElements().stream().map(IElement::getMessage).toList(),
+                speakConsecutiveBlocks && rayCast() instanceof BlockHitResult blockHitResult ? blockHitResult.getBlockPos() : null
+        );
+    }
+
+    @Override
+    public @NotNull String narrate(@NotNull ClientWorld world, boolean speakSide) {
+        return WailaTickHandler.instance().rootElement.getTooltip().getMessage();
     }
 }
