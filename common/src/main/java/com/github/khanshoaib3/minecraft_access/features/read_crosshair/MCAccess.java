@@ -35,29 +35,28 @@ public class MCAccess implements CrosshairNarrator {
         if (hit.getType() == HitResult.Type.MISS) {
             return null;
         }
-        if (hit instanceof BlockHitResult blockHitResult) {
-            String side = speakSide ? blockHitResult.getSide().getName() : "";
-            return Arrays.asList(
-                    NarrationUtils.narrateBlockForContentChecking(blockHitResult.getBlockPos(), side).getRight(),
-                    speakConsecutiveBlocks ? blockHitResult.getBlockPos() : null
-            );
-        }
-        if (hit instanceof EntityHitResult entityHitResult) {
-            return NarrationUtils.narrateEntity(entityHitResult.getEntity());
-        }
-        return null;
+        return switch (hit) {
+            case BlockHitResult blockHitResult -> {
+                String side = speakSide ? blockHitResult.getSide().getName() : "";
+                yield Arrays.asList(
+                        NarrationUtils.narrateBlockForContentChecking(blockHitResult.getBlockPos(), side).getRight(),
+                        speakConsecutiveBlocks ? blockHitResult.getBlockPos() : null
+                );
+            }
+            case EntityHitResult entityHitResult -> NarrationUtils.narrateEntity(entityHitResult.getEntity());
+            default -> null;
+        };
     }
 
     @Override
     public @NotNull String narrate(@NotNull ClientWorld world, boolean speakSide) {
-        HitResult hit = rayCast();
-        if (hit instanceof BlockHitResult blockHitResult) {
-            String side = speakSide ? I18n.translate(String.format("minecraft_access.direction.%s", blockHitResult.getSide().getName())) : "";
-            return NarrationUtils.narrateBlockForContentChecking(blockHitResult.getBlockPos(), side).getLeft();
-        }
-        if (hit instanceof EntityHitResult entityHitResult) {
-            return NarrationUtils.narrateEntity(entityHitResult.getEntity());
-        }
-        throw new IllegalStateException("Ray cast returned neither BlockHitResult nor EntityHitResult");
+        return switch (rayCast()) {
+            case BlockHitResult blockHitResult -> {
+                String side = speakSide ? I18n.translate(String.format("minecraft_access.direction.%s", blockHitResult.getSide().getName())) : "";
+                yield NarrationUtils.narrateBlockForContentChecking(blockHitResult.getBlockPos(), side).getLeft();
+            }
+            case EntityHitResult entityHitResult -> NarrationUtils.narrateEntity(entityHitResult.getEntity());
+            default -> throw new IllegalStateException("Unexpected value: " + rayCast());
+        };
     }
 }
