@@ -49,7 +49,7 @@ public class ReadCrosshairConfigMenu extends BaseScreen {
             Class.forName("snownee.jade.overlay.WailaTickHandler");
         } catch (ClassNotFoundException e) {
             useJadeButton.active = false;
-            useJadeButton.setMessage(Text.of(I18n.translate("minecraft_access.gui.config_menu.button.use_jade_button.unavailable")));
+            useJadeButton.setMessage(Text.of(I18n.translate("minecraft_access.gui.read_crosshair_config_menu.button.use_jade_button.unavailable")));
         }
         addDrawableChild(useJadeButton);
 
