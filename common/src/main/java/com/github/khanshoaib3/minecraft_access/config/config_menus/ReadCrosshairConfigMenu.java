@@ -5,10 +5,7 @@ import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeak
 import com.github.khanshoaib3.minecraft_access.config.config_maps.RCRelativePositionSoundCueConfigMap;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
-import net.minecraft.client.gui.screen.GameModeSelectionScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.LockButtonWidget;
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
 
