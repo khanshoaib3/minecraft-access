@@ -66,7 +66,8 @@ public class GroupGenerator {
         SlotsGroup bannerInputGroup = new SlotsGroup("banner_input", null);
         SlotsGroup dyeInputGroup = new SlotsGroup("dye_input", null);
         SlotsGroup patternInputGroup = new SlotsGroup("pattern_input", null);
-        SlotsGroup netheriteIngotInputGroup = new SlotsGroup("netherite_ingot_input", null);
+        SlotsGroup smithingTemplateInputGroup = new SlotsGroup("smithing_template_input");
+        SlotsGroup materialInputGroup = new SlotsGroup("material_input", null);
         SlotsGroup potionGroup = new SlotsGroup("potion", null);
         SlotsGroup ingredientGroup = new SlotsGroup("ingredient", null);
         SlotsGroup blockInventoryGroup = new SlotsGroup("block_inventory", null);
@@ -173,20 +174,38 @@ public class GroupGenerator {
             }
             //</editor-fold>
 
-            //<editor-fold desc="Group forging screen(smithing and anvil screens) slot items">
-            if (screen.getHandler() instanceof ForgingScreenHandler && (index == 0 || index == 1)) {
-                if (screen.getHandler() instanceof SmithingScreenHandler && index == 1)
-                    netheriteIngotInputGroup.slotItems.add(new SlotItem(s));
-                else
+            //<editor-fold desc="Group anvil screen slot items">
+            if (screen.getHandler() instanceof AnvilScreenHandler && (index == 0 || index == 1)) {
                     itemInputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
 
-            if (screen.getHandler() instanceof ForgingScreenHandler && index == 2) {
+            if (screen.getHandler() instanceof AnvilScreenHandler && index == 2) {
                 itemOutputGroup.slotItems.add(new SlotItem(s));
                 continue;
             }
             //</editor-fold>
+
+                        //<editor-fold desc="Group smithing table screen slot items">
+            if (screen.getHandler() instanceof SmithingScreenHandler) {
+                switch (index) {
+                    case 0:
+                        smithingTemplateInputGroup.slotItems.add(new SlotItem(s));
+                        break;
+                    case 1:
+                        itemInputGroup.slotItems.add(new SlotItem(s));
+                        break;
+                    case 2:
+                        materialInputGroup.slotItems.add(new SlotItem(s));
+                        break;
+                        case 3:
+                        itemOutputGroup.slotItems.add(new SlotItem(s));
+                        break;
+                }
+
+                continue;
+            }
+                        //</editor-fold>
 
             //<editor-fold desc="Group brewing stand screen slot items">
             if (screen.getHandler() instanceof BrewingStandScreenHandler && index >= 0 && index <= 2) {
@@ -439,8 +458,12 @@ public class GroupGenerator {
             foundGroups.add(potionGroup);
         }
 
-        if (!netheriteIngotInputGroup.slotItems.isEmpty()) {
-            foundGroups.add(netheriteIngotInputGroup);
+        if (!smithingTemplateInputGroup.slotItems.isEmpty()) {
+            foundGroups.add(smithingTemplateInputGroup);
+        }
+
+        if (!materialInputGroup.slotItems.isEmpty()) {
+            foundGroups.add(materialInputGroup);
         }
 
         if (!bannerInputGroup.slotItems.isEmpty()) {
