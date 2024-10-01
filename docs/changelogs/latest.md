@@ -32,6 +32,7 @@ Edit: https://github.com/khanshoaib3/minecraft-access-i18n/pull/39 should be mer
 ### Others
 
 Updated modpack setup instructions to describe when users might want or need a screenreader such as NVDA or JAWS.
+- Added an error message when trying to run the mod server-side
 
 ### Development Chores
 
@@ -40,3 +41,5 @@ Updated modpack setup instructions to describe when users might want or need a s
 - My pull request to the minecraft-access-i18n repository is needed for the extra text strings I added in this pull request
 I have implemented speech and mouse simulation support for MacOS using JNA calls to the Objective C runtime and other native MacOS libraries, so no external libraries or tools need to be installed.
 There is a corresponding pull request in the i18n repo that should be merged alongside this
+- Removed unnecessary use of Fabric api in a few random places
+- Deleted MainClassFabric because the mod does two completely different things depending on which side it's running on and a common entry point for both sides is not needed (and also unnecessarily complicates things with the server-side error message)
