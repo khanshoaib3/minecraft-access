@@ -10,8 +10,10 @@
   ],
   "contact": {
     "homepage": "https://github.com/khanshoaib3/minecraft-access",
-    "sources": "https://github.com/khanshoaib3/minecraft-access"
+    "sources": "https://github.com/khanshoaib3/minecraft-access",
+    "issues": "https://github.com/khanshoaib3/minecraft-access/issues"
   },
+  "icon": "logo-mc-access.png",
 
   "license": "GNU GPLv3",
 
@@ -22,6 +24,9 @@
     ],
     "client": [
       "com.github.khanshoaib3.minecraft_access.fabric.MinecraftAccessClient"
+    ],
+    "modmenu": [
+      "com.github.khanshoaib3.minecraft_access.fabric.ModMenu"
     ]
   },
   "mixins": [
@@ -36,6 +41,15 @@
     "minecraft": "${minecraft_version}"
   },
   "suggests": {
-    "another-mod": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/yQjjsDqWQX",
+        "modmenu.wiki": "https://github.com/khanshoaib3/minecraft-access/tree/1.21/docs",
+        "modmenu.github_releases": "https://github.com/khanshoaib3/minecraft-access/releases",
+        "modmenu.modrinth": "https://modrinth.com/mod/minecraft-access"
+      }
+    }
   }
 }

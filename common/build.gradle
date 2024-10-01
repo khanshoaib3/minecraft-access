@@ -11,7 +11,7 @@ repositories {
         }
     }
     maven {
-        url "https://maven.shedaniel.me/"
+        url 'https://maven.shedaniel.me/'
     }
 }
 
