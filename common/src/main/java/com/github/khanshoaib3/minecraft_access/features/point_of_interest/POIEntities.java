@@ -1,7 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
-import com.github.khanshoaib3.minecraft_access.config.config_maps.POIEntitiesConfigMap;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import lombok.extern.slf4j.Slf4j;
@@ -33,11 +32,8 @@ public class POIEntities {
     private TreeMap<Double, Entity> markedEntities = new TreeMap<>();
     private TreeMap<Double, Entity> vehicleEntities = new TreeMap<>();
 
-    private int range;
-    private boolean playSound;
-    private float volume;
+    private Config.POI.Entities config;
     private Interval interval;
-    private boolean enabled;
 
     private static final POIEntities instance;
     private boolean onPOIMarkingNow = false;
@@ -52,15 +48,15 @@ public class POIEntities {
     }
 
     private POIEntities() {
-        loadConfigurations();
+        loadConfig();
     }
 
     public void update(boolean onMarking, Entity markedEntity) {
         this.onPOIMarkingNow = onMarking;
         if (onPOIMarkingNow) setMarkedEntity(markedEntity);
-        loadConfigurations();
+        loadConfig();
 
-        if (!enabled) return;
+        if (!config.enabled) return;
         if (interval != null && !interval.isReady()) return;
 
         try {
@@ -79,7 +75,7 @@ public class POIEntities {
             log.debug("POIEntities started.");
 
             // Copied from PlayerEntity.tickMovement()
-            Box scanBox = minecraftClient.player.getBoundingBox().expand(range, range, range);
+            Box scanBox = minecraftClient.player.getBoundingBox().expand(config.range, config.range, config.range);
             List<Entity> entities = minecraftClient.world.getOtherEntities(minecraftClient.player, scanBox);
 
             for (Entity i : entities) {
@@ -95,7 +91,7 @@ public class POIEntities {
                     }
                 }
 
-                if (onPOIMarkingNow && POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+                if (onPOIMarkingNow && Config.getInstance().poi.marking.suppressOtherWhenEnabled) {
                     log.debug("POIEntities end early by POI marking feature.");
                     return;
                 }
@@ -127,21 +123,14 @@ public class POIEntities {
     }
 
     private void playSoundAt(BlockPos pos, SoundEvent soundEvent, float pitch) {
-        if (!playSound || volume == 0f) return;
+        if (!config.playSound || config.volume == 0f) return;
         log.debug("Play sound at [x:%d y:%d z%d]".formatted(pos.getX(), pos.getY(), pos.getZ()));
-        WorldUtils.playSoundAtPosition(soundEvent, volume, pitch, pos.toCenterPos());
+        WorldUtils.playSoundAtPosition(soundEvent, config.volume, pitch, pos.toCenterPos());
     }
 
-    /**
-     * Loads the configs from config.json
-     */
-    private void loadConfigurations() {
-        POIEntitiesConfigMap map = POIEntitiesConfigMap.getInstance();
-        this.enabled = map.isEnabled();
-        this.range = map.getRange();
-        this.playSound = map.isPlaySound();
-        this.volume = map.getVolume();
-        this.interval = Interval.inMilliseconds(map.getDelay(), this.interval);
+    private void loadConfig() {
+        config = Config.getInstance().poi.entities;
+        interval = Interval.inMilliseconds(config.delay, interval);
     }
 
     private void setMarkedEntity(Entity entity) {
@@ -156,7 +145,7 @@ public class POIEntities {
 
     public List<TreeMap<Double, Entity>> getLockingCandidates() {
         if (onPOIMarkingNow) {
-            if (POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+            if (Config.getInstance().poi.marking.suppressOtherWhenEnabled) {
                 return List.of(markedEntities);
             } else {
                 return List.of(markedEntities, hostileEntity, passiveEntity, vehicleEntities);

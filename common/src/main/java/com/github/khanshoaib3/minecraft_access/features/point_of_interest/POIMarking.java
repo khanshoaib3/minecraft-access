@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
@@ -40,7 +40,7 @@ public class POIMarking {
      * if this feature is enabled.
      */
     public void update() {
-        if (POIMarkingConfigMap.getInstance().isEnabled()) {
+        if (Config.getInstance().poi.marking.enabled) {
             boolean controlPressed = Screen.hasControlDown();
             boolean AltPressed = Screen.hasAltDown();
             boolean lockingKeyPressed = KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().lockingHandlerKey);

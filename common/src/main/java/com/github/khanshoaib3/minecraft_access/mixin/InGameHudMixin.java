@@ -1,8 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.mixin;
 
-
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import com.github.khanshoaib3.minecraft_access.features.SpeakHeldItem;
 import com.github.khanshoaib3.minecraft_access.utils.StringUtils;
 import net.minecraft.client.gui.DrawContext;
@@ -47,12 +46,12 @@ public class InGameHudMixin {
 
     @Inject(at = @At("HEAD"), method = "setOverlayMessage(Lnet/minecraft/text/Text;Z)V")
     public void speakActionbar(Text message, boolean tinted, CallbackInfo ci) {
-        OtherConfigsMap configsMap = OtherConfigsMap.getInstance();
-        if (configsMap.isActionBarEnabled()) {
+        Config config = Config.getInstance();
+        if (config.actionBarEnabled) {
             String msg = message.getString();
             boolean contentChanged = !this.minecraft_access$previousActionBarContent.equals(msg);
             if (contentChanged) {
-                if (configsMap.isOnlySpeakActionBarUpdates()) {
+                if (config.onlySpeakActionBarUpdates) {
                     minecraft_access$onlySpeakChangedParts(msg);
                 } else {
                     MainClass.speakWithNarratorIfNotEmpty(msg, true);

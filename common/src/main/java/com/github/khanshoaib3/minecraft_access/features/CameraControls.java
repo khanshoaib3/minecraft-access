@@ -1,8 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.CameraControlsConfigMap;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.condition.DoubleClick;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
@@ -80,12 +79,10 @@ public class CameraControls {
     private void loadConfigurations() {
         float delta90Degrees = 600f; // 90 / 0.15
 
-        CameraControlsConfigMap map = CameraControlsConfigMap.getInstance();
-        interval = Interval.inMilliseconds(map.getDelayInMilliseconds(), interval);
-        float normalRotatingAngle = map.getNormalRotatingAngle();
-        float modifiedRotatingAngle = map.getModifiedRotatingAngle();
-        normalRotatingDeltaAngle = delta90Degrees / (90 / normalRotatingAngle);
-        modifiedRotatingDeltaAngle = delta90Degrees / (90 / modifiedRotatingAngle);
+        Config.CameraControls config = Config.getInstance().cameraControls;
+        interval = Interval.inMilliseconds(config.delayMilliseconds, interval);
+        normalRotatingDeltaAngle = delta90Degrees / (90 / config.normalRotatingAngle);
+        modifiedRotatingDeltaAngle = delta90Degrees / (90 / config.modifiedRotatingAngle);
     }
 
     /**
@@ -218,7 +215,7 @@ public class CameraControls {
         String horizontalDirection = PlayerPositionUtils.getHorizontalFacingDirectionInWords();
         String verticalDirection = PlayerPositionUtils.getVerticalFacingDirectionInWords();
 
-        if (OtherConfigsMap.getInstance().isFacingDirectionEnabled()) {
+        if (Config.getInstance().facingDirectionEnabled) {
             if (direction.isRotatingHorizontal && horizontalDirection != null)
                 MainClass.speakWithNarrator(horizontalDirection, true);
             else if (!direction.isRotatingHorizontal && verticalDirection != null)
@@ -242,7 +239,7 @@ public class CameraControls {
         // log and speak new facing direction
         log.debug("Rotating camera to: %s".formatted(direction.name()));
 
-        if (OtherConfigsMap.getInstance().isFacingDirectionEnabled()) {
+        if (Config.getInstance().facingDirectionEnabled) {
             if (direction.in(Orientation.LAYER.MIDDLE)) {
                 MainClass.speakWithNarrator(PlayerPositionUtils.getHorizontalFacingDirectionInWords(), true);
             } else {

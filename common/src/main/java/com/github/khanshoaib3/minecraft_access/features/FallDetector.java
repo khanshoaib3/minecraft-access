@@ -1,6 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
-import com.github.khanshoaib3.minecraft_access.config.config_maps.FallDetectorConfigMap;
+import com.github.khanshoaib3.minecraft_access.Config;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.sound.SoundCategory;
@@ -19,12 +19,7 @@ public class FallDetector {
     private long previousTimeInMillis;
     MinecraftClient minecraftClient;
     private int count;
-
-    private boolean enabled;
-    private int range;
-    private int depth;
-    private float volume;
-    private int delayInMilliseconds;
+    private Config.FallDetector config;
 
     static {
         try {
@@ -39,7 +34,7 @@ public class FallDetector {
         minecraftClient = MinecraftClient.getInstance();
         previousTimeInMillis = clock.millis();
 
-        loadConfigurations();
+        loadConfig();
     }
 
     public static synchronized FallDetector getInstance() {
@@ -48,9 +43,9 @@ public class FallDetector {
 
     public void update() {
         try {
-            loadConfigurations();
+            loadConfig();
 
-            if (!enabled) return;
+            if (!config.enabled) return;
 
             if (minecraftClient == null) return;
             if (minecraftClient.player == null) return;
@@ -63,7 +58,7 @@ public class FallDetector {
             if (!minecraftClient.player.isOnGround()) return;
 
             long currentTimeInMillis = clock.millis();
-            if (currentTimeInMillis - previousTimeInMillis < delayInMilliseconds) return;
+            if (currentTimeInMillis - previousTimeInMillis < config.delay) return;
             previousTimeInMillis = currentTimeInMillis;
 
            log.debug("Searching for fall in nearby area...");
@@ -103,10 +98,10 @@ public class FallDetector {
     }
 
     private boolean isValid(BlockPos dir, BlockPos center, HashSet<BlockPos> searched) {
-        if (Math.abs(dir.getX() - center.getX()) > range)
+        if (Math.abs(dir.getX() - center.getX()) > config.range)
             return false;
 
-        if (Math.abs(dir.getZ() - center.getZ()) > range)
+        if (Math.abs(dir.getZ() - center.getZ()) > config.range)
             return false;
 
         //noinspection RedundantIfStatement
@@ -121,10 +116,10 @@ public class FallDetector {
         if (minecraftClient.world == null) return;
         if (!(minecraftClient.world.getBlockState(toCheck).isAir())) return;
 
-        if (getDepth(toCheck, depth) < depth) return;
+        if (getDepth(toCheck, config.depth) < config.depth) return;
 
        log.debug("%d) Found qualified fall position: x:%d y:%d z:%d".formatted(++count, toCheck.getX(), toCheck.getY(), toCheck.getZ()));
-        minecraftClient.world.playSoundAtBlockCenter(toCheck, SoundEvents.BLOCK_ANVIL_HIT, SoundCategory.BLOCKS, volume, 1f, true);
+        minecraftClient.world.playSoundAtBlockCenter(toCheck, SoundEvents.BLOCK_ANVIL_HIT, SoundCategory.BLOCKS, config.volume, 1f, true);
     }
 
     private int getDepth(BlockPos blockPos, int maxDepth) {
@@ -137,13 +132,7 @@ public class FallDetector {
         return 1 + getDepth(blockPos.down(), --maxDepth);
     }
 
-    private void loadConfigurations() {
-        FallDetectorConfigMap fallDetectorConfigMap = FallDetectorConfigMap.getInstance();
-        enabled = fallDetectorConfigMap.isEnabled();
-        range = fallDetectorConfigMap.getRange();
-        depth = fallDetectorConfigMap.getDepth();
-//        playSound = fallDetectorConfigMap.isPlayAlternateSound();
-        volume = fallDetectorConfigMap.getVolume();
-        delayInMilliseconds = fallDetectorConfigMap.getDelay();
+    private void loadConfig() {
+        config = Config.getInstance().fallDetector;
     }
 }

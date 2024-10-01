@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
@@ -38,7 +38,7 @@ public class PositionNarrator {
 
     public void update() {
         try {
-            if (!OtherConfigsMap.getInstance().isPositionNarratorEnabled()) return;
+            if (!Config.getInstance().positionNarratorEnabled) return;
 
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
             if (minecraftClient == null) return;

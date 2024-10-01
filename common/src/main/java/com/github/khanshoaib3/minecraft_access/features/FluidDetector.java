@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.FluidDetectorConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.block.BlockState;
@@ -20,8 +20,7 @@ import net.minecraft.util.math.Vec3i;
  */
 @Slf4j
 public class FluidDetector {
-    private int range;
-    private float volume;
+    private Config.NarratorMenu.FluidDetector config;
 
     /**
      * Finds the closest water source and plays a sound at its position.
@@ -65,10 +64,10 @@ public class FluidDetector {
         int posY = pos.getY();
         int posZ = pos.getZ();
 
-        loadConfigurations();
+        loadConfig();
 
         BlockPos startingPointPos = new BlockPos(new Vec3i(posX, posY, posZ));
-        BlockPos closestFluidPos = findFluid(minecraftClient, startingPointPos, this.range, water);
+        BlockPos closestFluidPos = findFluid(minecraftClient, startingPointPos, config.range, water);
         if (closestFluidPos == null) {
             log.debug("Unable to find closest fluid source");
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.other.not_found"), true);
@@ -77,7 +76,7 @@ public class FluidDetector {
 
         log.debug("{FluidDetector} playing sound at %dx %dy %dz".formatted(closestFluidPos.getX(), closestFluidPos.getY(), closestFluidPos.getZ()));
         minecraftClient.world.playSound(minecraftClient.player, closestFluidPos, SoundEvents.ENTITY_ITEM_PICKUP,
-                SoundCategory.BLOCKS, this.volume, 1f);
+                SoundCategory.BLOCKS, config.volume, 1f);
 
         String posDifference = NarrationUtils.narrateRelativePositionOfPlayerAnd(closestFluidPos);
         String name = minecraftClient.world.getBlockState(closestFluidPos).getBlock().getName().getString();
@@ -132,9 +131,7 @@ public class FluidDetector {
         return null;
     }
 
-    private void loadConfigurations() {
-        FluidDetectorConfigMap map = FluidDetectorConfigMap.getInstance();
-        this.range = map.getRange();
-        this.volume = map.getVolume();
+    private void loadConfig() {
+        config = Config.getInstance().narratorMenu.fluidDetector;
     }
 }

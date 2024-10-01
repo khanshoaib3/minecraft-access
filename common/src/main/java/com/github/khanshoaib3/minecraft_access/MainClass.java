@@ -1,7 +1,5 @@
 package com.github.khanshoaib3.minecraft_access;
 
-import com.github.khanshoaib3.minecraft_access.config.Config;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.*;
 import com.github.khanshoaib3.minecraft_access.features.*;
 import com.github.khanshoaib3.minecraft_access.features.inventory_controls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.narrator_menu.NarratorMenu;
@@ -47,7 +45,7 @@ public class MainClass {
     }
 
     private static void _init() {
-        Config.getInstance().loadConfig();
+        Config.init();
 
         String msg = "Initializing Minecraft Access";
         log.info(msg);
@@ -89,7 +87,7 @@ public class MainClass {
     }
 
     private static void _clientTickEventsMethod(MinecraftClient minecraftClient) {
-        OtherConfigsMap otherConfigsMap = OtherConfigsMap.getInstance();
+        Config config = Config.getInstance();
 
         changeLogLevelBaseOnDebugConfig();
 
@@ -100,36 +98,36 @@ public class MainClass {
             log.info("Unbound advancements key");
         }
 
-        if (otherConfigsMap.isMenuFixEnabled()) {
+        if (config.menuFixEnabled) {
             MenuFix.update(minecraftClient);
         }
 
         // TODO Update these to singleton design pattern
-        if (inventoryControls != null && InventoryControlsConfigMap.getInstance().isEnabled())
+        if (inventoryControls != null && config.inventoryControls.enabled)
             inventoryControls.update();
 
-        if (cameraControls != null && CameraControlsConfigMap.getInstance().isEnabled())
+        if (cameraControls != null && config.cameraControls.enabled)
             cameraControls.update();
 
         ReadCrosshair.getInstance().update();
 
-        if (biomeIndicator != null && otherConfigsMap.isBiomeIndicatorEnabled())
+        if (biomeIndicator != null && config.biomeIndicatorEnabled)
             biomeIndicator.update();
 
-        if (xpIndicator != null && otherConfigsMap.isXpIndicatorEnabled())
+        if (xpIndicator != null && config.xpIndicatorEnabled)
             xpIndicator.update();
 
         facingDirection.update();
 
         PositionNarrator.getInstance().update();
 
-        if (healthNHunger != null && otherConfigsMap.isHealthNHungerEnabled())
+        if (healthNHunger != null && config.healthAndHungerEnabled)
             healthNHunger.update();
 
-        if (playerWarnings != null && PlayerWarningConfigMap.getInstance().isEnabled())
+        if (playerWarnings != null && config.playerWarnings.enabled)
             playerWarnings.update();
 
-        if (narratorMenu != null && NarratorMenuConfigMap.getInstance().isEnabled())
+        if (narratorMenu != null && config.narratorMenu.enabled)
             narratorMenu.update();
 
         // POI Marking will handle POI Scan and POI Locking features inside it
@@ -147,7 +145,7 @@ public class MainClass {
      * Dynamically changing log level based on debug mode config.
      */
     private static void changeLogLevelBaseOnDebugConfig() {
-        boolean debugMode = OtherConfigsMap.getInstance().isDebugMode();
+        boolean debugMode = Config.getInstance().debugMode;
         if (debugMode) {
             if (!log.isDebugEnabled()) {
                 Configurator.setLevel("com.github.khanshoaib3.minecraft_access", Level.DEBUG);

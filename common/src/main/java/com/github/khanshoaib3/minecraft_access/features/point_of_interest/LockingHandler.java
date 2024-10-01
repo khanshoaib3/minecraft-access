@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.POILockingConfigMap;
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
@@ -18,7 +18,6 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EyeOfEnderEntity;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.item.BowItem;
 
@@ -36,7 +35,7 @@ import java.util.TreeMap;
 public class LockingHandler {
     @Getter
     private static final LockingHandler instance;
-    private boolean enabled = true;
+    private Config.POI.Locking config;
     private Entity lockedOnEntity = null;
     private BlockPos3d lockedOnBlock = null;
     private boolean isLockedOnWhereEyeOfEnderDisappears = false;
@@ -48,12 +47,6 @@ public class LockingHandler {
     // -1 = null, 1 = starting, 2 = half drawn, 3 = fully drawn
     private int lastBowState = -1;
 
-    private boolean lockOnBlocks;
-    private boolean speakDistance;
-    private boolean unlockingSound;
-    private boolean aimAssistEnabled;
-    private boolean aimAssistAudioCuesEnabled;
-    private float aimAssistAudioCuesVolume;
     private boolean onPOIMarkingNow = false;
 
     static {
@@ -65,8 +58,8 @@ public class LockingHandler {
 
     public void update(boolean onMarking) {
         this.onPOIMarkingNow = onMarking;
-        loadConfigurations();
-        if (!enabled) return;
+        loadConfig();
+        if (!config.enabled) return;
         if (interval != null && !interval.isReady()) return;
         try {
             mainLogic();
@@ -75,19 +68,9 @@ public class LockingHandler {
         }
     }
 
-    /**
-     * Loads the configs from the config.json
-     */
-    private void loadConfigurations() {
-        POILockingConfigMap map = POILockingConfigMap.getInstance();
-        this.enabled = map.isEnabled();
-        this.lockOnBlocks = map.isLockOnBlocks();
-        this.speakDistance = map.isSpeakDistance();
-        this.unlockingSound = map.isUnlockingSound();
-        this.interval = Interval.inMilliseconds(map.getDelay(), this.interval);
-        this.aimAssistEnabled = map.isAimAssistEnabled();
-        this.aimAssistAudioCuesEnabled = map.isAimAssistAudioCuesEnabled();
-        this.aimAssistAudioCuesVolume = map.getAimAssistAudioCuesVolume();
+    private void loadConfig() {
+        config = Config.getInstance().poi.locking;
+        interval = Interval.inMilliseconds(config.delay, interval);
     }
 
     private void mainLogic() {
@@ -131,7 +114,7 @@ public class LockingHandler {
             relock();
         }
 
-        if (aimAssistEnabled && !aimAssistActive && minecraftClient.player.isUsingItem() && minecraftClient.player.getActiveItem().getItem() instanceof BowItem) {
+        if (config.aimAssistEnabled && !aimAssistActive && minecraftClient.player.isUsingItem() && minecraftClient.player.getActiveItem().getItem() instanceof BowItem) {
             TreeMap<Double, Entity> scannedHostileMobsMap = POIEntities.getInstance().getAimAssistTargetCandidates();
             if (!scannedHostileMobsMap.isEmpty()) {
                 Entity entity = scannedHostileMobsMap.firstEntry().getValue();
@@ -148,7 +131,7 @@ public class LockingHandler {
             lastBowState = -1;
         }
 
-        if (aimAssistAudioCuesEnabled && aimAssistActive) {
+        if (config.aimAssistAudioCuesEnabled && aimAssistActive) {
             float bowPullingProgress = BowItem.getPullProgress(minecraftClient.player.getItemUseTime());
 
             int bowState = -1;
@@ -158,13 +141,13 @@ public class LockingHandler {
 
             if (PlayerUtils.isPlayerCanSee(minecraftClient.player.getEyePos(), PlayerUtils.currentEntityLookingAtPosition, lockedOnEntity)) {
                 if (lastAimAssistCue != 1 || bowState != lastBowState) {
-                    PlayerUtils.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_PLING, aimAssistAudioCuesVolume, bowState);
+                    PlayerUtils.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_PLING, config.aimAssistAudioCuesVolume, bowState);
                     lastAimAssistCue = 1;
                 }
             }
             else {
                 if (lastAimAssistCue != 0 || bowState != lastBowState) {
-                    PlayerUtils.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_BASS, aimAssistAudioCuesVolume, bowState);
+                    PlayerUtils.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_BASS, config.aimAssistAudioCuesVolume, bowState);
                     lastAimAssistCue = 0;
                 }
             }
@@ -180,7 +163,7 @@ public class LockingHandler {
         isLockedOnWhereEyeOfEnderDisappears = false;
 
         if (speak) {
-            if (this.unlockingSound) {
+            if (config.unlockingSound) {
                 PlayerUtils.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, 0.4f, 2f);
             } else {
                 MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.unlocked"), true);
@@ -197,7 +180,7 @@ public class LockingHandler {
             }
         }
 
-        if (this.lockOnBlocks || onPOIMarkingNow) {
+        if (config.lockOnBlocks || onPOIMarkingNow) {
             findAndLockOnNearestBlock();
         }
     }
@@ -254,7 +237,7 @@ public class LockingHandler {
         lockedOnEntity = entity;
 
         String narration = NarrationUtils.narrateEntity(entity);
-        if (this.speakDistance) {
+        if (config.speakDistance) {
             narration += " " + NarrationUtils.narrateRelativePositionOfPlayerAnd(entity.getBlockPos());
         }
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", narration), true);
@@ -307,7 +290,7 @@ public class LockingHandler {
         lockedOnBlock = new BlockPos3d(absolutePosition);
 
         String blockDescription = NarrationUtils.narrateBlock(lockedOnBlock, "");
-        if (this.speakDistance) {
+        if (config.speakDistance) {
             blockDescription += " " + NarrationUtils.narrateRelativePositionOfPlayerAnd(lockedOnBlock);
         }
         MainClass.speakWithNarrator(I18n.translate("minecraft_access.point_of_interest.locking.locked", blockDescription), true);

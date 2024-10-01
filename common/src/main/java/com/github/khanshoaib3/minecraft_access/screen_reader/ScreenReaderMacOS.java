@@ -1,7 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.screen_reader;
 
-import com.github.khanshoaib3.minecraft_access.config.config_maps.SpeechSettingsConfigMap;
-import java.lang.ProcessHandle;
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
@@ -49,8 +48,7 @@ public class ScreenReaderMacOS implements ScreenReaderInterface {
         }
 
         // Get speech rate here in case the user changes it
-        SpeechSettingsConfigMap map = SpeechSettingsConfigMap.getInstance();
-        float speechRate = map.getSpeechRate()/100;
+        float speechRate = Config.getInstance().speechSettings.speechRate / 100;
 
         // Convert the text to be spoken into an NSString object
         Pointer stringObject = objcRuntimeInstance.objc_msgSend(

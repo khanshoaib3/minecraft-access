@@ -1,7 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.features.point_of_interest;
 
-import com.github.khanshoaib3.minecraft_access.config.config_maps.POIBlocksConfigMap;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.POIMarkingConfigMap;
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import lombok.Getter;
@@ -90,12 +89,7 @@ public class POIBlocks {
     private TreeMap<Double, Vec3d> markedBlocks = new TreeMap<>();
 
     private Set<BlockPos> checkedBlocks = Set.of();
-    private boolean enabled;
-    private boolean detectFluidBlocks;
-    private int range;
-    private boolean playSound;
-    private float volume;
-    private boolean playSoundForOtherBlocks;
+    private Config.POI.Blocks config;
     private Interval interval;
     private Predicate<BlockState> markedBlock = state -> false;
     private boolean onPOIMarkingNow = false;
@@ -109,16 +103,16 @@ public class POIBlocks {
     }
 
     private POIBlocks() {
-        loadConfigurations();
+        loadConfig();
     }
 
     public void update(boolean onMarking, Block markedBlock) {
         try {
             this.onPOIMarkingNow = onMarking;
             if (onPOIMarkingNow) setMarkedBlock(markedBlock);
-            loadConfigurations();
+            loadConfig();
 
-            if (!this.enabled) return;
+            if (!config.enabled) return;
             if (interval != null && !interval.isReady()) return;
 
             MinecraftClient client = MinecraftClient.getInstance();
@@ -145,8 +139,8 @@ public class POIBlocks {
             // Scan blocks exposed in the space around player
             checkBlock(pos.down(), 0);
             checkBlock(pos.up(2), 0);
-            checkBlock(pos, this.range);
-            checkBlock(pos.up(), this.range);
+            checkBlock(pos, config.range);
+            checkBlock(pos.up(), config.range);
             log.debug("POIBlock ended.");
 
         } catch (Exception e) {
@@ -154,15 +148,9 @@ public class POIBlocks {
         }
     }
 
-    private void loadConfigurations() {
-        POIBlocksConfigMap poiBlocksConfigMap = POIBlocksConfigMap.getInstance();
-        this.enabled = poiBlocksConfigMap.isEnabled();
-        this.detectFluidBlocks = poiBlocksConfigMap.isDetectFluidBlocks();
-        this.range = poiBlocksConfigMap.getRange();
-        this.playSound = poiBlocksConfigMap.isPlaySound();
-        this.volume = poiBlocksConfigMap.getVolume();
-        this.playSoundForOtherBlocks = poiBlocksConfigMap.isPlaySoundForOtherBlocks();
-        this.interval = Interval.inMilliseconds(poiBlocksConfigMap.getDelay(), this.interval);
+    private void loadConfig() {
+        config = Config.getInstance().poi.blocks;
+        interval = Interval.inMilliseconds(config.delay, interval);
     }
 
     private void checkBlock(BlockPos blockPos, int val) {
@@ -202,7 +190,7 @@ public class POIBlocks {
         if (markedBlock.test(blockState)) {
             markedBlocks.put(diff, blockVec3dPos);
             soundType = "mark";
-        } else if (this.detectFluidBlocks && block instanceof FluidBlock && PlayerUtils.isNotInFluid()) {
+        } else if (config.detectFluidBlocks && block instanceof FluidBlock && PlayerUtils.isNotInFluid()) {
             if (this.world.getFluidState(blockPos).getLevel() == 8) {
                 fluidBlocks.put(diff, blockVec3dPos);
                 soundType = "blocks";
@@ -246,7 +234,7 @@ public class POIBlocks {
     }
 
     private void playSoundAtBlock(BlockPos blockPos, String soundType) {
-        boolean playSound = this.playSound && !soundType.isEmpty() && this.volume != 0;
+        boolean playSound = config.playSound && !soundType.isEmpty() && config.volume != 0;
         if (!playSound) return;
 
         String coordinates = "x:%d y:%d z%d".formatted(blockPos.getX(), blockPos.getY(), blockPos.getZ());
@@ -255,9 +243,9 @@ public class POIBlocks {
             if (soundType.equalsIgnoreCase("mark")) {
                 log.debug("Play sound at [{}]", coordinates);
                 this.world.playSound(this.player, blockPos, SoundEvents.ENTITY_ITEM_PICKUP,
-                        SoundCategory.BLOCKS, volume, -5f);
+                        SoundCategory.BLOCKS, config.volume, -5f);
                 return;
-            } else if (POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+            } else if (Config.getInstance().poi.marking.suppressOtherWhenEnabled) {
                 log.debug("Suppress sound at [{}]", coordinates);
                 return;
             }
@@ -267,13 +255,13 @@ public class POIBlocks {
 
         if (soundType.equalsIgnoreCase("ore"))
             this.world.playSound(this.player, blockPos, SoundEvents.ENTITY_ITEM_PICKUP,
-                    SoundCategory.BLOCKS, volume, -5f);
-        else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocks"))
+                    SoundCategory.BLOCKS, config.volume, -5f);
+        else if (config.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocks"))
             this.world.playSound(this.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(),
-                    SoundCategory.BLOCKS, volume, 2f);
-        else if (this.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocksWithInterface"))
+                    SoundCategory.BLOCKS, config.volume, 2f);
+        else if (config.playSoundForOtherBlocks && soundType.equalsIgnoreCase("blocksWithInterface"))
             this.world.playSound(this.player, blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BANJO.value(),
-                    SoundCategory.BLOCKS, volume, 0f);
+                    SoundCategory.BLOCKS, config.volume, 0f);
     }
 
     private void setMarkedBlock(Block block) {
@@ -282,7 +270,7 @@ public class POIBlocks {
 
     public List<TreeMap<Double, Vec3d>> getLockingCandidates() {
         if (onPOIMarkingNow) {
-            if (POIMarkingConfigMap.getInstance().isSuppressOtherWhenEnabled()) {
+            if (Config.getInstance().poi.marking.suppressOtherWhenEnabled) {
                 return List.of(markedBlocks);
             } else {
                 return List.of(markedBlocks, doorBlocks, buttonBlocks, ladderBlocks, leverBlocks, trapDoorBlocks, otherBlocks, oreBlocks, fluidBlocks);

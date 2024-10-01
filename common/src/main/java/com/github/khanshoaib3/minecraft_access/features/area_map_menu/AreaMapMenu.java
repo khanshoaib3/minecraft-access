@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features.area_map_menu;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.AreaMapConfigMap;
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
@@ -43,9 +43,7 @@ public class AreaMapMenu {
     private static final Keystroke mapLockKey;
     public static final Set<Pair<IntervalKeystroke, Orientation>> CURSOR_MOVING_DIRECTIONS = new HashSet<>(6);
 
-    private boolean enabled;
-    private int verticalBound = 2;
-    private int horizontalBound = 96;
+    private Config.AreaMap config;
     private BlockPos cursor;
     private boolean mapLocked = false;
 
@@ -54,7 +52,7 @@ public class AreaMapMenu {
 
         menuKey = new MenuKeystroke(() -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapMenuKey));
 
-        int keyInterval = AreaMapConfigMap.getInstance().getDelayInMilliseconds();
+        int keyInterval = Config.getInstance().areaMap.delayMilliseconds;
         int cursorMovingKeyIndex = 0;
         for (var p : List.<Pair<Orientation, BooleanSupplier>>of(
                 new Pair<>(Orientation.NORTH, () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapNorthKey)),
@@ -92,8 +90,8 @@ public class AreaMapMenu {
     }
 
     public void execute(MinecraftClient client) {
-        updateConfigs();
-        if (!enabled) return;
+        loadConfig();
+        if (!config.enabled) return;
 
         if (client.currentScreen == null) {
             if (menuKey.canOpenMenu()) {
@@ -116,14 +114,9 @@ public class AreaMapMenu {
         Arrays.stream(cursorMovingKeys).forEach(IntervalKeystroke::updateStateForNextTick);
     }
 
-    private void updateConfigs() {
-        AreaMapConfigMap map = AreaMapConfigMap.getInstance();
-        this.enabled = map.isEnabled();
-        this.verticalBound = map.getVerticalBound();
-        this.horizontalBound = map.getHorizontalBound();
-
-        // set key intervals
-        Arrays.stream(cursorMovingKeys).forEach(k -> k.setInterval(Interval.inMilliseconds(map.getDelayInMilliseconds(), k.interval())));
+    private void loadConfig() {
+        config = Config.getInstance().areaMap;
+        Arrays.stream(cursorMovingKeys).forEach(k -> k.setInterval(Interval.inMilliseconds(config.delayMilliseconds, k.interval())));
     }
 
     private void openAreaMapMenu() {
@@ -181,7 +174,7 @@ public class AreaMapMenu {
         int distanceOnX = Math.abs(playerPos.getX() - nextStep.getX());
         int distanceOnY = Math.abs(playerPos.getY() - nextStep.getY());
         int distanceOnZ = Math.abs(playerPos.getZ() - nextStep.getZ());
-        if(distanceOnX > horizontalBound || distanceOnZ > horizontalBound || distanceOnY > verticalBound) {
+        if(distanceOnX > config.horizontalBound || distanceOnZ > config.horizontalBound || distanceOnY > config.verticalBound) {
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.cursor_reach_bound"), true);
             return false;
         }

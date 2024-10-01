@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.mixin;
 
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import com.mojang.brigadier.Message;
 import com.mojang.brigadier.suggestion.Suggestion;
 import net.minecraft.client.gui.screen.ChatInputSuggestor;
@@ -48,7 +48,7 @@ public class ChatInputSuggestorSuggestionWindowMixin {
         Suggestion suggestion = this.suggestions.get(this.selection);
         Message message = suggestion.getTooltip();
 
-        String format = OtherConfigsMap.getInstance().getCommandSuggestionNarratorFormat();
+        String format = Config.getInstance().commandSuggestionNarratorFormat;
         String textToSpeak = format.formatted(this.selection + 1, this.suggestions.size(), suggestion.getText());
 
         if (message != null) {

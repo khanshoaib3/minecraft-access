@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.PlayerWarningConfigMap;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
@@ -18,12 +18,7 @@ public class PlayerWarnings {
     private boolean isHealthBelowSecondThreshold;
     private boolean isFoodBelowThreshold;
     private boolean isAirBelowThreshold;
-
-    private boolean playSound;
-    private double firstHealthThreshold;
-    private double secondHealthThreshold;
-    private double hungerThreshold;
-    private double airThreshold;
+    private Config.PlayerWarnings config;
 
     public PlayerWarnings() {
         isHealthBelowFirstThreshold = false;
@@ -31,7 +26,7 @@ public class PlayerWarnings {
         isFoodBelowThreshold = false;
         isAirBelowThreshold = false;
 
-        loadConfigurations();
+        loadConfig();
     }
 
     public void update() {
@@ -41,7 +36,7 @@ public class PlayerWarnings {
             if (minecraftClient.player == null) return;
             if (minecraftClient.currentScreen != null) return;
 
-            loadConfigurations();
+            loadConfig();
 
             double health = minecraftClient.player.getHealth();
             double hunger = minecraftClient.player.getHungerManager().getFoodLevel();
@@ -61,55 +56,50 @@ public class PlayerWarnings {
         }
     }
 
-    private void loadConfigurations() {
-        PlayerWarningConfigMap map = PlayerWarningConfigMap.getInstance();
-        this.playSound = map.isPlaySound();
-        this.firstHealthThreshold = map.getFirstHealthThreshold();
-        this.secondHealthThreshold = map.getSecondHealthThreshold();
-        this.hungerThreshold = map.getHungerThreshold();
-        this.airThreshold = map.getAirThreshold();
+    private void loadConfig() {
+        config = Config.getInstance().playerWarnings;
     }
 
     private void healthWarning(double health) {
         if (minecraftClient.player == null) return;
 
-        if (health < firstHealthThreshold && health > secondHealthThreshold && !isHealthBelowFirstThreshold && !isHealthBelowSecondThreshold) {
+        if (health < config.firstHealthThreshold && health > config.secondHealthThreshold && !isHealthBelowFirstThreshold && !isHealthBelowSecondThreshold) {
             isHealthBelowFirstThreshold = true;
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.player_warnings.health_low", health), true);
-            if (playSound) minecraftClient.player.playSound(SoundEvents.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
+            if (config.playSound) minecraftClient.player.playSound(SoundEvents.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
         }
 
-        if (health < secondHealthThreshold && health > 0 && isHealthBelowFirstThreshold && !isHealthBelowSecondThreshold) {
+        if (health < config.secondHealthThreshold && health > 0 && isHealthBelowFirstThreshold && !isHealthBelowSecondThreshold) {
             isHealthBelowSecondThreshold = true;
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.player_warnings.health_low", health), true);
-            if (playSound) minecraftClient.player.playSound(SoundEvents.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
+            if (config.playSound) minecraftClient.player.playSound(SoundEvents.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
         }
 
-        if (isHealthBelowFirstThreshold && health >= firstHealthThreshold) isHealthBelowFirstThreshold = false;
-        if (isHealthBelowSecondThreshold && health >= secondHealthThreshold) isHealthBelowSecondThreshold = false;
+        if (isHealthBelowFirstThreshold && health >= config.firstHealthThreshold) isHealthBelowFirstThreshold = false;
+        if (isHealthBelowSecondThreshold && health >= config.secondHealthThreshold) isHealthBelowSecondThreshold = false;
     }
 
     private void hungerWarning(double hunger) {
         if (minecraftClient.player == null) return;
 
-        if (hunger < hungerThreshold && hunger > 0 && !isFoodBelowThreshold) {
+        if (hunger < config.hungerThreshold && hunger > 0 && !isFoodBelowThreshold) {
             isFoodBelowThreshold = true;
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.player_warnings.hunger_low", hunger), true);
-            if (playSound) minecraftClient.player.playSound(SoundEvents.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
+            if (config.playSound) minecraftClient.player.playSound(SoundEvents.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
         }
 
-        if (isFoodBelowThreshold && hunger >= hungerThreshold) isFoodBelowThreshold = false;
+        if (isFoodBelowThreshold && hunger >= config.hungerThreshold) isFoodBelowThreshold = false;
     }
 
     private void airWarning(double air) {
         if (minecraftClient.player == null) return;
 
-        if (air < airThreshold && air > 0 && !isAirBelowThreshold) {
+        if (air < config.airThreshold && air > 0 && !isAirBelowThreshold) {
             isAirBelowThreshold = true;
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.player_warnings.air_low", air), true);
-            if (playSound) minecraftClient.player.playSound(SoundEvents.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
+            if (config.playSound) minecraftClient.player.playSound(SoundEvents.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
         }
 
-        if (isAirBelowThreshold && air >= airThreshold) isAirBelowThreshold = false;
+        if (isAirBelowThreshold && air >= config.airThreshold) isAirBelowThreshold = false;
     }
 }

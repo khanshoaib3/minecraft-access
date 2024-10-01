@@ -1,6 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
-import com.github.khanshoaib3.minecraft_access.config.config_maps.MouseSimulationConfigMap;
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
 import com.github.khanshoaib3.minecraft_access.utils.condition.IntervalKeystroke;
@@ -27,7 +27,7 @@ import java.util.Set;
 public class MouseKeySimulation {
     private static final MouseKeySimulation instance;
 
-    private boolean enabled;
+    private Config.MouseSimulation config;
     private static final Keystroke[] mouseClicks = new Keystroke[3];
     public static final Set<Triple<Keystroke, Runnable, Runnable>> MOUSE_CLICK_ACTIONS;
     private static final IntervalKeystroke[] mouseScrolls = new IntervalKeystroke[2];
@@ -65,9 +65,9 @@ public class MouseKeySimulation {
 
     public void update() {
         try {
-            loadConfigurations();
+            loadConfig();
 
-            if (!enabled) return;
+            if (!config.enabled) return;
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
             if (minecraftClient == null) return;
             if (minecraftClient.player == null) return;
@@ -78,11 +78,10 @@ public class MouseKeySimulation {
         }
     }
 
-    private void loadConfigurations() {
-        MouseSimulationConfigMap map = MouseSimulationConfigMap.getInstance();
-        this.enabled = map.isEnabled();
-        mouseScrolls[0].setInterval(Interval.inMilliseconds(map.getScrollDelayInMilliseconds(), mouseScrolls[0].interval()));
-        mouseScrolls[1].setInterval(Interval.inMilliseconds(map.getScrollDelayInMilliseconds(), mouseScrolls[1].interval()));
+    private void loadConfig() {
+        config = Config.getInstance().mouseSimulation;
+        mouseScrolls[0].setInterval(Interval.inMilliseconds(config.scrollDelayMilliseconds, mouseScrolls[0].interval()));
+        mouseScrolls[1].setInterval(Interval.inMilliseconds(config.scrollDelayMilliseconds, mouseScrolls[1].interval()));
     }
 
     private void execute() {

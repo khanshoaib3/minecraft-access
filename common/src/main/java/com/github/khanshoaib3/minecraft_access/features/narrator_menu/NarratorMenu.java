@@ -1,8 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features.narrator_menu;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.ConfigMenu;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.github.khanshoaib3.minecraft_access.features.BiomeIndicator;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
@@ -12,6 +11,7 @@ import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import lombok.extern.slf4j.Slf4j;
+import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
@@ -88,7 +88,7 @@ public class NarratorMenu {
                     () -> ScreenReaderController.refreshScreenReader(true)),
             new MenuFunction("minecraft_access.narrator_menu.gui.button.open_config_menu",
                     GLFW.GLFW_KEY_0, GLFW.GLFW_KEY_KP_0,
-                    () -> MinecraftClient.getInstance().setScreen(new ConfigMenu("config_menu"))),
+                    () -> MinecraftClient.getInstance().setScreen(AutoConfig.getConfigScreen(Config.class, null).get())),
     };
 
     private record MenuFunction(String configKey, int numberKeyCode, int keyPadKeyCode, Runnable func) {
@@ -266,7 +266,7 @@ public class NarratorMenu {
             int minutes = (int) ((daytime % 1000) * 60 / 1000);
 
             String translationKey = "minecraft_access.narrator_menu.time_of_day";
-            if (OtherConfigsMap.getInstance().isUse12HourTimeFormat()) {
+            if (Config.getInstance().use12HourTimeFormat) {
                 if (hours > 12) {
                     hours -= 12;
                     translationKey += "_pm";

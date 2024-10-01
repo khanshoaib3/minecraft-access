@@ -1,9 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.RCPartialSpeakingConfigMap;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.RCRelativePositionSoundCueConfigMap;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.ReadCrosshairConfigMap;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
@@ -24,7 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
-import java.util.List;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -36,24 +34,15 @@ import java.util.function.Predicate;
 public class ReadCrosshair {
     private double rayCastDistance = 6.0;
     private static ReadCrosshair instance;
-    private boolean enabled;
+    private Config.ReadCrosshair config;
     private String previousQuery = "";
     private Vec3d previousSoundPos = Vec3d.ZERO;
-    private boolean speakSide;
-    private boolean speakingConsecutiveBlocks;
     private Interval repeatSpeakingInterval;
-    private boolean enablePartialSpeaking;
-    private boolean partialSpeakingWhitelistMode;
-    private boolean partialSpeakingFuzzyMode;
-    private List<String> partialSpeakingTargets;
     private boolean partialSpeakingBlock;
     private boolean partialSpeakingEntity;
-    private boolean enableRelativePositionSoundCue;
-    private double minSoundVolume;
-    private double maxSoundVolume;
 
     private ReadCrosshair() {
-        loadConfigurations();
+        loadConfig();
     }
 
     public static ReadCrosshair getInstance() {
@@ -78,8 +67,8 @@ public class ReadCrosshair {
             if (minecraftClient.player == null) return;
             if (minecraftClient.currentScreen != null) return;
 
-            loadConfigurations();
-            if (!enabled) return;
+            loadConfig();
+            if (!config.enabled) return;
 
             this.rayCastDistance = PlayerUtils.getInteractionRange();
             HitResult hit = PlayerUtils.crosshairTarget(rayCastDistance);
@@ -91,30 +80,10 @@ public class ReadCrosshair {
         }
     }
 
-    private void loadConfigurations() {
-        // It is best to get the config map from instance of Config class rather than directly from
-        // the ReadCrosshairConfigMap class because in the case of an error in the config.json,
-        // while it does get reset to default but the mod crashes as well. So to avoid the mod from crashing,
-        // use the instance of Config class to get instances of other config maps.
-        ReadCrosshairConfigMap rcMap = ReadCrosshairConfigMap.getInstance();
-        RCPartialSpeakingConfigMap rcpMap = RCPartialSpeakingConfigMap.getInstance();
-        RCRelativePositionSoundCueConfigMap rcrMap = RCRelativePositionSoundCueConfigMap.getInstance();
-
-        this.enabled = rcMap.isEnabled();
-        this.speakSide = rcMap.isSpeakSide();
-        // affirmation for easier use
-        this.speakingConsecutiveBlocks = !rcMap.isDisableSpeakingConsecutiveBlocks();
-        long interval = rcMap.getRepeatSpeakingInterval();
-        this.repeatSpeakingInterval = Interval.inMilliseconds(interval, this.repeatSpeakingInterval);
-        this.enableRelativePositionSoundCue = rcrMap.isEnabled();
-        this.minSoundVolume = rcrMap.getMinSoundVolume();
-        this.maxSoundVolume = rcrMap.getMaxSoundVolume();
-
-        this.enablePartialSpeaking = rcpMap.isEnabled();
-        this.partialSpeakingFuzzyMode = rcpMap.isPartialSpeakingFuzzyMode();
-        this.partialSpeakingWhitelistMode = rcpMap.isPartialSpeakingWhitelistMode();
-        this.partialSpeakingTargets = rcpMap.getPartialSpeakingTargets();
-        switch (rcpMap.getPartialSpeakingTargetMode()) {
+    private void loadConfig() {
+        config = Config.getInstance().readCrosshair;
+        repeatSpeakingInterval = Interval.inMilliseconds(config.repeatSpeakingInterval, repeatSpeakingInterval);
+        switch (config.partialSpeaking.targetMode) {
             case ALL -> {
                 partialSpeakingBlock = true;
                 partialSpeakingEntity = true;
@@ -143,7 +112,7 @@ public class ReadCrosshair {
         try {
             Entity entity = hit.getEntity();
 
-            if (enablePartialSpeaking && partialSpeakingEntity) {
+            if (config.partialSpeaking.enabled && partialSpeakingEntity) {
                 if (checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(EntityType.getId(entity.getType()))) return;
             }
 
@@ -161,9 +130,9 @@ public class ReadCrosshair {
     private void speakIfFocusChanged(String currentQuery, String toSpeak, Vec3d targetPosition) {
         boolean focusChanged = !getPreviousQuery().equalsIgnoreCase(currentQuery);
         if (focusChanged) {
-            if (this.enableRelativePositionSoundCue && !this.previousSoundPos.equals(targetPosition)) {
+            if (config.relativePositionSoundCue.enabled && !previousSoundPos.equals(targetPosition)) {
                 WorldUtils.playRelativePositionSoundCue(targetPosition, rayCastDistance,
-                        SoundEvents.BLOCK_NOTE_BLOCK_HARP, this.minSoundVolume, this.maxSoundVolume);
+                        SoundEvents.BLOCK_NOTE_BLOCK_HARP, config.relativePositionSoundCue.minSoundVolume, config.relativePositionSoundCue.maxSoundVolume);
                 this.previousSoundPos = targetPosition;
             }
             this.previousQuery = currentQuery;
@@ -173,7 +142,7 @@ public class ReadCrosshair {
 
     private void checkForBlocks(BlockHitResult hit) {
         String side = "";
-        if (this.speakSide) {
+        if (config.speakSide) {
             Direction d = hit.getSide();
             side = I18n.translate("minecraft_access.direction." + d.getName());
         }
@@ -185,7 +154,7 @@ public class ReadCrosshair {
         Identifier blockId = Registries.BLOCK.getId(blockInfo.type());
 
         Pair<String, String> toSpeakAndCurrentQuery;
-        if (enablePartialSpeaking && partialSpeakingBlock && checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(blockId)) {
+        if (config.partialSpeaking.enabled && partialSpeakingBlock && checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(blockId)) {
             toSpeakAndCurrentQuery = new Pair<>("", "");
         } else {
             toSpeakAndCurrentQuery = NarrationUtils.narrateBlockForContentChecking(blockPos, side);
@@ -196,7 +165,7 @@ public class ReadCrosshair {
         // If "speakingConsecutiveBlocks" config is enabled, add position info to currentQuery,
         // so same blocks at different positions will be regard as different one then trigger the narrator.
         // Class name in production environment can be different
-        if (this.speakingConsecutiveBlocks) currentQuery += " " + blockPosInString;
+        if (!config.disableSpeakingConsecutiveBlocks) currentQuery += " " + blockPosInString;
 
         speakIfFocusChanged(currentQuery, toSpeakAndCurrentQuery.getLeft(), Vec3d.of(blockPos));
     }
@@ -204,9 +173,9 @@ public class ReadCrosshair {
     private boolean checkIfPartialSpeakingFeatureDoesNotAllowsSpeakingThis(Identifier id) {
         if (id == null) return false;
         String name = id.getPath();
-        Predicate<String> p = partialSpeakingFuzzyMode ? name::contains : name::equals;
-        return partialSpeakingWhitelistMode ?
-                partialSpeakingTargets.stream().noneMatch(p) :
-                partialSpeakingTargets.stream().anyMatch(p);
+        Predicate<String> p = config.partialSpeaking.fuzzy ? name::contains : name::equals;
+        return config.partialSpeaking.whitelist ?
+                Arrays.stream(config.partialSpeaking.targets).noneMatch(p) :
+                Arrays.stream(config.partialSpeaking.targets).anyMatch(p);
     }
 }

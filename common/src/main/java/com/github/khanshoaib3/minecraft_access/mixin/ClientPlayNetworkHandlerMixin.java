@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.mixin;
 
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.OtherConfigsMap;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -36,7 +36,7 @@ public abstract class ClientPlayNetworkHandlerMixin implements TickablePacketLis
         // Invoke ahead here do no harm, according to this method's implementation.
         NetworkThreadUtils.forceMainThread(packet, this, client);
 
-        if (!OtherConfigsMap.getInstance().isFishingHarvestEnabled()) return;
+        if (!Config.getInstance().fishingHarvestEnabled) return;
 
         ClientPlayerEntity player = client.player;
         if (player == null) return;

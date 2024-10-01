@@ -1,7 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.features.inventory_controls;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
-import com.github.khanshoaib3.minecraft_access.config.config_maps.InventoryControlsConfigMap;
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.github.khanshoaib3.minecraft_access.mixin.*;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
@@ -51,8 +51,7 @@ import java.util.Optional;
  */
 @Slf4j
 public class InventoryControls {
-    private boolean autoOpenRecipeBook;
-    private String rowAndColumnFormat;
+    private Config.InventoryControls config;
     private Interval interval;
     private MinecraftClient minecraftClient;
 
@@ -64,7 +63,6 @@ public class InventoryControls {
     private int currentGroupIndex = 0;
     private SlotItem currentSlotItem = null;
     private String previousSlotText = "";
-    private boolean speakFocusedSlotChanges = true;
 
     private enum FocusDirection {
         UP(I18n.translate("minecraft_access.inventory_controls.direction_up")),
@@ -85,11 +83,11 @@ public class InventoryControls {
     }
 
     public InventoryControls() {
-        loadConfigurations();
+        loadConfig();
     }
 
     public String getRowAndColumnFormat() {
-        return rowAndColumnFormat;
+        return config.rowAndColumnFormat;
     }
 
     public void update() {
@@ -108,7 +106,7 @@ public class InventoryControls {
         if (!(minecraftClient.currentScreen instanceof HandledScreen)) return;
 
         try {
-            loadConfigurations();
+            loadConfig();
             boolean wasAnyKeyPressed = keyListener();
 
             currentScreen = (HandledScreenAccessor) minecraftClient.currentScreen;
@@ -137,7 +135,7 @@ public class InventoryControls {
                     recipeBookWidget = craftingScreen.getRecipeBookWidget();
                 }
 
-                if (autoOpenRecipeBook && recipeBookWidget != null) {
+                if (config.autoOpenRecipeBook && recipeBookWidget != null) {
                     // since 1.20.x
                     if (!recipeBookWidget.isOpen()) recipeBookWidget.toggleOpen();
                     setSearchBoxFocus(((RecipeBookWidgetAccessor) recipeBookWidget).getSearchField(), false);
@@ -149,7 +147,7 @@ public class InventoryControls {
 
             if (currentSlotsGroupList.isEmpty()) return;
 
-            if (speakFocusedSlotChanges) {
+            if (config.speakFocusedSlotChanges) {
                 String slotNarrationText = getCurrentSlotNarrationText();
                 if (!previousSlotText.equals(slotNarrationText)) {
                     previousSlotText = slotNarrationText;
@@ -163,15 +161,9 @@ public class InventoryControls {
         }
     }
 
-    /**
-     * Load configs from config.json
-     */
-    private void loadConfigurations() {
-        InventoryControlsConfigMap map = InventoryControlsConfigMap.getInstance();
-        autoOpenRecipeBook = map.isAutoOpenRecipeBook();
-        rowAndColumnFormat = map.getRowAndColumnFormat();
-        interval = Interval.inMilliseconds(map.getDelayInMilliseconds(), interval);
-        speakFocusedSlotChanges = map.isSpeakFocusedSlotChanges();
+    private void loadConfig() {
+        config = Config.getInstance().inventoryControls;
+        interval = Interval.inMilliseconds(config.delayMilliseconds, interval);
     }
 
     /**

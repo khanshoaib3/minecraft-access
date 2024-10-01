@@ -1,6 +1,6 @@
 package com.github.khanshoaib3.minecraft_access.features;
 
-import com.github.khanshoaib3.minecraft_access.config.config_maps.AreaMapConfigMap;
+import com.github.khanshoaib3.minecraft_access.Config;
 import com.github.khanshoaib3.minecraft_access.features.area_map_menu.AreaMapMenu;
 import com.github.khanshoaib3.minecraft_access.features.area_map_menu.AreaMapMenuGUI;
 import com.github.khanshoaib3.minecraft_access.test_utils.MockKeystrokeAction;
@@ -215,9 +215,9 @@ class AreaMapMenuTest {
     }
 
     static Stream<Arguments> testDistanceBoundCheckingWhileCursorMoving() {
-        var map = AreaMapConfigMap.getInstance();
-        int vb = map.getVerticalBound();
-        int hb = map.getHorizontalBound();
+        Config.AreaMap config = Config.getInstance().areaMap;
+        int vb = config.verticalBound;
+        int hb = config.horizontalBound;
         // https://minecraft.wiki/w/Coordinates
         // North = -Z, Up = +Y, East = +X
         // set init position as edge of bounds
@@ -241,8 +241,7 @@ class AreaMapMenuTest {
         openOrCloseAreaMapMenu();
 
         // set cursor position out of distance bound
-        var map = AreaMapConfigMap.getInstance();
-        setMapCursorTo(new BlockPos(map.getHorizontalBound() + 1, 0, 0));
+        setMapCursorTo(new BlockPos(Config.getInstance().areaMap.horizontalBound + 1, 0, 0));
 
         // mock player moving, keep x-axis stays at 0
         BlockPos newPlayerPosition = new BlockPos(new Vec3i(0, 1, 0));
