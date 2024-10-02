@@ -15,7 +15,7 @@
   },
   "icon": "logo-mc-access.png",
 
-  "license": "GNU GPLv3",
+  "license": "GPL-3.0-only",
 
   "environment": "*",
   "entrypoints": {
@@ -39,7 +39,8 @@
     "fabricloader": ">=${fabric_loader_version}",
     "fabric-key-binding-api-v1": "*",
     "fabric-resource-loader-v0": "*",
-    "minecraft": "${minecraft_version}"
+    "minecraft": "${minecraft_version}",
+    "cloth-config": "*"
   },
   "suggests": {
   },

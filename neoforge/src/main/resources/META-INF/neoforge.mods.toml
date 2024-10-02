@@ -1,7 +1,7 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
-#issueTrackerURL = ""
-license = "GNU GPLv3"
+issueTrackerURL = "https://github.com/khanshoaib3/minecraft-access/issues"
+license = "GPL-3.0-only"
 
 [[mods]]
 modId = "minecraft_access"
@@ -11,7 +11,9 @@ authors = "Shoaib, Boholder, TheSuperGamer20578"
 description = '''
 A mod that helps visually impaired players to play Minecraft.
 '''
-#logoFile = ""
+logoFile = "logo-mc-access.png"
+modUrl = "https://modrinth.com/mod/minecraft-access"
+displayURL = "https://github.com/khanshoaib3/minecraft-access"
 
 [[dependencies.minecraft_access]]
 modId = "neoforge"
@@ -25,6 +27,11 @@ modId = "minecraft"
 mandatory = true
 versionRange = "[${minecraft_version},)"
 ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.minecraft_access]]
+modId = "cloth_config"
+mandatory = true
 side = "BOTH"
 
 [[mixins]]
