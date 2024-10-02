@@ -31,7 +31,8 @@
   },
   "mixins": [
     "minecraft_access.mixins.json",
-    "minecraft_access-common.mixins.json"
+    "minecraft_access-common.mixins.json",
+    "minecraft_access-compat.mixins.json"
   ],
 
   "depends": {

@@ -1,0 +1,14 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "com.github.khanshoaib3.minecraft_access.compat.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "clothconfig.AbstractConfigEntryMixin",
+    "clothconfig.ClothConfigScreenMixin",
+    "clothconfig.ClothConfigTabButtonMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

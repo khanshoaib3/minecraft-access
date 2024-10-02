@@ -32,3 +32,6 @@ config = "minecraft_access.mixins.json"
 
 [[mixins]]
 config = "minecraft_access-common.mixins.json"
+
+[[mixins]]
+config = "minecraft_access-compat.mixins.json"
