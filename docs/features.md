@@ -176,8 +176,11 @@ See also: [Configuration](/docs/config.md#fall-detector)
 
 ## Access Menu
 
-This menu can be accessed by pressing the F4 key by default, and integrates a number of helper functions which can be executed from wintin the menu, or by using the individual hotkey directly. 
-Note that the individual function keys aren't bound by default, asside from narrate target, so you will need to bind the ones you want to use yourself.
+This menu can be accessed by pressing the F4 key by default
+and integrates a number of helper functions which can be executed from within the menu 
+or by using the individual hotkey directly. 
+Note that the individual function keys aren't bound by default, aside from narrate target,
+so you will need to bind the ones you want to use yourself.
 
 | Function                              | Description                                                                                                                                                                                  |
 |---------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
