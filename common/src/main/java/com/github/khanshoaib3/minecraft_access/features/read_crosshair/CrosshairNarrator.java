@@ -13,9 +13,9 @@ public interface CrosshairNarrator {
      * {@link #narrate(ClientWorld, boolean)} will only be called
      * if this method returns a different non-null value than its previous call.
      * A value of null indicates that the player is not currently looking at any block
-     * and thus {@link #narrate(ClientWorld, boolean)} should not be called.
+     * and thus {@link #narrate(ClientWorld, boolean)} MUST NOT be called.
      * @param world The current world the player is in
-     * @param speakSide Weather the block side the player is pointing at should be narrated
+     * @param speakSide Whether the block side the player is pointing at should be narrated
      * @return Any object comparable with {@link java.util.Objects#equals(Object, Object)} or null
      */
     @Nullable Object deduplication(@NotNull ClientWorld world, boolean speakSide, boolean speakConsecutiveBlocks);
