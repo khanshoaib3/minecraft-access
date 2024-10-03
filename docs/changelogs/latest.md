@@ -10,6 +10,7 @@ Edit: https://github.com/khanshoaib3/minecraft-access-i18n/pull/39 should be mer
 - Implement speech support on MacOS with queuing and interruption support
 - Add a speech settings config menu with a speech rate option for changing the speech rate on MacOS
 - Warn the user if Minecraft has not been granted the accessibility permission, which is needed for mouse simulation to work
+- Blocks and entities can now be narrated with Jade, providing much more detailed information.
 
 ### Feature Updates
 
