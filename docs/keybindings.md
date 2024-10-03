@@ -23,23 +23,23 @@ You may want to take a look at [all the original controls](https://minecraft.wik
 
 ## Camera Controls
 
-| Single Key  | Default Keybinding | Description                                                                                                                          |
-|-------------|--------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| `Look Up`   | I                  | Move the camera vertically up by the `Normal Rotating Angle` config value                                                            |
-| `Alternate Look Up` | Number Pad 8       | Same as `Look Up Key`, move the camera vertically up                                                                                 |
-| `Look Right` | L                  | Move the camera horizontally right by the `Normal Rotating Angle` config value                                                       |
-| `Alternate Look Right` | Number Pad 6       | Same as `Look Right Key`, move the camera horizontally right                                                                         |
-| `Look Down` | K                  | Move the camera vertically down by the `Normal Rotating Angle` config value                                                          |
-| `Alternate Look Down` | Number Pad 2       | Same as `Look Down Key`, Move the camera vertically down                                                                             |
-| `Look Left` | J                  | Move the camera horizontally left by the `Normal Rotating Angle` config value                                                        |
-| `Alternate Look Left` | Number Pad 4       | Same as `Look Left Key`, move the camera horizontally left                                                                           |
-| `Look North` | Number Pad 7       | Turn the camera to the north                                                                                                         |
-| `Look East` | Number Pad 9       | Turn the camera to the east                                                                                                          |
-| `Look South` | Number Pad 3       | Turn the camera to the south                                                                                                         |
-| `Look West` | Number Pad 1       | Turn the camera to the west                                                                                                          |
-| `Center Camera` | Number Pad 5       | Look straight ahead: Turn the camera to the closest of the eight cardinal directions and reset vertical angle to horizontal position |
-| `Look Straight Up` | Number Pad 0       | Turn the camera to the look above head direction                                                                                     |
-| `Look Straight Down` | Number Pad .       | Turn the camera to the look down at feet direction                                                                                   |
+| Single Key               | Default Keybinding | Description                                                                                                                          |
+|--------------------------|--------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `Look Up`                | I                  | Move the camera vertically up by the `Normal Rotating Angle` config value                                                            |
+| `Alternate Look Up`      | Number Pad 8       | Same as `Look Up Key`, move the camera vertically up                                                                                 |
+| `Look Right`             | L                  | Move the camera horizontally right by the `Normal Rotating Angle` config value                                                       |
+| `Alternate Look Right`   | Number Pad 6       | Same as `Look Right Key`, move the camera horizontally right                                                                         |
+| `Look Down`              | K                  | Move the camera vertically down by the `Normal Rotating Angle` config value                                                          |
+| `Alternate Look Down`    | Number Pad 2       | Same as `Look Down Key`, Move the camera vertically down                                                                             |
+| `Look Left`              | J                  | Move the camera horizontally left by the `Normal Rotating Angle` config value                                                        |
+| `Alternate Look Left`    | Number Pad 4       | Same as `Look Left Key`, move the camera horizontally left                                                                           |
+| `Look North`             | Number Pad 7       | Turn the camera to the north                                                                                                         |
+| `Look East`              | Number Pad 9       | Turn the camera to the east                                                                                                          |
+| `Look South`             | Number Pad 3       | Turn the camera to the south                                                                                                         |
+| `Look West`              | Number Pad 1       | Turn the camera to the west                                                                                                          |
+| `Center Camera`          | Number Pad 5       | Look straight ahead: Turn the camera to the closest of the eight cardinal directions and reset vertical angle to horizontal position |
+| `Look Straight Up`       | Number Pad 0       | Turn the camera to the look above head direction                                                                                     |
+| `Look Straight Down`     | Number Pad .       | Turn the camera to the look down at feet direction                                                                                   |
 | `Speak Facing Direction` | H                  | Speak current horizontal facing direction                                                                                            |
 
 | Key Combination                                     | Description                                                                                                                                         |
@@ -59,12 +59,12 @@ See also: [Feature Description](/docs/features.md#camera-controls), [Configurati
 
 ## Mouse Simulation
 
-| Single Key        | Default Keybinding | Description                                                                        |
-|-------------------|--------------------|------------------------------------------------------------------------------------|
-| `Left Mouse Sim`  | [                  | Simulate left mouse key, default value of the original `Attack/Destroy` key        |
-| `Middle Mouse Sim` | \                  | Simulate middle mouse key, default value of the original `Pick Block` key          |
-| `Right Mouse Sim` | ]                  | Simulate right mouse key, default value of the original `Use Item/Place Block` key |
-| `Mouse Wheel Scroll Up` | ;                  | Simulate mouse wheel scroll up, switching items in hotbar forward                  |
+| Single Key                | Default Keybinding | Description                                                                        |
+|---------------------------|--------------------|------------------------------------------------------------------------------------|
+| `Left Mouse Sim`          | [                  | Simulate left mouse key, default value of the original `Attack/Destroy` key        |
+| `Middle Mouse Sim`        | \                  | Simulate middle mouse key, default value of the original `Pick Block` key          |
+| `Right Mouse Sim`         | ]                  | Simulate right mouse key, default value of the original `Use Item/Place Block` key |
+| `Mouse Wheel Scroll Up`   | ;                  | Simulate mouse wheel scroll up, switching items in hotbar forward                  |
 | `Mouse Wheel Scroll Down` | '                  | Simulate mouse wheel scroll down, switching items in hotbar backward               |
 
 See also: [Feature Description](/docs/features.md#mouse-simulation), [Configuration](/docs/config.md#mouse-simulation)

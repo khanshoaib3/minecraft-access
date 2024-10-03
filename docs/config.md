@@ -24,7 +24,7 @@ or click `Reset Config` button in the `Config Menu`.
 7. [Health n Hunger](#health-n-hunger)
 8. [Player Warnings](#player-warnings)
 9. [Fall Detector](#fall-detector)
-10. [Narrator Menu](#access-menu)
+10. [Access Menu](#access-menu)
     * [Fluid Detector](#fluid-detector)
 11. [Other Configurations](#other-configurations)
 
@@ -211,7 +211,7 @@ See also: [Feature Description](/docs/features.md#player-warnings)
 
 See also: [Feature Description](/docs/features.md#fall-detector)
 
-## Narrator Menu
+## Access Menu
 
 | Configuration | Default Value | Description                    |
 |---------------|---------------|--------------------------------|

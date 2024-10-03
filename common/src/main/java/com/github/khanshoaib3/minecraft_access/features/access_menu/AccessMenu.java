@@ -121,7 +121,7 @@ public class AccessMenu {
             // will not open the menu under this situation.
             boolean isF3KeyNotPressed = !KeyUtils.isF3Pressed();
 
-if (!menuKey.isPressing() && menuKey.canOpenMenu() && isF3KeyNotPressed) {
+            if (!menuKey.isPressing() && menuKey.canOpenMenu() && isF3KeyNotPressed) {
                 // The F4 is pressed before and released at current tick
                 // To make the access menu open AFTER release the F4 key
                 openAccessMenu();
