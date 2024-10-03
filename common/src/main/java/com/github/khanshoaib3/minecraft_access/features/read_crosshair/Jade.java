@@ -1,6 +1,5 @@
 package com.github.khanshoaib3.minecraft_access.features.read_crosshair;
 
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +28,7 @@ public class Jade implements CrosshairNarrator {
     }
 
     @Override
-    public @Nullable Object deduplication(@NotNull ClientWorld world, boolean speakSide, boolean speakConsecutiveBlocks) {
+    public @Nullable Object deduplication(boolean speakSide, boolean speakConsecutiveBlocks) {
         if (WailaTickHandler.instance().rootElement == null) {
             return null;
         }
@@ -40,7 +39,7 @@ public class Jade implements CrosshairNarrator {
     }
 
     @Override
-    public @NotNull String narrate(@NotNull ClientWorld world, boolean speakSide) {
+    public @NotNull String narrate(boolean speakSide) {
         return WailaTickHandler.instance().rootElement.getTooltip().getMessage();
     }
 }

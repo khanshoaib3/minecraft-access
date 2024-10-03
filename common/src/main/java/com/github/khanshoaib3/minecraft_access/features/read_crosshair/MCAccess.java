@@ -3,7 +3,6 @@ package com.github.khanshoaib3.minecraft_access.features.read_crosshair;
 import com.github.khanshoaib3.minecraft_access.utils.NarrationUtils;
 import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -30,7 +29,7 @@ public class MCAccess implements CrosshairNarrator {
     }
 
     @Override
-    public @Nullable Object deduplication(@NotNull ClientWorld world, boolean speakSide, boolean speakConsecutiveBlocks) {
+    public @Nullable Object deduplication(boolean speakSide, boolean speakConsecutiveBlocks) {
         HitResult hit = rayCast();
         if (hit.getType() == HitResult.Type.MISS) {
             return null;
@@ -49,7 +48,7 @@ public class MCAccess implements CrosshairNarrator {
     }
 
     @Override
-    public @NotNull String narrate(@NotNull ClientWorld world, boolean speakSide) {
+    public @NotNull String narrate(boolean speakSide) {
         return switch (rayCast()) {
             case BlockHitResult blockHitResult -> {
                 String side = speakSide ? I18n.translate(String.format("minecraft_access.direction.%s", blockHitResult.getSide().getName())) : "";

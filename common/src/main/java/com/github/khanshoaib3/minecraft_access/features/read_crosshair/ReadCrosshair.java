@@ -67,7 +67,7 @@ public class ReadCrosshair {
         if (!enabled) return;
 
         CrosshairNarrator narrator = getNarrator();
-        Object deduplication = narrator.deduplication(minecraftClient.world, speakSide, speakingConsecutiveBlocks);
+        Object deduplication = narrator.deduplication(speakSide, speakingConsecutiveBlocks);
         if (Objects.equals(deduplication, previous) && !repeatSpeakingInterval.isReady()) {
             return;
         }
@@ -106,7 +106,7 @@ public class ReadCrosshair {
             }
         }
 
-        MainClass.speakWithNarrator(narrator.narrate(minecraftClient.world, speakSide), true);
+        MainClass.speakWithNarrator(narrator.narrate(speakSide), true);
     }
 
     private void loadConfig() {
