@@ -6,6 +6,7 @@ import com.github.khanshoaib3.minecraft_access.features.*;
 import com.github.khanshoaib3.minecraft_access.features.inventory_controls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.access_menu.AccessMenu;
 import com.github.khanshoaib3.minecraft_access.features.point_of_interest.POIMarking;
+import com.github.khanshoaib3.minecraft_access.features.read_crosshair.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
 import com.mojang.text2speech.Narrator;
@@ -111,7 +112,7 @@ public class MainClass {
         if (cameraControls != null && CameraControlsConfigMap.getInstance().isEnabled())
             cameraControls.update();
 
-        ReadCrosshair.getInstance().update();
+        ReadCrosshair.getInstance().tick();
 
         if (biomeIndicator != null && otherConfigsMap.isBiomeIndicatorEnabled())
             biomeIndicator.update();
