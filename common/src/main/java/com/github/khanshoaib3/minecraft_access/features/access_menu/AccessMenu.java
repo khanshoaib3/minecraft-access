@@ -126,25 +126,25 @@ public class AccessMenu {
                 openAccessMenu();
             }
 
-            if (KeyBindingsHandler.getInstance().narrateTarget.isPressed() && narrateTargetKey.canBeTriggered()) getBlockAndFluidTargetInformation();
+            if (narrateTargetKey.canBeTriggered()) getBlockAndFluidTargetInformation();
 
-            if (KeyBindingsHandler.getInstance().targetPosition.isPressed() && targetPositionKey.canBeTriggered()) getBlockAndFluidTargetPosition();
+            if (targetPositionKey.canBeTriggered()) getBlockAndFluidTargetPosition();
 
-            if (KeyBindingsHandler.getInstance().lightLevel.isPressed() && lightLevelKey.canBeTriggered()) getLightLevel();
+            if (lightLevelKey.canBeTriggered()) getLightLevel();
 
-            if (KeyBindingsHandler.getInstance().timeOfDay.isPressed() && timeOfDayKey.canBeTriggered()) getTimeOfDay();
+            if (timeOfDayKey.canBeTriggered()) getTimeOfDay();
 
-            if (KeyBindingsHandler.getInstance().xpLevel.isPressed() && xpLevelKey.canBeTriggered()) getXP();
+            if (xpLevelKey.canBeTriggered()) getXP();
 
-            if (KeyBindingsHandler.getInstance().currentBiome.isPressed() && currentBiomeKey.canBeTriggered()) getBiome();
+            if (currentBiomeKey.canBeTriggered()) getBiome();
 
-            if (KeyBindingsHandler.getInstance().closestWaterSource.isPressed() && closestWaterSourceKey.canBeTriggered()) MainClass.fluidDetector.findClosestWaterSource(true);
+            if (closestWaterSourceKey.canBeTriggered()) MainClass.fluidDetector.findClosestWaterSource(true);
 
-            if (KeyBindingsHandler.getInstance().closestLavaSource.isPressed() && closestLavaSourceKey.canBeTriggered()) MainClass.fluidDetector.findClosestLavaSource(true);
+            if (closestLavaSourceKey.canBeTriggered()) MainClass.fluidDetector.findClosestLavaSource(true);
 
-            if (KeyBindingsHandler.getInstance().refreshScreenReader.isPressed() && refreshScreenReaderKey.canBeTriggered()) ScreenReaderController.refreshScreenReader(true);
+            if (refreshScreenReaderKey.canBeTriggered()) ScreenReaderController.refreshScreenReader(true);
 
-            if (KeyBindingsHandler.getInstance().openConfigMenu.isPressed() && openConfigMenuKey.canBeTriggered()) MinecraftClient.getInstance().setScreen(new ConfigMenu("config_menu"));
+            if (openConfigMenuKey.canBeTriggered()) MinecraftClient.getInstance().setScreen(new ConfigMenu("config_menu"));
 
             menuKey.updateStateForNextTick();
             narrateTargetKey.updateStateForNextTick();
