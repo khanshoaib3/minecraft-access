@@ -3,9 +3,8 @@ package com.github.khanshoaib3.minecraft_access.features.access_menu;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.ConfigMenu;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
+import com.github.khanshoaib3.minecraft_access.utils.BaseScreen;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
@@ -13,33 +12,17 @@ import net.minecraft.text.Text;
 /**
  * GUI screen for the access menu.
  */
-public class accessMenuGUI extends Screen {
-    int centerX;
-    int buttonHeight;
-    int marginY;
-    int calculatedYPosition;
-    int calculatedXPosition;
-    int leftColumnX;
-    int rightColumnX;
-    boolean shouldRenderInLeftColumn;
-
-    public accessMenuGUI(String title) {
-        super(Text.of(I18n.translate("minecraft_access.gui.screen." + title)));
+public class AccessMenuGUI extends BaseScreen {
+    public AccessMenuGUI(String title) {
+        super(title);
     }
 
     /**
-     * The order of buttons initialization should be same as NarratorMenu.menuFunctions
+     * The order of buttons initialization should be the same as {@link AccessMenu#MENU_FUNCTIONS}
      */
     @Override
     protected void init() {
-        this.centerX = this.width / 2;
-        this.buttonHeight = 20;
-        this.marginY = buttonHeight + buttonHeight / 4;
-        this.calculatedYPosition = this.height / 6 - marginY; // Starting Y position (marginY will again be added in buildButtonWidget() so it is subtracted here to equate)
-        this.leftColumnX = 10;
-        this.rightColumnX = centerX + 10;
-        shouldRenderInLeftColumn = true;
-
+        super.init();
 
         ButtonWidget blockAndFluidTargetInformationButton = this.buildButtonWidget("1", "minecraft_access.access_menu.gui.button.block_and_fluid_target_info",
                 (button) -> AccessMenu.getBlockAndFluidTargetInformation());
@@ -86,29 +69,6 @@ public class accessMenuGUI extends Screen {
         Text label = Text.literal(shortcut)
                 .append(". ")
                 .append(I18n.translate(translationKey));
-        int calculatedButtonWidth = this.textRenderer.getWidth(label) + 35;
-        calculatedXPosition = shouldRenderInLeftColumn ? leftColumnX : rightColumnX;
-        if (shouldRenderInLeftColumn) calculatedYPosition += marginY;
-        shouldRenderInLeftColumn = !shouldRenderInLeftColumn;
-
-        return ButtonWidget.builder(label, pressAction)
-                .dimensions(calculatedXPosition, calculatedYPosition, calculatedButtonWidth, buttonHeight)
-                .build();
+        return super.buildButtonWidget(label.getString(), pressAction);
     }
-
-    @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.renderBackground(context, mouseX, mouseY, delta);
-        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 15, 16777215);
-        super.render(context, mouseX, mouseY, delta);
-    }
-
-    /* Pre 1.20.x
-    @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
-        DrawableHelper.drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 15, 16777215);
-        super.render(matrices, mouseX, mouseY, delta);
-    }
-    */
 }

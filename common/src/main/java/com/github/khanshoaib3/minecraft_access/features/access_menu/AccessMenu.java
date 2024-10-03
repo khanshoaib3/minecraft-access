@@ -23,7 +23,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 /**
@@ -65,7 +64,7 @@ public class AccessMenu {
     }
 
     /**
-     * Should be same order as NarratorMenuGUI.init()
+     * Should be same order as {@link AccessMenuGUI#init()}
      */
     private static final MenuFunction[] MENU_FUNCTIONS = new MenuFunction[]{
             new MenuFunction("minecraft_access.access_menu.gui.button.block_and_fluid_target_info",
@@ -109,7 +108,7 @@ public class AccessMenu {
             if (minecraftClient == null) return;
             if (minecraftClient.player == null) return;
 
-            if (minecraftClient.currentScreen instanceof accessMenuGUI) {
+            if (minecraftClient.currentScreen instanceof AccessMenuGUI) {
                 if (menuKey.closeMenuIfMenuKeyPressing()) return;
                 handleInMenuActions();
             }
@@ -175,7 +174,7 @@ public class AccessMenu {
     }
 
     private void openAccessMenu() {
-        Screen screen = new accessMenuGUI("access_menu");
+        Screen screen = new AccessMenuGUI("access_menu");
         minecraftClient.setScreen(screen); // post 1.18
     }
 
