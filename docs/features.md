@@ -211,7 +211,7 @@ See also: [Configuration](/docs/config.md#position-narrator), [Keybindings](/doc
 
 This feature adds a key to speak your health and hunger.
 
-See also: [Configuration](/docs/config.md#health-n-hunger), [Keybindings](/docs/keybindings.md#health-n-hunger)
+See also: [Keybindings](/docs/keybindings.md#health-n-hunger)
 
 ### Player Warnings
 

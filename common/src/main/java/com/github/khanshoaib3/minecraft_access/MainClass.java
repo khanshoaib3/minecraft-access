@@ -122,10 +122,7 @@ public class MainClass {
         facingDirection.update();
 
         PositionNarrator.getInstance().update();
-
-        if (otherConfigsMap.isHealthNHungerEnabled()) {
-            HealthAndHunger.runWithInterval();
-        }
+        HealthAndHunger.runWithInterval();
 
         if (playerWarnings != null && PlayerWarningConfigMap.getInstance().isEnabled())
             playerWarnings.update();

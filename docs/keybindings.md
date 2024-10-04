@@ -131,7 +131,7 @@ See also: [Feature Description](/docs/features.md#position-narrator), [Configura
 |----------------------------------|--------------------|----------------------------------------------|
 | `Speak Player Health and Hunger` | R                  | Speak the player's current health and hunger |
 
-See also: [Feature Description](/docs/features.md#health-n-hunger), [Configuration](/docs/config.md#health-n-hunger)
+See also: [Feature Description](/docs/features.md#health-n-hunger)
 
 ## Access Menu
 
