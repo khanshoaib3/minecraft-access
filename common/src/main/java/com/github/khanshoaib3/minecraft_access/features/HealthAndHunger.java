@@ -1,4 +1,4 @@
-package com.github.khanshoaib3.minecraft_access.features.independent;
+package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;

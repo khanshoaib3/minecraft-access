@@ -4,7 +4,7 @@ import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.*;
 import com.github.khanshoaib3.minecraft_access.features.*;
 import com.github.khanshoaib3.minecraft_access.features.access_menu.AccessMenu;
-import com.github.khanshoaib3.minecraft_access.features.independent.HealthAndHunger;
+import com.github.khanshoaib3.minecraft_access.features.HealthAndHunger;
 import com.github.khanshoaib3.minecraft_access.features.inventory_controls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.point_of_interest.POIMarking;
 import com.github.khanshoaib3.minecraft_access.features.read_crosshair.ReadCrosshair;
