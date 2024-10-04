@@ -209,7 +209,7 @@ See also: [Configuration](/docs/config.md#position-narrator), [Keybindings](/doc
 
 ### Health n Hunger
 
-This feature adds a key to speak your health and hunger.
+This feature adds a key to speak your [health](https://minecraft.wiki/w/Health) and [hunger](https://minecraft.wiki/w/Hunger), it also speaks remaining [air](https://minecraft.wiki/w/Damage#Drowning) when you're underwater.
 
 See also: [Keybindings](/docs/keybindings.md#health-n-hunger)
 

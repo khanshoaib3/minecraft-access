@@ -127,9 +127,9 @@ See also: [Feature Description](/docs/features.md#position-narrator), [Configura
 
 ## Health n Hunger
 
-| Single Key                       | Default Keybinding | Description                                  |
-|----------------------------------|--------------------|----------------------------------------------|
-| `Speak Player Health and Hunger` | R                  | Speak the player's current health and hunger |
+| Single Key                       | Default Keybinding | Description                                       |
+|----------------------------------|--------------------|---------------------------------------------------|
+| `Speak Player Health and Hunger` | R                  | Speak the player's current health, hunger and air |
 
 See also: [Feature Description](/docs/features.md#health-n-hunger)
 

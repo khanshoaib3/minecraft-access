@@ -28,7 +28,11 @@ public class HealthAndHunger {
     public static void speak() {
         double health = PlayerUtils.getHearts();
         double hunger = PlayerUtils.getHunger();
-        String toSpeak = I18n.translate("minecraft_access.healthHunger.format", health, hunger);
+        String toSpeak = I18n.translate("minecraft_access.health_and_hunger.format", health, hunger);
+        long air = PlayerUtils.getAir();
+        if (air < 300) {
+            toSpeak += " " + I18n.translate("minecraft_access.air.format", air);
+        }
         MainClass.speakWithNarrator(toSpeak, true);
     }
 }
