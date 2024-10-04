@@ -3,10 +3,7 @@ package com.github.khanshoaib3.minecraft_access.features;
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.utils.KeyBindingsHandler;
 import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
-import com.github.khanshoaib3.minecraft_access.utils.condition.Interval;
-import com.github.khanshoaib3.minecraft_access.utils.condition.IntervalKeystroke;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
-import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.resource.language.I18n;
@@ -16,16 +13,12 @@ import net.minecraft.client.resource.language.I18n;
  */
 @Slf4j
 public class HealthAndHunger {
-    private static final IntervalKeystroke key = new IntervalKeystroke(
-            () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().healthNHungerNarrationKey),
-            Keystroke.TriggeredAt.PRESSED,
-            // 3s interval
-            Interval.inMilliseconds(3000));
+    private static final Keystroke key = new Keystroke(KeyBindingsHandler.getInstance().healthNHungerNarrationKey);
 
     public static void runWithInterval() {
         try {
             if (key.canBeTriggered()) {
-                run();
+                speak();
             }
             key.updateStateForNextTick();
         } catch (Exception e) {
@@ -33,8 +26,9 @@ public class HealthAndHunger {
         }
     }
 
-    public static void run() {
+    public static void speak() {
         ClientPlayerEntity player = WorldUtils.getClientPlayer();
+        if (player == null) return;
         double health = player.getHealth();
         double hunger = player.getHungerManager().getFoodLevel();
         health = (double) Math.round((health / 2) * 10) / 10;

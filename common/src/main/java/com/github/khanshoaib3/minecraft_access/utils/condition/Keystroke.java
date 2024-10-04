@@ -1,5 +1,8 @@
 package com.github.khanshoaib3.minecraft_access.utils.condition;
 
+import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
+import net.minecraft.client.option.KeyBinding;
+
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
 import java.util.function.Function;
@@ -29,6 +32,13 @@ public class Keystroke {
      * Times that logic has been triggered before reset (when opposite state appears).
      */
     protected int triggeredCount;
+
+    /**
+     * Single key, {@link TriggeredAt#PRESSING}
+     */
+    public Keystroke(KeyBinding singleKey) {
+        this(() -> KeyUtils.isAnyPressed(singleKey), TriggeredAt.PRESSING);
+    }
 
     /**
      * Use this class as a condition checker.
@@ -101,9 +111,9 @@ public class Keystroke {
 
     /**
      * When the corresponding logic is triggered.<br>
-     *          --- released (short) ---><br>
+     * --- released (short) ---><br>
      * pressing (long)               not-pressing (long)<br>
-     *          <--- pressed (short) ---
+     * <--- pressed (short) ---
      */
     public enum TriggeredAt {
         PRESSING(Keystroke::isPressing, Keystroke::isNotPressing),

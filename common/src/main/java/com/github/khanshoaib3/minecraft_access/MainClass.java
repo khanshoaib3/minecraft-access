@@ -18,6 +18,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.util.Strings;
 
+import java.util.Objects;
+
 @Slf4j
 public class MainClass {
     public static final String MOD_ID = "minecraft_access";
@@ -122,7 +124,10 @@ public class MainClass {
         facingDirection.update();
 
         PositionNarrator.getInstance().update();
-        HealthAndHunger.runWithInterval();
+
+        if (Objects.nonNull(MinecraftClient.getInstance())) {
+            HealthAndHunger.runWithInterval();
+        }
 
         if (playerWarnings != null && PlayerWarningConfigMap.getInstance().isEnabled())
             playerWarnings.update();
