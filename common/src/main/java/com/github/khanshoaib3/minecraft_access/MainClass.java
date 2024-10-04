@@ -3,8 +3,9 @@ package com.github.khanshoaib3.minecraft_access;
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.*;
 import com.github.khanshoaib3.minecraft_access.features.*;
-import com.github.khanshoaib3.minecraft_access.features.inventory_controls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.access_menu.AccessMenu;
+import com.github.khanshoaib3.minecraft_access.features.independent.HealthAndHunger;
+import com.github.khanshoaib3.minecraft_access.features.inventory_controls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.point_of_interest.POIMarking;
 import com.github.khanshoaib3.minecraft_access.features.read_crosshair.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
@@ -27,7 +28,6 @@ public class MainClass {
     public static BiomeIndicator biomeIndicator = null;
     public static XPIndicator xpIndicator = null;
     public static FacingDirection facingDirection = null;
-    public static HealthNHunger healthNHunger = null;
     public static PlayerWarnings playerWarnings = null;
     public static AccessMenu accessMenu = null;
     public static FluidDetector fluidDetector = null;
@@ -64,7 +64,6 @@ public class MainClass {
         MainClass.biomeIndicator = new BiomeIndicator();
         MainClass.xpIndicator = new XPIndicator();
         MainClass.facingDirection = new FacingDirection();
-        MainClass.healthNHunger = new HealthNHunger();
         MainClass.playerWarnings = new PlayerWarnings();
         MainClass.accessMenu = new AccessMenu();
         MainClass.fluidDetector = new FluidDetector();
@@ -124,8 +123,9 @@ public class MainClass {
 
         PositionNarrator.getInstance().update();
 
-        if (healthNHunger != null && otherConfigsMap.isHealthNHungerEnabled())
-            healthNHunger.update();
+        if (otherConfigsMap.isHealthNHungerEnabled()) {
+            HealthAndHunger.runWithInterval();
+        }
 
         if (playerWarnings != null && PlayerWarningConfigMap.getInstance().isEnabled())
             playerWarnings.update();
