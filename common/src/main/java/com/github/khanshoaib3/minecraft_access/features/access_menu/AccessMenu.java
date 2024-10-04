@@ -37,16 +37,16 @@ public class AccessMenu {
     private static MinecraftClient minecraftClient;
     private static final MenuKeystroke menuKey;
 
-    private static Keystroke narrateTargetKey;
-    private static Keystroke targetPositionKey;
-    private static Keystroke lightLevelKey;
-    private static Keystroke currentBiomeKey;
-    private static Keystroke xpLevelKey;
-    private static Keystroke closestLavaSourceKey;
-    private static Keystroke closestWaterSourceKey;
-    private static Keystroke timeOfDayKey;
-    private static Keystroke refreshScreenReaderKey;
-    private static Keystroke openConfigMenuKey;
+    private static final Keystroke narrateTargetKey;
+    private static final Keystroke targetPositionKey;
+    private static final Keystroke lightLevelKey;
+    private static final Keystroke currentBiomeKey;
+    private static final Keystroke xpLevelKey;
+    private static final Keystroke closestLavaSourceKey;
+    private static final Keystroke closestWaterSourceKey;
+    private static final Keystroke timeOfDayKey;
+    private static final Keystroke refreshScreenReaderKey;
+    private static final Keystroke openConfigMenuKey;
 
     // config keystroke conditions
     static {
@@ -100,7 +100,7 @@ public class AccessMenu {
     };
 
     private record MenuFunction(String configKey, int numberKeyCode, int keyPadKeyCode, Runnable func) {
-     }
+    }
 
     public void update() {
         try {
@@ -183,8 +183,7 @@ public class AccessMenu {
             HitResult hit = PlayerUtils.crosshairTarget(RAY_CAST_DISTANCE);
             if (hit == null) return;
             switch (hit.getType()) {
-                case MISS, ENTITY ->
-                        MainClass.speakWithNarrator(I18n.translate("minecraft_access.access_menu.target_missed"), true);
+                case MISS, ENTITY -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.access_menu.target_missed"), true);
                 case BLOCK -> {
                     try {
                         BlockHitResult blockHit = (BlockHitResult) hit;
@@ -206,8 +205,7 @@ public class AccessMenu {
             HitResult hit = PlayerUtils.crosshairTarget(RAY_CAST_DISTANCE);
             if (hit == null) return;
             switch (hit.getType()) {
-                case MISS, ENTITY ->
-                        MainClass.speakWithNarrator(I18n.translate("minecraft_access.access_menu.target_missed"), true);
+                case MISS, ENTITY -> MainClass.speakWithNarrator(I18n.translate("minecraft_access.access_menu.target_missed"), true);
                 case BLOCK -> {
                     try {
                         BlockHitResult blockHitResult = (BlockHitResult) hit;
