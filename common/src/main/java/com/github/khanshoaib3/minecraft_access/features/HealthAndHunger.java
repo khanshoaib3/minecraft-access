@@ -14,11 +14,11 @@ import net.minecraft.client.resource.language.I18n;
 public class HealthAndHunger {
     private static final Keystroke key = new Keystroke(KeyBindingsHandler.getInstance().healthNHungerNarrationKey);
 
-    public static void runIfConditionMet() {
-        if (key.canBeTriggered()) speak();
+    public static void runOnTick() {
+        if (key.canBeTriggered()) run();
     }
 
-    public static void speak() {
+    public static void run() {
         double health = PlayerUtils.getHearts();
         double hunger = PlayerUtils.getHunger();
         String toSpeak = I18n.translate("minecraft_access.health_and_hunger.format", health, hunger);

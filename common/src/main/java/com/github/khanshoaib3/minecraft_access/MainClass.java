@@ -127,7 +127,7 @@ public class MainClass {
         PositionNarrator.getInstance().update();
 
         if (Objects.nonNull(MinecraftClient.getInstance())) {
-            HealthAndHunger.runIfConditionMet();
+            HealthAndHunger.runOnTick();
         }
 
         if (playerWarnings != null && PlayerWarningConfigMap.getInstance().isEnabled())
