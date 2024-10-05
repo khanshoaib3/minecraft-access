@@ -13,7 +13,6 @@ import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -119,11 +118,10 @@ public class AccessMenu {
             // F3 + F4 triggers game mode changing function in vanilla game,
             // will not open the menu under this situation.
             boolean isF3KeyNotPressed = !KeyUtils.isF3Pressed();
-
-            if (!menuKey.isPressing() && menuKey.canOpenMenu() && isF3KeyNotPressed) {
+            if (menuKey.canOpenMenu() && isF3KeyNotPressed) {
                 // The F4 is pressed before and released at current tick
                 // To make the access menu open AFTER release the F4 key
-                openAccessMenu();
+                minecraftClient.setScreen(new AccessMenuGUI("access_menu"));
             }
 
             if (narrateTargetKey.canBeTriggered()) getBlockAndFluidTargetInformation();
@@ -160,11 +158,6 @@ public class AccessMenu {
                         || InputUtil.isKeyPressed(handle, f.keyPadKeyCode()))
                 .findFirst()
                 .ifPresent(f -> f.func().run());
-    }
-
-    private void openAccessMenu() {
-        Screen screen = new AccessMenuGUI("access_menu");
-        minecraftClient.setScreen(screen); // post 1.18
     }
 
     public static void getBlockAndFluidTargetInformation() {
