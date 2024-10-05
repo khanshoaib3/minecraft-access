@@ -77,14 +77,10 @@ public class POIGroup {
         return blocks;
     }
 
-    // I have to do this due to the current logic of POIBlocks
-    // todo: make POIBlocks logic similar to POIEntities
     public boolean isBlockInGroup(BlockState block, BlockPos pos) {
         return blockFilter.apply(block, pos);
     }
 
-    // this is currently never used, but may be useful in the future
-    // adding this mostly because of the existence of a similar method for blocks
     public boolean isEntityInGroup(Entity entity) {
         return entityFilter.apply(entity);
     }

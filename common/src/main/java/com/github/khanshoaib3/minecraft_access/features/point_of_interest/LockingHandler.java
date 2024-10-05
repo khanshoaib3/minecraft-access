@@ -25,9 +25,10 @@ import net.minecraft.item.BowItem;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.Map;
 
 /**
- * Locks on to the nearest entity or block.<br><br>
+ * Locks on to the narest entity or block.<br><br>
  * Keybindings and combinations:<br>
  * 1. Locking Key (default: Y) = Locks onto the nearest entity or block<br>
  * 2. Alt key + Locking Key = Unlocks from the currently locked entity or block<br>
@@ -132,9 +133,9 @@ public class LockingHandler {
         }
 
         if (aimAssistEnabled && !aimAssistActive && minecraftClient.player.isUsingItem() && minecraftClient.player.getActiveItem().getItem() instanceof BowItem) {
-            TreeMap<Double, Entity> scannedHostileMobsMap = POIEntities.getInstance().getAimAssistTargetCandidates();
-            if (!scannedHostileMobsMap.isEmpty()) {
-                Entity entity = scannedHostileMobsMap.firstEntry().getValue();
+            TreeMap<Double, Entity> hostileEntities = POIEntities.getInstance().builtInGroups.get("hostile").getEntities();
+            if (!hostileEntities.isEmpty()) {
+                Entity entity = hostileEntities.firstEntry().getValue();
                 if (lockOnEntity(entity)) {
                     aimAssistActive = true;
                 }
@@ -189,8 +190,9 @@ public class LockingHandler {
     }
 
     private void relock() {
-        List<TreeMap<Double, Entity>> scannedEntityMaps = POIEntities.getInstance().getLockingCandidates();
-        for (TreeMap<Double, Entity> map : scannedEntityMaps) {
+        Map<String, POIGroup> entityGroups = POIEntities.getInstance().builtInGroups;
+        for (POIGroup group : entityGroups.values()) {
+            TreeMap<Double, Entity> map = group.getEntities();
             if (!map.isEmpty()) {
                 Entity entity = map.firstEntry().getValue();
                 if (lockOnEntity(entity)) return;
