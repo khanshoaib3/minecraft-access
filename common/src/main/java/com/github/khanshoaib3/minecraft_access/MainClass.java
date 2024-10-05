@@ -136,7 +136,7 @@ public class MainClass {
         if (playerWarnings != null && PlayerWarningConfigMap.getInstance().isEnabled())
             playerWarnings.update();
 
-        if (accessMenu != null && NarratorMenuConfigMap.getInstance().isEnabled())
+        if (accessMenu != null && AccessMenuConfigMap.getInstance().isEnabled())
             accessMenu.update();
 
         // POI Marking will handle POI Scan and POI Locking features inside it

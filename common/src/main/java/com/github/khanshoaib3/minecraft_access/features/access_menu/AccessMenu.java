@@ -157,7 +157,7 @@ public class AccessMenu {
     }
 
     private static void handleInMenuActions() {
-        // With Narrator Menu opened or alt key pressed,
+        // With Access Menu opened or alt key pressed,
         // listen to number keys pressing for executing corresponding functions
         // for the little performance improvement, will not use KeyUtils here.
         long handle = minecraftClient.getWindow().getHandle();
