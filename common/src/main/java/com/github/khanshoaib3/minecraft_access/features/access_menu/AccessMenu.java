@@ -69,38 +69,38 @@ public class AccessMenu {
      */
     private static final MenuFunction[] MENU_FUNCTIONS = new MenuFunction[]{
             new MenuFunction("minecraft_access.access_menu.gui.button.block_and_fluid_target_info",
-                    GLFW.GLFW_KEY_1, GLFW.GLFW_KEY_KP_1,
+                    GLFW.GLFW_KEY_1,
                     AccessMenu::getBlockAndFluidTargetInformation),
             new MenuFunction("minecraft_access.access_menu.gui.button.block_and_fluid_target_position",
-                    GLFW.GLFW_KEY_2, GLFW.GLFW_KEY_KP_2,
+                    GLFW.GLFW_KEY_2,
                     AccessMenu::getBlockAndFluidTargetPosition),
             new MenuFunction("minecraft_access.access_menu.gui.button.light_level",
-                    GLFW.GLFW_KEY_3, GLFW.GLFW_KEY_KP_3,
+                    GLFW.GLFW_KEY_3,
                     AccessMenu::getLightLevel),
             new MenuFunction("minecraft_access.access_menu.gui.button.find_water",
-                    GLFW.GLFW_KEY_4, GLFW.GLFW_KEY_KP_4,
+                    GLFW.GLFW_KEY_4,
                     () -> MainClass.fluidDetector.findClosestWaterSource(true)),
             new MenuFunction("minecraft_access.access_menu.gui.button.find_lava",
-                    GLFW.GLFW_KEY_5, GLFW.GLFW_KEY_KP_5,
+                    GLFW.GLFW_KEY_5,
                     () -> MainClass.fluidDetector.findClosestLavaSource(true)),
             new MenuFunction("minecraft_access.access_menu.gui.button.biome",
-                    GLFW.GLFW_KEY_6, GLFW.GLFW_KEY_KP_6,
+                    GLFW.GLFW_KEY_6,
                     AccessMenu::getBiome),
             new MenuFunction("minecraft_access.access_menu.gui.button.time_of_day",
-                    GLFW.GLFW_KEY_7, GLFW.GLFW_KEY_KP_7,
+                    GLFW.GLFW_KEY_7,
                     AccessMenu::getTimeOfDay),
             new MenuFunction("minecraft_access.access_menu.gui.button.xp",
-                    GLFW.GLFW_KEY_8, GLFW.GLFW_KEY_KP_8,
+                    GLFW.GLFW_KEY_8,
                     AccessMenu::getXP),
             new MenuFunction("minecraft_access.access_menu.gui.button.refresh_screen_reader",
-                    GLFW.GLFW_KEY_9, GLFW.GLFW_KEY_KP_9,
+                    GLFW.GLFW_KEY_9,
                     () -> ScreenReaderController.refreshScreenReader(true)),
             new MenuFunction("minecraft_access.access_menu.gui.button.open_config_menu",
-                    GLFW.GLFW_KEY_0, GLFW.GLFW_KEY_KP_0,
+                    GLFW.GLFW_KEY_0,
                     () -> MinecraftClient.getInstance().setScreen(new ConfigMenu("config_menu"))),
     };
 
-    private record MenuFunction(String configKey, int numberKeyCode, int keyPadKeyCode, Runnable func) {
+    private record MenuFunction(String configKey, int numberKeyCode, Runnable func) {
     }
 
     public void update() {
@@ -157,12 +157,12 @@ public class AccessMenu {
     }
 
     private static void handleInMenuActions() {
-        // With Narrator Menu opened, listen to number keys pressing for executing corresponding functions
+        // With Narrator Menu opened or alt key pressed,
+        // listen to number keys pressing for executing corresponding functions
         // for the little performance improvement, will not use KeyUtils here.
         long handle = minecraftClient.getWindow().getHandle();
         Stream.of(MENU_FUNCTIONS)
-                .filter(f -> InputUtil.isKeyPressed(handle, f.numberKeyCode())
-                        || InputUtil.isKeyPressed(handle, f.keyPadKeyCode()))
+                .filter(f -> InputUtil.isKeyPressed(handle, f.numberKeyCode()))
                 .findFirst()
                 .ifPresent(f -> f.func().run());
     }
