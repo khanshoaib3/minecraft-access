@@ -13,6 +13,7 @@ import com.github.khanshoaib3.minecraft_access.utils.condition.MenuKeystroke;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -22,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
@@ -107,13 +109,18 @@ public class AccessMenu {
             if (minecraftClient == null) return;
             if (minecraftClient.player == null) return;
 
-            if (minecraftClient.currentScreen instanceof AccessMenuGUI) {
+            Screen currentScreen = minecraftClient.currentScreen;
+            if (Objects.isNull(currentScreen)) {
+                if (KeyUtils.isLeftOrRightAltPressed()) {
+                    handleInMenuActions();
+                }
+            } else if (currentScreen instanceof AccessMenuGUI) {
                 if (menuKey.closeMenuIfMenuKeyPressing()) return;
                 handleInMenuActions();
+            } else {
+                // other menus are opened
+                return;
             }
-
-            // other menus is opened
-            if (minecraftClient.currentScreen != null) return;
 
             // F3 + F4 triggers game mode changing function in vanilla game,
             // will not open the menu under this situation.
