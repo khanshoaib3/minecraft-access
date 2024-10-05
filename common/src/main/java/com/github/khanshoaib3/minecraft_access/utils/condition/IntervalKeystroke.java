@@ -5,7 +5,7 @@ import java.util.function.BooleanSupplier;
 /**
  * For keys that you can keep pressing and the function executes at intervals.
  */
-public class IntervalKeystroke extends KeystrokeTiming {
+public class IntervalKeystroke extends TimingKeystroke {
     /**
      * @param condition Expression that checking if the key (combination) is pressed now.
      * @param timing    When the corresponding logic is triggered.
