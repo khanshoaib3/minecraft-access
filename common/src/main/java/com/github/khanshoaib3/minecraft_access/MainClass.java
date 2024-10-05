@@ -10,6 +10,7 @@ import com.github.khanshoaib3.minecraft_access.features.point_of_interest.POIMar
 import com.github.khanshoaib3.minecraft_access.features.read_crosshair.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
+import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
 import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.mojang.text2speech.Narrator;
 import lombok.extern.slf4j.Slf4j;
@@ -126,8 +127,10 @@ public class MainClass {
 
         PositionNarrator.getInstance().update();
 
-        if (Objects.nonNull(MinecraftClient.getInstance())) {
+        boolean worldAndPlayerExists = Objects.nonNull(MinecraftClient.getInstance()) && Objects.nonNull(WorldUtils.getClientPlayer());
+        if (worldAndPlayerExists) {
             HealthAndHunger.runOnTick();
+            MouseKeySimulation.runOnTick();
         }
 
         if (playerWarnings != null && PlayerWarningConfigMap.getInstance().isEnabled())
@@ -140,8 +143,6 @@ public class MainClass {
         POIMarking.getInstance().update();
 
         FallDetector.getInstance().update();
-
-        MouseKeySimulation.getInstance().update();
 
         // TODO remove feature flag after complete
         // AreaMapMenu.getInstance().update();
