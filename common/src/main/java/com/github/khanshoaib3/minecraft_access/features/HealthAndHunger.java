@@ -14,15 +14,9 @@ import net.minecraft.client.resource.language.I18n;
 public class HealthAndHunger {
     private static final Keystroke key = new Keystroke(KeyBindingsHandler.getInstance().healthNHungerNarrationKey);
 
-    public static void runWithInterval() {
-        try {
-            if (key.canBeTriggered()) {
-                speak();
-            }
-            key.updateStateForNextTick();
-        } catch (Exception e) {
-            log.error("An error occurred in HealthNHunger.", e);
-        }
+    public static void runIfConditionMet() {
+        if (key.canBeTriggered()) speak();
+        key.updateStateForNextTick();
     }
 
     public static void speak() {
