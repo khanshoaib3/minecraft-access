@@ -16,7 +16,6 @@ public class HealthAndHunger {
 
     public static void runIfConditionMet() {
         if (key.canBeTriggered()) speak();
-        key.updateStateForNextTick();
     }
 
     public static void speak() {

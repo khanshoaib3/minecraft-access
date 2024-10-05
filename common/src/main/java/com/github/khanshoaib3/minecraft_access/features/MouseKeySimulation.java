@@ -12,7 +12,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 
-import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -99,8 +98,5 @@ public class MouseKeySimulation {
                 t.getRight().run();
             }
         });
-
-        Arrays.stream(mouseClicks).forEach(Keystroke::updateStateForNextTick);
-        Arrays.stream(mouseScrolls).forEach(IntervalKeystroke::updateStateForNextTick);
     }
 }

@@ -146,17 +146,6 @@ public class AccessMenu {
 
             if (openConfigMenuKey.canBeTriggered()) MinecraftClient.getInstance().setScreen(new ConfigMenu("config_menu"));
 
-            menuKey.updateStateForNextTick();
-            narrateTargetKey.updateStateForNextTick();
-            targetPositionKey.updateStateForNextTick();
-            currentBiomeKey.updateStateForNextTick();
-            xpLevelKey.updateStateForNextTick();
-            closestWaterSourceKey.updateStateForNextTick();
-            closestLavaSourceKey.updateStateForNextTick();
-            lightLevelKey.updateStateForNextTick();
-            timeOfDayKey.updateStateForNextTick();
-            refreshScreenReaderKey.updateStateForNextTick();
-            openConfigMenuKey.updateStateForNextTick();
         } catch (Exception e) {
             log.error("An error occurred in NarratorMenu.", e);
         }

@@ -8,13 +8,6 @@ import java.util.function.BooleanSupplier;
 public class IntervalKeystroke extends KeystrokeTiming {
     /**
      * @param condition Expression that checking if the key (combination) is pressed now.
-     */
-    public IntervalKeystroke(BooleanSupplier condition) {
-        super(condition);
-    }
-
-    /**
-     * @param condition Expression that checking if the key (combination) is pressed now.
      * @param timing    When the corresponding logic is triggered.
      */
     public IntervalKeystroke(BooleanSupplier condition, TriggeredAt timing) {

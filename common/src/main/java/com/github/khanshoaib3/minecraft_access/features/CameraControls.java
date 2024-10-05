@@ -114,9 +114,6 @@ public class CameraControls {
         boolean isStraightDownKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsStraightDown);
         boolean isDownKeyDoublePressedWithRightAlt = isRightAltPressed && straightDownDoubleClick.canBeTriggered();
 
-        straightUpDoubleClick.updateStateForNextTick();
-        straightDownDoubleClick.updateStateForNextTick();
-
         // these two blocks of logic should be ahead of the normal up/down logic
         if (isStraightUpKeyPressed || isUpKeyDoublePressedWithRightAlt) {
             rotateCameraTo(Orientation.UP);

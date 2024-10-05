@@ -10,6 +10,7 @@ import com.github.khanshoaib3.minecraft_access.features.point_of_interest.POIMar
 import com.github.khanshoaib3.minecraft_access.features.read_crosshair.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.mojang.text2speech.Narrator;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
@@ -144,6 +145,8 @@ public class MainClass {
 
         // TODO remove feature flag after complete
         // AreaMapMenu.getInstance().update();
+
+        Keystroke.updateAllExistingKeyStrokesStates();
     }
 
     /**

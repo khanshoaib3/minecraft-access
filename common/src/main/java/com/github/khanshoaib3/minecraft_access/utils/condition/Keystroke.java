@@ -3,6 +3,8 @@ package com.github.khanshoaib3.minecraft_access.utils.condition;
 import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import net.minecraft.client.option.KeyBinding;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
 import java.util.function.Function;
@@ -12,6 +14,9 @@ import java.util.function.Function;
  * For keys that only execute once until released and pressed again.
  */
 public class Keystroke {
+
+    protected static List<Keystroke> EXISTING_KEYSTROKES = new ArrayList<>();
+
     /**
      * Save the state of keystroke at the previous tick.
      */
@@ -61,6 +66,7 @@ public class Keystroke {
         this.condition = condition;
         this.timing = Optional.ofNullable(timing).orElse(TriggeredAt.PRESSING);
         this.triggeredCount = 0;
+        EXISTING_KEYSTROKES.add(this);
     }
 
     /**
@@ -140,5 +146,13 @@ public class Keystroke {
         public boolean aboutToHappen(Keystroke keystroke) {
             return this.preCondition.apply(keystroke);
         }
+    }
+
+    /**
+     * Let this method handle state updates,
+     * no need to manually call the update method in every feature.
+     */
+    public static void updateAllExistingKeyStrokesStates() {
+        EXISTING_KEYSTROKES.forEach(Keystroke::updateStateForNextTick);
     }
 }

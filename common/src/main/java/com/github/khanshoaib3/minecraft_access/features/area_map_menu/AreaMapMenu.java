@@ -104,16 +104,8 @@ public class AreaMapMenu {
             if (client.currentScreen instanceof AreaMapMenuGUI) {
                 if (menuKey.closeMenuIfMenuKeyPressing()) return;
                 handleInMenuActions();
-            } else {
-                // other menus is opened currently, won't open the menu
-                return;
             }
         }
-
-        menuKey.updateStateForNextTick();
-        cursorResetKey.updateStateForNextTick();
-        mapLockKey.updateStateForNextTick();
-        Arrays.stream(cursorMovingKeys).forEach(IntervalKeystroke::updateStateForNextTick);
     }
 
     private void updateConfigs() {
@@ -169,7 +161,7 @@ public class AreaMapMenu {
         if (!checkCursorWithinDistanceBound(nextStep)) return;
 
         this.cursor = nextStep;
-       log.debug("Cursor moves " + direction + ": " + cursor);
+        log.debug("Cursor moves {}: {}", direction, cursor);
         String blockDescription = NarrationUtils.narrateBlock(this.cursor, "");
         MainClass.speakWithNarrator(blockDescription, true);
         // TODO Alt + speak position key
@@ -181,7 +173,7 @@ public class AreaMapMenu {
         int distanceOnX = Math.abs(playerPos.getX() - nextStep.getX());
         int distanceOnY = Math.abs(playerPos.getY() - nextStep.getY());
         int distanceOnZ = Math.abs(playerPos.getZ() - nextStep.getZ());
-        if(distanceOnX > horizontalBound || distanceOnZ > horizontalBound || distanceOnY > verticalBound) {
+        if (distanceOnX > horizontalBound || distanceOnZ > horizontalBound || distanceOnY > verticalBound) {
             MainClass.speakWithNarrator(I18n.translate("minecraft_access.area_map.cursor_reach_bound"), true);
             return false;
         }

@@ -24,6 +24,9 @@ public class MenuKeystroke extends Keystroke {
         super(condition);
     }
 
+    /**
+     * Pure function
+     */
     public boolean canOpenMenu() {
         return isReleased() && !isMenuJustClosed;
     }
