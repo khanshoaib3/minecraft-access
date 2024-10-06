@@ -174,7 +174,6 @@ class AreaMapMenuTest {
 
         // open the menu
         openOrCloseAreaMapMenu();
-        openOrCloseAreaMapMenu();
         assertThat(valueOfMapCursor())
                 .as("Cursor should still be (0,0,0) since map is locked")
                 .isEqualTo(zeroPos);
