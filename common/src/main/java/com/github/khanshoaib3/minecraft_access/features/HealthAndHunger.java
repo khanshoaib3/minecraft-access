@@ -12,7 +12,7 @@ import net.minecraft.client.resource.language.I18n;
  */
 @Slf4j
 public class HealthAndHunger {
-    private static final Keystroke key = new Keystroke(KeyBindingsHandler.getInstance().healthNHungerNarrationKey);
+    private static final Keystroke key = new Keystroke(KeyBindingsHandler.getInstance().healthAndHungerNarrationKey);
 
     public static void runOnTick() {
         if (key.canBeTriggered()) run();
