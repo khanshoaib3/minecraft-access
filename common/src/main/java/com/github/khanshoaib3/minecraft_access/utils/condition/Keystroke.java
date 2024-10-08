@@ -15,7 +15,7 @@ import java.util.function.Function;
  */
 public class Keystroke {
 
-    protected static List<Keystroke> EXISTING_KEYSTROKES = new ArrayList<>();
+    protected static final List<Keystroke> instances = new ArrayList<>();
 
     /**
      * Save the state of keystroke at the previous tick.
@@ -66,7 +66,7 @@ public class Keystroke {
         this.condition = condition;
         this.timing = Optional.ofNullable(timing).orElse(TriggeredAt.PRESSING);
         this.triggeredCount = 0;
-        EXISTING_KEYSTROKES.add(this);
+        instances.add(this);
     }
 
     /**
@@ -152,7 +152,7 @@ public class Keystroke {
      * Let this method handle state updates,
      * no need to manually call the update method in every feature.
      */
-    public static void updateAllExistingKeyStrokesStates() {
-        EXISTING_KEYSTROKES.forEach(Keystroke::updateStateForNextTick);
+    public static void updateAllInstantsState() {
+        instances.forEach(Keystroke::updateStateForNextTick);
     }
 }

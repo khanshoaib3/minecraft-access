@@ -1,6 +1,7 @@
 package com.github.khanshoaib3.minecraft_access.utils.condition;
 
 import net.minecraft.client.MinecraftClient;
+import org.jetbrains.annotations.Contract;
 
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
@@ -24,9 +25,7 @@ public class MenuKeystroke extends Keystroke {
         super(condition);
     }
 
-    /**
-     * Pure function
-     */
+    @Contract(pure = true)
     public boolean canOpenMenu() {
         return isReleased() && !isMenuJustClosed;
     }
