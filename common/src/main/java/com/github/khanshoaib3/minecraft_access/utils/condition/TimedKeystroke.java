@@ -10,7 +10,7 @@ import java.util.function.Supplier;
  * like "interval/rate-limitation-on-feature-execution", "double/triple-click"
  */
 public abstract class TimedKeystroke extends Keystroke {
-    protected Interval interval;
+    public Interval interval;
     public static final Supplier<Interval> DEFAULT_INTERVAL = () -> Interval.inMilliseconds(OtherConfigsMap.getInstance().getMultipleClickSpeedInMilliseconds());
 
     /**
@@ -43,9 +43,5 @@ public abstract class TimedKeystroke extends Keystroke {
      */
     public Interval interval() {
         return this.interval;
-    }
-
-    public void setInterval(Interval interval) {
-        this.interval = interval;
     }
 }

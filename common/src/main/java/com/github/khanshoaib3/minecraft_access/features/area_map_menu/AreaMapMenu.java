@@ -115,7 +115,7 @@ public class AreaMapMenu {
         this.horizontalBound = map.getHorizontalBound();
 
         // set key intervals
-        Arrays.stream(cursorMovingKeys).forEach(k -> k.setInterval(Interval.inMilliseconds(map.getDelayInMilliseconds(), k.interval())));
+        Arrays.stream(cursorMovingKeys).forEach(k -> k.interval = Interval.inMilliseconds(map.getDelayInMilliseconds(), k.interval));
     }
 
     private void openAreaMapMenu() {
