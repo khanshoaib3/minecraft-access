@@ -1,8 +1,8 @@
 package com.github.khanshoaib3.minecraft_access.mixin;
 
 import com.github.khanshoaib3.minecraft_access.features.access_menu.AccessMenu;
-import com.github.khanshoaib3.minecraft_access.utils.system.KeyUtils;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,8 +18,8 @@ public class MinecraftClientMixin {
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isSpectator()Z"),
             method = "handleInputEvents",
             cancellable = true)
-    private void suppressHotbarSlotSelectingWhenAccessMenuFunctionsWork(CallbackInfo ci) {
-        if (KeyUtils.isLeftOrRightAltPressed()) {
+    private void suppressHotbarSlotSelecting(CallbackInfo ci) {
+        if (Screen.hasAltDown()) {
             ci.cancel();
         }
     }

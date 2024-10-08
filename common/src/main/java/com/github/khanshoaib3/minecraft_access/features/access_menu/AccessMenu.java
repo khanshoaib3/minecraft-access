@@ -111,7 +111,7 @@ public class AccessMenu {
 
             Screen currentScreen = minecraftClient.currentScreen;
             if (Objects.isNull(currentScreen)) {
-                if (KeyUtils.isLeftOrRightAltPressed()) {
+                if (Screen.hasAltDown()) {
                     handleInMenuActions();
                 }
             } else if (currentScreen instanceof AccessMenuGUI) {

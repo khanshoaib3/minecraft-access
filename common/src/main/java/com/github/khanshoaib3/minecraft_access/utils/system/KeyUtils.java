@@ -93,10 +93,6 @@ public class KeyUtils {
         return isAnyPressed(GLFW.GLFW_KEY_RIGHT_ALT);
     }
 
-    public static boolean isLeftOrRightAltPressed() {
-        return isLeftAltPressed() || isRightAltPressed();
-    }
-
     public static boolean isEnterPressed() {
         return isAnyPressed(GLFW.GLFW_KEY_ENTER, GLFW.GLFW_KEY_KP_ENTER);
     }
