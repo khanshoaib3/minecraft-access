@@ -44,12 +44,12 @@ public class Interval {
      *
      * @return true if the delay timer has stopped or cooled down.
      */
-    public boolean hasEnded() {
-        if (!this.isRunning) return true;
-        if (!this.isReady()) return false;
+    public boolean hasNotEnded() {
+        if (!this.isRunning) return false;
+        if (!this.isReady()) return true;
 
         this.isRunning = false;
-        return true;
+        return false;
     }
 
     /**

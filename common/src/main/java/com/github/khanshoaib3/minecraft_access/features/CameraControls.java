@@ -56,7 +56,7 @@ public class CameraControls {
     }
 
     public void update() {
-        if (interval != null && !interval.hasEnded()) return;
+        if (interval != null && interval.hasNotEnded()) return;
         try {
             this.minecraftClient = MinecraftClient.getInstance();
 
