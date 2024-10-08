@@ -17,10 +17,9 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EyeOfEnderEntity;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.item.BowItem;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.List;
 import java.util.Map.Entry;
@@ -84,7 +83,7 @@ public class LockingHandler {
         this.lockOnBlocks = map.isLockOnBlocks();
         this.speakDistance = map.isSpeakDistance();
         this.unlockingSound = map.isUnlockingSound();
-        this.interval = Interval.inMilliseconds(map.getDelay(), this.interval);
+        this.interval = Interval.ms(map.getDelay());
         this.aimAssistEnabled = map.isAimAssistEnabled();
         this.aimAssistAudioCuesEnabled = map.isAimAssistAudioCuesEnabled();
         this.aimAssistAudioCuesVolume = map.getAimAssistAudioCuesVolume();
@@ -138,7 +137,7 @@ public class LockingHandler {
                 if (lockOnEntity(entity)) {
                     aimAssistActive = true;
                 }
-        }
+            }
         }
 
         if (aimAssistActive && !minecraftClient.player.isUsingItem()) {
@@ -161,8 +160,7 @@ public class LockingHandler {
                     PlayerUtils.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_PLING, aimAssistAudioCuesVolume, bowState);
                     lastAimAssistCue = 1;
                 }
-            }
-            else {
+            } else {
                 if (lastAimAssistCue != 0 || bowState != lastBowState) {
                     PlayerUtils.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_BASS, aimAssistAudioCuesVolume, bowState);
                     lastAimAssistCue = 0;

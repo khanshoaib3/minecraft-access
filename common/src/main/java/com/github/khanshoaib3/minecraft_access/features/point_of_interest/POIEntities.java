@@ -141,7 +141,7 @@ public class POIEntities {
         this.range = map.getRange();
         this.playSound = map.isPlaySound();
         this.volume = map.getVolume();
-        this.interval = Interval.inMilliseconds(map.getDelay(), this.interval);
+        this.interval = Interval.ms(map.getDelay());
     }
 
     private void setMarkedEntity(Entity entity) {

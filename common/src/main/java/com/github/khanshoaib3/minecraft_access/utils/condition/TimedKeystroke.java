@@ -11,7 +11,7 @@ import java.util.function.Supplier;
  */
 public abstract class TimedKeystroke extends Keystroke {
     public Interval interval;
-    public static final Supplier<Interval> DEFAULT_INTERVAL = () -> Interval.inMilliseconds(OtherConfigsMap.getInstance().getMultipleClickSpeedInMilliseconds());
+    public static final Supplier<Interval> DEFAULT_INTERVAL = () -> Interval.ms(OtherConfigsMap.getInstance().getMultipleClickSpeedInMilliseconds());
 
     /**
      * @param condition Expression that checking if the key (combination) is pressed now.

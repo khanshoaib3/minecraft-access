@@ -64,7 +64,7 @@ public class AreaMapMenu {
                 new Pair<>(Orientation.UP, () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapUpKey)),
                 new Pair<>(Orientation.DOWN, () -> KeyUtils.isAnyPressed(KeyBindingsHandler.getInstance().areaMapDownKey))
         )) {
-            cursorMovingKeys[cursorMovingKeyIndex] = new IntervalKeystroke(p.getRight(), Keystroke.TriggeredAt.PRESSING, Interval.inMilliseconds(keyInterval));
+            cursorMovingKeys[cursorMovingKeyIndex] = new IntervalKeystroke(p.getRight(), Keystroke.TriggeredAt.PRESSING, Interval.ms(keyInterval));
             CURSOR_MOVING_DIRECTIONS.add(new Pair<>(cursorMovingKeys[cursorMovingKeyIndex], p.getLeft()));
             cursorMovingKeyIndex += 1;
         }
@@ -115,7 +115,7 @@ public class AreaMapMenu {
         this.horizontalBound = map.getHorizontalBound();
 
         // set key intervals
-        Arrays.stream(cursorMovingKeys).forEach(k -> k.interval = Interval.inMilliseconds(map.getDelayInMilliseconds(), k.interval));
+        Arrays.stream(cursorMovingKeys).forEach(k -> k.interval = Interval.ms(map.getDelayInMilliseconds()));
     }
 
     private void openAreaMapMenu() {

@@ -170,7 +170,7 @@ public class InventoryControls {
         InventoryControlsConfigMap map = InventoryControlsConfigMap.getInstance();
         autoOpenRecipeBook = map.isAutoOpenRecipeBook();
         rowAndColumnFormat = map.getRowAndColumnFormat();
-        interval = Interval.inMilliseconds(map.getDelayInMilliseconds(), interval);
+        interval = Interval.ms(map.getDelayInMilliseconds());
         speakFocusedSlotChanges = map.isSpeakFocusedSlotChanges();
     }
 
