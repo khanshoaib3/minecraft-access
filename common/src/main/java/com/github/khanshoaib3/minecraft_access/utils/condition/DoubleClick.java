@@ -2,7 +2,7 @@ package com.github.khanshoaib3.minecraft_access.utils.condition;
 
 import java.util.function.BooleanSupplier;
 
-public class DoubleClick extends TimingKeystroke {
+public class DoubleClick extends TimedKeystroke {
     /**
      * @param condition Expression that checking if the key (combination) is pressed now.
      */
