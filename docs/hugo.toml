@@ -1,0 +1,4 @@
+baseUrl = "khanshoaib3.github.io/minecraft-access"
+languageCode = "en"
+title = "Minecraft Access Docs"
+disableKinds = ["taxonomy", "term", "rss"]
