@@ -1,3 +1,6 @@
+---
+title: "Good Resources"
+---
 # Good Resources
 
 1. [Helpful links](#helpful-links)

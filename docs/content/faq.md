@@ -1,3 +1,6 @@
+---
+title: "Frequently Asked Questions"
+---
 # Frequently Asked Questions
 
 ## Table Of Contents

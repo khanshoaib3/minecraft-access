@@ -1,3 +1,6 @@
+---
+title: "Mod Setup"
+---
 # Mod Setup
 
 Currently, this mod supports the Windows and Linux operating systems ([help us to port it to macOS](https://github.com/khanshoaib3/minecraft-access/issues/22)).

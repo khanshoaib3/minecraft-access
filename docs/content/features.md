@@ -1,3 +1,6 @@
+---
+title: "Minecraft Access Features"
+---
 # Minecraft Access Features
 
 This page contains details for all the features that are currently in the mod.

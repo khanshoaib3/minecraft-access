@@ -1,3 +1,6 @@
+---
+title: "Using the Visually Impaired Access Modpack"
+---
 # Using the Visually Impaired Access Modpack
 
 This modpack is a community project created by [@BrailleBennett](https://github.com/BrailleBennett).

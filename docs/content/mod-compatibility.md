@@ -1,3 +1,6 @@
+---
+title: "Mod Compatibility"
+---
 Compatibility For 1.21.1
 ---------------------------
 

@@ -1,3 +1,6 @@
+---
+title: "Set up NeoForge (ADVANCED)"
+---
 # Set up NeoForge (ADVANCED)
 
 Setting up NeoForge is a more advanced process. This guide is only recommended for those who **KNOW** they need it.
