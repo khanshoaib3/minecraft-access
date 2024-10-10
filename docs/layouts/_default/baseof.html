@@ -4,13 +4,45 @@
     <meta charset="utf-8">
     <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
     {{ with resources.Get "main.sass" | toCSS | minify | fingerprint }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
     {{ end }}
     {{ with resources.Get "logo.png" | fingerprint }}
-    <link rel="shortcut icon" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+        <link rel="shortcut icon" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+        <meta property="og:image" content="{{ .RelPermalink }}">
     {{ end }}
+    {{ with resources.Get "main.ts" | js.Build | minify | fingerprint }}
+        <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
+    {{ end }}
+    <meta property="theme-color" media="(prefers-color-scheme: dark)" content="#267547">
+    <meta property="theme-color" media="(prefers-color-scheme: light)" content="#40a849">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="{{ .Site.Title }}">
+    <meta property="og:title" content="{{ block "og-title" . }}{{ .Page.Title }}{{ end }}">
+    <meta property="og:description" content="{{ .Summary }}">
+    <meta property="og:locale" content="{{ .Site.LanguageCode }}">
+    <meta property="og:image:alt"
+          content="Minecraft Access logo. A retro games controller graphic over a blurred background of a snowy mountain village next to a spruce forrest.">
+    <meta property="og:article:modified_time" content="{{ .Page.Lastmod }}">
 </head>
 <body>
-{{ block "main" . }}{{ end }}
+<header>
+    {{ with resources.Get "logo.png" }}
+        <img class="logo"
+             src="{{ .RelPermalink }}"
+             alt="Minecraft Access logo. A retro games controller graphic over a blurred background of a snowy mountain village next to a spruce forrest.">
+    {{ end }}
+    {{ if hugo.IsDevelopment }}
+        <span class="pill warn" title="This is an unreleased development version of the site.">Development</span>
+    {{ end }}
+    <h1>{{ .Site.Title }}</h1>
+</header>
+<nav class="main-nav">
+    {{ partial "nav.html" (dict "Section" (.Site.GetPage "/") "CurrentPage" .) }}
+</nav>
+<div class="content">
+    <main>
+        {{ block "main" . }}{{ end }}
+    </main>
+</div>
 </body>
 </html>

@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Mono&family=Material+Symbols+Outlined&family=Material+Symbols+Rounded&family=Material+Symbols+Sharp");
+
+$vars-light: (
+        bg: #ffffff,
+        fg: #000000,
+        bg-hover: #55555555,
+        link: #1c8009,
+        link-hover: #36572b,
+        border: #aaaaaa solid 1px,
+        sidebar: #e6e6e6,
+        header: #40a849,
+);
+$classes-light: (
+        info: (
+                class-bg: #2e70ff,
+        ),
+        success: (
+                class-bg: #31ff31,
+        ),
+        warn: (
+                class-bg: #eaaf18,
+        ),
+        error: (
+                class-bg: #ff4b4b,
+        ),
+);
+
+$vars-dark: (
+        bg: #25252e,
+        fg: #ffffff,
+        bg-hover: #55555555,
+        link: #2e9a19,
+        link-hover: #84cf70,
+        border: #1c1c22 solid 1px,
+        sidebar: #242429,
+        header: #267547,
+);
+$classes-dark: (
+        info: (
+                class-bg: #2e70ff,
+        ),
+        success: (
+                class-bg: #31ff31,
+        ),
+        warn: (
+                class-bg: #eaaf18,
+        ),
+        error: (
+                class-bg: #ff4b4b,
+        ),
+);
+
+$font-regular: "Roboto", sans-serif;
+$font-monospaced: "Roboto Mono", monospace;

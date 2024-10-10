@@ -1,3 +1,5 @@
+{{ define "title"}}{{ default .Page.Path .Page.Title }} | {{ .Site.Title }}{{ end }}
+
 {{ define "main" }}
 {{- .Content -}}
 {{ end }}

@@ -1,0 +1,145 @@
+@import "theme"
+
+\:root
+  @each $key, $value in $vars-light
+    --#{$key}: #{$value}
+
+@each $class, $vars in $classes-light
+  .#{$class}
+    @each $key, $value in $vars
+      --#{$key}: #{$value}
+
+*, *::before, *::after
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+  line-height: 1.5
+  overflow-wrap: break-word
+
+.sr-only
+  clip: rect(0 0 0 0)
+  clip-path: inset(50%)
+  height: 1px
+  overflow: hidden
+  position: absolute
+  white-space: nowrap
+  width: 1px
+
+.icon
+  user-select: none
+
+button
+  background: none
+  border: none
+  font: inherit
+  color: inherit
+
+.pill
+  background: var(--class-bg)
+  padding-inline: 1em
+  border-radius: 1em
+  margin-inline: 1em
+
+body
+  background: var(--bg)
+  color: var(--fg)
+  font-family: $font-regular
+  display: grid
+  grid-template: "head head" 3em "nav content" auto / 30ch auto
+  width: 100vw
+  height: 100vh
+
+header
+  grid-area: head
+  display: flex
+  flex-direction: row
+  border-bottom: var(--border)
+  align-items: center
+  background: var(--header)
+  h1
+    font-weight: normal
+    margin-inline: 0.5rem
+    font-size: 1.25rem
+  .logo
+    height: 100%
+    margin-right: 0.5rem
+
+.main-nav
+  grid-area: nav
+  border-right: var(--border)
+  background: var(--sidebar)
+  ul
+    list-style: none
+    margin-left: 0
+    ul
+      margin-left: 1.5em
+      border-left: var(--border)
+  .nav-link, .toggle.no-content
+    display: flex
+    align-items: center
+    margin: 0 0.5em
+    &.active > a
+      color: var(--link)
+      font-weight: bold
+    a, .title
+      flex: 1
+      padding: 0.5rem 0.75rem
+    .toggle, &.toggle
+      cursor: pointer
+      &[aria-checked=false] .icon
+        transform: rotate(-90deg)
+      .icon
+        display: block
+        padding: 0.5rem 0.75rem
+        align-content: center
+        transition: transform 250ms ease-out
+    a, .toggle, &.toggle
+      &:hover, &:focus
+        background: var(--bg-hover)
+  .section-list.collapsed
+      display: none
+
+nav
+  overflow-y: auto
+  padding-block: 1em
+  a
+    color: inherit
+    text-decoration: none
+
+.content
+  grid-area: content
+  padding-inline: 1em
+  overflow-y: auto
+  > *
+    max-width: 100ch
+    margin: 2em auto 25vh auto
+  a
+    color: var(--link)
+    text-decoration: none
+    &:hover
+      color: var(--link-hover)
+      text-decoration: underline
+  ul, ol
+    margin-left: 2em
+
+main
+  text-align: justify
+
+@media screen and (prefers-color-scheme: dark)
+  \:root
+    @each $key, $value in $vars-dark
+      --#{$key}: #{$value}
+  @each $class, $vars in $classes-dark
+    .#{$class}
+      @each $key, $value in $vars
+        --#{$key}: #{$value}
+
+@media print
+  body
+    display: block
+  header
+    height: 3em
+  nav
+    display: none
+  .content
+    overflow-y: visible
