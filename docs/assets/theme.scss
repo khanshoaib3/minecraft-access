@@ -9,19 +9,28 @@ $vars-light: (
         border: #aaaaaa solid 1px,
         sidebar: #e6e6e6,
         header: #40a849,
+        dropdown-border: #aaaaaa solid 2px,
+        table-header: #81c181,
+        table-border: #2b2b2b solid 1px,
+        blockquote-border: #42424e solid 6px,
+        code-bg: #42424e,
+        code-fg: #ffffff,
 );
 $classes-light: (
         info: (
-                class-bg: #2e70ff,
-        ),
-        success: (
-                class-bg: #31ff31,
+                colour: #2e70ff,
         ),
         warn: (
-                class-bg: #eaaf18,
+                colour: #eaaf18,
         ),
         error: (
-                class-bg: #ff4b4b,
+                colour: #ff4b4b,
+        ),
+        note: (
+                colour: #888888,
+        ),
+        tip: (
+                colour: #7e62b8,
         ),
 );
 
@@ -34,19 +43,28 @@ $vars-dark: (
         border: #1c1c22 solid 1px,
         sidebar: #242429,
         header: #267547,
+        dropdown-border: #1c1c22 solid 2px,
+        table-header: #2f3e2f,
+        table-border: #6a6a7e solid 1px,
+        blockquote-border: #42424e solid 6px,
+        code-bg: #42424e,
+        code-fg: #ffffff,
 );
 $classes-dark: (
         info: (
-                class-bg: #2e70ff,
-        ),
-        success: (
-                class-bg: #31ff31,
+                colour: #2e70ff,
         ),
         warn: (
-                class-bg: #eaaf18,
+                colour: #eaaf18,
         ),
         error: (
-                class-bg: #ff4b4b,
+                colour: #ff4b4b,
+        ),
+        note: (
+                colour: #959595,
+        ),
+        tip: (
+                colour: #7e62b8,
         ),
 );
 

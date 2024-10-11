@@ -27,6 +27,8 @@
 
 .icon
   user-select: none
+  font-size: 1em
+  vertical-align: middle
 
 button
   background: none
@@ -35,7 +37,7 @@ button
   color: inherit
 
 .pill
-  background: var(--class-bg)
+  background: var(--colour)
   padding-inline: 1em
   border-radius: 1em
   margin-inline: 1em
@@ -73,7 +75,7 @@ header
     margin-left: 0
     ul
       margin-left: 1.5em
-      border-left: var(--border)
+      border-left: var(--dropdown-border)
   .nav-link, .toggle.no-content
     display: flex
     align-items: center
@@ -90,6 +92,7 @@ header
         transform: rotate(-90deg)
       .icon
         display: block
+        font-size: 1.5em
         padding: 0.5rem 0.75rem
         align-content: center
         transition: transform 250ms ease-out
@@ -107,20 +110,13 @@ nav
     text-decoration: none
 
 .content
+  @import "content"
   grid-area: content
   padding-inline: 1em
   overflow-y: auto
   > *
     max-width: 100ch
     margin: 2em auto 25vh auto
-  a
-    color: var(--link)
-    text-decoration: none
-    &:hover
-      color: var(--link-hover)
-      text-decoration: underline
-  ul, ol
-    margin-left: 2em
 
 main
   text-align: justify
