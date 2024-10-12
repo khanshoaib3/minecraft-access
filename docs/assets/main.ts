@@ -1,13 +1,21 @@
-document.querySelectorAll(".toggle[aria-controls]").forEach(el => {
+for (const el of document.querySelectorAll(".toggle[aria-controls]")) {
     const controls = document.getElementById(el.getAttribute("aria-controls"));
     const initialState = controls.classList.contains("collapsed");
     el.classList.toggle("collapsed", initialState);
     el.setAttribute("aria-checked", (!initialState).toString());
-    el.addEventListener("click", () => {
+
+    function toggle() {
         const collapsed = controls.classList.toggle("collapsed");
         el.setAttribute("aria-checked", (!collapsed).toString());
-    })
-});
+    }
+
+    el.addEventListener("click", toggle);
+    el.addEventListener("keyup", (e: KeyboardEvent) => {
+        if (e.code === "Enter" || e.code === "Space") {
+            toggle();
+        }
+    });
+}
 
 const headings = Array.from(document.querySelectorAll(".content h2, .content h3, .content h4")).reverse() as HTMLElement[];
 const toc = document.getElementsByClassName("table-of-contents")[0];

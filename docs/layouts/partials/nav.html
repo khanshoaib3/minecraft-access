@@ -11,6 +11,7 @@
             {{ if and .IsSection (not .Content) }}
                 <span class="nav-link toggle no-content"
                       role="checkbox"
+                      tabindex="0"
                       aria-checked="{{ .IsAncestor $.CurrentPage }}"
                       aria-controls="section-list-{{ md5 . }}">
                     <span class="title">{{ default .Path .LinkTitle }}</span>
