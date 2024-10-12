@@ -15,14 +15,11 @@
     {{ end }}
     <meta property="theme-color" media="(prefers-color-scheme: dark)" content="#267547">
     <meta property="theme-color" media="(prefers-color-scheme: light)" content="#40a849">
-    <meta property="og:type" content="article">
-    <meta property="og:site_name" content="{{ .Site.Title }}">
-    <meta property="og:title" content="{{ block "og-title" . }}{{ .Page.Title }}{{ end }}">
-    <meta property="og:description" content="{{ .Summary }}">
-    <meta property="og:locale" content="{{ .Site.LanguageCode }}">
     <meta property="og:image:alt"
           content="Minecraft Access logo. A retro games controller graphic over a blurred background of a snowy mountain village next to a spruce forrest.">
-    <meta property="og:article:modified_time" content="{{ .Page.Lastmod }}">
+    {{ template "_internal/opengraph.html" . }}
+    {{ template "_internal/schema.html" . }}
+    {{ template "_internal/twitter_cards.html" . }}
 </head>
 <body>
 <header>
