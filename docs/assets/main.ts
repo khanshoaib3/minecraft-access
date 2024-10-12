@@ -3,17 +3,19 @@ document.querySelectorAll(".toggle[aria-controls]").forEach(el => {
     const initialState = controls.classList.contains("collapsed");
     el.classList.toggle("collapsed", initialState);
     el.setAttribute("aria-checked", (!initialState).toString());
-    el.addEventListener("click", e => {
+    el.addEventListener("click", () => {
         const collapsed = controls.classList.toggle("collapsed");
         el.setAttribute("aria-checked", (!collapsed).toString());
     })
 });
 
-const headings = Array.from(document.querySelectorAll(".content h2, .content h3")).reverse() as HTMLElement[];
+const headings = Array.from(document.querySelectorAll(".content h2, .content h3, .content h4")).reverse() as HTMLElement[];
 const toc = document.getElementsByClassName("table-of-contents")[0];
 const content = document.getElementsByClassName("content")[0];
 function onScroll() {
-    toc.querySelectorAll("a").forEach(el => el.classList.remove("active"));
+    for (const el of toc.getElementsByTagName("a")) {
+        el.classList.remove("active");
+    }
     const heading = headings.filter(el => (el.offsetTop - el.clientHeight*3) < content.scrollTop)[0];
     if (heading === undefined) {
         return;
@@ -24,3 +26,7 @@ function onScroll() {
 }
 content.addEventListener("scroll", onScroll);
 onScroll();
+
+for (const el of document.getElementsByTagName("time")) {
+    el.textContent = new Date(el.dateTime).toLocaleString();
+}

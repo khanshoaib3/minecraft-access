@@ -123,11 +123,22 @@ nav
       margin: 1em auto 25vh auto
       article
         @import "content"
-      \:first-child
-        margin-top: 0
+        margin-top: 1em
+        \:first-child
+          margin-top: 0
 
 main
   text-align: justify
+
+.edit-link
+  color: var(--link)
+  text-decoration: none
+  &:hover
+    color: var(--link-hover)
+  .icon
+    font-size: 1.5em
+    margin-right: 0.25em
+    margin-block: 0.5em
 
 .table-of-contents
   width: 35ch
@@ -148,6 +159,35 @@ main
     &:hover
       color: var(--link-hover)
 
+.breadcrumbs
+  margin-bottom: 0.5em
+  font-size: 1.1em
+  ol
+    display: flex
+    flex-direction: row
+    align-items: center
+    height: 2.5em
+    list-style-type: none
+    vertical-align: middle
+    li ~ li::before
+      content: "chevron_right"
+      //noinspection CssNoGenericFontName
+      font-family: "Material Symbols Outlined"
+      font-size: 1.5em
+      margin-inline: 0.2em
+      vertical-align: middle
+      color: var(--breadcrumb-chevrons)
+      font-weight: bold
+  a
+    color: var(--fg)
+    text-decoration: none
+    .icon
+      font-size: 1.25em
+    &:hover
+      color: var(--link-hover)
+    &.current:not(:hover)
+      color: var(--link)
+
 @media screen and (prefers-color-scheme: dark)
   \:root
     @each $key, $value in $vars-dark
@@ -162,12 +202,18 @@ main
     display: block
   header
     height: 3em
-  nav
+  .main-nav
     display: none
   .content
     max-height: unset
     .content-inner
       margin: 0
+      > main
+        max-width: unset
+        article
+          a:hover
+            text-decoration: none
+            color: var(--link)
   .table-of-contents
     display: block
     position: static
@@ -175,11 +221,11 @@ main
     max-height: unset
     border-left: none
     padding: 0
-    margin-bottom: 2em
+    margin-block: 2em
     &::before
       content: "Contents"
       font-weight: bold
-      font-size: 1.75em
+      font-size: 1.5em
       display: block
     a
       padding-block: 0
@@ -195,3 +241,11 @@ main
   .active
     color: inherit
     font-weight: normal
+  .edit-link
+    display: none
+  .breadcrumbs
+    a
+      &:hover
+        color: var(--fg)
+      &.current:hover
+        color: var(--link)

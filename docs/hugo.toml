@@ -6,3 +6,5 @@ disableKinds = ["taxonomy", "term", "rss"]
 
 [markup.tableOfContents]
 ordered = true
+startLevel = 2
+endLevel = 4
