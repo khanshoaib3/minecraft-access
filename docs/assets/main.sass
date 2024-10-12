@@ -70,6 +70,7 @@ header
   grid-area: nav
   border-right: var(--border)
   background: var(--sidebar)
+  padding-block: 1em
   ul
     list-style: none
     margin-left: 0
@@ -80,9 +81,6 @@ header
     display: flex
     align-items: center
     margin: 0 0.5em
-    &.active > a
-      color: var(--link)
-      font-weight: bold
     a, .title
       flex: 1
       padding: 0.5rem 0.75rem
@@ -104,22 +102,51 @@ header
 
 nav
   overflow-y: auto
-  padding-block: 1em
   a
     color: inherit
     text-decoration: none
+.active
+  color: var(--link)
+  font-weight: bold
+  &::after
+    @extend .sr-only
+    content: " (Active)"
 
 .content
-  @import "content"
   grid-area: content
   padding-inline: 1em
   overflow-y: auto
-  > *
-    max-width: 100ch
-    margin: 2em auto 25vh auto
+  .content-inner
+    margin-right: 37ch
+    > main
+      max-width: 100ch
+      margin: 1em auto 25vh auto
+      article
+        @import "content"
+      \:first-child
+        margin-top: 0
 
 main
   text-align: justify
+
+.table-of-contents
+  width: 35ch
+  position: fixed
+  right: 2em
+  top: 4em
+  padding-left: 1em
+  border-left: var(--dropdown-border)
+  text-align: left
+  max-height: calc(100vh - 5em)
+  ol
+    list-style-type: none
+  ol ol
+    margin-left: 2em
+  a
+    display: block
+    padding-block: 0.3em
+    &:hover
+      color: var(--link-hover)
 
 @media screen and (prefers-color-scheme: dark)
   \:root
@@ -138,4 +165,33 @@ main
   nav
     display: none
   .content
-    overflow-y: visible
+    max-height: unset
+    .content-inner
+      margin: 0
+  .table-of-contents
+    display: block
+    position: static
+    width: 100%
+    max-height: unset
+    border-left: none
+    padding: 0
+    margin-bottom: 2em
+    &::before
+      content: "Contents"
+      font-weight: bold
+      font-size: 1.75em
+      display: block
+    a
+      padding-block: 0
+      &:hover
+        color: inherit
+    ol
+      list-style-type: decimal
+      margin-left: 2.5em
+      ol
+        list-style-type: lower-alpha
+        ol
+          list-style-type: lower-roman
+  .active
+    color: inherit
+    font-weight: normal

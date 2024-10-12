@@ -9,24 +9,16 @@
     {{ range .Section.Pages.ByWeight }}
         <li>
             {{ if and .IsSection (not .Content) }}
-                <span class="nav-link toggle no-content {{ if eq . $.CurrentPage }}active{{ end }}"
+                <span class="nav-link toggle no-content"
                       role="checkbox"
                       aria-checked="{{ .IsAncestor $.CurrentPage }}"
                       aria-controls="section-list-{{ md5 . }}">
-                    <span class="title">{{ default .Path .LinkTitle }}
-                        {{ if eq . $.CurrentPage }}
-                            <span class="sr-only"> (Active)</span>
-                        {{ end }}
-                    </span>
+                    <span class="title">{{ default .Path .LinkTitle }}</span>
                     {{ partial "icon" (dict "Icon" "keyboard_arrow_down" "Label" "Dropdown toggle") }}
                 </span>
             {{ else }}
-                <div class="nav-link {{ if eq . $.CurrentPage }}active{{ end }}">
-                    <a href="{{ .RelPermalink }}">{{ default .Path .LinkTitle }}
-                        {{ if eq . $.CurrentPage }}
-                            <span class="sr-only">(Active)</span>
-                        {{ end }}
-                    </a>
+                <div class="nav-link">
+                    <a href="{{ .RelPermalink }}" class="{{ if eq . $.CurrentPage }}active{{ end }}">{{ default .Path .LinkTitle }}</a>
                     {{ if .IsSection }}
                         <button class="toggle"
                                 role="checkbox"

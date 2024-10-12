@@ -36,13 +36,19 @@
     {{ end }}
     <h1>{{ .Site.Title }}</h1>
 </header>
-<nav class="main-nav">
+<nav class="main-nav" aria-label="Site Navigation">
     {{ partial "nav.html" (dict "Section" (.Site.GetPage "/") "CurrentPage" .) }}
 </nav>
 <div class="content">
-    <main>
-        {{ block "main" . }}{{ end }}
-    </main>
+    <div class="content-inner">
+        <main>
+            <h1>{{ .Page.Title }}</h1>
+            <nav class="table-of-contents" aria-label="Table of Contents">
+                {{ strings.TrimSuffix "</nav>" (strings.TrimPrefix "<nav id=\"TableOfContents\">" .TableOfContents) | safeHTML }}
+            </nav>
+            {{ block "main" . }}{{ end }}
+        </main>
+    </div>
 </div>
 </body>
 </html>
