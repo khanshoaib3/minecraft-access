@@ -1,7 +1,6 @@
 ---
 title: "Set up on Mac OS"
 ---
-# Set up on MacOS
 
 This mod has been recently ported to MacOS, and all features should be supported. However, you must grant the accessibility permission to Minecraft for mouse simulation to work.
 
