@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+    <meta charset="utf-8">
+    <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
+    {{ with resources.Get "main.sass" | toCSS | minify | fingerprint }}
+        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+    {{ end }}
+    {{ with resources.Get "logo.png" | fingerprint }}
+        <link rel="shortcut icon" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+        <meta property="og:image" content="{{ .RelPermalink }}">
+    {{ end }}
+    {{ with resources.Get "main.ts" | js.Build | minify | fingerprint }}
+        <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
+    {{ end }}
+    <meta property="theme-color" media="(prefers-color-scheme: dark)" content="#267547">
+    <meta property="theme-color" media="(prefers-color-scheme: light)" content="#40a849">
+    <meta property="og:image:alt"
+          content="Minecraft Access logo. A retro games controller graphic over a blurred background of a snowy mountain village next to a spruce forrest.">
+    {{ template "_internal/opengraph.html" . }}
+    {{ template "_internal/schema.html" . }}
+    {{ template "_internal/twitter_cards.html" . }}
+</head>
+<body>
+<header>
+    {{ with resources.Get "logo.png" }}
+        <img class="logo"
+             src="{{ .RelPermalink }}"
+             alt="Minecraft Access logo. A retro games controller graphic over a blurred background of a snowy mountain village next to a spruce forrest.">
+    {{ end }}
+    {{ if hugo.IsDevelopment }}
+        <span class="pill warn" title="This is an unreleased development version of the site.">Development</span>
+    {{ end }}
+    <h1>{{ .Site.Title }}</h1>
+</header>
+<nav class="main-nav" aria-label="Site Navigation">
+    {{ partial "nav.html" (dict "Section" (.Site.GetPage "/") "CurrentPage" .) }}
+</nav>
+<div class="content">
+    <div class="content-inner">
+        <main>
+            <nav class="breadcrumbs" aria-label="Breadcrumbs">
+                <ol>
+                    {{ range (collections.Append .Page .Page.Ancestors.Reverse) }}
+                        <li>
+                            <a href="{{ .RelPermalink }}" class="{{ if eq . $.Page }}current{{ end }}">
+                                {{ if .IsHome }}
+                                    {{ partial "icon" (dict "Icon" "home" "Label" "home") }}
+                                {{ else }}
+                                    {{ .LinkTitle }}
+                                {{ end }}
+                            </a>
+                        </li>
+                    {{ end }}
+                </ol>
+            </nav>
+            <h1>{{ .Page.Title }}</h1>
+            {{ if .Page.Content }}
+                <p>
+                    Estimated reading time:
+                    {{ .Page.ReadingTime }} {{ if eq .Page.ReadingTime 1 }}minute{{ else }}minutes{{ end }}
+                </p>
+                <p>
+                    Last modified:
+                    <time datetime="{{ .Page.Lastmod.UTC.Format "2006-01-02T15:04:05Z" }}">{{ .Page.Lastmod.UTC }}</time>
+                </p>
+                <p>
+                    <a class="edit-link"
+                       href="https://github.com/khanshoaib3/minecraft-access/blob/1.21/docs/content/{{ .Page.File.Path }}">
+                        {{ partial "icon" (dict "Icon" "edit" "Hidden" true) }} Edit this page
+                    </a>
+                </p>
+            {{ end }}
+            <nav class="table-of-contents" aria-label="Table of Contents">
+                {{ strings.TrimSuffix "</nav>" (strings.TrimPrefix "<nav id=\"TableOfContents\">" .TableOfContents) | safeHTML }}
+            </nav>
+            {{ block "main" . }}{{ end }}
+        </main>
+    </div>
+</div>
+</body>
+</html>
