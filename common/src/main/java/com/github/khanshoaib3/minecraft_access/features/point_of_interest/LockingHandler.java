@@ -160,11 +160,9 @@ public class LockingHandler {
                     PlayerUtils.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_PLING, aimAssistAudioCuesVolume, bowState);
                     lastAimAssistCue = 1;
                 }
-            } else {
-                if (lastAimAssistCue != 0 || bowState != lastBowState) {
-                    PlayerUtils.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_BASS, aimAssistAudioCuesVolume, bowState);
-                    lastAimAssistCue = 0;
-                }
+            } else if (lastAimAssistCue != 0 || bowState != lastBowState) {
+                PlayerUtils.playSoundOnPlayer(SoundEvents.BLOCK_NOTE_BLOCK_BASS, aimAssistAudioCuesVolume, bowState);
+                lastAimAssistCue = 0;
             }
 
             lastBowState = bowState;

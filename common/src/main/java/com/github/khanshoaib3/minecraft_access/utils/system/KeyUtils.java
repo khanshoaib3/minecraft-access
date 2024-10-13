@@ -4,11 +4,9 @@ import com.github.khanshoaib3.minecraft_access.mixin.KeyBindingAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.Arrays;
-import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 /**
@@ -44,21 +42,19 @@ public class KeyUtils {
      * our multiple-keybindings-on-one-key usage is not supported.
      */
     public static boolean isAnyPressed(KeyBinding... keyBindings) {
-        return Arrays.stream(keyBindings).anyMatch(isKeyPressed());
+        return Arrays.stream(keyBindings).anyMatch(KeyUtils::isKeyPressed);
     }
 
-    private static @NotNull Predicate<KeyBinding> isKeyPressed() {
-        return b -> {
-            int keyCode = ((KeyBindingAccessor) b).getBoundKey().getCode();
-            if (keyCode > 7) {
-                // If this keybinding is bound to a keyboard-key,
-                // let's use our key-pressing-check logic to circumvent the limitation.
-                return KeyUtils.isOnePressed(keyCode);
-            } else {
-                // If this keybinding is bound to a non-keyboard key, execute the original method.
-                return b.isPressed();
-            }
-        };
+    private static boolean isKeyPressed(KeyBinding b) {
+        int keyCode = ((KeyBindingAccessor) b).getBoundKey().getCode();
+        if (keyCode > 7) {
+            // If this keybinding is bound to a keyboard-key,
+            // let's use our key-pressing-check logic to circumvent the limitation.
+            return KeyUtils.isOnePressed(keyCode);
+        } else {
+            // If this keybinding is bound to a non-keyboard key, execute the original method.
+            return b.isPressed();
+        }
     }
 
     public static boolean isF3Pressed() {

@@ -56,9 +56,8 @@ public class MouseKeySimulation {
     private static void loadConfigurations() {
         MouseSimulationConfigMap map = MouseSimulationConfigMap.getInstance();
         enabled = map.isEnabled();
-        Interval scrollInterval = Interval.ms(map.getScrollDelayInMilliseconds());
-        mouseScrolls[0].interval = scrollInterval;
-        mouseScrolls[1].interval = scrollInterval;
+        mouseScrolls[0].interval = Interval.ms(map.getScrollDelayInMilliseconds());
+        mouseScrolls[1].interval = Interval.ms(map.getScrollDelayInMilliseconds());
     }
 
     private static void execute() {

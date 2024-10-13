@@ -19,8 +19,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.util.Strings;
 
-import java.util.Objects;
-
 @Slf4j
 public class MainClass {
     public static final String MOD_ID = "minecraft_access";
@@ -126,8 +124,7 @@ public class MainClass {
 
         PositionNarrator.getInstance().update();
 
-        boolean worldAndPlayerExists = Objects.nonNull(MinecraftClient.getInstance()) && Objects.nonNull(WorldUtils.getClientPlayer());
-        if (worldAndPlayerExists) {
+        if (MinecraftClient.getInstance() != null && WorldUtils.getClientPlayer() != null) {
             HealthAndHunger.runOnTick();
             MouseKeySimulation.runOnTick();
         }
