@@ -93,7 +93,7 @@ public class InventoryControls {
     }
 
     public void update() {
-        if (interval != null && !interval.hasEnded()) return;
+        if (interval != null && interval.hasNotEnded()) return;
         this.minecraftClient = MinecraftClient.getInstance();
 
         if (minecraftClient == null) return;
@@ -170,7 +170,7 @@ public class InventoryControls {
         InventoryControlsConfigMap map = InventoryControlsConfigMap.getInstance();
         autoOpenRecipeBook = map.isAutoOpenRecipeBook();
         rowAndColumnFormat = map.getRowAndColumnFormat();
-        interval = Interval.inMilliseconds(map.getDelayInMilliseconds(), interval);
+        interval = Interval.ms(map.getDelayInMilliseconds());
         speakFocusedSlotChanges = map.isSpeakFocusedSlotChanges();
     }
 

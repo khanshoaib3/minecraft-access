@@ -16,7 +16,7 @@ You may want to take a look at [all the original controls](https://minecraft.wik
 3. [Inventory Controls](#inventory-controls)
 4. [Point of Interest](#point-of-interest)
 5. [Position Narrator](#position-narrator)
-6. [Health n Hunger](#health-n-hunger)
+6. [Health And Hunger](#health-and-hunger)
 7. [Access Menu](#access-menu)
 8. [Book Editing](#book-editing)
 9. [Speak Chat Messages](#speak-chat-messages)
@@ -125,22 +125,28 @@ See also: [Feature Description](/docs/features.md#points-of-interest),
 
 See also: [Feature Description](/docs/features.md#position-narrator), [Configuration](/docs/config.md#position-narrator)
 
-## Health n Hunger
+## Health And Hunger
 
-| Single Key                       | Default Keybinding | Description                                  |
-|----------------------------------|--------------------|----------------------------------------------|
-| `Speak Player Health and Hunger` | R                  | Speak the player's current health and hunger |
+| Single Key                       | Default Keybinding | Description                                       |
+|----------------------------------|--------------------|---------------------------------------------------|
+| `Speak Player Health and Hunger` | R                  | Speak the player's current health, hunger and air |
 
-See also: [Feature Description](/docs/features.md#health-n-hunger), [Configuration](/docs/config.md#health-n-hunger)
+See also: [Feature Description](/docs/features.md#health-and-hunger)
 
 ## Access Menu
 
-| Single Key                                              | Default Keybinding                          | Description                                                                                                                                                                                                                                                            |
-|---------------------------------------------------------|---------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Open Access Menu                                        | F4                                          | Open or close the Access Menu                                                                                                                                                                                                                                          |
-| `Narrate Target`                                        | B                                           | Narrates the thing you are looking at                                                                                                                                                                                                                                  |
-| Number Keys                                             | not re-mappable                             | When Narrator Menu is opened, press number keys to execute corresponding desired functions, without pressing `Tab` several times to select                                                                                                                             |
-| All Access Menu Functions                               | not bound by default                        | All functions in the access menu have unique keybinds that can be set in the game's controls settings menu. The only function that is bound by default is the narrate target function, and all other function keys are left up to you to bind if you want to use them. |
+| Single Key        | Default Keybinding | Description                                                             |
+|-------------------|--------------------|-------------------------------------------------------------------------|
+| Open Access Menu  | F4                 | Open or close the Access Menu                                           |
+| `Narrate Target`  | B                  | Narrates the thing you are looking at                                   |
+| Upper number keys | not re-mappable    | When Access Menu is opened, execute corresponding Access Menu functions |
+
+| Key Combination           | Description                                 |
+|---------------------------|---------------------------------------------|
+| `Alt` + Upper number keys | Execute corresponding Access Menu functions |
+
+All functions in the Access Menu have unique keybindings that can be set in the game's controls settings menu.
+The only function that is bound by default is the narrate target function, and all other function keys are left up to you to bind if you want to use them.
 
 See also: [Feature Description](/docs/features.md#access-menu), [Configuration](/docs/config.md#access-menu)
 
@@ -161,9 +167,9 @@ See also: [Feature Description](/docs/features.md#book-editing)
 
 ### Speak Chat Messages
 
-| Key Combination | Description                                                                                                                                    |
-|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| `Alt` + `1`-`9` | Speak previous chat message (again) corresponding to the number, 1 for the most recent message, 2 for the second most recent message and so on |
+| Key Combination                                          | Description                                                                                                                                    |
+|----------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Alt` + Number Keys (Upper number keys and key pad keys) | Speak previous chat message (again) corresponding to the number, 1 for the most recent message, 2 for the second most recent message and so on |
 
 This feature only works while the Chat Screen is open.
 These keys aren’t re-mappable.

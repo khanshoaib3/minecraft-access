@@ -2,6 +2,7 @@ package com.github.khanshoaib3.minecraft_access.features;
 
 import com.github.khanshoaib3.minecraft_access.MainClass;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.PlayerWarningConfigMap;
+import com.github.khanshoaib3.minecraft_access.utils.PlayerUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
@@ -43,19 +44,9 @@ public class PlayerWarnings {
 
             loadConfigurations();
 
-            double health = minecraftClient.player.getHealth();
-            double hunger = minecraftClient.player.getHungerManager().getFoodLevel();
-            double air = minecraftClient.player.getAir();
-
-            health = (double) Math.round((health / 2) * 10) / 10;
-            hunger = (double) Math.round((hunger / 2) * 10) / 10;
-            air = (double) Math.round((air / 30) * 10) / 10;
-
-            healthWarning(health);
-
-            hungerWarning(hunger);
-
-            airWarning(air);
+            healthWarning(PlayerUtils.getHearts());
+            hungerWarning(PlayerUtils.getHunger());
+            airWarning(PlayerUtils.getAir());
         } catch (Exception e) {
             log.error("An error occurred in PlayerWarnings.", e);
         }

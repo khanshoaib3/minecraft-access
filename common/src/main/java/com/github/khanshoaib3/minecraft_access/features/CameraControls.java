@@ -56,7 +56,7 @@ public class CameraControls {
     }
 
     public void update() {
-        if (interval != null && !interval.hasEnded()) return;
+        if (interval != null && interval.hasNotEnded()) return;
         try {
             this.minecraftClient = MinecraftClient.getInstance();
 
@@ -78,7 +78,7 @@ public class CameraControls {
         float delta90Degrees = 600f; // 90 / 0.15
 
         CameraControlsConfigMap map = CameraControlsConfigMap.getInstance();
-        interval = Interval.inMilliseconds(map.getDelayInMilliseconds(), interval);
+        interval = Interval.ms(map.getDelayInMilliseconds());
         float normalRotatingAngle = map.getNormalRotatingAngle();
         float modifiedRotatingAngle = map.getModifiedRotatingAngle();
         normalRotatingDeltaAngle = delta90Degrees / (90 / normalRotatingAngle);
@@ -113,9 +113,6 @@ public class CameraControls {
         boolean isUpKeyDoublePressedWithRightAlt = isRightAltPressed && straightUpDoubleClick.canBeTriggered();
         boolean isStraightDownKeyPressed = KeyUtils.isAnyPressed(kbh.cameraControlsStraightDown);
         boolean isDownKeyDoublePressedWithRightAlt = isRightAltPressed && straightDownDoubleClick.canBeTriggered();
-
-        straightUpDoubleClick.updateStateForNextTick();
-        straightDownDoubleClick.updateStateForNextTick();
 
         // these two blocks of logic should be ahead of the normal up/down logic
         if (isStraightUpKeyPressed || isUpKeyDoublePressedWithRightAlt) {

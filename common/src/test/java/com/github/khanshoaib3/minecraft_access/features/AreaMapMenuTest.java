@@ -9,6 +9,7 @@ import com.github.khanshoaib3.minecraft_access.test_utils.MockMinecraftClientWra
 import com.github.khanshoaib3.minecraft_access.test_utils.annotations.FeatureText;
 import com.github.khanshoaib3.minecraft_access.test_utils.annotations.MockMinecraftClient;
 import com.github.khanshoaib3.minecraft_access.test_utils.annotations.MockPlayerPositionUtils;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.github.khanshoaib3.minecraft_access.utils.position.Orientation;
 import com.github.khanshoaib3.minecraft_access.utils.position.PlayerPositionUtils;
 import net.minecraft.Bootstrap;
@@ -90,10 +91,7 @@ class AreaMapMenuTest {
         openOrCloseAreaMapMenu();
         // close
         openOrCloseAreaMapMenu();
-        // open it again needs press and release the menu key twice,
-        // due to the specific state machine of MenuKeystroke.
-        // ref: MenuKeystrokeTest.class
-        openOrCloseAreaMapMenu();
+        // reopen
         openOrCloseAreaMapMenu();
         mockClient.verifyOpeningMenuOf(AreaMapMenuGUI.class);
     }
@@ -176,7 +174,6 @@ class AreaMapMenuTest {
 
         // open the menu
         openOrCloseAreaMapMenu();
-        openOrCloseAreaMapMenu();
         assertThat(valueOfMapCursor())
                 .as("Cursor should still be (0,0,0) since map is locked")
                 .isEqualTo(zeroPos);
@@ -195,7 +192,6 @@ class AreaMapMenuTest {
         // close the menu
         openOrCloseAreaMapMenu();
         // and open the menu again
-        openOrCloseAreaMapMenu();
         openOrCloseAreaMapMenu();
 
         assertThat(valueOfMapCursor())
@@ -294,6 +290,7 @@ class AreaMapMenuTest {
 
     private void oneTickForward() {
         AreaMapMenu.getInstance().execute(mockClient.mockito());
+        Keystroke.updateAllInstantsState();
     }
 
     /**

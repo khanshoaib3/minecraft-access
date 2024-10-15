@@ -9,14 +9,14 @@ import java.util.function.Supplier;
  * For checking keystroke conditions that related to time,
  * like "interval/rate-limitation-on-feature-execution", "double/triple-click"
  */
-public abstract class KeystrokeTiming extends Keystroke {
-    protected Interval interval;
-    public static final Supplier<Interval> DEFAULT_INTERVAL = () -> Interval.inMilliseconds(OtherConfigsMap.getInstance().getMultipleClickSpeedInMilliseconds());
+public abstract class TimedKeystroke extends Keystroke {
+    public Interval interval;
+    public static final Supplier<Interval> DEFAULT_INTERVAL = () -> Interval.ms(OtherConfigsMap.getInstance().getMultipleClickSpeedInMilliseconds());
 
     /**
      * @param condition Expression that checking if the key (combination) is pressed now.
      */
-    public KeystrokeTiming(BooleanSupplier condition) {
+    public TimedKeystroke(BooleanSupplier condition) {
         this(condition, TriggeredAt.PRESSING, DEFAULT_INTERVAL.get());
     }
 
@@ -24,7 +24,7 @@ public abstract class KeystrokeTiming extends Keystroke {
      * @param condition Expression that checking if the key (combination) is pressed now.
      * @param timing    When the corresponding logic is triggered.
      */
-    public KeystrokeTiming(BooleanSupplier condition, TriggeredAt timing) {
+    public TimedKeystroke(BooleanSupplier condition, TriggeredAt timing) {
         this(condition, timing, DEFAULT_INTERVAL.get());
     }
 
@@ -33,7 +33,7 @@ public abstract class KeystrokeTiming extends Keystroke {
      * @param timing    When the corresponding logic is triggered.
      * @param interval  The interval setting, the meaning is to be determined.
      */
-    public KeystrokeTiming(BooleanSupplier condition, TriggeredAt timing, Interval interval) {
+    public TimedKeystroke(BooleanSupplier condition, TriggeredAt timing, Interval interval) {
         super(condition, timing);
         this.interval = interval;
     }
@@ -43,9 +43,5 @@ public abstract class KeystrokeTiming extends Keystroke {
      */
     public Interval interval() {
         return this.interval;
-    }
-
-    public void setInterval(Interval interval) {
-        this.interval = interval;
     }
 }

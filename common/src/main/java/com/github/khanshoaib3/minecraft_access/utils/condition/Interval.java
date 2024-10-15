@@ -5,7 +5,7 @@ package com.github.khanshoaib3.minecraft_access.utils.condition;
  */
 public class Interval {
     protected long lastRunTime;
-    private final long delay;
+    public long delay;
     private boolean isRunning;
     private final boolean disabled;
 
@@ -16,21 +16,9 @@ public class Interval {
         this.isRunning = false;
     }
 
-    /**
-     * Build or update instance according to delay config.
-     *
-     * @param delay    config value
-     * @param previous the interval class variable
-     */
-    public static Interval inMilliseconds(long delay, Interval... previous) {
-        if (previous == null || previous.length == 0 || previous[0] == null) {
-            // 1 milliseconds = 1*10^6 nanoseconds
-            return new Interval(System.nanoTime(), delay * 1000_000);
-        } else {
-            Interval interval = previous[0];
-            boolean configChanged = delay * 1000_000 != interval.delay;
-            return configChanged ? Interval.inMilliseconds(delay) : interval;
-        }
+    public static Interval ms(long delay) {
+        // 1 milliseconds = 1*10^6 nanoseconds
+        return new Interval(System.nanoTime(), delay * 1000_000);
     }
 
     public void reset() {
@@ -56,12 +44,12 @@ public class Interval {
      *
      * @return true if the delay timer has stopped or cooled down.
      */
-    public boolean hasEnded() {
-        if (!this.isRunning) return true;
-        if (!this.isReady()) return false;
+    public boolean hasNotEnded() {
+        if (!this.isRunning) return false;
+        if (!this.isReady()) return true;
 
         this.isRunning = false;
-        return true;
+        return false;
     }
 
     /**

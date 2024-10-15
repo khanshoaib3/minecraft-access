@@ -3,12 +3,14 @@ package com.github.khanshoaib3.minecraft_access;
 import com.github.khanshoaib3.minecraft_access.config.Config;
 import com.github.khanshoaib3.minecraft_access.config.config_maps.*;
 import com.github.khanshoaib3.minecraft_access.features.*;
-import com.github.khanshoaib3.minecraft_access.features.inventory_controls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.access_menu.AccessMenu;
+import com.github.khanshoaib3.minecraft_access.features.inventory_controls.InventoryControls;
 import com.github.khanshoaib3.minecraft_access.features.point_of_interest.POIMarking;
 import com.github.khanshoaib3.minecraft_access.features.read_crosshair.ReadCrosshair;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderController;
 import com.github.khanshoaib3.minecraft_access.screen_reader.ScreenReaderInterface;
+import com.github.khanshoaib3.minecraft_access.utils.WorldUtils;
+import com.github.khanshoaib3.minecraft_access.utils.condition.Keystroke;
 import com.mojang.text2speech.Narrator;
 import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.MinecraftClient;
@@ -27,7 +29,6 @@ public class MainClass {
     public static BiomeIndicator biomeIndicator = null;
     public static XPIndicator xpIndicator = null;
     public static FacingDirection facingDirection = null;
-    public static HealthNHunger healthNHunger = null;
     public static PlayerWarnings playerWarnings = null;
     public static AccessMenu accessMenu = null;
     public static FluidDetector fluidDetector = null;
@@ -64,7 +65,6 @@ public class MainClass {
         MainClass.biomeIndicator = new BiomeIndicator();
         MainClass.xpIndicator = new XPIndicator();
         MainClass.facingDirection = new FacingDirection();
-        MainClass.healthNHunger = new HealthNHunger();
         MainClass.playerWarnings = new PlayerWarnings();
         MainClass.accessMenu = new AccessMenu();
         MainClass.fluidDetector = new FluidDetector();
@@ -124,13 +124,15 @@ public class MainClass {
 
         PositionNarrator.getInstance().update();
 
-        if (healthNHunger != null && otherConfigsMap.isHealthNHungerEnabled())
-            healthNHunger.update();
+        if (MinecraftClient.getInstance() != null && WorldUtils.getClientPlayer() != null) {
+            HealthAndHunger.runOnTick();
+            MouseKeySimulation.runOnTick();
+        }
 
         if (playerWarnings != null && PlayerWarningConfigMap.getInstance().isEnabled())
             playerWarnings.update();
 
-        if (accessMenu != null && NarratorMenuConfigMap.getInstance().isEnabled())
+        if (accessMenu != null && AccessMenuConfigMap.getInstance().isEnabled())
             accessMenu.update();
 
         // POI Marking will handle POI Scan and POI Locking features inside it
@@ -138,10 +140,10 @@ public class MainClass {
 
         FallDetector.getInstance().update();
 
-        MouseKeySimulation.getInstance().update();
-
         // TODO remove feature flag after complete
         // AreaMapMenu.getInstance().update();
+
+        Keystroke.updateAllInstantsState();
     }
 
     /**
